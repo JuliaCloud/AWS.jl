@@ -84,8 +84,8 @@ In most cases, you can use this value instead of the session policy to lock down
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's
   access to portions of their Amazon S3 bucket. Variables that you can use inside this
-  policy include `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
-  `${Transfer:HomeBucket}`.</p>
+  policy include `\${Transfer:UserName}`, `\${Transfer:HomeDirectory}`, and
+  `\${Transfer:HomeBucket}`.</p>
 
   !!! note
       This policy applies only when the domain of `ServerId` is Amazon S3. Amazon EFS does
@@ -101,8 +101,36 @@ In most cases, you can use this value instead of the session policy to lock down
   in the *Security Token Service API Reference*.
 - `"PosixProfile"`:
 """
-create_access(ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateAccess", Dict{String, Any}("ExternalId"=>ExternalId, "Role"=>Role, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_access(ExternalId, Role, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "Role"=>Role, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_access(
+    ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "CreateAccess",
+    Dict{String,Any}("ExternalId" => ExternalId, "Role" => Role, "ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_access(
+    ExternalId,
+    Role,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "CreateAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExternalId" => ExternalId, "Role" => Role, "ServerId" => ServerId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_agreement(access_role, base_directory, local_profile_id, partner_profile_id, server_id)
@@ -163,8 +191,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `INACTIVE`.
 - `"Tags"`: Key-value pairs that can be used to group and search for agreements.
 """
-create_agreement(AccessRole, BaseDirectory, LocalProfileId, PartnerProfileId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateAgreement", Dict{String, Any}("AccessRole"=>AccessRole, "BaseDirectory"=>BaseDirectory, "LocalProfileId"=>LocalProfileId, "PartnerProfileId"=>PartnerProfileId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_agreement(AccessRole, BaseDirectory, LocalProfileId, PartnerProfileId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateAgreement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessRole"=>AccessRole, "BaseDirectory"=>BaseDirectory, "LocalProfileId"=>LocalProfileId, "PartnerProfileId"=>PartnerProfileId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_agreement(
+    AccessRole,
+    BaseDirectory,
+    LocalProfileId,
+    PartnerProfileId,
+    ServerId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = transfer(
+    "CreateAgreement",
+    Dict{String,Any}(
+        "AccessRole" => AccessRole,
+        "BaseDirectory" => BaseDirectory,
+        "LocalProfileId" => LocalProfileId,
+        "PartnerProfileId" => PartnerProfileId,
+        "ServerId" => ServerId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_agreement(
+    AccessRole,
+    BaseDirectory,
+    LocalProfileId,
+    PartnerProfileId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "CreateAgreement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccessRole" => AccessRole,
+                    "BaseDirectory" => BaseDirectory,
+                    "LocalProfileId" => LocalProfileId,
+                    "PartnerProfileId" => PartnerProfileId,
+                    "ServerId" => ServerId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_connector(access_role, url)
@@ -223,8 +296,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for connectors. Tags are
   metadata attached to connectors for any purpose.
 """
-create_connector(AccessRole, Url; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateConnector", Dict{String, Any}("AccessRole"=>AccessRole, "Url"=>Url); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_connector(AccessRole, Url, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessRole"=>AccessRole, "Url"=>Url), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_connector(AccessRole, Url; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "CreateConnector",
+        Dict{String,Any}("AccessRole" => AccessRole, "Url" => Url);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_connector(
+    AccessRole,
+    Url,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "CreateConnector",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AccessRole" => AccessRole, "Url" => Url), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_profile(as2_id, profile_type)
@@ -252,8 +347,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier for working with profiles and partner profiles.
 - `"Tags"`: Key-value pairs that can be used to group and search for AS2 profiles.
 """
-create_profile(As2Id, ProfileType; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateProfile", Dict{String, Any}("As2Id"=>As2Id, "ProfileType"=>ProfileType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_profile(As2Id, ProfileType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("As2Id"=>As2Id, "ProfileType"=>ProfileType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_profile(As2Id, ProfileType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "CreateProfile",
+        Dict{String,Any}("As2Id" => As2Id, "ProfileType" => ProfileType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_profile(
+    As2Id,
+    ProfileType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "CreateProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("As2Id" => As2Id, "ProfileType" => ProfileType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_server()
@@ -455,8 +574,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execute on partial upload. A partial upload occurs when the server session disconnects
   while the file is still being uploaded.
 """
-create_server(; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_server(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_server(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_server(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "CreateServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     create_user(role, server_id, user_name)
@@ -529,8 +655,8 @@ In most cases, you can use this value instead of the session policy to lock your
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's
   access to portions of their Amazon S3 bucket. Variables that you can use inside this
-  policy include `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
-  `${Transfer:HomeBucket}`.</p>
+  policy include `\${Transfer:UserName}`, `\${Transfer:HomeDirectory}`, and
+  `\${Transfer:HomeBucket}`.</p>
 
   !!! note
       This policy applies only when the domain of `ServerId` is Amazon S3. Amazon EFS does
@@ -563,8 +689,35 @@ In most cases, you can use this value instead of the session policy to lock your
 - `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
   metadata attached to users for any purpose.
 """
-create_user(Role, ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateUser", Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_user(Role, ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_user(Role, ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "CreateUser",
+        Dict{String,Any}("Role" => Role, "ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_user(
+    Role,
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "CreateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Role" => Role, "ServerId" => ServerId, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_workflow(steps)
@@ -606,8 +759,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
   metadata attached to workflows for any purpose.
 """
-create_workflow(Steps; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateWorkflow", Dict{String, Any}("Steps"=>Steps); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_workflow(Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("CreateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Steps"=>Steps), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workflow(Steps; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "CreateWorkflow",
+    Dict{String,Any}("Steps" => Steps);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_workflow(
+    Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "CreateWorkflow",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Steps" => Steps), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_access(external_id, server_id)
@@ -633,8 +800,32 @@ Allows you to delete the access specified in the `ServerID` and `ExternalID` par
   also include underscores or any of the following characters: =,.@:/-
 - `server_id`: A system-assigned unique identifier for a server that has this user assigned.
 """
-delete_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DeleteAccess",
+        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_access(
+    ExternalId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_agreement(agreement_id, server_id)
@@ -648,8 +839,33 @@ Delete the agreement that's specified in the provided `AgreementId`.
   you create an agreement.
 - `server_id`: The server identifier associated with the agreement that you are deleting.
 """
-delete_agreement(AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteAgreement", Dict{String, Any}("AgreementId"=>AgreementId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_agreement(AgreementId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteAgreement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgreementId"=>AgreementId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_agreement(
+    AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "DeleteAgreement",
+    Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_agreement(
+    AgreementId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteAgreement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_certificate(certificate_id)
@@ -661,8 +877,27 @@ Deletes the certificate that's specified in the `CertificateId` parameter.
 
 - `certificate_id`: The identifier of the certificate object that you are deleting.
 """
-delete_certificate(CertificateId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteCertificate", Dict{String, Any}("CertificateId"=>CertificateId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_certificate(CertificateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_certificate(CertificateId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DeleteCertificate",
+        Dict{String,Any}("CertificateId" => CertificateId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_certificate(
+    CertificateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteCertificate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CertificateId" => CertificateId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_connector(connector_id)
@@ -674,8 +909,27 @@ Deletes the connector that's specified in the provided `ConnectorId`.
 
 - `connector_id`: The unique identifier for the connector.
 """
-delete_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteConnector", Dict{String, Any}("ConnectorId"=>ConnectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_connector(ConnectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectorId"=>ConnectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DeleteConnector",
+        Dict{String,Any}("ConnectorId" => ConnectorId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_connector(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteConnector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_host_key(host_key_id, server_id)
@@ -689,8 +943,32 @@ Deletes the host key that's specified in the `HostKeyId` parameter.
 - `server_id`: The identifier of the server that contains the host key that you are
   deleting.
 """
-delete_host_key(HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteHostKey", Dict{String, Any}("HostKeyId"=>HostKeyId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_host_key(HostKeyId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteHostKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostKeyId"=>HostKeyId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_host_key(HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DeleteHostKey",
+        Dict{String,Any}("HostKeyId" => HostKeyId, "ServerId" => ServerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_host_key(
+    HostKeyId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteHostKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("HostKeyId" => HostKeyId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_profile(profile_id)
@@ -702,8 +980,26 @@ Deletes the profile that's specified in the `ProfileId` parameter.
 
 - `profile_id`: The identifier of the profile that you are deleting.
 """
-delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteProfile", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_profile(ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "DeleteProfile",
+    Dict{String,Any}("ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_profile(
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteProfile",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_server(server_id)
@@ -717,8 +1013,26 @@ No response returns from this operation.
 
 - `server_id`: A unique system-assigned identifier for a server instance.
 """
-delete_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "DeleteServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ssh_public_key(server_id, ssh_public_key_id, user_name)
@@ -733,8 +1047,42 @@ Deletes a user's Secure Shell (SSH) public key.
 - `ssh_public_key_id`: A unique identifier used to reference your user's specific SSH key.
 - `user_name`: A unique string that identifies a user whose public key is being deleted.
 """
-delete_ssh_public_key(ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ssh_public_key(ServerId, SshPublicKeyId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ssh_public_key(
+    ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "DeleteSshPublicKey",
+    Dict{String,Any}(
+        "ServerId" => ServerId,
+        "SshPublicKeyId" => SshPublicKeyId,
+        "UserName" => UserName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ssh_public_key(
+    ServerId,
+    SshPublicKeyId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteSshPublicKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ServerId" => ServerId,
+                    "SshPublicKeyId" => SshPublicKeyId,
+                    "UserName" => UserName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_user(server_id, user_name)
@@ -753,8 +1101,32 @@ No response returns from this operation.
   assigned to it.
 - `user_name`: A unique string that identifies a user that is being deleted from a server.
 """
-delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DeleteUser",
+        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_user(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_workflow(workflow_id)
@@ -766,8 +1138,26 @@ Deletes the specified workflow.
 
 - `workflow_id`: A unique identifier for the workflow.
 """
-delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteWorkflow", Dict{String, Any}("WorkflowId"=>WorkflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_workflow(WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DeleteWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "DeleteWorkflow",
+    Dict{String,Any}("WorkflowId" => WorkflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_workflow(
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteWorkflow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkflowId" => WorkflowId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_access(external_id, server_id)
@@ -798,8 +1188,32 @@ the `ServerId` value that was specified.
 - `server_id`: A system-assigned unique identifier for a server that has this access
   assigned.
 """
-describe_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DescribeAccess",
+        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_access(
+    ExternalId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_agreement(agreement_id, server_id)
@@ -813,8 +1227,33 @@ Describes the agreement that's identified by the `AgreementId`.
   you create an agreement.
 - `server_id`: The server identifier that's associated with the agreement.
 """
-describe_agreement(AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeAgreement", Dict{String, Any}("AgreementId"=>AgreementId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_agreement(AgreementId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeAgreement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgreementId"=>AgreementId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_agreement(
+    AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "DescribeAgreement",
+    Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_agreement(
+    AgreementId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeAgreement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_certificate(certificate_id)
@@ -827,8 +1266,27 @@ Describes the certificate that's identified by the `CertificateId`.
 - `certificate_id`: An array of identifiers for the imported certificates. You use this
   identifier for working with profiles and partner profiles.
 """
-describe_certificate(CertificateId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeCertificate", Dict{String, Any}("CertificateId"=>CertificateId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_certificate(CertificateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_certificate(CertificateId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DescribeCertificate",
+        Dict{String,Any}("CertificateId" => CertificateId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_certificate(
+    CertificateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeCertificate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CertificateId" => CertificateId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connector(connector_id)
@@ -840,8 +1298,27 @@ Describes the connector that's identified by the `ConnectorId.`
 
 - `connector_id`: The unique identifier for the connector.
 """
-describe_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeConnector", Dict{String, Any}("ConnectorId"=>ConnectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connector(ConnectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectorId"=>ConnectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DescribeConnector",
+        Dict{String,Any}("ConnectorId" => ConnectorId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_connector(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeConnector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_execution(execution_id, workflow_id)
@@ -861,8 +1338,33 @@ doesn't match the specified workflow ID, you receive a `ResourceNotFound` except
 - `execution_id`: A unique identifier for the execution of a workflow.
 - `workflow_id`: A unique identifier for the workflow.
 """
-describe_execution(ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeExecution", Dict{String, Any}("ExecutionId"=>ExecutionId, "WorkflowId"=>WorkflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_execution(ExecutionId, WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionId"=>ExecutionId, "WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_execution(
+    ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "DescribeExecution",
+    Dict{String,Any}("ExecutionId" => ExecutionId, "WorkflowId" => WorkflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_execution(
+    ExecutionId,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExecutionId" => ExecutionId, "WorkflowId" => WorkflowId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_host_key(host_key_id, server_id)
@@ -876,8 +1378,32 @@ Returns the details of the host key that's specified by the `HostKeyId` and `Ser
 - `server_id`: The identifier of the server that contains the host key that you want
   described.
 """
-describe_host_key(HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeHostKey", Dict{String, Any}("HostKeyId"=>HostKeyId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_host_key(HostKeyId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeHostKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostKeyId"=>HostKeyId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_host_key(HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DescribeHostKey",
+        Dict{String,Any}("HostKeyId" => HostKeyId, "ServerId" => ServerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_host_key(
+    HostKeyId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeHostKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("HostKeyId" => HostKeyId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_profile(profile_id)
@@ -889,8 +1415,26 @@ Returns the details of the profile that's specified by the `ProfileId`.
 
 - `profile_id`: The identifier of the profile that you want described.
 """
-describe_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeProfile", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_profile(ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "DescribeProfile",
+    Dict{String,Any}("ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_profile(
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeProfile",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_security_policy(security_policy_name)
@@ -906,8 +1450,30 @@ or [Working with security policies for SFTP connectors](https://docs.aws.amazon.
 - `security_policy_name`: Specify the text name of the security policy for which you want
   the details.
 """
-describe_security_policy(SecurityPolicyName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_security_policy(SecurityPolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_security_policy(
+    SecurityPolicyName; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "DescribeSecurityPolicy",
+    Dict{String,Any}("SecurityPolicyName" => SecurityPolicyName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_security_policy(
+    SecurityPolicyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeSecurityPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SecurityPolicyName" => SecurityPolicyName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_server(server_id)
@@ -923,8 +1489,26 @@ to VPC, the response will contain the `EndpointDetails`.
 
 - `server_id`: A system-assigned unique identifier for a server.
 """
-describe_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "DescribeServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_user(server_id, user_name)
@@ -943,8 +1527,32 @@ The response from this call returns the properties of the user associated with t
   the sign-in credentials to use the Transfer Family service and perform file transfer
   tasks.
 """
-describe_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DescribeUser",
+        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_user(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_workflow(workflow_id)
@@ -956,8 +1564,27 @@ Describes the specified workflow.
 
 - `workflow_id`: A unique identifier for the workflow.
 """
-describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeWorkflow", Dict{String, Any}("WorkflowId"=>WorkflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_workflow(WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("DescribeWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "DescribeWorkflow",
+        Dict{String,Any}("WorkflowId" => WorkflowId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_workflow(
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeWorkflow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkflowId" => WorkflowId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_certificate(certificate, usage)
@@ -994,8 +1621,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key "`cat encryption-key.pem`"`
 - `"Tags"`: Key-value pairs that can be used to group and search for certificates.
 """
-import_certificate(Certificate, Usage; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ImportCertificate", Dict{String, Any}("Certificate"=>Certificate, "Usage"=>Usage); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_certificate(Certificate, Usage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "Usage"=>Usage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_certificate(Certificate, Usage; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "ImportCertificate",
+        Dict{String,Any}("Certificate" => Certificate, "Usage" => Usage);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function import_certificate(
+    Certificate,
+    Usage,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ImportCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Certificate" => Certificate, "Usage" => Usage),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_host_key(host_key_body, server_id)
@@ -1018,8 +1669,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The text description that identifies this host key.
 - `"Tags"`: Key-value pairs that can be used to group and search for host keys.
 """
-import_host_key(HostKeyBody, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ImportHostKey", Dict{String, Any}("HostKeyBody"=>HostKeyBody, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_host_key(HostKeyBody, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ImportHostKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostKeyBody"=>HostKeyBody, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_host_key(HostKeyBody, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "ImportHostKey",
+        Dict{String,Any}("HostKeyBody" => HostKeyBody, "ServerId" => ServerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function import_host_key(
+    HostKeyBody,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ImportHostKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("HostKeyBody" => HostKeyBody, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_ssh_public_key(server_id, ssh_public_key_body, user_name)
@@ -1040,8 +1715,42 @@ The response returns the `UserName` value, the `ServerId` value, and the name of
 Transfer Family accepts RSA, ECDSA, and ED25519 keys.
 - `user_name`: The name of the Transfer Family user that is assigned to one or more servers.
 """
-import_ssh_public_key(ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_ssh_public_key(ServerId, SshPublicKeyBody, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_ssh_public_key(
+    ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "ImportSshPublicKey",
+    Dict{String,Any}(
+        "ServerId" => ServerId,
+        "SshPublicKeyBody" => SshPublicKeyBody,
+        "UserName" => UserName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_ssh_public_key(
+    ServerId,
+    SshPublicKeyBody,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ImportSshPublicKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ServerId" => ServerId,
+                    "SshPublicKeyBody" => SshPublicKeyBody,
+                    "UserName" => UserName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_accesses(server_id)
@@ -1063,8 +1772,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` parameter is returned in the output. You can then pass in a subsequent
   command to the `NextToken` parameter to continue listing additional accesses.
 """
-list_accesses(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListAccesses", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_accesses(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListAccesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_accesses(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "ListAccesses",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_accesses(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ListAccesses",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_agreements(server_id)
@@ -1089,8 +1816,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` parameter is returned in the output. You can then pass in a subsequent
   command to the `NextToken` parameter to continue listing additional agreements.
 """
-list_agreements(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListAgreements", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_agreements(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListAgreements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_agreements(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "ListAgreements",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_agreements(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ListAgreements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_certificates()
@@ -1111,8 +1856,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` parameter is returned in the output. You can then pass in a subsequent
   command to the `NextToken` parameter to continue listing additional certificates.
 """
-list_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_certificates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_connectors()
@@ -1129,8 +1881,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` parameter is returned in the output. You can then pass in a subsequent
   command to the `NextToken` parameter to continue listing additional connectors.
 """
-list_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_connectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer("ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_connectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_executions(workflow_id)
@@ -1166,13 +1925,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you received:
 
    `aws transfer list-executions --max-results 10 --next-token
-  $somePointerReturnedFromPreviousListResult`
+  \$somePointerReturnedFromPreviousListResult`
 
    This call returns the next 10 executions, the 11th through the 20th. You can then repeat
   the call until the details for all 100 executions have been returned.
 """
-list_executions(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListExecutions", Dict{String, Any}("WorkflowId"=>WorkflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_executions(WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_executions(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "ListExecutions",
+    Dict{String,Any}("WorkflowId" => WorkflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_executions(
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ListExecutions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkflowId" => WorkflowId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_host_keys(server_id)
@@ -1194,8 +1971,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned. You can use that value for a subsequent call to `ListHostKeys` to
   continue listing results.
 """
-list_host_keys(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListHostKeys", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_host_keys(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListHostKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_host_keys(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "ListHostKeys",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_host_keys(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ListHostKeys",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_profiles()
@@ -1217,8 +2012,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileType"`: Indicates whether to list only `LOCAL` type profiles or only `PARTNER`
   type profiles. If not supplied in the request, the command lists all types of profiles.
 """
-list_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_security_policies()
@@ -1239,8 +2041,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` parameter in a subsequent command to continue listing additional security
   policies.
 """
-list_security_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_security_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListSecurityPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_security_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer("ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_security_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListSecurityPolicies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_servers()
@@ -1259,8 +2071,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` parameter is returned in the output. You can then pass the `NextToken`
   parameter in a subsequent command to continue listing additional servers.
 """
-list_servers(; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_servers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_servers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_servers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(arn)
@@ -1285,8 +2104,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation, a `NextToken` parameter is returned in the input. You can then pass in a
   subsequent command to the `NextToken` parameter to continue listing additional tags.
 """
-list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "ListTagsForResource",
+    Dict{String,Any}("Arn" => Arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags_for_resource(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListTagsForResource",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_users(server_id)
@@ -1310,8 +2143,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the `NextToken` to a subsequent
   `ListUsers` command, to continue listing additional users.
 """
-list_users(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListUsers", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_users(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_users(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "ListUsers",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_users(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ListUsers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workflows()
@@ -1329,8 +2180,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   then pass the `NextToken` parameter in a subsequent command to continue listing
   additional workflows.
 """
-list_workflows(; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workflows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("ListWorkflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workflows(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_workflows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListWorkflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     send_workflow_step_state(execution_id, status, token, workflow_id)
@@ -1350,8 +2208,49 @@ well as providing a status.
   the same execution.
 - `workflow_id`: A unique identifier for the workflow.
 """
-send_workflow_step_state(ExecutionId, Status, Token, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("SendWorkflowStepState", Dict{String, Any}("ExecutionId"=>ExecutionId, "Status"=>Status, "Token"=>Token, "WorkflowId"=>WorkflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-send_workflow_step_state(ExecutionId, Status, Token, WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("SendWorkflowStepState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionId"=>ExecutionId, "Status"=>Status, "Token"=>Token, "WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_workflow_step_state(
+    ExecutionId,
+    Status,
+    Token,
+    WorkflowId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = transfer(
+    "SendWorkflowStepState",
+    Dict{String,Any}(
+        "ExecutionId" => ExecutionId,
+        "Status" => Status,
+        "Token" => Token,
+        "WorkflowId" => WorkflowId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function send_workflow_step_state(
+    ExecutionId,
+    Status,
+    Token,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "SendWorkflowStepState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExecutionId" => ExecutionId,
+                    "Status" => Status,
+                    "Token" => Token,
+                    "WorkflowId" => WorkflowId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_directory_listing(connector_id, output_directory_path, remote_directory_path)
@@ -1398,8 +2297,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: An optional parameter where you can specify the maximum number of
   file/directory names to retrieve. The default value is 1,000.
 """
-start_directory_listing(ConnectorId, OutputDirectoryPath, RemoteDirectoryPath; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StartDirectoryListing", Dict{String, Any}("ConnectorId"=>ConnectorId, "OutputDirectoryPath"=>OutputDirectoryPath, "RemoteDirectoryPath"=>RemoteDirectoryPath); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_directory_listing(ConnectorId, OutputDirectoryPath, RemoteDirectoryPath, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StartDirectoryListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectorId"=>ConnectorId, "OutputDirectoryPath"=>OutputDirectoryPath, "RemoteDirectoryPath"=>RemoteDirectoryPath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_directory_listing(
+    ConnectorId,
+    OutputDirectoryPath,
+    RemoteDirectoryPath;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = transfer(
+    "StartDirectoryListing",
+    Dict{String,Any}(
+        "ConnectorId" => ConnectorId,
+        "OutputDirectoryPath" => OutputDirectoryPath,
+        "RemoteDirectoryPath" => RemoteDirectoryPath,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_directory_listing(
+    ConnectorId,
+    OutputDirectoryPath,
+    RemoteDirectoryPath,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "StartDirectoryListing",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectorId" => ConnectorId,
+                    "OutputDirectoryPath" => OutputDirectoryPath,
+                    "RemoteDirectoryPath" => RemoteDirectoryPath,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_file_transfer(connector_id)
@@ -1442,8 +2378,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! note
     Replace ` *DOC-EXAMPLE-BUCKET* ` with one of your actual buckets.
 """
-start_file_transfer(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StartFileTransfer", Dict{String, Any}("ConnectorId"=>ConnectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_file_transfer(ConnectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StartFileTransfer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectorId"=>ConnectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_file_transfer(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "StartFileTransfer",
+        Dict{String,Any}("ConnectorId" => ConnectorId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_file_transfer(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "StartFileTransfer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_server(server_id)
@@ -1463,8 +2418,26 @@ No response is returned from this call.
 
 - `server_id`: A system-assigned unique identifier for a server that you start.
 """
-start_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StartServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StartServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "StartServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "StartServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_server(server_id)
@@ -1486,8 +2459,26 @@ offline. The values of `STOP_FAILED` can indicate an error condition.
 
 - `server_id`: A system-assigned unique identifier for a server that you stopped.
 """
-stop_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StopServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("StopServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "StopServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "StopServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(arn, tags)
@@ -1506,8 +2497,27 @@ There is no response returned from this call.
   resources by type. You can attach this metadata to resources (servers, users, workflows,
   and so on) for any purpose.
 """
-tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(Arn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "TagResource",
+    Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    Arn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Tags" => Tags), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     test_connection(connector_id)
@@ -1521,8 +2531,26 @@ storage and a trading partner's SFTP server.
 
 - `connector_id`: The unique identifier for the connector.
 """
-test_connection(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("TestConnection", Dict{String, Any}("ConnectorId"=>ConnectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-test_connection(ConnectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("TestConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectorId"=>ConnectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+test_connection(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "TestConnection",
+    Dict{String,Any}("ConnectorId" => ConnectorId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function test_connection(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "TestConnection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     test_identity_provider(server_id, user_name)
@@ -1577,8 +2605,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceIp"`: The source IP address of the account to be tested.
 - `"UserPassword"`: The password of the account to be tested.
 """
-test_identity_provider(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-test_identity_provider(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+test_identity_provider(
+    ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "TestIdentityProvider",
+    Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function test_identity_provider(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "TestIdentityProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(arn, tag_keys)
@@ -1597,8 +2650,27 @@ No response is returned from this call.
 - `tag_keys`: TagKeys are key-value pairs assigned to ARNs that can be used to group and
   search for resources by type. This metadata can be attached to resources for any purpose.
 """
-untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(Arn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "UntagResource",
+    Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_resource(
+    Arn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_access(external_id, server_id)
@@ -1671,8 +2743,8 @@ In most cases, you can use this value instead of the session policy to lock down
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's
   access to portions of their Amazon S3 bucket. Variables that you can use inside this
-  policy include `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
-  `${Transfer:HomeBucket}`.</p>
+  policy include `\${Transfer:UserName}`, `\${Transfer:HomeDirectory}`, and
+  `\${Transfer:HomeBucket}`.</p>
 
   !!! note
       This policy applies only when the domain of `ServerId` is Amazon S3. Amazon EFS does
@@ -1694,8 +2766,32 @@ In most cases, you can use this value instead of the session policy to lock down
   file system. The IAM role should also contain a trust relationship that allows the server
   to access your resources when servicing your users' transfer requests.
 """
-update_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "UpdateAccess",
+        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_access(
+    ExternalId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_agreement(agreement_id, server_id)
@@ -1755,8 +2851,33 @@ To change the local profile identifier, provide a new value here.
 - `"Status"`: You can update the status for the agreement, either activating an inactive
   agreement or the reverse.
 """
-update_agreement(AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateAgreement", Dict{String, Any}("AgreementId"=>AgreementId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_agreement(AgreementId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateAgreement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgreementId"=>AgreementId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_agreement(
+    AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "UpdateAgreement",
+    Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_agreement(
+    AgreementId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateAgreement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_certificate(certificate_id)
@@ -1776,8 +2897,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A short description to help identify the certificate.
 - `"InactiveDate"`: An optional date that specifies when the certificate becomes inactive.
 """
-update_certificate(CertificateId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateCertificate", Dict{String, Any}("CertificateId"=>CertificateId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_certificate(CertificateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_certificate(CertificateId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "UpdateCertificate",
+        Dict{String,Any}("CertificateId" => CertificateId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_certificate(
+    CertificateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateCertificate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CertificateId" => CertificateId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_connector(connector_id)
@@ -1828,8 +2968,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SftpConfig"`: A structure that contains the parameters for an SFTP connector object.
 - `"Url"`: The URL of the partner's AS2 or SFTP endpoint.
 """
-update_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateConnector", Dict{String, Any}("ConnectorId"=>ConnectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_connector(ConnectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectorId"=>ConnectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "UpdateConnector",
+        Dict{String,Any}("ConnectorId" => ConnectorId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_connector(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateConnector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_host_key(description, host_key_id, server_id)
@@ -1845,8 +3004,40 @@ parameters.
 - `server_id`: The identifier of the server that contains the host key that you are
   updating.
 """
-update_host_key(Description, HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateHostKey", Dict{String, Any}("Description"=>Description, "HostKeyId"=>HostKeyId, "ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_host_key(Description, HostKeyId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateHostKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "HostKeyId"=>HostKeyId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_host_key(
+    Description, HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
+) = transfer(
+    "UpdateHostKey",
+    Dict{String,Any}(
+        "Description" => Description, "HostKeyId" => HostKeyId, "ServerId" => ServerId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_host_key(
+    Description,
+    HostKeyId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateHostKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "HostKeyId" => HostKeyId,
+                    "ServerId" => ServerId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_profile(profile_id)
@@ -1866,8 +3057,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateIds"`: An array of identifiers for the imported certificates. You use this
   identifier for working with profiles and partner profiles.
 """
-update_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateProfile", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_profile(ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "UpdateProfile",
+    Dict{String,Any}("ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_profile(
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateProfile",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_server(server_id)
@@ -2054,8 +3263,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    `aws transfer update-server --server-id s-01234567890abcdef --workflow-details
   '{"OnUpload":[]}'`
 """
-update_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config()) = transfer(
+    "UpdateServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_user(server_id, user_name)
@@ -2134,8 +3361,8 @@ In most cases, you can use this value instead of the session policy to lock down
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's
   access to portions of their Amazon S3 bucket. Variables that you can use inside this
-  policy include `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
-  `${Transfer:HomeBucket}`.</p>
+  policy include `\${Transfer:UserName}`, `\${Transfer:HomeDirectory}`, and
+  `\${Transfer:HomeBucket}`.</p>
 
   !!! note
       This policy applies only when the domain of `ServerId` is Amazon S3. Amazon EFS does
@@ -2161,5 +3388,29 @@ In most cases, you can use this value instead of the session policy to lock down
   file system. The IAM role should also contain a trust relationship that allows the server
   to access your resources when servicing your users' transfer requests.
 """
-update_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = transfer("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    transfer(
+        "UpdateUser",
+        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_user(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

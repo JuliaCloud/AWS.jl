@@ -13,8 +13,22 @@ Services account is created in your organization, the quota increase requests in
 template are automatically applied to the account. You can add a quota increase request for
 any adjustable quota to your template.
 """
-associate_service_quota_template(; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("AssociateServiceQuotaTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_service_quota_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("AssociateServiceQuotaTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_service_quota_template(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    service_quotas(
+        "AssociateServiceQuotaTemplate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_service_quota_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "AssociateServiceQuotaTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_service_quota_increase_request_from_template(aws_region, quota_code, service_code)
@@ -31,8 +45,40 @@ Deletes the quota increase request for the specified quota from your quota reque
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the <a>ListServices</a> operation.
 """
-delete_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("DeleteServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("DeleteServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_service_quota_increase_request_from_template(
+    AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "DeleteServiceQuotaIncreaseRequestFromTemplate",
+    Dict{String,Any}(
+        "AwsRegion" => AwsRegion, "QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_service_quota_increase_request_from_template(
+    AwsRegion,
+    QuotaCode,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "DeleteServiceQuotaIncreaseRequestFromTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AwsRegion" => AwsRegion,
+                    "QuotaCode" => QuotaCode,
+                    "ServiceCode" => ServiceCode,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_service_quota_template()
@@ -42,8 +88,22 @@ Disables your quota request template. After a template is disabled, the quota in
 requests in the template are not applied to new Amazon Web Services accounts in your
 organization. Disabling a quota request template does not apply its quota increase requests.
 """
-disassociate_service_quota_template(; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("DisassociateServiceQuotaTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_service_quota_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("DisassociateServiceQuotaTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_service_quota_template(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    service_quotas(
+        "DisassociateServiceQuotaTemplate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disassociate_service_quota_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "DisassociateServiceQuotaTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_association_for_service_quota_template()
@@ -51,8 +111,23 @@ disassociate_service_quota_template(params::AbstractDict{String}; aws_config::Ab
 
 Retrieves the status of the association for the quota request template.
 """
-get_association_for_service_quota_template(; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetAssociationForServiceQuotaTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_association_for_service_quota_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetAssociationForServiceQuotaTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_association_for_service_quota_template(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "GetAssociationForServiceQuotaTemplate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_association_for_service_quota_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "GetAssociationForServiceQuotaTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_awsdefault_service_quota(quota_code, service_code)
@@ -69,8 +144,33 @@ quota increases.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the <a>ListServices</a> operation.
 """
-get_awsdefault_service_quota(QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetAWSDefaultServiceQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_awsdefault_service_quota(QuotaCode, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetAWSDefaultServiceQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_awsdefault_service_quota(
+    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "GetAWSDefaultServiceQuota",
+    Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_awsdefault_service_quota(
+    QuotaCode,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "GetAWSDefaultServiceQuota",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_requested_service_quota_change(request_id)
@@ -82,8 +182,28 @@ Retrieves information about the specified quota increase request.
 
 - `request_id`: Specifies the ID of the quota increase request.
 """
-get_requested_service_quota_change(RequestId; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetRequestedServiceQuotaChange", Dict{String, Any}("RequestId"=>RequestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_requested_service_quota_change(RequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetRequestedServiceQuotaChange", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestId"=>RequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_requested_service_quota_change(
+    RequestId; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "GetRequestedServiceQuotaChange",
+    Dict{String,Any}("RequestId" => RequestId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_requested_service_quota_change(
+    RequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "GetRequestedServiceQuotaChange",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => RequestId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_quota(quota_code, service_code)
@@ -109,8 +229,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applies. The value in this field depends on the context scope associated with the
   specified service quota.
 """
-get_service_quota(QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetServiceQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_quota(QuotaCode, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetServiceQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_quota(
+    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "GetServiceQuota",
+    Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service_quota(
+    QuotaCode,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "GetServiceQuota",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_quota_increase_request_from_template(aws_region, quota_code, service_code)
@@ -128,8 +273,40 @@ template.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the <a>ListServices</a> operation.
 """
-get_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("GetServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_quota_increase_request_from_template(
+    AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "GetServiceQuotaIncreaseRequestFromTemplate",
+    Dict{String,Any}(
+        "AwsRegion" => AwsRegion, "QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service_quota_increase_request_from_template(
+    AwsRegion,
+    QuotaCode,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "GetServiceQuotaIncreaseRequestFromTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AwsRegion" => AwsRegion,
+                    "QuotaCode" => QuotaCode,
+                    "ServiceCode" => ServiceCode,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_awsdefault_service_quotas(service_code)
@@ -163,8 +340,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
 """
-list_awsdefault_service_quotas(ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListAWSDefaultServiceQuotas", Dict{String, Any}("ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_awsdefault_service_quotas(ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListAWSDefaultServiceQuotas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_awsdefault_service_quotas(
+    ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "ListAWSDefaultServiceQuotas",
+    Dict{String,Any}("ServiceCode" => ServiceCode);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_awsdefault_service_quotas(
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "ListAWSDefaultServiceQuotas",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceCode" => ServiceCode), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_requested_service_quota_change_history()
@@ -198,8 +395,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
 """
-list_requested_service_quota_change_history(; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_requested_service_quota_change_history(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_requested_service_quota_change_history(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "ListRequestedServiceQuotaChangeHistory";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_requested_service_quota_change_history(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "ListRequestedServiceQuotaChangeHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_requested_service_quota_change_history_by_quota(quota_code, service_code)
@@ -239,8 +451,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
 """
-list_requested_service_quota_change_history_by_quota(QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistoryByQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_requested_service_quota_change_history_by_quota(QuotaCode, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistoryByQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_requested_service_quota_change_history_by_quota(
+    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "ListRequestedServiceQuotaChangeHistoryByQuota",
+    Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_requested_service_quota_change_history_by_quota(
+    QuotaCode,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "ListRequestedServiceQuotaChangeHistoryByQuota",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_quota_increase_requests_in_template()
@@ -271,8 +508,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceCode"`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the <a>ListServices</a> operation.
 """
-list_service_quota_increase_requests_in_template(; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListServiceQuotaIncreaseRequestsInTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_quota_increase_requests_in_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListServiceQuotaIncreaseRequestsInTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_quota_increase_requests_in_template(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "ListServiceQuotaIncreaseRequestsInTemplate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_service_quota_increase_requests_in_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "ListServiceQuotaIncreaseRequestsInTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_quotas(service_code)
@@ -312,8 +564,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   quota, use the <a>ListServiceQuotas</a> operation, and look for the `QuotaCode` response
   in the output for the quota you want.
 """
-list_service_quotas(ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListServiceQuotas", Dict{String, Any}("ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_quotas(ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListServiceQuotas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_quotas(ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) =
+    service_quotas(
+        "ListServiceQuotas",
+        Dict{String,Any}("ServiceCode" => ServiceCode);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_service_quotas(
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "ListServiceQuotas",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceCode" => ServiceCode), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_services()
@@ -341,8 +612,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
 """
-list_services(; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_services(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    service_quotas("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -358,8 +636,27 @@ Returns a list of the tags assigned to the specified applied quota.
   CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html)
   Amazon Web Services API operation.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    service_quotas(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_service_quota_increase_request_into_template(aws_region, desired_value, quota_code, service_code)
@@ -377,8 +674,49 @@ Adds a quota increase request to your quota request template.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the <a>ListServices</a> operation.
 """
-put_service_quota_increase_request_into_template(AwsRegion, DesiredValue, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("PutServiceQuotaIncreaseRequestIntoTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_service_quota_increase_request_into_template(AwsRegion, DesiredValue, QuotaCode, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("PutServiceQuotaIncreaseRequestIntoTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_service_quota_increase_request_into_template(
+    AwsRegion,
+    DesiredValue,
+    QuotaCode,
+    ServiceCode;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = service_quotas(
+    "PutServiceQuotaIncreaseRequestIntoTemplate",
+    Dict{String,Any}(
+        "AwsRegion" => AwsRegion,
+        "DesiredValue" => DesiredValue,
+        "QuotaCode" => QuotaCode,
+        "ServiceCode" => ServiceCode,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_service_quota_increase_request_into_template(
+    AwsRegion,
+    DesiredValue,
+    QuotaCode,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "PutServiceQuotaIncreaseRequestIntoTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AwsRegion" => AwsRegion,
+                    "DesiredValue" => DesiredValue,
+                    "QuotaCode" => QuotaCode,
+                    "ServiceCode" => ServiceCode,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     request_service_quota_increase(desired_value, quota_code, service_code)
@@ -403,8 +741,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applies. The value in this field depends on the context scope associated with the
   specified service quota.
 """
-request_service_quota_increase(DesiredValue, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("RequestServiceQuotaIncrease", Dict{String, Any}("DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-request_service_quota_increase(DesiredValue, QuotaCode, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("RequestServiceQuotaIncrease", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+request_service_quota_increase(
+    DesiredValue, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = service_quotas(
+    "RequestServiceQuotaIncrease",
+    Dict{String,Any}(
+        "DesiredValue" => DesiredValue,
+        "QuotaCode" => QuotaCode,
+        "ServiceCode" => ServiceCode,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function request_service_quota_increase(
+    DesiredValue,
+    QuotaCode,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "RequestServiceQuotaIncrease",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DesiredValue" => DesiredValue,
+                    "QuotaCode" => QuotaCode,
+                    "ServiceCode" => ServiceCode,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -421,8 +793,32 @@ quota.
   Amazon Web Services API operation.
 - `tags`: The tags that you want to add to the resource.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    service_quotas(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -439,5 +835,29 @@ Removes tags from the specified applied quota. You can specify one or more tags 
   Amazon Web Services API operation.
 - `tag_keys`: The keys of the tags that you want to remove from the resource.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = service_quotas("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    service_quotas(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

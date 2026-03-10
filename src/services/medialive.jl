@@ -16,8 +16,27 @@ AWS account.
 - `input_device_id`: The unique ID of the input device to accept. For example, hd-
   123456789abcdef.
 """
-accept_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_input_device_transfer(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_input_device_transfer(
+    inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/inputDevices/$(inputDeviceId)/accept";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_input_device_transfer(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/accept",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_delete()
@@ -34,8 +53,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSecurityGroupIds"`: List of input security group IDs
 - `"multiplexIds"`: List of multiplex IDs
 """
-batch_delete(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/batch/delete"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/batch/delete", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST", "/prod/batch/delete"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function batch_delete(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/batch/delete",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_start()
@@ -50,8 +81,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channelIds"`: List of channel IDs
 - `"multiplexIds"`: List of multiplex IDs
 """
-batch_start(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/batch/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_start(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/batch/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_start(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST", "/prod/batch/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function batch_start(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/batch/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_stop()
@@ -66,8 +109,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channelIds"`: List of channel IDs
 - `"multiplexIds"`: List of multiplex IDs
 """
-batch_stop(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/batch/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_stop(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/batch/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_stop(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST", "/prod/batch/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function batch_stop(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/batch/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_update_schedule(channel_id)
@@ -86,8 +141,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"creates"`: Schedule actions to create in the schedule.
 - `"deletes"`: Schedule actions to delete from the schedule.
 """
-batch_update_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_update_schedule(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_update_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "PUT",
+        "/prod/channels/$(channelId)/schedule";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_update_schedule(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/channels/$(channelId)/schedule",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_input_device_transfer(input_device_id)
@@ -100,8 +173,27 @@ Cancel an input device transfer that you have requested.
 - `input_device_id`: The unique ID of the input device to cancel. For example, hd-
   123456789abcdef.
 """
-cancel_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_input_device_transfer(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_input_device_transfer(
+    inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/inputDevices/$(inputDeviceId)/cancel";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_input_device_transfer(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     claim_device()
@@ -116,8 +208,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"id"`: The id of the device you want to claim.
 """
-claim_device(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/claimDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-claim_device(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/claimDevice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+claim_device(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST", "/prod/claimDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function claim_device(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/claimDevice",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel()
@@ -147,8 +251,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key-value pairs.
 - `"vpc"`: Settings for the VPC outputs
 """
-create_channel(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST",
+    "/prod/channels",
+    Dict{String,Any}("requestId" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_channel(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/channels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_cloud_watch_alarm_template(comparison_operator, evaluation_periods, group_identifier, metric_name, name, period, statistic, target_resource_type, threshold, treat_missing_data)
@@ -183,8 +305,75 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A resource's optional description.
 - `"tags"`:
 """
-create_cloud_watch_alarm_template(comparisonOperator, evaluationPeriods, groupIdentifier, metricName, name, period, statistic, targetResourceType, threshold, treatMissingData; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/cloudwatch-alarm-templates", Dict{String, Any}("comparisonOperator"=>comparisonOperator, "evaluationPeriods"=>evaluationPeriods, "groupIdentifier"=>groupIdentifier, "metricName"=>metricName, "name"=>name, "period"=>period, "statistic"=>statistic, "targetResourceType"=>targetResourceType, "threshold"=>threshold, "treatMissingData"=>treatMissingData); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_cloud_watch_alarm_template(comparisonOperator, evaluationPeriods, groupIdentifier, metricName, name, period, statistic, targetResourceType, threshold, treatMissingData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/cloudwatch-alarm-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("comparisonOperator"=>comparisonOperator, "evaluationPeriods"=>evaluationPeriods, "groupIdentifier"=>groupIdentifier, "metricName"=>metricName, "name"=>name, "period"=>period, "statistic"=>statistic, "targetResourceType"=>targetResourceType, "threshold"=>threshold, "treatMissingData"=>treatMissingData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_cloud_watch_alarm_template(
+    comparisonOperator,
+    evaluationPeriods,
+    groupIdentifier,
+    metricName,
+    name,
+    period,
+    statistic,
+    targetResourceType,
+    threshold,
+    treatMissingData;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = medialive(
+    "POST",
+    "/prod/cloudwatch-alarm-templates",
+    Dict{String,Any}(
+        "comparisonOperator" => comparisonOperator,
+        "evaluationPeriods" => evaluationPeriods,
+        "groupIdentifier" => groupIdentifier,
+        "metricName" => metricName,
+        "name" => name,
+        "period" => period,
+        "statistic" => statistic,
+        "targetResourceType" => targetResourceType,
+        "threshold" => threshold,
+        "treatMissingData" => treatMissingData,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_cloud_watch_alarm_template(
+    comparisonOperator,
+    evaluationPeriods,
+    groupIdentifier,
+    metricName,
+    name,
+    period,
+    statistic,
+    targetResourceType,
+    threshold,
+    treatMissingData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/cloudwatch-alarm-templates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "comparisonOperator" => comparisonOperator,
+                    "evaluationPeriods" => evaluationPeriods,
+                    "groupIdentifier" => groupIdentifier,
+                    "metricName" => metricName,
+                    "name" => name,
+                    "period" => period,
+                    "statistic" => statistic,
+                    "targetResourceType" => targetResourceType,
+                    "threshold" => threshold,
+                    "treatMissingData" => treatMissingData,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_cloud_watch_alarm_template_group(name)
@@ -205,8 +394,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A resource's optional description.
 - `"tags"`:
 """
-create_cloud_watch_alarm_template_group(name; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/cloudwatch-alarm-template-groups", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_cloud_watch_alarm_template_group(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/cloudwatch-alarm-template-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_cloud_watch_alarm_template_group(
+    name; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/cloudwatch-alarm-template-groups",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_cloud_watch_alarm_template_group(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/cloudwatch-alarm-template-groups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_event_bridge_rule_template(event_type, group_identifier, name)
@@ -231,8 +438,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventTargets"`:
 - `"tags"`:
 """
-create_event_bridge_rule_template(eventType, groupIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/eventbridge-rule-templates", Dict{String, Any}("eventType"=>eventType, "groupIdentifier"=>groupIdentifier, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_event_bridge_rule_template(eventType, groupIdentifier, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/eventbridge-rule-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventType"=>eventType, "groupIdentifier"=>groupIdentifier, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_event_bridge_rule_template(
+    eventType, groupIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/eventbridge-rule-templates",
+    Dict{String,Any}(
+        "eventType" => eventType, "groupIdentifier" => groupIdentifier, "name" => name
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_event_bridge_rule_template(
+    eventType,
+    groupIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/eventbridge-rule-templates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventType" => eventType,
+                    "groupIdentifier" => groupIdentifier,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_event_bridge_rule_template_group(name)
@@ -253,8 +494,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A resource's optional description.
 - `"tags"`:
 """
-create_event_bridge_rule_template_group(name; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/eventbridge-rule-template-groups", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_event_bridge_rule_template_group(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/eventbridge-rule-template-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_event_bridge_rule_template_group(
+    name; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/eventbridge-rule-template-groups",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_event_bridge_rule_template_group(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/eventbridge-rule-template-groups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_input()
@@ -288,8 +547,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`:
 - `"vpc"`:
 """
-create_input(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_input(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_input(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST",
+    "/prod/inputs",
+    Dict{String,Any}("requestId" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_input(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/inputs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_input_security_group()
@@ -304,8 +581,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key-value pairs.
 - `"whitelistRules"`: List of IPv4 CIDR addresses to whitelist
 """
-create_input_security_group(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputSecurityGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_input_security_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_input_security_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/inputSecurityGroups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_input_security_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/inputSecurityGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_multiplex(availability_zones, multiplex_settings, name, request_id)
@@ -328,8 +621,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: A collection of key-value pairs.
 """
-create_multiplex(availabilityZones, multiplexSettings, name, requestId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_multiplex(availabilityZones, multiplexSettings, name, requestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_multiplex(
+    availabilityZones,
+    multiplexSettings,
+    name,
+    requestId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = medialive(
+    "POST",
+    "/prod/multiplexes",
+    Dict{String,Any}(
+        "availabilityZones" => availabilityZones,
+        "multiplexSettings" => multiplexSettings,
+        "name" => name,
+        "requestId" => requestId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_multiplex(
+    availabilityZones,
+    multiplexSettings,
+    name,
+    requestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/multiplexes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "availabilityZones" => availabilityZones,
+                    "multiplexSettings" => multiplexSettings,
+                    "name" => name,
+                    "requestId" => requestId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_multiplex_program(multiplex_id, multiplex_program_settings, program_name, request_id)
@@ -345,8 +681,49 @@ Create a new program in the multiplex.
 - `request_id`: Unique request ID. This prevents retries from creating multiple
 resources.
 """
-create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_multiplex_program(
+    multiplexId,
+    multiplexProgramSettings,
+    programName,
+    requestId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = medialive(
+    "POST",
+    "/prod/multiplexes/$(multiplexId)/programs",
+    Dict{String,Any}(
+        "multiplexProgramSettings" => multiplexProgramSettings,
+        "programName" => programName,
+        "requestId" => requestId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_multiplex_program(
+    multiplexId,
+    multiplexProgramSettings,
+    programName,
+    requestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/multiplexes/$(multiplexId)/programs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "multiplexProgramSettings" => multiplexProgramSettings,
+                    "programName" => programName,
+                    "requestId" => requestId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_partner_input(input_id)
@@ -366,8 +743,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exactly once in case of retries.
 - `"tags"`: A collection of key-value pairs.
 """
-create_partner_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputs/$(inputId)/partners", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_partner_input(inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputs/$(inputId)/partners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_partner_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/inputs/$(inputId)/partners",
+        Dict{String,Any}("requestId" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_partner_input(
+    inputId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputs/$(inputId)/partners",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_signal_map(discovery_entry_point_arn, name)
@@ -392,8 +790,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventBridgeRuleTemplateGroupIdentifiers"`:
 - `"tags"`:
 """
-create_signal_map(discoveryEntryPointArn, name; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/signal-maps", Dict{String, Any}("discoveryEntryPointArn"=>discoveryEntryPointArn, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_signal_map(discoveryEntryPointArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/signal-maps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("discoveryEntryPointArn"=>discoveryEntryPointArn, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_signal_map(
+    discoveryEntryPointArn, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/signal-maps",
+    Dict{String,Any}("discoveryEntryPointArn" => discoveryEntryPointArn, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_signal_map(
+    discoveryEntryPointArn,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/signal-maps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "discoveryEntryPointArn" => discoveryEntryPointArn, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_tags(resource-arn)
@@ -411,8 +838,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`:
 """
-create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_tags(resource_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST",
+    "/prod/tags/$(resource-arn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_tags(
+    resource_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/tags/$(resource-arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel(channel_id)
@@ -424,8 +868,25 @@ Starts deletion of channel. The associated outputs are also deleted.
 
 - `channel_id`: Unique ID of the channel.
 """
-delete_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "DELETE",
+    "/prod/channels/$(channelId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/channels/$(channelId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_cloud_watch_alarm_template(identifier)
@@ -438,8 +899,27 @@ Deletes a cloudwatch alarm template.
 - `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
   current name.
 """
-delete_cloud_watch_alarm_template(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/cloudwatch-alarm-templates/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_cloud_watch_alarm_template(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/cloudwatch-alarm-templates/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_cloud_watch_alarm_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "DELETE",
+    "/prod/cloudwatch-alarm-templates/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_cloud_watch_alarm_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/cloudwatch-alarm-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_cloud_watch_alarm_template_group(identifier)
@@ -453,8 +933,27 @@ and ensure its existing templates are moved to another group or deleted.
 - `identifier`: A cloudwatch alarm template group's identifier. Can be either be its id or
   current name.
 """
-delete_cloud_watch_alarm_template_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/cloudwatch-alarm-template-groups/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_cloud_watch_alarm_template_group(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/cloudwatch-alarm-template-groups/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_cloud_watch_alarm_template_group(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "DELETE",
+    "/prod/cloudwatch-alarm-template-groups/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_cloud_watch_alarm_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_event_bridge_rule_template(identifier)
@@ -467,8 +966,27 @@ Deletes an eventbridge rule template.
 - `identifier`: An eventbridge rule template's identifier. Can be either be its id or
   current name.
 """
-delete_event_bridge_rule_template(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/eventbridge-rule-templates/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_event_bridge_rule_template(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/eventbridge-rule-templates/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_bridge_rule_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "DELETE",
+    "/prod/eventbridge-rule-templates/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_event_bridge_rule_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/eventbridge-rule-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_event_bridge_rule_template_group(identifier)
@@ -482,8 +1000,27 @@ and ensure its existing templates are moved to another group or deleted.
 - `identifier`: An eventbridge rule template group's identifier. Can be either be its id or
   current name.
 """
-delete_event_bridge_rule_template_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/eventbridge-rule-template-groups/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_event_bridge_rule_template_group(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/eventbridge-rule-template-groups/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_bridge_rule_template_group(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "DELETE",
+    "/prod/eventbridge-rule-template-groups/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_event_bridge_rule_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/eventbridge-rule-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_input(input_id)
@@ -495,8 +1032,25 @@ Deletes the input end point
 
 - `input_id`: Unique ID of the input
 """
-delete_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/inputs/$(inputId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_input(inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/inputs/$(inputId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "DELETE",
+    "/prod/inputs/$(inputId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_input(
+    inputId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/inputs/$(inputId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_input_security_group(input_security_group_id)
@@ -508,8 +1062,27 @@ Deletes an Input Security Group
 
 - `input_security_group_id`: The Input Security Group to delete
 """
-delete_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_input_security_group(inputSecurityGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_input_security_group(
+    inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "DELETE",
+    "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_input_security_group(
+    inputSecurityGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_multiplex(multiplex_id)
@@ -521,8 +1094,26 @@ Delete a multiplex. The multiplex must be idle.
 
 - `multiplex_id`: The ID of the multiplex.
 """
-delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_multiplex(multiplexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "DELETE",
+        "/prod/multiplexes/$(multiplexId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_multiplex(
+    multiplexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/multiplexes/$(multiplexId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_multiplex_program(multiplex_id, program_name)
@@ -535,8 +1126,28 @@ Delete a program from a multiplex.
 - `multiplex_id`: The ID of the multiplex that the program belongs to.
 - `program_name`: The multiplex program name.
 """
-delete_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_multiplex_program(multiplexId, programName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_multiplex_program(
+    multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "DELETE",
+    "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_multiplex_program(
+    multiplexId,
+    programName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_reservation(reservation_id)
@@ -548,8 +1159,26 @@ Delete an expired reservation.
 
 - `reservation_id`: Unique reservation ID, e.g. '1234567'
 """
-delete_reservation(reservationId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/reservations/$(reservationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_reservation(reservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/reservations/$(reservationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_reservation(reservationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "DELETE",
+        "/prod/reservations/$(reservationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_reservation(
+    reservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/reservations/$(reservationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_schedule(channel_id)
@@ -561,8 +1190,25 @@ Delete all schedule actions on a channel.
 
 - `channel_id`: Id of the channel whose schedule is being deleted.
 """
-delete_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_schedule(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "DELETE",
+    "/prod/channels/$(channelId)/schedule";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_schedule(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/channels/$(channelId)/schedule",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_signal_map(identifier)
@@ -574,8 +1220,26 @@ Deletes the specified signal map.
 
 - `identifier`: A signal map's identifier. Can be either be its id or current name.
 """
-delete_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/signal-maps/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_signal_map(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/signal-maps/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "DELETE",
+        "/prod/signal-maps/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_signal_map(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/signal-maps/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_tags(resource-arn, tag_keys)
@@ -588,8 +1252,28 @@ Removes tags for a resource
 - `resource-arn`:
 - `tag_keys`: An array of tag keys to delete
 """
-delete_tags(resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_tags(resource_arn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_tags(resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "DELETE",
+        "/prod/tags/$(resource-arn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_tags(
+    resource_arn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/tags/$(resource-arn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_account_configuration()
@@ -597,8 +1281,24 @@ delete_tags(resource_arn, tagKeys, params::AbstractDict{String}; aws_config::Abs
 
 Describe account configuration
 """
-describe_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/accountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_account_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/accountConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/accountConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_account_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/accountConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel(channel_id)
@@ -610,8 +1310,25 @@ Gets details about a channel
 
 - `channel_id`: channel ID
 """
-describe_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels/$(channelId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels/$(channelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET",
+    "/prod/channels/$(channelId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_channel(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/channels/$(channelId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_input(input_id)
@@ -623,8 +1340,25 @@ Produces details about an input
 
 - `input_id`: Unique ID of the input
 """
-describe_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputs/$(inputId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_input(inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputs/$(inputId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET",
+    "/prod/inputs/$(inputId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_input(
+    inputId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/inputs/$(inputId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_input_device(input_device_id)
@@ -636,8 +1370,26 @@ Gets the details for the input device
 
 - `input_device_id`: The unique ID of this input device. For example, hd-123456789abcdef.
 """
-describe_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_input_device(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/inputDevices/$(inputDeviceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/inputDevices/$(inputDeviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_input_device_thumbnail(accept, input_device_id)
@@ -650,8 +1402,35 @@ Get the latest thumbnail data for the input device.
 - `accept`: The HTTP Accept header. Indicates the requested type for the thumbnail.
 - `input_device_id`: The unique ID of this input device. For example, hd-123456789abcdef.
 """
-describe_input_device_thumbnail(accept, inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_input_device_thumbnail(accept, inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_input_device_thumbnail(
+    accept, inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/inputDevices/$(inputDeviceId)/thumbnailData",
+    Dict{String,Any}("headers" => Dict{String,Any}("accept" => accept));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_input_device_thumbnail(
+    accept,
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/inputDevices/$(inputDeviceId)/thumbnailData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("accept" => accept)),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_input_security_group(input_security_group_id)
@@ -663,8 +1442,27 @@ Produces a summary of an Input Security Group
 
 - `input_security_group_id`: The id of the Input Security Group to describe
 """
-describe_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_input_security_group(inputSecurityGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_input_security_group(
+    inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_input_security_group(
+    inputSecurityGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_multiplex(multiplex_id)
@@ -676,8 +1474,26 @@ Gets details about a multiplex.
 
 - `multiplex_id`: The ID of the multiplex.
 """
-describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_multiplex(multiplexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/multiplexes/$(multiplexId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_multiplex(
+    multiplexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/multiplexes/$(multiplexId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_multiplex_program(multiplex_id, program_name)
@@ -690,8 +1506,28 @@ Get the details for a program in a multiplex.
 - `multiplex_id`: The ID of the multiplex that the program belongs to.
 - `program_name`: The name of the program.
 """
-describe_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_multiplex_program(multiplexId, programName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_multiplex_program(
+    multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_multiplex_program(
+    multiplexId,
+    programName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_offering(offering_id)
@@ -703,8 +1539,26 @@ Get details for an offering.
 
 - `offering_id`: Unique offering ID, e.g. '87654321'
 """
-describe_offering(offeringId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/offerings/$(offeringId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_offering(offeringId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/offerings/$(offeringId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_offering(offeringId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/offerings/$(offeringId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_offering(
+    offeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/offerings/$(offeringId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_reservation(reservation_id)
@@ -716,8 +1570,26 @@ Get details for a reservation.
 
 - `reservation_id`: Unique reservation ID, e.g. '1234567'
 """
-describe_reservation(reservationId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/reservations/$(reservationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_reservation(reservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/reservations/$(reservationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reservation(reservationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/reservations/$(reservationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_reservation(
+    reservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/reservations/$(reservationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_schedule(channel_id)
@@ -736,8 +1608,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
-describe_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_schedule(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/channels/$(channelId)/schedule";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_schedule(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/channels/$(channelId)/schedule",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_thumbnails(channel_id, pipeline_id, thumbnail_type)
@@ -751,8 +1641,38 @@ Describe the latest thumbnails data.
 - `pipeline_id`: Pipeline ID ("0" or "1")
 - `thumbnail_type`: thumbnail type
 """
-describe_thumbnails(channelId, pipelineId, thumbnailType; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/thumbnails", Dict{String, Any}("pipelineId"=>pipelineId, "thumbnailType"=>thumbnailType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_thumbnails(channelId, pipelineId, thumbnailType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/thumbnails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "thumbnailType"=>thumbnailType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_thumbnails(
+    channelId, pipelineId, thumbnailType; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/channels/$(channelId)/thumbnails",
+    Dict{String,Any}("pipelineId" => pipelineId, "thumbnailType" => thumbnailType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_thumbnails(
+    channelId,
+    pipelineId,
+    thumbnailType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/channels/$(channelId)/thumbnails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "pipelineId" => pipelineId, "thumbnailType" => thumbnailType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_cloud_watch_alarm_template(identifier)
@@ -765,8 +1685,27 @@ Retrieves the specified cloudwatch alarm template.
 - `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
   current name.
 """
-get_cloud_watch_alarm_template(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-templates/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_cloud_watch_alarm_template(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-templates/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_cloud_watch_alarm_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/cloudwatch-alarm-templates/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_cloud_watch_alarm_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_cloud_watch_alarm_template_group(identifier)
@@ -779,8 +1718,27 @@ Retrieves the specified cloudwatch alarm template group.
 - `identifier`: A cloudwatch alarm template group's identifier. Can be either be its id or
   current name.
 """
-get_cloud_watch_alarm_template_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-template-groups/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_cloud_watch_alarm_template_group(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-template-groups/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_cloud_watch_alarm_template_group(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/cloudwatch-alarm-template-groups/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_cloud_watch_alarm_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_event_bridge_rule_template(identifier)
@@ -793,8 +1751,27 @@ Retrieves the specified eventbridge rule template.
 - `identifier`: An eventbridge rule template's identifier. Can be either be its id or
   current name.
 """
-get_event_bridge_rule_template(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-templates/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_event_bridge_rule_template(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-templates/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_bridge_rule_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/eventbridge-rule-templates/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_event_bridge_rule_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_event_bridge_rule_template_group(identifier)
@@ -807,8 +1784,27 @@ Retrieves the specified eventbridge rule template group.
 - `identifier`: An eventbridge rule template group's identifier. Can be either be its id or
   current name.
 """
-get_event_bridge_rule_template_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-template-groups/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_event_bridge_rule_template_group(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-template-groups/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_bridge_rule_template_group(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/eventbridge-rule-template-groups/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_event_bridge_rule_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_signal_map(identifier)
@@ -820,8 +1816,25 @@ Retrieves the specified signal map.
 
 - `identifier`: A signal map's identifier. Can be either be its id or current name.
 """
-get_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/signal-maps/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_signal_map(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/signal-maps/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET",
+    "/prod/signal-maps/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_signal_map(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/signal-maps/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channels()
@@ -836,8 +1849,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
-list_channels(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channels(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET", "/prod/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_channels(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/channels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_cloud_watch_alarm_template_groups()
@@ -857,8 +1882,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
-list_cloud_watch_alarm_template_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-template-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_cloud_watch_alarm_template_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-template-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_cloud_watch_alarm_template_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/cloudwatch-alarm-template-groups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_cloud_watch_alarm_template_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-template-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_cloud_watch_alarm_templates()
@@ -880,8 +1922,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
-list_cloud_watch_alarm_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_cloud_watch_alarm_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/cloudwatch-alarm-templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_cloud_watch_alarm_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_cloud_watch_alarm_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-templates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_event_bridge_rule_template_groups()
@@ -899,8 +1957,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
-list_event_bridge_rule_template_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-template-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_event_bridge_rule_template_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-template-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_event_bridge_rule_template_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/eventbridge-rule-template-groups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_event_bridge_rule_template_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-template-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_event_bridge_rule_templates()
@@ -920,8 +1995,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
-list_event_bridge_rule_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_event_bridge_rule_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/eventbridge-rule-templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_event_bridge_rule_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/eventbridge-rule-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_event_bridge_rule_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-templates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_input_device_transfers(transfer_type)
@@ -942,8 +2033,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
-list_input_device_transfers(transferType; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}("transferType"=>transferType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_input_device_transfers(transferType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("transferType"=>transferType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_input_device_transfers(
+    transferType; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "GET",
+    "/prod/inputDeviceTransfers",
+    Dict{String,Any}("transferType" => transferType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_input_device_transfers(
+    transferType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/inputDeviceTransfers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("transferType" => transferType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_input_devices()
@@ -958,8 +2071,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
-list_input_devices(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_input_devices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_input_devices(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET", "/prod/inputDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_input_devices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/inputDevices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_input_security_groups()
@@ -974,8 +2099,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
-list_input_security_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputSecurityGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_input_security_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_input_security_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/inputSecurityGroups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_input_security_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/inputSecurityGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_inputs()
@@ -990,8 +2131,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
-list_inputs(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_inputs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/inputs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_inputs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive("GET", "/prod/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_inputs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/inputs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_multiplex_programs(multiplex_id)
@@ -1010,8 +2162,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return.
 - `"nextToken"`: The token to retrieve the next page of results.
 """
-list_multiplex_programs(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_multiplex_programs(multiplexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_multiplex_programs(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/multiplexes/$(multiplexId)/programs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_multiplex_programs(
+    multiplexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/multiplexes/$(multiplexId)/programs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_multiplexes()
@@ -1026,8 +2196,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return.
 - `"nextToken"`: The token to retrieve the next page of results.
 """
-list_multiplexes(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_multiplexes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/multiplexes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_multiplexes(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET", "/prod/multiplexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_multiplexes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/multiplexes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_offerings()
@@ -1053,8 +2235,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"specialFeature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
 - `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
-list_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/offerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET", "/prod/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/offerings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_reservations()
@@ -1077,8 +2271,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"specialFeature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
 - `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
-list_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/reservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_reservations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/reservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET", "/prod/reservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_reservations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/reservations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_signal_maps()
@@ -1098,8 +2304,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to retrieve the next set of results in paginated list
   responses.
 """
-list_signal_maps(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/signal-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_signal_maps(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/signal-maps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_signal_maps(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "GET", "/prod/signal-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_signal_maps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/signal-maps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource-arn)
@@ -1111,8 +2329,26 @@ Produces list of tags that have been created for a resource
 
 - `resource-arn`:
 """
-list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/tags/$(resource-arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resource_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("GET", "/prod/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "GET",
+        "/prod/tags/$(resource-arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resource_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/tags/$(resource-arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     purchase_offering(count, offering_id)
@@ -1138,8 +2374,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   given, the default is now.
 - `"tags"`: A collection of key-value pairs
 """
-purchase_offering(count, offeringId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-purchase_offering(count, offeringId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_offering(count, offeringId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/offerings/$(offeringId)/purchase",
+        Dict{String,Any}("count" => count, "requestId" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function purchase_offering(
+    count,
+    offeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/offerings/$(offeringId)/purchase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("count" => count, "requestId" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reboot_input_device(input_device_id)
@@ -1163,8 +2425,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was streaming prior to the reboot, the device will resume streaming when the reboot
   completes.
 """
-reboot_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reboot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reboot_input_device(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reboot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reboot_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/reboot";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function reboot_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/reboot",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_input_device_transfer(input_device_id)
@@ -1177,8 +2457,27 @@ Reject the transfer of the specified input device to your AWS account.
 - `input_device_id`: The unique ID of the input device to reject. For example, hd-
   123456789abcdef.
 """
-reject_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_input_device_transfer(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_input_device_transfer(
+    inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/inputDevices/$(inputDeviceId)/reject";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_input_device_transfer(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/reject",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restart_channel_pipelines(channel_id)
@@ -1197,8 +2496,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pipelineIds"`: An array of pipelines to restart in this channel. Format PIPELINE_0 or
   PIPELINE_1.
 """
-restart_channel_pipelines(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/restartChannelPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restart_channel_pipelines(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/restartChannelPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restart_channel_pipelines(channelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/channels/$(channelId)/restartChannelPipelines";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function restart_channel_pipelines(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/channels/$(channelId)/restartChannelPipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_channel(channel_id)
@@ -1210,8 +2527,25 @@ Starts an existing channel
 
 - `channel_id`: A request to start a channel
 """
-start_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_channel(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST",
+    "/prod/channels/$(channelId)/start";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_channel(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/channels/$(channelId)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_delete_monitor_deployment(identifier)
@@ -1223,8 +2557,27 @@ Initiates a deployment to delete the monitor of the specified signal map.
 
 - `identifier`: A signal map's identifier. Can be either be its id or current name.
 """
-start_delete_monitor_deployment(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/signal-maps/$(identifier)/monitor-deployment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_delete_monitor_deployment(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("DELETE", "/prod/signal-maps/$(identifier)/monitor-deployment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_delete_monitor_deployment(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "DELETE",
+    "/prod/signal-maps/$(identifier)/monitor-deployment";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_delete_monitor_deployment(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/signal-maps/$(identifier)/monitor-deployment",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_input_device(input_device_id)
@@ -1239,8 +2592,26 @@ starts.)
 - `input_device_id`: The unique ID of the input device to start. For example, hd-
   123456789abcdef.
 """
-start_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_input_device(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/start";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_input_device_maintenance_window(input_device_id)
@@ -1259,8 +2630,27 @@ the internet for the duration of the maintenance.
 - `input_device_id`: The unique ID of the input device to start a maintenance window for.
   For example, hd-123456789abcdef.
 """
-start_input_device_maintenance_window(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_input_device_maintenance_window(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_input_device_maintenance_window(
+    inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "POST",
+    "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_input_device_maintenance_window(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_monitor_deployment(identifier)
@@ -1278,8 +2668,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"dryRun"`:
 """
-start_monitor_deployment(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/signal-maps/$(identifier)/monitor-deployment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_monitor_deployment(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/signal-maps/$(identifier)/monitor-deployment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_monitor_deployment(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/signal-maps/$(identifier)/monitor-deployment";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_monitor_deployment(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/signal-maps/$(identifier)/monitor-deployment",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_multiplex(multiplex_id)
@@ -1292,8 +2700,26 @@ explicitly start each channel.
 
 - `multiplex_id`: The ID of the multiplex.
 """
-start_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_multiplex(multiplexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/multiplexes/$(multiplexId)/start";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_multiplex(
+    multiplexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/multiplexes/$(multiplexId)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_update_signal_map(identifier)
@@ -1320,8 +2746,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A resource's name. Names must be unique within the scope of a resource type in
   a specific region.
 """
-start_update_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/signal-maps/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_update_signal_map(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/signal-maps/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_update_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "PATCH",
+        "/prod/signal-maps/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_update_signal_map(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/signal-maps/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_channel(channel_id)
@@ -1333,8 +2777,25 @@ Stops a running channel
 
 - `channel_id`: A request to stop a running channel
 """
-stop_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_channel(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST",
+    "/prod/channels/$(channelId)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_channel(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/channels/$(channelId)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_input_device(input_device_id)
@@ -1349,8 +2810,26 @@ the channel stops.)
 - `input_device_id`: The unique ID of the input device to stop. For example, hd-
   123456789abcdef.
 """
-stop_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_input_device(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/stop";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_multiplex(multiplex_id)
@@ -1362,8 +2841,25 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 
 - `multiplex_id`: The ID of the multiplex.
 """
-stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_multiplex(multiplexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "POST",
+    "/prod/multiplexes/$(multiplexId)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_multiplex(
+    multiplexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/multiplexes/$(multiplexId)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     transfer_input_device(input_device_id)
@@ -1385,8 +2881,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetRegion"`: The target AWS region to transfer the device.
 - `"transferMessage"`: An optional message for the recipient. Maximum 280 characters.
 """
-transfer_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-transfer_input_device(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+transfer_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/transfer";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function transfer_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/transfer",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_account_configuration()
@@ -1400,8 +2914,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountConfiguration"`:
 """
-update_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/accountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_account_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/accountConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "PUT",
+        "/prod/accountConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_account_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "PUT",
+        "/prod/accountConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel(channel_id)
@@ -1429,8 +2959,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Channel. If you do not specify this on an update call but the role was previously set
   that role will be removed.
 """
-update_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel(channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "PUT",
+    "/prod/channels/$(channelId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/channels/$(channelId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel_class(channel_class, channel_id)
@@ -1449,8 +2996,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"destinations"`: A list of output destinations for this channel.
 """
-update_channel_class(channelClass, channelId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}("channelClass"=>channelClass); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel_class(channelClass, channelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelClass"=>channelClass), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel_class(
+    channelClass, channelId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "PUT",
+    "/prod/channels/$(channelId)/channelClass",
+    Dict{String,Any}("channelClass" => channelClass);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel_class(
+    channelClass,
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/channels/$(channelId)/channelClass",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelClass" => channelClass), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_cloud_watch_alarm_template(identifier)
@@ -1485,8 +3055,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"threshold"`: The threshold value to compare with the specified statistic.
 - `"treatMissingData"`:
 """
-update_cloud_watch_alarm_template(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/cloudwatch-alarm-templates/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_cloud_watch_alarm_template(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/cloudwatch-alarm-templates/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_cloud_watch_alarm_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "PATCH",
+    "/prod/cloudwatch-alarm-templates/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_cloud_watch_alarm_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/cloudwatch-alarm-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_cloud_watch_alarm_template_group(identifier)
@@ -1505,8 +3094,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: A resource's optional description.
 """
-update_cloud_watch_alarm_template_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/cloudwatch-alarm-template-groups/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_cloud_watch_alarm_template_group(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/cloudwatch-alarm-template-groups/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_cloud_watch_alarm_template_group(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "PATCH",
+    "/prod/cloudwatch-alarm-template-groups/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_cloud_watch_alarm_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_event_bridge_rule_template(identifier)
@@ -1531,8 +3139,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A resource's name. Names must be unique within the scope of a resource type in
   a specific region.
 """
-update_event_bridge_rule_template(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/eventbridge-rule-templates/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_event_bridge_rule_template(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/eventbridge-rule-templates/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_event_bridge_rule_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "PATCH",
+    "/prod/eventbridge-rule-templates/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_event_bridge_rule_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/eventbridge-rule-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_event_bridge_rule_template_group(identifier)
@@ -1551,8 +3178,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: A resource's optional description.
 """
-update_event_bridge_rule_template_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/eventbridge-rule-template-groups/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_event_bridge_rule_template_group(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PATCH", "/prod/eventbridge-rule-template-groups/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_event_bridge_rule_template_group(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "PATCH",
+    "/prod/eventbridge-rule-template-groups/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_event_bridge_rule_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/eventbridge-rule-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_input(input_id)
@@ -1585,8 +3231,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Only specify sources for PULL type Inputs. Leave Destinations empty.
 - `"srtSettings"`: The settings associated with an SRT input.
 """
-update_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_input(inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_input(inputId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive(
+    "PUT",
+    "/prod/inputs/$(inputId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_input(
+    inputId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/inputs/$(inputId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_input_device(input_device_id)
@@ -1607,8 +3270,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name that you assigned to this input device (not the unique ID).
 - `"uhdDeviceSettings"`: The settings that you want to apply to the UHD input device.
 """
-update_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_input_device(inputDeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_input_device(inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "PUT",
+        "/prod/inputDevices/$(inputDeviceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/inputDevices/$(inputDeviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_input_security_group(input_security_group_id)
@@ -1627,8 +3308,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key-value pairs.
 - `"whitelistRules"`: List of IPv4 CIDR addresses to whitelist
 """
-update_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_input_security_group(inputSecurityGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_input_security_group(
+    inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "PUT",
+    "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_input_security_group(
+    inputSecurityGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_multiplex(multiplex_id)
@@ -1648,8 +3348,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Name of the multiplex.
 - `"packetIdentifiersMapping"`:
 """
-update_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_multiplex(multiplexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "PUT",
+        "/prod/multiplexes/$(multiplexId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_multiplex(
+    multiplexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/multiplexes/$(multiplexId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_multiplex_program(multiplex_id, program_name)
@@ -1668,8 +3386,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"multiplexProgramSettings"`: The new settings for a multiplex program.
 """
-update_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_multiplex_program(multiplexId, programName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_multiplex_program(
+    multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()
+) = medialive(
+    "PUT",
+    "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_multiplex_program(
+    multiplexId,
+    programName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_reservation(reservation_id)
@@ -1688,5 +3426,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Name of the reservation
 - `"renewalSettings"`: Renewal settings for the reservation
 """
-update_reservation(reservationId; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/reservations/$(reservationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_reservation(reservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = medialive("PUT", "/prod/reservations/$(reservationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_reservation(reservationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    medialive(
+        "PUT",
+        "/prod/reservations/$(reservationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_reservation(
+    reservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/reservations/$(reservationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

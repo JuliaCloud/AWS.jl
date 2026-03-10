@@ -44,8 +44,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you omit this parameter, your request ends all active runs that belong to the flow.
 """
-cancel_flow_executions(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/cancel-flow-executions", Dict{String, Any}("flowName"=>flowName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_flow_executions(flowName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/cancel-flow-executions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("flowName"=>flowName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_flow_executions(flowName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow(
+        "POST",
+        "/cancel-flow-executions",
+        Dict{String,Any}("flowName" => flowName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_flow_executions(
+    flowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/cancel-flow-executions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("flowName" => flowName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_connector_profile(connection_mode, connector_profile_config, connector_profile_name, connector_type)
@@ -92,8 +113,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon
   AppFlow-managed KMS key.
 """
-create_connector_profile(connectionMode, connectorProfileConfig, connectorProfileName, connectorType; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/create-connector-profile", Dict{String, Any}("connectionMode"=>connectionMode, "connectorProfileConfig"=>connectorProfileConfig, "connectorProfileName"=>connectorProfileName, "connectorType"=>connectorType, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_connector_profile(connectionMode, connectorProfileConfig, connectorProfileName, connectorType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/create-connector-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionMode"=>connectionMode, "connectorProfileConfig"=>connectorProfileConfig, "connectorProfileName"=>connectorProfileName, "connectorType"=>connectorType, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_connector_profile(
+    connectionMode,
+    connectorProfileConfig,
+    connectorProfileName,
+    connectorType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appflow(
+    "POST",
+    "/create-connector-profile",
+    Dict{String,Any}(
+        "connectionMode" => connectionMode,
+        "connectorProfileConfig" => connectorProfileConfig,
+        "connectorProfileName" => connectorProfileName,
+        "connectorType" => connectorType,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_connector_profile(
+    connectionMode,
+    connectorProfileConfig,
+    connectorProfileName,
+    connectorType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/create-connector-profile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionMode" => connectionMode,
+                    "connectorProfileConfig" => connectorProfileConfig,
+                    "connectorProfileName" => connectorProfileName,
+                    "connectorType" => connectorType,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_flow(destination_flow_config_list, flow_name, source_flow_config, tasks, trigger_config)
@@ -143,8 +209,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the data from a flow, it stores metadata in a data catalog.
 - `"tags"`:  The tags used to organize, track, or control access for your flow.
 """
-create_flow(destinationFlowConfigList, flowName, sourceFlowConfig, tasks, triggerConfig; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/create-flow", Dict{String, Any}("destinationFlowConfigList"=>destinationFlowConfigList, "flowName"=>flowName, "sourceFlowConfig"=>sourceFlowConfig, "tasks"=>tasks, "triggerConfig"=>triggerConfig, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_flow(destinationFlowConfigList, flowName, sourceFlowConfig, tasks, triggerConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/create-flow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationFlowConfigList"=>destinationFlowConfigList, "flowName"=>flowName, "sourceFlowConfig"=>sourceFlowConfig, "tasks"=>tasks, "triggerConfig"=>triggerConfig, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_flow(
+    destinationFlowConfigList,
+    flowName,
+    sourceFlowConfig,
+    tasks,
+    triggerConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appflow(
+    "POST",
+    "/create-flow",
+    Dict{String,Any}(
+        "destinationFlowConfigList" => destinationFlowConfigList,
+        "flowName" => flowName,
+        "sourceFlowConfig" => sourceFlowConfig,
+        "tasks" => tasks,
+        "triggerConfig" => triggerConfig,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_flow(
+    destinationFlowConfigList,
+    flowName,
+    sourceFlowConfig,
+    tasks,
+    triggerConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/create-flow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationFlowConfigList" => destinationFlowConfigList,
+                    "flowName" => flowName,
+                    "sourceFlowConfig" => sourceFlowConfig,
+                    "tasks" => tasks,
+                    "triggerConfig" => triggerConfig,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_connector_profile(connector_profile_name)
@@ -164,8 +279,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDelete"`:  Indicates whether Amazon AppFlow should delete the profile, even if it
   is currently in use in one or more flows.
 """
-delete_connector_profile(connectorProfileName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/delete-connector-profile", Dict{String, Any}("connectorProfileName"=>connectorProfileName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_connector_profile(connectorProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/delete-connector-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorProfileName"=>connectorProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connector_profile(
+    connectorProfileName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appflow(
+    "POST",
+    "/delete-connector-profile",
+    Dict{String,Any}("connectorProfileName" => connectorProfileName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_connector_profile(
+    connectorProfileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/delete-connector-profile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("connectorProfileName" => connectorProfileName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_flow(flow_name)
@@ -187,8 +328,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDelete"`:  Indicates whether Amazon AppFlow should delete the flow, even if it is
   currently in use.
 """
-delete_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/delete-flow", Dict{String, Any}("flowName"=>flowName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_flow(flowName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/delete-flow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("flowName"=>flowName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/delete-flow",
+    Dict{String,Any}("flowName" => flowName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_flow(
+    flowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/delete-flow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("flowName" => flowName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connector(connector_type)
@@ -211,8 +372,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ConnectorRegistration` in your Amazon Web Services account. Only needed if calling for
   CUSTOMCONNECTOR connector type/.
 """
-describe_connector(connectorType; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connector", Dict{String, Any}("connectorType"=>connectorType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connector(connectorType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorType"=>connectorType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connector(connectorType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow(
+        "POST",
+        "/describe-connector",
+        Dict{String,Any}("connectorType" => connectorType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_connector(
+    connectorType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/describe-connector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectorType" => connectorType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connector_entity(connector_entity_name)
@@ -235,8 +417,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectorType"`:  The type of connector application, such as Salesforce, Amplitude, and
   so on.
 """
-describe_connector_entity(connectorEntityName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connector-entity", Dict{String, Any}("connectorEntityName"=>connectorEntityName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connector_entity(connectorEntityName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connector-entity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorEntityName"=>connectorEntityName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connector_entity(
+    connectorEntityName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appflow(
+    "POST",
+    "/describe-connector-entity",
+    Dict{String,Any}("connectorEntityName" => connectorEntityName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_connector_entity(
+    connectorEntityName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/describe-connector-entity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("connectorEntityName" => connectorEntityName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connector_profiles()
@@ -263,8 +471,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result set. The default for `maxResults` is 20 (for all paginated API operations).
 - `"nextToken"`:  The pagination token for the next page of data.
 """
-describe_connector_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connector-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connector_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connector-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connector_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/describe-connector-profiles";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_connector_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appflow(
+        "POST",
+        "/describe-connector-profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connectors()
@@ -285,8 +508,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default is 20.
 - `"nextToken"`:  The pagination token for the next page of data.
 """
-describe_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-connectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/describe-connectors";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_connectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appflow(
+        "POST",
+        "/describe-connectors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_flow(flow_name)
@@ -299,8 +537,28 @@ describe_connectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=
 - `flow_name`:  The specified name of the flow. Spaces are not allowed. Use underscores (_)
   or hyphens (-) only.
 """
-describe_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-flow", Dict{String, Any}("flowName"=>flowName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_flow(flowName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-flow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("flowName"=>flowName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/describe-flow",
+    Dict{String,Any}("flowName" => flowName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_flow(
+    flowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/describe-flow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("flowName" => flowName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_flow_execution_records(flow_name)
@@ -321,8 +579,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result set. The default for `maxResults` is 20 (for all paginated API operations).
 - `"nextToken"`:  The pagination token for the next page of data.
 """
-describe_flow_execution_records(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-flow-execution-records", Dict{String, Any}("flowName"=>flowName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_flow_execution_records(flowName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/describe-flow-execution-records", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("flowName"=>flowName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_flow_execution_records(
+    flowName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appflow(
+    "POST",
+    "/describe-flow-execution-records",
+    Dict{String,Any}("flowName" => flowName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_flow_execution_records(
+    flowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/describe-flow-execution-records",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("flowName" => flowName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_connector_entities()
@@ -351,8 +631,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the response was too big for the page size. You specify this token to get the next
   page of results in paginated response.
 """
-list_connector_entities(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/list-connector-entities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_connector_entities(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/list-connector-entities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_connector_entities(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/list-connector-entities";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_connector_entities(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appflow(
+        "POST",
+        "/list-connector-entities",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_connectors()
@@ -370,8 +665,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result set. The default for `maxResults` is 20 (for all paginated API operations).
 - `"nextToken"`: The pagination token for the next page of data.
 """
-list_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/list-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_connectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/list-connectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST", "/list-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_connectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appflow(
+        "POST",
+        "/list-connectors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_flows()
@@ -387,8 +694,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result set.
 - `"nextToken"`:  The pagination token for next page of data.
 """
-list_flows(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/list-flows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_flows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/list-flows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_flows(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow("POST", "/list-flows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_flows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appflow(
+        "POST",
+        "/list-flows",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -400,8 +718,26 @@ list_flows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_a
 
 - `resource_arn`:  The Amazon Resource Name (ARN) of the specified flow.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_connector()
@@ -434,8 +770,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported value is LAMBDA.
 - `"description"`: A description about the connector that's being registered.
 """
-register_connector(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/register-connector", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_connector(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/register-connector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_connector(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/register-connector",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_connector(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appflow(
+        "POST",
+        "/register-connector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_connector_metadata_cache()
@@ -498,8 +852,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of
   the child entities for that parent.
 """
-reset_connector_metadata_cache(; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/reset-connector-metadata-cache"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_connector_metadata_cache(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/reset-connector-metadata-cache", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_connector_metadata_cache(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow(
+        "POST",
+        "/reset-connector-metadata-cache";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function reset_connector_metadata_cache(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appflow(
+        "POST",
+        "/reset-connector-metadata-cache",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_flow(flow_name)
@@ -534,8 +904,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
   `StartFlow`. The token is active for 8 hours.
 """
-start_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/start-flow", Dict{String, Any}("flowName"=>flowName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_flow(flowName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/start-flow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("flowName"=>flowName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/start-flow",
+    Dict{String,Any}("flowName" => flowName, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_flow(
+    flowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/start-flow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("flowName" => flowName, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_flow(flow_name)
@@ -550,8 +944,28 @@ operation deactivates the flow.
 - `flow_name`:  The specified name of the flow. Spaces are not allowed. Use underscores (_)
   or hyphens (-) only.
 """
-stop_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/stop-flow", Dict{String, Any}("flowName"=>flowName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_flow(flowName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/stop-flow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("flowName"=>flowName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow(
+    "POST",
+    "/stop-flow",
+    Dict{String,Any}("flowName" => flowName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_flow(
+    flowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/stop-flow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("flowName" => flowName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -564,8 +978,28 @@ stop_flow(flowName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=
 - `resource_arn`:  The Amazon Resource Name (ARN) of the flow that you want to tag.
 - `tags`:  The tags used to organize, track, or control access for your flow.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     unregister_connector(connector_label)
@@ -586,8 +1020,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDelete"`: Indicates whether Amazon AppFlow should unregister the connector, even
   if it is currently in use in one or more connector profiles. The default value is false.
 """
-unregister_connector(connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/unregister-connector", Dict{String, Any}("connectorLabel"=>connectorLabel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-unregister_connector(connectorLabel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/unregister-connector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorLabel"=>connectorLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+unregister_connector(connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow(
+        "POST",
+        "/unregister-connector",
+        Dict{String,Any}("connectorLabel" => connectorLabel);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function unregister_connector(
+    connectorLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/unregister-connector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectorLabel" => connectorLabel), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -600,8 +1055,28 @@ unregister_connector(connectorLabel, params::AbstractDict{String}; aws_config::A
 - `resource_arn`:  The Amazon Resource Name (ARN) of the flow that you want to untag.
 - `tag_keys`:  The tag keys associated with the tag that you want to remove from your flow.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appflow(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_connector_profile(connection_mode, connector_profile_config, connector_profile_name)
@@ -634,8 +1109,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
   `UpdateConnectorProfile`. The token is active for 8 hours.
 """
-update_connector_profile(connectionMode, connectorProfileConfig, connectorProfileName; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/update-connector-profile", Dict{String, Any}("connectionMode"=>connectionMode, "connectorProfileConfig"=>connectorProfileConfig, "connectorProfileName"=>connectorProfileName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_connector_profile(connectionMode, connectorProfileConfig, connectorProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/update-connector-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionMode"=>connectionMode, "connectorProfileConfig"=>connectorProfileConfig, "connectorProfileName"=>connectorProfileName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_connector_profile(
+    connectionMode,
+    connectorProfileConfig,
+    connectorProfileName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appflow(
+    "POST",
+    "/update-connector-profile",
+    Dict{String,Any}(
+        "connectionMode" => connectionMode,
+        "connectorProfileConfig" => connectorProfileConfig,
+        "connectorProfileName" => connectorProfileName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_connector_profile(
+    connectionMode,
+    connectorProfileConfig,
+    connectorProfileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/update-connector-profile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionMode" => connectionMode,
+                    "connectorProfileConfig" => connectorProfileConfig,
+                    "connectorProfileName" => connectorProfileName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_connector_registration(connector_label)
@@ -670,8 +1186,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectorProvisioningConfig"`:
 - `"description"`: A description about the update that you're applying to the connector.
 """
-update_connector_registration(connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/update-connector-registration", Dict{String, Any}("connectorLabel"=>connectorLabel, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_connector_registration(connectorLabel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/update-connector-registration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorLabel"=>connectorLabel, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_connector_registration(
+    connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()
+) = appflow(
+    "POST",
+    "/update-connector-registration",
+    Dict{String,Any}("connectorLabel" => connectorLabel, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_connector_registration(
+    connectorLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/update-connector-registration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectorLabel" => connectorLabel, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_flow(destination_flow_config_list, flow_name, source_flow_config, tasks, trigger_config)
@@ -711,5 +1255,54 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs
   the data from a flow, it stores metadata in a data catalog.
 """
-update_flow(destinationFlowConfigList, flowName, sourceFlowConfig, tasks, triggerConfig; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/update-flow", Dict{String, Any}("destinationFlowConfigList"=>destinationFlowConfigList, "flowName"=>flowName, "sourceFlowConfig"=>sourceFlowConfig, "tasks"=>tasks, "triggerConfig"=>triggerConfig, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_flow(destinationFlowConfigList, flowName, sourceFlowConfig, tasks, triggerConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appflow("POST", "/update-flow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationFlowConfigList"=>destinationFlowConfigList, "flowName"=>flowName, "sourceFlowConfig"=>sourceFlowConfig, "tasks"=>tasks, "triggerConfig"=>triggerConfig, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_flow(
+    destinationFlowConfigList,
+    flowName,
+    sourceFlowConfig,
+    tasks,
+    triggerConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appflow(
+    "POST",
+    "/update-flow",
+    Dict{String,Any}(
+        "destinationFlowConfigList" => destinationFlowConfigList,
+        "flowName" => flowName,
+        "sourceFlowConfig" => sourceFlowConfig,
+        "tasks" => tasks,
+        "triggerConfig" => triggerConfig,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_flow(
+    destinationFlowConfigList,
+    flowName,
+    sourceFlowConfig,
+    tasks,
+    triggerConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/update-flow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationFlowConfigList" => destinationFlowConfigList,
+                    "flowName" => flowName,
+                    "sourceFlowConfig" => sourceFlowConfig,
+                    "tasks" => tasks,
+                    "triggerConfig" => triggerConfig,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

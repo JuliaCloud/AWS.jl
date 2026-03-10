@@ -26,8 +26,31 @@ between a tracker resource in one account and a geofence collection in another a
 - `tracker_name`: The name of the tracker resource to be associated with a geofence
   collection.
 """
-associate_tracker_consumer(ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/consumers", Dict{String, Any}("ConsumerArn"=>ConsumerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_tracker_consumer(ConsumerArn, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/consumers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerArn"=>ConsumerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_tracker_consumer(
+    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/tracking/v0/trackers/$(TrackerName)/consumers",
+    Dict{String,Any}("ConsumerArn" => ConsumerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_tracker_consumer(
+    ConsumerArn,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/consumers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConsumerArn" => ConsumerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_delete_device_position_history(device_ids, tracker_name)
@@ -42,8 +65,31 @@ Deletes the position history of one or more devices from a tracker resource.
 - `tracker_name`: The name of the tracker resource to delete the device position history
   from.
 """
-batch_delete_device_position_history(DeviceIds, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/delete-positions", Dict{String, Any}("DeviceIds"=>DeviceIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete_device_position_history(DeviceIds, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/delete-positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_device_position_history(
+    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/tracking/v0/trackers/$(TrackerName)/delete-positions",
+    Dict{String,Any}("DeviceIds" => DeviceIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_delete_device_position_history(
+    DeviceIds,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/delete-positions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceIds" => DeviceIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_delete_geofence(collection_name, geofence_ids)
@@ -59,8 +105,31 @@ Deletes a batch of geofences from a geofence collection.
 - `collection_name`: The geofence collection storing the geofences to be deleted.
 - `geofence_ids`: The batch of geofences to be deleted.
 """
-batch_delete_geofence(CollectionName, GeofenceIds; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/delete-geofences", Dict{String, Any}("GeofenceIds"=>GeofenceIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete_geofence(CollectionName, GeofenceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/delete-geofences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeofenceIds"=>GeofenceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_geofence(
+    CollectionName, GeofenceIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/geofencing/v0/collections/$(CollectionName)/delete-geofences",
+    Dict{String,Any}("GeofenceIds" => GeofenceIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_delete_geofence(
+    CollectionName,
+    GeofenceIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/delete-geofences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GeofenceIds" => GeofenceIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_evaluate_geofences(collection_name, device_position_updates)
@@ -96,8 +165,37 @@ optional `Accuracy` of a `DevicePositionUpdate`.
 - `device_position_updates`: Contains device details for each device to be evaluated
   against the given geofence collection.
 """
-batch_evaluate_geofences(CollectionName, DevicePositionUpdates; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/positions", Dict{String, Any}("DevicePositionUpdates"=>DevicePositionUpdates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_evaluate_geofences(CollectionName, DevicePositionUpdates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevicePositionUpdates"=>DevicePositionUpdates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_evaluate_geofences(
+    CollectionName,
+    DevicePositionUpdates;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = location(
+    "POST",
+    "/geofencing/v0/collections/$(CollectionName)/positions",
+    Dict{String,Any}("DevicePositionUpdates" => DevicePositionUpdates);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_evaluate_geofences(
+    CollectionName,
+    DevicePositionUpdates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/positions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DevicePositionUpdates" => DevicePositionUpdates),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_device_position(device_ids, tracker_name)
@@ -111,8 +209,31 @@ Lists the latest device positions for requested devices.
   devices: `device-ids=DeviceId1&amp;device-ids=DeviceId2`
 - `tracker_name`: The tracker resource retrieving the device position.
 """
-batch_get_device_position(DeviceIds, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/get-positions", Dict{String, Any}("DeviceIds"=>DeviceIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_device_position(DeviceIds, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/get-positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_device_position(
+    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/tracking/v0/trackers/$(TrackerName)/get-positions",
+    Dict{String,Any}("DeviceIds" => DeviceIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_device_position(
+    DeviceIds,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/get-positions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceIds" => DeviceIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_put_geofence(collection_name, entries)
@@ -126,8 +247,29 @@ updates the geometry of an existing geofence if a geofence ID is included in the
 - `collection_name`: The geofence collection storing the geofences.
 - `entries`: The batch of geofences to be stored in a geofence collection.
 """
-batch_put_geofence(CollectionName, Entries; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/put-geofences", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_put_geofence(CollectionName, Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/put-geofences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_put_geofence(
+    CollectionName, Entries; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/geofencing/v0/collections/$(CollectionName)/put-geofences",
+    Dict{String,Any}("Entries" => Entries);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_put_geofence(
+    CollectionName,
+    Entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/put-geofences",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_update_device_position(tracker_name, updates)
@@ -161,8 +303,29 @@ provided on a `DevicePositionUpdate`.
 - `tracker_name`: The name of the tracker resource to update.
 - `updates`: Contains the position update details for each device, up to 10 devices.
 """
-batch_update_device_position(TrackerName, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/positions", Dict{String, Any}("Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_update_device_position(TrackerName, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_update_device_position(
+    TrackerName, Updates; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/tracking/v0/trackers/$(TrackerName)/positions",
+    Dict{String,Any}("Updates" => Updates);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_update_device_position(
+    TrackerName,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/positions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Updates" => Updates), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     calculate_route(calculator_name, departure_position, destination_position)
@@ -278,8 +441,45 @@ Specifying more than 23 waypoints returns a `400 ValidationException` error.
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-calculate_route(CalculatorName, DeparturePosition, DestinationPosition; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/calculators/$(CalculatorName)/calculate/route", Dict{String, Any}("DeparturePosition"=>DeparturePosition, "DestinationPosition"=>DestinationPosition); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-calculate_route(CalculatorName, DeparturePosition, DestinationPosition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/calculators/$(CalculatorName)/calculate/route", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeparturePosition"=>DeparturePosition, "DestinationPosition"=>DestinationPosition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+calculate_route(
+    CalculatorName,
+    DeparturePosition,
+    DestinationPosition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = location(
+    "POST",
+    "/routes/v0/calculators/$(CalculatorName)/calculate/route",
+    Dict{String,Any}(
+        "DeparturePosition" => DeparturePosition,
+        "DestinationPosition" => DestinationPosition,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function calculate_route(
+    CalculatorName,
+    DeparturePosition,
+    DestinationPosition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/routes/v0/calculators/$(CalculatorName)/calculate/route",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeparturePosition" => DeparturePosition,
+                    "DestinationPosition" => DestinationPosition,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     calculate_route_matrix(calculator_name, departure_positions, destination_positions)
@@ -387,8 +587,45 @@ Requirements: `TravelMode` must be specified as `Truck`.
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-calculate_route_matrix(CalculatorName, DeparturePositions, DestinationPositions; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/calculators/$(CalculatorName)/calculate/route-matrix", Dict{String, Any}("DeparturePositions"=>DeparturePositions, "DestinationPositions"=>DestinationPositions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-calculate_route_matrix(CalculatorName, DeparturePositions, DestinationPositions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/calculators/$(CalculatorName)/calculate/route-matrix", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeparturePositions"=>DeparturePositions, "DestinationPositions"=>DestinationPositions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+calculate_route_matrix(
+    CalculatorName,
+    DeparturePositions,
+    DestinationPositions;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = location(
+    "POST",
+    "/routes/v0/calculators/$(CalculatorName)/calculate/route-matrix",
+    Dict{String,Any}(
+        "DeparturePositions" => DeparturePositions,
+        "DestinationPositions" => DestinationPositions,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function calculate_route_matrix(
+    CalculatorName,
+    DeparturePositions,
+    DestinationPositions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/routes/v0/calculators/$(CalculatorName)/calculate/route-matrix",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeparturePositions" => DeparturePositions,
+                    "DestinationPositions" => DestinationPositions,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_geofence_collection(collection_name)
@@ -428,8 +665,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ : / @.
  - Cannot use "aws:" as a prefix for a key.
 """
-create_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections", Dict{String, Any}("CollectionName"=>CollectionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionName"=>CollectionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_geofence_collection(
+    CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/geofencing/v0/collections",
+    Dict{String,Any}("CollectionName" => CollectionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_geofence_collection(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CollectionName" => CollectionName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_key(key_name, restrictions)
@@ -473,8 +732,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ : / @.
  - Cannot use "aws:" as a prefix for a key.
 """
-create_key(KeyName, Restrictions; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/metadata/v0/keys", Dict{String, Any}("KeyName"=>KeyName, "Restrictions"=>Restrictions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_key(KeyName, Restrictions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/metadata/v0/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "Restrictions"=>Restrictions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_key(KeyName, Restrictions; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "POST",
+        "/metadata/v0/keys",
+        Dict{String,Any}("KeyName" => KeyName, "Restrictions" => Restrictions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_key(
+    KeyName,
+    Restrictions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/metadata/v0/keys",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("KeyName" => KeyName, "Restrictions" => Restrictions),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_map(configuration, map_name)
@@ -521,8 +806,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ : / @.
  - Cannot use "aws:" as a prefix for a key.
 """
-create_map(Configuration, MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/maps/v0/maps", Dict{String, Any}("Configuration"=>Configuration, "MapName"=>MapName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_map(Configuration, MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/maps/v0/maps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "MapName"=>MapName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_map(Configuration, MapName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "POST",
+        "/maps/v0/maps",
+        Dict{String,Any}("Configuration" => Configuration, "MapName" => MapName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_map(
+    Configuration,
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/maps/v0/maps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Configuration" => Configuration, "MapName" => MapName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_place_index(data_source, index_name)
@@ -589,8 +900,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ : / @
  - Cannot use "aws:" as a prefix for a key.
 """
-create_place_index(DataSource, IndexName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes", Dict{String, Any}("DataSource"=>DataSource, "IndexName"=>IndexName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_place_index(DataSource, IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "IndexName"=>IndexName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_place_index(
+    DataSource, IndexName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/places/v0/indexes",
+    Dict{String,Any}("DataSource" => DataSource, "IndexName" => IndexName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_place_index(
+    DataSource,
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataSource" => DataSource, "IndexName" => IndexName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_route_calculator(calculator_name, data_source)
@@ -655,8 +993,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ : / @.
  - Cannot use "aws:" as a prefix for a key.
 """
-create_route_calculator(CalculatorName, DataSource; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/calculators", Dict{String, Any}("CalculatorName"=>CalculatorName, "DataSource"=>DataSource); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_route_calculator(CalculatorName, DataSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/calculators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalculatorName"=>CalculatorName, "DataSource"=>DataSource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_route_calculator(
+    CalculatorName, DataSource; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/routes/v0/calculators",
+    Dict{String,Any}("CalculatorName" => CalculatorName, "DataSource" => DataSource);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_route_calculator(
+    CalculatorName,
+    DataSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/routes/v0/calculators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CalculatorName" => CalculatorName, "DataSource" => DataSource
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_tracker(tracker_name)
@@ -737,8 +1104,28 @@ This field is optional. If not specified, the default value is `TimeBased`.
   _ : / @.
  - Cannot use "aws:" as a prefix for a key.
 """
-create_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers", Dict{String, Any}("TrackerName"=>TrackerName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrackerName"=>TrackerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "POST",
+    "/tracking/v0/trackers",
+    Dict{String,Any}("TrackerName" => TrackerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_tracker(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrackerName" => TrackerName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_geofence_collection(collection_name)
@@ -754,8 +1141,27 @@ target of a tracker resource, the devices will no longer be monitored.
 
 - `collection_name`: The name of the geofence collection to be deleted.
 """
-delete_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_geofence_collection(
+    CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "DELETE",
+    "/geofencing/v0/collections/$(CollectionName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_geofence_collection(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/geofencing/v0/collections/$(CollectionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_key(key_name)
@@ -784,8 +1190,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       This action is irreversible. Only use ForceDelete if you are certain the key is no
   longer in use.
 """
-delete_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/metadata/v0/keys/$(KeyName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_key(KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/metadata/v0/keys/$(KeyName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "DELETE",
+    "/metadata/v0/keys/$(KeyName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_key(
+    KeyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/metadata/v0/keys/$(KeyName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_map(map_name)
@@ -801,8 +1224,25 @@ application, the map may not render.
 
 - `map_name`: The name of the map resource to be deleted.
 """
-delete_map(MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/maps/v0/maps/$(MapName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_map(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_map(MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "DELETE",
+    "/maps/v0/maps/$(MapName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_map(
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/maps/v0/maps/$(MapName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_place_index(index_name)
@@ -817,8 +1257,26 @@ Deletes a place index resource from your Amazon Web Services account.
 
 - `index_name`: The name of the place index resource to be deleted.
 """
-delete_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_place_index(IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "DELETE",
+        "/places/v0/indexes/$(IndexName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_place_index(
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/places/v0/indexes/$(IndexName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_route_calculator(calculator_name)
@@ -833,8 +1291,27 @@ Deletes a route calculator resource from your Amazon Web Services account.
 
 - `calculator_name`: The name of the route calculator resource to be deleted.
 """
-delete_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_route_calculator(CalculatorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_route_calculator(
+    CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "DELETE",
+    "/routes/v0/calculators/$(CalculatorName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_route_calculator(
+    CalculatorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/routes/v0/calculators/$(CalculatorName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_tracker(tracker_name)
@@ -851,8 +1328,25 @@ applications.
 
 - `tracker_name`: The name of the tracker resource to be deleted.
 """
-delete_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "DELETE",
+    "/tracking/v0/trackers/$(TrackerName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_tracker(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/tracking/v0/trackers/$(TrackerName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_geofence_collection(collection_name)
@@ -864,8 +1358,27 @@ Retrieves the geofence collection details.
 
 - `collection_name`: The name of the geofence collection.
 """
-describe_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_geofence_collection(
+    CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "GET",
+    "/geofencing/v0/collections/$(CollectionName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_geofence_collection(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/geofencing/v0/collections/$(CollectionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_key(key_name)
@@ -877,8 +1390,25 @@ Retrieves the API key resource details.
 
 - `key_name`: The name of the API key resource.
 """
-describe_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/metadata/v0/keys/$(KeyName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_key(KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/metadata/v0/keys/$(KeyName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "GET",
+    "/metadata/v0/keys/$(KeyName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_key(
+    KeyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/metadata/v0/keys/$(KeyName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_map(map_name)
@@ -890,8 +1420,25 @@ Retrieves the map resource details.
 
 - `map_name`: The name of the map resource.
 """
-describe_map(MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_map(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_map(MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "GET",
+    "/maps/v0/maps/$(MapName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_map(
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_place_index(index_name)
@@ -903,8 +1450,26 @@ Retrieves the place index resource details.
 
 - `index_name`: The name of the place index resource.
 """
-describe_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_place_index(IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "GET",
+        "/places/v0/indexes/$(IndexName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_place_index(
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/places/v0/indexes/$(IndexName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_route_calculator(calculator_name)
@@ -916,8 +1481,27 @@ Retrieves the route calculator resource details.
 
 - `calculator_name`: The name of the route calculator resource.
 """
-describe_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_route_calculator(CalculatorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_route_calculator(
+    CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "GET",
+    "/routes/v0/calculators/$(CalculatorName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_route_calculator(
+    CalculatorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/routes/v0/calculators/$(CalculatorName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_tracker(tracker_name)
@@ -929,8 +1513,26 @@ Retrieves the tracker resource details.
 
 - `tracker_name`: The name of the tracker resource.
 """
-describe_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "GET",
+        "/tracking/v0/trackers/$(TrackerName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_tracker(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/tracking/v0/trackers/$(TrackerName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_tracker_consumer(consumer_arn, tracker_name)
@@ -950,8 +1552,28 @@ will no longer be automatically evaluated against geofences.
   collection/ExampleGeofenceCollectionConsumer`
 - `tracker_name`: The name of the tracker resource to be dissociated from the consumer.
 """
-disassociate_tracker_consumer(ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_tracker_consumer(ConsumerArn, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_tracker_consumer(
+    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "DELETE",
+    "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_tracker_consumer(
+    ConsumerArn,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     forecast_geofence_events(collection_name, device_state)
@@ -997,8 +1619,31 @@ Default value: `null`
 Default Value: `KilometersPerHour`.
 - `"TimeHorizonMinutes"`: Specifies the time horizon in minutes for the forecasted events.
 """
-forecast_geofence_events(CollectionName, DeviceState; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/forecast-geofence-events", Dict{String, Any}("DeviceState"=>DeviceState); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-forecast_geofence_events(CollectionName, DeviceState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/forecast-geofence-events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceState"=>DeviceState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+forecast_geofence_events(
+    CollectionName, DeviceState; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/geofencing/v0/collections/$(CollectionName)/forecast-geofence-events",
+    Dict{String,Any}("DeviceState" => DeviceState);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function forecast_geofence_events(
+    CollectionName,
+    DeviceState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/forecast-geofence-events",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceState" => DeviceState), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_device_position(device_id, tracker_name)
@@ -1014,8 +1659,28 @@ Retrieves a device's most recent position according to its sample time.
 - `device_id`: The device whose position you want to retrieve.
 - `tracker_name`: The tracker resource receiving the position update.
 """
-get_device_position(DeviceId, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_device_position(DeviceId, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_device_position(
+    DeviceId, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "GET",
+    "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_device_position(
+    DeviceId,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_device_position_history(device_id, tracker_name)
@@ -1058,8 +1723,28 @@ Default value: `null`
   Requirement: - The time specified for `StartTimeInclusive` must be before
   `EndTimeExclusive`.
 """
-get_device_position_history(DeviceId, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_device_position_history(DeviceId, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_device_position_history(
+    DeviceId, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_device_position_history(
+    DeviceId,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_geofence(collection_name, geofence_id)
@@ -1076,8 +1761,28 @@ created.
 - `collection_name`: The geofence collection storing the target geofence.
 - `geofence_id`: The geofence you're retrieving details for.
 """
-get_geofence(CollectionName, GeofenceId; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_geofence(CollectionName, GeofenceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_geofence(
+    CollectionName, GeofenceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "GET",
+    "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_geofence(
+    CollectionName,
+    GeofenceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_map_glyphs(font_stack, font_unicode_range, map_name)
@@ -1136,8 +1841,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-get_map_glyphs(FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_map_glyphs(FontStack, FontUnicodeRange, MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_map_glyphs(
+    FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "GET",
+    "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_map_glyphs(
+    FontStack,
+    FontUnicodeRange,
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_map_sprites(file_name, map_name)
@@ -1164,8 +1890,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-get_map_sprites(FileName, MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/sprites/$(FileName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_map_sprites(FileName, MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/sprites/$(FileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_map_sprites(FileName, MapName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/sprites/$(FileName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_map_sprites(
+    FileName,
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/sprites/$(FileName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_map_style_descriptor(map_name)
@@ -1188,8 +1933,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-get_map_style_descriptor(MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/style-descriptor"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_map_style_descriptor(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/style-descriptor", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_map_style_descriptor(MapName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/style-descriptor";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_map_style_descriptor(
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/style-descriptor",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_map_tile(map_name, x, y, z)
@@ -1217,8 +1980,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_map_tile(MapName, X, Y, Z, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_map_tile(
+    MapName,
+    X,
+    Y,
+    Z,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_place(index_name, place_id)
@@ -1260,8 +2044,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the data provider does not have a value for Greek, the result will be in a language
   that the provider does support.
 """
-get_place(IndexName, PlaceId; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/places/v0/indexes/$(IndexName)/places/$(PlaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_place(IndexName, PlaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/places/v0/indexes/$(IndexName)/places/$(PlaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_place(IndexName, PlaceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "GET",
+        "/places/v0/indexes/$(IndexName)/places/$(PlaceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_place(
+    IndexName,
+    PlaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/places/v0/indexes/$(IndexName)/places/$(PlaceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_device_positions(tracker_name)
@@ -1286,8 +2089,26 @@ Default value: `100`
 
 Default value: `null`
 """
-list_device_positions(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-positions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_device_positions(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-positions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_device_positions(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/list-positions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_device_positions(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/list-positions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_geofence_collections()
@@ -1307,8 +2128,23 @@ Default value: `100`
 
 Default value: `null`
 """
-list_geofence_collections(; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/list-collections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_geofence_collections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/list-collections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_geofence_collections(; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "POST",
+    "/geofencing/v0/list-collections";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_geofence_collections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return location(
+        "POST",
+        "/geofencing/v0/list-collections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_geofences(collection_name)
@@ -1332,8 +2168,26 @@ Default value: `100`
 
 Default value: `null`
 """
-list_geofences(CollectionName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/list-geofences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_geofences(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/list-geofences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_geofences(CollectionName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/list-geofences";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_geofences(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/list-geofences",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_keys()
@@ -1354,8 +2208,23 @@ Default value: `100`
 
 Default value: `null`
 """
-list_keys(; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/metadata/v0/list-keys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_keys(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/metadata/v0/list-keys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_keys(; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "POST",
+    "/metadata/v0/list-keys";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_keys(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return location(
+        "POST",
+        "/metadata/v0/list-keys",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_maps()
@@ -1375,8 +2244,20 @@ Default value: `100`
 
 Default value: `null`
 """
-list_maps(; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/maps/v0/list-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_maps(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/maps/v0/list-maps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_maps(; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "POST", "/maps/v0/list-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_maps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return location(
+        "POST",
+        "/maps/v0/list-maps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_place_indexes()
@@ -1397,8 +2278,23 @@ Default value: `100`
 
 Default value: `null`
 """
-list_place_indexes(; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/list-indexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_place_indexes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/list-indexes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_place_indexes(; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "POST",
+    "/places/v0/list-indexes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_place_indexes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return location(
+        "POST",
+        "/places/v0/list-indexes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_route_calculators()
@@ -1418,8 +2314,23 @@ Default Value: `100`
 
 Default Value: `null`
 """
-list_route_calculators(; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/list-calculators"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_route_calculators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/routes/v0/list-calculators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_route_calculators(; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "POST",
+    "/routes/v0/list-calculators";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_route_calculators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return location(
+        "POST",
+        "/routes/v0/list-calculators",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1432,8 +2343,26 @@ Returns a list of tags that are applied to the specified Amazon Location resourc
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
   retrieve. - Format example: `arn:aws:geo:region:account-id:resourcetype/ExampleResource`
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/tags/$(ResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tracker_consumers(tracker_name)
@@ -1458,8 +2387,26 @@ Default value: `100`
 
 Default value: `null`
 """
-list_tracker_consumers(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-consumers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tracker_consumers(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-consumers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tracker_consumers(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/list-consumers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tracker_consumers(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/list-consumers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_trackers()
@@ -1479,8 +2426,23 @@ Default value: `100`
 
 Default value: `null`
 """
-list_trackers(; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/list-trackers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_trackers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/list-trackers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_trackers(; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "POST",
+    "/tracking/v0/list-trackers";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_trackers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/list-trackers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_geofence(collection_name, geofence_id, geometry)
@@ -1512,8 +2474,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Format: `"key" : "value"`
 """
-put_geofence(CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=current_aws_config()) = location("PUT", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", Dict{String, Any}("Geometry"=>Geometry); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_geofence(CollectionName, GeofenceId, Geometry, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("PUT", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Geometry"=>Geometry), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_geofence(
+    CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "PUT",
+    "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
+    Dict{String,Any}("Geometry" => Geometry);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_geofence(
+    CollectionName,
+    GeofenceId,
+    Geometry,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "PUT",
+        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Geometry" => Geometry), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_place_index_for_position(index_name, position)
@@ -1559,8 +2545,31 @@ Default value: `50`
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-search_place_index_for_position(IndexName, Position; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/position", Dict{String, Any}("Position"=>Position); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_place_index_for_position(IndexName, Position, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/position", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Position"=>Position), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_place_index_for_position(
+    IndexName, Position; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/places/v0/indexes/$(IndexName)/search/position",
+    Dict{String,Any}("Position" => Position);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_place_index_for_position(
+    IndexName,
+    Position,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/position",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Position" => Position), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_place_index_for_suggestions(index_name, text)
@@ -1646,8 +2655,29 @@ The default: `5`
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-search_place_index_for_suggestions(IndexName, Text; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/suggestions", Dict{String, Any}("Text"=>Text); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_place_index_for_suggestions(IndexName, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/suggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_place_index_for_suggestions(
+    IndexName, Text; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/places/v0/indexes/$(IndexName)/search/suggestions",
+    Dict{String,Any}("Text" => Text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_place_index_for_suggestions(
+    IndexName,
+    Text,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/suggestions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_place_index_for_text(index_name, text)
@@ -1731,8 +2761,29 @@ The default: `50`
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
-search_place_index_for_text(IndexName, Text; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/text", Dict{String, Any}("Text"=>Text); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_place_index_for_text(IndexName, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_place_index_for_text(
+    IndexName, Text; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/places/v0/indexes/$(IndexName)/search/text",
+    Dict{String,Any}("Text" => Text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_place_index_for_text(
+    IndexName,
+    Text,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/text",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1770,8 +2821,28 @@ You can associate up to 50 tags with a resource.
   _ : / @
  - Cannot use "aws:" as a prefix for a key.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1786,8 +2857,28 @@ Removes one or more tags from the specified Amazon Location resource.
   id:resourcetype/ExampleResource`
 - `tag_keys`: The list of tag keys to remove from the specified resource.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_geofence_collection(collection_name)
@@ -1808,8 +2899,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `RequestBasedUsage`.
 - `"PricingPlanDataSource"`: This parameter is no longer used.
 """
-update_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_geofence_collection(
+    CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "PATCH",
+    "/geofencing/v0/collections/$(CollectionName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_geofence_collection(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "PATCH",
+        "/geofencing/v0/collections/$(CollectionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_key(key_name)
@@ -1841,8 +2951,25 @@ Default value: `False`
   no expiration time.
 - `"Restrictions"`: Updates the API key restrictions for the API key resource.
 """
-update_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/metadata/v0/keys/$(KeyName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_key(KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/metadata/v0/keys/$(KeyName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "PATCH",
+    "/metadata/v0/keys/$(KeyName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_key(
+    KeyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "PATCH",
+        "/metadata/v0/keys/$(KeyName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_map(map_name)
@@ -1864,8 +2991,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
 """
-update_map(MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/maps/v0/maps/$(MapName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_map(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_map(MapName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "PATCH",
+    "/maps/v0/maps/$(MapName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_map(
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "PATCH",
+        "/maps/v0/maps/$(MapName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_place_index(index_name)
@@ -1886,8 +3030,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
 """
-update_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_place_index(IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    location(
+        "PATCH",
+        "/places/v0/indexes/$(IndexName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_place_index(
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "PATCH",
+        "/places/v0/indexes/$(IndexName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_route_calculator(calculator_name)
@@ -1907,8 +3069,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
 """
-update_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_route_calculator(CalculatorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_route_calculator(
+    CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "PATCH",
+    "/routes/v0/calculators/$(CalculatorName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_route_calculator(
+    CalculatorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "PATCH",
+        "/routes/v0/calculators/$(CalculatorName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_tracker(tracker_name)
@@ -1957,8 +3138,25 @@ This parameter is only used if you are using a KMS customer managed key.
   `RequestBasedUsage`.
 - `"PricingPlanDataSource"`: This parameter is no longer used.
 """
-update_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("PATCH", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location(
+    "PATCH",
+    "/tracking/v0/trackers/$(TrackerName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_tracker(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "PATCH",
+        "/tracking/v0/trackers/$(TrackerName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     verify_device_position(device_state, tracker_name)
@@ -1982,5 +3180,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default Value: `Kilometers`
 """
-verify_device_position(DeviceState, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/positions/verify", Dict{String, Any}("DeviceState"=>DeviceState); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-verify_device_position(DeviceState, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/positions/verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceState"=>DeviceState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+verify_device_position(
+    DeviceState, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = location(
+    "POST",
+    "/tracking/v0/trackers/$(TrackerName)/positions/verify",
+    Dict{String,Any}("DeviceState" => DeviceState);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function verify_device_position(
+    DeviceState,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/positions/verify",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceState" => DeviceState), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

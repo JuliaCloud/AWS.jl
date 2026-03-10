@@ -42,8 +42,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-associate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("AssociateFileSystemAliases", Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_file_system_aliases(Aliases, FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("AssociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_file_system_aliases(
+    Aliases, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "AssociateFileSystemAliases",
+    Dict{String,Any}(
+        "Aliases" => Aliases,
+        "FileSystemId" => FileSystemId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_file_system_aliases(
+    Aliases,
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "AssociateFileSystemAliases",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Aliases" => Aliases,
+                    "FileSystemId" => FileSystemId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_data_repository_task(task_id)
@@ -62,8 +95,23 @@ have already been released will remain in the released state.
 
 - `task_id`: Specifies the data repository task to cancel.
 """
-cancel_data_repository_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}("TaskId"=>TaskId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_data_repository_task(TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_data_repository_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx(
+        "CancelDataRepositoryTask",
+        Dict{String,Any}("TaskId" => TaskId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_data_repository_task(
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "CancelDataRepositoryTask",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskId" => TaskId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     copy_backup(source_backup_id)
@@ -117,8 +165,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in-Region copy).
 - `"Tags"`:
 """
-copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CopyBackup", Dict{String, Any}("SourceBackupId"=>SourceBackupId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-copy_backup(SourceBackupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CopyBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceBackupId"=>SourceBackupId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "CopyBackup",
+    Dict{String,Any}(
+        "SourceBackupId" => SourceBackupId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_backup(
+    SourceBackupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CopyBackup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceBackupId" => SourceBackupId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     copy_snapshot_and_update_volume(source_snapshot_arn, volume_id)
@@ -160,8 +235,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `DELETE_INTERMEDIATE_DATA` - Overwrites snapshots on the destination volume that don’t
   match the source snapshot that you’re copying.
 """
-copy_snapshot_and_update_volume(SourceSnapshotARN, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CopySnapshotAndUpdateVolume", Dict{String, Any}("SourceSnapshotARN"=>SourceSnapshotARN, "VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-copy_snapshot_and_update_volume(SourceSnapshotARN, VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CopySnapshotAndUpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotARN"=>SourceSnapshotARN, "VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_snapshot_and_update_volume(
+    SourceSnapshotARN, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "CopySnapshotAndUpdateVolume",
+    Dict{String,Any}(
+        "SourceSnapshotARN" => SourceSnapshotARN,
+        "VolumeId" => VolumeId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_snapshot_and_update_volume(
+    SourceSnapshotARN,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CopySnapshotAndUpdateVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceSnapshotARN" => SourceSnapshotARN,
+                    "VolumeId" => VolumeId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_backup()
@@ -210,8 +318,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation, no existing file system tags are copied from the file system to the backup.
 - `"VolumeId"`: (Optional) The ID of the FSx for ONTAP volume to back up.
 """
-create_backup(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateBackup", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_backup(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_backup(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "CreateBackup",
+    Dict{String,Any}("ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_backup(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "CreateBackup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_repository_association(data_repository_path, file_system_id)
@@ -277,8 +403,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system to the data repository.
 - `"Tags"`:
 """
-create_data_repository_association(DataRepositoryPath, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateDataRepositoryAssociation", Dict{String, Any}("DataRepositoryPath"=>DataRepositoryPath, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_repository_association(DataRepositoryPath, FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateDataRepositoryAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataRepositoryPath"=>DataRepositoryPath, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_repository_association(
+    DataRepositoryPath, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "CreateDataRepositoryAssociation",
+    Dict{String,Any}(
+        "DataRepositoryPath" => DataRepositoryPath,
+        "FileSystemId" => FileSystemId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_repository_association(
+    DataRepositoryPath,
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateDataRepositoryAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataRepositoryPath" => DataRepositoryPath,
+                    "FileSystemId" => FileSystemId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_repository_task(file_system_id, report, type)
@@ -351,8 +510,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   criteria for files that will be released from an Amazon FSx for Lustre file system.
 - `"Tags"`:
 """
-create_data_repository_task(FileSystemId, Report, Type; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateDataRepositoryTask", Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_repository_task(FileSystemId, Report, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_repository_task(
+    FileSystemId, Report, Type; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "CreateDataRepositoryTask",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId,
+        "Report" => Report,
+        "Type" => Type,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_repository_task(
+    FileSystemId,
+    Report,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateDataRepositoryTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId,
+                    "Report" => Report,
+                    "Type" => Type,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_file_cache(file_cache_type, file_cache_type_version, storage_capacity, subnet_ids)
@@ -422,8 +617,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later requests to describe the cache.
 - `"Tags"`:
 """
-create_file_cache(FileCacheType, FileCacheTypeVersion, StorageCapacity, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateFileCache", Dict{String, Any}("FileCacheType"=>FileCacheType, "FileCacheTypeVersion"=>FileCacheTypeVersion, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_file_cache(FileCacheType, FileCacheTypeVersion, StorageCapacity, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateFileCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileCacheType"=>FileCacheType, "FileCacheTypeVersion"=>FileCacheTypeVersion, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_file_cache(
+    FileCacheType,
+    FileCacheTypeVersion,
+    StorageCapacity,
+    SubnetIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = fsx(
+    "CreateFileCache",
+    Dict{String,Any}(
+        "FileCacheType" => FileCacheType,
+        "FileCacheTypeVersion" => FileCacheTypeVersion,
+        "StorageCapacity" => StorageCapacity,
+        "SubnetIds" => SubnetIds,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_file_cache(
+    FileCacheType,
+    FileCacheTypeVersion,
+    StorageCapacity,
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateFileCache",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileCacheType" => FileCacheType,
+                    "FileCacheTypeVersion" => FileCacheTypeVersion,
+                    "StorageCapacity" => StorageCapacity,
+                    "SubnetIds" => SubnetIds,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_file_system(file_system_type, storage_capacity, subnet_ids)
@@ -539,8 +777,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WindowsConfiguration"`: The Microsoft Windows configuration for the file system that's
   being created.
 """
-create_file_system(FileSystemType, StorageCapacity, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateFileSystem", Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_file_system(FileSystemType, StorageCapacity, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_file_system(
+    FileSystemType,
+    StorageCapacity,
+    SubnetIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = fsx(
+    "CreateFileSystem",
+    Dict{String,Any}(
+        "FileSystemType" => FileSystemType,
+        "StorageCapacity" => StorageCapacity,
+        "SubnetIds" => SubnetIds,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_file_system(
+    FileSystemType,
+    StorageCapacity,
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateFileSystem",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemType" => FileSystemType,
+                    "StorageCapacity" => StorageCapacity,
+                    "SubnetIds" => SubnetIds,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_file_system_from_backup(backup_id, subnet_ids)
@@ -632,8 +909,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of the `Name` tag appears in the console as the file system name.
 - `"WindowsConfiguration"`: The configuration for this Microsoft Windows file system.
 """
-create_file_system_from_backup(BackupId, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateFileSystemFromBackup", Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_file_system_from_backup(BackupId, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateFileSystemFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_file_system_from_backup(
+    BackupId, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "CreateFileSystemFromBackup",
+    Dict{String,Any}(
+        "BackupId" => BackupId,
+        "SubnetIds" => SubnetIds,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_file_system_from_backup(
+    BackupId,
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateFileSystemFromBackup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BackupId" => BackupId,
+                    "SubnetIds" => SubnetIds,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_snapshot(name, volume_id)
@@ -672,8 +982,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"Tags"`:
 """
-create_snapshot(Name, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateSnapshot", Dict{String, Any}("Name"=>Name, "VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_snapshot(Name, VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_snapshot(Name, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "CreateSnapshot",
+    Dict{String,Any}(
+        "Name" => Name, "VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_snapshot(
+    Name,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "VolumeId" => VolumeId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_storage_virtual_machine(file_system_id, name)
@@ -710,8 +1049,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `fsxadmin` user to manage the SVM.
 - `"Tags"`:
 """
-create_storage_virtual_machine(FileSystemId, Name; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateStorageVirtualMachine", Dict{String, Any}("FileSystemId"=>FileSystemId, "Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_storage_virtual_machine(FileSystemId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Name"=>Name, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_storage_virtual_machine(
+    FileSystemId, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "CreateStorageVirtualMachine",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId,
+        "Name" => Name,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_storage_virtual_machine(
+    FileSystemId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateStorageVirtualMachine",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId,
+                    "Name" => Name,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_volume(name, volume_type)
@@ -735,8 +1107,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volume.
 - `"Tags"`:
 """
-create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateVolume", Dict{String, Any}("Name"=>Name, "VolumeType"=>VolumeType, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_volume(Name, VolumeType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VolumeType"=>VolumeType, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "CreateVolume",
+    Dict{String,Any}(
+        "Name" => Name,
+        "VolumeType" => VolumeType,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_volume(
+    Name,
+    VolumeType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "VolumeType" => VolumeType,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_volume_from_backup(backup_id, name)
@@ -758,8 +1161,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating.
 - `"Tags"`:
 """
-create_volume_from_backup(BackupId, Name; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateVolumeFromBackup", Dict{String, Any}("BackupId"=>BackupId, "Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_volume_from_backup(BackupId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("CreateVolumeFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "Name"=>Name, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_volume_from_backup(
+    BackupId, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "CreateVolumeFromBackup",
+    Dict{String,Any}(
+        "BackupId" => BackupId, "Name" => Name, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_volume_from_backup(
+    BackupId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateVolumeFromBackup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BackupId" => BackupId,
+                    "Name" => Name,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_backup(backup_id)
@@ -786,8 +1220,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure idempotent deletion. This parameter is automatically filled on your behalf when
   using the CLI or SDK.
 """
-delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_backup(BackupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "DeleteBackup",
+    Dict{String,Any}("BackupId" => BackupId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_backup(
+    BackupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DeleteBackup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BackupId" => BackupId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_repository_association(association_id)
@@ -812,8 +1270,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteDataInFileSystem"`: Set to `true` to delete the data in the file system that
   corresponds to the data repository association.
 """
-delete_data_repository_association(AssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteDataRepositoryAssociation", Dict{String, Any}("AssociationId"=>AssociationId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_repository_association(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteDataRepositoryAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_repository_association(
+    AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "DeleteDataRepositoryAssociation",
+    Dict{String,Any}(
+        "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_repository_association(
+    AssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DeleteDataRepositoryAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationId" => AssociationId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_file_cache(file_cache_id)
@@ -840,8 +1327,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-delete_file_cache(FileCacheId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteFileCache", Dict{String, Any}("FileCacheId"=>FileCacheId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_file_cache(FileCacheId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteFileCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileCacheId"=>FileCacheId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_file_cache(FileCacheId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "DeleteFileCache",
+    Dict{String,Any}("FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_file_cache(
+    FileCacheId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DeleteFileCache",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_file_system(file_system_id)
@@ -898,8 +1409,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `DeleteFileSystem` operation.
 - `"WindowsConfiguration"`:
 """
-delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_file_system(FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "DeleteFileSystem",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_file_system(
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DeleteFileSystem",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_snapshot(snapshot_id)
@@ -922,8 +1459,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_snapshot(SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "DeleteSnapshot",
+    Dict{String,Any}("SnapshotId" => SnapshotId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_snapshot(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DeleteSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SnapshotId" => SnapshotId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_storage_virtual_machine(storage_virtual_machine_id)
@@ -942,8 +1503,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-delete_storage_virtual_machine(StorageVirtualMachineId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteStorageVirtualMachine", Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_storage_virtual_machine(StorageVirtualMachineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_storage_virtual_machine(
+    StorageVirtualMachineId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "DeleteStorageVirtualMachine",
+    Dict{String,Any}(
+        "StorageVirtualMachineId" => StorageVirtualMachineId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_storage_virtual_machine(
+    StorageVirtualMachineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DeleteStorageVirtualMachine",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StorageVirtualMachineId" => StorageVirtualMachineId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_volume(volume_id)
@@ -966,8 +1557,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OpenZFSConfiguration"`: For Amazon FSx for OpenZFS volumes, specify whether to delete
   all child volumes and snapshots.
 """
-delete_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteVolume", Dict{String, Any}("VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_volume(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "DeleteVolume",
+    Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_volume(
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DeleteVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_backups()
@@ -1010,8 +1625,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If a token is present, the operation continues the list from where the
   returning call left off.
 """
-describe_backups(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_backups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_backups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_backups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_data_repository_associations()
@@ -1048,8 +1670,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be an integer greater than zero.
 - `"NextToken"`:
 """
-describe_data_repository_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeDataRepositoryAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_data_repository_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeDataRepositoryAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_data_repository_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "DescribeDataRepositoryAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_data_repository_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeDataRepositoryAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_data_repository_tasks()
@@ -1078,8 +1715,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"TaskIds"`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
 """
-describe_data_repository_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeDataRepositoryTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_data_repository_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeDataRepositoryTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_data_repository_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "DescribeDataRepositoryTasks";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_data_repository_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeDataRepositoryTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_file_caches()
@@ -1114,8 +1764,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-describe_file_caches(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_file_caches(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeFileCaches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_file_caches(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx("DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_file_caches(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeFileCaches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_file_system_aliases(file_system_id)
@@ -1144,8 +1801,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `DescribeFileSystemAliases` operation (String). If a token is included in the request,
   the action continues the list from where the previous returning call left off.
 """
-describe_file_system_aliases(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeFileSystemAliases", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_file_system_aliases(FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_file_system_aliases(
+    FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "DescribeFileSystemAliases",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_file_system_aliases(
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DescribeFileSystemAliases",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_file_systems()
@@ -1187,8 +1872,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token present, the operation continues the list from where the
   returning call left off.
 """
-describe_file_systems(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeFileSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_file_systems(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeFileSystems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_file_systems(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx("DescribeFileSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_file_systems(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeFileSystems",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_shared_vpc_configuration()
@@ -1198,8 +1893,22 @@ Indicates whether participant accounts in your organization can create Amazon FS
 NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud
 (VPC) owner. For more information, see [Creating FSx for ONTAP file systems in shared subnets](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html#fsxn-vpc-shared-subnets).
 """
-describe_shared_vpc_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeSharedVpcConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_shared_vpc_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeSharedVpcConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_shared_vpc_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx(
+        "DescribeSharedVpcConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_shared_vpc_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeSharedVpcConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_snapshots()
@@ -1239,8 +1948,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotIds"`: The IDs of the snapshots that you want to retrieve. This parameter value
   overrides any filters. If any IDs aren't found, a `SnapshotNotFound` error occurs.
 """
-describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_storage_virtual_machines()
@@ -1257,8 +1973,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"StorageVirtualMachineIds"`: Enter the ID of one or more SVMs that you want to view.
 """
-describe_storage_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeStorageVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_storage_virtual_machines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeStorageVirtualMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_storage_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx(
+        "DescribeStorageVirtualMachines";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_storage_virtual_machines(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeStorageVirtualMachines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_volumes()
@@ -1275,8 +2005,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"VolumeIds"`: The IDs of the volumes whose descriptions you want to retrieve.
 """
-describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_volumes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_volumes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     disassociate_file_system_aliases(aliases, file_system_id)
@@ -1303,8 +2040,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-disassociate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DisassociateFileSystemAliases", Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_file_system_aliases(Aliases, FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("DisassociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_file_system_aliases(
+    Aliases, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "DisassociateFileSystemAliases",
+    Dict{String,Any}(
+        "Aliases" => Aliases,
+        "FileSystemId" => FileSystemId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_file_system_aliases(
+    Aliases,
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "DisassociateFileSystemAliases",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Aliases" => Aliases,
+                    "FileSystemId" => FileSystemId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1343,8 +2113,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     release_file_system_nfs_v3_locks(file_system_id)
@@ -1362,8 +2151,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-release_file_system_nfs_v3_locks(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("ReleaseFileSystemNfsV3Locks", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-release_file_system_nfs_v3_locks(FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("ReleaseFileSystemNfsV3Locks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+release_file_system_nfs_v3_locks(
+    FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "ReleaseFileSystemNfsV3Locks",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function release_file_system_nfs_v3_locks(
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "ReleaseFileSystemNfsV3Locks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_volume_from_snapshot(snapshot_id, volume_id)
@@ -1390,8 +2207,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   intermediate snapshots. If there are any dependent clone volumes and this option isn't
   used, `RestoreVolumeFromSnapshot` fails.
 """
-restore_volume_from_snapshot(SnapshotId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("RestoreVolumeFromSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId, "VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_volume_from_snapshot(SnapshotId, VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("RestoreVolumeFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId, "VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_volume_from_snapshot(
+    SnapshotId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "RestoreVolumeFromSnapshot",
+    Dict{String,Any}(
+        "SnapshotId" => SnapshotId,
+        "VolumeId" => VolumeId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_volume_from_snapshot(
+    SnapshotId,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "RestoreVolumeFromSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SnapshotId" => SnapshotId,
+                    "VolumeId" => VolumeId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_misconfigured_state_recovery(file_system_id)
@@ -1411,8 +2261,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-start_misconfigured_state_recovery(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("StartMisconfiguredStateRecovery", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_misconfigured_state_recovery(FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("StartMisconfiguredStateRecovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_misconfigured_state_recovery(
+    FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "StartMisconfiguredStateRecovery",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_misconfigured_state_recovery(
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "StartMisconfiguredStateRecovery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1427,8 +2305,31 @@ Tags an Amazon FSx resource.
 - `tags`: A list of tags for the resource. If a tag with a given key already exists, the
   value is replaced by the one specified in this parameter.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "TagResource",
+    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1442,8 +2343,32 @@ This action removes a tag from an Amazon FSx resource.
 - `tag_keys`: A list of keys of tags on the resource to untag. In case the tag key doesn't
   exist, the call will still succeed to be idempotent.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    fsx(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_data_repository_association(association_id)
@@ -1475,8 +2400,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the linked data repository to the file system or automatically exported from the file
   system to the data repository.
 """
-update_data_repository_association(AssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateDataRepositoryAssociation", Dict{String, Any}("AssociationId"=>AssociationId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_data_repository_association(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateDataRepositoryAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_repository_association(
+    AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "UpdateDataRepositoryAssociation",
+    Dict{String,Any}(
+        "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_data_repository_association(
+    AssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "UpdateDataRepositoryAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationId" => AssociationId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_file_cache(file_cache_id)
@@ -1496,8 +2450,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"LustreConfiguration"`: The configuration updates for an Amazon File Cache resource.
 """
-update_file_cache(FileCacheId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateFileCache", Dict{String, Any}("FileCacheId"=>FileCacheId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_file_cache(FileCacheId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateFileCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileCacheId"=>FileCacheId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_file_cache(FileCacheId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "UpdateFileCache",
+    Dict{String,Any}("FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_file_cache(
+    FileCacheId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "UpdateFileCache",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_file_system(file_system_id)
@@ -1599,8 +2577,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WindowsConfiguration"`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """
-update_file_system(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_file_system(FileSystemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_file_system(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "UpdateFileSystem",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_file_system(
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "UpdateFileSystem",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_shared_vpc_configuration()
@@ -1625,8 +2629,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets. Set to `true`
   to enable or `false` to disable.
 """
-update_shared_vpc_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateSharedVpcConfiguration", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_shared_vpc_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateSharedVpcConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_shared_vpc_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "UpdateSharedVpcConfiguration",
+    Dict{String,Any}("ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_shared_vpc_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "UpdateSharedVpcConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_snapshot(name, snapshot_id)
@@ -1646,8 +2668,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 """
-update_snapshot(Name, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateSnapshot", Dict{String, Any}("Name"=>Name, "SnapshotId"=>SnapshotId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_snapshot(Name, SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SnapshotId"=>SnapshotId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_snapshot(Name, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "UpdateSnapshot",
+    Dict{String,Any}(
+        "Name" => Name,
+        "SnapshotId" => SnapshotId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_snapshot(
+    Name,
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "UpdateSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "SnapshotId" => SnapshotId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_storage_virtual_machine(storage_virtual_machine_id)
@@ -1669,8 +2722,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"SvmAdminPassword"`: Specifies a new SvmAdminPassword.
 """
-update_storage_virtual_machine(StorageVirtualMachineId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateStorageVirtualMachine", Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_storage_virtual_machine(StorageVirtualMachineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_storage_virtual_machine(
+    StorageVirtualMachineId; aws_config::AbstractAWSConfig=current_aws_config()
+) = fsx(
+    "UpdateStorageVirtualMachine",
+    Dict{String,Any}(
+        "StorageVirtualMachineId" => StorageVirtualMachineId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_storage_virtual_machine(
+    StorageVirtualMachineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "UpdateStorageVirtualMachine",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StorageVirtualMachineId" => StorageVirtualMachineId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_volume(volume_id)
@@ -1695,5 +2778,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OntapConfiguration"`: The configuration of the ONTAP volume that you are updating.
 - `"OpenZFSConfiguration"`: The configuration of the OpenZFS volume that you are updating.
 """
-update_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateVolume", Dict{String, Any}("VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_volume(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = fsx("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = fsx(
+    "UpdateVolume",
+    Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_volume(
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "UpdateVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -276,8 +276,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you choose not to specify a transitive tag key, then no tags are passed from this
   session to any subsequent sessions.
 """
-assume_role(RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=current_aws_config()) = sts("AssumeRole", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-assume_role(RoleArn, RoleSessionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("AssumeRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_role(RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sts(
+        "AssumeRole",
+        Dict{String,Any}("RoleArn" => RoleArn, "RoleSessionName" => RoleSessionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function assume_role(
+    RoleArn,
+    RoleSessionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "AssumeRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RoleArn" => RoleArn, "RoleSessionName" => RoleSessionName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     assume_role_with_saml(principal_arn, role_arn, samlassertion)
@@ -470,8 +496,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
   in the *IAM User Guide*.
 """
-assume_role_with_saml(PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=current_aws_config()) = sts("AssumeRoleWithSAML", Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-assume_role_with_saml(PrincipalArn, RoleArn, SAMLAssertion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("AssumeRoleWithSAML", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_role_with_saml(
+    PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=current_aws_config()
+) = sts(
+    "AssumeRoleWithSAML",
+    Dict{String,Any}(
+        "PrincipalArn" => PrincipalArn,
+        "RoleArn" => RoleArn,
+        "SAMLAssertion" => SAMLAssertion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function assume_role_with_saml(
+    PrincipalArn,
+    RoleArn,
+    SAMLAssertion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "AssumeRoleWithSAML",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PrincipalArn" => PrincipalArn,
+                    "RoleArn" => RoleArn,
+                    "SAMLAssertion" => SAMLAssertion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     assume_role_with_web_identity(role_arn, role_session_name, web_identity_token)
@@ -686,8 +746,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Do not specify this value for OpenID Connect ID tokens.
 """
-assume_role_with_web_identity(RoleArn, RoleSessionName, WebIdentityToken; aws_config::AbstractAWSConfig=current_aws_config()) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-assume_role_with_web_identity(RoleArn, RoleSessionName, WebIdentityToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_role_with_web_identity(
+    RoleArn,
+    RoleSessionName,
+    WebIdentityToken;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sts(
+    "AssumeRoleWithWebIdentity",
+    Dict{String,Any}(
+        "RoleArn" => RoleArn,
+        "RoleSessionName" => RoleSessionName,
+        "WebIdentityToken" => WebIdentityToken,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function assume_role_with_web_identity(
+    RoleArn,
+    RoleSessionName,
+    WebIdentityToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "AssumeRoleWithWebIdentity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RoleArn" => RoleArn,
+                    "RoleSessionName" => RoleSessionName,
+                    "WebIdentityToken" => WebIdentityToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     decode_authorization_message(encoded_message)
@@ -723,8 +820,28 @@ in the *IAM User Guide*.
 
 - `encoded_message`: The encoded message that was returned with the response.
 """
-decode_authorization_message(EncodedMessage; aws_config::AbstractAWSConfig=current_aws_config()) = sts("DecodeAuthorizationMessage", Dict{String, Any}("EncodedMessage"=>EncodedMessage); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-decode_authorization_message(EncodedMessage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("DecodeAuthorizationMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncodedMessage"=>EncodedMessage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+decode_authorization_message(
+    EncodedMessage; aws_config::AbstractAWSConfig=current_aws_config()
+) = sts(
+    "DecodeAuthorizationMessage",
+    Dict{String,Any}("EncodedMessage" => EncodedMessage);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function decode_authorization_message(
+    EncodedMessage,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "DecodeAuthorizationMessage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EncodedMessage" => EncodedMessage), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_access_key_info(access_key_id)
@@ -758,8 +875,26 @@ Providing a deleted access key might return an error that the key doesn't exist.
   This parameter allows (through its regex pattern) a string of characters that can consist
   of any upper- or lowercase letter or digit.
 """
-get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetAccessKeyInfo", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_access_key_info(AccessKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetAccessKeyInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=current_aws_config()) = sts(
+    "GetAccessKeyInfo",
+    Dict{String,Any}("AccessKeyId" => AccessKeyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_access_key_info(
+    AccessKeyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "GetAccessKeyInfo",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccessKeyId" => AccessKeyId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_caller_identity()
@@ -775,8 +910,15 @@ action, you can still perform this operation. Permissions are not required becau
 information is returned when access is denied. To view an example response, see [I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_access-denied-delete-mfa)
 in the *IAM User Guide*.
 """
-get_caller_identity(; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_caller_identity(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetCallerIdentity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_caller_identity(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_caller_identity(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sts(
+        "GetCallerIdentity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_federation_token(name)
@@ -975,8 +1117,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `Department` and `department` are not saved as separate tags, and the session tag passed
   in the request takes precedence over the role tag.
 """
-get_federation_token(Name; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetFederationToken", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_federation_token(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetFederationToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_federation_token(Name; aws_config::AbstractAWSConfig=current_aws_config()) = sts(
+    "GetFederationToken",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_federation_token(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sts(
+        "GetFederationToken",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_session_token()
@@ -1057,5 +1213,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The format for this parameter, as described by its regex pattern, is a sequence of six
   numeric digits.
 """
-get_session_token(; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_session_token(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sts("GetSessionToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_session_token(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_session_token(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sts(
+        "GetSessionToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end

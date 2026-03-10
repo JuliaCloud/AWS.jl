@@ -21,5 +21,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results based on your filters.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
-get_free_tier_usage(; aws_config::AbstractAWSConfig=current_aws_config()) = freetier("GetFreeTierUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_free_tier_usage(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = freetier("GetFreeTierUsage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_free_tier_usage(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    freetier("GetFreeTierUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_free_tier_usage(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return freetier(
+        "GetFreeTierUsage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end

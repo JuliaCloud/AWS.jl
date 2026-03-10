@@ -33,8 +33,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataModelConfiguration"`:
 - `"RecordVersion"`: <p/>
 """
-create_batch_load_task(DataSourceConfiguration, ReportConfiguration, TargetDatabaseName, TargetTableName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("CreateBatchLoadTask", Dict{String, Any}("DataSourceConfiguration"=>DataSourceConfiguration, "ReportConfiguration"=>ReportConfiguration, "TargetDatabaseName"=>TargetDatabaseName, "TargetTableName"=>TargetTableName, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_batch_load_task(DataSourceConfiguration, ReportConfiguration, TargetDatabaseName, TargetTableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("CreateBatchLoadTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceConfiguration"=>DataSourceConfiguration, "ReportConfiguration"=>ReportConfiguration, "TargetDatabaseName"=>TargetDatabaseName, "TargetTableName"=>TargetTableName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_batch_load_task(
+    DataSourceConfiguration,
+    ReportConfiguration,
+    TargetDatabaseName,
+    TargetTableName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = timestream_write(
+    "CreateBatchLoadTask",
+    Dict{String,Any}(
+        "DataSourceConfiguration" => DataSourceConfiguration,
+        "ReportConfiguration" => ReportConfiguration,
+        "TargetDatabaseName" => TargetDatabaseName,
+        "TargetTableName" => TargetTableName,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_batch_load_task(
+    DataSourceConfiguration,
+    ReportConfiguration,
+    TargetDatabaseName,
+    TargetTableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "CreateBatchLoadTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataSourceConfiguration" => DataSourceConfiguration,
+                    "ReportConfiguration" => ReportConfiguration,
+                    "TargetDatabaseName" => TargetDatabaseName,
+                    "TargetTableName" => TargetTableName,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_database(database_name)
@@ -59,8 +102,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
-create_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_database(DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "CreateDatabase",
+        Dict{String,Any}("DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_database(
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "CreateDatabase",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_table(database_name, table_name)
@@ -90,8 +152,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Schema"`:  The schema of the table.
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
-create_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("CreateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_table(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "CreateTable",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_table(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "CreateTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_database(database_name)
@@ -112,8 +198,27 @@ for details.
 
 - `database_name`: The name of the Timestream database to be deleted.
 """
-delete_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_database(DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "DeleteDatabase",
+        Dict{String,Any}("DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_database(
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "DeleteDatabase",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_table(database_name, table_name)
@@ -132,8 +237,32 @@ for details.
 - `database_name`: The name of the database where the Timestream database is to be deleted.
 - `table_name`: The name of the Timestream table to be deleted.
 """
-delete_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_table(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "DeleteTable",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_table(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "DeleteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_batch_load_task(task_id)
@@ -148,8 +277,23 @@ for details.
 
 - `task_id`: The ID of the batch load task.
 """
-describe_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeBatchLoadTask", Dict{String, Any}("TaskId"=>TaskId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_batch_load_task(TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeBatchLoadTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "DescribeBatchLoadTask",
+        Dict{String,Any}("TaskId" => TaskId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_batch_load_task(
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_write(
+        "DescribeBatchLoadTask",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskId" => TaskId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_database(database_name)
@@ -164,8 +308,27 @@ for details.
 
 - `database_name`: The name of the Timestream database.
 """
-describe_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_database(DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "DescribeDatabase",
+        Dict{String,Any}("DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_database(
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "DescribeDatabase",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_endpoints()
@@ -181,8 +344,16 @@ recommend that you use this API operation unless*: - You are using [VPC endpoint
  - You require better control over the client-side implementation
 For detailed information on how and when to use and implement DescribeEndpoints, see [The Endpoint Discovery Pattern](https://docs.aws.amazon.com/timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery).
 """
-describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write(
+    "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_write(
+        "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_table(database_name, table_name)
@@ -198,8 +369,33 @@ for details.
 - `database_name`: The name of the Timestream database.
 - `table_name`: The name of the Timestream table.
 """
-describe_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_table(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_table(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+) = timestream_write(
+    "DescribeTable",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_table(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "DescribeTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_batch_load_tasks()
@@ -221,8 +417,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 - `"TaskStatus"`: Status of the batch load task.
 """
-list_batch_load_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListBatchLoadTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_batch_load_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListBatchLoadTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_batch_load_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "ListBatchLoadTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_batch_load_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_write(
+        "ListBatchLoadTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_databases()
@@ -243,8 +448,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-list_databases(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_databases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_databases(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write(
+    "ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_databases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_write(
+        "ListDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tables()
@@ -266,8 +479,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-list_tables(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tables(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write("ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_tables(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_write(
+        "ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -280,8 +500,27 @@ list_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_
 - `resource_arn`:  The Timestream resource with tags to be listed. This value is an Amazon
   Resource Name (ARN).
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     resume_batch_load_task(task_id)
@@ -293,8 +532,23 @@ list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::Ab
 
 - `task_id`: The ID of the batch load task to resume.
 """
-resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ResumeBatchLoadTask", Dict{String, Any}("TaskId"=>TaskId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-resume_batch_load_task(TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("ResumeBatchLoadTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "ResumeBatchLoadTask",
+        Dict{String,Any}("TaskId" => TaskId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function resume_batch_load_task(
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_write(
+        "ResumeBatchLoadTask",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskId" => TaskId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -310,8 +564,32 @@ allocation tracking.
   value is an Amazon Resource Name (ARN).
 - `tags`:  The tags to be assigned to the Timestream resource.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -326,8 +604,32 @@ tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::Abstra
 - `tag_keys`:  A list of tags keys. Existing tags of the resource whose keys are members of
   this list will be removed from the Timestream resource.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_database(database_name, kms_key_id)
@@ -353,8 +655,33 @@ for details.
    - Alias name: `alias/ExampleAlias`
    - Alias ARN: `arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias`
 """
-update_database(DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_database(DatabaseName, KmsKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_database(
+    DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()
+) = timestream_write(
+    "UpdateDatabase",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "KmsKeyId" => KmsKeyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_database(
+    DatabaseName,
+    KmsKeyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "UpdateDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "KmsKeyId" => KmsKeyId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_table(database_name, table_name)
@@ -385,8 +712,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   store.
 - `"Schema"`:  The schema of the table.
 """
-update_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_table(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_write(
+        "UpdateTable",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_table(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "UpdateTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     write_records(database_name, records, table_name)
@@ -451,5 +802,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overlap, or a `ValidationException` will be thrown. In other words, a record must contain
   dimensions with unique names.
 """
-write_records(DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-write_records(DatabaseName, Records, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+write_records(
+    DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+) = timestream_write(
+    "WriteRecords",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName, "Records" => Records, "TableName" => TableName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function write_records(
+    DatabaseName,
+    Records,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_write(
+        "WriteRecords",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatabaseName" => DatabaseName,
+                    "Records" => Records,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

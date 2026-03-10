@@ -17,8 +17,31 @@ in the *Amazon Chime Developer Guide*.
 - `attendees`: The attendee information, including attendees' IDs and join tokens.
 - `meeting_id`: The Amazon Chime SDK ID of the meeting to which you're adding attendees.
 """
-batch_create_attendee(Attendees, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/attendees?operation=batch-create", Dict{String, Any}("Attendees"=>Attendees); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_create_attendee(Attendees, MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/attendees?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attendees"=>Attendees), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_create_attendee(
+    Attendees, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_meetings(
+    "POST",
+    "/meetings/$(MeetingId)/attendees?operation=batch-create",
+    Dict{String,Any}("Attendees" => Attendees);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_create_attendee(
+    Attendees,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/meetings/$(MeetingId)/attendees?operation=batch-create",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Attendees" => Attendees), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_update_attendee_capabilities_except(capabilities, excluded_attendee_ids, meeting_id)
@@ -57,8 +80,44 @@ and the Amazon Chime back-end server.
   capabilities.
 - `meeting_id`: The ID of the meeting associated with the update request.
 """
-batch_update_attendee_capabilities_except(Capabilities, ExcludedAttendeeIds, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("PUT", "/meetings/$(MeetingId)/attendees/capabilities?operation=batch-update-except", Dict{String, Any}("Capabilities"=>Capabilities, "ExcludedAttendeeIds"=>ExcludedAttendeeIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_update_attendee_capabilities_except(Capabilities, ExcludedAttendeeIds, MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("PUT", "/meetings/$(MeetingId)/attendees/capabilities?operation=batch-update-except", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities, "ExcludedAttendeeIds"=>ExcludedAttendeeIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_update_attendee_capabilities_except(
+    Capabilities,
+    ExcludedAttendeeIds,
+    MeetingId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_meetings(
+    "PUT",
+    "/meetings/$(MeetingId)/attendees/capabilities?operation=batch-update-except",
+    Dict{String,Any}(
+        "Capabilities" => Capabilities, "ExcludedAttendeeIds" => ExcludedAttendeeIds
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_update_attendee_capabilities_except(
+    Capabilities,
+    ExcludedAttendeeIds,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "PUT",
+        "/meetings/$(MeetingId)/attendees/capabilities?operation=batch-update-except",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Capabilities" => Capabilities,
+                    "ExcludedAttendeeIds" => ExcludedAttendeeIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_attendee(external_user_id, meeting_id)
@@ -109,8 +168,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attendees can receive those streams, but only after media renegotiation between the
   client and the Amazon Chime back-end server.
 """
-create_attendee(ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/attendees", Dict{String, Any}("ExternalUserId"=>ExternalUserId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_attendee(ExternalUserId, MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalUserId"=>ExternalUserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_attendee(
+    ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_meetings(
+    "POST",
+    "/meetings/$(MeetingId)/attendees",
+    Dict{String,Any}("ExternalUserId" => ExternalUserId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_attendee(
+    ExternalUserId,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/meetings/$(MeetingId)/attendees",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ExternalUserId" => ExternalUserId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_meeting(client_request_token, external_meeting_id, media_region)
@@ -190,8 +272,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TenantIds"`: A consistent and opaque identifier, created and maintained by the builder
   to represent a segment of their users.
 """
-create_meeting(ClientRequestToken, ExternalMeetingId, MediaRegion; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "ExternalMeetingId"=>ExternalMeetingId, "MediaRegion"=>MediaRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_meeting(ClientRequestToken, ExternalMeetingId, MediaRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "ExternalMeetingId"=>ExternalMeetingId, "MediaRegion"=>MediaRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_meeting(
+    ClientRequestToken,
+    ExternalMeetingId,
+    MediaRegion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_meetings(
+    "POST",
+    "/meetings",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken,
+        "ExternalMeetingId" => ExternalMeetingId,
+        "MediaRegion" => MediaRegion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_meeting(
+    ClientRequestToken,
+    ExternalMeetingId,
+    MediaRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/meetings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "ExternalMeetingId" => ExternalMeetingId,
+                    "MediaRegion" => MediaRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_meeting_with_attendees(attendees, client_request_token, external_meeting_id, media_region)
@@ -238,8 +359,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TenantIds"`: A consistent and opaque identifier, created and maintained by the builder
   to represent a segment of their users.
 """
-create_meeting_with_attendees(Attendees, ClientRequestToken, ExternalMeetingId, MediaRegion; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings?operation=create-attendees", Dict{String, Any}("Attendees"=>Attendees, "ClientRequestToken"=>ClientRequestToken, "ExternalMeetingId"=>ExternalMeetingId, "MediaRegion"=>MediaRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_meeting_with_attendees(Attendees, ClientRequestToken, ExternalMeetingId, MediaRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings?operation=create-attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attendees"=>Attendees, "ClientRequestToken"=>ClientRequestToken, "ExternalMeetingId"=>ExternalMeetingId, "MediaRegion"=>MediaRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_meeting_with_attendees(
+    Attendees,
+    ClientRequestToken,
+    ExternalMeetingId,
+    MediaRegion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_meetings(
+    "POST",
+    "/meetings?operation=create-attendees",
+    Dict{String,Any}(
+        "Attendees" => Attendees,
+        "ClientRequestToken" => ClientRequestToken,
+        "ExternalMeetingId" => ExternalMeetingId,
+        "MediaRegion" => MediaRegion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_meeting_with_attendees(
+    Attendees,
+    ClientRequestToken,
+    ExternalMeetingId,
+    MediaRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/meetings?operation=create-attendees",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Attendees" => Attendees,
+                    "ClientRequestToken" => ClientRequestToken,
+                    "ExternalMeetingId" => ExternalMeetingId,
+                    "MediaRegion" => MediaRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_attendee(attendee_id, meeting_id)
@@ -255,8 +419,27 @@ in the *Amazon Chime Developer Guide*.
 - `attendee_id`: The Amazon Chime SDK attendee ID.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 """
-delete_attendee(AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("DELETE", "/meetings/$(MeetingId)/attendees/$(AttendeeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_attendee(AttendeeId, MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("DELETE", "/meetings/$(MeetingId)/attendees/$(AttendeeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_attendee(AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "DELETE",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_attendee(
+    AttendeeId,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "DELETE",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_meeting(meeting_id)
@@ -271,8 +454,26 @@ in the *Amazon Chime Developer Guide*.
 
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 """
-delete_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("DELETE", "/meetings/$(MeetingId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_meeting(MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("DELETE", "/meetings/$(MeetingId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "DELETE",
+        "/meetings/$(MeetingId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_meeting(
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "DELETE",
+        "/meetings/$(MeetingId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_attendee(attendee_id, meeting_id)
@@ -287,8 +488,27 @@ in the *Amazon Chime Developer Guide*.
 - `attendee_id`: The Amazon Chime SDK attendee ID.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 """
-get_attendee(AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/meetings/$(MeetingId)/attendees/$(AttendeeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_attendee(AttendeeId, MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/meetings/$(MeetingId)/attendees/$(AttendeeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_attendee(AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "GET",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_attendee(
+    AttendeeId,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "GET",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_meeting(meeting_id)
@@ -302,8 +522,26 @@ in the *Amazon Chime Developer Guide*.
 
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 """
-get_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/meetings/$(MeetingId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_meeting(MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/meetings/$(MeetingId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "GET",
+        "/meetings/$(MeetingId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_meeting(
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "GET",
+        "/meetings/$(MeetingId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_attendees(meeting_id)
@@ -324,8 +562,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-list_attendees(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/meetings/$(MeetingId)/attendees"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_attendees(MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/meetings/$(MeetingId)/attendees", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_attendees(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "GET",
+        "/meetings/$(MeetingId)/attendees";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_attendees(
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "GET",
+        "/meetings/$(MeetingId)/attendees",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(arn)
@@ -337,8 +593,25 @@ Returns a list of the tags available for the specified resource.
 
 - `arn`: The ARN of the resource.
 """
-list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/tags", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "GET",
+        "/tags",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chime_sdk_meetings(
+        "GET",
+        "/tags",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_meeting_transcription(meeting_id, transcription_configuration)
@@ -370,8 +643,39 @@ configuring an AI services opt out policy using Amazon Web Services Organization
 - `transcription_configuration`: The configuration for the current transcription operation.
   Must contain `EngineTranscribeSettings` or `EngineTranscribeMedicalSettings`.
 """
-start_meeting_transcription(MeetingId, TranscriptionConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/transcription?operation=start", Dict{String, Any}("TranscriptionConfiguration"=>TranscriptionConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_meeting_transcription(MeetingId, TranscriptionConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/transcription?operation=start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionConfiguration"=>TranscriptionConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_meeting_transcription(
+    MeetingId,
+    TranscriptionConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_meetings(
+    "POST",
+    "/meetings/$(MeetingId)/transcription?operation=start",
+    Dict{String,Any}("TranscriptionConfiguration" => TranscriptionConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_meeting_transcription(
+    MeetingId,
+    TranscriptionConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/meetings/$(MeetingId)/transcription?operation=start",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TranscriptionConfiguration" => TranscriptionConfiguration
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_meeting_transcription(meeting_id)
@@ -397,8 +701,26 @@ Organizations.
 
 - `meeting_id`: The unique ID of the meeting for which you stop transcription.
 """
-stop_meeting_transcription(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/transcription?operation=stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_meeting_transcription(MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/meetings/$(MeetingId)/transcription?operation=stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_meeting_transcription(MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "POST",
+        "/meetings/$(MeetingId)/transcription?operation=stop";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_meeting_transcription(
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/meetings/$(MeetingId)/transcription?operation=stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -411,8 +733,34 @@ The resource that supports tags.
 - `resource_arn`: The ARN of the resource.
 - `tags`: Lists the requested tags.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/tags?operation=tag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/tags?operation=tag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -442,8 +790,34 @@ operation, you must have both of the following permissions:
 - `resource_arn`: The ARN of the resource that you're removing tags from.
 - `tag_keys`: The tag keys being removed from the resources.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/tags?operation=untag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("POST", "/tags?operation=untag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_meetings(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_attendee_capabilities(attendee_id, capabilities, meeting_id)
@@ -480,5 +854,29 @@ and the Amazon Chime back-end server.
 - `capabilities`: The capabilities that you want to update.
 - `meeting_id`: The ID of the meeting associated with the update request.
 """
-update_attendee_capabilities(AttendeeId, Capabilities, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("PUT", "/meetings/$(MeetingId)/attendees/$(AttendeeId)/capabilities", Dict{String, Any}("Capabilities"=>Capabilities); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_attendee_capabilities(AttendeeId, Capabilities, MeetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_meetings("PUT", "/meetings/$(MeetingId)/attendees/$(AttendeeId)/capabilities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_attendee_capabilities(
+    AttendeeId, Capabilities, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_meetings(
+    "PUT",
+    "/meetings/$(MeetingId)/attendees/$(AttendeeId)/capabilities",
+    Dict{String,Any}("Capabilities" => Capabilities);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_attendee_capabilities(
+    AttendeeId,
+    Capabilities,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_meetings(
+        "PUT",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/capabilities",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Capabilities" => Capabilities), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

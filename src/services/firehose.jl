@@ -130,8 +130,30 @@ Amazon Data Firehose is in preview release and is subject to change.
 
   For an example IAM policy, see [Tag example.](https://docs.aws.amazon.com/firehose/latest/APIReference/API_CreateDeliveryStream.html#API_CreateDeliveryStream_Examples)
 """
-create_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("CreateDeliveryStream", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_delivery_stream(DeliveryStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("CreateDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_delivery_stream(
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "CreateDeliveryStream",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_delivery_stream(
+    DeliveryStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "CreateDeliveryStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_delivery_stream(delivery_stream_name)
@@ -174,8 +196,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The default value is false.
 """
-delete_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("DeleteDeliveryStream", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_delivery_stream(DeliveryStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("DeleteDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_delivery_stream(
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "DeleteDeliveryStream",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_delivery_stream(
+    DeliveryStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "DeleteDeliveryStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_delivery_stream(delivery_stream_name)
@@ -189,7 +233,7 @@ If the status of a delivery stream is `CREATING_FAILED`, this status doesn't cha
 you can't invoke <a>CreateDeliveryStream</a> again on it. However, you can invoke the
 <a>DeleteDeliveryStream</a> operation to delete it. If the status is `DELETING_FAILED`, you
 can force deletion by invoking <a>DeleteDeliveryStream</a> again but with
-<a>DeleteDeliveryStreamInput$AllowForceDelete</a> set to true.
+<a>DeleteDeliveryStreamInput\$AllowForceDelete</a> set to true.
 
 # Arguments
 
@@ -204,8 +248,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The limit on the number of destinations to return. You can have one
   destination per delivery stream.
 """
-describe_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("DescribeDeliveryStream", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_delivery_stream(DeliveryStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("DescribeDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_delivery_stream(
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "DescribeDeliveryStream",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_delivery_stream(
+    DeliveryStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "DescribeDeliveryStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_delivery_streams()
@@ -236,8 +302,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ExclusiveStartDeliveryStreamName`.
 - `"Limit"`: The maximum number of delivery streams to list. The default value is 10.
 """
-list_delivery_streams(; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_delivery_streams(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("ListDeliveryStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_delivery_streams(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    firehose("ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_delivery_streams(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return firehose(
+        "ListDeliveryStreams",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_delivery_stream(delivery_stream_name)
@@ -261,8 +337,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags associated with the delivery stream, `HasMoreTags` is set to `true` in the response.
   To list additional tags, set `ExclusiveStartTagKey` to the last key in the response.
 """
-list_tags_for_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("ListTagsForDeliveryStream", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_delivery_stream(DeliveryStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("ListTagsForDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_delivery_stream(
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "ListTagsForDeliveryStream",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags_for_delivery_stream(
+    DeliveryStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "ListTagsForDeliveryStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_record(delivery_stream_name, record)
@@ -318,8 +416,34 @@ Instead, concatenate the raw data, then perform base64 encoding.
 - `delivery_stream_name`: The name of the delivery stream.
 - `record`: The record.
 """
-put_record(DeliveryStreamName, Record; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("PutRecord", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Record"=>Record); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_record(DeliveryStreamName, Record, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("PutRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Record"=>Record), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_record(DeliveryStreamName, Record; aws_config::AbstractAWSConfig=current_aws_config()) =
+    firehose(
+        "PutRecord",
+        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Record" => Record);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_record(
+    DeliveryStreamName,
+    Record,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "PutRecord",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeliveryStreamName" => DeliveryStreamName, "Record" => Record
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_record_batch(delivery_stream_name, records)
@@ -395,8 +519,35 @@ Instead, concatenate the raw data, then perform base64 encoding.
 - `delivery_stream_name`: The name of the delivery stream.
 - `records`: One or more records.
 """
-put_record_batch(DeliveryStreamName, Records; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("PutRecordBatch", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Records"=>Records); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_record_batch(DeliveryStreamName, Records, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("PutRecordBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Records"=>Records), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_record_batch(
+    DeliveryStreamName, Records; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "PutRecordBatch",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Records" => Records);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_record_batch(
+    DeliveryStreamName,
+    Records,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "PutRecordBatch",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeliveryStreamName" => DeliveryStreamName, "Records" => Records
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_delivery_stream_encryption(delivery_stream_name)
@@ -412,8 +563,8 @@ changes to `ENABLING_FAILED`. You can continue to read and write data to your de
 stream while the encryption status is `ENABLING`, but the data is not encrypted. It can
 take up to 5 seconds after the encryption status changes to `ENABLED` before all records
 written to the delivery stream are encrypted. To find out whether a record or a batch of
-records was encrypted, check the response elements <a>PutRecordOutput$Encrypted</a> and
-<a>PutRecordBatchOutput$Encrypted</a>, respectively.
+records was encrypted, check the response elements <a>PutRecordOutput\$Encrypted</a> and
+<a>PutRecordBatchOutput\$Encrypted</a>, respectively.
 
 To check the encryption status of a delivery stream, use <a>DescribeDeliveryStream</a>.
 
@@ -457,8 +608,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeliveryStreamEncryptionConfigurationInput"`: Used to specify the type and Amazon
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 """
-start_delivery_stream_encryption(DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("StartDeliveryStreamEncryption", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_delivery_stream_encryption(DeliveryStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("StartDeliveryStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_delivery_stream_encryption(
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "StartDeliveryStreamEncryption",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_delivery_stream_encryption(
+    DeliveryStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "StartDeliveryStreamEncryption",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_delivery_stream_encryption(delivery_stream_name)
@@ -472,7 +645,7 @@ continue to read and write data to your stream while its status is `DISABLING`. 
 up to 5 seconds after the encryption status changes to `DISABLED` before all records
 written to the delivery stream are no longer subject to encryption. To find out whether a
 record or a batch of records was encrypted, check the response elements
-<a>PutRecordOutput$Encrypted</a> and <a>PutRecordBatchOutput$Encrypted</a>, respectively.
+<a>PutRecordOutput\$Encrypted</a> and <a>PutRecordBatchOutput\$Encrypted</a>, respectively.
 
 To check the encryption state of a delivery stream, use <a>DescribeDeliveryStream</a>.
 
@@ -490,8 +663,30 @@ limit if you call `StartDeliveryStreamEncryption` 13 times and
 - `delivery_stream_name`: The name of the delivery stream for which you want to disable
   server-side encryption (SSE).
 """
-stop_delivery_stream_encryption(DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("StopDeliveryStreamEncryption", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_delivery_stream_encryption(DeliveryStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("StopDeliveryStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_delivery_stream_encryption(
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "StopDeliveryStreamEncryption",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_delivery_stream_encryption(
+    DeliveryStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "StopDeliveryStreamEncryption",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_delivery_stream(delivery_stream_name, tags)
@@ -514,8 +709,35 @@ This operation has a limit of five transactions per second per account.
 - `delivery_stream_name`: The name of the delivery stream to which you want to add the tags.
 - `tags`: A set of key-value pairs to use to create the tags.
 """
-tag_delivery_stream(DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("TagDeliveryStream", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_delivery_stream(DeliveryStreamName, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("TagDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_delivery_stream(
+    DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "TagDeliveryStream",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_delivery_stream(
+    DeliveryStreamName,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "TagDeliveryStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeliveryStreamName" => DeliveryStreamName, "Tags" => Tags
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_delivery_stream(delivery_stream_name, tag_keys)
@@ -534,8 +756,35 @@ This operation has a limit of five transactions per second per account.
 - `tag_keys`: A list of tag keys. Each corresponding tag is removed from the delivery
   stream.
 """
-untag_delivery_stream(DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("UntagDeliveryStream", Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_delivery_stream(DeliveryStreamName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("UntagDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_delivery_stream(
+    DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+) = firehose(
+    "UntagDeliveryStream",
+    Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_delivery_stream(
+    DeliveryStreamName,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "UntagDeliveryStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeliveryStreamName" => DeliveryStreamName, "TagKeys" => TagKeys
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_destination(current_delivery_stream_version_id, delivery_stream_name, destination_id)
@@ -604,5 +853,42 @@ Amazon Data Firehose is in preview release and is subject to change.
   settings.
 - `"SplunkDestinationUpdate"`: Describes an update for a destination in Splunk.
 """
-update_destination(CurrentDeliveryStreamVersionId, DeliveryStreamName, DestinationId; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("UpdateDestination", Dict{String, Any}("CurrentDeliveryStreamVersionId"=>CurrentDeliveryStreamVersionId, "DeliveryStreamName"=>DeliveryStreamName, "DestinationId"=>DestinationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_destination(CurrentDeliveryStreamVersionId, DeliveryStreamName, DestinationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = firehose("UpdateDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentDeliveryStreamVersionId"=>CurrentDeliveryStreamVersionId, "DeliveryStreamName"=>DeliveryStreamName, "DestinationId"=>DestinationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_destination(
+    CurrentDeliveryStreamVersionId,
+    DeliveryStreamName,
+    DestinationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = firehose(
+    "UpdateDestination",
+    Dict{String,Any}(
+        "CurrentDeliveryStreamVersionId" => CurrentDeliveryStreamVersionId,
+        "DeliveryStreamName" => DeliveryStreamName,
+        "DestinationId" => DestinationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_destination(
+    CurrentDeliveryStreamVersionId,
+    DeliveryStreamName,
+    DestinationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return firehose(
+        "UpdateDestination",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrentDeliveryStreamVersionId" => CurrentDeliveryStreamVersionId,
+                    "DeliveryStreamName" => DeliveryStreamName,
+                    "DestinationId" => DestinationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

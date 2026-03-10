@@ -18,8 +18,50 @@ Returns the STS short-term credentials for a given role name that is assigned to
   information, see [CreateToken](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html)
   in the *IAM Identity Center OIDC API Reference Guide*.
 """
-get_role_credentials(account_id, role_name, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_role_credentials(account_id, role_name, x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_role_credentials(
+    account_id,
+    role_name,
+    x_amz_sso_bearer_token;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso(
+    "GET",
+    "/federation/credentials",
+    Dict{String,Any}(
+        "account_id" => account_id,
+        "role_name" => role_name,
+        "headers" =>
+            Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_role_credentials(
+    account_id,
+    role_name,
+    x_amz_sso_bearer_token,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso(
+        "GET",
+        "/federation/credentials",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "account_id" => account_id,
+                    "role_name" => role_name,
+                    "headers" => Dict{String,Any}(
+                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_account_roles(account_id, x-amz-sso_bearer_token)
@@ -42,8 +84,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next_token"`: The page token from the previous response output when you request
   subsequent pages.
 """
-list_account_roles(account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_account_roles(account_id, x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_roles(
+    account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso(
+    "GET",
+    "/assignment/roles",
+    Dict{String,Any}(
+        "account_id" => account_id,
+        "headers" =>
+            Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_account_roles(
+    account_id,
+    x_amz_sso_bearer_token,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso(
+        "GET",
+        "/assignment/roles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "account_id" => account_id,
+                    "headers" => Dict{String,Any}(
+                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_accounts(x-amz-sso_bearer_token)
@@ -67,8 +145,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next_token"`: (Optional) When requesting subsequent pages, this is the page token from
   the previous response output.
 """
-list_accounts(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_accounts(x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_accounts(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso(
+        "GET",
+        "/assignment/accounts",
+        Dict{String,Any}(
+            "headers" =>
+                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_accounts(
+    x_amz_sso_bearer_token,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso(
+        "GET",
+        "/assignment/accounts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}(
+                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     logout(x-amz-sso_bearer_token)
@@ -96,5 +206,36 @@ in the *IAM Identity Center User Guide*.
   information, see [CreateToken](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html)
   in the *IAM Identity Center OIDC API Reference Guide*.
 """
-logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("POST", "/logout", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-logout(x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("POST", "/logout", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso(
+    "POST",
+    "/logout",
+    Dict{String,Any}(
+        "headers" =>
+            Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function logout(
+    x_amz_sso_bearer_token,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso(
+        "POST",
+        "/logout",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}(
+                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

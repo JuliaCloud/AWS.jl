@@ -24,5 +24,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"x-amz-Client-Context-Encoding"`: The encoding used for the client context.
 """
-put_events(events, x_amz_Client_Context; aws_config::AbstractAWSConfig=current_aws_config()) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_events(events, x_amz_Client_Context, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_events(
+    events, x_amz_Client_Context; aws_config::AbstractAWSConfig=current_aws_config()
+) = mobile_analytics(
+    "POST",
+    "/2014-06-05/events",
+    Dict{String,Any}(
+        "events" => events,
+        "headers" => Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_events(
+    events,
+    x_amz_Client_Context,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mobile_analytics(
+        "POST",
+        "/2014-06-05/events",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "events" => events,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -34,8 +34,34 @@ completed call in preparation for the next one.
   valid for up to 24 hours. If a `GetLatestConfiguration` call uses an expired token, the
   system returns `BadRequestException`.
 """
-get_latest_configuration(configuration_token; aws_config::AbstractAWSConfig=current_aws_config()) = appconfigdata("GET", "/configuration", Dict{String, Any}("configuration_token"=>configuration_token); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_latest_configuration(configuration_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfigdata("GET", "/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_token"=>configuration_token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_latest_configuration(
+    configuration_token; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfigdata(
+    "GET",
+    "/configuration",
+    Dict{String,Any}("configuration_token" => configuration_token);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_latest_configuration(
+    configuration_token,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfigdata(
+        "GET",
+        "/configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("configuration_token" => configuration_token),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_configuration_session(application_identifier, configuration_profile_identifier, environment_identifier)
@@ -61,5 +87,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a value of, for example, 60 seconds, then the client that established the session can't
   call <a>GetLatestConfiguration</a> more frequently than every 60 seconds.
 """
-start_configuration_session(ApplicationIdentifier, ConfigurationProfileIdentifier, EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appconfigdata("POST", "/configurationsessions", Dict{String, Any}("ApplicationIdentifier"=>ApplicationIdentifier, "ConfigurationProfileIdentifier"=>ConfigurationProfileIdentifier, "EnvironmentIdentifier"=>EnvironmentIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_configuration_session(ApplicationIdentifier, ConfigurationProfileIdentifier, EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfigdata("POST", "/configurationsessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationIdentifier"=>ApplicationIdentifier, "ConfigurationProfileIdentifier"=>ConfigurationProfileIdentifier, "EnvironmentIdentifier"=>EnvironmentIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_configuration_session(
+    ApplicationIdentifier,
+    ConfigurationProfileIdentifier,
+    EnvironmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfigdata(
+    "POST",
+    "/configurationsessions",
+    Dict{String,Any}(
+        "ApplicationIdentifier" => ApplicationIdentifier,
+        "ConfigurationProfileIdentifier" => ConfigurationProfileIdentifier,
+        "EnvironmentIdentifier" => EnvironmentIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_configuration_session(
+    ApplicationIdentifier,
+    ConfigurationProfileIdentifier,
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfigdata(
+        "POST",
+        "/configurationsessions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationIdentifier" => ApplicationIdentifier,
+                    "ConfigurationProfileIdentifier" => ConfigurationProfileIdentifier,
+                    "EnvironmentIdentifier" => EnvironmentIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

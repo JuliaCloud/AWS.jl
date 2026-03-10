@@ -28,8 +28,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For information about how to set the prefixes, see [Allowed Prefixes](https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes)
   in the *Direct Connect User Guide*.
 """
-accept_direct_connect_gateway_association_proposal(associatedGatewayOwnerAccount, directConnectGatewayId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AcceptDirectConnectGatewayAssociationProposal", Dict{String, Any}("associatedGatewayOwnerAccount"=>associatedGatewayOwnerAccount, "directConnectGatewayId"=>directConnectGatewayId, "proposalId"=>proposalId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_direct_connect_gateway_association_proposal(associatedGatewayOwnerAccount, directConnectGatewayId, proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AcceptDirectConnectGatewayAssociationProposal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associatedGatewayOwnerAccount"=>associatedGatewayOwnerAccount, "directConnectGatewayId"=>directConnectGatewayId, "proposalId"=>proposalId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_direct_connect_gateway_association_proposal(
+    associatedGatewayOwnerAccount,
+    directConnectGatewayId,
+    proposalId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "AcceptDirectConnectGatewayAssociationProposal",
+    Dict{String,Any}(
+        "associatedGatewayOwnerAccount" => associatedGatewayOwnerAccount,
+        "directConnectGatewayId" => directConnectGatewayId,
+        "proposalId" => proposalId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_direct_connect_gateway_association_proposal(
+    associatedGatewayOwnerAccount,
+    directConnectGatewayId,
+    proposalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AcceptDirectConnectGatewayAssociationProposal",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "associatedGatewayOwnerAccount" => associatedGatewayOwnerAccount,
+                    "directConnectGatewayId" => directConnectGatewayId,
+                    "proposalId" => proposalId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan)
@@ -59,8 +96,53 @@ connection on the specified interconnect.
   connection will be provisioned.
 - `vlan`: The dedicated VLAN provisioned to the connection.
 """
-allocate_connection_on_interconnect(bandwidth, connectionName, interconnectId, ownerAccount, vlan; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocateConnectionOnInterconnect", Dict{String, Any}("bandwidth"=>bandwidth, "connectionName"=>connectionName, "interconnectId"=>interconnectId, "ownerAccount"=>ownerAccount, "vlan"=>vlan); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_connection_on_interconnect(bandwidth, connectionName, interconnectId, ownerAccount, vlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocateConnectionOnInterconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bandwidth"=>bandwidth, "connectionName"=>connectionName, "interconnectId"=>interconnectId, "ownerAccount"=>ownerAccount, "vlan"=>vlan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_connection_on_interconnect(
+    bandwidth,
+    connectionName,
+    interconnectId,
+    ownerAccount,
+    vlan;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "AllocateConnectionOnInterconnect",
+    Dict{String,Any}(
+        "bandwidth" => bandwidth,
+        "connectionName" => connectionName,
+        "interconnectId" => interconnectId,
+        "ownerAccount" => ownerAccount,
+        "vlan" => vlan,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function allocate_connection_on_interconnect(
+    bandwidth,
+    connectionName,
+    interconnectId,
+    ownerAccount,
+    vlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AllocateConnectionOnInterconnect",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bandwidth" => bandwidth,
+                    "connectionName" => connectionName,
+                    "interconnectId" => interconnectId,
+                    "ownerAccount" => ownerAccount,
+                    "vlan" => vlan,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     allocate_hosted_connection(bandwidth, connection_id, connection_name, owner_account, vlan)
@@ -95,8 +177,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: The tags associated with the connection.
 """
-allocate_hosted_connection(bandwidth, connectionId, connectionName, ownerAccount, vlan; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocateHostedConnection", Dict{String, Any}("bandwidth"=>bandwidth, "connectionId"=>connectionId, "connectionName"=>connectionName, "ownerAccount"=>ownerAccount, "vlan"=>vlan); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_hosted_connection(bandwidth, connectionId, connectionName, ownerAccount, vlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocateHostedConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bandwidth"=>bandwidth, "connectionId"=>connectionId, "connectionName"=>connectionName, "ownerAccount"=>ownerAccount, "vlan"=>vlan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_hosted_connection(
+    bandwidth,
+    connectionId,
+    connectionName,
+    ownerAccount,
+    vlan;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "AllocateHostedConnection",
+    Dict{String,Any}(
+        "bandwidth" => bandwidth,
+        "connectionId" => connectionId,
+        "connectionName" => connectionName,
+        "ownerAccount" => ownerAccount,
+        "vlan" => vlan,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function allocate_hosted_connection(
+    bandwidth,
+    connectionId,
+    connectionName,
+    ownerAccount,
+    vlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AllocateHostedConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bandwidth" => bandwidth,
+                    "connectionId" => connectionId,
+                    "connectionName" => connectionName,
+                    "ownerAccount" => ownerAccount,
+                    "vlan" => vlan,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     allocate_private_virtual_interface(connection_id, new_private_virtual_interface_allocation, owner_account)
@@ -118,8 +245,46 @@ Virtual interfaces created using this action must be confirmed by the owner usin
 - `owner_account`: The ID of the Amazon Web Services account that owns the virtual private
   interface.
 """
-allocate_private_virtual_interface(connectionId, newPrivateVirtualInterfaceAllocation, ownerAccount; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocatePrivateVirtualInterface", Dict{String, Any}("connectionId"=>connectionId, "newPrivateVirtualInterfaceAllocation"=>newPrivateVirtualInterfaceAllocation, "ownerAccount"=>ownerAccount); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_private_virtual_interface(connectionId, newPrivateVirtualInterfaceAllocation, ownerAccount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocatePrivateVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "newPrivateVirtualInterfaceAllocation"=>newPrivateVirtualInterfaceAllocation, "ownerAccount"=>ownerAccount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_private_virtual_interface(
+    connectionId,
+    newPrivateVirtualInterfaceAllocation,
+    ownerAccount;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "AllocatePrivateVirtualInterface",
+    Dict{String,Any}(
+        "connectionId" => connectionId,
+        "newPrivateVirtualInterfaceAllocation" => newPrivateVirtualInterfaceAllocation,
+        "ownerAccount" => ownerAccount,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function allocate_private_virtual_interface(
+    connectionId,
+    newPrivateVirtualInterfaceAllocation,
+    ownerAccount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AllocatePrivateVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "newPrivateVirtualInterfaceAllocation" =>
+                        newPrivateVirtualInterfaceAllocation,
+                    "ownerAccount" => ownerAccount,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     allocate_public_virtual_interface(connection_id, new_public_virtual_interface_allocation, owner_account)
@@ -147,8 +312,46 @@ you cannot specify custom IPv6 addresses.
 - `owner_account`: The ID of the Amazon Web Services account that owns the public virtual
   interface.
 """
-allocate_public_virtual_interface(connectionId, newPublicVirtualInterfaceAllocation, ownerAccount; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocatePublicVirtualInterface", Dict{String, Any}("connectionId"=>connectionId, "newPublicVirtualInterfaceAllocation"=>newPublicVirtualInterfaceAllocation, "ownerAccount"=>ownerAccount); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_public_virtual_interface(connectionId, newPublicVirtualInterfaceAllocation, ownerAccount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocatePublicVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "newPublicVirtualInterfaceAllocation"=>newPublicVirtualInterfaceAllocation, "ownerAccount"=>ownerAccount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_public_virtual_interface(
+    connectionId,
+    newPublicVirtualInterfaceAllocation,
+    ownerAccount;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "AllocatePublicVirtualInterface",
+    Dict{String,Any}(
+        "connectionId" => connectionId,
+        "newPublicVirtualInterfaceAllocation" => newPublicVirtualInterfaceAllocation,
+        "ownerAccount" => ownerAccount,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function allocate_public_virtual_interface(
+    connectionId,
+    newPublicVirtualInterfaceAllocation,
+    ownerAccount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AllocatePublicVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "newPublicVirtualInterfaceAllocation" =>
+                        newPublicVirtualInterfaceAllocation,
+                    "ownerAccount" => ownerAccount,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     allocate_transit_virtual_interface(connection_id, new_transit_virtual_interface_allocation, owner_account)
@@ -174,8 +377,46 @@ virtual interface is in the `requested` state and is not available to handle tra
 - `owner_account`: The ID of the Amazon Web Services account that owns the transit virtual
   interface.
 """
-allocate_transit_virtual_interface(connectionId, newTransitVirtualInterfaceAllocation, ownerAccount; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocateTransitVirtualInterface", Dict{String, Any}("connectionId"=>connectionId, "newTransitVirtualInterfaceAllocation"=>newTransitVirtualInterfaceAllocation, "ownerAccount"=>ownerAccount); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_transit_virtual_interface(connectionId, newTransitVirtualInterfaceAllocation, ownerAccount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AllocateTransitVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "newTransitVirtualInterfaceAllocation"=>newTransitVirtualInterfaceAllocation, "ownerAccount"=>ownerAccount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_transit_virtual_interface(
+    connectionId,
+    newTransitVirtualInterfaceAllocation,
+    ownerAccount;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "AllocateTransitVirtualInterface",
+    Dict{String,Any}(
+        "connectionId" => connectionId,
+        "newTransitVirtualInterfaceAllocation" => newTransitVirtualInterfaceAllocation,
+        "ownerAccount" => ownerAccount,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function allocate_transit_virtual_interface(
+    connectionId,
+    newTransitVirtualInterfaceAllocation,
+    ownerAccount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AllocateTransitVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "newTransitVirtualInterfaceAllocation" =>
+                        newTransitVirtualInterfaceAllocation,
+                    "ownerAccount" => ownerAccount,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_connection_with_lag(connection_id, lag_id)
@@ -202,8 +443,33 @@ remain associated with the original LAG.
 - `connection_id`: The ID of the connection.
 - `lag_id`: The ID of the LAG with which to associate the connection.
 """
-associate_connection_with_lag(connectionId, lagId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateConnectionWithLag", Dict{String, Any}("connectionId"=>connectionId, "lagId"=>lagId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_connection_with_lag(connectionId, lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateConnectionWithLag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "lagId"=>lagId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_connection_with_lag(
+    connectionId, lagId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "AssociateConnectionWithLag",
+    Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_connection_with_lag(
+    connectionId,
+    lagId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AssociateConnectionWithLag",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_hosted_connection(connection_id, parent_connection_id)
@@ -223,8 +489,38 @@ migrated.
 - `connection_id`: The ID of the hosted connection.
 - `parent_connection_id`: The ID of the interconnect or the LAG.
 """
-associate_hosted_connection(connectionId, parentConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateHostedConnection", Dict{String, Any}("connectionId"=>connectionId, "parentConnectionId"=>parentConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_hosted_connection(connectionId, parentConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateHostedConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "parentConnectionId"=>parentConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_hosted_connection(
+    connectionId, parentConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "AssociateHostedConnection",
+    Dict{String,Any}(
+        "connectionId" => connectionId, "parentConnectionId" => parentConnectionId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_hosted_connection(
+    connectionId,
+    parentConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AssociateHostedConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "parentConnectionId" => parentConnectionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_mac_sec_key(connection_id)
@@ -274,8 +570,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you use this request parameter, you do not use the `ckn` and `cak` request parameters.
 """
-associate_mac_sec_key(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateMacSecKey", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_mac_sec_key(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateMacSecKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_mac_sec_key(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "AssociateMacSecKey",
+        Dict{String,Any}("connectionId" => connectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_mac_sec_key(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AssociateMacSecKey",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_virtual_interface(connection_id, virtual_interface_id)
@@ -300,8 +615,38 @@ association.
 - `connection_id`: The ID of the LAG or connection.
 - `virtual_interface_id`: The ID of the virtual interface.
 """
-associate_virtual_interface(connectionId, virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateVirtualInterface", Dict{String, Any}("connectionId"=>connectionId, "virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_virtual_interface(connectionId, virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("AssociateVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_virtual_interface(
+    connectionId, virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "AssociateVirtualInterface",
+    Dict{String,Any}(
+        "connectionId" => connectionId, "virtualInterfaceId" => virtualInterfaceId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_virtual_interface(
+    connectionId,
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "AssociateVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "virtualInterfaceId" => virtualInterfaceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     confirm_connection(connection_id)
@@ -316,8 +661,27 @@ this state until the owner confirms creation of the hosted connection.
 
 - `connection_id`: The ID of the hosted connection.
 """
-confirm_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmConnection", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-confirm_connection(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+confirm_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "ConfirmConnection",
+        Dict{String,Any}("connectionId" => connectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function confirm_connection(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "ConfirmConnection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     confirm_customer_agreement()
@@ -332,8 +696,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"agreementName"`:  The name of the customer agreement.
 """
-confirm_customer_agreement(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmCustomerAgreement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-confirm_customer_agreement(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmCustomerAgreement", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+confirm_customer_agreement(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "ConfirmCustomerAgreement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function confirm_customer_agreement(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "ConfirmCustomerAgreement",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     confirm_private_virtual_interface(virtual_interface_id)
@@ -357,8 +733,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
 - `"virtualGatewayId"`: The ID of the virtual private gateway.
 """
-confirm_private_virtual_interface(virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmPrivateVirtualInterface", Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-confirm_private_virtual_interface(virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmPrivateVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+confirm_private_virtual_interface(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "ConfirmPrivateVirtualInterface",
+    Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function confirm_private_virtual_interface(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "ConfirmPrivateVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     confirm_public_virtual_interface(virtual_interface_id)
@@ -374,8 +772,30 @@ created and made available to handle traffic.
 
 - `virtual_interface_id`: The ID of the virtual interface.
 """
-confirm_public_virtual_interface(virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmPublicVirtualInterface", Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-confirm_public_virtual_interface(virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmPublicVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+confirm_public_virtual_interface(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "ConfirmPublicVirtualInterface",
+    Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function confirm_public_virtual_interface(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "ConfirmPublicVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     confirm_transit_virtual_interface(direct_connect_gateway_id, virtual_interface_id)
@@ -392,8 +812,41 @@ virtual interface is created and made available to handle traffic.
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway.
 - `virtual_interface_id`: The ID of the virtual interface.
 """
-confirm_transit_virtual_interface(directConnectGatewayId, virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmTransitVirtualInterface", Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId, "virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-confirm_transit_virtual_interface(directConnectGatewayId, virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ConfirmTransitVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId, "virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+confirm_transit_virtual_interface(
+    directConnectGatewayId,
+    virtualInterfaceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "ConfirmTransitVirtualInterface",
+    Dict{String,Any}(
+        "directConnectGatewayId" => directConnectGatewayId,
+        "virtualInterfaceId" => virtualInterfaceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function confirm_transit_virtual_interface(
+    directConnectGatewayId,
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "ConfirmTransitVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "directConnectGatewayId" => directConnectGatewayId,
+                    "virtualInterfaceId" => virtualInterfaceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_bgppeer()
@@ -427,8 +880,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"newBGPPeer"`: Information about the BGP peer.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
-create_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_bgppeer(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect("CreateBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_bgppeer(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "CreateBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     create_connection(bandwidth, connection_name, location)
@@ -468,8 +928,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Direct Connect User Guide*.
 - `"tags"`: The tags to associate with the lag.
 """
-create_connection(bandwidth, connectionName, location; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateConnection", Dict{String, Any}("bandwidth"=>bandwidth, "connectionName"=>connectionName, "location"=>location); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_connection(bandwidth, connectionName, location, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bandwidth"=>bandwidth, "connectionName"=>connectionName, "location"=>location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_connection(
+    bandwidth, connectionName, location; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "CreateConnection",
+    Dict{String,Any}(
+        "bandwidth" => bandwidth,
+        "connectionName" => connectionName,
+        "location" => location,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_connection(
+    bandwidth,
+    connectionName,
+    location,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreateConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bandwidth" => bandwidth,
+                    "connectionName" => connectionName,
+                    "location" => location,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_direct_connect_gateway(direct_connect_gateway_name)
@@ -495,8 +989,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to be configured on the Amazon side of the connection. The ASN must be in the private
   range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
 """
-create_direct_connect_gateway(directConnectGatewayName; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateDirectConnectGateway", Dict{String, Any}("directConnectGatewayName"=>directConnectGatewayName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_direct_connect_gateway(directConnectGatewayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateDirectConnectGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("directConnectGatewayName"=>directConnectGatewayName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_direct_connect_gateway(
+    directConnectGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "CreateDirectConnectGateway",
+    Dict{String,Any}("directConnectGatewayName" => directConnectGatewayName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_direct_connect_gateway(
+    directConnectGatewayName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreateDirectConnectGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("directConnectGatewayName" => directConnectGatewayName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_direct_connect_gateway_association(direct_connect_gateway_id)
@@ -524,8 +1042,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"gatewayId"`: The ID of the virtual private gateway or transit gateway.
 - `"virtualGatewayId"`: The ID of the virtual private gateway.
 """
-create_direct_connect_gateway_association(directConnectGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateDirectConnectGatewayAssociation", Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_direct_connect_gateway_association(directConnectGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateDirectConnectGatewayAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_direct_connect_gateway_association(
+    directConnectGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "CreateDirectConnectGatewayAssociation",
+    Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_direct_connect_gateway_association(
+    directConnectGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreateDirectConnectGatewayAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_direct_connect_gateway_association_proposal(direct_connect_gateway_id, direct_connect_gateway_owner_account, gateway_id)
@@ -553,8 +1095,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"removeAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to no longer
   advertise to the Direct Connect gateway.
 """
-create_direct_connect_gateway_association_proposal(directConnectGatewayId, directConnectGatewayOwnerAccount, gatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateDirectConnectGatewayAssociationProposal", Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId, "directConnectGatewayOwnerAccount"=>directConnectGatewayOwnerAccount, "gatewayId"=>gatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_direct_connect_gateway_association_proposal(directConnectGatewayId, directConnectGatewayOwnerAccount, gatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateDirectConnectGatewayAssociationProposal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId, "directConnectGatewayOwnerAccount"=>directConnectGatewayOwnerAccount, "gatewayId"=>gatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_direct_connect_gateway_association_proposal(
+    directConnectGatewayId,
+    directConnectGatewayOwnerAccount,
+    gatewayId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "CreateDirectConnectGatewayAssociationProposal",
+    Dict{String,Any}(
+        "directConnectGatewayId" => directConnectGatewayId,
+        "directConnectGatewayOwnerAccount" => directConnectGatewayOwnerAccount,
+        "gatewayId" => gatewayId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_direct_connect_gateway_association_proposal(
+    directConnectGatewayId,
+    directConnectGatewayOwnerAccount,
+    gatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreateDirectConnectGatewayAssociationProposal",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "directConnectGatewayId" => directConnectGatewayId,
+                    "directConnectGatewayOwnerAccount" => directConnectGatewayOwnerAccount,
+                    "gatewayId" => gatewayId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_interconnect(bandwidth, interconnect_name, location)
@@ -597,8 +1176,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"providerName"`: The name of the service provider associated with the interconnect.
 - `"tags"`: The tags to associate with the interconnect.
 """
-create_interconnect(bandwidth, interconnectName, location; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateInterconnect", Dict{String, Any}("bandwidth"=>bandwidth, "interconnectName"=>interconnectName, "location"=>location); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_interconnect(bandwidth, interconnectName, location, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateInterconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bandwidth"=>bandwidth, "interconnectName"=>interconnectName, "location"=>location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_interconnect(
+    bandwidth,
+    interconnectName,
+    location;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "CreateInterconnect",
+    Dict{String,Any}(
+        "bandwidth" => bandwidth,
+        "interconnectName" => interconnectName,
+        "location" => location,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_interconnect(
+    bandwidth,
+    interconnectName,
+    location,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreateInterconnect",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bandwidth" => bandwidth,
+                    "interconnectName" => interconnectName,
+                    "location" => location,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_lag(connections_bandwidth, lag_name, location, number_of_connections)
@@ -653,8 +1269,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Direct Connect User Guide*.
 - `"tags"`: The tags to associate with the LAG.
 """
-create_lag(connectionsBandwidth, lagName, location, numberOfConnections; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateLag", Dict{String, Any}("connectionsBandwidth"=>connectionsBandwidth, "lagName"=>lagName, "location"=>location, "numberOfConnections"=>numberOfConnections); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_lag(connectionsBandwidth, lagName, location, numberOfConnections, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateLag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionsBandwidth"=>connectionsBandwidth, "lagName"=>lagName, "location"=>location, "numberOfConnections"=>numberOfConnections), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_lag(
+    connectionsBandwidth,
+    lagName,
+    location,
+    numberOfConnections;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "CreateLag",
+    Dict{String,Any}(
+        "connectionsBandwidth" => connectionsBandwidth,
+        "lagName" => lagName,
+        "location" => location,
+        "numberOfConnections" => numberOfConnections,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_lag(
+    connectionsBandwidth,
+    lagName,
+    location,
+    numberOfConnections,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreateLag",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionsBandwidth" => connectionsBandwidth,
+                    "lagName" => lagName,
+                    "location" => location,
+                    "numberOfConnections" => numberOfConnections,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_private_virtual_interface(connection_id, new_private_virtual_interface)
@@ -679,8 +1336,41 @@ frames, call <a>DescribeVirtualInterfaces</a>.
 - `connection_id`: The ID of the connection.
 - `new_private_virtual_interface`: Information about the private virtual interface.
 """
-create_private_virtual_interface(connectionId, newPrivateVirtualInterface; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreatePrivateVirtualInterface", Dict{String, Any}("connectionId"=>connectionId, "newPrivateVirtualInterface"=>newPrivateVirtualInterface); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_private_virtual_interface(connectionId, newPrivateVirtualInterface, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreatePrivateVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "newPrivateVirtualInterface"=>newPrivateVirtualInterface), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_private_virtual_interface(
+    connectionId,
+    newPrivateVirtualInterface;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "CreatePrivateVirtualInterface",
+    Dict{String,Any}(
+        "connectionId" => connectionId,
+        "newPrivateVirtualInterface" => newPrivateVirtualInterface,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_private_virtual_interface(
+    connectionId,
+    newPrivateVirtualInterface,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreatePrivateVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "newPrivateVirtualInterface" => newPrivateVirtualInterface,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_public_virtual_interface(connection_id, new_public_virtual_interface)
@@ -699,8 +1389,41 @@ addresses are not supported.
 - `connection_id`: The ID of the connection.
 - `new_public_virtual_interface`: Information about the public virtual interface.
 """
-create_public_virtual_interface(connectionId, newPublicVirtualInterface; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreatePublicVirtualInterface", Dict{String, Any}("connectionId"=>connectionId, "newPublicVirtualInterface"=>newPublicVirtualInterface); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_public_virtual_interface(connectionId, newPublicVirtualInterface, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreatePublicVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "newPublicVirtualInterface"=>newPublicVirtualInterface), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_public_virtual_interface(
+    connectionId,
+    newPublicVirtualInterface;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "CreatePublicVirtualInterface",
+    Dict{String,Any}(
+        "connectionId" => connectionId,
+        "newPublicVirtualInterface" => newPublicVirtualInterface,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_public_virtual_interface(
+    connectionId,
+    newPublicVirtualInterface,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreatePublicVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "newPublicVirtualInterface" => newPublicVirtualInterface,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_virtual_interface(connection_id, new_transit_virtual_interface)
@@ -729,8 +1452,41 @@ call <a>DescribeVirtualInterfaces</a>.
 - `connection_id`: The ID of the connection.
 - `new_transit_virtual_interface`: Information about the transit virtual interface.
 """
-create_transit_virtual_interface(connectionId, newTransitVirtualInterface; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateTransitVirtualInterface", Dict{String, Any}("connectionId"=>connectionId, "newTransitVirtualInterface"=>newTransitVirtualInterface); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_virtual_interface(connectionId, newTransitVirtualInterface, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("CreateTransitVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "newTransitVirtualInterface"=>newTransitVirtualInterface), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_virtual_interface(
+    connectionId,
+    newTransitVirtualInterface;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "CreateTransitVirtualInterface",
+    Dict{String,Any}(
+        "connectionId" => connectionId,
+        "newTransitVirtualInterface" => newTransitVirtualInterface,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_virtual_interface(
+    connectionId,
+    newTransitVirtualInterface,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "CreateTransitVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionId" => connectionId,
+                    "newTransitVirtualInterface" => newTransitVirtualInterface,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_bgppeer()
@@ -751,8 +1507,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customerAddress"`: The IP address assigned to the customer interface.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
-delete_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_bgppeer(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect("DeleteBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_bgppeer(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DeleteBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     delete_connection(connection_id)
@@ -768,8 +1531,27 @@ must cancel your service with them separately.
 
 - `connection_id`: The ID of the connection.
 """
-delete_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteConnection", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_connection(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DeleteConnection",
+        Dict{String,Any}("connectionId" => connectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_connection(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DeleteConnection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_direct_connect_gateway(direct_connect_gateway_id)
@@ -783,8 +1565,32 @@ gateways associated with the Direct Connect gateway.
 
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway.
 """
-delete_direct_connect_gateway(directConnectGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteDirectConnectGateway", Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_direct_connect_gateway(directConnectGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteDirectConnectGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_direct_connect_gateway(
+    directConnectGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DeleteDirectConnectGateway",
+    Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_direct_connect_gateway(
+    directConnectGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DeleteDirectConnectGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_direct_connect_gateway_association()
@@ -805,8 +1611,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
 - `"virtualGatewayId"`: The ID of the virtual private gateway.
 """
-delete_direct_connect_gateway_association(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteDirectConnectGatewayAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_direct_connect_gateway_association(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteDirectConnectGatewayAssociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_direct_connect_gateway_association(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DeleteDirectConnectGatewayAssociation";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_direct_connect_gateway_association(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DeleteDirectConnectGatewayAssociation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_direct_connect_gateway_association_proposal(proposal_id)
@@ -819,8 +1640,28 @@ virtual private gateway or transit gateway.
 
 - `proposal_id`: The ID of the proposal.
 """
-delete_direct_connect_gateway_association_proposal(proposalId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteDirectConnectGatewayAssociationProposal", Dict{String, Any}("proposalId"=>proposalId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_direct_connect_gateway_association_proposal(proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteDirectConnectGatewayAssociationProposal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("proposalId"=>proposalId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_direct_connect_gateway_association_proposal(
+    proposalId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DeleteDirectConnectGatewayAssociationProposal",
+    Dict{String,Any}("proposalId" => proposalId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_direct_connect_gateway_association_proposal(
+    proposalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DeleteDirectConnectGatewayAssociationProposal",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("proposalId" => proposalId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_interconnect(interconnect_id)
@@ -835,8 +1676,27 @@ Deletes the specified interconnect.
 
 - `interconnect_id`: The ID of the interconnect.
 """
-delete_interconnect(interconnectId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteInterconnect", Dict{String, Any}("interconnectId"=>interconnectId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_interconnect(interconnectId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteInterconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("interconnectId"=>interconnectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_interconnect(interconnectId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DeleteInterconnect",
+        Dict{String,Any}("interconnectId" => interconnectId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_interconnect(
+    interconnectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DeleteInterconnect",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("interconnectId" => interconnectId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_lag(lag_id)
@@ -849,8 +1709,22 @@ active virtual interfaces or hosted connections.
 
 - `lag_id`: The ID of the LAG.
 """
-delete_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteLag", Dict{String, Any}("lagId"=>lagId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_lag(lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteLag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lagId"=>lagId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect(
+    "DeleteLag",
+    Dict{String,Any}("lagId" => lagId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_lag(
+    lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DeleteLag",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("lagId" => lagId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_virtual_interface(virtual_interface_id)
@@ -862,8 +1736,30 @@ Deletes a virtual interface.
 
 - `virtual_interface_id`: The ID of the virtual interface.
 """
-delete_virtual_interface(virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteVirtualInterface", Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_virtual_interface(virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DeleteVirtualInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_virtual_interface(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DeleteVirtualInterface",
+    Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_virtual_interface(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DeleteVirtualInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connection_loa(connection_id)
@@ -893,8 +1789,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the
   provider name alongside your company name as the requester of the cross connect.
 """
-describe_connection_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeConnectionLoa", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connection_loa(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeConnectionLoa", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connection_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeConnectionLoa",
+        Dict{String,Any}("connectionId" => connectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_connection_loa(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DescribeConnectionLoa",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connections()
@@ -908,8 +1823,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"connectionId"`: The ID of the connection.
 """
-describe_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect(
+    "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connections_on_interconnect(interconnect_id)
@@ -928,8 +1854,28 @@ have been provisioned on the specified interconnect.
 
 - `interconnect_id`: The ID of the interconnect.
 """
-describe_connections_on_interconnect(interconnectId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeConnectionsOnInterconnect", Dict{String, Any}("interconnectId"=>interconnectId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connections_on_interconnect(interconnectId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeConnectionsOnInterconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("interconnectId"=>interconnectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connections_on_interconnect(
+    interconnectId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DescribeConnectionsOnInterconnect",
+    Dict{String,Any}("interconnectId" => interconnectId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_connections_on_interconnect(
+    interconnectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DescribeConnectionsOnInterconnect",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("interconnectId" => interconnectId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_customer_metadata()
@@ -938,8 +1884,20 @@ describe_connections_on_interconnect(interconnectId, params::AbstractDict{String
 Get and view a list of customer agreements, along with their signed status and whether the
 customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
 """
-describe_customer_metadata(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeCustomerMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_customer_metadata(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeCustomerMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_customer_metadata(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeCustomerMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_customer_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeCustomerMetadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_direct_connect_gateway_association_proposals()
@@ -961,8 +1919,23 @@ If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token for the next page of results.
 - `"proposalId"`: The ID of the proposal.
 """
-describe_direct_connect_gateway_association_proposals(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGatewayAssociationProposals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_direct_connect_gateway_association_proposals(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGatewayAssociationProposals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_direct_connect_gateway_association_proposals(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DescribeDirectConnectGatewayAssociationProposals";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_direct_connect_gateway_association_proposals(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeDirectConnectGatewayAssociationProposals",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_direct_connect_gateway_associations()
@@ -1002,8 +1975,23 @@ If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 - `"virtualGatewayId"`: The ID of the virtual private gateway or transit gateway.
 """
-describe_direct_connect_gateway_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGatewayAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_direct_connect_gateway_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGatewayAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_direct_connect_gateway_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DescribeDirectConnectGatewayAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_direct_connect_gateway_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeDirectConnectGatewayAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_direct_connect_gateway_attachments()
@@ -1028,8 +2016,23 @@ If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
-describe_direct_connect_gateway_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGatewayAttachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_direct_connect_gateway_attachments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGatewayAttachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_direct_connect_gateway_attachments(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DescribeDirectConnectGatewayAttachments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_direct_connect_gateway_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeDirectConnectGatewayAttachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_direct_connect_gateways()
@@ -1049,8 +2052,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 """
-describe_direct_connect_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_direct_connect_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeDirectConnectGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_direct_connect_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeDirectConnectGateways";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_direct_connect_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeDirectConnectGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_hosted_connections(connection_id)
@@ -1066,8 +2083,28 @@ link aggregation group (LAG).
 
 - `connection_id`: The ID of the interconnect or LAG.
 """
-describe_hosted_connections(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeHostedConnections", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_hosted_connections(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeHostedConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_hosted_connections(
+    connectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DescribeHostedConnections",
+    Dict{String,Any}("connectionId" => connectionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_hosted_connections(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DescribeHostedConnections",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_interconnect_loa(interconnect_id)
@@ -1098,8 +2135,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your
   company name as the requester of the cross connect.
 """
-describe_interconnect_loa(interconnectId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeInterconnectLoa", Dict{String, Any}("interconnectId"=>interconnectId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_interconnect_loa(interconnectId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeInterconnectLoa", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("interconnectId"=>interconnectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_interconnect_loa(
+    interconnectId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DescribeInterconnectLoa",
+    Dict{String,Any}("interconnectId" => interconnectId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_interconnect_loa(
+    interconnectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DescribeInterconnectLoa",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("interconnectId" => interconnectId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_interconnects()
@@ -1114,8 +2171,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"interconnectId"`: The ID of the interconnect.
 """
-describe_interconnects(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeInterconnects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_interconnects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeInterconnects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_interconnects(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeInterconnects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_interconnects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeInterconnects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_lags()
@@ -1129,8 +2198,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"lagId"`: The ID of the LAG.
 """
-describe_lags(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeLags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_lags(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeLags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_lags(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect("DescribeLags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_lags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeLags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_loa(connection_id)
@@ -1157,8 +2233,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your
   company name as the requester of the cross connect.
 """
-describe_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeLoa", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_loa(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeLoa", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeLoa",
+        Dict{String,Any}("connectionId" => connectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_loa(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DescribeLoa",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_locations()
@@ -1168,8 +2263,16 @@ Lists the Direct Connect locations in the current Amazon Web Services Region. Th
 locations that can be selected when calling <a>CreateConnection</a> or
 <a>CreateInterconnect</a>.
 """
-describe_locations(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_locations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_locations(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect(
+    "DescribeLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_locations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_router_configuration(virtual_interface_id)
@@ -1188,8 +2291,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"routerTypeIdentifier"`: Identifies the router by a combination of vendor, platform, and
   software version. For example, `CiscoSystemsInc-2900SeriesRouters-IOS124`.
 """
-describe_router_configuration(virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeRouterConfiguration", Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_router_configuration(virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeRouterConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_router_configuration(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DescribeRouterConfiguration",
+    Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_router_configuration(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DescribeRouterConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_tags(resource_arns)
@@ -1201,8 +2326,27 @@ Describes the tags associated with the specified Direct Connect resources.
 
 - `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
 """
-describe_tags(resourceArns; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeTags", Dict{String, Any}("resourceArns"=>resourceArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_tags(resourceArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArns"=>resourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_tags(resourceArns; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeTags",
+        Dict{String,Any}("resourceArns" => resourceArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_tags(
+    resourceArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DescribeTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArns" => resourceArns), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_virtual_gateways()
@@ -1218,8 +2362,20 @@ owned by the Amazon Web Services account.
  <p>You can create one or more Direct Connect private virtual interfaces linked to a
 virtual private gateway.
 """
-describe_virtual_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeVirtualGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_virtual_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeVirtualGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_virtual_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeVirtualGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_virtual_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeVirtualGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_virtual_interfaces()
@@ -1240,8 +2396,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectionId"`: The ID of the connection.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
-describe_virtual_interfaces(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeVirtualInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_virtual_interfaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DescribeVirtualInterfaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_virtual_interfaces(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "DescribeVirtualInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_virtual_interfaces(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "DescribeVirtualInterfaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_connection_from_lag(connection_id, lag_id)
@@ -1264,8 +2432,33 @@ with no physical connections.
 - `connection_id`: The ID of the connection.
 - `lag_id`: The ID of the LAG.
 """
-disassociate_connection_from_lag(connectionId, lagId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DisassociateConnectionFromLag", Dict{String, Any}("connectionId"=>connectionId, "lagId"=>lagId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_connection_from_lag(connectionId, lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DisassociateConnectionFromLag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "lagId"=>lagId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_connection_from_lag(
+    connectionId, lagId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DisassociateConnectionFromLag",
+    Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_connection_from_lag(
+    connectionId,
+    lagId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DisassociateConnectionFromLag",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_mac_sec_key(connection_id, secret_arn)
@@ -1285,8 +2478,33 @@ You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve connec
   You can use <a>DescribeConnections</a> to retrieve the ARN of the MAC Security (MACsec)
   secret key.
 """
-disassociate_mac_sec_key(connectionId, secretARN; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DisassociateMacSecKey", Dict{String, Any}("connectionId"=>connectionId, "secretARN"=>secretARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_mac_sec_key(connectionId, secretARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("DisassociateMacSecKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "secretARN"=>secretARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_mac_sec_key(
+    connectionId, secretARN; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "DisassociateMacSecKey",
+    Dict{String,Any}("connectionId" => connectionId, "secretARN" => secretARN);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_mac_sec_key(
+    connectionId,
+    secretARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "DisassociateMacSecKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("connectionId" => connectionId, "secretARN" => secretARN),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_virtual_interface_test_history()
@@ -1309,8 +2527,22 @@ If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"testId"`: The ID of the virtual interface failover test.
 - `"virtualInterfaceId"`: The ID of the virtual interface that was tested.
 """
-list_virtual_interface_test_history(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ListVirtualInterfaceTestHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_virtual_interface_test_history(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("ListVirtualInterfaceTestHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_virtual_interface_test_history(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "ListVirtualInterfaceTestHistory";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_virtual_interface_test_history(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "ListVirtualInterfaceTestHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_bgp_failover_test(virtual_interface_id)
@@ -1343,8 +2575,30 @@ Maximum value: 4,320 minutes (72 hours).
 
 Default: 180 minutes (3 hours).
 """
-start_bgp_failover_test(virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("StartBgpFailoverTest", Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_bgp_failover_test(virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("StartBgpFailoverTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_bgp_failover_test(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "StartBgpFailoverTest",
+    Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_bgp_failover_test(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "StartBgpFailoverTest",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_bgp_failover_test(virtual_interface_id)
@@ -1356,8 +2610,30 @@ Stops the virtual interface failover test.
 
 - `virtual_interface_id`: The ID of the virtual interface you no longer want to test.
 """
-stop_bgp_failover_test(virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("StopBgpFailoverTest", Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_bgp_failover_test(virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("StopBgpFailoverTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_bgp_failover_test(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "StopBgpFailoverTest",
+    Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_bgp_failover_test(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "StopBgpFailoverTest",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1374,8 +2650,32 @@ associated with the resource, this action updates its value.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags to add.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1388,8 +2688,32 @@ Removes one or more tags from the specified Direct Connect resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys of the tags to remove.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_connection(connection_id)
@@ -1415,8 +2739,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The valid values are `no_encrypt`, `should_encrypt`, and `must_encrypt`.
 """
-update_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateConnection", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_connection(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    direct_connect(
+        "UpdateConnection",
+        Dict{String,Any}("connectionId" => connectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_connection(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "UpdateConnection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_direct_connect_gateway(direct_connect_gateway_id, new_direct_connect_gateway_name)
@@ -1429,8 +2772,41 @@ Updates the name of a current Direct Connect gateway.
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway to update.
 - `new_direct_connect_gateway_name`: The new name for the Direct Connect gateway.
 """
-update_direct_connect_gateway(directConnectGatewayId, newDirectConnectGatewayName; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateDirectConnectGateway", Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId, "newDirectConnectGatewayName"=>newDirectConnectGatewayName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_direct_connect_gateway(directConnectGatewayId, newDirectConnectGatewayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateDirectConnectGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("directConnectGatewayId"=>directConnectGatewayId, "newDirectConnectGatewayName"=>newDirectConnectGatewayName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_direct_connect_gateway(
+    directConnectGatewayId,
+    newDirectConnectGatewayName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = direct_connect(
+    "UpdateDirectConnectGateway",
+    Dict{String,Any}(
+        "directConnectGatewayId" => directConnectGatewayId,
+        "newDirectConnectGatewayName" => newDirectConnectGatewayName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_direct_connect_gateway(
+    directConnectGatewayId,
+    newDirectConnectGatewayName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "UpdateDirectConnectGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "directConnectGatewayId" => directConnectGatewayId,
+                    "newDirectConnectGatewayName" => newDirectConnectGatewayName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_direct_connect_gateway_association()
@@ -1450,8 +2826,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"removeAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to no longer
   advertise to the Direct Connect gateway.
 """
-update_direct_connect_gateway_association(; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateDirectConnectGatewayAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_direct_connect_gateway_association(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateDirectConnectGatewayAssociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_direct_connect_gateway_association(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "UpdateDirectConnectGatewayAssociation";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_direct_connect_gateway_association(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "UpdateDirectConnectGatewayAssociation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_lag(lag_id)
@@ -1488,8 +2879,22 @@ Amazon Web Services applies the value to all connections which are part of the L
 - `"minimumLinks"`: The minimum number of physical connections that must be operational for
   the LAG itself to be operational.
 """
-update_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateLag", Dict{String, Any}("lagId"=>lagId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_lag(lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateLag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lagId"=>lagId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect(
+    "UpdateLag",
+    Dict{String,Any}("lagId" => lagId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_lag(
+    lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return direct_connect(
+        "UpdateLag",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("lagId" => lagId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_virtual_interface_attributes(virtual_interface_id)
@@ -1517,5 +2922,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   8500. The default value is 1500.
 - `"virtualInterfaceName"`: The name of the virtual private interface.
 """
-update_virtual_interface_attributes(virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateVirtualInterfaceAttributes", Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_virtual_interface_attributes(virtualInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = direct_connect("UpdateVirtualInterfaceAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("virtualInterfaceId"=>virtualInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_virtual_interface_attributes(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = direct_connect(
+    "UpdateVirtualInterfaceAttributes",
+    Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_virtual_interface_attributes(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return direct_connect(
+        "UpdateVirtualInterfaceAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

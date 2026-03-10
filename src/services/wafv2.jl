@@ -61,8 +61,33 @@ address might be blocked in one area while still allowed in another.
 - `web_aclarn`: The Amazon Resource Name (ARN) of the web ACL that you want to associate
   with the resource.
 """
-associate_web_acl(ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("AssociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLArn"=>WebACLArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_web_acl(ResourceArn, WebACLArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("AssociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLArn"=>WebACLArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_web_acl(
+    ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "AssociateWebACL",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLArn" => WebACLArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_web_acl(
+    ResourceArn,
+    WebACLArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "AssociateWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLArn" => WebACLArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     check_capacity(rules, scope)
@@ -94,8 +119,27 @@ in the *WAF Developer Guide*.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CheckCapacity", Dict{String, Any}("Rules"=>Rules, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-check_capacity(Rules, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CheckCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rules"=>Rules, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "CheckCapacity",
+    Dict{String,Any}("Rules" => Rules, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function check_capacity(
+    Rules,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "CheckCapacity",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Rules" => Rules, "Scope" => Scope), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_apikey(scope, token_domains)
@@ -129,8 +173,32 @@ use in your JavaScript integration.
 
 Public suffixes aren't allowed. For example, you can't use `gov.au` or `co.uk` as token domains.
 """
-create_apikey(Scope, TokenDomains; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateAPIKey", Dict{String, Any}("Scope"=>Scope, "TokenDomains"=>TokenDomains); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_apikey(Scope, TokenDomains, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateAPIKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope, "TokenDomains"=>TokenDomains), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_apikey(Scope, TokenDomains; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "CreateAPIKey",
+        Dict{String,Any}("Scope" => Scope, "TokenDomains" => TokenDomains);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_apikey(
+    Scope,
+    TokenDomains,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "CreateAPIKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Scope" => Scope, "TokenDomains" => TokenDomains),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ipset(addresses, ipaddress_version, name, scope)
@@ -184,8 +252,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the IP set that helps with identification.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
-create_ipset(Addresses, IPAddressVersion, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateIPSet", Dict{String, Any}("Addresses"=>Addresses, "IPAddressVersion"=>IPAddressVersion, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ipset(Addresses, IPAddressVersion, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "IPAddressVersion"=>IPAddressVersion, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ipset(
+    Addresses,
+    IPAddressVersion,
+    Name,
+    Scope;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "CreateIPSet",
+    Dict{String,Any}(
+        "Addresses" => Addresses,
+        "IPAddressVersion" => IPAddressVersion,
+        "Name" => Name,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ipset(
+    Addresses,
+    IPAddressVersion,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "CreateIPSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Addresses" => Addresses,
+                    "IPAddressVersion" => IPAddressVersion,
+                    "Name" => Name,
+                    "Scope" => Scope,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_regex_pattern_set(name, regular_expression_list, scope)
@@ -216,8 +325,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the set that helps with identification.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
-create_regex_pattern_set(Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateRegexPatternSet", Dict{String, Any}("Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_regex_pattern_set(Name, RegularExpressionList, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_regex_pattern_set(
+    Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "CreateRegexPatternSet",
+    Dict{String,Any}(
+        "Name" => Name,
+        "RegularExpressionList" => RegularExpressionList,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_regex_pattern_set(
+    Name,
+    RegularExpressionList,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "CreateRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "RegularExpressionList" => RegularExpressionList,
+                    "Scope" => Scope,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rule_group(capacity, name, scope, visibility_config)
@@ -280,8 +423,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
-create_rule_group(Capacity, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateRuleGroup", Dict{String, Any}("Capacity"=>Capacity, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rule_group(Capacity, Name, Scope, VisibilityConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rule_group(
+    Capacity,
+    Name,
+    Scope,
+    VisibilityConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "CreateRuleGroup",
+    Dict{String,Any}(
+        "Capacity" => Capacity,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rule_group(
+    Capacity,
+    Name,
+    Scope,
+    VisibilityConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "CreateRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Capacity" => Capacity,
+                    "Name" => Name,
+                    "Scope" => Scope,
+                    "VisibilityConfig" => VisibilityConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_web_acl(default_action, name, scope, visibility_config)
@@ -368,8 +552,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Public suffixes aren't allowed. For example, you can't use `gov.au` or `co.uk` as token
   domains.
 """
-create_web_acl(DefaultAction, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateWebACL", Dict{String, Any}("DefaultAction"=>DefaultAction, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_web_acl(DefaultAction, Name, Scope, VisibilityConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_web_acl(
+    DefaultAction,
+    Name,
+    Scope,
+    VisibilityConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "CreateWebACL",
+    Dict{String,Any}(
+        "DefaultAction" => DefaultAction,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_web_acl(
+    DefaultAction,
+    Name,
+    Scope,
+    VisibilityConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "CreateWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DefaultAction" => DefaultAction,
+                    "Name" => Name,
+                    "Scope" => Scope,
+                    "VisibilityConfig" => VisibilityConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_apikey(apikey, scope)
@@ -393,8 +618,29 @@ all regions.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteAPIKey", Dict{String, Any}("APIKey"=>APIKey, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_apikey(APIKey, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteAPIKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APIKey"=>APIKey, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "DeleteAPIKey",
+    Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_apikey(
+    APIKey,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeleteAPIKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_firewall_manager_rule_groups(web_aclarn, web_acllock_token)
@@ -416,8 +662,35 @@ You can only use this if `ManagedByFirewallManager` is false in the specified
   with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use the
   new token returned by that operation.
 """
-delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteFirewallManagerRuleGroups", Dict{String, Any}("WebACLArn"=>WebACLArn, "WebACLLockToken"=>WebACLLockToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteFirewallManagerRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn, "WebACLLockToken"=>WebACLLockToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_firewall_manager_rule_groups(
+    WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DeleteFirewallManagerRuleGroups",
+    Dict{String,Any}("WebACLArn" => WebACLArn, "WebACLLockToken" => WebACLLockToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_firewall_manager_rule_groups(
+    WebACLArn,
+    WebACLLockToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeleteFirewallManagerRuleGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "WebACLArn" => WebACLArn, "WebACLLockToken" => WebACLLockToken
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ipset(id, lock_token, name, scope)
@@ -448,8 +721,39 @@ Deletes the specified <a>IPSet</a>.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-delete_ipset(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteIPSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ipset(Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ipset(
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DeleteIPSet",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ipset(
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeleteIPSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_logging_configuration(resource_arn)
@@ -480,8 +784,28 @@ Default: `CUSTOMER`
 
 Default: `WAF_LOGS`
 """
-delete_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_logging_configuration(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_logging_configuration(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DeleteLoggingConfiguration",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_logging_configuration(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeleteLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_permission_policy(resource_arn)
@@ -498,8 +822,27 @@ You must be the owner of the rule group to perform this operation.
 
 You must be the owner of the rule group to perform this operation.
 """
-delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeletePermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_permission_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "DeletePermissionPolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_permission_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeletePermissionPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_regex_pattern_set(id, lock_token, name, scope)
@@ -529,8 +872,39 @@ Deletes the specified <a>RegexPatternSet</a>.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-delete_regex_pattern_set(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteRegexPatternSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_regex_pattern_set(Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_regex_pattern_set(
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DeleteRegexPatternSet",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_regex_pattern_set(
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeleteRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rule_group(id, lock_token, name, scope)
@@ -561,8 +935,39 @@ Deletes the specified <a>RuleGroup</a>.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-delete_rule_group(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteRuleGroup", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rule_group(Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rule_group(
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DeleteRuleGroup",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_rule_group(
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeleteRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_web_acl(id, lock_token, name, scope)
@@ -610,8 +1015,39 @@ in the *Amazon CloudFront API Reference*.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-delete_web_acl(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteWebACL", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_web_acl(Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_web_acl(
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DeleteWebACL",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_web_acl(
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DeleteWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_all_managed_products(scope)
@@ -632,8 +1068,23 @@ Amazon Web Services Marketplace managed rule groups.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-describe_all_managed_products(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DescribeAllManagedProducts", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_all_managed_products(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DescribeAllManagedProducts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_all_managed_products(Scope; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "DescribeAllManagedProducts",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_all_managed_products(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "DescribeAllManagedProducts",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_managed_products_by_vendor(scope, vendor_name)
@@ -655,8 +1106,33 @@ Provides high-level information for the managed rule groups owned by a specific 
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
   rule group name, to identify a rule group.
 """
-describe_managed_products_by_vendor(Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DescribeManagedProductsByVendor", Dict{String, Any}("Scope"=>Scope, "VendorName"=>VendorName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_managed_products_by_vendor(Scope, VendorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DescribeManagedProductsByVendor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope, "VendorName"=>VendorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_managed_products_by_vendor(
+    Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DescribeManagedProductsByVendor",
+    Dict{String,Any}("Scope" => Scope, "VendorName" => VendorName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_managed_products_by_vendor(
+    Scope,
+    VendorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DescribeManagedProductsByVendor",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Scope" => Scope, "VendorName" => VendorName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_managed_rule_group(name, scope, vendor_name)
@@ -689,8 +1165,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduled for expiration. If you don't provide this, WAF uses the vendor's default
   version.
 """
-describe_managed_rule_group(Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_managed_rule_group(Name, Scope, VendorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_managed_rule_group(
+    Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "DescribeManagedRuleGroup",
+    Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_managed_rule_group(
+    Name,
+    Scope,
+    VendorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DescribeManagedRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "Scope" => Scope, "VendorName" => VendorName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_web_acl(resource_arn)
@@ -732,8 +1236,27 @@ in the *WAF Developer Guide*.
    - For an Amazon Web Services Verified Access instance:
   `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id* `
 """
-disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DisassociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_web_acl(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("DisassociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "DisassociateWebACL",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disassociate_web_acl(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "DisassociateWebACL",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     generate_mobile_sdk_release_url(platform, release_version)
@@ -752,8 +1275,35 @@ in the *WAF Developer Guide*.
 - `release_version`: The release version. For the latest available version, specify
   `LATEST`.
 """
-generate_mobile_sdk_release_url(Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GenerateMobileSdkReleaseUrl", Dict{String, Any}("Platform"=>Platform, "ReleaseVersion"=>ReleaseVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-generate_mobile_sdk_release_url(Platform, ReleaseVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GenerateMobileSdkReleaseUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Platform"=>Platform, "ReleaseVersion"=>ReleaseVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+generate_mobile_sdk_release_url(
+    Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "GenerateMobileSdkReleaseUrl",
+    Dict{String,Any}("Platform" => Platform, "ReleaseVersion" => ReleaseVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function generate_mobile_sdk_release_url(
+    Platform,
+    ReleaseVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GenerateMobileSdkReleaseUrl",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Platform" => Platform, "ReleaseVersion" => ReleaseVersion
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_decrypted_apikey(apikey, scope)
@@ -781,8 +1331,30 @@ in the *WAF Developer Guide*.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-get_decrypted_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetDecryptedAPIKey", Dict{String, Any}("APIKey"=>APIKey, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_decrypted_apikey(APIKey, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetDecryptedAPIKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APIKey"=>APIKey, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_decrypted_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "GetDecryptedAPIKey",
+        Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_decrypted_apikey(
+    APIKey,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetDecryptedAPIKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipset(id, name, scope)
@@ -806,8 +1378,32 @@ Retrieves the specified <a>IPSet</a>.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetIPSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipset(Id, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "GetIPSet",
+    Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ipset(
+    Id,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetIPSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_logging_configuration(resource_arn)
@@ -838,8 +1434,27 @@ Default: `CUSTOMER`
 
 Default: `WAF_LOGS`
 """
-get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_logging_configuration(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "GetLoggingConfiguration",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_logging_configuration(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_managed_rule_set(id, name, scope)
@@ -875,8 +1490,33 @@ versioned managed rule group offerings for your customers. The APIs are
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-get_managed_rule_set(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetManagedRuleSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_managed_rule_set(Id, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetManagedRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_managed_rule_set(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "GetManagedRuleSet",
+        Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_managed_rule_set(
+    Id,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetManagedRuleSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_mobile_sdk_release(platform, release_version)
@@ -896,8 +1536,35 @@ in the *WAF Developer Guide*.
 - `release_version`: The release version. For the latest available version, specify
   `LATEST`.
 """
-get_mobile_sdk_release(Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetMobileSdkRelease", Dict{String, Any}("Platform"=>Platform, "ReleaseVersion"=>ReleaseVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_mobile_sdk_release(Platform, ReleaseVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetMobileSdkRelease", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Platform"=>Platform, "ReleaseVersion"=>ReleaseVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_mobile_sdk_release(
+    Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "GetMobileSdkRelease",
+    Dict{String,Any}("Platform" => Platform, "ReleaseVersion" => ReleaseVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_mobile_sdk_release(
+    Platform,
+    ReleaseVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetMobileSdkRelease",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Platform" => Platform, "ReleaseVersion" => ReleaseVersion
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_permission_policy(resource_arn)
@@ -912,8 +1579,27 @@ You must be the owner of the rule group to perform this operation.
 - `resource_arn`: The Amazon Resource Name (ARN) of the rule group for which you want to
   get the policy.
 """
-get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetPermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_permission_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "GetPermissionPolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_permission_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetPermissionPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rate_based_statement_managed_keys(rule_name, scope, web_aclid, web_aclname)
@@ -964,8 +1650,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleGroupRuleName"`: The name of the rule group reference statement in your web ACL.
   This is required only when you have the rate-based rule nested inside a rule group.
 """
-get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetRateBasedStatementManagedKeys", Dict{String, Any}("RuleName"=>RuleName, "Scope"=>Scope, "WebACLId"=>WebACLId, "WebACLName"=>WebACLName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetRateBasedStatementManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "Scope"=>Scope, "WebACLId"=>WebACLId, "WebACLName"=>WebACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rate_based_statement_managed_keys(
+    RuleName,
+    Scope,
+    WebACLId,
+    WebACLName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "GetRateBasedStatementManagedKeys",
+    Dict{String,Any}(
+        "RuleName" => RuleName,
+        "Scope" => Scope,
+        "WebACLId" => WebACLId,
+        "WebACLName" => WebACLName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_rate_based_statement_managed_keys(
+    RuleName,
+    Scope,
+    WebACLId,
+    WebACLName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetRateBasedStatementManagedKeys",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RuleName" => RuleName,
+                    "Scope" => Scope,
+                    "WebACLId" => WebACLId,
+                    "WebACLName" => WebACLName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_regex_pattern_set(id, name, scope)
@@ -988,8 +1715,33 @@ Retrieves the specified <a>RegexPatternSet</a>.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-get_regex_pattern_set(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetRegexPatternSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_regex_pattern_set(Id, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_regex_pattern_set(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "GetRegexPatternSet",
+        Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_regex_pattern_set(
+    Id,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rule_group()
@@ -1016,8 +1768,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-get_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rule_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "GetRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_sampled_requests(max_items, rule_metric_name, scope, time_window, web_acl_arn)
@@ -1060,8 +1819,53 @@ requests in the sample.
 - `web_acl_arn`: The Amazon resource name (ARN) of the `WebACL` for which you want a sample
   of requests.
 """
-get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetSampledRequests", Dict{String, Any}("MaxItems"=>MaxItems, "RuleMetricName"=>RuleMetricName, "Scope"=>Scope, "TimeWindow"=>TimeWindow, "WebAclArn"=>WebAclArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleMetricName"=>RuleMetricName, "Scope"=>Scope, "TimeWindow"=>TimeWindow, "WebAclArn"=>WebAclArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sampled_requests(
+    MaxItems,
+    RuleMetricName,
+    Scope,
+    TimeWindow,
+    WebAclArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "GetSampledRequests",
+    Dict{String,Any}(
+        "MaxItems" => MaxItems,
+        "RuleMetricName" => RuleMetricName,
+        "Scope" => Scope,
+        "TimeWindow" => TimeWindow,
+        "WebAclArn" => WebAclArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_sampled_requests(
+    MaxItems,
+    RuleMetricName,
+    Scope,
+    TimeWindow,
+    WebAclArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetSampledRequests",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MaxItems" => MaxItems,
+                    "RuleMetricName" => RuleMetricName,
+                    "Scope" => Scope,
+                    "TimeWindow" => TimeWindow,
+                    "WebAclArn" => WebAclArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_web_acl(id, name, scope)
@@ -1085,8 +1889,32 @@ Retrieves the specified <a>WebACL</a>.
   scope=CLOUDFRONT --region=us-east-1`.
    - API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetWebACL", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_web_acl(Id, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "GetWebACL",
+    Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_web_acl(
+    Id,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_web_aclfor_resource(resource_arn)
@@ -1128,8 +1956,27 @@ in the *WAF Developer Guide*.
    - For an Amazon Web Services Verified Access instance:
   `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id* `
 """
-get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetWebACLForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_web_aclfor_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "GetWebACLForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_web_aclfor_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetWebACLForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_apikeys(scope)
@@ -1167,8 +2014,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_apikeys(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListAPIKeys", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_apikeys(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListAPIKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_apikeys(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "ListAPIKeys",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_apikeys(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListAPIKeys",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_available_managed_rule_group_versions(name, scope, vendor_name)
@@ -1204,8 +2065,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_available_managed_rule_group_versions(Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListAvailableManagedRuleGroupVersions", Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_available_managed_rule_group_versions(Name, Scope, VendorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListAvailableManagedRuleGroupVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_available_managed_rule_group_versions(
+    Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "ListAvailableManagedRuleGroupVersions",
+    Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_available_managed_rule_group_versions(
+    Name,
+    Scope,
+    VendorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "ListAvailableManagedRuleGroupVersions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "Scope" => Scope, "VendorName" => VendorName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_available_managed_rule_groups(scope)
@@ -1239,8 +2128,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_available_managed_rule_groups(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListAvailableManagedRuleGroups", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_available_managed_rule_groups(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListAvailableManagedRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_available_managed_rule_groups(
+    Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "ListAvailableManagedRuleGroups",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_available_managed_rule_groups(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListAvailableManagedRuleGroups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_ipsets(scope)
@@ -1272,8 +2177,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_ipsets(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListIPSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_ipsets(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListIPSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_ipsets(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "ListIPSets",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_ipsets(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListIPSets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_logging_configurations(scope)
@@ -1314,8 +2233,23 @@ Default: `CUSTOMER`
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_logging_configurations(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListLoggingConfigurations", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_logging_configurations(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListLoggingConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_logging_configurations(Scope; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "ListLoggingConfigurations",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_logging_configurations(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListLoggingConfigurations",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_managed_rule_sets(scope)
@@ -1356,8 +2290,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListManagedRuleSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_managed_rule_sets(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListManagedRuleSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "ListManagedRuleSets",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_managed_rule_sets(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListManagedRuleSets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_mobile_sdk_releases(platform)
@@ -1387,8 +2335,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_mobile_sdk_releases(Platform; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListMobileSdkReleases", Dict{String, Any}("Platform"=>Platform); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_mobile_sdk_releases(Platform, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListMobileSdkReleases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Platform"=>Platform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_mobile_sdk_releases(Platform; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "ListMobileSdkReleases",
+        Dict{String,Any}("Platform" => Platform);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_mobile_sdk_releases(
+    Platform,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "ListMobileSdkReleases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Platform" => Platform), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_regex_pattern_sets(scope)
@@ -1421,8 +2388,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListRegexPatternSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_regex_pattern_sets(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListRegexPatternSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "ListRegexPatternSets",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_regex_pattern_sets(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListRegexPatternSets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_resources_for_web_acl(web_aclarn)
@@ -1458,8 +2439,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       If you don't provide a resource type, the call uses the resource type
   `APPLICATION_LOAD_BALANCER`.Default: `APPLICATION_LOAD_BALANCER`
 """
-list_resources_for_web_acl(WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListResourcesForWebACL", Dict{String, Any}("WebACLArn"=>WebACLArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_resources_for_web_acl(WebACLArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListResourcesForWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_resources_for_web_acl(WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "ListResourcesForWebACL",
+        Dict{String,Any}("WebACLArn" => WebACLArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_resources_for_web_acl(
+    WebACLArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "ListResourcesForWebACL",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebACLArn" => WebACLArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rule_groups(scope)
@@ -1491,8 +2491,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_rule_groups(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListRuleGroups", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rule_groups(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rule_groups(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "ListRuleGroups",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_rule_groups(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListRuleGroups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1524,8 +2538,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_web_acls(scope)
@@ -1557,8 +2590,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
   marker from the prior call in your next request.
 """
-list_web_acls(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListWebACLs", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_web_acls(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("ListWebACLs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_web_acls(Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "ListWebACLs",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_web_acls(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return wafv2(
+        "ListWebACLs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_logging_configuration(logging_configuration)
@@ -1603,8 +2650,32 @@ in the *WAF Developer Guide*.
 
 - `logging_configuration`: <p/>
 """
-put_logging_configuration(LoggingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("PutLoggingConfiguration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_logging_configuration(LoggingConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_logging_configuration(
+    LoggingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "PutLoggingConfiguration",
+    Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_logging_configuration(
+    LoggingConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "PutLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_managed_rule_set_versions(id, lock_token, name, scope)
@@ -1666,8 +2737,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionsToPublish"`: The versions of the named managed rule group that you want to
   offer to your customers.
 """
-put_managed_rule_set_versions(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("PutManagedRuleSetVersions", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_managed_rule_set_versions(Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("PutManagedRuleSetVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_managed_rule_set_versions(
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "PutManagedRuleSetVersions",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_managed_rule_set_versions(
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "PutManagedRuleSetVersions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_permission_policy(policy, resource_arn)
@@ -1703,8 +2805,33 @@ that are shared with you don't appear in your WAF console rule groups listing.
 - `resource_arn`: The Amazon Resource Name (ARN) of the <a>RuleGroup</a> to which you want
   to attach the policy.
 """
-put_permission_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("PutPermissionPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_permission_policy(Policy, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_permission_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = wafv2(
+    "PutPermissionPolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_permission_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "PutPermissionPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1725,8 +2852,31 @@ console.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: An array of key:value pairs to associate with the resource.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2(
+    "TagResource",
+    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1742,8 +2892,32 @@ to each container. You can add up to 50 tags to each Amazon Web Services resourc
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: An array of keys identifying the tags to disassociate from the resource.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    wafv2(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_ipset(addresses, id, lock_token, name, scope)
@@ -1824,8 +2998,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the IP set that helps with identification.
 """
-update_ipset(Addresses, Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_ipset(Addresses, Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_ipset(
+    Addresses,
+    Id,
+    LockToken,
+    Name,
+    Scope;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "UpdateIPSet",
+    Dict{String,Any}(
+        "Addresses" => Addresses,
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_ipset(
+    Addresses,
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "UpdateIPSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Addresses" => Addresses,
+                    "Id" => Id,
+                    "LockToken" => LockToken,
+                    "Name" => Name,
+                    "Scope" => Scope,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_managed_rule_set_version_expiry_date(expiry_timestamp, id, lock_token, name, scope, version_to_expire)
@@ -1877,8 +3096,57 @@ versioned managed rule group offerings for your customers. The APIs are
 - `version_to_expire`: The version that you want to remove from your list of offerings for
   the named managed rule group.
 """
-update_managed_rule_set_version_expiry_date(ExpiryTimestamp, Id, LockToken, Name, Scope, VersionToExpire; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateManagedRuleSetVersionExpiryDate", Dict{String, Any}("ExpiryTimestamp"=>ExpiryTimestamp, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VersionToExpire"=>VersionToExpire); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_managed_rule_set_version_expiry_date(ExpiryTimestamp, Id, LockToken, Name, Scope, VersionToExpire, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateManagedRuleSetVersionExpiryDate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpiryTimestamp"=>ExpiryTimestamp, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VersionToExpire"=>VersionToExpire), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_managed_rule_set_version_expiry_date(
+    ExpiryTimestamp,
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    VersionToExpire;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "UpdateManagedRuleSetVersionExpiryDate",
+    Dict{String,Any}(
+        "ExpiryTimestamp" => ExpiryTimestamp,
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VersionToExpire" => VersionToExpire,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_managed_rule_set_version_expiry_date(
+    ExpiryTimestamp,
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    VersionToExpire,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "UpdateManagedRuleSetVersionExpiryDate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExpiryTimestamp" => ExpiryTimestamp,
+                    "Id" => Id,
+                    "LockToken" => LockToken,
+                    "Name" => Name,
+                    "Scope" => Scope,
+                    "VersionToExpire" => VersionToExpire,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_regex_pattern_set(id, lock_token, name, regular_expression_list, scope)
@@ -1939,8 +3207,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the set that helps with identification.
 """
-update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateRegexPatternSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_regex_pattern_set(
+    Id,
+    LockToken,
+    Name,
+    RegularExpressionList,
+    Scope;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "UpdateRegexPatternSet",
+    Dict{String,Any}(
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "RegularExpressionList" => RegularExpressionList,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_regex_pattern_set(
+    Id,
+    LockToken,
+    Name,
+    RegularExpressionList,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "UpdateRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Id" => Id,
+                    "LockToken" => LockToken,
+                    "Name" => Name,
+                    "RegularExpressionList" => RegularExpressionList,
+                    "Scope" => Scope,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_rule_group(id, lock_token, name, scope, visibility_config)
@@ -2021,8 +3334,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   manage. Each rule includes one top-level statement that WAF uses to identify matching web
   requests, and parameters that govern how WAF handles them.
 """
-update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateRuleGroup", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rule_group(
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    VisibilityConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "UpdateRuleGroup",
+    Dict{String,Any}(
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_rule_group(
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    VisibilityConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "UpdateRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Id" => Id,
+                    "LockToken" => LockToken,
+                    "Name" => Name,
+                    "Scope" => Scope,
+                    "VisibilityConfig" => VisibilityConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_web_acl(default_action, id, lock_token, name, scope, visibility_config)
@@ -2141,5 +3499,54 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Public suffixes aren't allowed. For example, you can't use `gov.au` or `co.uk` as token
   domains.
 """
-update_web_acl(DefaultAction, Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateWebACL", Dict{String, Any}("DefaultAction"=>DefaultAction, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_web_acl(DefaultAction, Id, LockToken, Name, Scope, VisibilityConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wafv2("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_web_acl(
+    DefaultAction,
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    VisibilityConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = wafv2(
+    "UpdateWebACL",
+    Dict{String,Any}(
+        "DefaultAction" => DefaultAction,
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_web_acl(
+    DefaultAction,
+    Id,
+    LockToken,
+    Name,
+    Scope,
+    VisibilityConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "UpdateWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DefaultAction" => DefaultAction,
+                    "Id" => Id,
+                    "LockToken" => LockToken,
+                    "Name" => Name,
+                    "Scope" => Scope,
+                    "VisibilityConfig" => VisibilityConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

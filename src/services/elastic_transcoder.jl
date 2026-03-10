@@ -22,8 +22,23 @@ starting to process a job while you're getting the job identifier, use
   To get a list of the jobs (including their `jobId`) that have a status of `Submitted`,
   use the <a>ListJobsByStatus</a> API action.
 """
-cancel_job(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_job(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_job(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder(
+    "DELETE",
+    "/2012-09-25/jobs/$(Id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_job(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "DELETE",
+        "/2012-09-25/jobs/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_job(pipeline_id)
@@ -70,8 +85,29 @@ The maximum number of master playlists in a job is 30.
   `key/value` pairs per job. Elastic Transcoder does not guarantee that `key/value` pairs
   are returned in the same order in which you specify them.
 """
-create_job(PipelineId; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/jobs", Dict{String, Any}("PipelineId"=>PipelineId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_job(PipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PipelineId"=>PipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_job(PipelineId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_transcoder(
+        "POST",
+        "/2012-09-25/jobs",
+        Dict{String,Any}("PipelineId" => PipelineId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_job(
+    PipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_transcoder(
+        "POST",
+        "/2012-09-25/jobs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PipelineId" => PipelineId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_pipeline(input_bucket, name, role)
@@ -231,8 +267,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ReducedRedundancy`, that you want Elastic Transcoder to assign to the thumbnails that it
   stores in your Amazon S3 bucket. </li> </ul>
 """
-create_pipeline(InputBucket, Name, Role; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines", Dict{String, Any}("InputBucket"=>InputBucket, "Name"=>Name, "Role"=>Role); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_pipeline(InputBucket, Name, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_pipeline(
+    InputBucket, Name, Role; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_transcoder(
+    "POST",
+    "/2012-09-25/pipelines",
+    Dict{String,Any}("InputBucket" => InputBucket, "Name" => Name, "Role" => Role);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_pipeline(
+    InputBucket,
+    Name,
+    Role,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_transcoder(
+        "POST",
+        "/2012-09-25/pipelines",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InputBucket" => InputBucket, "Name" => Name, "Role" => Role
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_preset(container, name)
@@ -270,8 +336,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any.
 - `"Video"`: A section of the request body that specifies the video parameters.
 """
-create_preset(Container, Name; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/presets", Dict{String, Any}("Container"=>Container, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_preset(Container, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Container"=>Container, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_preset(Container, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_transcoder(
+        "POST",
+        "/2012-09-25/presets",
+        Dict{String,Any}("Container" => Container, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_preset(
+    Container,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_transcoder(
+        "POST",
+        "/2012-09-25/presets",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Container" => Container, "Name" => Name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_pipeline(id)
@@ -287,8 +377,24 @@ returns an error.
 
 - `id`: The identifier of the pipeline that you want to delete.
 """
-delete_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_pipeline(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_transcoder(
+        "DELETE",
+        "/2012-09-25/pipelines/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_pipeline(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "DELETE",
+        "/2012-09-25/pipelines/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_preset(id)
@@ -303,8 +409,23 @@ The DeletePreset operation removes a preset that you've added in an AWS region.
 
 - `id`: The identifier of the preset for which you want to get detailed information.
 """
-delete_preset(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_preset(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_preset(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder(
+    "DELETE",
+    "/2012-09-25/presets/$(Id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_preset(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "DELETE",
+        "/2012-09-25/presets/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_jobs_by_pipeline(pipeline_id)
@@ -328,8 +449,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`:  When Elastic Transcoder returns more than one page of results, use
   `pageToken` in subsequent `GET` requests to get each successive page of results.
 """
-list_jobs_by_pipeline(PipelineId; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_jobs_by_pipeline(PipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_jobs_by_pipeline(PipelineId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_transcoder(
+        "GET",
+        "/2012-09-25/jobsByPipeline/$(PipelineId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_jobs_by_pipeline(
+    PipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/jobsByPipeline/$(PipelineId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_jobs_by_status(status)
@@ -353,8 +492,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`:  When Elastic Transcoder returns more than one page of results, use
   `pageToken` in subsequent `GET` requests to get each successive page of results.
 """
-list_jobs_by_status(Status; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_jobs_by_status(Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_jobs_by_status(Status; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_transcoder(
+        "GET",
+        "/2012-09-25/jobsByStatus/$(Status)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_jobs_by_status(
+    Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/jobsByStatus/$(Status)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pipelines()
@@ -373,8 +528,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: When Elastic Transcoder returns more than one page of results, use
   `pageToken` in subsequent `GET` requests to get each successive page of results.
 """
-list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pipelines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder(
+    "GET",
+    "/2012-09-25/pipelines";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_pipelines(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/pipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_presets()
@@ -392,8 +562,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: When Elastic Transcoder returns more than one page of results, use
   `pageToken` in subsequent `GET` requests to get each successive page of results.
 """
-list_presets(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_presets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_presets(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder(
+    "GET", "/2012-09-25/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_presets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/presets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     read_job(id)
@@ -405,8 +587,23 @@ The ReadJob operation returns detailed information about a job.
 
 - `id`: The identifier of the job for which you want to get detailed information.
 """
-read_job(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-read_job(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+read_job(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder(
+    "GET",
+    "/2012-09-25/jobs/$(Id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function read_job(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/jobs/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     read_pipeline(id)
@@ -418,8 +615,23 @@ The ReadPipeline operation gets detailed information about a pipeline.
 
 - `id`: The identifier of the pipeline to read.
 """
-read_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-read_pipeline(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+read_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder(
+    "GET",
+    "/2012-09-25/pipelines/$(Id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function read_pipeline(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/pipelines/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     read_preset(id)
@@ -431,8 +643,23 @@ The ReadPreset operation gets detailed information about a preset.
 
 - `id`: The identifier of the preset for which you want to get detailed information.
 """
-read_preset(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-read_preset(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+read_preset(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder(
+    "GET",
+    "/2012-09-25/presets/$(Id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function read_preset(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/presets/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     test_role(input_bucket, output_bucket, role, topics)
@@ -457,8 +684,51 @@ you specify.
 - `topics`: The ARNs of one or more Amazon Simple Notification Service (Amazon SNS) topics
   that you want the action to send a test notification to.
 """
-test_role(InputBucket, OutputBucket, Role, Topics; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/roleTests", Dict{String, Any}("InputBucket"=>InputBucket, "OutputBucket"=>OutputBucket, "Role"=>Role, "Topics"=>Topics); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-test_role(InputBucket, OutputBucket, Role, Topics, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/roleTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "OutputBucket"=>OutputBucket, "Role"=>Role, "Topics"=>Topics), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+test_role(
+    InputBucket,
+    OutputBucket,
+    Role,
+    Topics;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = elastic_transcoder(
+    "POST",
+    "/2012-09-25/roleTests",
+    Dict{String,Any}(
+        "InputBucket" => InputBucket,
+        "OutputBucket" => OutputBucket,
+        "Role" => Role,
+        "Topics" => Topics,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function test_role(
+    InputBucket,
+    OutputBucket,
+    Role,
+    Topics,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_transcoder(
+        "POST",
+        "/2012-09-25/roleTests",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InputBucket" => InputBucket,
+                    "OutputBucket" => OutputBucket,
+                    "Role" => Role,
+                    "Topics" => Topics,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_pipeline(id)
@@ -604,8 +874,24 @@ Constraints: Maximum 40 characters
   `ReducedRedundancy`, that you want Elastic Transcoder to assign to the thumbnails that it
   stores in your Amazon S3 bucket. </li> </ul>
 """
-update_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_pipeline(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_transcoder(
+        "PUT",
+        "/2012-09-25/pipelines/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_pipeline(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_transcoder(
+        "PUT",
+        "/2012-09-25/pipelines/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_pipeline_notifications(id, notifications)
@@ -639,8 +925,31 @@ you specified in the request.
   Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when
   you created the topic.
 """
-update_pipeline_notifications(Id, Notifications; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", Dict{String, Any}("Notifications"=>Notifications); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_pipeline_notifications(Id, Notifications, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notifications"=>Notifications), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pipeline_notifications(
+    Id, Notifications; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_transcoder(
+    "POST",
+    "/2012-09-25/pipelines/$(Id)/notifications",
+    Dict{String,Any}("Notifications" => Notifications);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_pipeline_notifications(
+    Id,
+    Notifications,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_transcoder(
+        "POST",
+        "/2012-09-25/pipelines/$(Id)/notifications",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Notifications" => Notifications), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_pipeline_status(id, status)
@@ -661,5 +970,25 @@ you want to cancel, and to send a <a>CancelJob</a> request.
   jobs.
  - `Paused`: The pipeline is not currently processing jobs.
 """
-update_pipeline_status(Id, Status; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", Dict{String, Any}("Status"=>Status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_pipeline_status(Id, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pipeline_status(Id, Status; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_transcoder(
+        "POST",
+        "/2012-09-25/pipelines/$(Id)/status",
+        Dict{String,Any}("Status" => Status);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_pipeline_status(
+    Id,
+    Status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_transcoder(
+        "POST",
+        "/2012-09-25/pipelines/$(Id)/status",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Status" => Status), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

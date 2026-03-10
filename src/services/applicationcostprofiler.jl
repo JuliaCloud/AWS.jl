@@ -15,8 +15,26 @@ report from being generated.
 
 - `report_id`: Required. ID of the report to delete.
 """
-delete_report_definition(reportId; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("DELETE", "/reportDefinition/$(reportId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_report_definition(reportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("DELETE", "/reportDefinition/$(reportId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_report_definition(reportId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    applicationcostprofiler(
+        "DELETE",
+        "/reportDefinition/$(reportId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_report_definition(
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return applicationcostprofiler(
+        "DELETE",
+        "/reportDefinition/$(reportId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_report_definition(report_id)
@@ -28,8 +46,26 @@ Retrieves the definition of a report already configured in AWS Application Cost 
 
 - `report_id`: ID of the report to retrieve.
 """
-get_report_definition(reportId; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("GET", "/reportDefinition/$(reportId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_report_definition(reportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("GET", "/reportDefinition/$(reportId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_report_definition(reportId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    applicationcostprofiler(
+        "GET",
+        "/reportDefinition/$(reportId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_report_definition(
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return applicationcostprofiler(
+        "GET",
+        "/reportDefinition/$(reportId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_application_usage(source_s3_location)
@@ -45,8 +81,32 @@ processing asynchronously.
 
 - `source_s3_location`: Amazon S3 location to import application usage data from.
 """
-import_application_usage(sourceS3Location; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("POST", "/importApplicationUsage", Dict{String, Any}("sourceS3Location"=>sourceS3Location); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_application_usage(sourceS3Location, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("POST", "/importApplicationUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceS3Location"=>sourceS3Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_application_usage(
+    sourceS3Location; aws_config::AbstractAWSConfig=current_aws_config()
+) = applicationcostprofiler(
+    "POST",
+    "/importApplicationUsage",
+    Dict{String,Any}("sourceS3Location" => sourceS3Location);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_application_usage(
+    sourceS3Location,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return applicationcostprofiler(
+        "POST",
+        "/importApplicationUsage",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sourceS3Location" => sourceS3Location), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_report_definitions()
@@ -63,8 +123,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token value from a previous call to access the next page of results.
 """
-list_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_report_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("GET", "/reportDefinition", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    applicationcostprofiler(
+        "GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_report_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return applicationcostprofiler(
+        "GET",
+        "/reportDefinition",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_report_definition(destination_s3_location, format, report_description, report_frequency, report_id)
@@ -82,8 +155,55 @@ Creates the report definition for a report in Application Cost Profiler.
 - `report_id`: Required. ID of the report. You can choose any valid string matching the
   pattern for the ID.
 """
-put_report_definition(destinationS3Location, format, reportDescription, reportFrequency, reportId; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("POST", "/reportDefinition", Dict{String, Any}("destinationS3Location"=>destinationS3Location, "format"=>format, "reportDescription"=>reportDescription, "reportFrequency"=>reportFrequency, "reportId"=>reportId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_report_definition(destinationS3Location, format, reportDescription, reportFrequency, reportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("POST", "/reportDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationS3Location"=>destinationS3Location, "format"=>format, "reportDescription"=>reportDescription, "reportFrequency"=>reportFrequency, "reportId"=>reportId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_report_definition(
+    destinationS3Location,
+    format,
+    reportDescription,
+    reportFrequency,
+    reportId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = applicationcostprofiler(
+    "POST",
+    "/reportDefinition",
+    Dict{String,Any}(
+        "destinationS3Location" => destinationS3Location,
+        "format" => format,
+        "reportDescription" => reportDescription,
+        "reportFrequency" => reportFrequency,
+        "reportId" => reportId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_report_definition(
+    destinationS3Location,
+    format,
+    reportDescription,
+    reportFrequency,
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return applicationcostprofiler(
+        "POST",
+        "/reportDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationS3Location" => destinationS3Location,
+                    "format" => format,
+                    "reportDescription" => reportDescription,
+                    "reportFrequency" => reportFrequency,
+                    "reportId" => reportId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_report_definition(destination_s3_location, format, report_description, report_frequency, report_id)
@@ -100,5 +220,50 @@ Updates existing report in AWS Application Cost Profiler.
 - `report_frequency`: Required. The cadence to generate the report.
 - `report_id`: Required. ID of the report to update.
 """
-update_report_definition(destinationS3Location, format, reportDescription, reportFrequency, reportId; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("PUT", "/reportDefinition/$(reportId)", Dict{String, Any}("destinationS3Location"=>destinationS3Location, "format"=>format, "reportDescription"=>reportDescription, "reportFrequency"=>reportFrequency); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_report_definition(destinationS3Location, format, reportDescription, reportFrequency, reportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = applicationcostprofiler("PUT", "/reportDefinition/$(reportId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationS3Location"=>destinationS3Location, "format"=>format, "reportDescription"=>reportDescription, "reportFrequency"=>reportFrequency), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_report_definition(
+    destinationS3Location,
+    format,
+    reportDescription,
+    reportFrequency,
+    reportId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = applicationcostprofiler(
+    "PUT",
+    "/reportDefinition/$(reportId)",
+    Dict{String,Any}(
+        "destinationS3Location" => destinationS3Location,
+        "format" => format,
+        "reportDescription" => reportDescription,
+        "reportFrequency" => reportFrequency,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_report_definition(
+    destinationS3Location,
+    format,
+    reportDescription,
+    reportFrequency,
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return applicationcostprofiler(
+        "PUT",
+        "/reportDefinition/$(reportId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationS3Location" => destinationS3Location,
+                    "format" => format,
+                    "reportDescription" => reportDescription,
+                    "reportFrequency" => reportFrequency,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

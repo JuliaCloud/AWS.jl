@@ -19,8 +19,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnvironmentName"`: This specifies the name of the environment with the in-progress
   update that you want to cancel.
 """
-abort_environment_update(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("AbortEnvironmentUpdate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-abort_environment_update(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("AbortEnvironmentUpdate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+abort_environment_update(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "AbortEnvironmentUpdate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function abort_environment_update(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "AbortEnvironmentUpdate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     apply_environment_managed_action(action_id)
@@ -41,8 +53,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnvironmentId"`: The environment ID of the target environment.
 - `"EnvironmentName"`: The name of the target environment.
 """
-apply_environment_managed_action(ActionId; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ApplyEnvironmentManagedAction", Dict{String, Any}("ActionId"=>ActionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-apply_environment_managed_action(ActionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ApplyEnvironmentManagedAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionId"=>ActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+apply_environment_managed_action(
+    ActionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "ApplyEnvironmentManagedAction",
+    Dict{String,Any}("ActionId" => ActionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function apply_environment_managed_action(
+    ActionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "ApplyEnvironmentManagedAction",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ActionId" => ActionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_environment_operations_role(environment_name, operations_role)
@@ -59,8 +91,37 @@ in the *AWS Elastic Beanstalk Developer Guide*.
 - `operations_role`: The Amazon Resource Name (ARN) of an existing IAM role to be used as
   the environment's operations role.
 """
-associate_environment_operations_role(EnvironmentName, OperationsRole; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("AssociateEnvironmentOperationsRole", Dict{String, Any}("EnvironmentName"=>EnvironmentName, "OperationsRole"=>OperationsRole); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_environment_operations_role(EnvironmentName, OperationsRole, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("AssociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName, "OperationsRole"=>OperationsRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_environment_operations_role(
+    EnvironmentName, OperationsRole; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "AssociateEnvironmentOperationsRole",
+    Dict{String,Any}(
+        "EnvironmentName" => EnvironmentName, "OperationsRole" => OperationsRole
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_environment_operations_role(
+    EnvironmentName,
+    OperationsRole,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "AssociateEnvironmentOperationsRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EnvironmentName" => EnvironmentName, "OperationsRole" => OperationsRole
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     check_dnsavailability(cnameprefix)
@@ -72,8 +133,27 @@ Checks if the specified CNAME is available.
 
 - `cnameprefix`: The prefix used when this CNAME is reserved.
 """
-check_dnsavailability(CNAMEPrefix; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CheckDNSAvailability", Dict{String, Any}("CNAMEPrefix"=>CNAMEPrefix); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-check_dnsavailability(CNAMEPrefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CheckDNSAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CNAMEPrefix"=>CNAMEPrefix), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+check_dnsavailability(CNAMEPrefix; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "CheckDNSAvailability",
+        Dict{String,Any}("CNAMEPrefix" => CNAMEPrefix);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function check_dnsavailability(
+    CNAMEPrefix,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "CheckDNSAvailability",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CNAMEPrefix" => CNAMEPrefix), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     compose_environments()
@@ -101,8 +181,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment manifest that specifies the name of the environment and the name of the
   solution stack to use, and optionally can specify environment links to create.
 """
-compose_environments(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ComposeEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-compose_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ComposeEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+compose_environments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "ComposeEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function compose_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "ComposeEnvironments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application(application_name)
@@ -127,8 +219,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Elastic Beanstalk applies these tags only to the application. Environments that you
   create in the application don't inherit the tags.
 """
-create_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "CreateApplication",
+        Dict{String,Any}("ApplicationName" => ApplicationName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_application(
+    ApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "CreateApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application_version(application_name, version_label)
@@ -199,8 +312,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Elastic Beanstalk applies these tags only to the application version. Environments that
   use the application version don't inherit the tags.
 """
-create_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateApplicationVersion", Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application_version(ApplicationName, VersionLabel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application_version(
+    ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "CreateApplicationVersion",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "VersionLabel" => VersionLabel);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application_version(
+    ApplicationName,
+    VersionLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "CreateApplicationVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "VersionLabel" => VersionLabel
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_configuration_template(application_name, template_name)
@@ -272,8 +412,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stack name.
 - `"Tags"`: Specifies the tags applied to the configuration template.
 """
-create_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateConfigurationTemplate", Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_configuration_template(ApplicationName, TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_configuration_template(
+    ApplicationName, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "CreateConfigurationTemplate",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "TemplateName" => TemplateName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_configuration_template(
+    ApplicationName,
+    TemplateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "CreateConfigurationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "TemplateName" => TemplateName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment(application_name)
@@ -346,8 +513,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
 """
-create_environment(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateEnvironment", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "CreateEnvironment",
+        Dict{String,Any}("ApplicationName" => ApplicationName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_environment(
+    ApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "CreateEnvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_platform_version(platform_definition_bundle, platform_name, platform_version)
@@ -373,8 +561,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Elastic Beanstalk applies these tags only to the platform version. Environments that you
   create using the platform version don't inherit the tags.
 """
-create_platform_version(PlatformDefinitionBundle, PlatformName, PlatformVersion; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreatePlatformVersion", Dict{String, Any}("PlatformDefinitionBundle"=>PlatformDefinitionBundle, "PlatformName"=>PlatformName, "PlatformVersion"=>PlatformVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_platform_version(PlatformDefinitionBundle, PlatformName, PlatformVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreatePlatformVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformDefinitionBundle"=>PlatformDefinitionBundle, "PlatformName"=>PlatformName, "PlatformVersion"=>PlatformVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_platform_version(
+    PlatformDefinitionBundle,
+    PlatformName,
+    PlatformVersion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = elastic_beanstalk(
+    "CreatePlatformVersion",
+    Dict{String,Any}(
+        "PlatformDefinitionBundle" => PlatformDefinitionBundle,
+        "PlatformName" => PlatformName,
+        "PlatformVersion" => PlatformVersion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_platform_version(
+    PlatformDefinitionBundle,
+    PlatformName,
+    PlatformVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "CreatePlatformVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PlatformDefinitionBundle" => PlatformDefinitionBundle,
+                    "PlatformName" => PlatformName,
+                    "PlatformVersion" => PlatformVersion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_storage_location()
@@ -385,8 +610,20 @@ Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call th
 first time you create an environment in a region. If the storage location already exists,
 `CreateStorageLocation` still returns the bucket name but does not create a new bucket.
 """
-create_storage_location(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateStorageLocation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_storage_location(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("CreateStorageLocation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_storage_location(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "CreateStorageLocation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function create_storage_location(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "CreateStorageLocation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application(application_name)
@@ -409,8 +646,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TerminateEnvByForce"`: When set to true, running environments will be terminated before
   deleting the application.
 """
-delete_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DeleteApplication",
+        Dict{String,Any}("ApplicationName" => ApplicationName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_application(
+    ApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "DeleteApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application_version(application_name, version_label)
@@ -434,8 +692,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and the
   source bundle remains in Amazon S3.
 """
-delete_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteApplicationVersion", Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application_version(ApplicationName, VersionLabel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application_version(
+    ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "DeleteApplicationVersion",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "VersionLabel" => VersionLabel);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_version(
+    ApplicationName,
+    VersionLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "DeleteApplicationVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "VersionLabel" => VersionLabel
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_configuration_template(application_name, template_name)
@@ -453,8 +738,35 @@ without affecting the running environment.
 - `application_name`: The name of the application to delete the configuration template from.
 - `template_name`: The name of the configuration template to delete.
 """
-delete_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteConfigurationTemplate", Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_configuration_template(ApplicationName, TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_configuration_template(
+    ApplicationName, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "DeleteConfigurationTemplate",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "TemplateName" => TemplateName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_configuration_template(
+    ApplicationName,
+    TemplateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "DeleteConfigurationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "TemplateName" => TemplateName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment_configuration(application_name, environment_name)
@@ -473,8 +785,38 @@ configuration remains in existence until it is deleted with this action.
 - `application_name`: The name of the application the environment is associated with.
 - `environment_name`: The name of the environment to delete the draft configuration from.
 """
-delete_environment_configuration(ApplicationName, EnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteEnvironmentConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "EnvironmentName"=>EnvironmentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment_configuration(ApplicationName, EnvironmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeleteEnvironmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "EnvironmentName"=>EnvironmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment_configuration(
+    ApplicationName, EnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "DeleteEnvironmentConfiguration",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName, "EnvironmentName" => EnvironmentName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment_configuration(
+    ApplicationName,
+    EnvironmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "DeleteEnvironmentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName,
+                    "EnvironmentName" => EnvironmentName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_platform_version()
@@ -488,8 +830,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PlatformArn"`: The ARN of the version of the custom platform.
 """
-delete_platform_version(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeletePlatformVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_platform_version(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DeletePlatformVersion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_platform_version(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DeletePlatformVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function delete_platform_version(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DeletePlatformVersion",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_account_attributes()
@@ -500,8 +854,20 @@ AWS account.
 
 The result currently has one set of attributes—resource quotas.
 """
-describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_account_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_account_attributes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeAccountAttributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_application_versions()
@@ -527,8 +893,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 If no `NextToken` is specified, the first page is retrieved.
 - `"VersionLabels"`: Specify a version label to show a specific application version.
 """
-describe_application_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeApplicationVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_application_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeApplicationVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application_versions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeApplicationVersions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_application_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeApplicationVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_applications()
@@ -543,8 +923,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplicationNames"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to only include those with the specified names.
 """
-describe_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_applications(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeApplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_configuration_options()
@@ -571,8 +963,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateName"`: The name of the configuration template whose configuration options you
   want to describe.
 """
-describe_configuration_options(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeConfigurationOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_configuration_options(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeConfigurationOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_configuration_options(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeConfigurationOptions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_configuration_options(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeConfigurationOptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_configuration_settings(application_name)
@@ -608,8 +1014,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   error. If you do not specify either, AWS Elastic Beanstalk returns a
   `MissingRequiredParameter` error.
 """
-describe_configuration_settings(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeConfigurationSettings", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_configuration_settings(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_configuration_settings(
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "DescribeConfigurationSettings",
+    Dict{String,Any}("ApplicationName" => ApplicationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_configuration_settings(
+    ApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "DescribeConfigurationSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_environment_health()
@@ -632,8 +1060,20 @@ You must specify either this or an EnvironmentName, or both.
 
 You must specify either this or an EnvironmentName, or both.
 """
-describe_environment_health(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentHealth"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_environment_health(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentHealth", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_environment_health(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeEnvironmentHealth"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_environment_health(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeEnvironmentHealth",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_environment_managed_action_history()
@@ -650,8 +1090,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of items to return for a single request.
 - `"NextToken"`: The pagination token returned by a previous request.
 """
-describe_environment_managed_action_history(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActionHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_environment_managed_action_history(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActionHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_environment_managed_action_history(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "DescribeEnvironmentManagedActionHistory";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_environment_managed_action_history(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeEnvironmentManagedActionHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_environment_managed_actions()
@@ -667,8 +1122,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnvironmentName"`: The name of the target environment.
 - `"Status"`: To show only actions with a particular status, specify a status.
 """
-describe_environment_managed_actions(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_environment_managed_actions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_environment_managed_actions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeEnvironmentManagedActions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_environment_managed_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeEnvironmentManagedActions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_environment_resources()
@@ -689,8 +1158,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
-describe_environment_resources(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_environment_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironmentResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_environment_resources(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeEnvironmentResources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_environment_resources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeEnvironmentResources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_environments()
@@ -728,8 +1211,20 @@ If no `NextToken` is specified, the first page is retrieved.
 - `"VersionLabel"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
   to include only those that are associated with this application version.
 """
-describe_environments(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_environments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeEnvironments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_events()
@@ -770,8 +1265,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionLabel"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
   to those associated with this application version.
 """
-describe_events(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_events(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk(
+    "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_events(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_instances_health()
@@ -791,8 +1294,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnvironmentName"`: Specify the AWS Elastic Beanstalk environment by name.
 - `"NextToken"`: Specify the pagination token returned by a previous call.
 """
-describe_instances_health(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeInstancesHealth"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instances_health(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribeInstancesHealth", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instances_health(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribeInstancesHealth"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_instances_health(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribeInstancesHealth",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_platform_version()
@@ -810,8 +1325,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PlatformArn"`: The ARN of the platform version.
 """
-describe_platform_version(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribePlatformVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_platform_version(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DescribePlatformVersion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_platform_version(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "DescribePlatformVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_platform_version(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "DescribePlatformVersion",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_environment_operations_role(environment_name)
@@ -827,8 +1354,30 @@ in the *AWS Elastic Beanstalk Developer Guide*.
 - `environment_name`: The name of the environment from which to disassociate the operations
   role.
 """
-disassociate_environment_operations_role(EnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DisassociateEnvironmentOperationsRole", Dict{String, Any}("EnvironmentName"=>EnvironmentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_environment_operations_role(EnvironmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("DisassociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_environment_operations_role(
+    EnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "DisassociateEnvironmentOperationsRole",
+    Dict{String,Any}("EnvironmentName" => EnvironmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_environment_operations_role(
+    EnvironmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "DisassociateEnvironmentOperationsRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EnvironmentName" => EnvironmentName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_available_solution_stacks()
@@ -837,8 +1386,22 @@ disassociate_environment_operations_role(EnvironmentName, params::AbstractDict{S
 Returns a list of the available solution stack names, with the public version first and
 then in reverse chronological order.
 """
-list_available_solution_stacks(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListAvailableSolutionStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_available_solution_stacks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListAvailableSolutionStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_available_solution_stacks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "ListAvailableSolutionStacks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_available_solution_stacks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "ListAvailableSolutionStacks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_platform_branches()
@@ -876,8 +1439,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If no `NextToken` is specified, the first page is retrieved.
 """
-list_platform_branches(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListPlatformBranches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_platform_branches(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListPlatformBranches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_platform_branches(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "ListPlatformBranches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_platform_branches(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "ListPlatformBranches",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_platform_versions()
@@ -902,8 +1477,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If no `NextToken` is specified, the first page is retrieved.
 """
-list_platform_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListPlatformVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_platform_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListPlatformVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_platform_versions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "ListPlatformVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_platform_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "ListPlatformVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -922,8 +1509,27 @@ tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elastic
 
 Must be the ARN of an Elastic Beanstalk resource.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     rebuild_environment()
@@ -945,8 +1551,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
-rebuild_environment(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RebuildEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-rebuild_environment(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RebuildEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+rebuild_environment(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "RebuildEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function rebuild_environment(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "RebuildEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     request_environment_info(info_type)
@@ -989,8 +1604,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
-request_environment_info(InfoType; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RequestEnvironmentInfo", Dict{String, Any}("InfoType"=>InfoType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-request_environment_info(InfoType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RequestEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+request_environment_info(InfoType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "RequestEnvironmentInfo",
+        Dict{String,Any}("InfoType" => InfoType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function request_environment_info(
+    InfoType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "RequestEnvironmentInfo",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InfoType" => InfoType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restart_app_server()
@@ -1012,8 +1646,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
-restart_app_server(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RestartAppServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restart_app_server(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RestartAppServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restart_app_server(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "RestartAppServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function restart_app_server(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "RestartAppServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     retrieve_environment_info(info_type)
@@ -1044,8 +1687,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
-retrieve_environment_info(InfoType; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RetrieveEnvironmentInfo", Dict{String, Any}("InfoType"=>InfoType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-retrieve_environment_info(InfoType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("RetrieveEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+retrieve_environment_info(InfoType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "RetrieveEnvironmentInfo",
+        Dict{String,Any}("InfoType" => InfoType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function retrieve_environment_info(
+    InfoType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "RetrieveEnvironmentInfo",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InfoType" => InfoType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     swap_environment_cnames()
@@ -1078,8 +1740,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `SourceEnvironmentName`. You may also specify both. If you specify the
   `SourceEnvironmentName`, you must specify the `DestinationEnvironmentName`.
 """
-swap_environment_cnames(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("SwapEnvironmentCNAMEs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-swap_environment_cnames(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("SwapEnvironmentCNAMEs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+swap_environment_cnames(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "SwapEnvironmentCNAMEs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function swap_environment_cnames(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "SwapEnvironmentCNAMEs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     terminate_environment()
@@ -1114,8 +1788,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  <p> Valid Values: `true` | `false`
 """
-terminate_environment(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("TerminateEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-terminate_environment(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("TerminateEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+terminate_environment(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "TerminateEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function terminate_environment(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "TerminateEnvironment",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application(application_name)
@@ -1140,8 +1826,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: If not specified, AWS Elastic Beanstalk does not update the description.
 """
-update_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "UpdateApplication",
+        Dict{String,Any}("ApplicationName" => ApplicationName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_application(
+    ApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "UpdateApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application_resource_lifecycle(application_name, resource_lifecycle_config)
@@ -1154,8 +1861,41 @@ Modifies lifecycle settings for an application.
 - `application_name`: The name of the application.
 - `resource_lifecycle_config`: The lifecycle configuration.
 """
-update_application_resource_lifecycle(ApplicationName, ResourceLifecycleConfig; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateApplicationResourceLifecycle", Dict{String, Any}("ApplicationName"=>ApplicationName, "ResourceLifecycleConfig"=>ResourceLifecycleConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application_resource_lifecycle(ApplicationName, ResourceLifecycleConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateApplicationResourceLifecycle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ResourceLifecycleConfig"=>ResourceLifecycleConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application_resource_lifecycle(
+    ApplicationName,
+    ResourceLifecycleConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = elastic_beanstalk(
+    "UpdateApplicationResourceLifecycle",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "ResourceLifecycleConfig" => ResourceLifecycleConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_application_resource_lifecycle(
+    ApplicationName,
+    ResourceLifecycleConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "UpdateApplicationResourceLifecycle",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName,
+                    "ResourceLifecycleConfig" => ResourceLifecycleConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application_version(application_name, version_label)
@@ -1184,8 +1924,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A new description for this version.
 """
-update_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateApplicationVersion", Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application_version(ApplicationName, VersionLabel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application_version(
+    ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "UpdateApplicationVersion",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "VersionLabel" => VersionLabel);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_application_version(
+    ApplicationName,
+    VersionLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "UpdateApplicationVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "VersionLabel" => VersionLabel
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_configuration_template(application_name, template_name)
@@ -1223,8 +1990,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  Constraint: You can remove only `UserDefined` configuration options.
 """
-update_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateConfigurationTemplate", Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_configuration_template(ApplicationName, TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_configuration_template(
+    ApplicationName, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "UpdateConfigurationTemplate",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "TemplateName" => TemplateName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_configuration_template(
+    ApplicationName,
+    TemplateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "UpdateConfigurationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "TemplateName" => TemplateName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment()
@@ -1283,8 +2077,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application version to the environment. If no such application version is found, returns
   an `InvalidParameterValue` error.
 """
-update_environment(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "UpdateEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function update_environment(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_beanstalk(
+        "UpdateEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     update_tags_for_resource(resource_arn)
@@ -1323,8 +2126,27 @@ Specify at least one of these parameters: `TagsToAdd`, `TagsToRemove`.
 
 Specify at least one of these parameters: `TagsToAdd`, `TagsToRemove`.
 """
-update_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("UpdateTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_beanstalk(
+        "UpdateTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "UpdateTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     validate_configuration_settings(application_name, option_settings)
@@ -1354,5 +2176,34 @@ Condition: You cannot specify both this and a configuration template name.
 
 Condition: You cannot specify both this and an environment name.
 """
-validate_configuration_settings(ApplicationName, OptionSettings; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ValidateConfigurationSettings", Dict{String, Any}("ApplicationName"=>ApplicationName, "OptionSettings"=>OptionSettings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-validate_configuration_settings(ApplicationName, OptionSettings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_beanstalk("ValidateConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "OptionSettings"=>OptionSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+validate_configuration_settings(
+    ApplicationName, OptionSettings; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_beanstalk(
+    "ValidateConfigurationSettings",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName, "OptionSettings" => OptionSettings
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function validate_configuration_settings(
+    ApplicationName,
+    OptionSettings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_beanstalk(
+        "ValidateConfigurationSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "OptionSettings" => OptionSettings
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

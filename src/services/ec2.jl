@@ -28,8 +28,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, to find all resources that have a tag with the key `Owner` and the value
   `TeamA`, specify `tag:Owner` for the filter name and `TeamA` for the filter value.
 """
-accept_address_transfer(Address; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptAddressTransfer", Dict{String, Any}("Address"=>Address); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_address_transfer(Address, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptAddressTransfer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_address_transfer(Address; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "AcceptAddressTransfer",
+    Dict{String,Any}("Address" => Address);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_address_transfer(
+    Address,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AcceptAddressTransfer",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Address" => Address), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     accept_reserved_instances_exchange_quote(reserved_instance_id)
@@ -54,8 +70,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetConfiguration"`: The configuration of the target Convertible Reserved Instance to
   exchange for your current Convertible Reserved Instances.
 """
-accept_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_reserved_instances_exchange_quote(ReservedInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_reserved_instances_exchange_quote(
+    ReservedInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AcceptReservedInstancesExchangeQuote",
+    Dict{String,Any}("ReservedInstanceId" => ReservedInstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_reserved_instances_exchange_quote(
+    ReservedInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AcceptReservedInstancesExchangeQuote",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReservedInstanceId" => ReservedInstanceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     accept_transit_gateway_multicast_domain_associations()
@@ -76,8 +114,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayAttachmentId"`: The ID of the transit gateway attachment.
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
-accept_transit_gateway_multicast_domain_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptTransitGatewayMulticastDomainAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_transit_gateway_multicast_domain_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptTransitGatewayMulticastDomainAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_transit_gateway_multicast_domain_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AcceptTransitGatewayMulticastDomainAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_transit_gateway_multicast_domain_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "AcceptTransitGatewayMulticastDomainAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     accept_transit_gateway_peering_attachment(transit_gateway_attachment_id)
@@ -99,8 +152,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-accept_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_transit_gateway_peering_attachment(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_transit_gateway_peering_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AcceptTransitGatewayPeeringAttachment",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_transit_gateway_peering_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AcceptTransitGatewayPeeringAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     accept_transit_gateway_vpc_attachment(transit_gateway_attachment_id)
@@ -125,8 +204,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-accept_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AcceptTransitGatewayVpcAttachment",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AcceptTransitGatewayVpcAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     accept_vpc_endpoint_connections(service_id, vpc_endpoint_id)
@@ -148,8 +253,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-accept_vpc_endpoint_connections(ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptVpcEndpointConnections", Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_vpc_endpoint_connections(ServiceId, VpcEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_vpc_endpoint_connections(
+    ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AcceptVpcEndpointConnections",
+    Dict{String,Any}("ServiceId" => ServiceId, "VpcEndpointId" => VpcEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_vpc_endpoint_connections(
+    ServiceId,
+    VpcEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AcceptVpcEndpointConnections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ServiceId" => ServiceId, "VpcEndpointId" => VpcEndpointId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     accept_vpc_peering_connection(vpc_peering_connection_id)
@@ -177,8 +309,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-accept_vpc_peering_connection(vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptVpcPeeringConnection", Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_vpc_peering_connection(vpcPeeringConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AcceptVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_vpc_peering_connection(
+    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AcceptVpcPeeringConnection",
+    Dict{String,Any}("vpcPeeringConnectionId" => vpcPeeringConnectionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_vpc_peering_connection(
+    vpcPeeringConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AcceptVpcPeeringConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("vpcPeeringConnectionId" => vpcPeeringConnectionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     advertise_byoip_cidr(cidr)
@@ -230,8 +386,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       You cannot provision or advertise BYOIPv6 address ranges in Local Zones at this time.
 """
-advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-advertise_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "AdvertiseByoipCidr",
+    Dict{String,Any}("Cidr" => Cidr);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function advertise_byoip_cidr(
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "AdvertiseByoipCidr",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     allocate_address()
@@ -282,8 +452,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-allocate_address(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AllocateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_address(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AllocateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_address(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("AllocateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function allocate_address(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "AllocateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     allocate_hosts(availability_zone)
@@ -352,8 +529,28 @@ Default: `off`
   then the value that you specify for **Quantity** must be equal to the number of asset IDs
   specified.
 """
-allocate_hosts(availabilityZone; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AllocateHosts", Dict{String, Any}("availabilityZone"=>availabilityZone); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_hosts(availabilityZone, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AllocateHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_hosts(availabilityZone; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "AllocateHosts",
+    Dict{String,Any}("availabilityZone" => availabilityZone);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function allocate_hosts(
+    availabilityZone,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AllocateHosts",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("availabilityZone" => availabilityZone), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     allocate_ipam_pool_cidr(ipam_pool_id)
@@ -406,8 +603,33 @@ Possible values: Any available IPv4 or IPv6 CIDR.
   addresses are 0 - 128.
 - `"PreviewNextCidr"`: A preview of the next available CIDR in a pool.
 """
-allocate_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AllocateIpamPoolCidr", Dict{String, Any}("IpamPoolId"=>IpamPoolId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-allocate_ipam_pool_cidr(IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AllocateIpamPoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+allocate_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "AllocateIpamPoolCidr",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function allocate_ipam_pool_cidr(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AllocateIpamPoolCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamPoolId" => IpamPoolId, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     apply_security_groups_to_client_vpn_target_network(client_vpn_endpoint_id, security_group_id, vpc_id)
@@ -433,8 +655,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-apply_security_groups_to_client_vpn_target_network(ClientVpnEndpointId, SecurityGroupId, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ApplySecurityGroupsToClientVpnTargetNetwork", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SecurityGroupId"=>SecurityGroupId, "VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-apply_security_groups_to_client_vpn_target_network(ClientVpnEndpointId, SecurityGroupId, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ApplySecurityGroupsToClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SecurityGroupId"=>SecurityGroupId, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+apply_security_groups_to_client_vpn_target_network(
+    ClientVpnEndpointId,
+    SecurityGroupId,
+    VpcId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ApplySecurityGroupsToClientVpnTargetNetwork",
+    Dict{String,Any}(
+        "ClientVpnEndpointId" => ClientVpnEndpointId,
+        "SecurityGroupId" => SecurityGroupId,
+        "VpcId" => VpcId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function apply_security_groups_to_client_vpn_target_network(
+    ClientVpnEndpointId,
+    SecurityGroupId,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ApplySecurityGroupsToClientVpnTargetNetwork",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                    "SecurityGroupId" => SecurityGroupId,
+                    "VpcId" => VpcId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     assign_ipv6_addresses(network_interface_id)
@@ -474,8 +733,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ipv6Addresses"`: The IPv6 addresses to be assigned to the network interface. You can't
   use this option if you're specifying a number of IPv6 addresses.
 """
-assign_ipv6_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssignIpv6Addresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-assign_ipv6_addresses(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assign_ipv6_addresses(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssignIpv6Addresses",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function assign_ipv6_addresses(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssignIpv6Addresses",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     assign_private_ip_addresses(network_interface_id)
@@ -529,8 +810,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network interface. You can't specify this parameter when also specifying private IP
   addresses.
 """
-assign_private_ip_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-assign_private_ip_addresses(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assign_private_ip_addresses(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssignPrivateIpAddresses",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function assign_private_ip_addresses(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssignPrivateIpAddresses",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     assign_private_nat_gateway_address(nat_gateway_id)
@@ -556,8 +859,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PrivateIpAddressCount"`: The number of private IP addresses to assign to the NAT
   gateway. You can't specify this parameter when also specifying private IP addresses.
 """
-assign_private_nat_gateway_address(NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssignPrivateNatGatewayAddress", Dict{String, Any}("NatGatewayId"=>NatGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-assign_private_nat_gateway_address(NatGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssignPrivateNatGatewayAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NatGatewayId"=>NatGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assign_private_nat_gateway_address(
+    NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssignPrivateNatGatewayAddress",
+    Dict{String,Any}("NatGatewayId" => NatGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function assign_private_nat_gateway_address(
+    NatGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssignPrivateNatGatewayAddress",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NatGatewayId" => NatGatewayId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_address()
@@ -603,8 +926,15 @@ You can specify either the instance ID or the network interface ID, but not both
   Elastic IP address. If no private IP address is specified, the Elastic IP address is
   associated with the primary private IP address.
 """
-associate_address(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_address(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_address(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("AssociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function associate_address(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "AssociateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     associate_client_vpn_target_network(client_vpn_endpoint_id, subnet_id)
@@ -636,8 +966,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-associate_client_vpn_target_network(ClientVpnEndpointId, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateClientVpnTargetNetwork", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_client_vpn_target_network(ClientVpnEndpointId, SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_client_vpn_target_network(
+    ClientVpnEndpointId, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssociateClientVpnTargetNetwork",
+    Dict{String,Any}(
+        "ClientVpnEndpointId" => ClientVpnEndpointId,
+        "SubnetId" => SubnetId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_client_vpn_target_network(
+    ClientVpnEndpointId,
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateClientVpnTargetNetwork",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                    "SubnetId" => SubnetId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_dhcp_options(dhcp_options_id, vpc_id)
@@ -670,8 +1033,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-associate_dhcp_options(DhcpOptionsId, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateDhcpOptions", Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId, "VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_dhcp_options(DhcpOptionsId, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_dhcp_options(
+    DhcpOptionsId, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssociateDhcpOptions",
+    Dict{String,Any}("DhcpOptionsId" => DhcpOptionsId, "VpcId" => VpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_dhcp_options(
+    DhcpOptionsId,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateDhcpOptions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DhcpOptionsId" => DhcpOptionsId, "VpcId" => VpcId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_enclave_certificate_iam_role(certificate_arn, role_arn)
@@ -708,8 +1096,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-associate_enclave_certificate_iam_role(CertificateArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateEnclaveCertificateIamRole", Dict{String, Any}("CertificateArn"=>CertificateArn, "RoleArn"=>RoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_enclave_certificate_iam_role(CertificateArn, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateEnclaveCertificateIamRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_enclave_certificate_iam_role(
+    CertificateArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssociateEnclaveCertificateIamRole",
+    Dict{String,Any}("CertificateArn" => CertificateArn, "RoleArn" => RoleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_enclave_certificate_iam_role(
+    CertificateArn,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateEnclaveCertificateIamRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CertificateArn" => CertificateArn, "RoleArn" => RoleArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_iam_instance_profile(iam_instance_profile, instance_id)
@@ -723,8 +1136,37 @@ more than one IAM instance profile with an instance.
 - `iam_instance_profile`: The IAM instance profile.
 - `instance_id`: The ID of the instance.
 """
-associate_iam_instance_profile(IamInstanceProfile, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateIamInstanceProfile", Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_iam_instance_profile(IamInstanceProfile, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_iam_instance_profile(
+    IamInstanceProfile, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssociateIamInstanceProfile",
+    Dict{String,Any}(
+        "IamInstanceProfile" => IamInstanceProfile, "InstanceId" => InstanceId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_iam_instance_profile(
+    IamInstanceProfile,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateIamInstanceProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IamInstanceProfile" => IamInstanceProfile, "InstanceId" => InstanceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_instance_event_window(association_target, instance_event_window_id)
@@ -750,8 +1192,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-associate_instance_event_window(AssociationTarget, InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateInstanceEventWindow", Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_instance_event_window(AssociationTarget, InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_instance_event_window(
+    AssociationTarget,
+    InstanceEventWindowId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "AssociateInstanceEventWindow",
+    Dict{String,Any}(
+        "AssociationTarget" => AssociationTarget,
+        "InstanceEventWindowId" => InstanceEventWindowId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_instance_event_window(
+    AssociationTarget,
+    InstanceEventWindowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateInstanceEventWindow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationTarget" => AssociationTarget,
+                    "InstanceEventWindowId" => InstanceEventWindowId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_ipam_byoasn(asn, cidr)
@@ -779,8 +1254,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-associate_ipam_byoasn(Asn, Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateIpamByoasn", Dict{String, Any}("Asn"=>Asn, "Cidr"=>Cidr); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_ipam_byoasn(Asn, Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateIpamByoasn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Asn"=>Asn, "Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_ipam_byoasn(Asn, Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "AssociateIpamByoasn",
+    Dict{String,Any}("Asn" => Asn, "Cidr" => Cidr);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_ipam_byoasn(
+    Asn,
+    Cidr,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateIpamByoasn",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Asn" => Asn, "Cidr" => Cidr), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_ipam_resource_discovery(ipam_id, ipam_resource_discovery_id)
@@ -806,8 +1300,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: Tag specifications.
 """
-associate_ipam_resource_discovery(IpamId, IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateIpamResourceDiscovery", Dict{String, Any}("IpamId"=>IpamId, "IpamResourceDiscoveryId"=>IpamResourceDiscoveryId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_ipam_resource_discovery(IpamId, IpamResourceDiscoveryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateIpamResourceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId, "IpamResourceDiscoveryId"=>IpamResourceDiscoveryId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_ipam_resource_discovery(
+    IpamId, IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssociateIpamResourceDiscovery",
+    Dict{String,Any}(
+        "IpamId" => IpamId,
+        "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_ipam_resource_discovery(
+    IpamId,
+    IpamResourceDiscoveryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateIpamResourceDiscovery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamId" => IpamId,
+                    "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_nat_gateway_address(allocation_id, nat_gateway_id)
@@ -847,8 +1374,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PrivateIpAddress"`: The private IPv4 addresses that you want to assign to the NAT
   gateway.
 """
-associate_nat_gateway_address(AllocationId, NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateNatGatewayAddress", Dict{String, Any}("AllocationId"=>AllocationId, "NatGatewayId"=>NatGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_nat_gateway_address(AllocationId, NatGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateNatGatewayAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId, "NatGatewayId"=>NatGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_nat_gateway_address(
+    AllocationId, NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssociateNatGatewayAddress",
+    Dict{String,Any}("AllocationId" => AllocationId, "NatGatewayId" => NatGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_nat_gateway_address(
+    AllocationId,
+    NatGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateNatGatewayAddress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AllocationId" => AllocationId, "NatGatewayId" => NatGatewayId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_route_table(route_table_id)
@@ -878,8 +1432,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"subnetId"`: The ID of the subnet.
 """
-associate_route_table(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateRouteTable", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_route_table(routeTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_route_table(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "AssociateRouteTable",
+        Dict{String,Any}("routeTableId" => routeTableId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_route_table(
+    routeTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateRouteTable",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("routeTableId" => routeTableId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_subnet_cidr_block(subnet_id)
@@ -900,8 +1473,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Ipv6NetmaskLength"`: An IPv6 netmask length.
 - `"ipv6CidrBlock"`: The IPv6 CIDR block for your subnet.
 """
-associate_subnet_cidr_block(subnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateSubnetCidrBlock", Dict{String, Any}("subnetId"=>subnetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_subnet_cidr_block(subnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_subnet_cidr_block(subnetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "AssociateSubnetCidrBlock",
+        Dict{String,Any}("subnetId" => subnetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_subnet_cidr_block(
+    subnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateSubnetCidrBlock",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("subnetId" => subnetId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_transit_gateway_multicast_domain(transit_gateway_attachment_id, transit_gateway_multicast_domain_id, item)
@@ -932,8 +1524,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: The IDs of the subnets to associate with the transit gateway multicast
   domain.
 """
-associate_transit_gateway_multicast_domain(TransitGatewayAttachmentId, TransitGatewayMulticastDomainId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_transit_gateway_multicast_domain(TransitGatewayAttachmentId, TransitGatewayMulticastDomainId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_transit_gateway_multicast_domain(
+    TransitGatewayAttachmentId,
+    TransitGatewayMulticastDomainId,
+    item;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "AssociateTransitGatewayMulticastDomain",
+    Dict{String,Any}(
+        "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+        "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+        "item" => item,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_transit_gateway_multicast_domain(
+    TransitGatewayAttachmentId,
+    TransitGatewayMulticastDomainId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateTransitGatewayMulticastDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+                    "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+                    "item" => item,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_transit_gateway_policy_table(transit_gateway_attachment_id, transit_gateway_policy_table_id)
@@ -957,8 +1586,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-associate_transit_gateway_policy_table(TransitGatewayAttachmentId, TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTransitGatewayPolicyTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_transit_gateway_policy_table(TransitGatewayAttachmentId, TransitGatewayPolicyTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTransitGatewayPolicyTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_transit_gateway_policy_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayPolicyTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "AssociateTransitGatewayPolicyTable",
+    Dict{String,Any}(
+        "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+        "TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_transit_gateway_policy_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayPolicyTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateTransitGatewayPolicyTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+                    "TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_transit_gateway_route_table(transit_gateway_attachment_id, transit_gateway_route_table_id)
@@ -981,8 +1643,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-associate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_transit_gateway_route_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "AssociateTransitGatewayRouteTable",
+    Dict{String,Any}(
+        "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_transit_gateway_route_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateTransitGatewayRouteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_trunk_interface(branch_interface_id, trunk_interface_id)
@@ -1012,8 +1707,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GreKey"`: The application key. This applies to the GRE protocol.
 - `"VlanId"`: The ID of the VLAN. This applies to the VLAN protocol.
 """
-associate_trunk_interface(BranchInterfaceId, TrunkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTrunkInterface", Dict{String, Any}("BranchInterfaceId"=>BranchInterfaceId, "TrunkInterfaceId"=>TrunkInterfaceId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_trunk_interface(BranchInterfaceId, TrunkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateTrunkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BranchInterfaceId"=>BranchInterfaceId, "TrunkInterfaceId"=>TrunkInterfaceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_trunk_interface(
+    BranchInterfaceId, TrunkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AssociateTrunkInterface",
+    Dict{String,Any}(
+        "BranchInterfaceId" => BranchInterfaceId,
+        "TrunkInterfaceId" => TrunkInterfaceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_trunk_interface(
+    BranchInterfaceId,
+    TrunkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AssociateTrunkInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BranchInterfaceId" => BranchInterfaceId,
+                    "TrunkInterfaceId" => TrunkInterfaceId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_vpc_cidr_block(vpc_id)
@@ -1066,8 +1794,22 @@ To let Amazon choose the IPv6 CIDR block for you, omit this parameter.
   prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of
   the CIDR block.
 """
-associate_vpc_cidr_block(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateVpcCidrBlock", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_vpc_cidr_block(vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AssociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_vpc_cidr_block(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "AssociateVpcCidrBlock",
+    Dict{String,Any}("vpcId" => vpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_vpc_cidr_block(
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "AssociateVpcCidrBlock",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("vpcId" => vpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     attach_classic_link_vpc(security_group_id, instance_id, vpc_id)
@@ -1104,8 +1846,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-attach_classic_link_vpc(SecurityGroupId, instanceId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachClassicLinkVpc", Dict{String, Any}("SecurityGroupId"=>SecurityGroupId, "instanceId"=>instanceId, "vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_classic_link_vpc(SecurityGroupId, instanceId, vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityGroupId"=>SecurityGroupId, "instanceId"=>instanceId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_classic_link_vpc(
+    SecurityGroupId, instanceId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AttachClassicLinkVpc",
+    Dict{String,Any}(
+        "SecurityGroupId" => SecurityGroupId,
+        "instanceId" => instanceId,
+        "vpcId" => vpcId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_classic_link_vpc(
+    SecurityGroupId,
+    instanceId,
+    vpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AttachClassicLinkVpc",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SecurityGroupId" => SecurityGroupId,
+                    "instanceId" => instanceId,
+                    "vpcId" => vpcId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     attach_internet_gateway(internet_gateway_id, vpc_id)
@@ -1129,8 +1905,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-attach_internet_gateway(internetGatewayId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_internet_gateway(internetGatewayId, vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_internet_gateway(
+    internetGatewayId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AttachInternetGateway",
+    Dict{String,Any}("internetGatewayId" => internetGatewayId, "vpcId" => vpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_internet_gateway(
+    internetGatewayId,
+    vpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AttachInternetGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "internetGatewayId" => internetGatewayId, "vpcId" => vpcId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     attach_network_interface(device_index, instance_id, network_interface_id)
@@ -1158,8 +1961,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-attach_network_interface(deviceIndex, instanceId, networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachNetworkInterface", Dict{String, Any}("deviceIndex"=>deviceIndex, "instanceId"=>instanceId, "networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_network_interface(deviceIndex, instanceId, networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceIndex"=>deviceIndex, "instanceId"=>instanceId, "networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_network_interface(
+    deviceIndex,
+    instanceId,
+    networkInterfaceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "AttachNetworkInterface",
+    Dict{String,Any}(
+        "deviceIndex" => deviceIndex,
+        "instanceId" => instanceId,
+        "networkInterfaceId" => networkInterfaceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_network_interface(
+    deviceIndex,
+    instanceId,
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AttachNetworkInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deviceIndex" => deviceIndex,
+                    "instanceId" => instanceId,
+                    "networkInterfaceId" => networkInterfaceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     attach_verified_access_trust_provider(verified_access_instance_id, verified_access_trust_provider_id)
@@ -1184,8 +2024,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-attach_verified_access_trust_provider(VerifiedAccessInstanceId, VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachVerifiedAccessTrustProvider", Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_verified_access_trust_provider(VerifiedAccessInstanceId, VerifiedAccessTrustProviderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachVerifiedAccessTrustProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_verified_access_trust_provider(
+    VerifiedAccessInstanceId,
+    VerifiedAccessTrustProviderId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "AttachVerifiedAccessTrustProvider",
+    Dict{String,Any}(
+        "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+        "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_verified_access_trust_provider(
+    VerifiedAccessInstanceId,
+    VerifiedAccessTrustProviderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AttachVerifiedAccessTrustProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+                    "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     attach_volume(device, instance_id, volume_id)
@@ -1227,8 +2102,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-attach_volume(Device, InstanceId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachVolume", Dict{String, Any}("Device"=>Device, "InstanceId"=>InstanceId, "VolumeId"=>VolumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_volume(Device, InstanceId, VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Device"=>Device, "InstanceId"=>InstanceId, "VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_volume(
+    Device, InstanceId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AttachVolume",
+    Dict{String,Any}(
+        "Device" => Device, "InstanceId" => InstanceId, "VolumeId" => VolumeId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_volume(
+    Device,
+    InstanceId,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AttachVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Device" => Device, "InstanceId" => InstanceId, "VolumeId" => VolumeId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     attach_vpn_gateway(vpc_id, vpn_gateway_id)
@@ -1254,8 +2159,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-attach_vpn_gateway(VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachVpnGateway", Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_vpn_gateway(VpcId, VpnGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AttachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_vpn_gateway(
+    VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AttachVpnGateway",
+    Dict{String,Any}("VpcId" => VpcId, "VpnGatewayId" => VpnGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_vpn_gateway(
+    VpcId,
+    VpnGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AttachVpnGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcId" => VpcId, "VpnGatewayId" => VpnGatewayId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     authorize_client_vpn_ingress(client_vpn_endpoint_id, target_network_cidr)
@@ -1290,8 +2220,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-authorize_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AuthorizeClientVpnIngress", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-authorize_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AuthorizeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+authorize_client_vpn_ingress(
+    ClientVpnEndpointId,
+    TargetNetworkCidr;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "AuthorizeClientVpnIngress",
+    Dict{String,Any}(
+        "ClientVpnEndpointId" => ClientVpnEndpointId,
+        "TargetNetworkCidr" => TargetNetworkCidr,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function authorize_client_vpn_ingress(
+    ClientVpnEndpointId,
+    TargetNetworkCidr,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AuthorizeClientVpnIngress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                    "TargetNetworkCidr" => TargetNetworkCidr,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     authorize_security_group_egress(group_id)
@@ -1339,8 +2304,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceSecurityGroupOwnerId"`: Not supported. Use IP permissions instead.
 - `"toPort"`: Not supported. Use IP permissions instead.
 """
-authorize_security_group_egress(groupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AuthorizeSecurityGroupEgress", Dict{String, Any}("groupId"=>groupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-authorize_security_group_egress(groupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AuthorizeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+authorize_security_group_egress(
+    groupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "AuthorizeSecurityGroupEgress",
+    Dict{String,Any}("groupId" => groupId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function authorize_security_group_egress(
+    groupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "AuthorizeSecurityGroupEgress",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("groupId" => groupId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     authorize_security_group_ingress()
@@ -1411,8 +2394,22 @@ To specify multiple rules and descriptions for the rules, use IP permissions ins
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-authorize_security_group_ingress(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AuthorizeSecurityGroupIngress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-authorize_security_group_ingress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("AuthorizeSecurityGroupIngress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+authorize_security_group_ingress(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "AuthorizeSecurityGroupIngress";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function authorize_security_group_ingress(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "AuthorizeSecurityGroupIngress",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     bundle_instance(instance_id, storage)
@@ -1445,8 +2442,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-bundle_instance(InstanceId, Storage; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("BundleInstance", Dict{String, Any}("InstanceId"=>InstanceId, "Storage"=>Storage); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-bundle_instance(InstanceId, Storage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("BundleInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "Storage"=>Storage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+bundle_instance(InstanceId, Storage; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "BundleInstance",
+        Dict{String,Any}("InstanceId" => InstanceId, "Storage" => Storage);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function bundle_instance(
+    InstanceId,
+    Storage,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "BundleInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceId" => InstanceId, "Storage" => Storage),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_bundle_task(bundle_id)
@@ -1467,8 +2488,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-cancel_bundle_task(BundleId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelBundleTask", Dict{String, Any}("BundleId"=>BundleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_bundle_task(BundleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelBundleTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_bundle_task(BundleId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CancelBundleTask",
+    Dict{String,Any}("BundleId" => BundleId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_bundle_task(
+    BundleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelBundleTask",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BundleId" => BundleId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_capacity_reservation(capacity_reservation_id)
@@ -1495,8 +2534,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-cancel_capacity_reservation(CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_capacity_reservation(CapacityReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_capacity_reservation(
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CancelCapacityReservation",
+    Dict{String,Any}("CapacityReservationId" => CapacityReservationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_capacity_reservation(
+    CapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CapacityReservationId" => CapacityReservationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_capacity_reservation_fleets(capacity_reservation_fleet_id)
@@ -1523,8 +2586,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-cancel_capacity_reservation_fleets(CapacityReservationFleetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelCapacityReservationFleets", Dict{String, Any}("CapacityReservationFleetId"=>CapacityReservationFleetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_capacity_reservation_fleets(CapacityReservationFleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelCapacityReservationFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationFleetId"=>CapacityReservationFleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_capacity_reservation_fleets(
+    CapacityReservationFleetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CancelCapacityReservationFleets",
+    Dict{String,Any}("CapacityReservationFleetId" => CapacityReservationFleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_capacity_reservation_fleets(
+    CapacityReservationFleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelCapacityReservationFleets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityReservationFleetId" => CapacityReservationFleetId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_conversion_task(conversion_task_id)
@@ -1551,8 +2640,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"reasonMessage"`: The reason for canceling the conversion task.
 """
-cancel_conversion_task(conversionTaskId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelConversionTask", Dict{String, Any}("conversionTaskId"=>conversionTaskId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_conversion_task(conversionTaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelConversionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("conversionTaskId"=>conversionTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_conversion_task(
+    conversionTaskId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CancelConversionTask",
+    Dict{String,Any}("conversionTaskId" => conversionTaskId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_conversion_task(
+    conversionTaskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelConversionTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("conversionTaskId" => conversionTaskId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_export_task(export_task_id)
@@ -1567,8 +2678,26 @@ process of transferring the final disk image, the command fails and returns an e
 - `export_task_id`: The ID of the export task. This is the ID returned by the
   `CreateInstanceExportTask` and `ExportImage` operations.
 """
-cancel_export_task(exportTaskId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelExportTask", Dict{String, Any}("exportTaskId"=>exportTaskId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_export_task(exportTaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportTaskId"=>exportTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_export_task(exportTaskId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CancelExportTask",
+    Dict{String,Any}("exportTaskId" => exportTaskId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_export_task(
+    exportTaskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelExportTask",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("exportTaskId" => exportTaskId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_image_launch_permission(image_id)
@@ -1591,8 +2720,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-cancel_image_launch_permission(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelImageLaunchPermission", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_image_launch_permission(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelImageLaunchPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_image_launch_permission(
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CancelImageLaunchPermission",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_image_launch_permission(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelImageLaunchPermission",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_import_task()
@@ -1611,8 +2758,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"ImportTaskId"`: The ID of the import image or import snapshot task to be canceled.
 """
-cancel_import_task(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelImportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_import_task(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelImportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_import_task(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CancelImportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function cancel_import_task(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CancelImportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     cancel_reserved_instances_listing(reserved_instances_listing_id)
@@ -1627,8 +2781,34 @@ in the *Amazon EC2 User Guide*.
 
 - `reserved_instances_listing_id`: The ID of the Reserved Instance listing.
 """
-cancel_reserved_instances_listing(reservedInstancesListingId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelReservedInstancesListing", Dict{String, Any}("reservedInstancesListingId"=>reservedInstancesListingId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_reserved_instances_listing(reservedInstancesListingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservedInstancesListingId"=>reservedInstancesListingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_reserved_instances_listing(
+    reservedInstancesListingId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CancelReservedInstancesListing",
+    Dict{String,Any}("reservedInstancesListingId" => reservedInstancesListingId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_reserved_instances_listing(
+    reservedInstancesListingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelReservedInstancesListing",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "reservedInstancesListingId" => reservedInstancesListingId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_spot_fleet_requests(spot_fleet_request_id, terminate_instances)
@@ -1669,8 +2849,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-cancel_spot_fleet_requests(spotFleetRequestId, terminateInstances; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelSpotFleetRequests", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "terminateInstances"=>terminateInstances); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_spot_fleet_requests(spotFleetRequestId, terminateInstances, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelSpotFleetRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "terminateInstances"=>terminateInstances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_spot_fleet_requests(
+    spotFleetRequestId,
+    terminateInstances;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CancelSpotFleetRequests",
+    Dict{String,Any}(
+        "spotFleetRequestId" => spotFleetRequestId,
+        "terminateInstances" => terminateInstances,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_spot_fleet_requests(
+    spotFleetRequestId,
+    terminateInstances,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelSpotFleetRequests",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "spotFleetRequestId" => spotFleetRequestId,
+                    "terminateInstances" => terminateInstances,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_spot_instance_requests(spot_instance_request_id)
@@ -1695,8 +2908,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-cancel_spot_instance_requests(SpotInstanceRequestId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelSpotInstanceRequests", Dict{String, Any}("SpotInstanceRequestId"=>SpotInstanceRequestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_spot_instance_requests(SpotInstanceRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CancelSpotInstanceRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SpotInstanceRequestId"=>SpotInstanceRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_spot_instance_requests(
+    SpotInstanceRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CancelSpotInstanceRequests",
+    Dict{String,Any}("SpotInstanceRequestId" => SpotInstanceRequestId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_spot_instance_requests(
+    SpotInstanceRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CancelSpotInstanceRequests",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SpotInstanceRequestId" => SpotInstanceRequestId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     confirm_product_instance(instance_id, product_code)
@@ -1720,8 +2957,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-confirm_product_instance(InstanceId, ProductCode; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ConfirmProductInstance", Dict{String, Any}("InstanceId"=>InstanceId, "ProductCode"=>ProductCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-confirm_product_instance(InstanceId, ProductCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ConfirmProductInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ProductCode"=>ProductCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+confirm_product_instance(
+    InstanceId, ProductCode; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ConfirmProductInstance",
+    Dict{String,Any}("InstanceId" => InstanceId, "ProductCode" => ProductCode);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function confirm_product_instance(
+    InstanceId,
+    ProductCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ConfirmProductInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceId" => InstanceId, "ProductCode" => ProductCode),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     copy_fpga_image(source_fpga_image_id, source_region)
@@ -1747,8 +3009,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"Name"`: The name for the new AFI. The default is the name of the source AFI.
 """
-copy_fpga_image(SourceFpgaImageId, SourceRegion; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CopyFpgaImage", Dict{String, Any}("SourceFpgaImageId"=>SourceFpgaImageId, "SourceRegion"=>SourceRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-copy_fpga_image(SourceFpgaImageId, SourceRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CopyFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceFpgaImageId"=>SourceFpgaImageId, "SourceRegion"=>SourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_fpga_image(
+    SourceFpgaImageId, SourceRegion; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CopyFpgaImage",
+    Dict{String,Any}(
+        "SourceFpgaImageId" => SourceFpgaImageId, "SourceRegion" => SourceRegion
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_fpga_image(
+    SourceFpgaImageId,
+    SourceRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CopyFpgaImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceFpgaImageId" => SourceFpgaImageId, "SourceRegion" => SourceRegion
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     copy_image(name, source_image_id, source_region)
@@ -1834,8 +3125,40 @@ Default: Your user-defined AMI tags are not copied.
 
  <p>Amazon EBS does not support asymmetric KMS keys.
 """
-copy_image(Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CopyImage", Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-copy_image(Name, SourceImageId, SourceRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_image(
+    Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CopyImage",
+    Dict{String,Any}(
+        "Name" => Name, "SourceImageId" => SourceImageId, "SourceRegion" => SourceRegion
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_image(
+    Name,
+    SourceImageId,
+    SourceRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CopyImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "SourceImageId" => SourceImageId,
+                    "SourceRegion" => SourceRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     copy_snapshot(source_region, source_snapshot_id)
@@ -1928,8 +3251,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cause the copy operation to fail asynchronously, and the snapshot will move to an `error`
   state.
 """
-copy_snapshot(SourceRegion, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CopySnapshot", Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-copy_snapshot(SourceRegion, SourceSnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_snapshot(
+    SourceRegion, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CopySnapshot",
+    Dict{String,Any}(
+        "SourceRegion" => SourceRegion, "SourceSnapshotId" => SourceSnapshotId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_snapshot(
+    SourceRegion,
+    SourceSnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CopySnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceRegion" => SourceRegion, "SourceSnapshotId" => SourceSnapshotId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_capacity_reservation(instance_count, instance_platform, instance_type)
@@ -2025,8 +3377,45 @@ Default: `open`
    - `dedicated` - The Capacity Reservation is created on single-tenant hardware that is
   dedicated to a single Amazon Web Services account.
 """
-create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_capacity_reservation(
+    InstanceCount,
+    InstancePlatform,
+    InstanceType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateCapacityReservation",
+    Dict{String,Any}(
+        "InstanceCount" => InstanceCount,
+        "InstancePlatform" => InstancePlatform,
+        "InstanceType" => InstanceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_capacity_reservation(
+    InstanceCount,
+    InstancePlatform,
+    InstanceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceCount" => InstanceCount,
+                    "InstancePlatform" => InstancePlatform,
+                    "InstanceType" => InstanceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_capacity_reservation_by_splitting(instance_count, source_capacity_reservation_id)
@@ -2055,8 +3444,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`:  The tags to apply to the new Capacity Reservation.
 """
-create_capacity_reservation_by_splitting(InstanceCount, SourceCapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCapacityReservationBySplitting", Dict{String, Any}("InstanceCount"=>InstanceCount, "SourceCapacityReservationId"=>SourceCapacityReservationId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_capacity_reservation_by_splitting(InstanceCount, SourceCapacityReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCapacityReservationBySplitting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "SourceCapacityReservationId"=>SourceCapacityReservationId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_capacity_reservation_by_splitting(
+    InstanceCount,
+    SourceCapacityReservationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateCapacityReservationBySplitting",
+    Dict{String,Any}(
+        "InstanceCount" => InstanceCount,
+        "SourceCapacityReservationId" => SourceCapacityReservationId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_capacity_reservation_by_splitting(
+    InstanceCount,
+    SourceCapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateCapacityReservationBySplitting",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceCount" => InstanceCount,
+                    "SourceCapacityReservationId" => SourceCapacityReservationId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_capacity_reservation_fleet(instance_type_specification, total_target_capacity)
@@ -2116,8 +3540,43 @@ Valid values: `prioritized`
    - `dedicated` - The Capacity Reservations are created on single-tenant hardware that is
   dedicated to a single Amazon Web Services account.
 """
-create_capacity_reservation_fleet(InstanceTypeSpecification, TotalTargetCapacity; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCapacityReservationFleet", Dict{String, Any}("InstanceTypeSpecification"=>InstanceTypeSpecification, "TotalTargetCapacity"=>TotalTargetCapacity, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_capacity_reservation_fleet(InstanceTypeSpecification, TotalTargetCapacity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCapacityReservationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTypeSpecification"=>InstanceTypeSpecification, "TotalTargetCapacity"=>TotalTargetCapacity, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_capacity_reservation_fleet(
+    InstanceTypeSpecification,
+    TotalTargetCapacity;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateCapacityReservationFleet",
+    Dict{String,Any}(
+        "InstanceTypeSpecification" => InstanceTypeSpecification,
+        "TotalTargetCapacity" => TotalTargetCapacity,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_capacity_reservation_fleet(
+    InstanceTypeSpecification,
+    TotalTargetCapacity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateCapacityReservationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceTypeSpecification" => InstanceTypeSpecification,
+                    "TotalTargetCapacity" => TotalTargetCapacity,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_carrier_gateway(vpc_id)
@@ -2142,8 +3601,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to associate with the carrier gateway.
 """
-create_carrier_gateway(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCarrierGateway", Dict{String, Any}("VpcId"=>VpcId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_carrier_gateway(VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_carrier_gateway(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateCarrierGateway",
+    Dict{String,Any}("VpcId" => VpcId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_carrier_gateway(
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateCarrierGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcId" => VpcId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_client_vpn_endpoint(authentication, client_cidr_block, connection_log_options, server_certificate_arn)
@@ -2221,8 +3700,51 @@ Valid Values: `443` | `1194`
 
 Default Value: `443`
 """
-create_client_vpn_endpoint(Authentication, ClientCidrBlock, ConnectionLogOptions, ServerCertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateClientVpnEndpoint", Dict{String, Any}("Authentication"=>Authentication, "ClientCidrBlock"=>ClientCidrBlock, "ConnectionLogOptions"=>ConnectionLogOptions, "ServerCertificateArn"=>ServerCertificateArn, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_client_vpn_endpoint(Authentication, ClientCidrBlock, ConnectionLogOptions, ServerCertificateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Authentication"=>Authentication, "ClientCidrBlock"=>ClientCidrBlock, "ConnectionLogOptions"=>ConnectionLogOptions, "ServerCertificateArn"=>ServerCertificateArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_client_vpn_endpoint(
+    Authentication,
+    ClientCidrBlock,
+    ConnectionLogOptions,
+    ServerCertificateArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateClientVpnEndpoint",
+    Dict{String,Any}(
+        "Authentication" => Authentication,
+        "ClientCidrBlock" => ClientCidrBlock,
+        "ConnectionLogOptions" => ConnectionLogOptions,
+        "ServerCertificateArn" => ServerCertificateArn,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_client_vpn_endpoint(
+    Authentication,
+    ClientCidrBlock,
+    ConnectionLogOptions,
+    ServerCertificateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateClientVpnEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Authentication" => Authentication,
+                    "ClientCidrBlock" => ClientCidrBlock,
+                    "ConnectionLogOptions" => ConnectionLogOptions,
+                    "ServerCertificateArn" => ServerCertificateArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_client_vpn_route(client_vpn_endpoint_id, destination_cidr_block, target_vpc_subnet_id)
@@ -2258,8 +3780,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateClientVpnRoute", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock, "TargetVpcSubnetId"=>TargetVpcSubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock, "TargetVpcSubnetId"=>TargetVpcSubnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_client_vpn_route(
+    ClientVpnEndpointId,
+    DestinationCidrBlock,
+    TargetVpcSubnetId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateClientVpnRoute",
+    Dict{String,Any}(
+        "ClientVpnEndpointId" => ClientVpnEndpointId,
+        "DestinationCidrBlock" => DestinationCidrBlock,
+        "TargetVpcSubnetId" => TargetVpcSubnetId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_client_vpn_route(
+    ClientVpnEndpointId,
+    DestinationCidrBlock,
+    TargetVpcSubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateClientVpnRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                    "TargetVpcSubnetId" => TargetVpcSubnetId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_coip_cidr(cidr, coip_pool_id)
@@ -2281,8 +3842,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_coip_cidr(Cidr, CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCoipCidr", Dict{String, Any}("Cidr"=>Cidr, "CoipPoolId"=>CoipPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_coip_cidr(Cidr, CoipPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CoipPoolId"=>CoipPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_coip_cidr(Cidr, CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "CreateCoipCidr",
+        Dict{String,Any}("Cidr" => Cidr, "CoipPoolId" => CoipPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_coip_cidr(
+    Cidr,
+    CoipPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateCoipCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Cidr" => Cidr, "CoipPoolId" => CoipPoolId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_coip_pool(local_gateway_route_table_id)
@@ -2304,8 +3887,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`:  The tags to assign to the CoIP address pool.
 """
-create_coip_pool(LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCoipPool", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_coip_pool(LocalGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCoipPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_coip_pool(
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateCoipPool",
+    Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_coip_pool(
+    LocalGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateCoipPool",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_customer_gateway(type)
@@ -2361,8 +3968,22 @@ Length Constraints: Up to 255 characters.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_customer_gateway(Type; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCustomerGateway", Dict{String, Any}("Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_customer_gateway(Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_customer_gateway(Type; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateCustomerGateway",
+    Dict{String,Any}("Type" => Type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_customer_gateway(
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateCustomerGateway",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_default_subnet(availability_zone)
@@ -2389,8 +4010,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default subnet for this Availability Zone, you must delete it before you can create an
   IPv6 only subnet.
 """
-create_default_subnet(AvailabilityZone; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateDefaultSubnet", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_default_subnet(AvailabilityZone, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateDefaultSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_default_subnet(
+    AvailabilityZone; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateDefaultSubnet",
+    Dict{String,Any}("AvailabilityZone" => AvailabilityZone);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_default_subnet(
+    AvailabilityZone,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateDefaultSubnet",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AvailabilityZone" => AvailabilityZone), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_default_vpc()
@@ -2413,8 +4056,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_default_vpc(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateDefaultVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_default_vpc(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateDefaultVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_default_vpc(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CreateDefaultVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_default_vpc(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateDefaultVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     create_dhcp_options(dhcp_configuration)
@@ -2466,8 +4116,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_dhcp_options(dhcpConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateDhcpOptions", Dict{String, Any}("dhcpConfiguration"=>dhcpConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_dhcp_options(dhcpConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dhcpConfiguration"=>dhcpConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_dhcp_options(dhcpConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "CreateDhcpOptions",
+        Dict{String,Any}("dhcpConfiguration" => dhcpConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_dhcp_options(
+    dhcpConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateDhcpOptions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("dhcpConfiguration" => dhcpConfiguration), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_egress_only_internet_gateway(vpc_id)
@@ -2491,8 +4162,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to assign to the egress-only internet gateway.
 """
-create_egress_only_internet_gateway(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateEgressOnlyInternetGateway", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_egress_only_internet_gateway(VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_egress_only_internet_gateway(
+    VpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateEgressOnlyInternetGateway",
+    Dict{String,Any}("VpcId" => VpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_egress_only_internet_gateway(
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateEgressOnlyInternetGateway",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VpcId" => VpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_fleet(target_capacity_specification, item)
@@ -2561,8 +4248,38 @@ Supported only for fleets of type `maintain`.
   *MM*-*DD*T*HH*:*MM*:*SS*Z). At this point, no new EC2 Fleet requests are placed or able
   to fulfill the request. If no value is specified, the request remains until you cancel it.
 """
-create_fleet(TargetCapacitySpecification, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateFleet", Dict{String, Any}("TargetCapacitySpecification"=>TargetCapacitySpecification, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_fleet(TargetCapacitySpecification, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetCapacitySpecification"=>TargetCapacitySpecification, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_fleet(
+    TargetCapacitySpecification, item; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateFleet",
+    Dict{String,Any}(
+        "TargetCapacitySpecification" => TargetCapacitySpecification, "item" => item
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_fleet(
+    TargetCapacitySpecification,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TargetCapacitySpecification" => TargetCapacitySpecification,
+                    "item" => item,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_flow_logs(resource_id, resource_type)
@@ -2637,7 +4354,7 @@ Default: `cloud-watch-logs`
   in the *Amazon VPC User Guide* or [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records)
   in the *Amazon Web Services Transit Gateway Guide*.
 
-Specify the fields using the `${field-id}` format, separated by spaces.
+Specify the fields using the `\${field-id}` format, separated by spaces.
 - `"LogGroupName"`: The name of a new or existing CloudWatch Logs log group where Amazon
   EC2 publishes your flow logs.
 
@@ -2657,8 +4374,35 @@ Default: 600
   all traffic). This parameter is not supported for transit gateway resource types. It is
   required for the other resource types.
 """
-create_flow_logs(ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateFlowLogs", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_flow_logs(ResourceId, ResourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_flow_logs(
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateFlowLogs",
+    Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_flow_logs(
+    ResourceId,
+    ResourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateFlowLogs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceId" => ResourceId, "ResourceType" => ResourceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_fpga_image(input_storage_location)
@@ -2692,8 +4436,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A name for the AFI.
 - `"TagSpecification"`: The tags to apply to the FPGA image during creation.
 """
-create_fpga_image(InputStorageLocation; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateFpgaImage", Dict{String, Any}("InputStorageLocation"=>InputStorageLocation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_fpga_image(InputStorageLocation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputStorageLocation"=>InputStorageLocation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_fpga_image(
+    InputStorageLocation; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateFpgaImage",
+    Dict{String,Any}("InputStorageLocation" => InputStorageLocation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_fpga_image(
+    InputStorageLocation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateFpgaImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InputStorageLocation" => InputStorageLocation),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_image(instance_id, name)
@@ -2758,8 +4526,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 Default: `false`
 """
-create_image(instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateImage", Dict{String, Any}("instanceId"=>instanceId, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_image(instanceId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_image(instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateImage",
+    Dict{String,Any}("instanceId" => instanceId, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_image(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("instanceId" => instanceId, "name" => name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_instance_connect_endpoint(subnet_id)
@@ -2796,8 +4585,32 @@ Default: `false`
 - `"TagSpecification"`: The tags to apply to the EC2 Instance Connect Endpoint during
   creation.
 """
-create_instance_connect_endpoint(SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInstanceConnectEndpoint", Dict{String, Any}("SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_instance_connect_endpoint(SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInstanceConnectEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_instance_connect_endpoint(
+    SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateInstanceConnectEndpoint",
+    Dict{String,Any}("SubnetId" => SubnetId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_instance_connect_endpoint(
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateInstanceConnectEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SubnetId" => SubnetId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_instance_event_window()
@@ -2851,8 +4664,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeRange"`: The time range for the event window. If you specify a time range, you
   can't specify a cron expression.
 """
-create_instance_event_window(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInstanceEventWindow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_instance_event_window(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInstanceEventWindow", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_instance_event_window(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CreateInstanceEventWindow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_instance_event_window(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateInstanceEventWindow",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_instance_export_task(export_to_s3, instance_id, target_environment)
@@ -2879,8 +4702,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description for the conversion task or the resource being exported.
   The maximum length is 255 characters.
 """
-create_instance_export_task(exportToS3, instanceId, targetEnvironment; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInstanceExportTask", Dict{String, Any}("exportToS3"=>exportToS3, "instanceId"=>instanceId, "targetEnvironment"=>targetEnvironment); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_instance_export_task(exportToS3, instanceId, targetEnvironment, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInstanceExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportToS3"=>exportToS3, "instanceId"=>instanceId, "targetEnvironment"=>targetEnvironment), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_instance_export_task(
+    exportToS3,
+    instanceId,
+    targetEnvironment;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateInstanceExportTask",
+    Dict{String,Any}(
+        "exportToS3" => exportToS3,
+        "instanceId" => instanceId,
+        "targetEnvironment" => targetEnvironment,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_instance_export_task(
+    exportToS3,
+    instanceId,
+    targetEnvironment,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateInstanceExportTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "exportToS3" => exportToS3,
+                    "instanceId" => instanceId,
+                    "targetEnvironment" => targetEnvironment,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_internet_gateway()
@@ -2902,8 +4762,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_internet_gateway(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInternetGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_internet_gateway(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateInternetGateway", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_internet_gateway(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CreateInternetGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_internet_gateway(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateInternetGateway",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ipam()
@@ -2944,8 +4814,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tier"`: IPAM is offered in a Free Tier and an Advanced Tier. For more information about
   the features available in each tier and the costs associated with the tiers, see [Amazon VPC pricing &gt; IPAM tab](http://aws.amazon.com/vpc/pricing/).
 """
-create_ipam(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpam", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ipam(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ipam(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateIpam",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ipam(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateIpam",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ipam_external_resource_verification_token(ipam_id)
@@ -2972,8 +4858,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: Token tags.
 """
-create_ipam_external_resource_verification_token(IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamExternalResourceVerificationToken", Dict{String, Any}("IpamId"=>IpamId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ipam_external_resource_verification_token(IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamExternalResourceVerificationToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ipam_external_resource_verification_token(
+    IpamId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateIpamExternalResourceVerificationToken",
+    Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ipam_external_resource_verification_token(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ipam_pool(address_family, ipam_scope_id)
@@ -3060,8 +4968,41 @@ A locale must be set on the pool for this feature to work.
   find all resources that have a tag with the key `Owner` and the value `TeamA`, specify
   `tag:Owner` for the filter name and `TeamA` for the filter value.
 """
-create_ipam_pool(AddressFamily, IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamPool", Dict{String, Any}("AddressFamily"=>AddressFamily, "IpamScopeId"=>IpamScopeId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ipam_pool(AddressFamily, IpamScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressFamily"=>AddressFamily, "IpamScopeId"=>IpamScopeId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ipam_pool(
+    AddressFamily, IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateIpamPool",
+    Dict{String,Any}(
+        "AddressFamily" => AddressFamily,
+        "IpamScopeId" => IpamScopeId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ipam_pool(
+    AddressFamily,
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateIpamPool",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AddressFamily" => AddressFamily,
+                    "IpamScopeId" => IpamScopeId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ipam_resource_discovery()
@@ -3086,8 +5027,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as operating Regions.
 - `"TagSpecification"`: Tag specifications for the IPAM resource discovery.
 """
-create_ipam_resource_discovery(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamResourceDiscovery", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ipam_resource_discovery(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamResourceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ipam_resource_discovery(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateIpamResourceDiscovery",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ipam_resource_discovery(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateIpamResourceDiscovery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ipam_scope(ipam_id)
@@ -3122,8 +5079,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   find all resources that have a tag with the key `Owner` and the value `TeamA`, specify
   `tag:Owner` for the filter name and `TeamA` for the filter value.
 """
-create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamScope", Dict{String, Any}("IpamId"=>IpamId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ipam_scope(IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateIpamScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateIpamScope",
+    Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ipam_scope(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateIpamScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_key_pair(key_name)
@@ -3167,8 +5144,24 @@ Default: `rsa`
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_key_pair(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateKeyPair", Dict{String, Any}("KeyName"=>KeyName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_key_pair(KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_key_pair(KeyName; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateKeyPair",
+    Dict{String,Any}("KeyName" => KeyName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_key_pair(
+    KeyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateKeyPair",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyName" => KeyName), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_launch_template(launch_template_data, launch_template_name)
@@ -3211,8 +5204,41 @@ Constraint: Maximum 128 ASCII characters.
   structure.
 - `"VersionDescription"`: A description for the first version of the launch template.
 """
-create_launch_template(LaunchTemplateData, LaunchTemplateName; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLaunchTemplate", Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData, "LaunchTemplateName"=>LaunchTemplateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_launch_template(LaunchTemplateData, LaunchTemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLaunchTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData, "LaunchTemplateName"=>LaunchTemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_launch_template(
+    LaunchTemplateData,
+    LaunchTemplateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateLaunchTemplate",
+    Dict{String,Any}(
+        "LaunchTemplateData" => LaunchTemplateData,
+        "LaunchTemplateName" => LaunchTemplateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_launch_template(
+    LaunchTemplateData,
+    LaunchTemplateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateLaunchTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LaunchTemplateData" => LaunchTemplateData,
+                    "LaunchTemplateName" => LaunchTemplateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_launch_template_version(launch_template_data)
@@ -3272,8 +5298,30 @@ Default: `false`
   specify for the new version.
 - `"VersionDescription"`: A description for the version of the launch template.
 """
-create_launch_template_version(LaunchTemplateData; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLaunchTemplateVersion", Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_launch_template_version(LaunchTemplateData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLaunchTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_launch_template_version(
+    LaunchTemplateData; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateLaunchTemplateVersion",
+    Dict{String,Any}("LaunchTemplateData" => LaunchTemplateData);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_launch_template_version(
+    LaunchTemplateData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateLaunchTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LaunchTemplateData" => LaunchTemplateData), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_local_gateway_route(local_gateway_route_table_id)
@@ -3303,8 +5351,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LocalGatewayVirtualInterfaceGroupId"`: The ID of the virtual interface group.
 - `"NetworkInterfaceId"`: The ID of the network interface.
 """
-create_local_gateway_route(LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRoute", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_local_gateway_route(LocalGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_local_gateway_route(
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateLocalGatewayRoute",
+    Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_local_gateway_route(
+    LocalGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateLocalGatewayRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_local_gateway_route_table(local_gateway_id)
@@ -3327,8 +5399,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Mode"`:  The mode of the local gateway route table.
 - `"TagSpecification"`:  The tags assigned to the local gateway route table.
 """
-create_local_gateway_route_table(LocalGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRouteTable", Dict{String, Any}("LocalGatewayId"=>LocalGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_local_gateway_route_table(LocalGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayId"=>LocalGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_local_gateway_route_table(
+    LocalGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateLocalGatewayRouteTable",
+    Dict{String,Any}("LocalGatewayId" => LocalGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_local_gateway_route_table(
+    LocalGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateLocalGatewayRouteTable",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocalGatewayId" => LocalGatewayId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_local_gateway_route_table_virtual_interface_group_association(local_gateway_route_table_id, local_gateway_virtual_interface_group_id)
@@ -3353,8 +5445,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`:  The tags assigned to the local gateway route table virtual
   interface group association.
 """
-create_local_gateway_route_table_virtual_interface_group_association(LocalGatewayRouteTableId, LocalGatewayVirtualInterfaceGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "LocalGatewayVirtualInterfaceGroupId"=>LocalGatewayVirtualInterfaceGroupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_local_gateway_route_table_virtual_interface_group_association(LocalGatewayRouteTableId, LocalGatewayVirtualInterfaceGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "LocalGatewayVirtualInterfaceGroupId"=>LocalGatewayVirtualInterfaceGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_local_gateway_route_table_virtual_interface_group_association(
+    LocalGatewayRouteTableId,
+    LocalGatewayVirtualInterfaceGroupId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+    Dict{String,Any}(
+        "LocalGatewayRouteTableId" => LocalGatewayRouteTableId,
+        "LocalGatewayVirtualInterfaceGroupId" => LocalGatewayVirtualInterfaceGroupId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_local_gateway_route_table_virtual_interface_group_association(
+    LocalGatewayRouteTableId,
+    LocalGatewayVirtualInterfaceGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LocalGatewayRouteTableId" => LocalGatewayRouteTableId,
+                    "LocalGatewayVirtualInterfaceGroupId" =>
+                        LocalGatewayVirtualInterfaceGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_local_gateway_route_table_vpc_association(local_gateway_route_table_id, vpc_id)
@@ -3377,8 +5503,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to assign to the local gateway route table VPC association.
 """
-create_local_gateway_route_table_vpc_association(LocalGatewayRouteTableId, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRouteTableVpcAssociation", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_local_gateway_route_table_vpc_association(LocalGatewayRouteTableId, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_local_gateway_route_table_vpc_association(
+    LocalGatewayRouteTableId, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateLocalGatewayRouteTableVpcAssociation",
+    Dict{String,Any}(
+        "LocalGatewayRouteTableId" => LocalGatewayRouteTableId, "VpcId" => VpcId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_local_gateway_route_table_vpc_association(
+    LocalGatewayRouteTableId,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateLocalGatewayRouteTableVpcAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LocalGatewayRouteTableId" => LocalGatewayRouteTableId, "VpcId" => VpcId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_managed_prefix_list(address_family, max_entries, prefix_list_name)
@@ -3412,8 +5567,47 @@ Constraints: Up to 255 UTF-8 characters in length.
 - `"Entry"`: One or more entries for the prefix list.
 - `"TagSpecification"`: The tags to apply to the prefix list during creation.
 """
-create_managed_prefix_list(AddressFamily, MaxEntries, PrefixListName; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateManagedPrefixList", Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_managed_prefix_list(AddressFamily, MaxEntries, PrefixListName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_managed_prefix_list(
+    AddressFamily,
+    MaxEntries,
+    PrefixListName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateManagedPrefixList",
+    Dict{String,Any}(
+        "AddressFamily" => AddressFamily,
+        "MaxEntries" => MaxEntries,
+        "PrefixListName" => PrefixListName,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_managed_prefix_list(
+    AddressFamily,
+    MaxEntries,
+    PrefixListName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateManagedPrefixList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AddressFamily" => AddressFamily,
+                    "MaxEntries" => MaxEntries,
+                    "PrefixListName" => PrefixListName,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_nat_gateway(subnet_id)
@@ -3473,8 +5667,30 @@ Constraint: Maximum 64 ASCII characters.
 - `"SecondaryPrivateIpAddressCount"`: [Private NAT gateway only] The number of secondary private IPv4 addresses you want to assign to the NAT gateway. For more information about secondary addresses, see [Create a NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-creating) in the *Amazon VPC User Guide*.
 - `"TagSpecification"`: The tags to assign to the NAT gateway.
 """
-create_nat_gateway(SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}("SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_nat_gateway(SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_nat_gateway(SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateNatGateway",
+    Dict{String,Any}("SubnetId" => SubnetId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_nat_gateway(
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateNatGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SubnetId" => SubnetId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network_acl(vpc_id)
@@ -3502,8 +5718,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_network_acl(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkAcl", Dict{String, Any}("vpcId"=>vpcId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network_acl(vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network_acl(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateNetworkAcl",
+    Dict{String,Any}("vpcId" => vpcId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_network_acl(
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateNetworkAcl",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("vpcId" => vpcId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network_acl_entry(egress, network_acl_id, protocol, rule_action, rule_number)
@@ -3561,8 +5797,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"portRange"`: TCP or UDP protocols: The range of ports the rule applies to. Required if
   specifying protocol 6 (TCP) or 17 (UDP).
 """
-create_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network_acl_entry(
+    egress,
+    networkAclId,
+    protocol,
+    ruleAction,
+    ruleNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateNetworkAclEntry",
+    Dict{String,Any}(
+        "egress" => egress,
+        "networkAclId" => networkAclId,
+        "protocol" => protocol,
+        "ruleAction" => ruleAction,
+        "ruleNumber" => ruleNumber,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_network_acl_entry(
+    egress,
+    networkAclId,
+    protocol,
+    ruleAction,
+    ruleNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateNetworkAclEntry",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "egress" => egress,
+                    "networkAclId" => networkAclId,
+                    "protocol" => protocol,
+                    "ruleAction" => ruleAction,
+                    "ruleNumber" => ruleNumber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network_insights_access_scope(client_token)
@@ -3591,8 +5872,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MatchPath"`: The paths to match.
 - `"TagSpecification"`: The tags to apply.
 """
-create_network_insights_access_scope(ClientToken; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInsightsAccessScope", Dict{String, Any}("ClientToken"=>ClientToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network_insights_access_scope(ClientToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInsightsAccessScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network_insights_access_scope(
+    ClientToken; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateNetworkInsightsAccessScope",
+    Dict{String,Any}("ClientToken" => ClientToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_network_insights_access_scope(
+    ClientToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateNetworkInsightsAccessScope",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => ClientToken), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network_insights_path(client_token, protocol, source)
@@ -3632,8 +5933,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceIp"`: The IP address of the source.
 - `"TagSpecification"`: The tags to add to the path.
 """
-create_network_insights_path(ClientToken, Protocol, Source; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInsightsPath", Dict{String, Any}("ClientToken"=>ClientToken, "Protocol"=>Protocol, "Source"=>Source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network_insights_path(ClientToken, Protocol, Source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInsightsPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Protocol"=>Protocol, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network_insights_path(
+    ClientToken, Protocol, Source; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateNetworkInsightsPath",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken, "Protocol" => Protocol, "Source" => Source
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_network_insights_path(
+    ClientToken,
+    Protocol,
+    Source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateNetworkInsightsPath",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken, "Protocol" => Protocol, "Source" => Source
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network_interface(subnet_id)
@@ -3730,8 +6061,31 @@ The only supported values are `interface`, `efa`, and `trunk`.
   following: specific private IPv4 addresses, specific IPv4 prefixes, or a count of IPv4
   prefixes.
 """
-create_network_interface(subnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}("subnetId"=>subnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network_interface(subnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network_interface(subnetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "CreateNetworkInterface",
+        Dict{String,Any}("subnetId" => subnetId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_network_interface(
+    subnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateNetworkInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("subnetId" => subnetId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network_interface_permission(network_interface_id, permission)
@@ -3759,8 +6113,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_network_interface_permission(NetworkInterfaceId, Permission; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInterfacePermission", Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "Permission"=>Permission); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network_interface_permission(NetworkInterfaceId, Permission, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "Permission"=>Permission), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network_interface_permission(
+    NetworkInterfaceId, Permission; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateNetworkInterfacePermission",
+    Dict{String,Any}(
+        "NetworkInterfaceId" => NetworkInterfaceId, "Permission" => Permission
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_network_interface_permission(
+    NetworkInterfaceId,
+    Permission,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateNetworkInterfacePermission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInterfaceId" => NetworkInterfaceId, "Permission" => Permission
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_placement_group()
@@ -3798,8 +6181,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 Constraints: Up to 255 ASCII characters
 - `"strategy"`: The placement strategy.
 """
-create_placement_group(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreatePlacementGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_placement_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreatePlacementGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_placement_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CreatePlacementGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_placement_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreatePlacementGroup",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_public_ipv4_pool()
@@ -3827,8 +6220,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   find all resources that have a tag with the key `Owner` and the value `TeamA`, specify
   `tag:Owner` for the filter name and `TeamA` for the filter value.
 """
-create_public_ipv4_pool(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreatePublicIpv4Pool"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_public_ipv4_pool(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreatePublicIpv4Pool", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_public_ipv4_pool(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CreatePublicIpv4Pool"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_public_ipv4_pool(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreatePublicIpv4Pool",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_replace_root_volume_task(instance_id)
@@ -3875,8 +6278,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want to restore the replacement root volume from an AMI, omit this parameter.
 - `"TagSpecification"`: The tags to apply to the root volume replacement task.
 """
-create_replace_root_volume_task(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateReplaceRootVolumeTask", Dict{String, Any}("InstanceId"=>InstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_replace_root_volume_task(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateReplaceRootVolumeTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_replace_root_volume_task(
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateReplaceRootVolumeTask",
+    Dict{String,Any}("InstanceId" => InstanceId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_replace_root_volume_task(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateReplaceRootVolumeTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceId" => InstanceId, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_reserved_instances_listing(client_token, instance_count, price_schedules, reserved_instances_id)
@@ -3916,8 +6345,49 @@ in the *Amazon EC2 User Guide*.
   month remaining in the Reserved Instance term.
 - `reserved_instances_id`: The ID of the active Standard Reserved Instance.
 """
-create_reserved_instances_listing(clientToken, instanceCount, priceSchedules, reservedInstancesId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateReservedInstancesListing", Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_reserved_instances_listing(clientToken, instanceCount, priceSchedules, reservedInstancesId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_reserved_instances_listing(
+    clientToken,
+    instanceCount,
+    priceSchedules,
+    reservedInstancesId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateReservedInstancesListing",
+    Dict{String,Any}(
+        "clientToken" => clientToken,
+        "instanceCount" => instanceCount,
+        "priceSchedules" => priceSchedules,
+        "reservedInstancesId" => reservedInstancesId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_reserved_instances_listing(
+    clientToken,
+    instanceCount,
+    priceSchedules,
+    reservedInstancesId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateReservedInstancesListing",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "instanceCount" => instanceCount,
+                    "priceSchedules" => priceSchedules,
+                    "reservedInstancesId" => reservedInstancesId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_restore_image_task(bucket, object_key)
@@ -3954,8 +6424,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - To tag the snapshots, the value for `ResourceType` must be `snapshot`. The same tag is
   applied to all of the snapshots that are created.
 """
-create_restore_image_task(Bucket, ObjectKey; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateRestoreImageTask", Dict{String, Any}("Bucket"=>Bucket, "ObjectKey"=>ObjectKey); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_restore_image_task(Bucket, ObjectKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateRestoreImageTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "ObjectKey"=>ObjectKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_restore_image_task(
+    Bucket, ObjectKey; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateRestoreImageTask",
+    Dict{String,Any}("Bucket" => Bucket, "ObjectKey" => ObjectKey);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_restore_image_task(
+    Bucket,
+    ObjectKey,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateRestoreImageTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Bucket" => Bucket, "ObjectKey" => ObjectKey),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_route(route_table_id)
@@ -4014,8 +6509,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkInterfaceId"`: The ID of a network interface.
 - `"vpcPeeringConnectionId"`: The ID of a VPC peering connection.
 """
-create_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_route(routeTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateRoute",
+    Dict{String,Any}("routeTableId" => routeTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_route(
+    routeTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateRoute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("routeTableId" => routeTableId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_route_table(vpc_id)
@@ -4043,8 +6556,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_route_table(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateRouteTable", Dict{String, Any}("vpcId"=>vpcId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_route_table(vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_route_table(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateRouteTable",
+    Dict{String,Any}("vpcId" => vpcId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_route_table(
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateRouteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("vpcId" => vpcId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_security_group(group_description, group_name)
@@ -4077,12 +6610,12 @@ For more information about VPC security group limits, see [Amazon VPC Limits](ht
 
   Constraints: Up to 255 characters in length
 
-Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
+Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!\$*
 - `group_name`: The name of the security group.
 
   Constraints: Up to 255 characters in length. Cannot start with `sg-`.
 
-Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
+Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!\$*
 
 # Optional Parameters
 
@@ -4095,8 +6628,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_security_group(GroupDescription, GroupName; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSecurityGroup", Dict{String, Any}("GroupDescription"=>GroupDescription, "GroupName"=>GroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_security_group(GroupDescription, GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupDescription"=>GroupDescription, "GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_security_group(
+    GroupDescription, GroupName; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateSecurityGroup",
+    Dict{String,Any}("GroupDescription" => GroupDescription, "GroupName" => GroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_security_group(
+    GroupDescription,
+    GroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateSecurityGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GroupDescription" => GroupDescription, "GroupName" => GroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_snapshot(volume_id)
@@ -4161,8 +6721,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_snapshot(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSnapshot", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_snapshot(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_snapshot(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateSnapshot",
+    Dict{String,Any}("VolumeId" => VolumeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_snapshot(
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateSnapshot",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_snapshots(instance_specification)
@@ -4209,8 +6787,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon EBS User Guide*.
 - `"TagSpecification"`: Tags to apply to every snapshot specified by the instance.
 """
-create_snapshots(InstanceSpecification; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSnapshots", Dict{String, Any}("InstanceSpecification"=>InstanceSpecification); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_snapshots(InstanceSpecification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceSpecification"=>InstanceSpecification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_snapshots(
+    InstanceSpecification; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateSnapshots",
+    Dict{String,Any}("InstanceSpecification" => InstanceSpecification);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_snapshots(
+    InstanceSpecification,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateSnapshots",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceSpecification" => InstanceSpecification),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_spot_datafeed_subscription(bucket)
@@ -4236,8 +6838,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"prefix"`: The prefix for the data feed file names.
 """
-create_spot_datafeed_subscription(bucket; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}("bucket"=>bucket); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_spot_datafeed_subscription(bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucket"=>bucket), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_spot_datafeed_subscription(
+    bucket; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateSpotDatafeedSubscription",
+    Dict{String,Any}("bucket" => bucket);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_spot_datafeed_subscription(
+    bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateSpotDatafeedSubscription",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("bucket" => bucket), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_store_image_task(bucket, image_id)
@@ -4269,8 +6887,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3ObjectTag"`: The tags to apply to the AMI object that will be stored in the Amazon S3
   bucket.
 """
-create_store_image_task(Bucket, ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateStoreImageTask", Dict{String, Any}("Bucket"=>Bucket, "ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_store_image_task(Bucket, ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateStoreImageTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_store_image_task(
+    Bucket, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateStoreImageTask",
+    Dict{String,Any}("Bucket" => Bucket, "ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_store_image_task(
+    Bucket,
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateStoreImageTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Bucket" => Bucket, "ImageId" => ImageId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_subnet(vpc_id)
@@ -4340,8 +6981,22 @@ This parameter is not supported for an IPv6 only subnet.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_subnet(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSubnet", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_subnet(VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subnet(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateSubnet",
+    Dict{String,Any}("VpcId" => VpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_subnet(
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateSubnet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VpcId" => VpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_subnet_cidr_reservation(cidr, reservation_type, subnet_id)
@@ -4371,8 +7026,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to assign to the subnet CIDR reservation.
 """
-create_subnet_cidr_reservation(Cidr, ReservationType, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSubnetCidrReservation", Dict{String, Any}("Cidr"=>Cidr, "ReservationType"=>ReservationType, "SubnetId"=>SubnetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_subnet_cidr_reservation(Cidr, ReservationType, SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateSubnetCidrReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "ReservationType"=>ReservationType, "SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subnet_cidr_reservation(
+    Cidr, ReservationType, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateSubnetCidrReservation",
+    Dict{String,Any}(
+        "Cidr" => Cidr, "ReservationType" => ReservationType, "SubnetId" => SubnetId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_subnet_cidr_reservation(
+    Cidr,
+    ReservationType,
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateSubnetCidrReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Cidr" => Cidr,
+                    "ReservationType" => ReservationType,
+                    "SubnetId" => SubnetId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_tags(resource_id, tag)
@@ -4406,8 +7093,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_tags(ResourceId, Tag; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tag"=>Tag); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_tags(ResourceId, Tag, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_tags(ResourceId, Tag; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateTags",
+    Dict{String,Any}("ResourceId" => ResourceId, "Tag" => Tag);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_tags(
+    ResourceId,
+    Tag,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tag" => Tag), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_traffic_mirror_filter()
@@ -4435,8 +7143,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to assign to a Traffic Mirror filter.
 """
-create_traffic_mirror_filter(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorFilter", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_traffic_mirror_filter(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_traffic_mirror_filter(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateTrafficMirrorFilter",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_traffic_mirror_filter(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateTrafficMirrorFilter",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_traffic_mirror_filter_rule(destination_cidr_block, rule_action, rule_number, source_cidr_block, traffic_direction, traffic_mirror_filter_id)
@@ -4478,8 +7202,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourcePortRange"`: The source port range.
 - `"TagSpecification"`: Traffic Mirroring tags specifications.
 """
-create_traffic_mirror_filter_rule(DestinationCidrBlock, RuleAction, RuleNumber, SourceCidrBlock, TrafficDirection, TrafficMirrorFilterId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorFilterRule", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "RuleAction"=>RuleAction, "RuleNumber"=>RuleNumber, "SourceCidrBlock"=>SourceCidrBlock, "TrafficDirection"=>TrafficDirection, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_traffic_mirror_filter_rule(DestinationCidrBlock, RuleAction, RuleNumber, SourceCidrBlock, TrafficDirection, TrafficMirrorFilterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "RuleAction"=>RuleAction, "RuleNumber"=>RuleNumber, "SourceCidrBlock"=>SourceCidrBlock, "TrafficDirection"=>TrafficDirection, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_traffic_mirror_filter_rule(
+    DestinationCidrBlock,
+    RuleAction,
+    RuleNumber,
+    SourceCidrBlock,
+    TrafficDirection,
+    TrafficMirrorFilterId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTrafficMirrorFilterRule",
+    Dict{String,Any}(
+        "DestinationCidrBlock" => DestinationCidrBlock,
+        "RuleAction" => RuleAction,
+        "RuleNumber" => RuleNumber,
+        "SourceCidrBlock" => SourceCidrBlock,
+        "TrafficDirection" => TrafficDirection,
+        "TrafficMirrorFilterId" => TrafficMirrorFilterId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_traffic_mirror_filter_rule(
+    DestinationCidrBlock,
+    RuleAction,
+    RuleNumber,
+    SourceCidrBlock,
+    TrafficDirection,
+    TrafficMirrorFilterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTrafficMirrorFilterRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                    "RuleAction" => RuleAction,
+                    "RuleNumber" => RuleNumber,
+                    "SourceCidrBlock" => SourceCidrBlock,
+                    "TrafficDirection" => TrafficDirection,
+                    "TrafficMirrorFilterId" => TrafficMirrorFilterId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_traffic_mirror_session(network_interface_id, session_number, traffic_mirror_filter_id, traffic_mirror_target_id)
@@ -4536,8 +7311,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about the VXLAN protocol, see [RFC 7348](https://datatracker.ietf.org/doc/html/rfc7348).
   If you do not specify a `VirtualNetworkId`, an account-wide unique ID is chosen at random.
 """
-create_traffic_mirror_session(NetworkInterfaceId, SessionNumber, TrafficMirrorFilterId, TrafficMirrorTargetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorSession", Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "SessionNumber"=>SessionNumber, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "TrafficMirrorTargetId"=>TrafficMirrorTargetId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_traffic_mirror_session(NetworkInterfaceId, SessionNumber, TrafficMirrorFilterId, TrafficMirrorTargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "SessionNumber"=>SessionNumber, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "TrafficMirrorTargetId"=>TrafficMirrorTargetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_traffic_mirror_session(
+    NetworkInterfaceId,
+    SessionNumber,
+    TrafficMirrorFilterId,
+    TrafficMirrorTargetId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTrafficMirrorSession",
+    Dict{String,Any}(
+        "NetworkInterfaceId" => NetworkInterfaceId,
+        "SessionNumber" => SessionNumber,
+        "TrafficMirrorFilterId" => TrafficMirrorFilterId,
+        "TrafficMirrorTargetId" => TrafficMirrorTargetId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_traffic_mirror_session(
+    NetworkInterfaceId,
+    SessionNumber,
+    TrafficMirrorFilterId,
+    TrafficMirrorTargetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTrafficMirrorSession",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInterfaceId" => NetworkInterfaceId,
+                    "SessionNumber" => SessionNumber,
+                    "TrafficMirrorFilterId" => TrafficMirrorFilterId,
+                    "TrafficMirrorTargetId" => TrafficMirrorTargetId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_traffic_mirror_target()
@@ -4571,8 +7389,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is associated with the target.
 - `"TagSpecification"`: The tags to assign to the Traffic Mirror target.
 """
-create_traffic_mirror_target(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorTarget", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_traffic_mirror_target(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_traffic_mirror_target(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateTrafficMirrorTarget",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_traffic_mirror_target(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateTrafficMirrorTarget",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway()
@@ -4611,8 +7445,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: The transit gateway options.
 - `"TagSpecification"`: The tags to apply to the transit gateway.
 """
-create_transit_gateway(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGateway", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CreateTransitGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_transit_gateway(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateTransitGateway",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_connect(options, transport_transit_gateway_attachment_id)
@@ -4641,8 +7485,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to apply to the Connect attachment.
 """
-create_transit_gateway_connect(Options, TransportTransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayConnect", Dict{String, Any}("Options"=>Options, "TransportTransitGatewayAttachmentId"=>TransportTransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_connect(Options, TransportTransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayConnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TransportTransitGatewayAttachmentId"=>TransportTransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_connect(
+    Options,
+    TransportTransitGatewayAttachmentId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTransitGatewayConnect",
+    Dict{String,Any}(
+        "Options" => Options,
+        "TransportTransitGatewayAttachmentId" => TransportTransitGatewayAttachmentId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_connect(
+    Options,
+    TransportTransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayConnect",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Options" => Options,
+                    "TransportTransitGatewayAttachmentId" =>
+                        TransportTransitGatewayAttachmentId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_connect_peer(peer_address, transit_gateway_attachment_id, item)
@@ -4686,8 +7564,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   block. If not specified, Amazon automatically assigns the first available IP address from
   the transit gateway CIDR block.
 """
-create_transit_gateway_connect_peer(PeerAddress, TransitGatewayAttachmentId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayConnectPeer", Dict{String, Any}("PeerAddress"=>PeerAddress, "TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_connect_peer(PeerAddress, TransitGatewayAttachmentId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayConnectPeer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeerAddress"=>PeerAddress, "TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_connect_peer(
+    PeerAddress,
+    TransitGatewayAttachmentId,
+    item;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTransitGatewayConnectPeer",
+    Dict{String,Any}(
+        "PeerAddress" => PeerAddress,
+        "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+        "item" => item,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_connect_peer(
+    PeerAddress,
+    TransitGatewayAttachmentId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayConnectPeer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PeerAddress" => PeerAddress,
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+                    "item" => item,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_multicast_domain(transit_gateway_id)
@@ -4713,8 +7628,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: The options for the transit gateway multicast domain.
 - `"TagSpecification"`: The tags for the transit gateway multicast domain.
 """
-create_transit_gateway_multicast_domain(TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_multicast_domain(TransitGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_multicast_domain(
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateTransitGatewayMulticastDomain",
+    Dict{String,Any}("TransitGatewayId" => TransitGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_multicast_domain(
+    TransitGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayMulticastDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TransitGatewayId" => TransitGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_peering_attachment(peer_account_id, peer_region, peer_transit_gateway_id, transit_gateway_id)
@@ -4747,8 +7684,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: Requests a transit gateway peering attachment.
 - `"TagSpecification"`: The tags to apply to the transit gateway peering attachment.
 """
-create_transit_gateway_peering_attachment(PeerAccountId, PeerRegion, PeerTransitGatewayId, TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayPeeringAttachment", Dict{String, Any}("PeerAccountId"=>PeerAccountId, "PeerRegion"=>PeerRegion, "PeerTransitGatewayId"=>PeerTransitGatewayId, "TransitGatewayId"=>TransitGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_peering_attachment(PeerAccountId, PeerRegion, PeerTransitGatewayId, TransitGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeerAccountId"=>PeerAccountId, "PeerRegion"=>PeerRegion, "PeerTransitGatewayId"=>PeerTransitGatewayId, "TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_peering_attachment(
+    PeerAccountId,
+    PeerRegion,
+    PeerTransitGatewayId,
+    TransitGatewayId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTransitGatewayPeeringAttachment",
+    Dict{String,Any}(
+        "PeerAccountId" => PeerAccountId,
+        "PeerRegion" => PeerRegion,
+        "PeerTransitGatewayId" => PeerTransitGatewayId,
+        "TransitGatewayId" => TransitGatewayId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_peering_attachment(
+    PeerAccountId,
+    PeerRegion,
+    PeerTransitGatewayId,
+    TransitGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayPeeringAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PeerAccountId" => PeerAccountId,
+                    "PeerRegion" => PeerRegion,
+                    "PeerTransitGatewayId" => PeerTransitGatewayId,
+                    "TransitGatewayId" => TransitGatewayId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_policy_table(transit_gateway_id)
@@ -4771,8 +7749,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecifications"`: The tags specification for the transit gateway policy table
   created during the request.
 """
-create_transit_gateway_policy_table(TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayPolicyTable", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_policy_table(TransitGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayPolicyTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_policy_table(
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateTransitGatewayPolicyTable",
+    Dict{String,Any}("TransitGatewayId" => TransitGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_policy_table(
+    TransitGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayPolicyTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TransitGatewayId" => TransitGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_prefix_list_reference(prefix_list_id, transit_gateway_route_table_id)
@@ -4796,8 +7796,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TransitGatewayAttachmentId"`: The ID of the attachment to which traffic is routed.
 """
-create_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayPrefixListReference", Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_prefix_list_reference(
+    PrefixListId,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTransitGatewayPrefixListReference",
+    Dict{String,Any}(
+        "PrefixListId" => PrefixListId,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_prefix_list_reference(
+    PrefixListId,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayPrefixListReference",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PrefixListId" => PrefixListId,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_route(destination_cidr_block, transit_gateway_route_table_id)
@@ -4822,8 +7855,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TransitGatewayAttachmentId"`: The ID of the attachment.
 """
-create_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_route(
+    DestinationCidrBlock,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTransitGatewayRoute",
+    Dict{String,Any}(
+        "DestinationCidrBlock" => DestinationCidrBlock,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_route(
+    DestinationCidrBlock,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_route_table(transit_gateway_id)
@@ -4845,8 +7911,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecifications"`: The tags to apply to the transit gateway route table.
 """
-create_transit_gateway_route_table(TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_route_table(TransitGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_route_table(
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateTransitGatewayRouteTable",
+    Dict{String,Any}("TransitGatewayId" => TransitGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_route_table(
+    TransitGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayRouteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TransitGatewayId" => TransitGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_route_table_announcement(peering_attachment_id, transit_gateway_route_table_id)
@@ -4870,8 +7958,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags specifications applied to the transit gateway route table
   announcement.
 """
-create_transit_gateway_route_table_announcement(PeeringAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayRouteTableAnnouncement", Dict{String, Any}("PeeringAttachmentId"=>PeeringAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_route_table_announcement(PeeringAttachmentId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayRouteTableAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeeringAttachmentId"=>PeeringAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_route_table_announcement(
+    PeeringAttachmentId,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateTransitGatewayRouteTableAnnouncement",
+    Dict{String,Any}(
+        "PeeringAttachmentId" => PeeringAttachmentId,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_route_table_announcement(
+    PeeringAttachmentId,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayRouteTableAnnouncement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PeeringAttachmentId" => PeeringAttachmentId,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_vpc_attachment(transit_gateway_id, vpc_id, item)
@@ -4909,8 +8030,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each specified subnet.
 - `"TagSpecifications"`: The tags to apply to the VPC attachment.
 """
-create_transit_gateway_vpc_attachment(TransitGatewayId, VpcId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId, "VpcId"=>VpcId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_vpc_attachment(TransitGatewayId, VpcId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId, "VpcId"=>VpcId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_vpc_attachment(
+    TransitGatewayId, VpcId, item; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateTransitGatewayVpcAttachment",
+    Dict{String,Any}(
+        "TransitGatewayId" => TransitGatewayId, "VpcId" => VpcId, "item" => item
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_vpc_attachment(
+    TransitGatewayId,
+    VpcId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateTransitGatewayVpcAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayId" => TransitGatewayId, "VpcId" => VpcId, "item" => item
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_verified_access_endpoint(application_domain, attachment_type, domain_certificate_arn, endpoint_domain_prefix, endpoint_type, verified_access_group_id)
@@ -4953,8 +8104,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SseSpecification"`: The options for server side encryption.
 - `"TagSpecification"`: The tags to assign to the Verified Access endpoint.
 """
-create_verified_access_endpoint(ApplicationDomain, AttachmentType, DomainCertificateArn, EndpointDomainPrefix, EndpointType, VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessEndpoint", Dict{String, Any}("ApplicationDomain"=>ApplicationDomain, "AttachmentType"=>AttachmentType, "DomainCertificateArn"=>DomainCertificateArn, "EndpointDomainPrefix"=>EndpointDomainPrefix, "EndpointType"=>EndpointType, "VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_verified_access_endpoint(ApplicationDomain, AttachmentType, DomainCertificateArn, EndpointDomainPrefix, EndpointType, VerifiedAccessGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationDomain"=>ApplicationDomain, "AttachmentType"=>AttachmentType, "DomainCertificateArn"=>DomainCertificateArn, "EndpointDomainPrefix"=>EndpointDomainPrefix, "EndpointType"=>EndpointType, "VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_verified_access_endpoint(
+    ApplicationDomain,
+    AttachmentType,
+    DomainCertificateArn,
+    EndpointDomainPrefix,
+    EndpointType,
+    VerifiedAccessGroupId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateVerifiedAccessEndpoint",
+    Dict{String,Any}(
+        "ApplicationDomain" => ApplicationDomain,
+        "AttachmentType" => AttachmentType,
+        "DomainCertificateArn" => DomainCertificateArn,
+        "EndpointDomainPrefix" => EndpointDomainPrefix,
+        "EndpointType" => EndpointType,
+        "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_verified_access_endpoint(
+    ApplicationDomain,
+    AttachmentType,
+    DomainCertificateArn,
+    EndpointDomainPrefix,
+    EndpointType,
+    VerifiedAccessGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVerifiedAccessEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationDomain" => ApplicationDomain,
+                    "AttachmentType" => AttachmentType,
+                    "DomainCertificateArn" => DomainCertificateArn,
+                    "EndpointDomainPrefix" => EndpointDomainPrefix,
+                    "EndpointType" => EndpointType,
+                    "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_verified_access_group(verified_access_instance_id)
@@ -4985,8 +8187,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SseSpecification"`: The options for server side encryption.
 - `"TagSpecification"`: The tags to assign to the Verified Access group.
 """
-create_verified_access_group(VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessGroup", Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_verified_access_group(VerifiedAccessInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_verified_access_group(
+    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateVerifiedAccessGroup",
+    Dict{String,Any}(
+        "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_verified_access_group(
+    VerifiedAccessInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVerifiedAccessGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_verified_access_instance()
@@ -5010,8 +8242,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (FIPS) on the instance.
 - `"TagSpecification"`: The tags to assign to the Verified Access instance.
 """
-create_verified_access_instance(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessInstance", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_verified_access_instance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_verified_access_instance(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateVerifiedAccessInstance",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_verified_access_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateVerifiedAccessInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_verified_access_trust_provider(policy_reference_name, trust_provider_type)
@@ -5049,8 +8297,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserTrustProviderType"`: The type of user-based trust provider. This parameter is
   required when the provider type is `user`.
 """
-create_verified_access_trust_provider(PolicyReferenceName, TrustProviderType; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessTrustProvider", Dict{String, Any}("PolicyReferenceName"=>PolicyReferenceName, "TrustProviderType"=>TrustProviderType, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_verified_access_trust_provider(PolicyReferenceName, TrustProviderType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVerifiedAccessTrustProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyReferenceName"=>PolicyReferenceName, "TrustProviderType"=>TrustProviderType, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_verified_access_trust_provider(
+    PolicyReferenceName,
+    TrustProviderType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateVerifiedAccessTrustProvider",
+    Dict{String,Any}(
+        "PolicyReferenceName" => PolicyReferenceName,
+        "TrustProviderType" => TrustProviderType,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_verified_access_trust_provider(
+    PolicyReferenceName,
+    TrustProviderType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVerifiedAccessTrustProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyReferenceName" => PolicyReferenceName,
+                    "TrustProviderType" => TrustProviderType,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_volume(availability_zone)
@@ -5168,8 +8451,34 @@ Valid Range: Minimum value of 125. Maximum value of 1000.
   Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS
   encryption. For more information, see [Supported instance types](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html#ebs-encryption_supported_instances).
 """
-create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVolume", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_volume(AvailabilityZone, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateVolume",
+    Dict{String,Any}(
+        "AvailabilityZone" => AvailabilityZone, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_volume(
+    AvailabilityZone,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AvailabilityZone" => AvailabilityZone, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc()
@@ -5243,8 +8552,13 @@ To let Amazon choose the IPv6 CIDR block for you, omit this parameter.
 
 Default: `default`
 """
-create_vpc(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("CreateVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_vpc(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2("CreateVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 
 """
     create_vpc_endpoint(service_name, vpc_id)
@@ -5302,8 +8616,33 @@ Default: `true`
 
 Default: Gateway
 """
-create_vpc_endpoint(ServiceName, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcEndpoint", Dict{String, Any}("ServiceName"=>ServiceName, "VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_endpoint(ServiceName, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_endpoint(
+    ServiceName, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateVpcEndpoint",
+    Dict{String,Any}("ServiceName" => ServiceName, "VpcId" => VpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpc_endpoint(
+    ServiceName,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVpcEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServiceName" => ServiceName, "VpcId" => VpcId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc_endpoint_connection_notification(connection_notification_arn, item)
@@ -5337,8 +8676,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceId"`: The ID of the endpoint service.
 - `"VpcEndpointId"`: The ID of the endpoint.
 """
-create_vpc_endpoint_connection_notification(ConnectionNotificationArn, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcEndpointConnectionNotification", Dict{String, Any}("ConnectionNotificationArn"=>ConnectionNotificationArn, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_endpoint_connection_notification(ConnectionNotificationArn, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationArn"=>ConnectionNotificationArn, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_endpoint_connection_notification(
+    ConnectionNotificationArn, item; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateVpcEndpointConnectionNotification",
+    Dict{String,Any}(
+        "ConnectionNotificationArn" => ConnectionNotificationArn, "item" => item
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpc_endpoint_connection_notification(
+    ConnectionNotificationArn,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVpcEndpointConnectionNotification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionNotificationArn" => ConnectionNotificationArn, "item" => item
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc_endpoint_service_configuration()
@@ -5378,8 +8746,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ipv4` and `ipv6`.
 - `"TagSpecification"`: The tags to associate with the service.
 """
-create_vpc_endpoint_service_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcEndpointServiceConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_endpoint_service_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcEndpointServiceConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_endpoint_service_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateVpcEndpointServiceConfiguration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpc_endpoint_service_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateVpcEndpointServiceConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc_peering_connection(vpc_id)
@@ -5422,8 +8805,23 @@ Default: Your Amazon Web Services account ID
 - `"peerVpcId"`: The ID of the VPC with which you are creating the VPC peering connection.
   You must specify this parameter in the request.
 """
-create_vpc_peering_connection(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcPeeringConnection", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_peering_connection(vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_peering_connection(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "CreateVpcPeeringConnection",
+        Dict{String,Any}("vpcId" => vpcId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_vpc_peering_connection(
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateVpcPeeringConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("vpcId" => vpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpn_connection(customer_gateway_id, type)
@@ -5468,8 +8866,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"options"`: The options for the VPN connection.
 """
-create_vpn_connection(CustomerGatewayId, Type; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpnConnection", Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId, "Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpn_connection(CustomerGatewayId, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpn_connection(
+    CustomerGatewayId, Type; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "CreateVpnConnection",
+    Dict{String,Any}("CustomerGatewayId" => CustomerGatewayId, "Type" => Type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpn_connection(
+    CustomerGatewayId,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVpnConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CustomerGatewayId" => CustomerGatewayId, "Type" => Type),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpn_connection_route(destination_cidr_block, vpn_connection_id)
@@ -5488,8 +8911,41 @@ in the *Amazon Web Services Site-to-Site VPN User Guide*.
   network.
 - `vpn_connection_id`: The ID of the VPN connection.
 """
-create_vpn_connection_route(DestinationCidrBlock, VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpnConnectionRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpn_connection_route(DestinationCidrBlock, VpnConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpn_connection_route(
+    DestinationCidrBlock,
+    VpnConnectionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "CreateVpnConnectionRoute",
+    Dict{String,Any}(
+        "DestinationCidrBlock" => DestinationCidrBlock,
+        "VpnConnectionId" => VpnConnectionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpn_connection_route(
+    DestinationCidrBlock,
+    VpnConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "CreateVpnConnectionRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                    "VpnConnectionId" => VpnConnectionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpn_gateway(type)
@@ -5522,8 +8978,22 @@ Default: 64512
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-create_vpn_gateway(Type; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpnGateway", Dict{String, Any}("Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpn_gateway(Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("CreateVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpn_gateway(Type; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "CreateVpnGateway",
+    Dict{String,Any}("Type" => Type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpn_gateway(
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "CreateVpnGateway",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_carrier_gateway(carrier_gateway_id)
@@ -5548,8 +9018,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_carrier_gateway(CarrierGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCarrierGateway", Dict{String, Any}("CarrierGatewayId"=>CarrierGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_carrier_gateway(CarrierGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CarrierGatewayId"=>CarrierGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_carrier_gateway(
+    CarrierGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteCarrierGateway",
+    Dict{String,Any}("CarrierGatewayId" => CarrierGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_carrier_gateway(
+    CarrierGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteCarrierGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CarrierGatewayId" => CarrierGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_client_vpn_endpoint(client_vpn_endpoint_id)
@@ -5571,8 +9063,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_client_vpn_endpoint(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteClientVpnEndpoint", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_client_vpn_endpoint(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_client_vpn_endpoint(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteClientVpnEndpoint",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_client_vpn_endpoint(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteClientVpnEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_client_vpn_route(client_vpn_endpoint_id, destination_cidr_block)
@@ -5600,8 +9116,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TargetVpcSubnetId"`: The ID of the target subnet used by the route.
 """
-delete_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteClientVpnRoute", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_client_vpn_route(
+    ClientVpnEndpointId,
+    DestinationCidrBlock;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteClientVpnRoute",
+    Dict{String,Any}(
+        "ClientVpnEndpointId" => ClientVpnEndpointId,
+        "DestinationCidrBlock" => DestinationCidrBlock,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_client_vpn_route(
+    ClientVpnEndpointId,
+    DestinationCidrBlock,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteClientVpnRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_coip_cidr(cidr, coip_pool_id)
@@ -5623,8 +9172,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_coip_cidr(Cidr, CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCoipCidr", Dict{String, Any}("Cidr"=>Cidr, "CoipPoolId"=>CoipPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_coip_cidr(Cidr, CoipPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CoipPoolId"=>CoipPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_coip_cidr(Cidr, CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DeleteCoipCidr",
+        Dict{String,Any}("Cidr" => Cidr, "CoipPoolId" => CoipPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_coip_cidr(
+    Cidr,
+    CoipPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteCoipCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Cidr" => Cidr, "CoipPoolId" => CoipPoolId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_coip_pool(coip_pool_id)
@@ -5645,8 +9216,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_coip_pool(CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCoipPool", Dict{String, Any}("CoipPoolId"=>CoipPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_coip_pool(CoipPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCoipPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoipPoolId"=>CoipPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_coip_pool(CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteCoipPool",
+    Dict{String,Any}("CoipPoolId" => CoipPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_coip_pool(
+    CoipPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteCoipPool",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CoipPoolId" => CoipPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_customer_gateway(customer_gateway_id)
@@ -5668,8 +9257,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_customer_gateway(CustomerGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCustomerGateway", Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_customer_gateway(CustomerGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_customer_gateway(
+    CustomerGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteCustomerGateway",
+    Dict{String,Any}("CustomerGatewayId" => CustomerGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_customer_gateway(
+    CustomerGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteCustomerGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CustomerGatewayId" => CustomerGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_dhcp_options(dhcp_options_id)
@@ -5692,8 +9303,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_dhcp_options(DhcpOptionsId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteDhcpOptions", Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_dhcp_options(DhcpOptionsId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_dhcp_options(DhcpOptionsId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DeleteDhcpOptions",
+        Dict{String,Any}("DhcpOptionsId" => DhcpOptionsId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_dhcp_options(
+    DhcpOptionsId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteDhcpOptions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DhcpOptionsId" => DhcpOptionsId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_egress_only_internet_gateway(egress_only_internet_gateway_id)
@@ -5714,8 +9344,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_egress_only_internet_gateway(EgressOnlyInternetGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteEgressOnlyInternetGateway", Dict{String, Any}("EgressOnlyInternetGatewayId"=>EgressOnlyInternetGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_egress_only_internet_gateway(EgressOnlyInternetGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EgressOnlyInternetGatewayId"=>EgressOnlyInternetGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_egress_only_internet_gateway(
+    EgressOnlyInternetGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteEgressOnlyInternetGateway",
+    Dict{String,Any}("EgressOnlyInternetGatewayId" => EgressOnlyInternetGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_egress_only_internet_gateway(
+    EgressOnlyInternetGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteEgressOnlyInternetGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EgressOnlyInternetGatewayId" => EgressOnlyInternetGatewayId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_fleets(fleet_id, terminate_instances)
@@ -5768,8 +9424,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_fleets(FleetId, TerminateInstances; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteFleets", Dict{String, Any}("FleetId"=>FleetId, "TerminateInstances"=>TerminateInstances); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_fleets(FleetId, TerminateInstances, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "TerminateInstances"=>TerminateInstances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fleets(
+    FleetId, TerminateInstances; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteFleets",
+    Dict{String,Any}("FleetId" => FleetId, "TerminateInstances" => TerminateInstances);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_fleets(
+    FleetId,
+    TerminateInstances,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteFleets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FleetId" => FleetId, "TerminateInstances" => TerminateInstances
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_flow_logs(flow_log_id)
@@ -5792,8 +9475,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_flow_logs(FlowLogId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteFlowLogs", Dict{String, Any}("FlowLogId"=>FlowLogId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_flow_logs(FlowLogId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowLogId"=>FlowLogId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_flow_logs(FlowLogId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteFlowLogs",
+    Dict{String,Any}("FlowLogId" => FlowLogId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_flow_logs(
+    FlowLogId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteFlowLogs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FlowLogId" => FlowLogId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_fpga_image(fpga_image_id)
@@ -5814,8 +9515,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_fpga_image(FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_fpga_image(FpgaImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fpga_image(FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteFpgaImage",
+    Dict{String,Any}("FpgaImageId" => FpgaImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_fpga_image(
+    FpgaImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteFpgaImage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FpgaImageId" => FpgaImageId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_instance_connect_endpoint(instance_connect_endpoint_id)
@@ -5836,8 +9555,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_instance_connect_endpoint(InstanceConnectEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteInstanceConnectEndpoint", Dict{String, Any}("InstanceConnectEndpointId"=>InstanceConnectEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_instance_connect_endpoint(InstanceConnectEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteInstanceConnectEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceConnectEndpointId"=>InstanceConnectEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_instance_connect_endpoint(
+    InstanceConnectEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteInstanceConnectEndpoint",
+    Dict{String,Any}("InstanceConnectEndpointId" => InstanceConnectEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_instance_connect_endpoint(
+    InstanceConnectEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteInstanceConnectEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceConnectEndpointId" => InstanceConnectEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_instance_event_window(instance_event_window_id)
@@ -5863,8 +9606,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForceDelete"`: Specify `true` to force delete the event window. Use the force delete
   parameter if the event window is currently associated with targets.
 """
-delete_instance_event_window(InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteInstanceEventWindow", Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_instance_event_window(InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_instance_event_window(
+    InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteInstanceEventWindow",
+    Dict{String,Any}("InstanceEventWindowId" => InstanceEventWindowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_instance_event_window(
+    InstanceEventWindowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteInstanceEventWindow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceEventWindowId" => InstanceEventWindowId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_internet_gateway(internet_gateway_id)
@@ -5886,8 +9653,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_internet_gateway(internetGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_internet_gateway(internetGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_internet_gateway(
+    internetGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteInternetGateway",
+    Dict{String,Any}("internetGatewayId" => internetGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_internet_gateway(
+    internetGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteInternetGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("internetGatewayId" => internetGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ipam(ipam_id)
@@ -5926,8 +9715,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpam", Dict{String, Any}("IpamId"=>IpamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ipam(IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteIpam",
+    Dict{String,Any}("IpamId" => IpamId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ipam(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeleteIpam",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IpamId" => IpamId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ipam_external_resource_verification_token(ipam_external_resource_verification_token_id)
@@ -5951,8 +9754,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_ipam_external_resource_verification_token(IpamExternalResourceVerificationTokenId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamExternalResourceVerificationToken", Dict{String, Any}("IpamExternalResourceVerificationTokenId"=>IpamExternalResourceVerificationTokenId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ipam_external_resource_verification_token(IpamExternalResourceVerificationTokenId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamExternalResourceVerificationToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamExternalResourceVerificationTokenId"=>IpamExternalResourceVerificationTokenId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ipam_external_resource_verification_token(
+    IpamExternalResourceVerificationTokenId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteIpamExternalResourceVerificationToken",
+    Dict{String,Any}(
+        "IpamExternalResourceVerificationTokenId" =>
+            IpamExternalResourceVerificationTokenId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ipam_external_resource_verification_token(
+    IpamExternalResourceVerificationTokenId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamExternalResourceVerificationTokenId" =>
+                        IpamExternalResourceVerificationTokenId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ipam_pool(ipam_pool_id)
@@ -5987,8 +9821,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamPool", Dict{String, Any}("IpamPoolId"=>IpamPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ipam_pool(IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteIpamPool",
+    Dict{String,Any}("IpamPoolId" => IpamPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ipam_pool(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteIpamPool",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ipam_resource_discovery(ipam_resource_discovery_id)
@@ -6010,8 +9862,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_ipam_resource_discovery(IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamResourceDiscovery", Dict{String, Any}("IpamResourceDiscoveryId"=>IpamResourceDiscoveryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ipam_resource_discovery(IpamResourceDiscoveryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamResourceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamResourceDiscoveryId"=>IpamResourceDiscoveryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ipam_resource_discovery(
+    IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteIpamResourceDiscovery",
+    Dict{String,Any}("IpamResourceDiscoveryId" => IpamResourceDiscoveryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ipam_resource_discovery(
+    IpamResourceDiscoveryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteIpamResourceDiscovery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IpamResourceDiscoveryId" => IpamResourceDiscoveryId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ipam_scope(ipam_scope_id)
@@ -6035,8 +9911,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamScope", Dict{String, Any}("IpamScopeId"=>IpamScopeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ipam_scope(IpamScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteIpamScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteIpamScope",
+    Dict{String,Any}("IpamScopeId" => IpamScopeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ipam_scope(
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteIpamScope",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamScopeId" => IpamScopeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_key_pair()
@@ -6055,8 +9949,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_key_pair(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteKeyPair"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_key_pair(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteKeyPair", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_key_pair(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DeleteKeyPair"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_key_pair(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeleteKeyPair", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     delete_launch_template()
@@ -6079,8 +9980,18 @@ You must specify either the launch template ID or the launch template name, but 
 
 You must specify either the launch template ID or the launch template name, but not both.
 """
-delete_launch_template(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_launch_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLaunchTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_launch_template(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DeleteLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_launch_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeleteLaunchTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_launch_template_versions(launch_template_version)
@@ -6119,8 +10030,32 @@ You must specify either the launch template ID or the launch template name, but 
 
 You must specify either the launch template ID or the launch template name, but not both.
 """
-delete_launch_template_versions(LaunchTemplateVersion; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLaunchTemplateVersions", Dict{String, Any}("LaunchTemplateVersion"=>LaunchTemplateVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_launch_template_versions(LaunchTemplateVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLaunchTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateVersion"=>LaunchTemplateVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_launch_template_versions(
+    LaunchTemplateVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteLaunchTemplateVersions",
+    Dict{String,Any}("LaunchTemplateVersion" => LaunchTemplateVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_launch_template_versions(
+    LaunchTemplateVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteLaunchTemplateVersions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LaunchTemplateVersion" => LaunchTemplateVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_local_gateway_route(local_gateway_route_table_id)
@@ -6145,8 +10080,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_local_gateway_route(LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRoute", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_local_gateway_route(LocalGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_local_gateway_route(
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteLocalGatewayRoute",
+    Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_local_gateway_route(
+    LocalGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteLocalGatewayRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_local_gateway_route_table(local_gateway_route_table_id)
@@ -6167,8 +10126,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_local_gateway_route_table(LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRouteTable", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_local_gateway_route_table(LocalGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_local_gateway_route_table(
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteLocalGatewayRouteTable",
+    Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_local_gateway_route_table(
+    LocalGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteLocalGatewayRouteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_local_gateway_route_table_virtual_interface_group_association(local_gateway_route_table_virtual_interface_group_association_id)
@@ -6190,8 +10173,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_local_gateway_route_table_virtual_interface_group_association(LocalGatewayRouteTableVirtualInterfaceGroupAssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation", Dict{String, Any}("LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"=>LocalGatewayRouteTableVirtualInterfaceGroupAssociationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_local_gateway_route_table_virtual_interface_group_association(LocalGatewayRouteTableVirtualInterfaceGroupAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"=>LocalGatewayRouteTableVirtualInterfaceGroupAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_local_gateway_route_table_virtual_interface_group_association(
+    LocalGatewayRouteTableVirtualInterfaceGroupAssociationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+    Dict{String,Any}(
+        "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId" =>
+            LocalGatewayRouteTableVirtualInterfaceGroupAssociationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_local_gateway_route_table_virtual_interface_group_association(
+    LocalGatewayRouteTableVirtualInterfaceGroupAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId" =>
+                        LocalGatewayRouteTableVirtualInterfaceGroupAssociationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_local_gateway_route_table_vpc_association(local_gateway_route_table_vpc_association_id)
@@ -6212,8 +10226,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_local_gateway_route_table_vpc_association(LocalGatewayRouteTableVpcAssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRouteTableVpcAssociation", Dict{String, Any}("LocalGatewayRouteTableVpcAssociationId"=>LocalGatewayRouteTableVpcAssociationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_local_gateway_route_table_vpc_association(LocalGatewayRouteTableVpcAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableVpcAssociationId"=>LocalGatewayRouteTableVpcAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_local_gateway_route_table_vpc_association(
+    LocalGatewayRouteTableVpcAssociationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteLocalGatewayRouteTableVpcAssociation",
+    Dict{String,Any}(
+        "LocalGatewayRouteTableVpcAssociationId" =>
+            LocalGatewayRouteTableVpcAssociationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_local_gateway_route_table_vpc_association(
+    LocalGatewayRouteTableVpcAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteLocalGatewayRouteTableVpcAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LocalGatewayRouteTableVpcAssociationId" =>
+                        LocalGatewayRouteTableVpcAssociationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_managed_prefix_list(prefix_list_id)
@@ -6235,8 +10280,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_managed_prefix_list(PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteManagedPrefixList", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_managed_prefix_list(PrefixListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_managed_prefix_list(
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteManagedPrefixList",
+    Dict{String,Any}("PrefixListId" => PrefixListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_managed_prefix_list(
+    PrefixListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteManagedPrefixList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PrefixListId" => PrefixListId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_nat_gateway(nat_gateway_id)
@@ -6259,8 +10324,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_nat_gateway(NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNatGateway", Dict{String, Any}("NatGatewayId"=>NatGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_nat_gateway(NatGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NatGatewayId"=>NatGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_nat_gateway(NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteNatGateway",
+    Dict{String,Any}("NatGatewayId" => NatGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_nat_gateway(
+    NatGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNatGateway",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NatGatewayId" => NatGatewayId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_acl(network_acl_id)
@@ -6282,8 +10365,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_network_acl(networkAclId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkAcl", Dict{String, Any}("networkAclId"=>networkAclId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_acl(networkAclId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkAclId"=>networkAclId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_acl(networkAclId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteNetworkAcl",
+    Dict{String,Any}("networkAclId" => networkAclId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_acl(
+    networkAclId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkAcl",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("networkAclId" => networkAclId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_acl_entry(egress, network_acl_id, rule_number)
@@ -6306,8 +10407,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_network_acl_entry(egress, networkAclId, ruleNumber; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_acl_entry(egress, networkAclId, ruleNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_acl_entry(
+    egress, networkAclId, ruleNumber; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteNetworkAclEntry",
+    Dict{String,Any}(
+        "egress" => egress, "networkAclId" => networkAclId, "ruleNumber" => ruleNumber
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_acl_entry(
+    egress,
+    networkAclId,
+    ruleNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkAclEntry",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "egress" => egress,
+                    "networkAclId" => networkAclId,
+                    "ruleNumber" => ruleNumber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_insights_access_scope(network_insights_access_scope_id)
@@ -6328,8 +10461,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_network_insights_access_scope(NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsAccessScope", Dict{String, Any}("NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_insights_access_scope(NetworkInsightsAccessScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsAccessScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_insights_access_scope(
+    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteNetworkInsightsAccessScope",
+    Dict{String,Any}("NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_insights_access_scope(
+    NetworkInsightsAccessScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInsightsAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_insights_access_scope_analysis(network_insights_access_scope_analysis_id)
@@ -6350,8 +10509,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_network_insights_access_scope_analysis(NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsAccessScopeAnalysis", Dict{String, Any}("NetworkInsightsAccessScopeAnalysisId"=>NetworkInsightsAccessScopeAnalysisId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_insights_access_scope_analysis(NetworkInsightsAccessScopeAnalysisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsAccessScopeAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeAnalysisId"=>NetworkInsightsAccessScopeAnalysisId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_insights_access_scope_analysis(
+    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteNetworkInsightsAccessScopeAnalysis",
+    Dict{String,Any}(
+        "NetworkInsightsAccessScopeAnalysisId" => NetworkInsightsAccessScopeAnalysisId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_insights_access_scope_analysis(
+    NetworkInsightsAccessScopeAnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInsightsAccessScopeAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeAnalysisId" =>
+                        NetworkInsightsAccessScopeAnalysisId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_insights_analysis(network_insights_analysis_id)
@@ -6372,8 +10560,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_network_insights_analysis(NetworkInsightsAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsAnalysis", Dict{String, Any}("NetworkInsightsAnalysisId"=>NetworkInsightsAnalysisId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_insights_analysis(NetworkInsightsAnalysisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAnalysisId"=>NetworkInsightsAnalysisId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_insights_analysis(
+    NetworkInsightsAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteNetworkInsightsAnalysis",
+    Dict{String,Any}("NetworkInsightsAnalysisId" => NetworkInsightsAnalysisId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_insights_analysis(
+    NetworkInsightsAnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInsightsAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("NetworkInsightsAnalysisId" => NetworkInsightsAnalysisId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_insights_path(network_insights_path_id)
@@ -6394,8 +10606,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_network_insights_path(NetworkInsightsPathId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsPath", Dict{String, Any}("NetworkInsightsPathId"=>NetworkInsightsPathId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_insights_path(NetworkInsightsPathId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInsightsPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsPathId"=>NetworkInsightsPathId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_insights_path(
+    NetworkInsightsPathId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteNetworkInsightsPath",
+    Dict{String,Any}("NetworkInsightsPathId" => NetworkInsightsPathId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_insights_path(
+    NetworkInsightsPathId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInsightsPath",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("NetworkInsightsPathId" => NetworkInsightsPathId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_interface(network_interface_id)
@@ -6417,8 +10653,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_network_interface(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInterface", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_interface(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_interface(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteNetworkInterface",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_interface(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_interface_permission(network_interface_permission_id)
@@ -6443,8 +10701,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Force"`: Specify `true` to remove the permission even if the network interface is
   attached to an instance.
 """
-delete_network_interface_permission(NetworkInterfacePermissionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInterfacePermission", Dict{String, Any}("NetworkInterfacePermissionId"=>NetworkInterfacePermissionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_interface_permission(NetworkInterfacePermissionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfacePermissionId"=>NetworkInterfacePermissionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_interface_permission(
+    NetworkInterfacePermissionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteNetworkInterfacePermission",
+    Dict{String,Any}("NetworkInterfacePermissionId" => NetworkInterfacePermissionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_network_interface_permission(
+    NetworkInterfacePermissionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInterfacePermission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInterfacePermissionId" => NetworkInterfacePermissionId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_placement_group(group_name)
@@ -6467,8 +10751,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_placement_group(groupName; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeletePlacementGroup", Dict{String, Any}("groupName"=>groupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_placement_group(groupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeletePlacementGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupName"=>groupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_placement_group(groupName; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeletePlacementGroup",
+    Dict{String,Any}("groupName" => groupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_placement_group(
+    groupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeletePlacementGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("groupName" => groupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_public_ipv4_pool(pool_id)
@@ -6495,8 +10797,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network border group. For more information on available Local Zones, see [Local Zone availability](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#byoip-zone-avail)
   in the *Amazon EC2 User Guide*.
 """
-delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeletePublicIpv4Pool", Dict{String, Any}("PoolId"=>PoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_public_ipv4_pool(PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeletePublicIpv4Pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeletePublicIpv4Pool",
+    Dict{String,Any}("PoolId" => PoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_public_ipv4_pool(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeletePublicIpv4Pool",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_queued_reserved_instances(reserved_instances_id)
@@ -6517,8 +10833,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_queued_reserved_instances(ReservedInstancesId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteQueuedReservedInstances", Dict{String, Any}("ReservedInstancesId"=>ReservedInstancesId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_queued_reserved_instances(ReservedInstancesId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteQueuedReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesId"=>ReservedInstancesId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_queued_reserved_instances(
+    ReservedInstancesId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteQueuedReservedInstances",
+    Dict{String,Any}("ReservedInstancesId" => ReservedInstancesId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_queued_reserved_instances(
+    ReservedInstancesId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteQueuedReservedInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReservedInstancesId" => ReservedInstancesId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_route(route_table_id)
@@ -6544,8 +10884,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_route(routeTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteRoute",
+    Dict{String,Any}("routeTableId" => routeTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_route(
+    routeTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteRoute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("routeTableId" => routeTableId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_route_table(route_table_id)
@@ -6567,8 +10925,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_route_table(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteRouteTable", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_route_table(routeTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_route_table(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteRouteTable",
+    Dict{String,Any}("routeTableId" => routeTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_route_table(
+    routeTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteRouteTable",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("routeTableId" => routeTableId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_security_group()
@@ -6591,8 +10967,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_security_group(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSecurityGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_security_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSecurityGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_security_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DeleteSecurityGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_security_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeleteSecurityGroup",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_snapshot(snapshot_id)
@@ -6625,8 +11011,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_snapshot(SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteSnapshot",
+    Dict{String,Any}("SnapshotId" => SnapshotId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_snapshot(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteSnapshot",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_spot_datafeed_subscription()
@@ -6643,8 +11047,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_spot_datafeed_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSpotDatafeedSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_spot_datafeed_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSpotDatafeedSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_spot_datafeed_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DeleteSpotDatafeedSubscription";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_spot_datafeed_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeleteSpotDatafeedSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_subnet(subnet_id)
@@ -6666,8 +11084,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_subnet(SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSubnet", Dict{String, Any}("SubnetId"=>SubnetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_subnet(SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subnet(SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteSubnet",
+    Dict{String,Any}("SubnetId" => SubnetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_subnet(
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteSubnet",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SubnetId" => SubnetId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_subnet_cidr_reservation(subnet_cidr_reservation_id)
@@ -6688,8 +11124,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_subnet_cidr_reservation(SubnetCidrReservationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSubnetCidrReservation", Dict{String, Any}("SubnetCidrReservationId"=>SubnetCidrReservationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_subnet_cidr_reservation(SubnetCidrReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteSubnetCidrReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetCidrReservationId"=>SubnetCidrReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subnet_cidr_reservation(
+    SubnetCidrReservationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteSubnetCidrReservation",
+    Dict{String,Any}("SubnetCidrReservationId" => SubnetCidrReservationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_subnet_cidr_reservation(
+    SubnetCidrReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteSubnetCidrReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SubnetCidrReservationId" => SubnetCidrReservationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_tags(resource_id)
@@ -6725,8 +11185,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Constraints: Up to 1000 tags.
 """
-delete_tags(resourceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTags", Dict{String, Any}("resourceId"=>resourceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_tags(resourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_tags(resourceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteTags",
+    Dict{String,Any}("resourceId" => resourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_tags(
+    resourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceId" => resourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_traffic_mirror_filter(traffic_mirror_filter_id)
@@ -6749,8 +11227,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_traffic_mirror_filter(TrafficMirrorFilterId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorFilter", Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_traffic_mirror_filter(TrafficMirrorFilterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_traffic_mirror_filter(
+    TrafficMirrorFilterId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTrafficMirrorFilter",
+    Dict{String,Any}("TrafficMirrorFilterId" => TrafficMirrorFilterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_traffic_mirror_filter(
+    TrafficMirrorFilterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTrafficMirrorFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrafficMirrorFilterId" => TrafficMirrorFilterId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_traffic_mirror_filter_rule(traffic_mirror_filter_rule_id)
@@ -6771,8 +11273,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorFilterRule", Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_traffic_mirror_filter_rule(
+    TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTrafficMirrorFilterRule",
+    Dict{String,Any}("TrafficMirrorFilterRuleId" => TrafficMirrorFilterRuleId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_traffic_mirror_filter_rule(
+    TrafficMirrorFilterRuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTrafficMirrorFilterRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrafficMirrorFilterRuleId" => TrafficMirrorFilterRuleId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_traffic_mirror_session(traffic_mirror_session_id)
@@ -6793,8 +11319,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_traffic_mirror_session(TrafficMirrorSessionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorSession", Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_traffic_mirror_session(TrafficMirrorSessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_traffic_mirror_session(
+    TrafficMirrorSessionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTrafficMirrorSession",
+    Dict{String,Any}("TrafficMirrorSessionId" => TrafficMirrorSessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_traffic_mirror_session(
+    TrafficMirrorSessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTrafficMirrorSession",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrafficMirrorSessionId" => TrafficMirrorSessionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_traffic_mirror_target(traffic_mirror_target_id)
@@ -6817,8 +11367,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_traffic_mirror_target(TrafficMirrorTargetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorTarget", Dict{String, Any}("TrafficMirrorTargetId"=>TrafficMirrorTargetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_traffic_mirror_target(TrafficMirrorTargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorTargetId"=>TrafficMirrorTargetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_traffic_mirror_target(
+    TrafficMirrorTargetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTrafficMirrorTarget",
+    Dict{String,Any}("TrafficMirrorTargetId" => TrafficMirrorTargetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_traffic_mirror_target(
+    TrafficMirrorTargetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTrafficMirrorTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrafficMirrorTargetId" => TrafficMirrorTargetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway(transit_gateway_id)
@@ -6839,8 +11413,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway(TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway(TransitGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway(
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGateway",
+    Dict{String,Any}("TransitGatewayId" => TransitGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway(
+    TransitGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TransitGatewayId" => TransitGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_connect(transit_gateway_attachment_id)
@@ -6862,8 +11458,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_connect(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayConnect", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_connect(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayConnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_connect(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGatewayConnect",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_connect(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayConnect",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_connect_peer(transit_gateway_connect_peer_id)
@@ -6884,8 +11506,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_connect_peer(TransitGatewayConnectPeerId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayConnectPeer", Dict{String, Any}("TransitGatewayConnectPeerId"=>TransitGatewayConnectPeerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_connect_peer(TransitGatewayConnectPeerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayConnectPeer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayConnectPeerId"=>TransitGatewayConnectPeerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_connect_peer(
+    TransitGatewayConnectPeerId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGatewayConnectPeer",
+    Dict{String,Any}("TransitGatewayConnectPeerId" => TransitGatewayConnectPeerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_connect_peer(
+    TransitGatewayConnectPeerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayConnectPeer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayConnectPeerId" => TransitGatewayConnectPeerId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_multicast_domain(transit_gateway_multicast_domain_id)
@@ -6906,8 +11554,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_multicast_domain(TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_multicast_domain(TransitGatewayMulticastDomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_multicast_domain(
+    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGatewayMulticastDomain",
+    Dict{String,Any}("TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_multicast_domain(
+    TransitGatewayMulticastDomainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayMulticastDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_peering_attachment(transit_gateway_attachment_id)
@@ -6928,8 +11602,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_peering_attachment(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_peering_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGatewayPeeringAttachment",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_peering_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayPeeringAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_policy_table(transit_gateway_policy_table_id)
@@ -6950,8 +11650,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_policy_table(TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayPolicyTable", Dict{String, Any}("TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_policy_table(TransitGatewayPolicyTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayPolicyTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_policy_table(
+    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGatewayPolicyTable",
+    Dict{String,Any}("TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_policy_table(
+    TransitGatewayPolicyTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayPolicyTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_prefix_list_reference(prefix_list_id, transit_gateway_route_table_id)
@@ -6973,8 +11699,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayPrefixListReference", Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_prefix_list_reference(
+    PrefixListId,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteTransitGatewayPrefixListReference",
+    Dict{String,Any}(
+        "PrefixListId" => PrefixListId,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_prefix_list_reference(
+    PrefixListId,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayPrefixListReference",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PrefixListId" => PrefixListId,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_route(destination_cidr_block, transit_gateway_route_table_id)
@@ -6997,8 +11756,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_route(
+    DestinationCidrBlock,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteTransitGatewayRoute",
+    Dict{String,Any}(
+        "DestinationCidrBlock" => DestinationCidrBlock,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_route(
+    DestinationCidrBlock,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_route_table(transit_gateway_route_table_id)
@@ -7022,8 +11814,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_route_table(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_route_table(TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_route_table(
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGatewayRouteTable",
+    Dict{String,Any}("TransitGatewayRouteTableId" => TransitGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_route_table(
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayRouteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_route_table_announcement(transit_gateway_route_table_announcement_id)
@@ -7045,8 +11863,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_route_table_announcement(TransitGatewayRouteTableAnnouncementId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayRouteTableAnnouncement", Dict{String, Any}("TransitGatewayRouteTableAnnouncementId"=>TransitGatewayRouteTableAnnouncementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_route_table_announcement(TransitGatewayRouteTableAnnouncementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayRouteTableAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableAnnouncementId"=>TransitGatewayRouteTableAnnouncementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_route_table_announcement(
+    TransitGatewayRouteTableAnnouncementId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteTransitGatewayRouteTableAnnouncement",
+    Dict{String,Any}(
+        "TransitGatewayRouteTableAnnouncementId" =>
+            TransitGatewayRouteTableAnnouncementId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_route_table_announcement(
+    TransitGatewayRouteTableAnnouncementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayRouteTableAnnouncement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayRouteTableAnnouncementId" =>
+                        TransitGatewayRouteTableAnnouncementId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_transit_gateway_vpc_attachment(transit_gateway_attachment_id)
@@ -7067,8 +11916,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteTransitGatewayVpcAttachment",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteTransitGatewayVpcAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_verified_access_endpoint(verified_access_endpoint_id)
@@ -7091,8 +11966,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_verified_access_endpoint(VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessEndpoint", Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_verified_access_endpoint(VerifiedAccessEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_verified_access_endpoint(
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteVerifiedAccessEndpoint",
+    Dict{String,Any}(
+        "VerifiedAccessEndpointId" => VerifiedAccessEndpointId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_verified_access_endpoint(
+    VerifiedAccessEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVerifiedAccessEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessEndpointId" => VerifiedAccessEndpointId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_verified_access_group(verified_access_group_id)
@@ -7115,8 +12020,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_verified_access_group(VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessGroup", Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_verified_access_group(VerifiedAccessGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_verified_access_group(
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteVerifiedAccessGroup",
+    Dict{String,Any}(
+        "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_verified_access_group(
+    VerifiedAccessGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVerifiedAccessGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_verified_access_instance(verified_access_instance_id)
@@ -7139,8 +12074,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_verified_access_instance(VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessInstance", Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_verified_access_instance(VerifiedAccessInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_verified_access_instance(
+    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteVerifiedAccessInstance",
+    Dict{String,Any}(
+        "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_verified_access_instance(
+    VerifiedAccessInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVerifiedAccessInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_verified_access_trust_provider(verified_access_trust_provider_id)
@@ -7163,8 +12128,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_verified_access_trust_provider(VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessTrustProvider", Dict{String, Any}("VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_verified_access_trust_provider(VerifiedAccessTrustProviderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVerifiedAccessTrustProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_verified_access_trust_provider(
+    VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteVerifiedAccessTrustProvider",
+    Dict{String,Any}(
+        "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_verified_access_trust_provider(
+    VerifiedAccessTrustProviderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVerifiedAccessTrustProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_volume(volume_id)
@@ -7191,8 +12186,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_volume(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteVolume",
+    Dict{String,Any}("VolumeId" => VolumeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_volume(
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVolume",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc(vpc_id)
@@ -7218,8 +12231,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_vpc(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpc", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc(VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteVpc",
+    Dict{String,Any}("VpcId" => VpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vpc(
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeleteVpc",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VpcId" => VpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc_endpoint_connection_notifications(connection_notification_id)
@@ -7240,8 +12267,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_vpc_endpoint_connection_notifications(ConnectionNotificationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcEndpointConnectionNotifications", Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc_endpoint_connection_notifications(ConnectionNotificationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcEndpointConnectionNotifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc_endpoint_connection_notifications(
+    ConnectionNotificationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteVpcEndpointConnectionNotifications",
+    Dict{String,Any}("ConnectionNotificationId" => ConnectionNotificationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vpc_endpoint_connection_notifications(
+    ConnectionNotificationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVpcEndpointConnectionNotifications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ConnectionNotificationId" => ConnectionNotificationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc_endpoint_service_configurations(service_id)
@@ -7264,8 +12315,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_vpc_endpoint_service_configurations(ServiceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcEndpointServiceConfigurations", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc_endpoint_service_configurations(ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcEndpointServiceConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc_endpoint_service_configurations(
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteVpcEndpointServiceConfigurations",
+    Dict{String,Any}("ServiceId" => ServiceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vpc_endpoint_service_configurations(
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVpcEndpointServiceConfigurations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc_endpoints(vpc_endpoint_id)
@@ -7295,8 +12366,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_vpc_endpoints(VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcEndpoints", Dict{String, Any}("VpcEndpointId"=>VpcEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc_endpoints(VpcEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc_endpoints(VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DeleteVpcEndpoints",
+        Dict{String,Any}("VpcEndpointId" => VpcEndpointId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_vpc_endpoints(
+    VpcEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVpcEndpoints",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VpcEndpointId" => VpcEndpointId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc_peering_connection(vpc_peering_connection_id)
@@ -7320,8 +12410,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_vpc_peering_connection(vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcPeeringConnection", Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc_peering_connection(vpcPeeringConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc_peering_connection(
+    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeleteVpcPeeringConnection",
+    Dict{String,Any}("vpcPeeringConnectionId" => vpcPeeringConnectionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vpc_peering_connection(
+    vpcPeeringConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVpcPeeringConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("vpcPeeringConnectionId" => vpcPeeringConnectionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpn_connection(vpn_connection_id)
@@ -7354,8 +12468,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_vpn_connection(VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpnConnection", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpn_connection(VpnConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpn_connection(VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DeleteVpnConnection",
+        Dict{String,Any}("VpnConnectionId" => VpnConnectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_vpn_connection(
+    VpnConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVpnConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("VpnConnectionId" => VpnConnectionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpn_connection_route(destination_cidr_block, vpn_connection_id)
@@ -7371,8 +12506,41 @@ routed from the virtual private gateway to the VPN customer gateway.
   network.
 - `vpn_connection_id`: The ID of the VPN connection.
 """
-delete_vpn_connection_route(DestinationCidrBlock, VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpnConnectionRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpn_connection_route(DestinationCidrBlock, VpnConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpn_connection_route(
+    DestinationCidrBlock,
+    VpnConnectionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DeleteVpnConnectionRoute",
+    Dict{String,Any}(
+        "DestinationCidrBlock" => DestinationCidrBlock,
+        "VpnConnectionId" => VpnConnectionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vpn_connection_route(
+    DestinationCidrBlock,
+    VpnConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVpnConnectionRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                    "VpnConnectionId" => VpnConnectionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpn_gateway(vpn_gateway_id)
@@ -7395,8 +12563,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-delete_vpn_gateway(VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpnGateway", Dict{String, Any}("VpnGatewayId"=>VpnGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpn_gateway(VpnGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeleteVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnGatewayId"=>VpnGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpn_gateway(VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeleteVpnGateway",
+    Dict{String,Any}("VpnGatewayId" => VpnGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vpn_gateway(
+    VpnGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeleteVpnGateway",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VpnGatewayId" => VpnGatewayId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deprovision_byoip_cidr(cidr)
@@ -7424,8 +12610,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deprovision_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeprovisionByoipCidr",
+    Dict{String,Any}("Cidr" => Cidr);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deprovision_byoip_cidr(
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeprovisionByoipCidr",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deprovision_ipam_byoasn(asn, ipam_id)
@@ -7451,8 +12651,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-deprovision_ipam_byoasn(Asn, IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionIpamByoasn", Dict{String, Any}("Asn"=>Asn, "IpamId"=>IpamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deprovision_ipam_byoasn(Asn, IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionIpamByoasn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Asn"=>Asn, "IpamId"=>IpamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deprovision_ipam_byoasn(Asn, IpamId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DeprovisionIpamByoasn",
+        Dict{String,Any}("Asn" => Asn, "IpamId" => IpamId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function deprovision_ipam_byoasn(
+    Asn,
+    IpamId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeprovisionIpamByoasn",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Asn" => Asn, "IpamId" => IpamId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deprovision_ipam_pool_cidr(ipam_pool_id)
@@ -7477,8 +12697,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-deprovision_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionIpamPoolCidr", Dict{String, Any}("IpamPoolId"=>IpamPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deprovision_ipam_pool_cidr(IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionIpamPoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deprovision_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DeprovisionIpamPoolCidr",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function deprovision_ipam_pool_cidr(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeprovisionIpamPoolCidr",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deprovision_public_ipv4_pool_cidr(cidr, pool_id)
@@ -7503,8 +12742,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-deprovision_public_ipv4_pool_cidr(Cidr, PoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionPublicIpv4PoolCidr", Dict{String, Any}("Cidr"=>Cidr, "PoolId"=>PoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deprovision_public_ipv4_pool_cidr(Cidr, PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeprovisionPublicIpv4PoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deprovision_public_ipv4_pool_cidr(
+    Cidr, PoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeprovisionPublicIpv4PoolCidr",
+    Dict{String,Any}("Cidr" => Cidr, "PoolId" => PoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deprovision_public_ipv4_pool_cidr(
+    Cidr,
+    PoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeprovisionPublicIpv4PoolCidr",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Cidr" => Cidr, "PoolId" => PoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_image(image_id)
@@ -7539,8 +12799,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-deregister_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterImage", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_image(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DeregisterImage",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_image(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeregisterImage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_instance_event_notification_attributes(instance_tag_attribute)
@@ -7562,8 +12838,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-deregister_instance_event_notification_attributes(InstanceTagAttribute; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterInstanceEventNotificationAttributes", Dict{String, Any}("InstanceTagAttribute"=>InstanceTagAttribute); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_instance_event_notification_attributes(InstanceTagAttribute, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterInstanceEventNotificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTagAttribute"=>InstanceTagAttribute), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_instance_event_notification_attributes(
+    InstanceTagAttribute; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeregisterInstanceEventNotificationAttributes",
+    Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_instance_event_notification_attributes(
+    InstanceTagAttribute,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DeregisterInstanceEventNotificationAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_transit_gateway_multicast_group_members()
@@ -7584,8 +12884,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInterfaceIds"`: The IDs of the group members' network interfaces.
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
-deregister_transit_gateway_multicast_group_members(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupMembers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_transit_gateway_multicast_group_members(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupMembers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_transit_gateway_multicast_group_members(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeregisterTransitGatewayMulticastGroupMembers";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_transit_gateway_multicast_group_members(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeregisterTransitGatewayMulticastGroupMembers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_transit_gateway_multicast_group_sources()
@@ -7606,8 +12921,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInterfaceIds"`: The IDs of the group sources' network interfaces.
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
-deregister_transit_gateway_multicast_group_sources(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_transit_gateway_multicast_group_sources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupSources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_transit_gateway_multicast_group_sources(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DeregisterTransitGatewayMulticastGroupSources";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_transit_gateway_multicast_group_sources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DeregisterTransitGatewayMulticastGroupSources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_account_attributes()
@@ -7639,8 +12969,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_account_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_account_attributes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeAccountAttributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_address_transfers()
@@ -7670,8 +13010,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-describe_address_transfers(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAddressTransfers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_address_transfers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAddressTransfers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_address_transfers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeAddressTransfers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_address_transfers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeAddressTransfers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_addresses()
@@ -7709,8 +13059,15 @@ Default: Describes all your Elastic IP addresses.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_addresses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_addresses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_addresses_attribute()
@@ -7732,8 +13089,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_addresses_attribute(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAddressesAttribute"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_addresses_attribute(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAddressesAttribute", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_addresses_attribute(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeAddressesAttribute"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_addresses_attribute(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeAddressesAttribute",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_aggregate_id_format()
@@ -7763,8 +13131,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_aggregate_id_format(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAggregateIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_aggregate_id_format(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAggregateIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_aggregate_id_format(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeAggregateIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_aggregate_id_format(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeAggregateIdFormat",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_availability_zones()
@@ -7819,8 +13197,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_availability_zones(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAvailabilityZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_availability_zones(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAvailabilityZones", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_availability_zones(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeAvailabilityZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_availability_zones(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeAvailabilityZones",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_aws_network_performance_metric_subscriptions()
@@ -7841,8 +13229,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_aws_network_performance_metric_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAwsNetworkPerformanceMetricSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_aws_network_performance_metric_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeAwsNetworkPerformanceMetricSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_aws_network_performance_metric_subscriptions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeAwsNetworkPerformanceMetricSubscriptions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_aws_network_performance_metric_subscriptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeAwsNetworkPerformanceMetricSubscriptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_bundle_tasks()
@@ -7882,8 +13285,18 @@ Default: Describes all your bundle tasks.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_bundle_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeBundleTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_bundle_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeBundleTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_bundle_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeBundleTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_bundle_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeBundleTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_byoip_cidrs(max_results)
@@ -7909,8 +13322,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_byoip_cidrs(MaxResults; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeByoipCidrs", Dict{String, Any}("MaxResults"=>MaxResults); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_byoip_cidrs(MaxResults, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeByoipCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_byoip_cidrs(MaxResults; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeByoipCidrs",
+    Dict{String,Any}("MaxResults" => MaxResults);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_byoip_cidrs(
+    MaxResults,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeByoipCidrs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_capacity_block_offerings(capacity_duration_hours, instance_count, instance_type)
@@ -7942,8 +13373,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results.
 - `"StartDateRange"`: The earliest start date for the Capacity Block offering.
 """
-describe_capacity_block_offerings(CapacityDurationHours, InstanceCount, InstanceType; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCapacityBlockOfferings", Dict{String, Any}("CapacityDurationHours"=>CapacityDurationHours, "InstanceCount"=>InstanceCount, "InstanceType"=>InstanceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_capacity_block_offerings(CapacityDurationHours, InstanceCount, InstanceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCapacityBlockOfferings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityDurationHours"=>CapacityDurationHours, "InstanceCount"=>InstanceCount, "InstanceType"=>InstanceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_capacity_block_offerings(
+    CapacityDurationHours,
+    InstanceCount,
+    InstanceType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DescribeCapacityBlockOfferings",
+    Dict{String,Any}(
+        "CapacityDurationHours" => CapacityDurationHours,
+        "InstanceCount" => InstanceCount,
+        "InstanceType" => InstanceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_capacity_block_offerings(
+    CapacityDurationHours,
+    InstanceCount,
+    InstanceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeCapacityBlockOfferings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityDurationHours" => CapacityDurationHours,
+                    "InstanceCount" => InstanceCount,
+                    "InstanceType" => InstanceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_capacity_reservation_fleets()
@@ -7973,8 +13441,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-describe_capacity_reservation_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCapacityReservationFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_capacity_reservation_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCapacityReservationFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_capacity_reservation_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeCapacityReservationFleets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_capacity_reservation_fleets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeCapacityReservationFleets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_capacity_reservations()
@@ -8044,8 +13526,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-describe_capacity_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_capacity_reservations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCapacityReservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_capacity_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeCapacityReservations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_capacity_reservations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeCapacityReservations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_carrier_gateways()
@@ -8077,8 +13572,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_carrier_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCarrierGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_carrier_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCarrierGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_carrier_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeCarrierGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_carrier_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeCarrierGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_classic_link_instances()
@@ -8118,8 +13623,21 @@ Constraint: If the value is greater than 1000, we return only 1000 items.
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_classic_link_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClassicLinkInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_classic_link_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClassicLinkInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_classic_link_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeClassicLinkInstances";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_classic_link_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeClassicLinkInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_client_vpn_authorization_rules(client_vpn_endpoint_id)
@@ -8148,8 +13666,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The remaining results can be seen by sending another request with the nextToken value.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-describe_client_vpn_authorization_rules(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnAuthorizationRules", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_client_vpn_authorization_rules(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnAuthorizationRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_client_vpn_authorization_rules(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeClientVpnAuthorizationRules",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_client_vpn_authorization_rules(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeClientVpnAuthorizationRules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_client_vpn_connections(client_vpn_endpoint_id)
@@ -8178,8 +13720,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The remaining results can be seen by sending another request with the nextToken value.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-describe_client_vpn_connections(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnConnections", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_client_vpn_connections(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_client_vpn_connections(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeClientVpnConnections",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_client_vpn_connections(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeClientVpnConnections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_client_vpn_endpoints()
@@ -8203,8 +13769,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The remaining results can be seen by sending another request with the nextToken value.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-describe_client_vpn_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_client_vpn_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_client_vpn_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeClientVpnEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_client_vpn_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeClientVpnEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_client_vpn_routes(client_vpn_endpoint_id)
@@ -8233,8 +13810,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The remaining results can be seen by sending another request with the nextToken value.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-describe_client_vpn_routes(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnRoutes", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_client_vpn_routes(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_client_vpn_routes(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeClientVpnRoutes",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_client_vpn_routes(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeClientVpnRoutes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_client_vpn_target_networks(client_vpn_endpoint_id)
@@ -8263,8 +13864,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The remaining results can be seen by sending another request with the nextToken value.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-describe_client_vpn_target_networks(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnTargetNetworks", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_client_vpn_target_networks(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeClientVpnTargetNetworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_client_vpn_target_networks(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeClientVpnTargetNetworks",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_client_vpn_target_networks(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeClientVpnTargetNetworks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_coip_pools()
@@ -8289,8 +13914,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PoolId"`: The IDs of the address pools.
 """
-describe_coip_pools(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCoipPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_coip_pools(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCoipPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_coip_pools(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeCoipPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_coip_pools(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeCoipPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_conversion_tasks()
@@ -8311,8 +13943,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_conversion_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeConversionTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_conversion_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeConversionTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_conversion_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeConversionTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_conversion_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeConversionTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_customer_gateways()
@@ -8349,8 +13991,18 @@ Default: Describes all your customer gateways.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_customer_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCustomerGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_customer_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeCustomerGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_customer_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeCustomerGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_customer_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeCustomerGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_dhcp_options()
@@ -8388,8 +14040,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_dhcp_options(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeDhcpOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_dhcp_options(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeDhcpOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_dhcp_options(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeDhcpOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_dhcp_options(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeDhcpOptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_egress_only_internet_gateways()
@@ -8422,8 +14084,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_egress_only_internet_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeEgressOnlyInternetGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_egress_only_internet_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeEgressOnlyInternetGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_egress_only_internet_gateways(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeEgressOnlyInternetGateways";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_egress_only_internet_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeEgressOnlyInternetGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_elastic_gpus()
@@ -8459,8 +14136,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be between 5 and 1000.
 - `"NextToken"`: The token to request the next page of results.
 """
-describe_elastic_gpus(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeElasticGpus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_elastic_gpus(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeElasticGpus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_elastic_gpus(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeElasticGpus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_elastic_gpus(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeElasticGpus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_export_image_tasks()
@@ -8482,8 +14169,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: A token that indicates the next page of results.
 """
-describe_export_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeExportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_export_image_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeExportImageTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_export_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeExportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_export_image_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeExportImageTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_export_tasks()
@@ -8498,8 +14195,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: the filters for the export tasks.
 - `"exportTaskId"`: The export task IDs.
 """
-describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_export_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeExportTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_export_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeExportTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fast_launch_images()
@@ -8526,8 +14233,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_fast_launch_images(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFastLaunchImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fast_launch_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFastLaunchImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fast_launch_images(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeFastLaunchImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_fast_launch_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeFastLaunchImages",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fast_snapshot_restores()
@@ -8556,8 +14273,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_fast_snapshot_restores(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFastSnapshotRestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fast_snapshot_restores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFastSnapshotRestores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fast_snapshot_restores(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeFastSnapshotRestores";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_fast_snapshot_restores(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeFastSnapshotRestores",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleet_history(fleet_id, start_time)
@@ -8593,8 +14323,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_fleet_history(FleetId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFleetHistory", Dict{String, Any}("FleetId"=>FleetId, "StartTime"=>StartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleet_history(FleetId, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFleetHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleet_history(
+    FleetId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeFleetHistory",
+    Dict{String,Any}("FleetId" => FleetId, "StartTime" => StartTime);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_fleet_history(
+    FleetId,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeFleetHistory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FleetId" => FleetId, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleet_instances(fleet_id)
@@ -8627,8 +14382,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_fleet_instances(FleetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFleetInstances", Dict{String, Any}("FleetId"=>FleetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleet_instances(FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleet_instances(FleetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeFleetInstances",
+    Dict{String,Any}("FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_fleet_instances(
+    FleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeFleetInstances",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleets()
@@ -8670,8 +14441,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_fleets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_flow_logs()
@@ -8714,8 +14492,15 @@ Constraint: Maximum of 1000 flow log IDs.
 - `"NextToken"`: The token to request the next page of items. Pagination continues from the
   end of the items returned by the previous request.
 """
-describe_flow_logs(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFlowLogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_flow_logs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFlowLogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_flow_logs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeFlowLogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_flow_logs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeFlowLogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_fpga_image_attribute(attribute, fpga_image_id)
@@ -8737,8 +14522,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_fpga_image_attribute(Attribute, FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFpgaImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "FpgaImageId"=>FpgaImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fpga_image_attribute(Attribute, FpgaImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fpga_image_attribute(
+    Attribute, FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeFpgaImageAttribute",
+    Dict{String,Any}("Attribute" => Attribute, "FpgaImageId" => FpgaImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_fpga_image_attribute(
+    Attribute,
+    FpgaImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeFpgaImageAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attribute" => Attribute, "FpgaImageId" => FpgaImageId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fpga_images()
@@ -8779,8 +14589,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (owner is the sender of the request), or an Amazon Web Services owner alias (valid values
   are `amazon` | `aws-marketplace`).
 """
-describe_fpga_images(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFpgaImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fpga_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeFpgaImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fpga_images(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeFpgaImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_fpga_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeFpgaImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_host_reservation_offerings()
@@ -8817,8 +14634,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results.
 - `"OfferingId"`: The ID of the reservation offering.
 """
-describe_host_reservation_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeHostReservationOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_host_reservation_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeHostReservationOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_host_reservation_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeHostReservationOfferings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_host_reservation_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeHostReservationOfferings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_host_reservations()
@@ -8847,8 +14678,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value than 500, you receive an error.
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-describe_host_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeHostReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_host_reservations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeHostReservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_host_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeHostReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_host_reservations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeHostReservations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_hosts()
@@ -8885,8 +14726,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 You cannot specify this parameter and the host IDs parameter in the same request.
 - `"nextToken"`: The token to use to retrieve the next page of results.
 """
-describe_hosts(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_hosts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_hosts(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_hosts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_iam_instance_profile_associations()
@@ -8908,8 +14756,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_iam_instance_profile_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIamInstanceProfileAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_iam_instance_profile_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIamInstanceProfileAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_iam_instance_profile_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeIamInstanceProfileAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_iam_instance_profile_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIamInstanceProfileAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_id_format()
@@ -8949,8 +14812,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `vpc-cidr-block-association` | `vpc-endpoint` | `vpc-peering-connection` | `vpn-
   connection` | `vpn-gateway`
 """
-describe_id_format(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_id_format(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_id_format(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_id_format(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_identity_id_format(principal_arn)
@@ -8993,8 +14863,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `vpc-cidr-block-association` | `vpc-endpoint` | `vpc-peering-connection` | `vpn-
   connection` | `vpn-gateway`
 """
-describe_identity_id_format(principalArn; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIdentityIdFormat", Dict{String, Any}("principalArn"=>principalArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_identity_id_format(principalArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_identity_id_format(
+    principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeIdentityIdFormat",
+    Dict{String,Any}("principalArn" => principalArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_identity_id_format(
+    principalArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeIdentityIdFormat",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("principalArn" => principalArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_image_attribute(attribute, image_id)
@@ -9025,8 +14915,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_image_attribute(Attribute, ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_image_attribute(Attribute, ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_image_attribute(
+    Attribute, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeImageAttribute",
+    Dict{String,Any}("Attribute" => Attribute, "ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_image_attribute(
+    Attribute,
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeImageAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attribute" => Attribute, "ImageId" => ImageId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_images()
@@ -9146,8 +15061,15 @@ Default: No disabled AMIs are included in the response.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_images(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_images(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_import_image_tasks()
@@ -9170,8 +15092,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: A token that indicates the next page of results.
 """
-describe_import_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_import_image_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImportImageTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_import_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeImportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_import_image_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeImportImageTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_import_snapshot_tasks()
@@ -9193,8 +15125,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: A token that indicates the next page of results.
 """
-describe_import_snapshot_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImportSnapshotTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_import_snapshot_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeImportSnapshotTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_import_snapshot_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeImportSnapshotTasks";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_import_snapshot_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeImportSnapshotTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_attribute(attribute, instance_id)
@@ -9222,8 +15167,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_instance_attribute(attribute, instanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceAttribute", Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_attribute(attribute, instanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_attribute(
+    attribute, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeInstanceAttribute",
+    Dict{String,Any}("attribute" => attribute, "instanceId" => instanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_instance_attribute(
+    attribute,
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeInstanceAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("attribute" => attribute, "instanceId" => instanceId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_connect_endpoints()
@@ -9263,8 +15233,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_instance_connect_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceConnectEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_connect_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceConnectEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_connect_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeInstanceConnectEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_instance_connect_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceConnectEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_credit_specifications()
@@ -9315,8 +15299,23 @@ You cannot specify this parameter and the instance IDs parameter in the same cal
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_instance_credit_specifications(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceCreditSpecifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_credit_specifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceCreditSpecifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_credit_specifications(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeInstanceCreditSpecifications";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_instance_credit_specifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceCreditSpecifications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_event_notification_attributes()
@@ -9334,8 +15333,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_instance_event_notification_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceEventNotificationAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_event_notification_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceEventNotificationAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_event_notification_attributes(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeInstanceEventNotificationAttributes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_instance_event_notification_attributes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceEventNotificationAttributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_event_windows()
@@ -9385,8 +15399,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter in the same call.
 - `"NextToken"`: The token to request the next page of results.
 """
-describe_instance_event_windows(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceEventWindows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_event_windows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceEventWindows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_event_windows(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeInstanceEventWindows";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_instance_event_windows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceEventWindows",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_status()
@@ -9466,8 +15493,18 @@ You cannot specify this parameter and the instance IDs parameter in the same req
 
 Default: `false`
 """
-describe_instance_status(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeInstanceStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_instance_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_topology()
@@ -9524,8 +15561,18 @@ Default: `20`
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_instance_topology(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceTopology"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_topology(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceTopology", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_topology(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeInstanceTopology"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_instance_topology(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceTopology",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_type_offerings()
@@ -9559,8 +15606,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_instance_type_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceTypeOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_type_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceTypeOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_type_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeInstanceTypeOfferings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_instance_type_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceTypeOfferings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_types()
@@ -9671,8 +15732,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_instance_types(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstanceTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_types(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeInstanceTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_instance_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstanceTypes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instances()
@@ -9957,8 +16028,15 @@ You cannot specify this parameter and the instance IDs parameter in the same req
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_internet_gateways()
@@ -9996,8 +16074,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: Describes all your internet gateways.
 """
-describe_internet_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInternetGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_internet_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeInternetGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_internet_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeInternetGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_internet_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeInternetGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_ipam_byoasn()
@@ -10019,8 +16107,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_ipam_byoasn(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamByoasn"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipam_byoasn(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamByoasn", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipam_byoasn(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeIpamByoasn"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_ipam_byoasn(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpamByoasn", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_ipam_external_resource_verification_tokens()
@@ -10055,8 +16150,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of tokens to return in one page of results.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_ipam_external_resource_verification_tokens(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamExternalResourceVerificationTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipam_external_resource_verification_tokens(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamExternalResourceVerificationTokens", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipam_external_resource_verification_tokens(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeIpamExternalResourceVerificationTokens";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_ipam_external_resource_verification_tokens(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpamExternalResourceVerificationTokens",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_ipam_pools()
@@ -10078,8 +16188,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_ipam_pools(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipam_pools(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipam_pools(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeIpamPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_ipam_pools(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpamPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_ipam_resource_discoveries()
@@ -10103,8 +16220,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-describe_ipam_resource_discoveries(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamResourceDiscoveries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipam_resource_discoveries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamResourceDiscoveries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipam_resource_discoveries(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeIpamResourceDiscoveries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_ipam_resource_discoveries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpamResourceDiscoveries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_ipam_resource_discovery_associations()
@@ -10128,8 +16259,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-describe_ipam_resource_discovery_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamResourceDiscoveryAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipam_resource_discovery_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamResourceDiscoveryAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipam_resource_discovery_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeIpamResourceDiscoveryAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_ipam_resource_discovery_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpamResourceDiscoveryAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_ipam_scopes()
@@ -10151,8 +16297,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_ipam_scopes(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamScopes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipam_scopes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpamScopes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipam_scopes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeIpamScopes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_ipam_scopes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpamScopes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_ipams()
@@ -10177,8 +16330,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_ipams(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipams(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipams(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeIpams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_ipams(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_ipv6_pools()
@@ -10206,8 +16366,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PoolId"`: The IDs of the IPv6 address pools.
 """
-describe_ipv6_pools(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpv6Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ipv6_pools(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeIpv6Pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ipv6_pools(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeIpv6Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_ipv6_pools(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeIpv6Pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_key_pairs()
@@ -10243,8 +16410,15 @@ Default: Describes all of your key pairs.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_key_pairs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_key_pairs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_launch_template_versions()
@@ -10302,12 +16476,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launch templates in your account.
 
   To describe one or more versions of a specified launch template, valid values are
-  `$Latest`, `$Default`, and numbers.
+  `\$Latest`, `\$Default`, and numbers.
 
   To describe all launch templates in your account that are defined as the latest version,
-  the valid value is `$Latest`. To describe all launch templates in your account that are
-  defined as the default version, the valid value is `$Default`. You can specify `$Latest`
-  and `$Default` in the same request. You cannot specify numbers.
+  the valid value is `\$Latest`. To describe all launch templates in your account that are
+  defined as the default version, the valid value is `\$Default`. You can specify
+  `\$Latest` and `\$Default` in the same request. You cannot specify numbers.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `NextToken` value. This value can
   be between 1 and 200.
@@ -10325,8 +16499,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `false`
 """
-describe_launch_template_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLaunchTemplateVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_launch_template_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLaunchTemplateVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_launch_template_versions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeLaunchTemplateVersions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_launch_template_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLaunchTemplateVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_launch_templates()
@@ -10358,8 +16546,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be between 1 and 200.
 - `"NextToken"`: The token to request the next page of results.
 """
-describe_launch_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLaunchTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_launch_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLaunchTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_launch_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeLaunchTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_launch_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLaunchTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_local_gateway_route_table_virtual_interface_group_associations()
@@ -10391,8 +16589,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_local_gateway_route_table_virtual_interface_group_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_local_gateway_route_table_virtual_interface_group_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_local_gateway_route_table_virtual_interface_group_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_local_gateway_route_table_virtual_interface_group_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_local_gateway_route_table_vpc_associations()
@@ -10422,8 +16635,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_local_gateway_route_table_vpc_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayRouteTableVpcAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_local_gateway_route_table_vpc_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayRouteTableVpcAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_local_gateway_route_table_vpc_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeLocalGatewayRouteTableVpcAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_local_gateway_route_table_vpc_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLocalGatewayRouteTableVpcAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_local_gateway_route_tables()
@@ -10453,8 +16681,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_local_gateway_route_tables(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayRouteTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_local_gateway_route_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayRouteTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_local_gateway_route_tables(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeLocalGatewayRouteTables";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_local_gateway_route_tables(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLocalGatewayRouteTables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_local_gateway_virtual_interface_groups()
@@ -10480,8 +16722,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_local_gateway_virtual_interface_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaceGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_local_gateway_virtual_interface_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaceGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_local_gateway_virtual_interface_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeLocalGatewayVirtualInterfaceGroups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_local_gateway_virtual_interface_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLocalGatewayVirtualInterfaceGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_local_gateway_virtual_interfaces()
@@ -10512,8 +16769,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_local_gateway_virtual_interfaces(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_local_gateway_virtual_interfaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_local_gateway_virtual_interfaces(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeLocalGatewayVirtualInterfaces";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_local_gateway_virtual_interfaces(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLocalGatewayVirtualInterfaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_local_gateways()
@@ -10539,8 +16811,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_local_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_local_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLocalGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_local_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeLocalGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_local_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLocalGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_locked_snapshots()
@@ -10565,8 +16847,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 - `"SnapshotId"`: The IDs of the snapshots for which to view the lock status.
 """
-describe_locked_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLockedSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_locked_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeLockedSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_locked_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeLockedSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_locked_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeLockedSnapshots",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_mac_hosts()
@@ -10589,8 +16881,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value than 500, you receive an error.
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-describe_mac_hosts(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeMacHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_mac_hosts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeMacHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_mac_hosts(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeMacHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_mac_hosts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeMacHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_managed_prefix_lists()
@@ -10616,8 +16915,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PrefixListId"`: One or more prefix list IDs.
 """
-describe_managed_prefix_lists(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeManagedPrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_managed_prefix_lists(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeManagedPrefixLists", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_managed_prefix_lists(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeManagedPrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_managed_prefix_lists(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeManagedPrefixLists",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_moving_addresses()
@@ -10649,8 +16959,18 @@ Default: If no value is provided, the default is 1000.
 - `"nextToken"`: The token for the next page of results.
 - `"publicIp"`: One or more Elastic IP addresses.
 """
-describe_moving_addresses(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeMovingAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_moving_addresses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeMovingAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_moving_addresses(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeMovingAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_moving_addresses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeMovingAddresses",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_nat_gateways()
@@ -10686,8 +17006,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_nat_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNatGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_nat_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNatGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_nat_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeNatGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_nat_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNatGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_acls()
@@ -10742,8 +17072,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_network_acls(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkAcls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_acls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkAcls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_acls(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeNetworkAcls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_network_acls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNetworkAcls",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_insights_access_scope_analyses()
@@ -10770,8 +17110,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInsightsAccessScopeId"`: The ID of the Network Access Scope.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_network_insights_access_scope_analyses(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsAccessScopeAnalyses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_insights_access_scope_analyses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsAccessScopeAnalyses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_insights_access_scope_analyses(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeNetworkInsightsAccessScopeAnalyses";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_network_insights_access_scope_analyses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsAccessScopeAnalyses",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_insights_access_scopes()
@@ -10793,8 +17148,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInsightsAccessScopeId"`: The IDs of the Network Access Scopes.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_network_insights_access_scopes(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsAccessScopes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_insights_access_scopes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsAccessScopes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_insights_access_scopes(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeNetworkInsightsAccessScopes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_network_insights_access_scopes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsAccessScopes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_insights_analyses()
@@ -10823,8 +17193,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   analysis IDs.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_network_insights_analyses(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsAnalyses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_insights_analyses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsAnalyses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_insights_analyses(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeNetworkInsightsAnalyses";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_network_insights_analyses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsAnalyses",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_insights_paths()
@@ -10859,8 +17243,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInsightsPathId"`: The IDs of the paths.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_network_insights_paths(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsPaths"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_insights_paths(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInsightsPaths", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_insights_paths(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeNetworkInsightsPaths";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_network_insights_paths(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsPaths",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_interface_attribute(network_interface_id)
@@ -10882,8 +17279,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_network_interface_attribute(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_interface_attribute(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_interface_attribute(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeNetworkInterfaceAttribute",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_network_interface_attribute(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeNetworkInterfaceAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_interface_permissions()
@@ -10910,8 +17329,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_network_interface_permissions(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInterfacePermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_interface_permissions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInterfacePermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_interface_permissions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeNetworkInterfacePermissions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_network_interface_permissions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInterfacePermissions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_network_interfaces()
@@ -11010,8 +17444,18 @@ Default: Describes all your network interfaces.
   resources assigned a tag with a specific key, regardless of the tag value.
    - `vpc-id` - The ID of the VPC for the network interface.
 """
-describe_network_interfaces(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_network_interfaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeNetworkInterfaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_network_interfaces(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeNetworkInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_network_interfaces(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInterfaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_placement_groups()
@@ -11054,8 +17498,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - If a placement group is *shared* with your account, specifying the name results in an
   error. You must use the `GroupId` parameter instead.
 """
-describe_placement_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePlacementGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_placement_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePlacementGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_placement_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribePlacementGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_placement_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribePlacementGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_prefix_lists()
@@ -11082,8 +17536,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PrefixListId"`: One or more prefix list IDs.
 """
-describe_prefix_lists(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_prefix_lists(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePrefixLists", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_prefix_lists(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribePrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_prefix_lists(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribePrefixLists",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_principal_id_format()
@@ -11125,8 +17589,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `vpc-cidr-block-association` | `vpc-endpoint` | `vpc-peering-connection` | `vpn-
   connection` | `vpn-gateway`
 """
-describe_principal_id_format(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePrincipalIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_principal_id_format(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePrincipalIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_principal_id_format(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribePrincipalIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_principal_id_format(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribePrincipalIdFormat",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_public_ipv4_pools()
@@ -11150,8 +17624,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PoolId"`: The IDs of the address pools.
 """
-describe_public_ipv4_pools(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePublicIpv4Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_public_ipv4_pools(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribePublicIpv4Pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_public_ipv4_pools(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribePublicIpv4Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_public_ipv4_pools(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribePublicIpv4Pools",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_regions()
@@ -11186,8 +17670,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_regions(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_regions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeRegions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_regions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_regions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeRegions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_replace_root_volume_tasks()
@@ -11213,8 +17704,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 - `"ReplaceRootVolumeTaskId"`: The ID of the root volume replacement task to view.
 """
-describe_replace_root_volume_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReplaceRootVolumeTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replace_root_volume_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReplaceRootVolumeTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replace_root_volume_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeReplaceRootVolumeTasks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_replace_root_volume_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeReplaceRootVolumeTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_reserved_instances()
@@ -11272,8 +17777,18 @@ Default: Describes all your Reserved Instances, or only those otherwise specifie
   predate the 2011-11-01 API version, you only have access to the `Medium Utilization`
   Reserved Instance offering type.
 """
-describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_reserved_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeReservedInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_reserved_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeReservedInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_reserved_instances_listings()
@@ -11316,8 +17831,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reservedInstancesId"`: One or more Reserved Instance IDs.
 - `"reservedInstancesListingId"`: One or more Reserved Instance listing IDs.
 """
-describe_reserved_instances_listings(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstancesListings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_reserved_instances_listings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstancesListings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_instances_listings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeReservedInstancesListings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_reserved_instances_listings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeReservedInstancesListings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_reserved_instances_modifications()
@@ -11360,8 +17889,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedInstancesModificationId"`: IDs for the submitted modification request.
 - `"nextToken"`: The token to retrieve the next page of results.
 """
-describe_reserved_instances_modifications(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstancesModifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_reserved_instances_modifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstancesModifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_instances_modifications(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeReservedInstancesModifications";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_reserved_instances_modifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeReservedInstancesModifications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_reserved_instances_offerings()
@@ -11449,8 +17993,23 @@ Default: 100
   predate the 2011-11-01 API version, you only have access to the `Medium Utilization`
   Reserved Instance offering type.
 """
-describe_reserved_instances_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstancesOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_reserved_instances_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeReservedInstancesOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_instances_offerings(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeReservedInstancesOfferings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_reserved_instances_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeReservedInstancesOfferings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_route_tables()
@@ -11522,8 +18081,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_route_tables(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeRouteTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_route_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeRouteTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_route_tables(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeRouteTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_route_tables(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeRouteTables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_scheduled_instance_availability(first_slot_start_time_range, recurrence)
@@ -11567,8 +18136,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 - `"NextToken"`: The token for the next set of results.
 """
-describe_scheduled_instance_availability(FirstSlotStartTimeRange, Recurrence; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeScheduledInstanceAvailability", Dict{String, Any}("FirstSlotStartTimeRange"=>FirstSlotStartTimeRange, "Recurrence"=>Recurrence); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_scheduled_instance_availability(FirstSlotStartTimeRange, Recurrence, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeScheduledInstanceAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSlotStartTimeRange"=>FirstSlotStartTimeRange, "Recurrence"=>Recurrence), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_scheduled_instance_availability(
+    FirstSlotStartTimeRange, Recurrence; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeScheduledInstanceAvailability",
+    Dict{String,Any}(
+        "FirstSlotStartTimeRange" => FirstSlotStartTimeRange, "Recurrence" => Recurrence
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_scheduled_instance_availability(
+    FirstSlotStartTimeRange,
+    Recurrence,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeScheduledInstanceAvailability",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirstSlotStartTimeRange" => FirstSlotStartTimeRange,
+                    "Recurrence" => Recurrence,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_scheduled_instances()
@@ -11595,8 +18194,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduledInstanceId"`: The Scheduled Instance IDs.
 - `"SlotStartTimeRange"`: The time period for the first schedule to start.
 """
-describe_scheduled_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeScheduledInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_scheduled_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeScheduledInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_scheduled_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeScheduledInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_scheduled_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeScheduledInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_security_group_references(item)
@@ -11619,8 +18229,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"GroupId"`: The IDs of the security groups in your account.
 """
-describe_security_group_references(item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}("item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_security_group_references(item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_security_group_references(
+    item; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeSecurityGroupReferences",
+    Dict{String,Any}("item" => item);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_security_group_references(
+    item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSecurityGroupReferences",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("item" => item), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_security_group_rules()
@@ -11650,8 +18276,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 - `"SecurityGroupRuleId"`: The IDs of the security group rules.
 """
-describe_security_group_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSecurityGroupRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_security_group_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSecurityGroupRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_security_group_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeSecurityGroupRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_security_group_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSecurityGroupRules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_security_groups()
@@ -11727,8 +18364,18 @@ Default: Describes all of your security groups.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_security_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSecurityGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_security_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_security_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeSecurityGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_security_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSecurityGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_snapshot_attribute(attribute, snapshot_id)
@@ -11754,8 +18401,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_snapshot_attribute(Attribute, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSnapshotAttribute", Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_snapshot_attribute(Attribute, SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_snapshot_attribute(
+    Attribute, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeSnapshotAttribute",
+    Dict{String,Any}("Attribute" => Attribute, "SnapshotId" => SnapshotId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_snapshot_attribute(
+    Attribute,
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeSnapshotAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attribute" => Attribute, "SnapshotId" => SnapshotId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_snapshot_tier_status()
@@ -11783,8 +18455,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSnapshotTierStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_snapshot_tier_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSnapshotTierStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeSnapshotTierStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_snapshot_tier_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSnapshotTierStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_snapshots()
@@ -11876,8 +18559,15 @@ Default: Describes the snapshots for which you have create volume permissions.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_spot_datafeed_subscription()
@@ -11895,8 +18585,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_spot_datafeed_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotDatafeedSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_spot_datafeed_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotDatafeedSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_spot_datafeed_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeSpotDatafeedSubscription";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_spot_datafeed_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSpotDatafeedSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_spot_fleet_instances(spot_fleet_request_id)
@@ -11922,8 +18626,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to include in another request to get the next page of items.
   This value is `null` when there are no more items to return.
 """
-describe_spot_fleet_instances(spotFleetRequestId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotFleetInstances", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_spot_fleet_instances(spotFleetRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_spot_fleet_instances(
+    spotFleetRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeSpotFleetInstances",
+    Dict{String,Any}("spotFleetRequestId" => spotFleetRequestId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_spot_fleet_instances(
+    spotFleetRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeSpotFleetInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("spotFleetRequestId" => spotFleetRequestId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_spot_fleet_request_history(spot_fleet_request_id, start_time)
@@ -11959,8 +18685,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to include in another request to get the next page of items.
   This value is `null` when there are no more items to return.
 """
-describe_spot_fleet_request_history(spotFleetRequestId, startTime; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotFleetRequestHistory", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "startTime"=>startTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_spot_fleet_request_history(spotFleetRequestId, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotFleetRequestHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_spot_fleet_request_history(
+    spotFleetRequestId, startTime; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeSpotFleetRequestHistory",
+    Dict{String,Any}("spotFleetRequestId" => spotFleetRequestId, "startTime" => startTime);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_spot_fleet_request_history(
+    spotFleetRequestId,
+    startTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeSpotFleetRequestHistory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "spotFleetRequestId" => spotFleetRequestId, "startTime" => startTime
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_spot_fleet_requests()
@@ -11986,8 +18739,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This value is `null` when there are no more items to return.
 - `"spotFleetRequestId"`: The IDs of the Spot Fleet requests.
 """
-describe_spot_fleet_requests(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotFleetRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_spot_fleet_requests(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotFleetRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_spot_fleet_requests(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeSpotFleetRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_spot_fleet_requests(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSpotFleetRequests",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_spot_instance_requests()
@@ -12083,8 +18846,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_spot_instance_requests(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotInstanceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_spot_instance_requests(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotInstanceRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_spot_instance_requests(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeSpotInstanceRequests";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_spot_instance_requests(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSpotInstanceRequests",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_spot_price_history()
@@ -12129,8 +18905,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The date and time, up to the past 90 days, from which to start retrieving
   the price history data, in UTC format (for example, *YYYY*-*MM*-*DD*T*HH*:*MM*:*SS*Z).
 """
-describe_spot_price_history(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotPriceHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_spot_price_history(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSpotPriceHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_spot_price_history(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeSpotPriceHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_spot_price_history(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSpotPriceHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_stale_security_groups(vpc_id)
@@ -12159,8 +18945,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_stale_security_groups(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_stale_security_groups(VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_stale_security_groups(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeStaleSecurityGroups",
+        Dict{String,Any}("VpcId" => VpcId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_stale_security_groups(
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeStaleSecurityGroups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VpcId" => VpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_store_image_tasks()
@@ -12210,8 +19011,18 @@ You cannot specify this parameter and the `ImageIds` parameter in the same call.
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_store_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeStoreImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_store_image_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeStoreImageTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_store_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeStoreImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_store_image_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeStoreImageTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_subnets()
@@ -12293,8 +19104,15 @@ Default: Describes all your subnets.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_subnets(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSubnets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_subnets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeSubnets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_subnets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeSubnets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_subnets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeSubnets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_tags()
@@ -12334,8 +19152,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_tags(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_tags(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_tags(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_tags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_traffic_mirror_filter_rules()
@@ -12370,8 +19195,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficMirrorFilterId"`: Traffic filter ID.
 - `"TrafficMirrorFilterRuleId"`: Traffic filter rule IDs.
 """
-describe_traffic_mirror_filter_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorFilterRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_traffic_mirror_filter_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorFilterRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_traffic_mirror_filter_rules(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeTrafficMirrorFilterRules";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_traffic_mirror_filter_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTrafficMirrorFilterRules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_traffic_mirror_filters()
@@ -12395,8 +19234,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TrafficMirrorFilterId"`: The ID of the Traffic Mirror filter.
 """
-describe_traffic_mirror_filters(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_traffic_mirror_filters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_traffic_mirror_filters(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeTrafficMirrorFilters";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_traffic_mirror_filters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTrafficMirrorFilters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_traffic_mirror_sessions()
@@ -12428,8 +19280,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TrafficMirrorSessionId"`: The ID of the Traffic Mirror session.
 """
-describe_traffic_mirror_sessions(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_traffic_mirror_sessions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_traffic_mirror_sessions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeTrafficMirrorSessions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_traffic_mirror_sessions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTrafficMirrorSessions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_traffic_mirror_targets()
@@ -12457,8 +19323,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TrafficMirrorTargetId"`: The ID of the Traffic Mirror targets.
 """
-describe_traffic_mirror_targets(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_traffic_mirror_targets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrafficMirrorTargets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_traffic_mirror_targets(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeTrafficMirrorTargets";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_traffic_mirror_targets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTrafficMirrorTargets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_attachments()
@@ -12497,8 +19376,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayAttachmentIds"`: The IDs of the attachments.
 """
-describe_transit_gateway_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayAttachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_attachments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayAttachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeTransitGatewayAttachments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_transit_gateway_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayAttachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_connect_peers()
@@ -12523,8 +19416,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayConnectPeerIds"`: The IDs of the Connect peers.
 """
-describe_transit_gateway_connect_peers(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayConnectPeers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_connect_peers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayConnectPeers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_connect_peers(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTransitGatewayConnectPeers";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_transit_gateway_connect_peers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayConnectPeers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_connects()
@@ -12554,8 +19462,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayAttachmentIds"`: The IDs of the attachments.
 """
-describe_transit_gateway_connects(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayConnects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_connects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayConnects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_connects(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeTransitGatewayConnects";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_transit_gateway_connects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayConnects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_multicast_domains()
@@ -12582,8 +19504,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayMulticastDomainIds"`: The ID of the transit gateway multicast domain.
 """
-describe_transit_gateway_multicast_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayMulticastDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_multicast_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayMulticastDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_multicast_domains(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTransitGatewayMulticastDomains";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_transit_gateway_multicast_domains(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayMulticastDomains",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_peering_attachments()
@@ -12620,8 +19557,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayAttachmentIds"`: One or more IDs of the transit gateway peering
   attachments.
 """
-describe_transit_gateway_peering_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayPeeringAttachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_peering_attachments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayPeeringAttachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_peering_attachments(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTransitGatewayPeeringAttachments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_transit_gateway_peering_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayPeeringAttachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_policy_tables()
@@ -12643,8 +19595,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayPolicyTableIds"`: The IDs of the transit gateway policy tables.
 """
-describe_transit_gateway_policy_tables(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayPolicyTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_policy_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayPolicyTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_policy_tables(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTransitGatewayPolicyTables";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_transit_gateway_policy_tables(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayPolicyTables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_route_table_announcements()
@@ -12667,8 +19634,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayRouteTableAnnouncementIds"`: The IDs of the transit gateway route tables
   that are being advertised.
 """
-describe_transit_gateway_route_table_announcements(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayRouteTableAnnouncements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_route_table_announcements(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayRouteTableAnnouncements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_route_table_announcements(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTransitGatewayRouteTableAnnouncements";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_transit_gateway_route_table_announcements(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayRouteTableAnnouncements",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_route_tables()
@@ -12699,8 +19681,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayRouteTableIds"`: The IDs of the transit gateway route tables.
 """
-describe_transit_gateway_route_tables(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayRouteTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_route_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayRouteTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_route_tables(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTransitGatewayRouteTables";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_transit_gateway_route_tables(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayRouteTables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateway_vpc_attachments()
@@ -12729,8 +19726,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayAttachmentIds"`: The IDs of the attachments.
 """
-describe_transit_gateway_vpc_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayVpcAttachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateway_vpc_attachments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGatewayVpcAttachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateway_vpc_attachments(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTransitGatewayVpcAttachments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_transit_gateway_vpc_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGatewayVpcAttachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_transit_gateways()
@@ -12776,8 +19788,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayIds"`: The IDs of the transit gateways.
 """
-describe_transit_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_transit_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTransitGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_transit_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeTransitGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_transit_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTransitGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_trunk_interface_associations()
@@ -12800,8 +19822,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-describe_trunk_interface_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrunkInterfaceAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_trunk_interface_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeTrunkInterfaceAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_trunk_interface_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeTrunkInterfaceAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_trunk_interface_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeTrunkInterfaceAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_verified_access_endpoints()
@@ -12825,8 +19862,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessGroupId"`: The ID of the Verified Access group.
 - `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
-describe_verified_access_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_verified_access_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_verified_access_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeVerifiedAccessEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_verified_access_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVerifiedAccessEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_verified_access_groups()
@@ -12849,8 +19900,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessGroupId"`: The ID of the Verified Access groups.
 - `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
-describe_verified_access_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_verified_access_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_verified_access_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeVerifiedAccessGroups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_verified_access_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVerifiedAccessGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_verified_access_instance_logging_configurations()
@@ -12872,8 +19936,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"VerifiedAccessInstanceId"`: The IDs of the Verified Access instances.
 """
-describe_verified_access_instance_logging_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessInstanceLoggingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_verified_access_instance_logging_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessInstanceLoggingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_verified_access_instance_logging_configurations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVerifiedAccessInstanceLoggingConfigurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_verified_access_instance_logging_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVerifiedAccessInstanceLoggingConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_verified_access_instances()
@@ -12895,8 +19974,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"VerifiedAccessInstanceId"`: The IDs of the Verified Access instances.
 """
-describe_verified_access_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_verified_access_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_verified_access_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeVerifiedAccessInstances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_verified_access_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVerifiedAccessInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_verified_access_trust_providers()
@@ -12918,8 +20011,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"VerifiedAccessTrustProviderId"`: The IDs of the Verified Access trust providers.
 """
-describe_verified_access_trust_providers(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessTrustProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_verified_access_trust_providers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVerifiedAccessTrustProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_verified_access_trust_providers(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVerifiedAccessTrustProviders";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_verified_access_trust_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVerifiedAccessTrustProviders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_volume_attribute(attribute, volume_id)
@@ -12945,8 +20053,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_volume_attribute(Attribute, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumeAttribute", Dict{String, Any}("Attribute"=>Attribute, "VolumeId"=>VolumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_volume_attribute(Attribute, VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_volume_attribute(
+    Attribute, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVolumeAttribute",
+    Dict{String,Any}("Attribute" => Attribute, "VolumeId" => VolumeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_volume_attribute(
+    Attribute,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeVolumeAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attribute" => Attribute, "VolumeId" => VolumeId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_volume_status()
@@ -13027,8 +20160,18 @@ Default: Describes all your volumes.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_volume_status(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumeStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_volume_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumeStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_volume_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeVolumeStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_volume_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVolumeStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_volumes()
@@ -13094,8 +20237,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_volumes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_volumes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_volumes_modifications()
@@ -13136,8 +20286,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 - `"VolumeId"`: The IDs of the volumes.
 """
-describe_volumes_modifications(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumesModifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_volumes_modifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVolumesModifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_volumes_modifications(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeVolumesModifications";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_volumes_modifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVolumesModifications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_attribute(attribute, vpc_id)
@@ -13160,8 +20323,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_vpc_attribute(Attribute, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcAttribute", Dict{String, Any}("Attribute"=>Attribute, "VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_attribute(Attribute, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_attribute(
+    Attribute, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVpcAttribute",
+    Dict{String,Any}("Attribute" => Attribute, "VpcId" => VpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_attribute(
+    Attribute,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeVpcAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Attribute" => Attribute, "VpcId" => VpcId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_classic_link()
@@ -13190,8 +20376,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_vpc_classic_link(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcClassicLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_classic_link(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcClassicLink", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_classic_link(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeVpcClassicLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_vpc_classic_link(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcClassicLink",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_classic_link_dns_support()
@@ -13217,8 +20413,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-describe_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcClassicLinkDnsSupport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_classic_link_dns_support(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcClassicLinkDnsSupport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_classic_link_dns_support(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVpcClassicLinkDnsSupport";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_classic_link_dns_support(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcClassicLinkDnsSupport",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_endpoint_connection_notifications()
@@ -13247,8 +20458,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another request with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
 """
-describe_vpc_endpoint_connection_notifications(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointConnectionNotifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_endpoint_connection_notifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointConnectionNotifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_endpoint_connection_notifications(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVpcEndpointConnectionNotifications";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_endpoint_connection_notifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcEndpointConnectionNotifications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_endpoint_connections()
@@ -13278,8 +20504,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   given a value larger than 1,000, only 1,000 results are returned.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-describe_vpc_endpoint_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_endpoint_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_endpoint_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeVpcEndpointConnections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_vpc_endpoint_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcEndpointConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_endpoint_service_configurations()
@@ -13313,8 +20553,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next page of results.
 - `"ServiceId"`: The IDs of the endpoint services.
 """
-describe_vpc_endpoint_service_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointServiceConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_endpoint_service_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointServiceConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_endpoint_service_configurations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVpcEndpointServiceConfigurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_endpoint_service_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcEndpointServiceConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_endpoint_service_permissions(service_id)
@@ -13344,8 +20599,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   given a value larger than 1,000, only 1,000 results are returned.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-describe_vpc_endpoint_service_permissions(ServiceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointServicePermissions", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_endpoint_service_permissions(ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_endpoint_service_permissions(
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DescribeVpcEndpointServicePermissions",
+    Dict{String,Any}("ServiceId" => ServiceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_endpoint_service_permissions(
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DescribeVpcEndpointServicePermissions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_endpoint_services()
@@ -13387,8 +20662,21 @@ Constraint: If the value is greater than 1,000, we return only 1,000 items.
   from a prior call.)
 - `"ServiceName"`: The service names.
 """
-describe_vpc_endpoint_services(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_endpoint_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpointServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_endpoint_services(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DescribeVpcEndpointServices";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_endpoint_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcEndpointServices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_endpoints()
@@ -13428,8 +20716,18 @@ Constraint: If the value is greater than 1,000, we return only 1,000 items.
   from a prior call.)
 - `"VpcEndpointId"`: The IDs of the VPC endpoints.
 """
-describe_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_vpc_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_peering_connections()
@@ -13477,8 +20775,22 @@ Default: Describes all your VPC peering connections.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_vpc_peering_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcPeeringConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_peering_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcPeeringConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_peering_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DescribeVpcPeeringConnections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_vpc_peering_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcPeeringConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpcs()
@@ -13530,8 +20842,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_vpcs(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpcs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpcs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpcs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeVpcs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_vpcs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpcs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_vpn_connections()
@@ -13576,8 +20895,18 @@ Default: Describes your VPN connections.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_vpn_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpnConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpn_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpnConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpn_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeVpnConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_vpn_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpnConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpn_gateways()
@@ -13618,8 +20947,18 @@ Default: Describes all your virtual private gateways.
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-describe_vpn_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpnGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpn_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DescribeVpnGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpn_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DescribeVpnGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_vpn_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DescribeVpnGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_classic_link_vpc(instance_id, vpc_id)
@@ -13646,8 +20985,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-detach_classic_link_vpc(instanceId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachClassicLinkVpc", Dict{String, Any}("instanceId"=>instanceId, "vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_classic_link_vpc(instanceId, vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_classic_link_vpc(
+    instanceId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DetachClassicLinkVpc",
+    Dict{String,Any}("instanceId" => instanceId, "vpcId" => vpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detach_classic_link_vpc(
+    instanceId,
+    vpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DetachClassicLinkVpc",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("instanceId" => instanceId, "vpcId" => vpcId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_internet_gateway(internet_gateway_id, vpc_id)
@@ -13671,8 +21035,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-detach_internet_gateway(internetGatewayId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_internet_gateway(internetGatewayId, vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_internet_gateway(
+    internetGatewayId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DetachInternetGateway",
+    Dict{String,Any}("internetGatewayId" => internetGatewayId, "vpcId" => vpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detach_internet_gateway(
+    internetGatewayId,
+    vpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DetachInternetGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "internetGatewayId" => internetGatewayId, "vpcId" => vpcId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_network_interface(attachment_id)
@@ -13705,8 +21096,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network interface might still be visible. The instance metadata will get updated when you
   stop and start the instance.
 """
-detach_network_interface(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachNetworkInterface", Dict{String, Any}("attachmentId"=>attachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_network_interface(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_network_interface(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DetachNetworkInterface",
+        Dict{String,Any}("attachmentId" => attachmentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function detach_network_interface(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DetachNetworkInterface",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("attachmentId" => attachmentId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_verified_access_trust_provider(verified_access_instance_id, verified_access_trust_provider_id)
@@ -13731,8 +21141,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-detach_verified_access_trust_provider(VerifiedAccessInstanceId, VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachVerifiedAccessTrustProvider", Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_verified_access_trust_provider(VerifiedAccessInstanceId, VerifiedAccessTrustProviderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachVerifiedAccessTrustProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_verified_access_trust_provider(
+    VerifiedAccessInstanceId,
+    VerifiedAccessTrustProviderId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DetachVerifiedAccessTrustProvider",
+    Dict{String,Any}(
+        "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+        "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detach_verified_access_trust_provider(
+    VerifiedAccessInstanceId,
+    VerifiedAccessTrustProviderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DetachVerifiedAccessTrustProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+                    "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_volume(volume_id)
@@ -13778,8 +21223,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-detach_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_volume(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DetachVolume",
+    Dict{String,Any}("VolumeId" => VolumeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detach_volume(
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DetachVolume",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_vpn_gateway(vpc_id, vpn_gateway_id)
@@ -13807,8 +21270,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-detach_vpn_gateway(VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachVpnGateway", Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_vpn_gateway(VpcId, VpnGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DetachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_vpn_gateway(
+    VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DetachVpnGateway",
+    Dict{String,Any}("VpcId" => VpcId, "VpnGatewayId" => VpnGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detach_vpn_gateway(
+    VpcId,
+    VpnGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DetachVpnGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcId" => VpcId, "VpnGatewayId" => VpnGatewayId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_address_transfer(allocation_id)
@@ -13830,8 +21318,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_address_transfer(AllocationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableAddressTransfer", Dict{String, Any}("AllocationId"=>AllocationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_address_transfer(AllocationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableAddressTransfer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_address_transfer(AllocationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DisableAddressTransfer",
+        Dict{String,Any}("AllocationId" => AllocationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_address_transfer(
+    AllocationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableAddressTransfer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AllocationId" => AllocationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_aws_network_performance_metric_subscription()
@@ -13854,8 +21361,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disabled for. For example, `us-east-1`.
 - `"Statistic"`: The statistic used for the disabled subscription.
 """
-disable_aws_network_performance_metric_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableAwsNetworkPerformanceMetricSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_aws_network_performance_metric_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableAwsNetworkPerformanceMetricSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_aws_network_performance_metric_subscription(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisableAwsNetworkPerformanceMetricSubscription";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_aws_network_performance_metric_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisableAwsNetworkPerformanceMetricSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_ebs_encryption_by_default()
@@ -13881,8 +21403,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableEbsEncryptionByDefault"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_ebs_encryption_by_default(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableEbsEncryptionByDefault", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DisableEbsEncryptionByDefault";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_ebs_encryption_by_default(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisableEbsEncryptionByDefault",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_fast_launch(image_id)
@@ -13913,8 +21449,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AMI. This parameter overrides any errors that are encountered while cleaning up resources
   in your account.
 """
-disable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableFastLaunch", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_fast_launch(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableFastLaunch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DisableFastLaunch",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_fast_launch(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableFastLaunch",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_fast_snapshot_restores(availability_zone, source_snapshot_id)
@@ -13938,8 +21490,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_fast_snapshot_restores(
+    AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisableFastSnapshotRestores",
+    Dict{String,Any}(
+        "AvailabilityZone" => AvailabilityZone, "SourceSnapshotId" => SourceSnapshotId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_fast_snapshot_restores(
+    AvailabilityZone,
+    SourceSnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableFastSnapshotRestores",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AvailabilityZone" => AvailabilityZone,
+                    "SourceSnapshotId" => SourceSnapshotId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_image(image_id)
@@ -13975,8 +21557,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImage", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_image(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DisableImage",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_image(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableImage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_image_block_public_access()
@@ -14003,8 +21601,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_image_block_public_access(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImageBlockPublicAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_image_block_public_access(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImageBlockPublicAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_image_block_public_access(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DisableImageBlockPublicAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_image_block_public_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisableImageBlockPublicAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_image_deprecation(image_id)
@@ -14028,8 +21640,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_image_deprecation(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImageDeprecation", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_image_deprecation(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImageDeprecation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_image_deprecation(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DisableImageDeprecation",
+        Dict{String,Any}("ImageId" => ImageId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_image_deprecation(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableImageDeprecation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_image_deregistration_protection(image_id)
@@ -14058,8 +21687,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_image_deregistration_protection(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImageDeregistrationProtection", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_image_deregistration_protection(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableImageDeregistrationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_image_deregistration_protection(
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisableImageDeregistrationProtection",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_image_deregistration_protection(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableImageDeregistrationProtection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_ipam_organization_admin_account(delegated_admin_account_id)
@@ -14082,8 +21729,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_ipam_organization_admin_account(DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableIpamOrganizationAdminAccount", Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_ipam_organization_admin_account(DelegatedAdminAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableIpamOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_ipam_organization_admin_account(
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisableIpamOrganizationAdminAccount",
+    Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_ipam_organization_admin_account(
+    DelegatedAdminAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableIpamOrganizationAdminAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_serial_console_access()
@@ -14102,8 +21773,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_serial_console_access(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_serial_console_access(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableSerialConsoleAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_serial_console_access(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DisableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function disable_serial_console_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisableSerialConsoleAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_snapshot_block_public_access()
@@ -14133,8 +21815,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_snapshot_block_public_access(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableSnapshotBlockPublicAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_snapshot_block_public_access(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableSnapshotBlockPublicAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_snapshot_block_public_access(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DisableSnapshotBlockPublicAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_snapshot_block_public_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisableSnapshotBlockPublicAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_transit_gateway_route_table_propagation(transit_gateway_route_table_id)
@@ -14158,8 +21854,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayAttachmentId"`: The ID of the attachment.
 - `"TransitGatewayRouteTableAnnouncementId"`: The ID of the route table announcement.
 """
-disable_transit_gateway_route_table_propagation(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableTransitGatewayRouteTablePropagation", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_transit_gateway_route_table_propagation(TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_transit_gateway_route_table_propagation(
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisableTransitGatewayRouteTablePropagation",
+    Dict{String,Any}("TransitGatewayRouteTableId" => TransitGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_transit_gateway_route_table_propagation(
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableTransitGatewayRouteTablePropagation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_vgw_route_propagation(gateway_id, route_table_id)
@@ -14182,8 +21904,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_vgw_route_propagation(GatewayId, RouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableVgwRoutePropagation", Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_vgw_route_propagation(GatewayId, RouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_vgw_route_propagation(
+    GatewayId, RouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisableVgwRoutePropagation",
+    Dict{String,Any}("GatewayId" => GatewayId, "RouteTableId" => RouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_vgw_route_propagation(
+    GatewayId,
+    RouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisableVgwRoutePropagation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GatewayId" => GatewayId, "RouteTableId" => RouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_vpc_classic_link(vpc_id)
@@ -14208,8 +21955,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableVpcClassicLink", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_vpc_classic_link(vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "DisableVpcClassicLink",
+    Dict{String,Any}("vpcId" => vpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_vpc_classic_link(
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisableVpcClassicLink",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("vpcId" => vpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_vpc_classic_link_dns_support()
@@ -14230,8 +21991,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"VpcId"`: The ID of the VPC.
 """
-disable_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableVpcClassicLinkDnsSupport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_vpc_classic_link_dns_support(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisableVpcClassicLinkDnsSupport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DisableVpcClassicLinkDnsSupport";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_vpc_classic_link_dns_support(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisableVpcClassicLinkDnsSupport",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_address()
@@ -14254,8 +22029,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_address(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_address(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_address(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("DisassociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function disassociate_address(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "DisassociateAddress",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_client_vpn_target_network(association_id, client_vpn_endpoint_id)
@@ -14283,8 +22068,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_client_vpn_target_network(AssociationId, ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateClientVpnTargetNetwork", Dict{String, Any}("AssociationId"=>AssociationId, "ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_client_vpn_target_network(AssociationId, ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_client_vpn_target_network(
+    AssociationId, ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateClientVpnTargetNetwork",
+    Dict{String,Any}(
+        "AssociationId" => AssociationId, "ClientVpnEndpointId" => ClientVpnEndpointId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_client_vpn_target_network(
+    AssociationId,
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateClientVpnTargetNetwork",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationId" => AssociationId,
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_enclave_certificate_iam_role(certificate_arn, role_arn)
@@ -14310,8 +22125,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_enclave_certificate_iam_role(CertificateArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateEnclaveCertificateIamRole", Dict{String, Any}("CertificateArn"=>CertificateArn, "RoleArn"=>RoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_enclave_certificate_iam_role(CertificateArn, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateEnclaveCertificateIamRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_enclave_certificate_iam_role(
+    CertificateArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateEnclaveCertificateIamRole",
+    Dict{String,Any}("CertificateArn" => CertificateArn, "RoleArn" => RoleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_enclave_certificate_iam_role(
+    CertificateArn,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateEnclaveCertificateIamRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CertificateArn" => CertificateArn, "RoleArn" => RoleArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_iam_instance_profile(association_id)
@@ -14325,8 +22165,28 @@ Use <a>DescribeIamInstanceProfileAssociations</a> to get the association ID.
 
 - `association_id`: The ID of the IAM instance profile association.
 """
-disassociate_iam_instance_profile(AssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateIamInstanceProfile", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_iam_instance_profile(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_iam_instance_profile(
+    AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateIamInstanceProfile",
+    Dict{String,Any}("AssociationId" => AssociationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_iam_instance_profile(
+    AssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateIamInstanceProfile",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AssociationId" => AssociationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_instance_event_window(association_target, instance_event_window_id)
@@ -14351,8 +22211,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_instance_event_window(AssociationTarget, InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateInstanceEventWindow", Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_instance_event_window(AssociationTarget, InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_instance_event_window(
+    AssociationTarget,
+    InstanceEventWindowId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DisassociateInstanceEventWindow",
+    Dict{String,Any}(
+        "AssociationTarget" => AssociationTarget,
+        "InstanceEventWindowId" => InstanceEventWindowId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_instance_event_window(
+    AssociationTarget,
+    InstanceEventWindowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateInstanceEventWindow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationTarget" => AssociationTarget,
+                    "InstanceEventWindowId" => InstanceEventWindowId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_ipam_byoasn(asn, cidr)
@@ -14377,8 +22270,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_ipam_byoasn(Asn, Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateIpamByoasn", Dict{String, Any}("Asn"=>Asn, "Cidr"=>Cidr); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_ipam_byoasn(Asn, Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateIpamByoasn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Asn"=>Asn, "Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_ipam_byoasn(Asn, Cidr; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "DisassociateIpamByoasn",
+        Dict{String,Any}("Asn" => Asn, "Cidr" => Cidr);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disassociate_ipam_byoasn(
+    Asn,
+    Cidr,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateIpamByoasn",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Asn" => Asn, "Cidr" => Cidr), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_ipam_resource_discovery(ipam_resource_discovery_association_id)
@@ -14401,8 +22314,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_ipam_resource_discovery(IpamResourceDiscoveryAssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateIpamResourceDiscovery", Dict{String, Any}("IpamResourceDiscoveryAssociationId"=>IpamResourceDiscoveryAssociationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_ipam_resource_discovery(IpamResourceDiscoveryAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateIpamResourceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamResourceDiscoveryAssociationId"=>IpamResourceDiscoveryAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_ipam_resource_discovery(
+    IpamResourceDiscoveryAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateIpamResourceDiscovery",
+    Dict{String,Any}(
+        "IpamResourceDiscoveryAssociationId" => IpamResourceDiscoveryAssociationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_ipam_resource_discovery(
+    IpamResourceDiscoveryAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateIpamResourceDiscovery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamResourceDiscoveryAssociationId" =>
+                        IpamResourceDiscoveryAssociationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_nat_gateway_address(association_id, nat_gateway_id)
@@ -14439,8 +22381,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   forcibly releasing the IP addresses if connections are still in progress. Default value
   is 350 seconds.
 """
-disassociate_nat_gateway_address(AssociationId, NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateNatGatewayAddress", Dict{String, Any}("AssociationId"=>AssociationId, "NatGatewayId"=>NatGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_nat_gateway_address(AssociationId, NatGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateNatGatewayAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "NatGatewayId"=>NatGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_nat_gateway_address(
+    AssociationId, NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateNatGatewayAddress",
+    Dict{String,Any}("AssociationId" => AssociationId, "NatGatewayId" => NatGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_nat_gateway_address(
+    AssociationId,
+    NatGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateNatGatewayAddress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationId" => AssociationId, "NatGatewayId" => NatGatewayId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_route_table(association_id)
@@ -14467,8 +22436,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_route_table(associationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateRouteTable", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_route_table(associationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_route_table(
+    associationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateRouteTable",
+    Dict{String,Any}("associationId" => associationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_route_table(
+    associationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateRouteTable",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("associationId" => associationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_subnet_cidr_block(association_id)
@@ -14482,8 +22471,28 @@ the CIDR block before you can disassociate it.
 
 - `association_id`: The association ID for the CIDR block.
 """
-disassociate_subnet_cidr_block(associationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateSubnetCidrBlock", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_subnet_cidr_block(associationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_subnet_cidr_block(
+    associationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateSubnetCidrBlock",
+    Dict{String,Any}("associationId" => associationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_subnet_cidr_block(
+    associationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateSubnetCidrBlock",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("associationId" => associationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_transit_gateway_multicast_domain(transit_gateway_attachment_id, transit_gateway_multicast_domain_id, item)
@@ -14507,8 +22516,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"SubnetIds"`: The IDs of the subnets;
 """
-disassociate_transit_gateway_multicast_domain(TransitGatewayAttachmentId, TransitGatewayMulticastDomainId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_transit_gateway_multicast_domain(TransitGatewayAttachmentId, TransitGatewayMulticastDomainId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_transit_gateway_multicast_domain(
+    TransitGatewayAttachmentId,
+    TransitGatewayMulticastDomainId,
+    item;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DisassociateTransitGatewayMulticastDomain",
+    Dict{String,Any}(
+        "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+        "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+        "item" => item,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_transit_gateway_multicast_domain(
+    TransitGatewayAttachmentId,
+    TransitGatewayMulticastDomainId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateTransitGatewayMulticastDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+                    "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+                    "item" => item,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_transit_gateway_policy_table(transit_gateway_attachment_id, transit_gateway_policy_table_id)
@@ -14531,8 +22577,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_transit_gateway_policy_table(TransitGatewayAttachmentId, TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTransitGatewayPolicyTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_transit_gateway_policy_table(TransitGatewayAttachmentId, TransitGatewayPolicyTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTransitGatewayPolicyTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_transit_gateway_policy_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayPolicyTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DisassociateTransitGatewayPolicyTable",
+    Dict{String,Any}(
+        "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+        "TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_transit_gateway_policy_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayPolicyTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateTransitGatewayPolicyTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+                    "TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_transit_gateway_route_table(transit_gateway_attachment_id, transit_gateway_route_table_id)
@@ -14554,8 +22633,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_transit_gateway_route_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "DisassociateTransitGatewayRouteTable",
+    Dict{String,Any}(
+        "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_transit_gateway_route_table(
+    TransitGatewayAttachmentId,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateTransitGatewayRouteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_trunk_interface(association_id)
@@ -14578,8 +22690,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-disassociate_trunk_interface(AssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTrunkInterface", Dict{String, Any}("AssociationId"=>AssociationId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_trunk_interface(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateTrunkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_trunk_interface(
+    AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateTrunkInterface",
+    Dict{String,Any}("AssociationId" => AssociationId, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_trunk_interface(
+    AssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateTrunkInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationId" => AssociationId, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_vpc_cidr_block(association_id)
@@ -14597,8 +22735,28 @@ primary CIDR block).
 
 - `association_id`: The association ID for the CIDR block.
 """
-disassociate_vpc_cidr_block(associationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateVpcCidrBlock", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_vpc_cidr_block(associationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("DisassociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_vpc_cidr_block(
+    associationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "DisassociateVpcCidrBlock",
+    Dict{String,Any}("associationId" => associationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_vpc_cidr_block(
+    associationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "DisassociateVpcCidrBlock",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("associationId" => associationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_address_transfer(allocation_id, transfer_account_id)
@@ -14622,8 +22780,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_address_transfer(AllocationId, TransferAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableAddressTransfer", Dict{String, Any}("AllocationId"=>AllocationId, "TransferAccountId"=>TransferAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_address_transfer(AllocationId, TransferAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableAddressTransfer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId, "TransferAccountId"=>TransferAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_address_transfer(
+    AllocationId, TransferAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableAddressTransfer",
+    Dict{String,Any}(
+        "AllocationId" => AllocationId, "TransferAccountId" => TransferAccountId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_address_transfer(
+    AllocationId,
+    TransferAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableAddressTransfer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AllocationId" => AllocationId, "TransferAccountId" => TransferAccountId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_aws_network_performance_metric_subscription()
@@ -14648,8 +22835,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Source and Destination Availability Zones must be in the same Region.
 - `"Statistic"`: The statistic used for the enabled subscription.
 """
-enable_aws_network_performance_metric_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableAwsNetworkPerformanceMetricSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_aws_network_performance_metric_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableAwsNetworkPerformanceMetricSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_aws_network_performance_metric_subscription(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableAwsNetworkPerformanceMetricSubscription";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_aws_network_performance_metric_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "EnableAwsNetworkPerformanceMetricSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_ebs_encryption_by_default()
@@ -14680,8 +22882,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableEbsEncryptionByDefault"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_ebs_encryption_by_default(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableEbsEncryptionByDefault", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "EnableEbsEncryptionByDefault";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function enable_ebs_encryption_by_default(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "EnableEbsEncryptionByDefault",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_fast_launch(image_id)
@@ -14722,8 +22938,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are used for pre-provisioning the AMI for Windows fast launch. The associated
   `ResourceType` must be `snapshot`.
 """
-enable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableFastLaunch", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_fast_launch(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableFastLaunch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "EnableFastLaunch",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_fast_launch(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableFastLaunch",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_fast_snapshot_restores(availability_zone, source_snapshot_id)
@@ -14755,8 +22987,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_fast_snapshot_restores(
+    AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableFastSnapshotRestores",
+    Dict{String,Any}(
+        "AvailabilityZone" => AvailabilityZone, "SourceSnapshotId" => SourceSnapshotId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_fast_snapshot_restores(
+    AvailabilityZone,
+    SourceSnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableFastSnapshotRestores",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AvailabilityZone" => AvailabilityZone,
+                    "SourceSnapshotId" => SourceSnapshotId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_image(image_id)
@@ -14786,8 +23048,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImage", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_image(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "EnableImage",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_image(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableImage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_image_block_public_access(image_block_public_access_state)
@@ -14819,8 +23097,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_image_block_public_access(ImageBlockPublicAccessState; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImageBlockPublicAccess", Dict{String, Any}("ImageBlockPublicAccessState"=>ImageBlockPublicAccessState); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_image_block_public_access(ImageBlockPublicAccessState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImageBlockPublicAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageBlockPublicAccessState"=>ImageBlockPublicAccessState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_image_block_public_access(
+    ImageBlockPublicAccessState; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableImageBlockPublicAccess",
+    Dict{String,Any}("ImageBlockPublicAccessState" => ImageBlockPublicAccessState);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_image_block_public_access(
+    ImageBlockPublicAccessState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableImageBlockPublicAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImageBlockPublicAccessState" => ImageBlockPublicAccessState
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_image_deprecation(deprecate_at, image_id)
@@ -14850,8 +23154,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_image_deprecation(DeprecateAt, ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImageDeprecation", Dict{String, Any}("DeprecateAt"=>DeprecateAt, "ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_image_deprecation(DeprecateAt, ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImageDeprecation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeprecateAt"=>DeprecateAt, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_image_deprecation(
+    DeprecateAt, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableImageDeprecation",
+    Dict{String,Any}("DeprecateAt" => DeprecateAt, "ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_image_deprecation(
+    DeprecateAt,
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableImageDeprecation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DeprecateAt" => DeprecateAt, "ImageId" => ImageId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_image_deregistration_protection(image_id)
@@ -14881,8 +23210,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithCooldown"`: If `true`, enforces deregistration protection for 24 hours after
   deregistration protection is disabled.
 """
-enable_image_deregistration_protection(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImageDeregistrationProtection", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_image_deregistration_protection(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableImageDeregistrationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_image_deregistration_protection(
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableImageDeregistrationProtection",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_image_deregistration_protection(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableImageDeregistrationProtection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_ipam_organization_admin_account(delegated_admin_account_id)
@@ -14906,8 +23253,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_ipam_organization_admin_account(DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableIpamOrganizationAdminAccount", Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_ipam_organization_admin_account(DelegatedAdminAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableIpamOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_ipam_organization_admin_account(
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableIpamOrganizationAdminAccount",
+    Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_ipam_organization_admin_account(
+    DelegatedAdminAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableIpamOrganizationAdminAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_reachability_analyzer_organization_sharing()
@@ -14929,8 +23300,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_reachability_analyzer_organization_sharing(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableReachabilityAnalyzerOrganizationSharing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_reachability_analyzer_organization_sharing(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableReachabilityAnalyzerOrganizationSharing", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_reachability_analyzer_organization_sharing(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableReachabilityAnalyzerOrganizationSharing";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_reachability_analyzer_organization_sharing(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "EnableReachabilityAnalyzerOrganizationSharing",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_serial_console_access()
@@ -14949,8 +23335,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_serial_console_access(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_serial_console_access(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableSerialConsoleAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_serial_console_access(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("EnableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function enable_serial_console_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "EnableSerialConsoleAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_snapshot_block_public_access(state)
@@ -14994,8 +23390,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_snapshot_block_public_access(State; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableSnapshotBlockPublicAccess", Dict{String, Any}("State"=>State); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_snapshot_block_public_access(State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableSnapshotBlockPublicAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("State"=>State), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_snapshot_block_public_access(
+    State; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableSnapshotBlockPublicAccess",
+    Dict{String,Any}("State" => State);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_snapshot_block_public_access(
+    State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "EnableSnapshotBlockPublicAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("State" => State), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_transit_gateway_route_table_propagation(transit_gateway_route_table_id)
@@ -15020,8 +23432,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayRouteTableAnnouncementId"`: The ID of the transit gateway route table
   announcement.
 """
-enable_transit_gateway_route_table_propagation(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableTransitGatewayRouteTablePropagation", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_transit_gateway_route_table_propagation(TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_transit_gateway_route_table_propagation(
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableTransitGatewayRouteTablePropagation",
+    Dict{String,Any}("TransitGatewayRouteTableId" => TransitGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_transit_gateway_route_table_propagation(
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableTransitGatewayRouteTablePropagation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_vgw_route_propagation(gateway_id, route_table_id)
@@ -15047,8 +23485,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_vgw_route_propagation(GatewayId, RouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVgwRoutePropagation", Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_vgw_route_propagation(GatewayId, RouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_vgw_route_propagation(
+    GatewayId, RouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "EnableVgwRoutePropagation",
+    Dict{String,Any}("GatewayId" => GatewayId, "RouteTableId" => RouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_vgw_route_propagation(
+    GatewayId,
+    RouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableVgwRoutePropagation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GatewayId" => GatewayId, "RouteTableId" => RouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_volume_io(volume_id)
@@ -15070,8 +23533,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_volume_io(volumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVolumeIO", Dict{String, Any}("volumeId"=>volumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_volume_io(volumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVolumeIO", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("volumeId"=>volumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_volume_io(volumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "EnableVolumeIO",
+    Dict{String,Any}("volumeId" => volumeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_volume_io(
+    volumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "EnableVolumeIO",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("volumeId" => volumeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_vpc_classic_link(vpc_id)
@@ -15099,8 +23580,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-enable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVpcClassicLink", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_vpc_classic_link(vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "EnableVpcClassicLink",
+    Dict{String,Any}("vpcId" => vpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_vpc_classic_link(
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "EnableVpcClassicLink",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("vpcId" => vpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_vpc_classic_link_dns_support()
@@ -15123,8 +23618,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"VpcId"`: The ID of the VPC.
 """
-enable_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVpcClassicLinkDnsSupport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_vpc_classic_link_dns_support(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("EnableVpcClassicLinkDnsSupport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "EnableVpcClassicLinkDnsSupport";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function enable_vpc_classic_link_dns_support(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "EnableVpcClassicLinkDnsSupport",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_client_vpn_client_certificate_revocation_list(client_vpn_endpoint_id)
@@ -15145,8 +23654,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-export_client_vpn_client_certificate_revocation_list(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportClientVpnClientCertificateRevocationList", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_client_vpn_client_certificate_revocation_list(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_client_vpn_client_certificate_revocation_list(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ExportClientVpnClientCertificateRevocationList",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_client_vpn_client_certificate_revocation_list(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ExportClientVpnClientCertificateRevocationList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_client_vpn_client_configuration(client_vpn_endpoint_id)
@@ -15170,8 +23703,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-export_client_vpn_client_configuration(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportClientVpnClientConfiguration", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_client_vpn_client_configuration(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportClientVpnClientConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_client_vpn_client_configuration(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ExportClientVpnClientConfiguration",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_client_vpn_client_configuration(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ExportClientVpnClientConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_image(disk_image_format, image_id, s3_export_location)
@@ -15203,8 +23760,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   named 'vmimport'.
 - `"TagSpecification"`: The tags to apply to the export image task during creation.
 """
-export_image(DiskImageFormat, ImageId, S3ExportLocation; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportImage", Dict{String, Any}("DiskImageFormat"=>DiskImageFormat, "ImageId"=>ImageId, "S3ExportLocation"=>S3ExportLocation, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_image(DiskImageFormat, ImageId, S3ExportLocation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskImageFormat"=>DiskImageFormat, "ImageId"=>ImageId, "S3ExportLocation"=>S3ExportLocation, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_image(
+    DiskImageFormat,
+    ImageId,
+    S3ExportLocation;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ExportImage",
+    Dict{String,Any}(
+        "DiskImageFormat" => DiskImageFormat,
+        "ImageId" => ImageId,
+        "S3ExportLocation" => S3ExportLocation,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_image(
+    DiskImageFormat,
+    ImageId,
+    S3ExportLocation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ExportImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DiskImageFormat" => DiskImageFormat,
+                    "ImageId" => ImageId,
+                    "S3ExportLocation" => S3ExportLocation,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_transit_gateway_routes(s3_bucket, transit_gateway_route_table_id)
@@ -15243,8 +23839,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `transit-gateway-route-destination-cidr-block` - The CIDR range.
    - `type` - The type of route (`propagated` | `static`).
 """
-export_transit_gateway_routes(S3Bucket, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportTransitGatewayRoutes", Dict{String, Any}("S3Bucket"=>S3Bucket, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_transit_gateway_routes(S3Bucket, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ExportTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_transit_gateway_routes(
+    S3Bucket, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ExportTransitGatewayRoutes",
+    Dict{String,Any}(
+        "S3Bucket" => S3Bucket,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_transit_gateway_routes(
+    S3Bucket,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ExportTransitGatewayRoutes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "S3Bucket" => S3Bucket,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_associated_enclave_certificate_iam_roles(certificate_arn)
@@ -15269,8 +23896,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_associated_enclave_certificate_iam_roles(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetAssociatedEnclaveCertificateIamRoles", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_associated_enclave_certificate_iam_roles(CertificateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetAssociatedEnclaveCertificateIamRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_associated_enclave_certificate_iam_roles(
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetAssociatedEnclaveCertificateIamRoles",
+    Dict{String,Any}("CertificateArn" => CertificateArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_associated_enclave_certificate_iam_roles(
+    CertificateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetAssociatedEnclaveCertificateIamRoles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_associated_ipv6_pool_cidrs(pool_id)
@@ -15294,8 +23941,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_associated_ipv6_pool_cidrs(PoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetAssociatedIpv6PoolCidrs", Dict{String, Any}("PoolId"=>PoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_associated_ipv6_pool_cidrs(PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetAssociatedIpv6PoolCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_associated_ipv6_pool_cidrs(PoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetAssociatedIpv6PoolCidrs",
+        Dict{String,Any}("PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_associated_ipv6_pool_cidrs(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetAssociatedIpv6PoolCidrs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_aws_network_performance_data()
@@ -15320,8 +23982,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The starting time for the performance data request. The starting time must
   be formatted as `yyyy-mm-ddThh:mm:ss`. For example, `2022-06-10T12:00:00.000Z`.
 """
-get_aws_network_performance_data(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetAwsNetworkPerformanceData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_aws_network_performance_data(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetAwsNetworkPerformanceData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_aws_network_performance_data(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetAwsNetworkPerformanceData";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_aws_network_performance_data(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetAwsNetworkPerformanceData",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_capacity_reservation_usage(capacity_reservation_id)
@@ -15349,8 +24025,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-get_capacity_reservation_usage(CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetCapacityReservationUsage", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_capacity_reservation_usage(CapacityReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetCapacityReservationUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_capacity_reservation_usage(
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetCapacityReservationUsage",
+    Dict{String,Any}("CapacityReservationId" => CapacityReservationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_capacity_reservation_usage(
+    CapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetCapacityReservationUsage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CapacityReservationId" => CapacityReservationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_coip_pool_usage(pool_id)
@@ -15381,8 +24081,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_coip_pool_usage(PoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetCoipPoolUsage", Dict{String, Any}("PoolId"=>PoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_coip_pool_usage(PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetCoipPoolUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_coip_pool_usage(PoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "GetCoipPoolUsage",
+    Dict{String,Any}("PoolId" => PoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_coip_pool_usage(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetCoipPoolUsage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_console_output(instance_id)
@@ -15412,8 +24126,26 @@ Default: disabled (`false`)
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_console_output(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetConsoleOutput", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_console_output(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetConsoleOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_console_output(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "GetConsoleOutput",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_console_output(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetConsoleOutput",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_console_screenshot(instance_id)
@@ -15441,8 +24173,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WakeUp"`: When set to `true`, acts as keystroke input and wakes up an instance that's
   in standby or "sleep" mode.
 """
-get_console_screenshot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetConsoleScreenshot", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_console_screenshot(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetConsoleScreenshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_console_screenshot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetConsoleScreenshot",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_console_screenshot(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetConsoleScreenshot",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_default_credit_specification(instance_family)
@@ -15467,8 +24218,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_default_credit_specification(InstanceFamily; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetDefaultCreditSpecification", Dict{String, Any}("InstanceFamily"=>InstanceFamily); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_default_credit_specification(InstanceFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceFamily"=>InstanceFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_default_credit_specification(
+    InstanceFamily; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetDefaultCreditSpecification",
+    Dict{String,Any}("InstanceFamily" => InstanceFamily);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_default_credit_specification(
+    InstanceFamily,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetDefaultCreditSpecification",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceFamily" => InstanceFamily), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ebs_default_kms_key_id()
@@ -15490,8 +24261,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ebs_default_kms_key_id(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetEbsDefaultKmsKeyId", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("GetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_ebs_default_kms_key_id(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetEbsDefaultKmsKeyId",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ebs_encryption_by_default()
@@ -15512,8 +24293,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetEbsEncryptionByDefault"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ebs_encryption_by_default(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetEbsEncryptionByDefault", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("GetEbsEncryptionByDefault"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_ebs_encryption_by_default(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetEbsEncryptionByDefault",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_flow_logs_integration_template(config_delivery_s3_destination_arn, flow_log_id, integrate_service)
@@ -15550,8 +24341,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_flow_logs_integration_template(ConfigDeliveryS3DestinationArn, FlowLogId, IntegrateService; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetFlowLogsIntegrationTemplate", Dict{String, Any}("ConfigDeliveryS3DestinationArn"=>ConfigDeliveryS3DestinationArn, "FlowLogId"=>FlowLogId, "IntegrateService"=>IntegrateService); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_flow_logs_integration_template(ConfigDeliveryS3DestinationArn, FlowLogId, IntegrateService, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetFlowLogsIntegrationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigDeliveryS3DestinationArn"=>ConfigDeliveryS3DestinationArn, "FlowLogId"=>FlowLogId, "IntegrateService"=>IntegrateService), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_flow_logs_integration_template(
+    ConfigDeliveryS3DestinationArn,
+    FlowLogId,
+    IntegrateService;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "GetFlowLogsIntegrationTemplate",
+    Dict{String,Any}(
+        "ConfigDeliveryS3DestinationArn" => ConfigDeliveryS3DestinationArn,
+        "FlowLogId" => FlowLogId,
+        "IntegrateService" => IntegrateService,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_flow_logs_integration_template(
+    ConfigDeliveryS3DestinationArn,
+    FlowLogId,
+    IntegrateService,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetFlowLogsIntegrationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConfigDeliveryS3DestinationArn" => ConfigDeliveryS3DestinationArn,
+                    "FlowLogId" => FlowLogId,
+                    "IntegrateService" => IntegrateService,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_groups_for_capacity_reservation(capacity_reservation_id)
@@ -15578,8 +24406,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-get_groups_for_capacity_reservation(CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetGroupsForCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_groups_for_capacity_reservation(CapacityReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetGroupsForCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_groups_for_capacity_reservation(
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetGroupsForCapacityReservation",
+    Dict{String,Any}("CapacityReservationId" => CapacityReservationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_groups_for_capacity_reservation(
+    CapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetGroupsForCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CapacityReservationId" => CapacityReservationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_host_reservation_purchase_preview(offering_id, item)
@@ -15602,8 +24454,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"HostIdSet"`: The IDs of the Dedicated Hosts with which the reservation is associated.
 """
-get_host_reservation_purchase_preview(OfferingId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetHostReservationPurchasePreview", Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_host_reservation_purchase_preview(OfferingId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetHostReservationPurchasePreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_host_reservation_purchase_preview(
+    OfferingId, item; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetHostReservationPurchasePreview",
+    Dict{String,Any}("OfferingId" => OfferingId, "item" => item);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_host_reservation_purchase_preview(
+    OfferingId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetHostReservationPurchasePreview",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("OfferingId" => OfferingId, "item" => item), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_image_block_public_access_state()
@@ -15624,8 +24499,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_image_block_public_access_state(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetImageBlockPublicAccessState"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_image_block_public_access_state(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetImageBlockPublicAccessState", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_image_block_public_access_state(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetImageBlockPublicAccessState";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_image_block_public_access_state(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetImageBlockPublicAccessState",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_instance_metadata_defaults()
@@ -15646,8 +24535,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_instance_metadata_defaults(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceMetadataDefaults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_instance_metadata_defaults(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceMetadataDefaults", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_instance_metadata_defaults(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "GetInstanceMetadataDefaults";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_instance_metadata_defaults(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetInstanceMetadataDefaults",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_instance_tpm_ek_pub(instance_id, key_format, key_type)
@@ -15672,8 +24574,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request. If the request will succeed, the response is
   `DryRunOperation`. Otherwise, the response is `UnauthorizedOperation`.
 """
-get_instance_tpm_ek_pub(InstanceId, KeyFormat, KeyType; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceTpmEkPub", Dict{String, Any}("InstanceId"=>InstanceId, "KeyFormat"=>KeyFormat, "KeyType"=>KeyType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_instance_tpm_ek_pub(InstanceId, KeyFormat, KeyType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceTpmEkPub", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "KeyFormat"=>KeyFormat, "KeyType"=>KeyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_instance_tpm_ek_pub(
+    InstanceId, KeyFormat, KeyType; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetInstanceTpmEkPub",
+    Dict{String,Any}(
+        "InstanceId" => InstanceId, "KeyFormat" => KeyFormat, "KeyType" => KeyType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_instance_tpm_ek_pub(
+    InstanceId,
+    KeyFormat,
+    KeyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetInstanceTpmEkPub",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceId" => InstanceId,
+                    "KeyFormat" => KeyFormat,
+                    "KeyType" => KeyType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_instance_types_from_instance_requirements(architecture_type, instance_requirements, virtualization_type)
@@ -15714,8 +24648,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-get_instance_types_from_instance_requirements(ArchitectureType, InstanceRequirements, VirtualizationType; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceTypesFromInstanceRequirements", Dict{String, Any}("ArchitectureType"=>ArchitectureType, "InstanceRequirements"=>InstanceRequirements, "VirtualizationType"=>VirtualizationType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_instance_types_from_instance_requirements(ArchitectureType, InstanceRequirements, VirtualizationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceTypesFromInstanceRequirements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchitectureType"=>ArchitectureType, "InstanceRequirements"=>InstanceRequirements, "VirtualizationType"=>VirtualizationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_instance_types_from_instance_requirements(
+    ArchitectureType,
+    InstanceRequirements,
+    VirtualizationType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "GetInstanceTypesFromInstanceRequirements",
+    Dict{String,Any}(
+        "ArchitectureType" => ArchitectureType,
+        "InstanceRequirements" => InstanceRequirements,
+        "VirtualizationType" => VirtualizationType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_instance_types_from_instance_requirements(
+    ArchitectureType,
+    InstanceRequirements,
+    VirtualizationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetInstanceTypesFromInstanceRequirements",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ArchitectureType" => ArchitectureType,
+                    "InstanceRequirements" => InstanceRequirements,
+                    "VirtualizationType" => VirtualizationType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_instance_uefi_data(instance_id)
@@ -15747,8 +24718,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_instance_uefi_data(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceUefiData", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_instance_uefi_data(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetInstanceUefiData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_instance_uefi_data(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetInstanceUefiData",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_instance_uefi_data(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetInstanceUefiData",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipam_address_history(cidr, ipam_scope_id)
@@ -15782,8 +24772,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   omit this option, it will default to the value of EndTime.
 - `"VpcId"`: The ID of the VPC you want your history records filtered by.
 """
-get_ipam_address_history(Cidr, IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamAddressHistory", Dict{String, Any}("Cidr"=>Cidr, "IpamScopeId"=>IpamScopeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipam_address_history(Cidr, IpamScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamAddressHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipam_address_history(
+    Cidr, IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetIpamAddressHistory",
+    Dict{String,Any}("Cidr" => Cidr, "IpamScopeId" => IpamScopeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ipam_address_history(
+    Cidr,
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetIpamAddressHistory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Cidr" => Cidr, "IpamScopeId" => IpamScopeId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipam_discovered_accounts(discovery_region, ipam_resource_discovery_id)
@@ -15814,8 +24829,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-get_ipam_discovered_accounts(DiscoveryRegion, IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamDiscoveredAccounts", Dict{String, Any}("DiscoveryRegion"=>DiscoveryRegion, "IpamResourceDiscoveryId"=>IpamResourceDiscoveryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipam_discovered_accounts(DiscoveryRegion, IpamResourceDiscoveryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamDiscoveredAccounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiscoveryRegion"=>DiscoveryRegion, "IpamResourceDiscoveryId"=>IpamResourceDiscoveryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipam_discovered_accounts(
+    DiscoveryRegion,
+    IpamResourceDiscoveryId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "GetIpamDiscoveredAccounts",
+    Dict{String,Any}(
+        "DiscoveryRegion" => DiscoveryRegion,
+        "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ipam_discovered_accounts(
+    DiscoveryRegion,
+    IpamResourceDiscoveryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetIpamDiscoveredAccounts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DiscoveryRegion" => DiscoveryRegion,
+                    "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipam_discovered_public_addresses(address_region, ipam_resource_discovery_id)
@@ -15841,8 +24889,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 - `"NextToken"`: The token for the next page of results.
 """
-get_ipam_discovered_public_addresses(AddressRegion, IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamDiscoveredPublicAddresses", Dict{String, Any}("AddressRegion"=>AddressRegion, "IpamResourceDiscoveryId"=>IpamResourceDiscoveryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipam_discovered_public_addresses(AddressRegion, IpamResourceDiscoveryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamDiscoveredPublicAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressRegion"=>AddressRegion, "IpamResourceDiscoveryId"=>IpamResourceDiscoveryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipam_discovered_public_addresses(
+    AddressRegion,
+    IpamResourceDiscoveryId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "GetIpamDiscoveredPublicAddresses",
+    Dict{String,Any}(
+        "AddressRegion" => AddressRegion,
+        "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ipam_discovered_public_addresses(
+    AddressRegion,
+    IpamResourceDiscoveryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetIpamDiscoveredPublicAddresses",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AddressRegion" => AddressRegion,
+                    "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipam_discovered_resource_cidrs(ipam_resource_discovery_id, resource_region)
@@ -15871,8 +24952,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-get_ipam_discovered_resource_cidrs(IpamResourceDiscoveryId, ResourceRegion; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamDiscoveredResourceCidrs", Dict{String, Any}("IpamResourceDiscoveryId"=>IpamResourceDiscoveryId, "ResourceRegion"=>ResourceRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipam_discovered_resource_cidrs(IpamResourceDiscoveryId, ResourceRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamDiscoveredResourceCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamResourceDiscoveryId"=>IpamResourceDiscoveryId, "ResourceRegion"=>ResourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipam_discovered_resource_cidrs(
+    IpamResourceDiscoveryId,
+    ResourceRegion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "GetIpamDiscoveredResourceCidrs",
+    Dict{String,Any}(
+        "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+        "ResourceRegion" => ResourceRegion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ipam_discovered_resource_cidrs(
+    IpamResourceDiscoveryId,
+    ResourceRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetIpamDiscoveredResourceCidrs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamResourceDiscoveryId" => IpamResourceDiscoveryId,
+                    "ResourceRegion" => ResourceRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipam_pool_allocations(ipam_pool_id)
@@ -15906,8 +25020,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results you would like returned per page.
 - `"NextToken"`: The token for the next page of results.
 """
-get_ipam_pool_allocations(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamPoolAllocations", Dict{String, Any}("IpamPoolId"=>IpamPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipam_pool_allocations(IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamPoolAllocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipam_pool_allocations(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetIpamPoolAllocations",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_ipam_pool_allocations(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetIpamPoolAllocations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipam_pool_cidrs(ipam_pool_id)
@@ -15932,8 +25065,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-get_ipam_pool_cidrs(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamPoolCidrs", Dict{String, Any}("IpamPoolId"=>IpamPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipam_pool_cidrs(IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamPoolCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipam_pool_cidrs(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "GetIpamPoolCidrs",
+    Dict{String,Any}("IpamPoolId" => IpamPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ipam_pool_cidrs(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetIpamPoolCidrs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipam_resource_cidrs(ipam_scope_id)
@@ -15966,8 +25117,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTag"`: The resource tag.
 - `"ResourceType"`: The resource type.
 """
-get_ipam_resource_cidrs(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamResourceCidrs", Dict{String, Any}("IpamScopeId"=>IpamScopeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipam_resource_cidrs(IpamScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetIpamResourceCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipam_resource_cidrs(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetIpamResourceCidrs",
+        Dict{String,Any}("IpamScopeId" => IpamScopeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_ipam_resource_cidrs(
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetIpamResourceCidrs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamScopeId" => IpamScopeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_launch_template_data(instance_id)
@@ -15995,8 +25165,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_launch_template_data(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetLaunchTemplateData", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_launch_template_data(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetLaunchTemplateData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_launch_template_data(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetLaunchTemplateData",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_launch_template_data(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetLaunchTemplateData",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_managed_prefix_list_associations(prefix_list_id)
@@ -16021,8 +25210,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_managed_prefix_list_associations(PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetManagedPrefixListAssociations", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_managed_prefix_list_associations(PrefixListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetManagedPrefixListAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_managed_prefix_list_associations(
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetManagedPrefixListAssociations",
+    Dict{String,Any}("PrefixListId" => PrefixListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_managed_prefix_list_associations(
+    PrefixListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetManagedPrefixListAssociations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PrefixListId" => PrefixListId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_managed_prefix_list_entries(prefix_list_id)
@@ -16048,8 +25257,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetVersion"`: The version of the prefix list for which to return the entries. The
   default is the current version.
 """
-get_managed_prefix_list_entries(PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetManagedPrefixListEntries", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_managed_prefix_list_entries(PrefixListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetManagedPrefixListEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_managed_prefix_list_entries(
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetManagedPrefixListEntries",
+    Dict{String,Any}("PrefixListId" => PrefixListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_managed_prefix_list_entries(
+    PrefixListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetManagedPrefixListEntries",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PrefixListId" => PrefixListId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_insights_access_scope_analysis_findings(network_insights_access_scope_analysis_id)
@@ -16073,8 +25302,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_network_insights_access_scope_analysis_findings(NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetNetworkInsightsAccessScopeAnalysisFindings", Dict{String, Any}("NetworkInsightsAccessScopeAnalysisId"=>NetworkInsightsAccessScopeAnalysisId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_insights_access_scope_analysis_findings(NetworkInsightsAccessScopeAnalysisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetNetworkInsightsAccessScopeAnalysisFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeAnalysisId"=>NetworkInsightsAccessScopeAnalysisId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_insights_access_scope_analysis_findings(
+    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetNetworkInsightsAccessScopeAnalysisFindings",
+    Dict{String,Any}(
+        "NetworkInsightsAccessScopeAnalysisId" => NetworkInsightsAccessScopeAnalysisId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_network_insights_access_scope_analysis_findings(
+    NetworkInsightsAccessScopeAnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetNetworkInsightsAccessScopeAnalysisFindings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeAnalysisId" =>
+                        NetworkInsightsAccessScopeAnalysisId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_insights_access_scope_content(network_insights_access_scope_id)
@@ -16095,8 +25353,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_network_insights_access_scope_content(NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetNetworkInsightsAccessScopeContent", Dict{String, Any}("NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_insights_access_scope_content(NetworkInsightsAccessScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetNetworkInsightsAccessScopeContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_insights_access_scope_content(
+    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetNetworkInsightsAccessScopeContent",
+    Dict{String,Any}("NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_network_insights_access_scope_content(
+    NetworkInsightsAccessScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetNetworkInsightsAccessScopeContent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_password_data(instance_id)
@@ -16134,8 +25418,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_password_data(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetPasswordData", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_password_data(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetPasswordData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_password_data(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "GetPasswordData",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_password_data(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetPasswordData",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_reserved_instances_exchange_quote(reserved_instance_id)
@@ -16161,8 +25463,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetConfiguration"`: The configuration of the target Convertible Reserved Instance to
   exchange for your current Convertible Reserved Instances.
 """
-get_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_reserved_instances_exchange_quote(ReservedInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reserved_instances_exchange_quote(
+    ReservedInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetReservedInstancesExchangeQuote",
+    Dict{String,Any}("ReservedInstanceId" => ReservedInstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_reserved_instances_exchange_quote(
+    ReservedInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetReservedInstancesExchangeQuote",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReservedInstanceId" => ReservedInstanceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_security_groups_for_vpc(vpc_id)
@@ -16195,8 +25519,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-get_security_groups_for_vpc(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSecurityGroupsForVpc", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_security_groups_for_vpc(VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSecurityGroupsForVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_security_groups_for_vpc(VpcId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetSecurityGroupsForVpc",
+        Dict{String,Any}("VpcId" => VpcId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_security_groups_for_vpc(
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetSecurityGroupsForVpc",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VpcId" => VpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_serial_console_access_status()
@@ -16216,8 +25555,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_serial_console_access_status(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSerialConsoleAccessStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_serial_console_access_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSerialConsoleAccessStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_serial_console_access_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetSerialConsoleAccessStatus";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_serial_console_access_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetSerialConsoleAccessStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_snapshot_block_public_access_state()
@@ -16238,8 +25591,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_snapshot_block_public_access_state(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSnapshotBlockPublicAccessState"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_snapshot_block_public_access_state(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSnapshotBlockPublicAccessState", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_snapshot_block_public_access_state(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetSnapshotBlockPublicAccessState";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_snapshot_block_public_access_state(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetSnapshotBlockPublicAccessState",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_spot_placement_scores(target_capacity)
@@ -16293,8 +25661,28 @@ If you specify `InstanceTypes`, you can't specify `InstanceRequirementsWithMetad
   capacity into a single Availability Zone.
 - `"TargetCapacityUnitType"`: The unit for the target capacity.
 """
-get_spot_placement_scores(TargetCapacity; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSpotPlacementScores", Dict{String, Any}("TargetCapacity"=>TargetCapacity); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_spot_placement_scores(TargetCapacity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSpotPlacementScores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetCapacity"=>TargetCapacity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_spot_placement_scores(
+    TargetCapacity; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetSpotPlacementScores",
+    Dict{String,Any}("TargetCapacity" => TargetCapacity);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_spot_placement_scores(
+    TargetCapacity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetSpotPlacementScores",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TargetCapacity" => TargetCapacity), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_subnet_cidr_reservations(subnet_id)
@@ -16327,8 +25715,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_subnet_cidr_reservations(SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSubnetCidrReservations", Dict{String, Any}("SubnetId"=>SubnetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_subnet_cidr_reservations(SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetSubnetCidrReservations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_subnet_cidr_reservations(SubnetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "GetSubnetCidrReservations",
+        Dict{String,Any}("SubnetId" => SubnetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_subnet_cidr_reservations(
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetSubnetCidrReservations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SubnetId" => SubnetId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_attachment_propagations(transit_gateway_attachment_id)
@@ -16354,8 +25761,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_transit_gateway_attachment_propagations(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayAttachmentPropagations", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_attachment_propagations(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayAttachmentPropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_attachment_propagations(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetTransitGatewayAttachmentPropagations",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_attachment_propagations(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetTransitGatewayAttachmentPropagations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_multicast_domain_associations(transit_gateway_multicast_domain_id)
@@ -16386,8 +25819,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_transit_gateway_multicast_domain_associations(TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayMulticastDomainAssociations", Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_multicast_domain_associations(TransitGatewayMulticastDomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayMulticastDomainAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_multicast_domain_associations(
+    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetTransitGatewayMulticastDomainAssociations",
+    Dict{String,Any}("TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_multicast_domain_associations(
+    TransitGatewayMulticastDomainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetTransitGatewayMulticastDomainAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_policy_table_associations(transit_gateway_policy_table_id)
@@ -16412,8 +25871,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_transit_gateway_policy_table_associations(TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayPolicyTableAssociations", Dict{String, Any}("TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_policy_table_associations(TransitGatewayPolicyTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayPolicyTableAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_policy_table_associations(
+    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetTransitGatewayPolicyTableAssociations",
+    Dict{String,Any}("TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_policy_table_associations(
+    TransitGatewayPolicyTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetTransitGatewayPolicyTableAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_policy_table_entries(transit_gateway_policy_table_id)
@@ -16438,8 +25923,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_transit_gateway_policy_table_entries(TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayPolicyTableEntries", Dict{String, Any}("TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_policy_table_entries(TransitGatewayPolicyTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayPolicyTableEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayPolicyTableId"=>TransitGatewayPolicyTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_policy_table_entries(
+    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetTransitGatewayPolicyTableEntries",
+    Dict{String,Any}("TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_policy_table_entries(
+    TransitGatewayPolicyTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetTransitGatewayPolicyTableEntries",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayPolicyTableId" => TransitGatewayPolicyTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_prefix_list_references(transit_gateway_route_table_id)
@@ -16474,8 +25985,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_transit_gateway_prefix_list_references(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayPrefixListReferences", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_prefix_list_references(TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayPrefixListReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_prefix_list_references(
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetTransitGatewayPrefixListReferences",
+    Dict{String,Any}("TransitGatewayRouteTableId" => TransitGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_prefix_list_references(
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetTransitGatewayPrefixListReferences",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_route_table_associations(transit_gateway_route_table_id)
@@ -16504,8 +26041,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_transit_gateway_route_table_associations(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayRouteTableAssociations", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_route_table_associations(TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayRouteTableAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_route_table_associations(
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetTransitGatewayRouteTableAssociations",
+    Dict{String,Any}("TransitGatewayRouteTableId" => TransitGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_route_table_associations(
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetTransitGatewayRouteTableAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_route_table_propagations(transit_gateway_route_table_id)
@@ -16535,8 +26098,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-get_transit_gateway_route_table_propagations(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayRouteTablePropagations", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_route_table_propagations(TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetTransitGatewayRouteTablePropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_route_table_propagations(
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetTransitGatewayRouteTablePropagations",
+    Dict{String,Any}("TransitGatewayRouteTableId" => TransitGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_route_table_propagations(
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetTransitGatewayRouteTablePropagations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_verified_access_endpoint_policy(verified_access_endpoint_id)
@@ -16557,8 +26146,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_verified_access_endpoint_policy(VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVerifiedAccessEndpointPolicy", Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_verified_access_endpoint_policy(VerifiedAccessEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVerifiedAccessEndpointPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_verified_access_endpoint_policy(
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetVerifiedAccessEndpointPolicy",
+    Dict{String,Any}("VerifiedAccessEndpointId" => VerifiedAccessEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_verified_access_endpoint_policy(
+    VerifiedAccessEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetVerifiedAccessEndpointPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VerifiedAccessEndpointId" => VerifiedAccessEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_verified_access_group_policy(verified_access_group_id)
@@ -16579,8 +26192,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_verified_access_group_policy(VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVerifiedAccessGroupPolicy", Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_verified_access_group_policy(VerifiedAccessGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVerifiedAccessGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_verified_access_group_policy(
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "GetVerifiedAccessGroupPolicy",
+    Dict{String,Any}("VerifiedAccessGroupId" => VerifiedAccessGroupId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_verified_access_group_policy(
+    VerifiedAccessGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetVerifiedAccessGroupPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VerifiedAccessGroupId" => VerifiedAccessGroupId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_vpn_connection_device_sample_configuration(vpn_connection_device_type_id, vpn_connection_id)
@@ -16608,8 +26245,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file for your customer gateway device. You can specify one of the following versions:
   `ikev1` or `ikev2`.
 """
-get_vpn_connection_device_sample_configuration(VpnConnectionDeviceTypeId, VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVpnConnectionDeviceSampleConfiguration", Dict{String, Any}("VpnConnectionDeviceTypeId"=>VpnConnectionDeviceTypeId, "VpnConnectionId"=>VpnConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_vpn_connection_device_sample_configuration(VpnConnectionDeviceTypeId, VpnConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVpnConnectionDeviceSampleConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionDeviceTypeId"=>VpnConnectionDeviceTypeId, "VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_vpn_connection_device_sample_configuration(
+    VpnConnectionDeviceTypeId,
+    VpnConnectionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "GetVpnConnectionDeviceSampleConfiguration",
+    Dict{String,Any}(
+        "VpnConnectionDeviceTypeId" => VpnConnectionDeviceTypeId,
+        "VpnConnectionId" => VpnConnectionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_vpn_connection_device_sample_configuration(
+    VpnConnectionDeviceTypeId,
+    VpnConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetVpnConnectionDeviceSampleConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpnConnectionDeviceTypeId" => VpnConnectionDeviceTypeId,
+                    "VpnConnectionId" => VpnConnectionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_vpn_connection_device_types()
@@ -16641,8 +26311,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results that returned the `NextToken` value. This value is null when there are no more
   results to return.
 """
-get_vpn_connection_device_types(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVpnConnectionDeviceTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_vpn_connection_device_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVpnConnectionDeviceTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_vpn_connection_device_types(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "GetVpnConnectionDeviceTypes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_vpn_connection_device_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "GetVpnConnectionDeviceTypes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_vpn_tunnel_replacement_status(vpn_connection_id, vpn_tunnel_outside_ip_address)
@@ -16664,8 +26347,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-get_vpn_tunnel_replacement_status(VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVpnTunnelReplacementStatus", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_vpn_tunnel_replacement_status(VpnConnectionId, VpnTunnelOutsideIpAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("GetVpnTunnelReplacementStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_vpn_tunnel_replacement_status(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "GetVpnTunnelReplacementStatus",
+    Dict{String,Any}(
+        "VpnConnectionId" => VpnConnectionId,
+        "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_vpn_tunnel_replacement_status(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "GetVpnTunnelReplacementStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpnConnectionId" => VpnConnectionId,
+                    "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_client_vpn_client_certificate_revocation_list(certificate_revocation_list, client_vpn_endpoint_id)
@@ -16694,8 +26410,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-import_client_vpn_client_certificate_revocation_list(CertificateRevocationList, ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportClientVpnClientCertificateRevocationList", Dict{String, Any}("CertificateRevocationList"=>CertificateRevocationList, "ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_client_vpn_client_certificate_revocation_list(CertificateRevocationList, ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateRevocationList"=>CertificateRevocationList, "ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_client_vpn_client_certificate_revocation_list(
+    CertificateRevocationList,
+    ClientVpnEndpointId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ImportClientVpnClientCertificateRevocationList",
+    Dict{String,Any}(
+        "CertificateRevocationList" => CertificateRevocationList,
+        "ClientVpnEndpointId" => ClientVpnEndpointId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_client_vpn_client_certificate_revocation_list(
+    CertificateRevocationList,
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ImportClientVpnClientCertificateRevocationList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CertificateRevocationList" => CertificateRevocationList,
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_image()
@@ -16789,8 +26538,15 @@ Valid values: `Windows` | `Linux`
 - `"UsageOperation"`: The usage operation value. For more information, see [Licensing options](https://docs.aws.amazon.com/vm-import/latest/userguide/vmie_prereqs.html#prerequisites)
   in the *VM Import/Export User Guide*.
 """
-import_image(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportImage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_image(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportImage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_image(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("ImportImage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function import_image(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ImportImage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     import_instance(platform)
@@ -16829,8 +26585,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"launchSpecification"`: The launch specification.
 """
-import_instance(platform; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportInstance", Dict{String, Any}("platform"=>platform); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_instance(platform, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platform"=>platform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_instance(platform; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ImportInstance",
+    Dict{String,Any}("platform" => platform);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_instance(
+    platform,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ImportInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("platform" => platform), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_key_pair(key_name, public_key_material)
@@ -16861,8 +26635,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-import_key_pair(keyName, publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportKeyPair", Dict{String, Any}("keyName"=>keyName, "publicKeyMaterial"=>publicKeyMaterial); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_key_pair(keyName, publicKeyMaterial, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyName"=>keyName, "publicKeyMaterial"=>publicKeyMaterial), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_key_pair(
+    keyName, publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ImportKeyPair",
+    Dict{String,Any}("keyName" => keyName, "publicKeyMaterial" => publicKeyMaterial);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_key_pair(
+    keyName,
+    publicKeyMaterial,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ImportKeyPair",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "keyName" => keyName, "publicKeyMaterial" => publicKeyMaterial
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_snapshot()
@@ -16914,8 +26715,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleName"`: The name of the role to use when not using the default role, 'vmimport'.
 - `"TagSpecification"`: The tags to apply to the import snapshot task during creation.
 """
-import_snapshot(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_snapshot(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_snapshot(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("ImportSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function import_snapshot(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ImportSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     import_volume(availability_zone, image, volume)
@@ -16949,8 +26757,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-import_volume(availabilityZone, image, volume; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportVolume", Dict{String, Any}("availabilityZone"=>availabilityZone, "image"=>image, "volume"=>volume); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_volume(availabilityZone, image, volume, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ImportVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "image"=>image, "volume"=>volume), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_volume(
+    availabilityZone, image, volume; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ImportVolume",
+    Dict{String,Any}(
+        "availabilityZone" => availabilityZone, "image" => image, "volume" => volume
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_volume(
+    availabilityZone,
+    image,
+    volume,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ImportVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "availabilityZone" => availabilityZone,
+                    "image" => image,
+                    "volume" => volume,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_images_in_recycle_bin()
@@ -16975,8 +26815,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-list_images_in_recycle_bin(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ListImagesInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_images_in_recycle_bin(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ListImagesInRecycleBin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_images_in_recycle_bin(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("ListImagesInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_images_in_recycle_bin(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ListImagesInRecycleBin",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_snapshots_in_recycle_bin()
@@ -17000,8 +26850,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotId"`: The IDs of the snapshots to list. Omit this parameter to list all of the
   snapshots that are in the Recycle Bin.
 """
-list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ListSnapshotsInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_snapshots_in_recycle_bin(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ListSnapshotsInRecycleBin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("ListSnapshotsInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_snapshots_in_recycle_bin(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ListSnapshotsInRecycleBin",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     lock_snapshot(lock_mode, snapshot_id)
@@ -17076,8 +26936,32 @@ You must specify either this parameter or **LockDuration**, but not both.
 
 Allowed values: Min: 1, max 36500
 """
-lock_snapshot(LockMode, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("LockSnapshot", Dict{String, Any}("LockMode"=>LockMode, "SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-lock_snapshot(LockMode, SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("LockSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LockMode"=>LockMode, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+lock_snapshot(LockMode, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "LockSnapshot",
+        Dict{String,Any}("LockMode" => LockMode, "SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function lock_snapshot(
+    LockMode,
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "LockSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LockMode" => LockMode, "SnapshotId" => SnapshotId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_address_attribute(allocation_id)
@@ -17099,8 +26983,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_address_attribute(AllocationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyAddressAttribute", Dict{String, Any}("AllocationId"=>AllocationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_address_attribute(AllocationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyAddressAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_address_attribute(AllocationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifyAddressAttribute",
+        Dict{String,Any}("AllocationId" => AllocationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_address_attribute(
+    AllocationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyAddressAttribute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AllocationId" => AllocationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_availability_zone_group(group_name, opt_in_status)
@@ -17125,8 +27028,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_availability_zone_group(GroupName, OptInStatus; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyAvailabilityZoneGroup", Dict{String, Any}("GroupName"=>GroupName, "OptInStatus"=>OptInStatus); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_availability_zone_group(GroupName, OptInStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyAvailabilityZoneGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "OptInStatus"=>OptInStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_availability_zone_group(
+    GroupName, OptInStatus; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyAvailabilityZoneGroup",
+    Dict{String,Any}("GroupName" => GroupName, "OptInStatus" => OptInStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_availability_zone_group(
+    GroupName,
+    OptInStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyAvailabilityZoneGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GroupName" => GroupName, "OptInStatus" => OptInStatus),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_capacity_reservation(capacity_reservation_id)
@@ -17181,8 +27109,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To modify the instance eligibility, the Capacity Reservation must be completely idle
   (zero usage).
 """
-modify_capacity_reservation(CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_capacity_reservation(CapacityReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_capacity_reservation(
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyCapacityReservation",
+    Dict{String,Any}("CapacityReservationId" => CapacityReservationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_capacity_reservation(
+    CapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CapacityReservationId" => CapacityReservationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_capacity_reservation_fleet(capacity_reservation_fleet_id)
@@ -17230,8 +27182,34 @@ You can't specify **RemoveEndDate** and ** EndDate** in the same request.
   your workload. For more information, see [Total target capacity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity)
   in the *Amazon EC2 User Guide*.
 """
-modify_capacity_reservation_fleet(CapacityReservationFleetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyCapacityReservationFleet", Dict{String, Any}("CapacityReservationFleetId"=>CapacityReservationFleetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_capacity_reservation_fleet(CapacityReservationFleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyCapacityReservationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationFleetId"=>CapacityReservationFleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_capacity_reservation_fleet(
+    CapacityReservationFleetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyCapacityReservationFleet",
+    Dict{String,Any}("CapacityReservationFleetId" => CapacityReservationFleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_capacity_reservation_fleet(
+    CapacityReservationFleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyCapacityReservationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityReservationFleetId" => CapacityReservationFleetId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_client_vpn_endpoint(client_vpn_endpoint_id)
@@ -17290,8 +27268,32 @@ Valid Values: `443` | `1194`
 
 Default Value: `443`
 """
-modify_client_vpn_endpoint(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyClientVpnEndpoint", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_client_vpn_endpoint(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_client_vpn_endpoint(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyClientVpnEndpoint",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_client_vpn_endpoint(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyClientVpnEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_default_credit_specification(cpu_credits, instance_family)
@@ -17328,8 +27330,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_default_credit_specification(CpuCredits, InstanceFamily; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyDefaultCreditSpecification", Dict{String, Any}("CpuCredits"=>CpuCredits, "InstanceFamily"=>InstanceFamily); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_default_credit_specification(CpuCredits, InstanceFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CpuCredits"=>CpuCredits, "InstanceFamily"=>InstanceFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_default_credit_specification(
+    CpuCredits, InstanceFamily; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyDefaultCreditSpecification",
+    Dict{String,Any}("CpuCredits" => CpuCredits, "InstanceFamily" => InstanceFamily);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_default_credit_specification(
+    CpuCredits,
+    InstanceFamily,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyDefaultCreditSpecification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CpuCredits" => CpuCredits, "InstanceFamily" => InstanceFamily
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_ebs_default_kms_key_id(kms_key_id)
@@ -17376,8 +27405,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_ebs_default_kms_key_id(KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyEbsDefaultKmsKeyId", Dict{String, Any}("KmsKeyId"=>KmsKeyId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_ebs_default_kms_key_id(KmsKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyEbsDefaultKmsKeyId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KmsKeyId"=>KmsKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_ebs_default_kms_key_id(
+    KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyEbsDefaultKmsKeyId",
+    Dict{String,Any}("KmsKeyId" => KmsKeyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_ebs_default_kms_key_id(
+    KmsKeyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyEbsDefaultKmsKeyId",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("KmsKeyId" => KmsKeyId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_fleet(fleet_id)
@@ -17432,8 +27481,24 @@ Supported only for fleets of type `maintain`.
 - `"LaunchTemplateConfig"`: The launch template and overrides.
 - `"TargetCapacitySpecification"`: The size of the EC2 Fleet.
 """
-modify_fleet(FleetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyFleet", Dict{String, Any}("FleetId"=>FleetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_fleet(FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_fleet(FleetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyFleet",
+    Dict{String,Any}("FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_fleet(
+    FleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_fpga_image_attribute(fpga_image_id)
@@ -17465,8 +27530,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserId"`: The Amazon Web Services account IDs. This parameter is valid only when
   modifying the `loadPermission` attribute.
 """
-modify_fpga_image_attribute(FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyFpgaImageAttribute", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_fpga_image_attribute(FpgaImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_fpga_image_attribute(
+    FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyFpgaImageAttribute",
+    Dict{String,Any}("FpgaImageId" => FpgaImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_fpga_image_attribute(
+    FpgaImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyFpgaImageAttribute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FpgaImageId" => FpgaImageId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_hosts(host_id)
@@ -17512,8 +27597,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify **InstanceType** and **InstanceFamily** in the same request.
 - `"autoPlacement"`: Specify whether to enable or disable auto-placement.
 """
-modify_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyHosts", Dict{String, Any}("hostId"=>hostId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_hosts(hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyHosts",
+    Dict{String,Any}("hostId" => hostId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_hosts(
+    hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ModifyHosts",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("hostId" => hostId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_id_format(resource, use_long_ids)
@@ -17557,8 +27656,32 @@ command for the resource type.
   currently within their opt-in period for longer IDs.
 - `use_long_ids`: Indicate whether the resource should use longer IDs (17-character IDs).
 """
-modify_id_format(Resource, UseLongIds; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIdFormat", Dict{String, Any}("Resource"=>Resource, "UseLongIds"=>UseLongIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_id_format(Resource, UseLongIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "UseLongIds"=>UseLongIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_id_format(Resource, UseLongIds; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifyIdFormat",
+        Dict{String,Any}("Resource" => Resource, "UseLongIds" => UseLongIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_id_format(
+    Resource,
+    UseLongIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyIdFormat",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Resource" => Resource, "UseLongIds" => UseLongIds),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_identity_id_format(principal_arn, resource, use_long_ids)
@@ -17605,8 +27728,42 @@ command for the resource type.
   currently within their opt-in period for longer IDs.
 - `use_long_ids`: Indicates whether the resource should use longer IDs (17-character IDs)
 """
-modify_identity_id_format(principalArn, resource, useLongIds; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIdentityIdFormat", Dict{String, Any}("principalArn"=>principalArn, "resource"=>resource, "useLongIds"=>useLongIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_identity_id_format(principalArn, resource, useLongIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn, "resource"=>resource, "useLongIds"=>useLongIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_identity_id_format(
+    principalArn, resource, useLongIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyIdentityIdFormat",
+    Dict{String,Any}(
+        "principalArn" => principalArn,
+        "resource" => resource,
+        "useLongIds" => useLongIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_identity_id_format(
+    principalArn,
+    resource,
+    useLongIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyIdentityIdFormat",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "principalArn" => principalArn,
+                    "resource" => resource,
+                    "useLongIds" => useLongIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_image_attribute(image_id)
@@ -17664,8 +27821,24 @@ Valid values: `description` | `imdsSupport` | `launchPermission`
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_image_attribute(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyImageAttribute", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_image_attribute(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_image_attribute(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyImageAttribute",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_image_attribute(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyImageAttribute",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_attribute(instance_id)
@@ -17758,8 +27931,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"value"`: A new value for the attribute. Use only with the `kernel`, `ramdisk`,
   `userData`, `disableApiTermination`, or `instanceInitiatedShutdownBehavior` attribute.
 """
-modify_instance_attribute(instanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceAttribute", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_attribute(instanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_attribute(instanceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifyInstanceAttribute",
+        Dict{String,Any}("instanceId" => instanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_instance_attribute(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstanceAttribute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceId" => instanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_capacity_reservation_attributes(capacity_reservation_specification, instance_id)
@@ -17784,8 +27976,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_instance_capacity_reservation_attributes(CapacityReservationSpecification, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceCapacityReservationAttributes", Dict{String, Any}("CapacityReservationSpecification"=>CapacityReservationSpecification, "InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_capacity_reservation_attributes(CapacityReservationSpecification, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceCapacityReservationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationSpecification"=>CapacityReservationSpecification, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_capacity_reservation_attributes(
+    CapacityReservationSpecification,
+    InstanceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ModifyInstanceCapacityReservationAttributes",
+    Dict{String,Any}(
+        "CapacityReservationSpecification" => CapacityReservationSpecification,
+        "InstanceId" => InstanceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_capacity_reservation_attributes(
+    CapacityReservationSpecification,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstanceCapacityReservationAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityReservationSpecification" => CapacityReservationSpecification,
+                    "InstanceId" => InstanceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_credit_specification(instance_credit_specification)
@@ -17812,8 +28037,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_instance_credit_specification(InstanceCreditSpecification; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceCreditSpecification", Dict{String, Any}("InstanceCreditSpecification"=>InstanceCreditSpecification); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_credit_specification(InstanceCreditSpecification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCreditSpecification"=>InstanceCreditSpecification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_credit_specification(
+    InstanceCreditSpecification; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyInstanceCreditSpecification",
+    Dict{String,Any}("InstanceCreditSpecification" => InstanceCreditSpecification);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_credit_specification(
+    InstanceCreditSpecification,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstanceCreditSpecification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceCreditSpecification" => InstanceCreditSpecification
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_event_start_time(instance_event_id, instance_id, not_before)
@@ -17836,8 +28087,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_instance_event_start_time(InstanceEventId, InstanceId, NotBefore; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceEventStartTime", Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_event_start_time(InstanceEventId, InstanceId, NotBefore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceEventStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_event_start_time(
+    InstanceEventId,
+    InstanceId,
+    NotBefore;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ModifyInstanceEventStartTime",
+    Dict{String,Any}(
+        "InstanceEventId" => InstanceEventId,
+        "InstanceId" => InstanceId,
+        "NotBefore" => NotBefore,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_event_start_time(
+    InstanceEventId,
+    InstanceId,
+    NotBefore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstanceEventStartTime",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceEventId" => InstanceEventId,
+                    "InstanceId" => InstanceId,
+                    "NotBefore" => NotBefore,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_event_window(instance_event_window_id)
@@ -17885,8 +28173,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the event window.
 - `"TimeRange"`: The time ranges of the event window.
 """
-modify_instance_event_window(InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceEventWindow", Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_event_window(InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_event_window(
+    InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyInstanceEventWindow",
+    Dict{String,Any}("InstanceEventWindowId" => InstanceEventWindowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_event_window(
+    InstanceEventWindowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstanceEventWindow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceEventWindowId" => InstanceEventWindowId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_maintenance_options(instance_id)
@@ -17911,8 +28223,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_instance_maintenance_options(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceMaintenanceOptions", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_maintenance_options(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceMaintenanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_maintenance_options(
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyInstanceMaintenanceOptions",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_maintenance_options(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstanceMaintenanceOptions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_metadata_defaults()
@@ -17949,8 +28281,22 @@ Possible values: Integers from `1` to `64`, and `-1` to indicate no preference
   instance metadata. For more information, see [Work with instance tags using the instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS)
   in the *Amazon EC2 User Guide*.
 """
-modify_instance_metadata_defaults(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceMetadataDefaults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_metadata_defaults(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceMetadataDefaults", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_metadata_defaults(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifyInstanceMetadataDefaults";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_instance_metadata_defaults(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ModifyInstanceMetadataDefaults",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_metadata_options(instance_id)
@@ -18007,8 +28353,28 @@ Possible values: Integers from 1 to 64
   instance metadata. Set to `disabled` to turn off access to instance tags from the
   instance metadata. For more information, see [Work with instance tags using the instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS).
 """
-modify_instance_metadata_options(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceMetadataOptions", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_metadata_options(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstanceMetadataOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_metadata_options(
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyInstanceMetadataOptions",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_metadata_options(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstanceMetadataOptions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_placement(instance_id)
@@ -18058,8 +28424,27 @@ To remove an instance from a placement group, specify an empty string ("").
   Attempting to make one of these unsupported tenancy changes results in an
   `InvalidRequest` error code.
 """
-modify_instance_placement(instanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstancePlacement", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_placement(instanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyInstancePlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_placement(instanceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifyInstancePlacement",
+        Dict{String,Any}("instanceId" => instanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_instance_placement(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyInstancePlacement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceId" => instanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_ipam(ipam_id)
@@ -18093,8 +28478,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tier"`: IPAM is offered in a Free Tier and an Advanced Tier. For more information about
   the features available in each tier and the costs associated with the tiers, see [Amazon VPC pricing &gt; IPAM tab](http://aws.amazon.com/vpc/pricing/).
 """
-modify_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpam", Dict{String, Any}("IpamId"=>IpamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_ipam(IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyIpam",
+    Dict{String,Any}("IpamId" => IpamId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_ipam(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ModifyIpam",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IpamId" => IpamId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_ipam_pool(ipam_pool_id)
@@ -18146,8 +28545,26 @@ A locale must be set on the pool for this feature to work.
   `UnauthorizedOperation`.
 - `"RemoveAllocationResourceTag"`: Remove tag allocation rules from a pool.
 """
-modify_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamPool", Dict{String, Any}("IpamPoolId"=>IpamPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_ipam_pool(IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyIpamPool",
+    Dict{String,Any}("IpamPoolId" => IpamPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_ipam_pool(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyIpamPool",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_ipam_resource_cidr(current_ipam_scope_id, monitored, resource_cidr, resource_id, resource_region)
@@ -18181,8 +28598,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_ipam_resource_cidr(CurrentIpamScopeId, Monitored, ResourceCidr, ResourceId, ResourceRegion; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamResourceCidr", Dict{String, Any}("CurrentIpamScopeId"=>CurrentIpamScopeId, "Monitored"=>Monitored, "ResourceCidr"=>ResourceCidr, "ResourceId"=>ResourceId, "ResourceRegion"=>ResourceRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_ipam_resource_cidr(CurrentIpamScopeId, Monitored, ResourceCidr, ResourceId, ResourceRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamResourceCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentIpamScopeId"=>CurrentIpamScopeId, "Monitored"=>Monitored, "ResourceCidr"=>ResourceCidr, "ResourceId"=>ResourceId, "ResourceRegion"=>ResourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_ipam_resource_cidr(
+    CurrentIpamScopeId,
+    Monitored,
+    ResourceCidr,
+    ResourceId,
+    ResourceRegion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ModifyIpamResourceCidr",
+    Dict{String,Any}(
+        "CurrentIpamScopeId" => CurrentIpamScopeId,
+        "Monitored" => Monitored,
+        "ResourceCidr" => ResourceCidr,
+        "ResourceId" => ResourceId,
+        "ResourceRegion" => ResourceRegion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_ipam_resource_cidr(
+    CurrentIpamScopeId,
+    Monitored,
+    ResourceCidr,
+    ResourceId,
+    ResourceRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyIpamResourceCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrentIpamScopeId" => CurrentIpamScopeId,
+                    "Monitored" => Monitored,
+                    "ResourceCidr" => ResourceCidr,
+                    "ResourceId" => ResourceId,
+                    "ResourceRegion" => ResourceRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_ipam_resource_discovery(ipam_resource_discovery_id)
@@ -18210,8 +28672,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"RemoveOperatingRegion"`: Remove operating Regions.
 """
-modify_ipam_resource_discovery(IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamResourceDiscovery", Dict{String, Any}("IpamResourceDiscoveryId"=>IpamResourceDiscoveryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_ipam_resource_discovery(IpamResourceDiscoveryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamResourceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamResourceDiscoveryId"=>IpamResourceDiscoveryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_ipam_resource_discovery(
+    IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyIpamResourceDiscovery",
+    Dict{String,Any}("IpamResourceDiscoveryId" => IpamResourceDiscoveryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_ipam_resource_discovery(
+    IpamResourceDiscoveryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyIpamResourceDiscovery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IpamResourceDiscoveryId" => IpamResourceDiscoveryId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_ipam_scope(ipam_scope_id)
@@ -18233,8 +28719,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamScope", Dict{String, Any}("IpamScopeId"=>IpamScopeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_ipam_scope(IpamScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyIpamScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyIpamScope",
+    Dict{String,Any}("IpamScopeId" => IpamScopeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_ipam_scope(
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyIpamScope",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamScopeId" => IpamScopeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_launch_template()
@@ -18265,8 +28769,18 @@ You must specify either the launch template ID or the launch template name, but 
 - `"SetDefaultVersion"`: The version number of the launch template to set as the default
   version.
 """
-modify_launch_template(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_launch_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyLaunchTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_launch_template(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("ModifyLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function modify_launch_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ModifyLaunchTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_local_gateway_route(local_gateway_route_table_id)
@@ -18294,8 +28808,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LocalGatewayVirtualInterfaceGroupId"`:  The ID of the virtual interface group.
 - `"NetworkInterfaceId"`: The ID of the network interface.
 """
-modify_local_gateway_route(LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyLocalGatewayRoute", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_local_gateway_route(LocalGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_local_gateway_route(
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyLocalGatewayRoute",
+    Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_local_gateway_route(
+    LocalGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyLocalGatewayRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_managed_prefix_list(prefix_list_id)
@@ -18332,8 +28870,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PrefixListName"`: A name for the prefix list.
 - `"RemoveEntry"`: One or more entries to remove from the prefix list.
 """
-modify_managed_prefix_list(PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyManagedPrefixList", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_managed_prefix_list(PrefixListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_managed_prefix_list(
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyManagedPrefixList",
+    Dict{String,Any}("PrefixListId" => PrefixListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_managed_prefix_list(
+    PrefixListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyManagedPrefixList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PrefixListId" => PrefixListId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_network_interface_attribute(network_interface_id)
@@ -18386,8 +28944,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value is `true`. You must disable source/destination checks if the instance runs
   services such as network address translation, routing, or firewalls.
 """
-modify_network_interface_attribute(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_network_interface_attribute(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_network_interface_attribute(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyNetworkInterfaceAttribute",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_network_interface_attribute(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyNetworkInterfaceAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_private_dns_name_options(instance_id)
@@ -18416,8 +28996,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets,
   you can specify whether DNS names use the instance IPv4 address or the instance ID.
 """
-modify_private_dns_name_options(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyPrivateDnsNameOptions", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_private_dns_name_options(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyPrivateDnsNameOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_private_dns_name_options(
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyPrivateDnsNameOptions",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_private_dns_name_options(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyPrivateDnsNameOptions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_reserved_instances(reserved_instances_configuration_set_item_type, reserved_instances_id)
@@ -18443,8 +29043,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive token you provide to ensure idempotency of your
   modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 """
-modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_reserved_instances(
+    ReservedInstancesConfigurationSetItemType,
+    ReservedInstancesId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ModifyReservedInstances",
+    Dict{String,Any}(
+        "ReservedInstancesConfigurationSetItemType" =>
+            ReservedInstancesConfigurationSetItemType,
+        "ReservedInstancesId" => ReservedInstancesId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_reserved_instances(
+    ReservedInstancesConfigurationSetItemType,
+    ReservedInstancesId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyReservedInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReservedInstancesConfigurationSetItemType" =>
+                        ReservedInstancesConfigurationSetItemType,
+                    "ReservedInstancesId" => ReservedInstancesId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_security_group_rules(group_id, security_group_rule)
@@ -18466,8 +29101,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_security_group_rules(GroupId, SecurityGroupRule; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySecurityGroupRules", Dict{String, Any}("GroupId"=>GroupId, "SecurityGroupRule"=>SecurityGroupRule); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_security_group_rules(GroupId, SecurityGroupRule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySecurityGroupRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "SecurityGroupRule"=>SecurityGroupRule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_security_group_rules(
+    GroupId, SecurityGroupRule; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifySecurityGroupRules",
+    Dict{String,Any}("GroupId" => GroupId, "SecurityGroupRule" => SecurityGroupRule);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_security_group_rules(
+    GroupId,
+    SecurityGroupRule,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifySecurityGroupRules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GroupId" => GroupId, "SecurityGroupRule" => SecurityGroupRule
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_snapshot_attribute(snapshot_id)
@@ -18505,8 +29167,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_snapshot_attribute(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySnapshotAttribute", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_snapshot_attribute(SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_snapshot_attribute(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifySnapshotAttribute",
+        Dict{String,Any}("SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_snapshot_attribute(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifySnapshotAttribute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_snapshot_tier(snapshot_id)
@@ -18532,8 +29213,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"StorageTier"`: The name of the storage tier. You must specify `archive`.
 """
-modify_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySnapshotTier", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_snapshot_tier(SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySnapshotTier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifySnapshotTier",
+    Dict{String,Any}("SnapshotId" => SnapshotId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_snapshot_tier(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifySnapshotTier",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_spot_fleet_request(spot_fleet_request_id)
@@ -18588,8 +29287,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 Supported only for fleets of type `maintain`.
 - `"targetCapacity"`: The size of the fleet.
 """
-modify_spot_fleet_request(spotFleetRequestId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySpotFleetRequest", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_spot_fleet_request(spotFleetRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySpotFleetRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_spot_fleet_request(
+    spotFleetRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifySpotFleetRequest",
+    Dict{String,Any}("spotFleetRequestId" => spotFleetRequestId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_spot_fleet_request(
+    spotFleetRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifySpotFleetRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("spotFleetRequestId" => spotFleetRequestId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_subnet_attribute(subnet_id)
@@ -18662,8 +29383,26 @@ You must set this value when you specify `true` for `MapCustomerOwnedIpOnLaunch`
   name). For IPv6 only subnets, an instance DNS name must be based on the instance ID
   (resource-name).
 """
-modify_subnet_attribute(subnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySubnetAttribute", Dict{String, Any}("subnetId"=>subnetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_subnet_attribute(subnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifySubnetAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_subnet_attribute(subnetId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifySubnetAttribute",
+    Dict{String,Any}("subnetId" => subnetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_subnet_attribute(
+    subnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifySubnetAttribute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("subnetId" => subnetId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_traffic_mirror_filter_network_services(traffic_mirror_filter_id)
@@ -18694,8 +29433,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveNetworkService"`: The network service, for example Amazon DNS, that you no longer
   want to mirror.
 """
-modify_traffic_mirror_filter_network_services(TrafficMirrorFilterId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTrafficMirrorFilterNetworkServices", Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_traffic_mirror_filter_network_services(TrafficMirrorFilterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTrafficMirrorFilterNetworkServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_traffic_mirror_filter_network_services(
+    TrafficMirrorFilterId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyTrafficMirrorFilterNetworkServices",
+    Dict{String,Any}("TrafficMirrorFilterId" => TrafficMirrorFilterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_traffic_mirror_filter_network_services(
+    TrafficMirrorFilterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyTrafficMirrorFilterNetworkServices",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrafficMirrorFilterId" => TrafficMirrorFilterId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_traffic_mirror_filter_rule(traffic_mirror_filter_rule_id)
@@ -18735,8 +29498,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourcePortRange"`: The port range to assign to the Traffic Mirror rule.
 - `"TrafficDirection"`: The type of traffic to assign to the rule.
 """
-modify_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTrafficMirrorFilterRule", Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_traffic_mirror_filter_rule(
+    TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyTrafficMirrorFilterRule",
+    Dict{String,Any}("TrafficMirrorFilterRuleId" => TrafficMirrorFilterRuleId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_traffic_mirror_filter_rule(
+    TrafficMirrorFilterRuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyTrafficMirrorFilterRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrafficMirrorFilterRuleId" => TrafficMirrorFilterRuleId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_traffic_mirror_session(traffic_mirror_session_id)
@@ -18780,8 +29567,32 @@ Valid values are 1-32766.
   as the source, or have a VPC peering connection with the source.
 - `"VirtualNetworkId"`: The virtual network ID of the Traffic Mirror session.
 """
-modify_traffic_mirror_session(TrafficMirrorSessionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTrafficMirrorSession", Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_traffic_mirror_session(TrafficMirrorSessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_traffic_mirror_session(
+    TrafficMirrorSessionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyTrafficMirrorSession",
+    Dict{String,Any}("TrafficMirrorSessionId" => TrafficMirrorSessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_traffic_mirror_session(
+    TrafficMirrorSessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyTrafficMirrorSession",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrafficMirrorSessionId" => TrafficMirrorSessionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_transit_gateway(transit_gateway_id)
@@ -18806,8 +29617,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"Options"`: The options to modify.
 """
-modify_transit_gateway(TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTransitGateway", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_transit_gateway(TransitGatewayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_transit_gateway(
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyTransitGateway",
+    Dict{String,Any}("TransitGatewayId" => TransitGatewayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_transit_gateway(
+    TransitGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyTransitGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TransitGatewayId" => TransitGatewayId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_transit_gateway_prefix_list_reference(prefix_list_id, transit_gateway_route_table_id)
@@ -18831,8 +29664,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TransitGatewayAttachmentId"`: The ID of the attachment to which traffic is routed.
 """
-modify_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTransitGatewayPrefixListReference", Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_transit_gateway_prefix_list_reference(
+    PrefixListId,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ModifyTransitGatewayPrefixListReference",
+    Dict{String,Any}(
+        "PrefixListId" => PrefixListId,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_transit_gateway_prefix_list_reference(
+    PrefixListId,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyTransitGatewayPrefixListReference",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PrefixListId" => PrefixListId,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_transit_gateway_vpc_attachment(transit_gateway_attachment_id)
@@ -18857,8 +29723,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: The new VPC attachment options.
 - `"RemoveSubnetIds"`: The IDs of one or more subnets to remove.
 """
-modify_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyTransitGatewayVpcAttachment",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyTransitGatewayVpcAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_verified_access_endpoint(verified_access_endpoint_id)
@@ -18886,8 +29778,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInterfaceOptions"`: The network interface options.
 - `"VerifiedAccessGroupId"`: The ID of the Verified Access group.
 """
-modify_verified_access_endpoint(VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessEndpoint", Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_verified_access_endpoint(VerifiedAccessEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_verified_access_endpoint(
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVerifiedAccessEndpoint",
+    Dict{String,Any}(
+        "VerifiedAccessEndpointId" => VerifiedAccessEndpointId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_verified_access_endpoint(
+    VerifiedAccessEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVerifiedAccessEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessEndpointId" => VerifiedAccessEndpointId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_verified_access_endpoint_policy(verified_access_endpoint_id)
@@ -18913,8 +29835,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyEnabled"`: The status of the Verified Access policy.
 - `"SseSpecification"`: The options for server side encryption.
 """
-modify_verified_access_endpoint_policy(VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessEndpointPolicy", Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_verified_access_endpoint_policy(VerifiedAccessEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessEndpointPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessEndpointId"=>VerifiedAccessEndpointId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_verified_access_endpoint_policy(
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVerifiedAccessEndpointPolicy",
+    Dict{String,Any}(
+        "VerifiedAccessEndpointId" => VerifiedAccessEndpointId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_verified_access_endpoint_policy(
+    VerifiedAccessEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVerifiedAccessEndpointPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessEndpointId" => VerifiedAccessEndpointId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_verified_access_group(verified_access_group_id)
@@ -18939,8 +29891,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
-modify_verified_access_group(VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessGroup", Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_verified_access_group(VerifiedAccessGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_verified_access_group(
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVerifiedAccessGroup",
+    Dict{String,Any}(
+        "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_verified_access_group(
+    VerifiedAccessGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVerifiedAccessGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_verified_access_group_policy(verified_access_group_id)
@@ -18966,8 +29948,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyEnabled"`: The status of the Verified Access policy.
 - `"SseSpecification"`: The options for server side encryption.
 """
-modify_verified_access_group_policy(VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessGroupPolicy", Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_verified_access_group_policy(VerifiedAccessGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessGroupId"=>VerifiedAccessGroupId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_verified_access_group_policy(
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVerifiedAccessGroupPolicy",
+    Dict{String,Any}(
+        "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_verified_access_group_policy(
+    VerifiedAccessGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVerifiedAccessGroupPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessGroupId" => VerifiedAccessGroupId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_verified_access_instance(verified_access_instance_id)
@@ -18991,8 +30003,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_verified_access_instance(VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessInstance", Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_verified_access_instance(VerifiedAccessInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_verified_access_instance(
+    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVerifiedAccessInstance",
+    Dict{String,Any}(
+        "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_verified_access_instance(
+    VerifiedAccessInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVerifiedAccessInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_verified_access_instance_logging_configuration(access_logs, verified_access_instance_id)
@@ -19017,8 +30059,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_verified_access_instance_logging_configuration(AccessLogs, VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessInstanceLoggingConfiguration", Dict{String, Any}("AccessLogs"=>AccessLogs, "VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_verified_access_instance_logging_configuration(AccessLogs, VerifiedAccessInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessInstanceLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessLogs"=>AccessLogs, "VerifiedAccessInstanceId"=>VerifiedAccessInstanceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_verified_access_instance_logging_configuration(
+    AccessLogs, VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVerifiedAccessInstanceLoggingConfiguration",
+    Dict{String,Any}(
+        "AccessLogs" => AccessLogs,
+        "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_verified_access_instance_logging_configuration(
+    AccessLogs,
+    VerifiedAccessInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVerifiedAccessInstanceLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccessLogs" => AccessLogs,
+                    "VerifiedAccessInstanceId" => VerifiedAccessInstanceId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_verified_access_trust_provider(verified_access_trust_provider_id)
@@ -19048,8 +30123,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provider.
 - `"SseSpecification"`: The options for server side encryption.
 """
-modify_verified_access_trust_provider(VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessTrustProvider", Dict{String, Any}("VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_verified_access_trust_provider(VerifiedAccessTrustProviderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVerifiedAccessTrustProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifiedAccessTrustProviderId"=>VerifiedAccessTrustProviderId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_verified_access_trust_provider(
+    VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVerifiedAccessTrustProvider",
+    Dict{String,Any}(
+        "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_verified_access_trust_provider(
+    VerifiedAccessTrustProviderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVerifiedAccessTrustProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifiedAccessTrustProviderId" => VerifiedAccessTrustProviderId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_volume(volume_id)
@@ -19125,8 +30230,26 @@ Valid Range: Minimum value of 125. Maximum value of 1000.
 
 Default: The existing type is retained.
 """
-modify_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_volume(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyVolume",
+    Dict{String,Any}("VolumeId" => VolumeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_volume(
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVolume",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_volume_attribute(volume_id)
@@ -19156,8 +30279,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_volume_attribute(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVolumeAttribute", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_volume_attribute(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_volume_attribute(VolumeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyVolumeAttribute",
+    Dict{String,Any}("VolumeId" => VolumeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_volume_attribute(
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVolumeAttribute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_attribute(vpc_id)
@@ -19190,8 +30331,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableNetworkAddressUsageMetrics"`: Indicates whether Network Address Usage metrics are
   enabled for your VPC.
 """
-modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcAttribute", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_attribute(vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ModifyVpcAttribute",
+    Dict{String,Any}("vpcId" => vpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpc_attribute(
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ModifyVpcAttribute",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("vpcId" => vpcId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_endpoint(vpc_endpoint_id)
@@ -19236,8 +30391,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default policy. The default policy allows full access to the service.
 - `"SubnetConfiguration"`: The subnet configurations for the endpoint.
 """
-modify_vpc_endpoint(VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpoint", Dict{String, Any}("VpcEndpointId"=>VpcEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_endpoint(VpcEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_endpoint(VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifyVpcEndpoint",
+        Dict{String,Any}("VpcEndpointId" => VpcEndpointId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_vpc_endpoint(
+    VpcEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpcEndpoint",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VpcEndpointId" => VpcEndpointId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_endpoint_connection_notification(connection_notification_id)
@@ -19262,8 +30436,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_vpc_endpoint_connection_notification(ConnectionNotificationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointConnectionNotification", Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_endpoint_connection_notification(ConnectionNotificationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_endpoint_connection_notification(
+    ConnectionNotificationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVpcEndpointConnectionNotification",
+    Dict{String,Any}("ConnectionNotificationId" => ConnectionNotificationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpc_endpoint_connection_notification(
+    ConnectionNotificationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpcEndpointConnectionNotification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ConnectionNotificationId" => ConnectionNotificationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_endpoint_service_configuration(service_id)
@@ -19307,8 +30505,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveSupportedIpAddressType"`: The IP address types to remove from your service
   configuration.
 """
-modify_vpc_endpoint_service_configuration(ServiceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointServiceConfiguration", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_endpoint_service_configuration(ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointServiceConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_endpoint_service_configuration(
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVpcEndpointServiceConfiguration",
+    Dict{String,Any}("ServiceId" => ServiceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpc_endpoint_service_configuration(
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpcEndpointServiceConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_endpoint_service_payer_responsibility(payer_responsibility, service_id)
@@ -19332,8 +30550,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_vpc_endpoint_service_payer_responsibility(PayerResponsibility, ServiceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointServicePayerResponsibility", Dict{String, Any}("PayerResponsibility"=>PayerResponsibility, "ServiceId"=>ServiceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_endpoint_service_payer_responsibility(PayerResponsibility, ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointServicePayerResponsibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PayerResponsibility"=>PayerResponsibility, "ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_endpoint_service_payer_responsibility(
+    PayerResponsibility, ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVpcEndpointServicePayerResponsibility",
+    Dict{String,Any}(
+        "PayerResponsibility" => PayerResponsibility, "ServiceId" => ServiceId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpc_endpoint_service_payer_responsibility(
+    PayerResponsibility,
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpcEndpointServicePayerResponsibility",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PayerResponsibility" => PayerResponsibility, "ServiceId" => ServiceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_endpoint_service_permissions(service_id)
@@ -19365,8 +30612,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveAllowedPrincipals"`: The Amazon Resource Names (ARN) of the principals.
   Permissions are revoked for principals in this list.
 """
-modify_vpc_endpoint_service_permissions(ServiceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointServicePermissions", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_endpoint_service_permissions(ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_endpoint_service_permissions(
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVpcEndpointServicePermissions",
+    Dict{String,Any}("ServiceId" => ServiceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpc_endpoint_service_permissions(
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpcEndpointServicePermissions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_peering_connection_options(vpc_peering_connection_id)
@@ -19402,8 +30669,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequesterPeeringConnectionOptions"`: The VPC peering connection options for the
   requester VPC.
 """
-modify_vpc_peering_connection_options(VpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcPeeringConnectionOptions", Dict{String, Any}("VpcPeeringConnectionId"=>VpcPeeringConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_peering_connection_options(VpcPeeringConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcPeeringConnectionOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcPeeringConnectionId"=>VpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_peering_connection_options(
+    VpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVpcPeeringConnectionOptions",
+    Dict{String,Any}("VpcPeeringConnectionId" => VpcPeeringConnectionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpc_peering_connection_options(
+    VpcPeeringConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpcPeeringConnectionOptions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcPeeringConnectionId" => VpcPeeringConnectionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpc_tenancy(instance_tenancy, vpc_id)
@@ -19434,8 +30725,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_vpc_tenancy(InstanceTenancy, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcTenancy", Dict{String, Any}("InstanceTenancy"=>InstanceTenancy, "VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpc_tenancy(InstanceTenancy, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpcTenancy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTenancy"=>InstanceTenancy, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpc_tenancy(
+    InstanceTenancy, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVpcTenancy",
+    Dict{String,Any}("InstanceTenancy" => InstanceTenancy, "VpcId" => VpcId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpc_tenancy(
+    InstanceTenancy,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpcTenancy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceTenancy" => InstanceTenancy, "VpcId" => VpcId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpn_connection(vpn_connection_id)
@@ -19492,8 +30808,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpnGatewayId"`: The ID of the virtual private gateway at the Amazon Web Services side
   of the VPN connection.
 """
-modify_vpn_connection(VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpn_connection(VpnConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpn_connection(VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ModifyVpnConnection",
+        Dict{String,Any}("VpnConnectionId" => VpnConnectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_vpn_connection(
+    VpnConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpnConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("VpnConnectionId" => VpnConnectionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpn_connection_options(vpn_connection_id)
@@ -19534,8 +30871,30 @@ Default: `0.0.0.0/0`
 
 Default: `::/0`
 """
-modify_vpn_connection_options(VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnConnectionOptions", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpn_connection_options(VpnConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnConnectionOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpn_connection_options(
+    VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ModifyVpnConnectionOptions",
+    Dict{String,Any}("VpnConnectionId" => VpnConnectionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpn_connection_options(
+    VpnConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpnConnectionOptions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("VpnConnectionId" => VpnConnectionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpn_tunnel_certificate(vpn_connection_id, vpn_tunnel_outside_ip_address)
@@ -19557,8 +30916,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-modify_vpn_tunnel_certificate(VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnTunnelCertificate", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpn_tunnel_certificate(VpnConnectionId, VpnTunnelOutsideIpAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnTunnelCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpn_tunnel_certificate(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ModifyVpnTunnelCertificate",
+    Dict{String,Any}(
+        "VpnConnectionId" => VpnConnectionId,
+        "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpn_tunnel_certificate(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpnTunnelCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpnConnectionId" => VpnConnectionId,
+                    "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_vpn_tunnel_options(tunnel_options, vpn_connection_id, vpn_tunnel_outside_ip_address)
@@ -19588,8 +30980,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Valid values: `True` | `False`
 """
-modify_vpn_tunnel_options(TunnelOptions, VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnTunnelOptions", Dict{String, Any}("TunnelOptions"=>TunnelOptions, "VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_vpn_tunnel_options(TunnelOptions, VpnConnectionId, VpnTunnelOutsideIpAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ModifyVpnTunnelOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TunnelOptions"=>TunnelOptions, "VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_vpn_tunnel_options(
+    TunnelOptions,
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ModifyVpnTunnelOptions",
+    Dict{String,Any}(
+        "TunnelOptions" => TunnelOptions,
+        "VpnConnectionId" => VpnConnectionId,
+        "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_vpn_tunnel_options(
+    TunnelOptions,
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ModifyVpnTunnelOptions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TunnelOptions" => TunnelOptions,
+                    "VpnConnectionId" => VpnConnectionId,
+                    "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     monitor_instances(instance_id)
@@ -19614,8 +31043,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-monitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MonitorInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-monitor_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+monitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "MonitorInstances",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function monitor_instances(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "MonitorInstances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     move_address_to_vpc(public_ip)
@@ -19645,8 +31092,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-move_address_to_vpc(publicIp; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MoveAddressToVpc", Dict{String, Any}("publicIp"=>publicIp); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-move_address_to_vpc(publicIp, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MoveAddressToVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+move_address_to_vpc(publicIp; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "MoveAddressToVpc",
+    Dict{String,Any}("publicIp" => publicIp);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function move_address_to_vpc(
+    publicIp,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "MoveAddressToVpc",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("publicIp" => publicIp), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     move_byoip_cidr_to_ipam(cidr, ipam_pool_id, ipam_pool_owner)
@@ -19673,8 +31138,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-move_byoip_cidr_to_ipam(Cidr, IpamPoolId, IpamPoolOwner; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MoveByoipCidrToIpam", Dict{String, Any}("Cidr"=>Cidr, "IpamPoolId"=>IpamPoolId, "IpamPoolOwner"=>IpamPoolOwner); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-move_byoip_cidr_to_ipam(Cidr, IpamPoolId, IpamPoolOwner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MoveByoipCidrToIpam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "IpamPoolId"=>IpamPoolId, "IpamPoolOwner"=>IpamPoolOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+move_byoip_cidr_to_ipam(
+    Cidr, IpamPoolId, IpamPoolOwner; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "MoveByoipCidrToIpam",
+    Dict{String,Any}(
+        "Cidr" => Cidr, "IpamPoolId" => IpamPoolId, "IpamPoolOwner" => IpamPoolOwner
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function move_byoip_cidr_to_ipam(
+    Cidr,
+    IpamPoolId,
+    IpamPoolOwner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "MoveByoipCidrToIpam",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Cidr" => Cidr,
+                    "IpamPoolId" => IpamPoolId,
+                    "IpamPoolOwner" => IpamPoolOwner,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     move_capacity_reservation_instances(destination_capacity_reservation_id, instance_count, source_capacity_reservation_id)
@@ -19710,8 +31207,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-move_capacity_reservation_instances(DestinationCapacityReservationId, InstanceCount, SourceCapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MoveCapacityReservationInstances", Dict{String, Any}("DestinationCapacityReservationId"=>DestinationCapacityReservationId, "InstanceCount"=>InstanceCount, "SourceCapacityReservationId"=>SourceCapacityReservationId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-move_capacity_reservation_instances(DestinationCapacityReservationId, InstanceCount, SourceCapacityReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("MoveCapacityReservationInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCapacityReservationId"=>DestinationCapacityReservationId, "InstanceCount"=>InstanceCount, "SourceCapacityReservationId"=>SourceCapacityReservationId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+move_capacity_reservation_instances(
+    DestinationCapacityReservationId,
+    InstanceCount,
+    SourceCapacityReservationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "MoveCapacityReservationInstances",
+    Dict{String,Any}(
+        "DestinationCapacityReservationId" => DestinationCapacityReservationId,
+        "InstanceCount" => InstanceCount,
+        "SourceCapacityReservationId" => SourceCapacityReservationId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function move_capacity_reservation_instances(
+    DestinationCapacityReservationId,
+    InstanceCount,
+    SourceCapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "MoveCapacityReservationInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCapacityReservationId" => DestinationCapacityReservationId,
+                    "InstanceCount" => InstanceCount,
+                    "SourceCapacityReservationId" => SourceCapacityReservationId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     provision_byoip_cidr(cidr)
@@ -19775,8 +31311,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: true
 """
-provision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-provision_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+provision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ProvisionByoipCidr",
+    Dict{String,Any}("Cidr" => Cidr);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function provision_byoip_cidr(
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ProvisionByoipCidr",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     provision_ipam_byoasn(asn, asn_authorization_context, ipam_id)
@@ -19802,8 +31352,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-provision_ipam_byoasn(Asn, AsnAuthorizationContext, IpamId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionIpamByoasn", Dict{String, Any}("Asn"=>Asn, "AsnAuthorizationContext"=>AsnAuthorizationContext, "IpamId"=>IpamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-provision_ipam_byoasn(Asn, AsnAuthorizationContext, IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionIpamByoasn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Asn"=>Asn, "AsnAuthorizationContext"=>AsnAuthorizationContext, "IpamId"=>IpamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+provision_ipam_byoasn(
+    Asn, AsnAuthorizationContext, IpamId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ProvisionIpamByoasn",
+    Dict{String,Any}(
+        "Asn" => Asn,
+        "AsnAuthorizationContext" => AsnAuthorizationContext,
+        "IpamId" => IpamId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function provision_ipam_byoasn(
+    Asn,
+    AsnAuthorizationContext,
+    IpamId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ProvisionIpamByoasn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Asn" => Asn,
+                    "AsnAuthorizationContext" => AsnAuthorizationContext,
+                    "IpamId" => IpamId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     provision_ipam_pool_cidr(ipam_pool_id)
@@ -19845,8 +31429,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Defaults to `remarks-x509` if not specified. This option only applies to IPv4 and IPv6
   pools in the public scope.
 """
-provision_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionIpamPoolCidr", Dict{String, Any}("IpamPoolId"=>IpamPoolId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-provision_ipam_pool_cidr(IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionIpamPoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+provision_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "ProvisionIpamPoolCidr",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function provision_ipam_pool_cidr(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ProvisionIpamPoolCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamPoolId" => IpamPoolId, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     provision_public_ipv4_pool_cidr(ipam_pool_id, netmask_length, pool_id)
@@ -19877,8 +31486,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network border group. For more information on available Local Zones, see [Local Zone availability](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#byoip-zone-avail)
   in the *Amazon EC2 User Guide*.
 """
-provision_public_ipv4_pool_cidr(IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionPublicIpv4PoolCidr", Dict{String, Any}("IpamPoolId"=>IpamPoolId, "NetmaskLength"=>NetmaskLength, "PoolId"=>PoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-provision_public_ipv4_pool_cidr(IpamPoolId, NetmaskLength, PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ProvisionPublicIpv4PoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId, "NetmaskLength"=>NetmaskLength, "PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+provision_public_ipv4_pool_cidr(
+    IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ProvisionPublicIpv4PoolCidr",
+    Dict{String,Any}(
+        "IpamPoolId" => IpamPoolId, "NetmaskLength" => NetmaskLength, "PoolId" => PoolId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function provision_public_ipv4_pool_cidr(
+    IpamPoolId,
+    NetmaskLength,
+    PoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ProvisionPublicIpv4PoolCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamPoolId" => IpamPoolId,
+                    "NetmaskLength" => NetmaskLength,
+                    "PoolId" => PoolId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     purchase_capacity_block(capacity_block_offering_id, instance_platform)
@@ -19903,8 +31544,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to apply to the Capacity Block during launch.
 """
-purchase_capacity_block(CapacityBlockOfferingId, InstancePlatform; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseCapacityBlock", Dict{String, Any}("CapacityBlockOfferingId"=>CapacityBlockOfferingId, "InstancePlatform"=>InstancePlatform); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-purchase_capacity_block(CapacityBlockOfferingId, InstancePlatform, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseCapacityBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityBlockOfferingId"=>CapacityBlockOfferingId, "InstancePlatform"=>InstancePlatform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_capacity_block(
+    CapacityBlockOfferingId,
+    InstancePlatform;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "PurchaseCapacityBlock",
+    Dict{String,Any}(
+        "CapacityBlockOfferingId" => CapacityBlockOfferingId,
+        "InstancePlatform" => InstancePlatform,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function purchase_capacity_block(
+    CapacityBlockOfferingId,
+    InstancePlatform,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "PurchaseCapacityBlock",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityBlockOfferingId" => CapacityBlockOfferingId,
+                    "InstancePlatform" => InstancePlatform,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     purchase_host_reservation(offering_id, item)
@@ -19938,8 +31612,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   limit price of USD 100, specify 100.00.
 - `"TagSpecification"`: The tags to apply to the Dedicated Host Reservation during purchase.
 """
-purchase_host_reservation(OfferingId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseHostReservation", Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-purchase_host_reservation(OfferingId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseHostReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_host_reservation(
+    OfferingId, item; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "PurchaseHostReservation",
+    Dict{String,Any}("OfferingId" => OfferingId, "item" => item);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function purchase_host_reservation(
+    OfferingId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "PurchaseHostReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("OfferingId" => OfferingId, "item" => item), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     purchase_reserved_instances_offering(instance_count, reserved_instances_offering_id)
@@ -19977,8 +31674,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limitPrice"`: Specified for Reserved Instance Marketplace offerings to limit the total
   order and ensure that the Reserved Instances are not purchased at unexpected prices.
 """
-purchase_reserved_instances_offering(InstanceCount, ReservedInstancesOfferingId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseReservedInstancesOffering", Dict{String, Any}("InstanceCount"=>InstanceCount, "ReservedInstancesOfferingId"=>ReservedInstancesOfferingId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-purchase_reserved_instances_offering(InstanceCount, ReservedInstancesOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseReservedInstancesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "ReservedInstancesOfferingId"=>ReservedInstancesOfferingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_reserved_instances_offering(
+    InstanceCount,
+    ReservedInstancesOfferingId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "PurchaseReservedInstancesOffering",
+    Dict{String,Any}(
+        "InstanceCount" => InstanceCount,
+        "ReservedInstancesOfferingId" => ReservedInstancesOfferingId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function purchase_reserved_instances_offering(
+    InstanceCount,
+    ReservedInstancesOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "PurchaseReservedInstancesOffering",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceCount" => InstanceCount,
+                    "ReservedInstancesOfferingId" => ReservedInstancesOfferingId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     purchase_scheduled_instances(purchase_request)
@@ -20014,8 +31744,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-purchase_scheduled_instances(PurchaseRequest; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseScheduledInstances", Dict{String, Any}("PurchaseRequest"=>PurchaseRequest, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-purchase_scheduled_instances(PurchaseRequest, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("PurchaseScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PurchaseRequest"=>PurchaseRequest, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_scheduled_instances(
+    PurchaseRequest; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "PurchaseScheduledInstances",
+    Dict{String,Any}(
+        "PurchaseRequest" => PurchaseRequest, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function purchase_scheduled_instances(
+    PurchaseRequest,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "PurchaseScheduledInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PurchaseRequest" => PurchaseRequest, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reboot_instances(instance_id)
@@ -20044,8 +31802,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reboot_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RebootInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reboot_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RebootInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reboot_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "RebootInstances",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reboot_instances(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RebootInstances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_image(name)
@@ -20191,8 +31967,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `paravirtual`
 """
-register_image(name; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterImage", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_image(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_image(name; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "RegisterImage",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_image(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "RegisterImage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_instance_event_notification_attributes(instance_tag_attribute)
@@ -20216,8 +32006,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-register_instance_event_notification_attributes(InstanceTagAttribute; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterInstanceEventNotificationAttributes", Dict{String, Any}("InstanceTagAttribute"=>InstanceTagAttribute); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_instance_event_notification_attributes(InstanceTagAttribute, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterInstanceEventNotificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTagAttribute"=>InstanceTagAttribute), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_instance_event_notification_attributes(
+    InstanceTagAttribute; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RegisterInstanceEventNotificationAttributes",
+    Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_instance_event_notification_attributes(
+    InstanceTagAttribute,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RegisterInstanceEventNotificationAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_transit_gateway_multicast_group_members(transit_gateway_multicast_domain_id, item)
@@ -20249,8 +32063,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInterfaceIds"`: The group members' network interface IDs to register with the
   transit gateway multicast group.
 """
-register_transit_gateway_multicast_group_members(TransitGatewayMulticastDomainId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupMembers", Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_transit_gateway_multicast_group_members(TransitGatewayMulticastDomainId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_transit_gateway_multicast_group_members(
+    TransitGatewayMulticastDomainId,
+    item;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "RegisterTransitGatewayMulticastGroupMembers",
+    Dict{String,Any}(
+        "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+        "item" => item,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_transit_gateway_multicast_group_members(
+    TransitGatewayMulticastDomainId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RegisterTransitGatewayMulticastGroupMembers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+                    "item" => item,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_transit_gateway_multicast_group_sources(transit_gateway_multicast_domain_id, item)
@@ -20283,8 +32130,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInterfaceIds"`: The group sources' network interface IDs to register with the
   transit gateway multicast group.
 """
-register_transit_gateway_multicast_group_sources(TransitGatewayMulticastDomainId, item; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources", Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_transit_gateway_multicast_group_sources(TransitGatewayMulticastDomainId, item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_transit_gateway_multicast_group_sources(
+    TransitGatewayMulticastDomainId,
+    item;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "RegisterTransitGatewayMulticastGroupSources",
+    Dict{String,Any}(
+        "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+        "item" => item,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_transit_gateway_multicast_group_sources(
+    TransitGatewayMulticastDomainId,
+    item,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RegisterTransitGatewayMulticastGroupSources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId,
+                    "item" => item,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_transit_gateway_multicast_domain_associations()
@@ -20306,8 +32186,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayAttachmentId"`: The ID of the transit gateway attachment.
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
-reject_transit_gateway_multicast_domain_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectTransitGatewayMulticastDomainAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_transit_gateway_multicast_domain_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectTransitGatewayMulticastDomainAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_transit_gateway_multicast_domain_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RejectTransitGatewayMulticastDomainAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_transit_gateway_multicast_domain_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "RejectTransitGatewayMulticastDomainAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_transit_gateway_peering_attachment(transit_gateway_attachment_id)
@@ -20328,8 +32223,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reject_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_transit_gateway_peering_attachment(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_transit_gateway_peering_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RejectTransitGatewayPeeringAttachment",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_transit_gateway_peering_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RejectTransitGatewayPeeringAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_transit_gateway_vpc_attachment(transit_gateway_attachment_id)
@@ -20354,8 +32275,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reject_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RejectTransitGatewayVpcAttachment",
+    Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_transit_gateway_vpc_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RejectTransitGatewayVpcAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_vpc_endpoint_connections(service_id, vpc_endpoint_id)
@@ -20377,8 +32324,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reject_vpc_endpoint_connections(ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectVpcEndpointConnections", Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_vpc_endpoint_connections(ServiceId, VpcEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_vpc_endpoint_connections(
+    ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RejectVpcEndpointConnections",
+    Dict{String,Any}("ServiceId" => ServiceId, "VpcEndpointId" => VpcEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_vpc_endpoint_connections(
+    ServiceId,
+    VpcEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RejectVpcEndpointConnections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ServiceId" => ServiceId, "VpcEndpointId" => VpcEndpointId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_vpc_peering_connection(vpc_peering_connection_id)
@@ -20403,8 +32377,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reject_vpc_peering_connection(vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectVpcPeeringConnection", Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_vpc_peering_connection(vpcPeeringConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RejectVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_vpc_peering_connection(
+    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RejectVpcPeeringConnection",
+    Dict{String,Any}("vpcPeeringConnectionId" => vpcPeeringConnectionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_vpc_peering_connection(
+    vpcPeeringConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RejectVpcPeeringConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("vpcPeeringConnectionId" => vpcPeeringConnectionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     release_address()
@@ -20436,8 +32434,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-release_address(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReleaseAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-release_address(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReleaseAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+release_address(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("ReleaseAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function release_address(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ReleaseAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     release_hosts(host_id)
@@ -20459,8 +32464,22 @@ Released hosts still appear in a <a>DescribeHosts</a> response.
 
 - `host_id`: The IDs of the Dedicated Hosts to release.
 """
-release_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReleaseHosts", Dict{String, Any}("hostId"=>hostId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-release_hosts(hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReleaseHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+release_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ReleaseHosts",
+    Dict{String,Any}("hostId" => hostId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function release_hosts(
+    hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ReleaseHosts",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("hostId" => hostId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     release_ipam_pool_allocation(cidr, ipam_pool_allocation_id, ipam_pool_id)
@@ -20493,8 +32512,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-release_ipam_pool_allocation(Cidr, IpamPoolAllocationId, IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReleaseIpamPoolAllocation", Dict{String, Any}("Cidr"=>Cidr, "IpamPoolAllocationId"=>IpamPoolAllocationId, "IpamPoolId"=>IpamPoolId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-release_ipam_pool_allocation(Cidr, IpamPoolAllocationId, IpamPoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReleaseIpamPoolAllocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "IpamPoolAllocationId"=>IpamPoolAllocationId, "IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+release_ipam_pool_allocation(
+    Cidr,
+    IpamPoolAllocationId,
+    IpamPoolId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ReleaseIpamPoolAllocation",
+    Dict{String,Any}(
+        "Cidr" => Cidr,
+        "IpamPoolAllocationId" => IpamPoolAllocationId,
+        "IpamPoolId" => IpamPoolId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function release_ipam_pool_allocation(
+    Cidr,
+    IpamPoolAllocationId,
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReleaseIpamPoolAllocation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Cidr" => Cidr,
+                    "IpamPoolAllocationId" => IpamPoolAllocationId,
+                    "IpamPoolId" => IpamPoolId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     replace_iam_instance_profile_association(association_id, iam_instance_profile)
@@ -20511,8 +32567,38 @@ Use <a>DescribeIamInstanceProfileAssociations</a> to get the association ID.
 - `association_id`: The ID of the existing IAM instance profile association.
 - `iam_instance_profile`: The IAM instance profile.
 """
-replace_iam_instance_profile_association(AssociationId, IamInstanceProfile; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceIamInstanceProfileAssociation", Dict{String, Any}("AssociationId"=>AssociationId, "IamInstanceProfile"=>IamInstanceProfile); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-replace_iam_instance_profile_association(AssociationId, IamInstanceProfile, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceIamInstanceProfileAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "IamInstanceProfile"=>IamInstanceProfile), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+replace_iam_instance_profile_association(
+    AssociationId, IamInstanceProfile; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ReplaceIamInstanceProfileAssociation",
+    Dict{String,Any}(
+        "AssociationId" => AssociationId, "IamInstanceProfile" => IamInstanceProfile
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function replace_iam_instance_profile_association(
+    AssociationId,
+    IamInstanceProfile,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReplaceIamInstanceProfileAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociationId" => AssociationId,
+                    "IamInstanceProfile" => IamInstanceProfile,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     replace_network_acl_association(association_id, network_acl_id)
@@ -20539,8 +32625,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-replace_network_acl_association(associationId, networkAclId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceNetworkAclAssociation", Dict{String, Any}("associationId"=>associationId, "networkAclId"=>networkAclId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-replace_network_acl_association(associationId, networkAclId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceNetworkAclAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "networkAclId"=>networkAclId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+replace_network_acl_association(
+    associationId, networkAclId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ReplaceNetworkAclAssociation",
+    Dict{String,Any}("associationId" => associationId, "networkAclId" => networkAclId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function replace_network_acl_association(
+    associationId,
+    networkAclId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReplaceNetworkAclAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "associationId" => associationId, "networkAclId" => networkAclId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     replace_network_acl_entry(egress, network_acl_id, protocol, rule_action, rule_number)
@@ -20581,8 +32694,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"portRange"`: TCP or UDP protocols: The range of ports the rule applies to. Required if
   specifying protocol 6 (TCP) or 17 (UDP).
 """
-replace_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-replace_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+replace_network_acl_entry(
+    egress,
+    networkAclId,
+    protocol,
+    ruleAction,
+    ruleNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ReplaceNetworkAclEntry",
+    Dict{String,Any}(
+        "egress" => egress,
+        "networkAclId" => networkAclId,
+        "protocol" => protocol,
+        "ruleAction" => ruleAction,
+        "ruleNumber" => ruleNumber,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function replace_network_acl_entry(
+    egress,
+    networkAclId,
+    protocol,
+    ruleAction,
+    ruleNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReplaceNetworkAclEntry",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "egress" => egress,
+                    "networkAclId" => networkAclId,
+                    "protocol" => protocol,
+                    "ruleAction" => ruleAction,
+                    "ruleNumber" => ruleNumber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     replace_route(route_table_id)
@@ -20629,8 +32787,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkInterfaceId"`: The ID of a network interface.
 - `"vpcPeeringConnectionId"`: The ID of a VPC peering connection.
 """
-replace_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-replace_route(routeTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+replace_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "ReplaceRoute",
+    Dict{String,Any}("routeTableId" => routeTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function replace_route(
+    routeTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReplaceRoute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("routeTableId" => routeTableId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     replace_route_table_association(association_id, route_table_id)
@@ -20659,8 +32835,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-replace_route_table_association(associationId, routeTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceRouteTableAssociation", Dict{String, Any}("associationId"=>associationId, "routeTableId"=>routeTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-replace_route_table_association(associationId, routeTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceRouteTableAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+replace_route_table_association(
+    associationId, routeTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ReplaceRouteTableAssociation",
+    Dict{String,Any}("associationId" => associationId, "routeTableId" => routeTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function replace_route_table_association(
+    associationId,
+    routeTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReplaceRouteTableAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "associationId" => associationId, "routeTableId" => routeTableId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     replace_transit_gateway_route(destination_cidr_block, transit_gateway_route_table_id)
@@ -20685,8 +32888,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TransitGatewayAttachmentId"`: The ID of the attachment.
 """
-replace_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-replace_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+replace_transit_gateway_route(
+    DestinationCidrBlock,
+    TransitGatewayRouteTableId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ReplaceTransitGatewayRoute",
+    Dict{String,Any}(
+        "DestinationCidrBlock" => DestinationCidrBlock,
+        "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function replace_transit_gateway_route(
+    DestinationCidrBlock,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReplaceTransitGatewayRoute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCidrBlock" => DestinationCidrBlock,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     replace_vpn_tunnel(vpn_connection_id, vpn_tunnel_outside_ip_address)
@@ -20709,8 +32945,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-replace_vpn_tunnel(VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceVpnTunnel", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-replace_vpn_tunnel(VpnConnectionId, VpnTunnelOutsideIpAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReplaceVpnTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+replace_vpn_tunnel(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "ReplaceVpnTunnel",
+    Dict{String,Any}(
+        "VpnConnectionId" => VpnConnectionId,
+        "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function replace_vpn_tunnel(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReplaceVpnTunnel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpnConnectionId" => VpnConnectionId,
+                    "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     report_instance_status(instance_id, reason_code, status)
@@ -20754,8 +33023,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"endTime"`: The time at which the reported instance health state ended.
 - `"startTime"`: The time at which the reported instance health state began.
 """
-report_instance_status(instanceId, reasonCode, status; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReportInstanceStatus", Dict{String, Any}("instanceId"=>instanceId, "reasonCode"=>reasonCode, "status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-report_instance_status(instanceId, reasonCode, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ReportInstanceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "reasonCode"=>reasonCode, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+report_instance_status(
+    instanceId, reasonCode, status; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ReportInstanceStatus",
+    Dict{String,Any}(
+        "instanceId" => instanceId, "reasonCode" => reasonCode, "status" => status
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function report_instance_status(
+    instanceId,
+    reasonCode,
+    status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ReportInstanceStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "instanceId" => instanceId,
+                    "reasonCode" => reasonCode,
+                    "status" => status,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     request_spot_fleet(spot_fleet_request_config)
@@ -20804,8 +33105,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-request_spot_fleet(spotFleetRequestConfig; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RequestSpotFleet", Dict{String, Any}("spotFleetRequestConfig"=>spotFleetRequestConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-request_spot_fleet(spotFleetRequestConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RequestSpotFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestConfig"=>spotFleetRequestConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+request_spot_fleet(
+    spotFleetRequestConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RequestSpotFleet",
+    Dict{String,Any}("spotFleetRequestConfig" => spotFleetRequestConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function request_spot_fleet(
+    spotFleetRequestConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RequestSpotFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("spotFleetRequestConfig" => spotFleetRequestConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     request_spot_instances()
@@ -20890,8 +33215,18 @@ Default: `one-time`
   request is canceled, or the `ValidUntil` date and time is reached. By default, the
   request is valid for 7 days from the date the request was created.
 """
-request_spot_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RequestSpotInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-request_spot_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RequestSpotInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+request_spot_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("RequestSpotInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function request_spot_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "RequestSpotInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_address_attribute(allocation_id, attribute)
@@ -20913,8 +33248,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reset_address_attribute(AllocationId, Attribute; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetAddressAttribute", Dict{String, Any}("AllocationId"=>AllocationId, "Attribute"=>Attribute); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_address_attribute(AllocationId, Attribute, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetAddressAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId, "Attribute"=>Attribute), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_address_attribute(
+    AllocationId, Attribute; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ResetAddressAttribute",
+    Dict{String,Any}("AllocationId" => AllocationId, "Attribute" => Attribute);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_address_attribute(
+    AllocationId,
+    Attribute,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ResetAddressAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AllocationId" => AllocationId, "Attribute" => Attribute),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_ebs_default_kms_key_id()
@@ -20937,8 +33297,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reset_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_ebs_default_kms_key_id(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetEbsDefaultKmsKeyId", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2("ResetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function reset_ebs_default_kms_key_id(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "ResetEbsDefaultKmsKeyId",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_fpga_image_attribute(fpga_image_id)
@@ -20961,8 +33331,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reset_fpga_image_attribute(FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetFpgaImageAttribute", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_fpga_image_attribute(FpgaImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_fpga_image_attribute(
+    FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ResetFpgaImageAttribute",
+    Dict{String,Any}("FpgaImageId" => FpgaImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_fpga_image_attribute(
+    FpgaImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ResetFpgaImageAttribute",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FpgaImageId" => FpgaImageId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_image_attribute(attribute, image_id)
@@ -20985,8 +33375,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reset_image_attribute(Attribute, ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_image_attribute(Attribute, ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_image_attribute(
+    Attribute, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ResetImageAttribute",
+    Dict{String,Any}("Attribute" => Attribute, "ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_image_attribute(
+    Attribute,
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ResetImageAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attribute" => Attribute, "ImageId" => ImageId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_instance_attribute(attribute, instance_id)
@@ -21018,8 +33433,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reset_instance_attribute(attribute, instanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetInstanceAttribute", Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_instance_attribute(attribute, instanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_instance_attribute(
+    attribute, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ResetInstanceAttribute",
+    Dict{String,Any}("attribute" => attribute, "instanceId" => instanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_instance_attribute(
+    attribute,
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ResetInstanceAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("attribute" => attribute, "instanceId" => instanceId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_network_interface_attribute(network_interface_id)
@@ -21042,8 +33482,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceDestCheck"`: The source/destination checking attribute. Resets the value to
   `true`.
 """
-reset_network_interface_attribute(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_network_interface_attribute(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_network_interface_attribute(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ResetNetworkInterfaceAttribute",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_network_interface_attribute(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ResetNetworkInterfaceAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_snapshot_attribute(attribute, snapshot_id)
@@ -21069,8 +33531,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-reset_snapshot_attribute(Attribute, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetSnapshotAttribute", Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_snapshot_attribute(Attribute, SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("ResetSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_snapshot_attribute(
+    Attribute, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "ResetSnapshotAttribute",
+    Dict{String,Any}("Attribute" => Attribute, "SnapshotId" => SnapshotId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_snapshot_attribute(
+    Attribute,
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "ResetSnapshotAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attribute" => Attribute, "SnapshotId" => SnapshotId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_address_to_classic(public_ip)
@@ -21097,8 +33584,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-restore_address_to_classic(publicIp; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreAddressToClassic", Dict{String, Any}("publicIp"=>publicIp); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_address_to_classic(publicIp, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreAddressToClassic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_address_to_classic(publicIp; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "RestoreAddressToClassic",
+        Dict{String,Any}("publicIp" => publicIp);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function restore_address_to_classic(
+    publicIp,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RestoreAddressToClassic",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("publicIp" => publicIp), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_image_from_recycle_bin(image_id)
@@ -21120,8 +33626,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-restore_image_from_recycle_bin(ImageId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreImageFromRecycleBin", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_image_from_recycle_bin(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreImageFromRecycleBin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_image_from_recycle_bin(
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RestoreImageFromRecycleBin",
+    Dict{String,Any}("ImageId" => ImageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_image_from_recycle_bin(
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RestoreImageFromRecycleBin",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_managed_prefix_list_version(current_version, prefix_list_id, previous_version)
@@ -21145,8 +33669,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-restore_managed_prefix_list_version(CurrentVersion, PrefixListId, PreviousVersion; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreManagedPrefixListVersion", Dict{String, Any}("CurrentVersion"=>CurrentVersion, "PrefixListId"=>PrefixListId, "PreviousVersion"=>PreviousVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_managed_prefix_list_version(CurrentVersion, PrefixListId, PreviousVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreManagedPrefixListVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion, "PrefixListId"=>PrefixListId, "PreviousVersion"=>PreviousVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_managed_prefix_list_version(
+    CurrentVersion,
+    PrefixListId,
+    PreviousVersion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "RestoreManagedPrefixListVersion",
+    Dict{String,Any}(
+        "CurrentVersion" => CurrentVersion,
+        "PrefixListId" => PrefixListId,
+        "PreviousVersion" => PreviousVersion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_managed_prefix_list_version(
+    CurrentVersion,
+    PrefixListId,
+    PreviousVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RestoreManagedPrefixListVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrentVersion" => CurrentVersion,
+                    "PrefixListId" => PrefixListId,
+                    "PreviousVersion" => PreviousVersion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_snapshot_from_recycle_bin(snapshot_id)
@@ -21168,8 +33729,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-restore_snapshot_from_recycle_bin(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreSnapshotFromRecycleBin", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_snapshot_from_recycle_bin(SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreSnapshotFromRecycleBin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_snapshot_from_recycle_bin(
+    SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "RestoreSnapshotFromRecycleBin",
+    Dict{String,Any}("SnapshotId" => SnapshotId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_snapshot_from_recycle_bin(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RestoreSnapshotFromRecycleBin",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_snapshot_tier(snapshot_id)
@@ -21196,7 +33777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"PermanentRestore"`: Indicates whether to permanently restore an archived snapshot. To
   permanently restore an archived snapshot, specify `true` and omit the
-  **RestoreSnapshotTierRequest$TemporaryRestoreDays** parameter.
+  **RestoreSnapshotTierRequest\$TemporaryRestoreDays** parameter.
 - `"TemporaryRestoreDays"`: Specifies the number of days for which to temporarily restore
   an archived snapshot. Required for temporary restores only. The snapshot will be
   automatically re-archived after this period.
@@ -21204,8 +33785,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To temporarily restore an archived snapshot, specify the number of days and omit the
   **PermanentRestore** parameter or set it to `false`.
 """
-restore_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreSnapshotTier", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_snapshot_tier(SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RestoreSnapshotTier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "RestoreSnapshotTier",
+    Dict{String,Any}("SnapshotId" => SnapshotId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_snapshot_tier(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RestoreSnapshotTier",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     revoke_client_vpn_ingress(client_vpn_endpoint_id, target_network_cidr)
@@ -21231,8 +33830,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"RevokeAllGroups"`: Indicates whether access should be revoked for all clients.
 """
-revoke_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RevokeClientVpnIngress", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-revoke_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RevokeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+revoke_client_vpn_ingress(
+    ClientVpnEndpointId,
+    TargetNetworkCidr;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "RevokeClientVpnIngress",
+    Dict{String,Any}(
+        "ClientVpnEndpointId" => ClientVpnEndpointId,
+        "TargetNetworkCidr" => TargetNetworkCidr,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function revoke_client_vpn_ingress(
+    ClientVpnEndpointId,
+    TargetNetworkCidr,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RevokeClientVpnIngress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientVpnEndpointId" => ClientVpnEndpointId,
+                    "TargetNetworkCidr" => TargetNetworkCidr,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     revoke_security_group_egress(group_id)
@@ -21282,8 +33914,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destination security group.
 - `"toPort"`: Not supported. Use a set of IP permissions to specify the port.
 """
-revoke_security_group_egress(groupId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RevokeSecurityGroupEgress", Dict{String, Any}("groupId"=>groupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-revoke_security_group_egress(groupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RevokeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+revoke_security_group_egress(groupId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "RevokeSecurityGroupEgress",
+        Dict{String,Any}("groupId" => groupId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function revoke_security_group_egress(
+    groupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RevokeSecurityGroupEgress",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("groupId" => groupId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     revoke_security_group_ingress()
@@ -21335,8 +33984,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-revoke_security_group_ingress(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RevokeSecurityGroupIngress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-revoke_security_group_ingress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RevokeSecurityGroupIngress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+revoke_security_group_ingress(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "RevokeSecurityGroupIngress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function revoke_security_group_ingress(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "RevokeSecurityGroupIngress",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     run_instances(max_count, min_count)
@@ -21570,8 +34230,37 @@ Default: `stop`
 
 You cannot specify this option and the network interfaces option in the same request.
 """
-run_instances(MaxCount, MinCount; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RunInstances", Dict{String, Any}("MaxCount"=>MaxCount, "MinCount"=>MinCount, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-run_instances(MaxCount, MinCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RunInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxCount"=>MaxCount, "MinCount"=>MinCount, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+run_instances(MaxCount, MinCount; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "RunInstances",
+    Dict{String,Any}(
+        "MaxCount" => MaxCount, "MinCount" => MinCount, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function run_instances(
+    MaxCount,
+    MinCount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RunInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MaxCount" => MaxCount,
+                    "MinCount" => MinCount,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     run_scheduled_instances(launch_specification, scheduled_instance_id)
@@ -21607,8 +34296,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: 1
 """
-run_scheduled_instances(LaunchSpecification, ScheduledInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RunScheduledInstances", Dict{String, Any}("LaunchSpecification"=>LaunchSpecification, "ScheduledInstanceId"=>ScheduledInstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-run_scheduled_instances(LaunchSpecification, ScheduledInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("RunScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchSpecification"=>LaunchSpecification, "ScheduledInstanceId"=>ScheduledInstanceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+run_scheduled_instances(
+    LaunchSpecification,
+    ScheduledInstanceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "RunScheduledInstances",
+    Dict{String,Any}(
+        "LaunchSpecification" => LaunchSpecification,
+        "ScheduledInstanceId" => ScheduledInstanceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function run_scheduled_instances(
+    LaunchSpecification,
+    ScheduledInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "RunScheduledInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LaunchSpecification" => LaunchSpecification,
+                    "ScheduledInstanceId" => ScheduledInstanceId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_local_gateway_routes(local_gateway_route_table_id)
@@ -21642,8 +34366,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-search_local_gateway_routes(LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SearchLocalGatewayRoutes", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_local_gateway_routes(LocalGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SearchLocalGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_local_gateway_routes(
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "SearchLocalGatewayRoutes",
+    Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_local_gateway_routes(
+    LocalGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "SearchLocalGatewayRoutes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocalGatewayRouteTableId" => LocalGatewayRouteTableId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_transit_gateway_multicast_groups(transit_gateway_multicast_domain_id)
@@ -21679,8 +34427,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-search_transit_gateway_multicast_groups(TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SearchTransitGatewayMulticastGroups", Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_transit_gateway_multicast_groups(TransitGatewayMulticastDomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SearchTransitGatewayMulticastGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_transit_gateway_multicast_groups(
+    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "SearchTransitGatewayMulticastGroups",
+    Dict{String,Any}("TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_transit_gateway_multicast_groups(
+    TransitGatewayMulticastDomainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "SearchTransitGatewayMulticastGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayMulticastDomainId" => TransitGatewayMulticastDomainId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_transit_gateway_routes(filter, transit_gateway_route_table_id)
@@ -21718,8 +34492,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of routes to return. If a value is not provided, the
   default is 1000.
 """
-search_transit_gateway_routes(Filter, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SearchTransitGatewayRoutes", Dict{String, Any}("Filter"=>Filter, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_transit_gateway_routes(Filter, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SearchTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_transit_gateway_routes(
+    Filter, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "SearchTransitGatewayRoutes",
+    Dict{String,Any}(
+        "Filter" => Filter, "TransitGatewayRouteTableId" => TransitGatewayRouteTableId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_transit_gateway_routes(
+    Filter,
+    TransitGatewayRouteTableId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "SearchTransitGatewayRoutes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Filter" => Filter,
+                    "TransitGatewayRouteTableId" => TransitGatewayRouteTableId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     send_diagnostic_interrupt(instance_id)
@@ -21754,8 +34558,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-send_diagnostic_interrupt(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SendDiagnosticInterrupt", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-send_diagnostic_interrupt(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("SendDiagnosticInterrupt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_diagnostic_interrupt(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ec2(
+        "SendDiagnosticInterrupt",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function send_diagnostic_interrupt(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "SendDiagnosticInterrupt",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_instances(instance_id)
@@ -21799,8 +34622,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-start_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "StartInstances",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_instances(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "StartInstances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_network_insights_access_scope_analysis(client_token, network_insights_access_scope_id)
@@ -21824,8 +34665,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"TagSpecification"`: The tags to apply.
 """
-start_network_insights_access_scope_analysis(ClientToken, NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartNetworkInsightsAccessScopeAnalysis", Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_network_insights_access_scope_analysis(ClientToken, NetworkInsightsAccessScopeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartNetworkInsightsAccessScopeAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_network_insights_access_scope_analysis(
+    ClientToken,
+    NetworkInsightsAccessScopeId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ec2(
+    "StartNetworkInsightsAccessScopeAnalysis",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_network_insights_access_scope_analysis(
+    ClientToken,
+    NetworkInsightsAccessScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "StartNetworkInsightsAccessScopeAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_network_insights_analysis(client_token, network_insights_path_id)
@@ -21854,8 +34728,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traverse.
 - `"TagSpecification"`: The tags to apply.
 """
-start_network_insights_analysis(ClientToken, NetworkInsightsPathId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartNetworkInsightsAnalysis", Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsPathId"=>NetworkInsightsPathId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_network_insights_analysis(ClientToken, NetworkInsightsPathId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartNetworkInsightsAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsPathId"=>NetworkInsightsPathId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_network_insights_analysis(
+    ClientToken, NetworkInsightsPathId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "StartNetworkInsightsAnalysis",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken, "NetworkInsightsPathId" => NetworkInsightsPathId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_network_insights_analysis(
+    ClientToken,
+    NetworkInsightsPathId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "StartNetworkInsightsAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "NetworkInsightsPathId" => NetworkInsightsPathId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_vpc_endpoint_service_private_dns_verification(service_id)
@@ -21882,8 +34786,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-start_vpc_endpoint_service_private_dns_verification(ServiceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartVpcEndpointServicePrivateDnsVerification", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_vpc_endpoint_service_private_dns_verification(ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StartVpcEndpointServicePrivateDnsVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_vpc_endpoint_service_private_dns_verification(
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "StartVpcEndpointServicePrivateDnsVerification",
+    Dict{String,Any}("ServiceId" => ServiceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_vpc_endpoint_service_private_dns_verification(
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "StartVpcEndpointServicePrivateDnsVerification",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_instances(instance_id)
@@ -21951,8 +34875,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `false`
 """
-stop_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StopInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("StopInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "StopInstances",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_instances(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "StopInstances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     terminate_client_vpn_connections(client_vpn_endpoint_id)
@@ -21979,8 +34921,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   terminate all active connections for the specified user. This option can only be used if
   the user has established up to five connections.
 """
-terminate_client_vpn_connections(ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("TerminateClientVpnConnections", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-terminate_client_vpn_connections(ClientVpnEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("TerminateClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+terminate_client_vpn_connections(
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "TerminateClientVpnConnections",
+    Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function terminate_client_vpn_connections(
+    ClientVpnEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "TerminateClientVpnConnections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClientVpnEndpointId" => ClientVpnEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     terminate_instances(instance_id)
@@ -22042,8 +35008,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-terminate_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("TerminateInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-terminate_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("TerminateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+terminate_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "TerminateInstances",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function terminate_instances(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "TerminateInstances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     unassign_ipv6_addresses(network_interface_id)
@@ -22063,8 +35047,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Ipv6Prefix"`: The IPv6 prefixes to unassign from the network interface.
 - `"ipv6Addresses"`: The IPv6 addresses to unassign from the network interface.
 """
-unassign_ipv6_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-unassign_ipv6_addresses(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+unassign_ipv6_addresses(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "UnassignIpv6Addresses",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function unassign_ipv6_addresses(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "UnassignIpv6Addresses",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     unassign_private_ip_addresses(network_interface_id)
@@ -22086,8 +35092,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   interface. You can specify this option multiple times to unassign more than one IP
   address.
 """
-unassign_private_ip_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-unassign_private_ip_addresses(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+unassign_private_ip_addresses(
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "UnassignPrivateIpAddresses",
+    Dict{String,Any}("networkInterfaceId" => networkInterfaceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function unassign_private_ip_addresses(
+    networkInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "UnassignPrivateIpAddresses",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     unassign_private_nat_gateway_address(nat_gateway_id, private_ip_address)
@@ -22123,8 +35151,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   forcibly releasing the IP addresses if connections are still in progress. Default value
   is 350 seconds.
 """
-unassign_private_nat_gateway_address(NatGatewayId, PrivateIpAddress; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnassignPrivateNatGatewayAddress", Dict{String, Any}("NatGatewayId"=>NatGatewayId, "PrivateIpAddress"=>PrivateIpAddress); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-unassign_private_nat_gateway_address(NatGatewayId, PrivateIpAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnassignPrivateNatGatewayAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NatGatewayId"=>NatGatewayId, "PrivateIpAddress"=>PrivateIpAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+unassign_private_nat_gateway_address(
+    NatGatewayId, PrivateIpAddress; aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "UnassignPrivateNatGatewayAddress",
+    Dict{String,Any}(
+        "NatGatewayId" => NatGatewayId, "PrivateIpAddress" => PrivateIpAddress
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function unassign_private_nat_gateway_address(
+    NatGatewayId,
+    PrivateIpAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "UnassignPrivateNatGatewayAddress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NatGatewayId" => NatGatewayId, "PrivateIpAddress" => PrivateIpAddress
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     unlock_snapshot(snapshot_id)
@@ -22147,8 +35204,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-unlock_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnlockSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-unlock_snapshot(SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnlockSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+unlock_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "UnlockSnapshot",
+    Dict{String,Any}("SnapshotId" => SnapshotId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function unlock_snapshot(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "UnlockSnapshot",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     unmonitor_instances(instance_id)
@@ -22170,8 +35245,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-unmonitor_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "UnmonitorInstances",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function unmonitor_instances(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ec2(
+        "UnmonitorInstances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_security_group_rule_descriptions_egress()
@@ -22199,8 +35292,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityGroupRuleDescription"`: The description for the egress security group rules.
   You must specify either the description or the IP permissions.
 """
-update_security_group_rule_descriptions_egress(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_security_group_rule_descriptions_egress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_security_group_rule_descriptions_egress(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "UpdateSecurityGroupRuleDescriptionsEgress";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_security_group_rule_descriptions_egress(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "UpdateSecurityGroupRuleDescriptionsEgress",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_security_group_rule_descriptions_ingress()
@@ -22228,8 +35336,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityGroupRuleDescription"`: The description for the ingress security group rules.
   You must specify either a description or IP permissions.
 """
-update_security_group_rule_descriptions_ingress(; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_security_group_rule_descriptions_ingress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_security_group_rule_descriptions_ingress(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = ec2(
+    "UpdateSecurityGroupRuleDescriptionsIngress";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_security_group_rule_descriptions_ingress(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "UpdateSecurityGroupRuleDescriptionsIngress",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     withdraw_byoip_cidr(cidr)
@@ -22256,5 +35379,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 """
-withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-withdraw_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) = ec2(
+    "WithdrawByoipCidr",
+    Dict{String,Any}("Cidr" => Cidr);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function withdraw_byoip_cidr(
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ec2(
+        "WithdrawByoipCidr",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

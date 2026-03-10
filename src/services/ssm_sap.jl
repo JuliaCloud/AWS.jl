@@ -21,8 +21,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ActionType"`: Delete or restore the permissions on the target database.
 - `"SourceResourceArn"`: The Amazon Resource Name (ARN) of the source resource.
 """
-delete_resource_permission(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/delete-resource-permission", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_permission(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/delete-resource-permission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_permission(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_sap(
+    "POST",
+    "/delete-resource-permission",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_resource_permission(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/delete-resource-permission",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_application(application_id)
@@ -35,8 +57,29 @@ the existing setup of your SAP workloads on Amazon EC2.
 
 - `application_id`: The ID of the application.
 """
-deregister_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/deregister-application", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/deregister-application", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "POST",
+        "/deregister-application",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function deregister_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/deregister-application",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application()
@@ -53,8 +96,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplicationArn"`: The Amazon Resource Name (ARN) of the application.
 - `"ApplicationId"`: The ID of the application.
 """
-get_application(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-application", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap(
+    "POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_application(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/get-application",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_component(application_id, component_id)
@@ -67,8 +122,37 @@ Gets the component of an application registered with AWS Systems Manager for SAP
 - `application_id`: The ID of the application.
 - `component_id`: The ID of the component.
 """
-get_component(ApplicationId, ComponentId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-component", Dict{String, Any}("ApplicationId"=>ApplicationId, "ComponentId"=>ComponentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_component(ApplicationId, ComponentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-component", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId, "ComponentId"=>ComponentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_component(
+    ApplicationId, ComponentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_sap(
+    "POST",
+    "/get-component",
+    Dict{String,Any}("ApplicationId" => ApplicationId, "ComponentId" => ComponentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_component(
+    ApplicationId,
+    ComponentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/get-component",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationId" => ApplicationId, "ComponentId" => ComponentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_database()
@@ -85,8 +169,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseArn"`: The Amazon Resource Name (ARN) of the database.
 - `"DatabaseId"`: The ID of the database.
 """
-get_database(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_database(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-database", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_database(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap("POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_database(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/get-database",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_operation(operation_id)
@@ -98,8 +193,28 @@ Gets the details of an operation by specifying the operation ID.
 
 - `operation_id`: The ID of the operation.
 """
-get_operation(OperationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-operation", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_operation(OperationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-operation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_operation(OperationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap(
+    "POST",
+    "/get-operation",
+    Dict{String,Any}("OperationId" => OperationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_operation(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/get-operation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_permission(resource_arn)
@@ -117,8 +232,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ActionType"`: <p/>
 """
-get_resource_permission(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-resource-permission", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_permission(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/get-resource-permission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_permission(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "POST",
+        "/get-resource-permission",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_resource_permission(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/get-resource-permission",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_applications()
@@ -135,8 +271,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap(
+    "POST", "/list-applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-applications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_components()
@@ -156,8 +304,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 - `"NextToken"`: The token for the next page of results.
 """
-list_components(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_components(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-components", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_components(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap(
+    "POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_components(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-components",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_databases()
@@ -176,8 +336,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
-list_databases(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_databases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-databases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_databases(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap(
+    "POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_databases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-databases",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_operation_events(operation_id)
@@ -208,8 +380,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
   when there are no more results to return.
 """
-list_operation_events(OperationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-operation-events", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_operation_events(OperationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-operation-events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_operation_events(OperationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "POST",
+        "/list-operation-events",
+        Dict{String,Any}("OperationId" => OperationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_operation_events(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/list-operation-events",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_operations(application_id)
@@ -231,8 +424,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
-list_operations(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-operations", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_operations(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/list-operations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_operations(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "POST",
+        "/list-operations",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_operations(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/list-operations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -245,8 +459,26 @@ Manager for SAP.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_permission(action_type, resource_arn, source_resource_arn)
@@ -260,8 +492,47 @@ Adds permissions to the target database.
 - `resource_arn`: <p/>
 - `source_resource_arn`: <p/>
 """
-put_resource_permission(ActionType, ResourceArn, SourceResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/put-resource-permission", Dict{String, Any}("ActionType"=>ActionType, "ResourceArn"=>ResourceArn, "SourceResourceArn"=>SourceResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_permission(ActionType, ResourceArn, SourceResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/put-resource-permission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionType"=>ActionType, "ResourceArn"=>ResourceArn, "SourceResourceArn"=>SourceResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_permission(
+    ActionType,
+    ResourceArn,
+    SourceResourceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ssm_sap(
+    "POST",
+    "/put-resource-permission",
+    Dict{String,Any}(
+        "ActionType" => ActionType,
+        "ResourceArn" => ResourceArn,
+        "SourceResourceArn" => SourceResourceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_permission(
+    ActionType,
+    ResourceArn,
+    SourceResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/put-resource-permission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ActionType" => ActionType,
+                    "ResourceArn" => ResourceArn,
+                    "SourceResourceArn" => SourceResourceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_application(application_id, application_type, instances)
@@ -295,8 +566,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sid"`: The System ID of the application.
 - `"Tags"`: The tags to be attached to the SAP application.
 """
-register_application(ApplicationId, ApplicationType, Instances; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/register-application", Dict{String, Any}("ApplicationId"=>ApplicationId, "ApplicationType"=>ApplicationType, "Instances"=>Instances); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_application(ApplicationId, ApplicationType, Instances, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/register-application", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId, "ApplicationType"=>ApplicationType, "Instances"=>Instances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_application(
+    ApplicationId,
+    ApplicationType,
+    Instances;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ssm_sap(
+    "POST",
+    "/register-application",
+    Dict{String,Any}(
+        "ApplicationId" => ApplicationId,
+        "ApplicationType" => ApplicationType,
+        "Instances" => Instances,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_application(
+    ApplicationId,
+    ApplicationType,
+    Instances,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/register-application",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationId" => ApplicationId,
+                    "ApplicationType" => ApplicationType,
+                    "Instances" => Instances,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_application(application_id)
@@ -310,8 +620,29 @@ Parameter `ApplicationId` is required.
 
 - `application_id`: The ID of the application.
 """
-start_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/start-application", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/start-application", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "POST",
+        "/start-application",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/start-application",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_application_refresh(application_id)
@@ -323,8 +654,30 @@ Refreshes a registered application.
 
 - `application_id`: The ID of the application.
 """
-start_application_refresh(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/start-application-refresh", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_application_refresh(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/start-application-refresh", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_application_refresh(
+    ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_sap(
+    "POST",
+    "/start-application-refresh",
+    Dict{String,Any}("ApplicationId" => ApplicationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_application_refresh(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/start-application-refresh",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_application(application_id)
@@ -351,8 +704,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If this parameter is included, the connected DBMS (Database Management System) will be
   stopped.
 """
-stop_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/stop-application", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/stop-application", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "POST",
+        "/stop-application",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/stop-application",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -365,8 +739,28 @@ Creates tag for a resource by specifying the ARN.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags on a resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -380,8 +774,28 @@ Delete the tags for a resource.
 - `tag_keys`: Adds/updates or removes credentials for applications registered with AWS
   Systems Manager for SAP.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_sap(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application_settings(application_id)
@@ -403,5 +817,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseArn"`: The Amazon Resource Name of the SAP HANA database that replaces the
   current SAP HANA connection with the SAP_ABAP application.
 """
-update_application_settings(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/update-application-settings", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application_settings(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_sap("POST", "/update-application-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application_settings(
+    ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_sap(
+    "POST",
+    "/update-application-settings",
+    Dict{String,Any}("ApplicationId" => ApplicationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_application_settings(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/update-application-settings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

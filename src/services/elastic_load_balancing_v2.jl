@@ -24,8 +24,35 @@ in the *Network Load Balancers Guide*.
   `CertificateArn` to the certificate ARN but do not set `IsDefault`.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 """
-add_listener_certificates(Certificates, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_listener_certificates(Certificates, ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_listener_certificates(
+    Certificates, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "AddListenerCertificates",
+    Dict{String,Any}("Certificates" => Certificates, "ListenerArn" => ListenerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_listener_certificates(
+    Certificates,
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "AddListenerCertificates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Certificates" => Certificates, "ListenerArn" => ListenerArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_tags(resource_arns, tags)
@@ -43,8 +70,32 @@ same key, `AddTags` updates its value.
 - `resource_arns`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags.
 """
-add_tags(ResourceArns, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("AddTags", Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_tags(ResourceArns, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_tags(ResourceArns, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "AddTags",
+        Dict{String,Any}("ResourceArns" => ResourceArns, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function add_tags(
+    ResourceArns,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "AddTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArns" => ResourceArns, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_trust_store_revocations(trust_store_arn)
@@ -62,8 +113,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"RevocationContents"`: The revocation file to add.
 """
-add_trust_store_revocations(TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("AddTrustStoreRevocations", Dict{String, Any}("TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_trust_store_revocations(TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("AddTrustStoreRevocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_trust_store_revocations(
+    TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "AddTrustStoreRevocations",
+    Dict{String,Any}("TrustStoreArn" => TrustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_trust_store_revocations(
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "AddTrustStoreRevocations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrustStoreArn" => TrustStoreArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_listener(default_actions, load_balancer_arn)
@@ -110,8 +181,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the *Application Load Balancers Guide* and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the *Network Load Balancers Guide*.
 - `"Tags"`: The tags to assign to the listener.
 """
-create_listener(DefaultActions, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_listener(DefaultActions, LoadBalancerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_listener(
+    DefaultActions, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "CreateListener",
+    Dict{String,Any}(
+        "DefaultActions" => DefaultActions, "LoadBalancerArn" => LoadBalancerArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_listener(
+    DefaultActions,
+    LoadBalancerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "CreateListener",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DefaultActions" => DefaultActions, "LoadBalancerArn" => LoadBalancerArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_load_balancer(name)
@@ -192,8 +292,23 @@ You cannot specify a scheme for a Gateway Load Balancer.
 - `"Tags"`: The tags to assign to the load balancer.
 - `"Type"`: The type of load balancer. The default is `application`.
 """
-create_load_balancer(Name; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_load_balancer(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_load_balancer(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "CreateLoadBalancer",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_load_balancer(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "CreateLoadBalancer",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rule(actions, conditions, listener_arn, priority)
@@ -222,8 +337,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to assign to the rule.
 """
-create_rule(Actions, Conditions, ListenerArn, Priority; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateRule", Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rule(Actions, Conditions, ListenerArn, Priority, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rule(
+    Actions,
+    Conditions,
+    ListenerArn,
+    Priority;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = elastic_load_balancing_v2(
+    "CreateRule",
+    Dict{String,Any}(
+        "Actions" => Actions,
+        "Conditions" => Conditions,
+        "ListenerArn" => ListenerArn,
+        "Priority" => Priority,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rule(
+    Actions,
+    Conditions,
+    ListenerArn,
+    Priority,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "CreateRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Actions" => Actions,
+                    "Conditions" => Conditions,
+                    "ListenerArn" => ListenerArn,
+                    "Priority" => Priority,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_target_group(name)
@@ -311,8 +467,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcId"`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
   function, this parameter does not apply. Otherwise, this parameter is required.
 """
-create_target_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_target_group(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_target_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "CreateTargetGroup",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_target_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "CreateTargetGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_trust_store(ca_certificates_bundle_s3_bucket, ca_certificates_bundle_s3_key, name)
@@ -336,8 +507,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificates bundle. If undefined the current version is used.
 - `"Tags"`: The tags to assign to the trust store.
 """
-create_trust_store(CaCertificatesBundleS3Bucket, CaCertificatesBundleS3Key, Name; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateTrustStore", Dict{String, Any}("CaCertificatesBundleS3Bucket"=>CaCertificatesBundleS3Bucket, "CaCertificatesBundleS3Key"=>CaCertificatesBundleS3Key, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_trust_store(CaCertificatesBundleS3Bucket, CaCertificatesBundleS3Key, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("CreateTrustStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CaCertificatesBundleS3Bucket"=>CaCertificatesBundleS3Bucket, "CaCertificatesBundleS3Key"=>CaCertificatesBundleS3Key, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_trust_store(
+    CaCertificatesBundleS3Bucket,
+    CaCertificatesBundleS3Key,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = elastic_load_balancing_v2(
+    "CreateTrustStore",
+    Dict{String,Any}(
+        "CaCertificatesBundleS3Bucket" => CaCertificatesBundleS3Bucket,
+        "CaCertificatesBundleS3Key" => CaCertificatesBundleS3Key,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_trust_store(
+    CaCertificatesBundleS3Bucket,
+    CaCertificatesBundleS3Key,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "CreateTrustStore",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CaCertificatesBundleS3Bucket" => CaCertificatesBundleS3Bucket,
+                    "CaCertificatesBundleS3Key" => CaCertificatesBundleS3Key,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_listener(listener_arn)
@@ -352,8 +560,27 @@ attached.
 
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 """
-delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_listener(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DeleteListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_listener(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeleteListener",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_load_balancer(load_balancer_arn)
@@ -373,8 +600,29 @@ need these EC2 instances, you can stop or terminate them.
 
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 """
-delete_load_balancer(LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_load_balancer(LoadBalancerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_load_balancer(LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DeleteLoadBalancer",
+        Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_load_balancer(
+    LoadBalancerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeleteLoadBalancer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rule(rule_arn)
@@ -388,8 +636,25 @@ You can't delete the default rule.
 
 - `rule_arn`: The Amazon Resource Name (ARN) of the rule.
 """
-delete_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteRule", Dict{String, Any}("RuleArn"=>RuleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rule(RuleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DeleteRule",
+        Dict{String,Any}("RuleArn" => RuleArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_rule(
+    RuleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeleteRule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleArn" => RuleArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_shared_trust_store_association(resource_arn, trust_store_arn)
@@ -402,8 +667,35 @@ Deletes a shared trust store association.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 """
-delete_shared_trust_store_association(ResourceArn, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteSharedTrustStoreAssociation", Dict{String, Any}("ResourceArn"=>ResourceArn, "TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_shared_trust_store_association(ResourceArn, TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteSharedTrustStoreAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_shared_trust_store_association(
+    ResourceArn, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DeleteSharedTrustStoreAssociation",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "TrustStoreArn" => TrustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_shared_trust_store_association(
+    ResourceArn,
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeleteSharedTrustStoreAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "TrustStoreArn" => TrustStoreArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_target_group(target_group_arn)
@@ -420,8 +712,27 @@ terminate them.
 
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 """
-delete_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_target_group(TargetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DeleteTargetGroup",
+        Dict{String,Any}("TargetGroupArn" => TargetGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_target_group(
+    TargetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeleteTargetGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_trust_store(trust_store_arn)
@@ -433,8 +744,27 @@ Deletes a trust store.
 
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 """
-delete_trust_store(TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteTrustStore", Dict{String, Any}("TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_trust_store(TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeleteTrustStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_trust_store(TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DeleteTrustStore",
+        Dict{String,Any}("TrustStoreArn" => TrustStoreArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_trust_store(
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeleteTrustStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrustStoreArn" => TrustStoreArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_targets(target_group_arn, targets)
@@ -462,8 +792,33 @@ Note: If the specified target does not exist, the action returns successfully.
 - `targets`: The targets. If you specified a port override when you registered a target,
   you must specify both the target ID and the port when you deregister it.
 """
-deregister_targets(TargetGroupArn, Targets; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_targets(TargetGroupArn, Targets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_targets(
+    TargetGroupArn, Targets; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DeregisterTargets",
+    Dict{String,Any}("TargetGroupArn" => TargetGroupArn, "Targets" => Targets);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_targets(
+    TargetGroupArn,
+    Targets,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeregisterTargets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TargetGroupArn" => TargetGroupArn, "Targets" => Targets),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_account_limits()
@@ -484,8 +839,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
-describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_account_limits(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeAccountLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_account_limits(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeAccountLimits",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_listener_attributes(listener_arn)
@@ -497,8 +864,28 @@ Describes the attributes for the specified listener.
 
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 """
-describe_listener_attributes(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeListenerAttributes", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_listener_attributes(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeListenerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_listener_attributes(
+    ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DescribeListenerAttributes",
+    Dict{String,Any}("ListenerArn" => ListenerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_listener_attributes(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeListenerAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_listener_certificates(listener_arn)
@@ -526,8 +913,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
-describe_listener_certificates(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_listener_certificates(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_listener_certificates(
+    ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DescribeListenerCertificates",
+    Dict{String,Any}("ListenerArn" => ListenerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_listener_certificates(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeListenerCertificates",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_listeners()
@@ -547,8 +954,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
-describe_listeners(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeListeners"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_listeners(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeListeners", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_listeners(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeListeners"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_listeners(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeListeners", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_load_balancer_attributes(load_balancer_arn)
@@ -568,8 +984,30 @@ in the *Gateway Load Balancers Guide*
 
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 """
-describe_load_balancer_attributes(LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_load_balancer_attributes(LoadBalancerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_load_balancer_attributes(
+    LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DescribeLoadBalancerAttributes",
+    Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_load_balancer_attributes(
+    LoadBalancerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeLoadBalancerAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_load_balancers()
@@ -588,8 +1026,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Names"`: The names of the load balancers.
 - `"PageSize"`: The maximum number of results to return with this call.
 """
-describe_load_balancers(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_load_balancers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_load_balancers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_load_balancers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeLoadBalancers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_rules()
@@ -608,8 +1058,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"RuleArns"`: The Amazon Resource Names (ARN) of the rules.
 """
-describe_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_rules(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_sslpolicies()
@@ -632,8 +1091,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Names"`: The names of the policies.
 - `"PageSize"`: The maximum number of results to return with this call.
 """
-describe_sslpolicies(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeSSLPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_sslpolicies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeSSLPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_sslpolicies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeSSLPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_sslpolicies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeSSLPolicies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_tags(resource_arns)
@@ -648,8 +1119,27 @@ Balancers, target groups, listeners, or rules.
 - `resource_arns`: The Amazon Resource Names (ARN) of the resources. You can specify up to
   20 resources in a single call.
 """
-describe_tags(ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTags", Dict{String, Any}("ResourceArns"=>ResourceArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_tags(ResourceArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_tags(ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeTags",
+        Dict{String,Any}("ResourceArns" => ResourceArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_tags(
+    ResourceArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArns" => ResourceArns), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_target_group_attributes(target_group_arn)
@@ -668,8 +1158,28 @@ in the *Gateway Load Balancers Guide*
 
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 """
-describe_target_group_attributes(TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_target_group_attributes(TargetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_target_group_attributes(
+    TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DescribeTargetGroupAttributes",
+    Dict{String,Any}("TargetGroupArn" => TargetGroupArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_target_group_attributes(
+    TargetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeTargetGroupAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_target_groups()
@@ -691,8 +1201,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"TargetGroupArns"`: The Amazon Resource Names (ARN) of the target groups.
 """
-describe_target_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_target_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_target_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeTargetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_target_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeTargetGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_target_health(target_group_arn)
@@ -711,8 +1233,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Include"`: Used to include anomaly detection information.
 - `"Targets"`: The targets.
 """
-describe_target_health(TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_target_health(TargetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_target_health(TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeTargetHealth",
+        Dict{String,Any}("TargetGroupArn" => TargetGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_target_health(
+    TargetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeTargetHealth",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_trust_store_associations(trust_store_arn)
@@ -732,8 +1273,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
-describe_trust_store_associations(TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTrustStoreAssociations", Dict{String, Any}("TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_trust_store_associations(TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTrustStoreAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_trust_store_associations(
+    TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DescribeTrustStoreAssociations",
+    Dict{String,Any}("TrustStoreArn" => TrustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_trust_store_associations(
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeTrustStoreAssociations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrustStoreArn" => TrustStoreArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_trust_store_revocations(trust_store_arn)
@@ -754,8 +1315,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"RevocationIds"`: The revocation IDs of the revocation files you want to describe.
 """
-describe_trust_store_revocations(TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTrustStoreRevocations", Dict{String, Any}("TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_trust_store_revocations(TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTrustStoreRevocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_trust_store_revocations(
+    TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "DescribeTrustStoreRevocations",
+    Dict{String,Any}("TrustStoreArn" => TrustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_trust_store_revocations(
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeTrustStoreRevocations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrustStoreArn" => TrustStoreArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_trust_stores()
@@ -773,8 +1354,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"TrustStoreArns"`: The Amazon Resource Name (ARN) of the trust store.
 """
-describe_trust_stores(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTrustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_trust_stores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("DescribeTrustStores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_trust_stores(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "DescribeTrustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_trust_stores(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeTrustStores",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_policy(resource_arn)
@@ -786,8 +1379,27 @@ Retrieves the resource policy for a specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("GetResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "GetResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_trust_store_ca_certificates_bundle(trust_store_arn)
@@ -801,8 +1413,28 @@ This action returns a pre-signed S3 URI which is active for ten minutes.
 
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 """
-get_trust_store_ca_certificates_bundle(TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("GetTrustStoreCaCertificatesBundle", Dict{String, Any}("TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_trust_store_ca_certificates_bundle(TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("GetTrustStoreCaCertificatesBundle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_trust_store_ca_certificates_bundle(
+    TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "GetTrustStoreCaCertificatesBundle",
+    Dict{String,Any}("TrustStoreArn" => TrustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_trust_store_ca_certificates_bundle(
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "GetTrustStoreCaCertificatesBundle",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrustStoreArn" => TrustStoreArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_trust_store_revocation_content(revocation_id, trust_store_arn)
@@ -817,8 +1449,35 @@ This action returns a pre-signed S3 URI which is active for ten minutes.
 - `revocation_id`: The revocation ID of the revocation file.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 """
-get_trust_store_revocation_content(RevocationId, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("GetTrustStoreRevocationContent", Dict{String, Any}("RevocationId"=>RevocationId, "TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_trust_store_revocation_content(RevocationId, TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("GetTrustStoreRevocationContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RevocationId"=>RevocationId, "TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_trust_store_revocation_content(
+    RevocationId, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "GetTrustStoreRevocationContent",
+    Dict{String,Any}("RevocationId" => RevocationId, "TrustStoreArn" => TrustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_trust_store_revocation_content(
+    RevocationId,
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "GetTrustStoreRevocationContent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RevocationId" => RevocationId, "TrustStoreArn" => TrustStoreArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_listener(listener_arn)
@@ -865,8 +1524,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the *Application Load Balancers Guide* or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the *Network Load Balancers Guide*.
 """
-modify_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_listener(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "ModifyListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_listener(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyListener",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_listener_attributes(attributes, listener_arn)
@@ -879,8 +1557,33 @@ Modifies the specified attributes of the specified listener.
 - `attributes`: The listener attributes.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 """
-modify_listener_attributes(Attributes, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyListenerAttributes", Dict{String, Any}("Attributes"=>Attributes, "ListenerArn"=>ListenerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_listener_attributes(Attributes, ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyListenerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_listener_attributes(
+    Attributes, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "ModifyListenerAttributes",
+    Dict{String,Any}("Attributes" => Attributes, "ListenerArn" => ListenerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_listener_attributes(
+    Attributes,
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyListenerAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attributes" => Attributes, "ListenerArn" => ListenerArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_load_balancer_attributes(attributes, load_balancer_arn)
@@ -897,8 +1600,35 @@ existing attributes that you do not modify retain their current values.
 - `attributes`: The load balancer attributes.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 """
-modify_load_balancer_attributes(Attributes, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_load_balancer_attributes(Attributes, LoadBalancerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_load_balancer_attributes(
+    Attributes, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "ModifyLoadBalancerAttributes",
+    Dict{String,Any}("Attributes" => Attributes, "LoadBalancerArn" => LoadBalancerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_load_balancer_attributes(
+    Attributes,
+    LoadBalancerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyLoadBalancerAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Attributes" => Attributes, "LoadBalancerArn" => LoadBalancerArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_rule(rule_arn)
@@ -922,8 +1652,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Actions"`: The actions.
 - `"Conditions"`: The conditions.
 """
-modify_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyRule", Dict{String, Any}("RuleArn"=>RuleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_rule(RuleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "ModifyRule",
+        Dict{String,Any}("RuleArn" => RuleArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_rule(
+    RuleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyRule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleArn" => RuleArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_target_group(target_group_arn)
@@ -963,8 +1710,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UnhealthyThresholdCount"`: The number of consecutive health check failures required
   before considering the target unhealthy.
 """
-modify_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_target_group(TargetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "ModifyTargetGroup",
+        Dict{String,Any}("TargetGroupArn" => TargetGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_target_group(
+    TargetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyTargetGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_target_group_attributes(attributes, target_group_arn)
@@ -977,8 +1743,35 @@ Modifies the specified attributes of the specified target group.
 - `attributes`: The target group attributes.
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 """
-modify_target_group_attributes(Attributes, TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_target_group_attributes(Attributes, TargetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_target_group_attributes(
+    Attributes, TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "ModifyTargetGroupAttributes",
+    Dict{String,Any}("Attributes" => Attributes, "TargetGroupArn" => TargetGroupArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_target_group_attributes(
+    Attributes,
+    TargetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyTargetGroupAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Attributes" => Attributes, "TargetGroupArn" => TargetGroupArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_trust_store(ca_certificates_bundle_s3_bucket, ca_certificates_bundle_s3_key, trust_store_arn)
@@ -999,8 +1792,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CaCertificatesBundleS3ObjectVersion"`: The Amazon S3 object version for the ca
   certificates bundle. If undefined the current version is used.
 """
-modify_trust_store(CaCertificatesBundleS3Bucket, CaCertificatesBundleS3Key, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyTrustStore", Dict{String, Any}("CaCertificatesBundleS3Bucket"=>CaCertificatesBundleS3Bucket, "CaCertificatesBundleS3Key"=>CaCertificatesBundleS3Key, "TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_trust_store(CaCertificatesBundleS3Bucket, CaCertificatesBundleS3Key, TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("ModifyTrustStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CaCertificatesBundleS3Bucket"=>CaCertificatesBundleS3Bucket, "CaCertificatesBundleS3Key"=>CaCertificatesBundleS3Key, "TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_trust_store(
+    CaCertificatesBundleS3Bucket,
+    CaCertificatesBundleS3Key,
+    TrustStoreArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = elastic_load_balancing_v2(
+    "ModifyTrustStore",
+    Dict{String,Any}(
+        "CaCertificatesBundleS3Bucket" => CaCertificatesBundleS3Bucket,
+        "CaCertificatesBundleS3Key" => CaCertificatesBundleS3Key,
+        "TrustStoreArn" => TrustStoreArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_trust_store(
+    CaCertificatesBundleS3Bucket,
+    CaCertificatesBundleS3Key,
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyTrustStore",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CaCertificatesBundleS3Bucket" => CaCertificatesBundleS3Bucket,
+                    "CaCertificatesBundleS3Key" => CaCertificatesBundleS3Key,
+                    "TrustStoreArn" => TrustStoreArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_targets(target_group_arn, targets)
@@ -1024,8 +1854,33 @@ and T1. You can register instances of these types by IP address.
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 - `targets`: The targets.
 """
-register_targets(TargetGroupArn, Targets; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_targets(TargetGroupArn, Targets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_targets(
+    TargetGroupArn, Targets; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "RegisterTargets",
+    Dict{String,Any}("TargetGroupArn" => TargetGroupArn, "Targets" => Targets);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_targets(
+    TargetGroupArn,
+    Targets,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "RegisterTargets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TargetGroupArn" => TargetGroupArn, "Targets" => Targets),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_listener_certificates(certificates, listener_arn)
@@ -1040,8 +1895,35 @@ listener.
   `CertificateArn` to the certificate ARN but do not set `IsDefault`.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 """
-remove_listener_certificates(Certificates, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_listener_certificates(Certificates, ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_listener_certificates(
+    Certificates, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "RemoveListenerCertificates",
+    Dict{String,Any}("Certificates" => Certificates, "ListenerArn" => ListenerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_listener_certificates(
+    Certificates,
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "RemoveListenerCertificates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Certificates" => Certificates, "ListenerArn" => ListenerArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_tags(resource_arns, tag_keys)
@@ -1056,8 +1938,32 @@ Load Balancers, target groups, listeners, or rules.
 - `resource_arns`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys for the tags to remove.
 """
-remove_tags(ResourceArns, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RemoveTags", Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_tags(ResourceArns, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_tags(ResourceArns, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "RemoveTags",
+        Dict{String,Any}("ResourceArns" => ResourceArns, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function remove_tags(
+    ResourceArns,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "RemoveTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArns" => ResourceArns, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_trust_store_revocations(revocation_ids, trust_store_arn)
@@ -1070,8 +1976,35 @@ Removes the specified revocation file from the specified trust store.
 - `revocation_ids`: The revocation IDs of the revocation files you want to remove.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 """
-remove_trust_store_revocations(RevocationIds, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RemoveTrustStoreRevocations", Dict{String, Any}("RevocationIds"=>RevocationIds, "TrustStoreArn"=>TrustStoreArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_trust_store_revocations(RevocationIds, TrustStoreArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("RemoveTrustStoreRevocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RevocationIds"=>RevocationIds, "TrustStoreArn"=>TrustStoreArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_trust_store_revocations(
+    RevocationIds, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "RemoveTrustStoreRevocations",
+    Dict{String,Any}("RevocationIds" => RevocationIds, "TrustStoreArn" => TrustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_trust_store_revocations(
+    RevocationIds,
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "RemoveTrustStoreRevocations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RevocationIds" => RevocationIds, "TrustStoreArn" => TrustStoreArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_ip_address_type(ip_address_type, load_balancer_arn)
@@ -1100,8 +2033,37 @@ Sets the type of IP addresses used by the subnets of the specified load balancer
   and `dualstack` (for IPv4 and IPv6 addresses).
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 """
-set_ip_address_type(IpAddressType, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_ip_address_type(IpAddressType, LoadBalancerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_ip_address_type(
+    IpAddressType, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "SetIpAddressType",
+    Dict{String,Any}(
+        "IpAddressType" => IpAddressType, "LoadBalancerArn" => LoadBalancerArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_ip_address_type(
+    IpAddressType,
+    LoadBalancerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "SetIpAddressType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpAddressType" => IpAddressType, "LoadBalancerArn" => LoadBalancerArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_rule_priorities(rule_priorities)
@@ -1116,8 +2078,27 @@ existing rules that you do not specify retain their current priority.
 
 - `rule_priorities`: The rule priorities.
 """
-set_rule_priorities(RulePriorities; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}("RulePriorities"=>RulePriorities); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_rule_priorities(RulePriorities, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RulePriorities"=>RulePriorities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_rule_priorities(RulePriorities; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "SetRulePriorities",
+        Dict{String,Any}("RulePriorities" => RulePriorities);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function set_rule_priorities(
+    RulePriorities,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "SetRulePriorities",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RulePriorities" => RulePriorities), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_security_groups(load_balancer_arn, security_groups)
@@ -1145,8 +2126,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inbound security group rules for traffic sent to a Network Load Balancer through Amazon
   Web Services PrivateLink. The default is `on`.
 """
-set_security_groups(LoadBalancerArn, SecurityGroups; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_security_groups(LoadBalancerArn, SecurityGroups, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_security_groups(
+    LoadBalancerArn, SecurityGroups; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_load_balancing_v2(
+    "SetSecurityGroups",
+    Dict{String,Any}(
+        "LoadBalancerArn" => LoadBalancerArn, "SecurityGroups" => SecurityGroups
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_security_groups(
+    LoadBalancerArn,
+    SecurityGroups,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "SetSecurityGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LoadBalancerArn" => LoadBalancerArn, "SecurityGroups" => SecurityGroups
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_subnets(load_balancer_arn)
@@ -1203,5 +2213,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
 """
-set_subnets(LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_subnets(LoadBalancerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_subnets(LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_load_balancing_v2(
+        "SetSubnets",
+        Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function set_subnets(
+    LoadBalancerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "SetSubnets",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

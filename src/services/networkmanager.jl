@@ -17,8 +17,26 @@ and connected to a core network.
 
 - `attachment_id`: The ID of the attachment.
 """
-accept_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/attachments/$(attachmentId)/accept"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/attachments/$(attachmentId)/accept", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/accept";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function accept_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/accept",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_connect_peer(connect_peer_id, device_id, global_network_id)
@@ -42,8 +60,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"LinkId"`: The ID of the link.
 """
-associate_connect_peer(ConnectPeerId, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/connect-peer-associations", Dict{String, Any}("ConnectPeerId"=>ConnectPeerId, "DeviceId"=>DeviceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_connect_peer(ConnectPeerId, DeviceId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/connect-peer-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectPeerId"=>ConnectPeerId, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_connect_peer(
+    ConnectPeerId,
+    DeviceId,
+    globalNetworkId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/connect-peer-associations",
+    Dict{String,Any}("ConnectPeerId" => ConnectPeerId, "DeviceId" => DeviceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_connect_peer(
+    ConnectPeerId,
+    DeviceId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ConnectPeerId" => ConnectPeerId, "DeviceId" => DeviceId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_customer_gateway(customer_gateway_arn, device_id, global_network_id)
@@ -73,8 +122,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"LinkId"`: The ID of the link.
 """
-associate_customer_gateway(CustomerGatewayArn, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_customer_gateway(CustomerGatewayArn, DeviceId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_customer_gateway(
+    CustomerGatewayArn,
+    DeviceId,
+    globalNetworkId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/customer-gateway-associations",
+    Dict{String,Any}("CustomerGatewayArn" => CustomerGatewayArn, "DeviceId" => DeviceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_customer_gateway(
+    CustomerGatewayArn,
+    DeviceId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/customer-gateway-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CustomerGatewayArn" => CustomerGatewayArn, "DeviceId" => DeviceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_link(device_id, link_id, global_network_id)
@@ -90,8 +172,34 @@ and the same site.
 - `link_id`: The ID of the link.
 - `global_network_id`: The ID of the global network.
 """
-associate_link(DeviceId, LinkId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_link(DeviceId, LinkId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_link(
+    DeviceId, LinkId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/link-associations",
+    Dict{String,Any}("DeviceId" => DeviceId, "LinkId" => LinkId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_link(
+    DeviceId,
+    LinkId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/link-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeviceId" => DeviceId, "LinkId" => LinkId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_transit_gateway_connect_peer(device_id, transit_gateway_connect_peer_arn, global_network_id)
@@ -117,8 +225,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"LinkId"`: The ID of the link.
 """
-associate_transit_gateway_connect_peer(DeviceId, TransitGatewayConnectPeerArn, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", Dict{String, Any}("DeviceId"=>DeviceId, "TransitGatewayConnectPeerArn"=>TransitGatewayConnectPeerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_transit_gateway_connect_peer(DeviceId, TransitGatewayConnectPeerArn, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "TransitGatewayConnectPeerArn"=>TransitGatewayConnectPeerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_transit_gateway_connect_peer(
+    DeviceId,
+    TransitGatewayConnectPeerArn,
+    globalNetworkId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations",
+    Dict{String,Any}(
+        "DeviceId" => DeviceId,
+        "TransitGatewayConnectPeerArn" => TransitGatewayConnectPeerArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_transit_gateway_connect_peer(
+    DeviceId,
+    TransitGatewayConnectPeerArn,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceId" => DeviceId,
+                    "TransitGatewayConnectPeerArn" => TransitGatewayConnectPeerArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_connect_attachment(core_network_id, edge_location, options, transport_attachment_id)
@@ -144,8 +289,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: The client token associated with the request.
 - `"Tags"`: The list of key-value tags associated with the request.
 """
-create_connect_attachment(CoreNetworkId, EdgeLocation, Options, TransportAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/connect-attachments", Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "EdgeLocation"=>EdgeLocation, "Options"=>Options, "TransportAttachmentId"=>TransportAttachmentId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_connect_attachment(CoreNetworkId, EdgeLocation, Options, TransportAttachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/connect-attachments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "EdgeLocation"=>EdgeLocation, "Options"=>Options, "TransportAttachmentId"=>TransportAttachmentId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_connect_attachment(
+    CoreNetworkId,
+    EdgeLocation,
+    Options,
+    TransportAttachmentId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "POST",
+    "/connect-attachments",
+    Dict{String,Any}(
+        "CoreNetworkId" => CoreNetworkId,
+        "EdgeLocation" => EdgeLocation,
+        "Options" => Options,
+        "TransportAttachmentId" => TransportAttachmentId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_connect_attachment(
+    CoreNetworkId,
+    EdgeLocation,
+    Options,
+    TransportAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/connect-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "EdgeLocation" => EdgeLocation,
+                    "Options" => Options,
+                    "TransportAttachmentId" => TransportAttachmentId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_connect_peer(connect_attachment_id, peer_address)
@@ -174,8 +364,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   protocol is NO_ENCAP.
 - `"Tags"`: The tags associated with the peer request.
 """
-create_connect_peer(ConnectAttachmentId, PeerAddress; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/connect-peers", Dict{String, Any}("ConnectAttachmentId"=>ConnectAttachmentId, "PeerAddress"=>PeerAddress, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_connect_peer(ConnectAttachmentId, PeerAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/connect-peers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectAttachmentId"=>ConnectAttachmentId, "PeerAddress"=>PeerAddress, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_connect_peer(
+    ConnectAttachmentId, PeerAddress; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/connect-peers",
+    Dict{String,Any}(
+        "ConnectAttachmentId" => ConnectAttachmentId,
+        "PeerAddress" => PeerAddress,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_connect_peer(
+    ConnectAttachmentId,
+    PeerAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/connect-peers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectAttachmentId" => ConnectAttachmentId,
+                    "PeerAddress" => PeerAddress,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_connection(connected_device_id, device_id, global_network_id)
@@ -202,8 +427,41 @@ Length Constraints: Maximum length of 256 characters.
 - `"LinkId"`: The ID of the link for the first device.
 - `"Tags"`: The tags to apply to the resource during creation.
 """
-create_connection(ConnectedDeviceId, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/connections", Dict{String, Any}("ConnectedDeviceId"=>ConnectedDeviceId, "DeviceId"=>DeviceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_connection(ConnectedDeviceId, DeviceId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/connections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectedDeviceId"=>ConnectedDeviceId, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_connection(
+    ConnectedDeviceId,
+    DeviceId,
+    globalNetworkId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/connections",
+    Dict{String,Any}("ConnectedDeviceId" => ConnectedDeviceId, "DeviceId" => DeviceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_connection(
+    ConnectedDeviceId,
+    DeviceId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/connections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectedDeviceId" => ConnectedDeviceId, "DeviceId" => DeviceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_core_network(global_network_id)
@@ -225,8 +483,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyDocument"`: The policy document for creating a core network.
 - `"Tags"`: Key-value tags associated with a core network request.
 """
-create_core_network(GlobalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks", Dict{String, Any}("GlobalNetworkId"=>GlobalNetworkId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_core_network(GlobalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalNetworkId"=>GlobalNetworkId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_core_network(GlobalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "POST",
+        "/core-networks",
+        Dict{String,Any}(
+            "GlobalNetworkId" => GlobalNetworkId, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_core_network(
+    GlobalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalNetworkId" => GlobalNetworkId, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_device(global_network_id)
@@ -262,8 +549,26 @@ Constraints: Maximum length of 128 characters.
 
 Constraints: Maximum length of 128 characters.
 """
-create_device(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_device(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_device(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/devices";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_device(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/devices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_global_network()
@@ -280,8 +585,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 Constraints: Maximum length of 256 characters.
 - `"Tags"`: The tags to apply to the resource during creation.
 """
-create_global_network(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_global_network(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_global_network(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "POST", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function create_global_network(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/global-networks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_link(bandwidth, site_id, global_network_id)
@@ -312,8 +630,36 @@ Constraints: Maximum length of 256 characters.
   Constraints: Maximum length of 128 characters. Cannot include the following characters: |
   \ ^
 """
-create_link(Bandwidth, SiteId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_link(Bandwidth, SiteId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_link(
+    Bandwidth, SiteId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/links",
+    Dict{String,Any}("Bandwidth" => Bandwidth, "SiteId" => SiteId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_link(
+    Bandwidth,
+    SiteId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/links",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Bandwidth" => Bandwidth, "SiteId" => SiteId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_site(global_network_id)
@@ -339,8 +685,26 @@ Constraints: Maximum length of 256 characters.
  - `Longitude`: The longitude of the site.
 - `"Tags"`: The tags to apply to the resource during creation.
 """
-create_site(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_site(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_site(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/sites";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_site(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/sites",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_site_to_site_vpn_attachment(core_network_id, vpn_connection_arn)
@@ -362,8 +726,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: The client token associated with the request.
 - `"Tags"`: The tags associated with the request.
 """
-create_site_to_site_vpn_attachment(CoreNetworkId, VpnConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/site-to-site-vpn-attachments", Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "VpnConnectionArn"=>VpnConnectionArn, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_site_to_site_vpn_attachment(CoreNetworkId, VpnConnectionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/site-to-site-vpn-attachments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "VpnConnectionArn"=>VpnConnectionArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_site_to_site_vpn_attachment(
+    CoreNetworkId, VpnConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/site-to-site-vpn-attachments",
+    Dict{String,Any}(
+        "CoreNetworkId" => CoreNetworkId,
+        "VpnConnectionArn" => VpnConnectionArn,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_site_to_site_vpn_attachment(
+    CoreNetworkId,
+    VpnConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/site-to-site-vpn-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "VpnConnectionArn" => VpnConnectionArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_peering(core_network_id, transit_gateway_arn)
@@ -383,8 +782,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: The client token associated with the request.
 - `"Tags"`: The list of key-value tags associated with the request.
 """
-create_transit_gateway_peering(CoreNetworkId, TransitGatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/transit-gateway-peerings", Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "TransitGatewayArn"=>TransitGatewayArn, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_peering(CoreNetworkId, TransitGatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/transit-gateway-peerings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "TransitGatewayArn"=>TransitGatewayArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_peering(
+    CoreNetworkId, TransitGatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/transit-gateway-peerings",
+    Dict{String,Any}(
+        "CoreNetworkId" => CoreNetworkId,
+        "TransitGatewayArn" => TransitGatewayArn,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_peering(
+    CoreNetworkId,
+    TransitGatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/transit-gateway-peerings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "TransitGatewayArn" => TransitGatewayArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_transit_gateway_route_table_attachment(peering_id, transit_gateway_route_table_arn)
@@ -406,8 +840,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: The client token associated with the request.
 - `"Tags"`: The list of key-value tags associated with the request.
 """
-create_transit_gateway_route_table_attachment(PeeringId, TransitGatewayRouteTableArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/transit-gateway-route-table-attachments", Dict{String, Any}("PeeringId"=>PeeringId, "TransitGatewayRouteTableArn"=>TransitGatewayRouteTableArn, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_transit_gateway_route_table_attachment(PeeringId, TransitGatewayRouteTableArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/transit-gateway-route-table-attachments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeeringId"=>PeeringId, "TransitGatewayRouteTableArn"=>TransitGatewayRouteTableArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_transit_gateway_route_table_attachment(
+    PeeringId,
+    TransitGatewayRouteTableArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "POST",
+    "/transit-gateway-route-table-attachments",
+    Dict{String,Any}(
+        "PeeringId" => PeeringId,
+        "TransitGatewayRouteTableArn" => TransitGatewayRouteTableArn,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_transit_gateway_route_table_attachment(
+    PeeringId,
+    TransitGatewayRouteTableArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/transit-gateway-route-table-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PeeringId" => PeeringId,
+                    "TransitGatewayRouteTableArn" => TransitGatewayRouteTableArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc_attachment(core_network_id, subnet_arns, vpc_arn)
@@ -429,8 +900,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: Options for the VPC attachment.
 - `"Tags"`: The key-value tags associated with the request.
 """
-create_vpc_attachment(CoreNetworkId, SubnetArns, VpcArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/vpc-attachments", Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "SubnetArns"=>SubnetArns, "VpcArn"=>VpcArn, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_attachment(CoreNetworkId, SubnetArns, VpcArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/vpc-attachments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "SubnetArns"=>SubnetArns, "VpcArn"=>VpcArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_attachment(
+    CoreNetworkId, SubnetArns, VpcArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/vpc-attachments",
+    Dict{String,Any}(
+        "CoreNetworkId" => CoreNetworkId,
+        "SubnetArns" => SubnetArns,
+        "VpcArn" => VpcArn,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpc_attachment(
+    CoreNetworkId,
+    SubnetArns,
+    VpcArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/vpc-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "SubnetArns" => SubnetArns,
+                    "VpcArn" => VpcArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_attachment(attachment_id)
@@ -442,8 +951,26 @@ Deletes an attachment. Supports all attachment types.
 
 - `attachment_id`: The ID of the attachment to delete.
 """
-delete_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/attachments/$(attachmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_connect_peer(connect_peer_id)
@@ -455,8 +982,26 @@ Deletes a Connect peer.
 
 - `connect_peer_id`: The ID of the deleted Connect peer.
 """
-delete_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/connect-peers/$(connectPeerId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_connect_peer(connectPeerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/connect-peers/$(connectPeerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/connect-peers/$(connectPeerId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_connect_peer(
+    connectPeerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/connect-peers/$(connectPeerId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_connection(connection_id, global_network_id)
@@ -469,8 +1014,28 @@ Deletes the specified connection in your global network.
 - `connection_id`: The ID of the connection.
 - `global_network_id`: The ID of the global network.
 """
-delete_connection(connectionId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/connections/$(connectionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_connection(connectionId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/connections/$(connectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connection(
+    connectionId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "DELETE",
+    "/global-networks/$(globalNetworkId)/connections/$(connectionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_connection(
+    connectionId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_core_network(core_network_id)
@@ -483,8 +1048,26 @@ are no attachments on a core network.
 
 - `core_network_id`: The network ID of the deleted core network.
 """
-delete_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/core-networks/$(coreNetworkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_core_network(coreNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/core-networks/$(coreNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/core-networks/$(coreNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_core_network(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/core-networks/$(coreNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_core_network_policy_version(core_network_id, policy_version_id)
@@ -497,8 +1080,28 @@ Deletes a policy version from a core network. You can't delete the current LIVE 
 - `core_network_id`: The ID of a core network for the deleted policy.
 - `policy_version_id`: The version ID of the deleted policy.
 """
-delete_core_network_policy_version(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_core_network_policy_version(coreNetworkId, policyVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_core_network_policy_version(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "DELETE",
+    "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_core_network_policy_version(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_device(device_id, global_network_id)
@@ -512,8 +1115,28 @@ customer gateways.
 - `device_id`: The ID of the device.
 - `global_network_id`: The ID of the global network.
 """
-delete_device(deviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_device(deviceId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_device(
+    deviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "DELETE",
+    "/global-networks/$(globalNetworkId)/devices/$(deviceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_device(
+    deviceId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_global_network(global_network_id)
@@ -526,8 +1149,26 @@ Deletes an existing global network. You must first delete all global network obj
 
 - `global_network_id`: The ID of the global network.
 """
-delete_global_network(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_global_network(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_global_network(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_global_network(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_link(global_network_id, link_id)
@@ -541,8 +1182,27 @@ customer gateways.
 - `global_network_id`: The ID of the global network.
 - `link_id`: The ID of the link.
 """
-delete_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_link(globalNetworkId, linkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/links/$(linkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_link(
+    globalNetworkId,
+    linkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/links/$(linkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_peering(peering_id)
@@ -554,8 +1214,26 @@ Deletes an existing peering connection.
 
 - `peering_id`: The ID of the peering connection to delete.
 """
-delete_peering(peeringId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/peerings/$(peeringId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_peering(peeringId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/peerings/$(peeringId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_peering(peeringId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/peerings/$(peeringId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_peering(
+    peeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/peerings/$(peeringId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy(resource_arn)
@@ -568,8 +1246,26 @@ principals specified in the resource policy.
 
 - `resource_arn`: The ARN of the policy to delete.
 """
-delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/resource-policy/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/resource-policy/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/resource-policy/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/resource-policy/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_site(global_network_id, site_id)
@@ -582,8 +1278,27 @@ Deletes an existing site. The site cannot be associated with any device or link.
 - `global_network_id`: The ID of the global network.
 - `site_id`: The ID of the site.
 """
-delete_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_site(globalNetworkId, siteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/sites/$(siteId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_site(
+    globalNetworkId,
+    siteId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/sites/$(siteId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_transit_gateway(global_network_id, transit_gateway_arn)
@@ -598,8 +1313,28 @@ associations.
 - `global_network_id`: The ID of the global network.
 - `transit_gateway_arn`: The Amazon Resource Name (ARN) of the transit gateway.
 """
-deregister_transit_gateway(globalNetworkId, transitGatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_transit_gateway(globalNetworkId, transitGatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_transit_gateway(
+    globalNetworkId, transitGatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "DELETE",
+    "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_transit_gateway(
+    globalNetworkId,
+    transitGatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_global_networks()
@@ -618,8 +1353,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-describe_global_networks(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_global_networks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_global_networks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_global_networks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/global-networks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_connect_peer(connect_peer_id, global_network_id)
@@ -632,8 +1380,28 @@ Disassociates a core network Connect peer from a device and a link.
 - `connect_peer_id`: The ID of the Connect peer to disassociate from a device.
 - `global_network_id`: The ID of the global network.
 """
-disassociate_connect_peer(connectPeerId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_connect_peer(connectPeerId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_connect_peer(
+    connectPeerId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "DELETE",
+    "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_connect_peer(
+    connectPeerId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_customer_gateway(customer_gateway_arn, global_network_id)
@@ -646,8 +1414,28 @@ Disassociates a customer gateway from a device and a link.
 - `customer_gateway_arn`: The Amazon Resource Name (ARN) of the customer gateway.
 - `global_network_id`: The ID of the global network.
 """
-disassociate_customer_gateway(customerGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_customer_gateway(customerGatewayArn, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_customer_gateway(
+    customerGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "DELETE",
+    "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_customer_gateway(
+    customerGatewayArn,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_link(device_id, global_network_id, link_id)
@@ -662,8 +1450,34 @@ gateways that are associated with the link.
 - `global_network_id`: The ID of the global network.
 - `link_id`: The ID of the link.
 """
-disassociate_link(deviceId, globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_link(deviceId, globalNetworkId, linkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_link(
+    deviceId, globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "DELETE",
+    "/global-networks/$(globalNetworkId)/link-associations",
+    Dict{String,Any}("deviceId" => deviceId, "linkId" => linkId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_link(
+    deviceId,
+    globalNetworkId,
+    linkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/link-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("deviceId" => deviceId, "linkId" => linkId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_transit_gateway_connect_peer(global_network_id, transit_gateway_connect_peer_arn)
@@ -677,8 +1491,30 @@ Disassociates a transit gateway Connect peer from a device and link.
 - `transit_gateway_connect_peer_arn`: The Amazon Resource Name (ARN) of the transit gateway
   Connect peer.
 """
-disassociate_transit_gateway_connect_peer(globalNetworkId, transitGatewayConnectPeerArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_transit_gateway_connect_peer(globalNetworkId, transitGatewayConnectPeerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_transit_gateway_connect_peer(
+    globalNetworkId,
+    transitGatewayConnectPeerArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "DELETE",
+    "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_transit_gateway_connect_peer(
+    globalNetworkId,
+    transitGatewayConnectPeerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     execute_core_network_change_set(core_network_id, policy_version_id)
@@ -692,8 +1528,28 @@ submitted..
 - `core_network_id`: The ID of a core network.
 - `policy_version_id`: The ID of the policy version.
 """
-execute_core_network_change_set(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-execute_core_network_change_set(coreNetworkId, policyVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+execute_core_network_change_set(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function execute_core_network_change_set(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_connect_attachment(attachment_id)
@@ -705,8 +1561,26 @@ Returns information about a core network Connect attachment.
 
 - `attachment_id`: The ID of the attachment.
 """
-get_connect_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/connect-attachments/$(attachmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_connect_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/connect-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_connect_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/connect-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_connect_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/connect-attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_connect_peer(connect_peer_id)
@@ -718,8 +1592,26 @@ Returns information about a core network Connect peer.
 
 - `connect_peer_id`: The ID of the Connect peer.
 """
-get_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/connect-peers/$(connectPeerId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_connect_peer(connectPeerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/connect-peers/$(connectPeerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/connect-peers/$(connectPeerId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_connect_peer(
+    connectPeerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/connect-peers/$(connectPeerId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_connect_peer_associations(global_network_id)
@@ -739,8 +1631,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-get_connect_peer_associations(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/connect-peer-associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_connect_peer_associations(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/connect-peer-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_connect_peer_associations(
+    globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/global-networks/$(globalNetworkId)/connect-peer-associations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_connect_peer_associations(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_connections(global_network_id)
@@ -761,8 +1672,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-get_connections(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/connections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_connections(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/connections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_connections(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/connections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_connections(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/connections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_core_network(core_network_id)
@@ -774,8 +1703,26 @@ Returns information about the LIVE policy for a core network.
 
 - `core_network_id`: The ID of a core network.
 """
-get_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_core_network(coreNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_core_network(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_core_network_change_events(core_network_id, policy_version_id)
@@ -795,8 +1742,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-get_core_network_change_events(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_core_network_change_events(coreNetworkId, policyVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_core_network_change_events(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_core_network_change_events(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_core_network_change_set(core_network_id, policy_version_id)
@@ -816,8 +1783,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-get_core_network_change_set(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_core_network_change_set(coreNetworkId, policyVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_core_network_change_set(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_core_network_change_set(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_core_network_policy(core_network_id)
@@ -837,8 +1824,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"alias"`: The alias of a core network policy
 - `"policyVersionId"`: The ID of a core network policy version.
 """
-get_core_network_policy(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_core_network_policy(coreNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_core_network_policy(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_core_network_policy(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_customer_gateway_associations(global_network_id)
@@ -860,8 +1865,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-get_customer_gateway_associations(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_customer_gateway_associations(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_customer_gateway_associations(
+    globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/global-networks/$(globalNetworkId)/customer-gateway-associations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_customer_gateway_associations(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/customer-gateway-associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_devices(global_network_id)
@@ -882,8 +1906,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"siteId"`: The ID of the site.
 """
-get_devices(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_devices(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_devices(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/devices";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_devices(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/devices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_link_associations(global_network_id)
@@ -905,8 +1947,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-get_link_associations(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_link_associations(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_link_associations(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/link-associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_link_associations(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/link-associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_links(global_network_id)
@@ -932,8 +1992,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"siteId"`: The ID of the site.
 - `"type"`: The link type.
 """
-get_links(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_links(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_links(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/links";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_links(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/links",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_resource_counts(global_network_id)
@@ -971,8 +2049,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  - `transit-gateway-route-table`
  - `vpn-connection`
 """
-get_network_resource_counts(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_resource_counts(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-count", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_resource_counts(
+    globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/global-networks/$(globalNetworkId)/network-resource-count";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_network_resource_counts(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resource-count",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_resource_relationships(global_network_id)
@@ -1015,8 +2112,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  - `transit-gateway-route-table`
  - `vpn-connection`
 """
-get_network_resource_relationships(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-relationships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_resource_relationships(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-relationships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_resource_relationships(
+    globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/global-networks/$(globalNetworkId)/network-resource-relationships";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_network_resource_relationships(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resource-relationships",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_resources(global_network_id)
@@ -1062,8 +2178,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  - `transit-gateway-route-table`
  - `vpn-connection`
 """
-get_network_resources(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_resources(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_resources(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_network_resources(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_routes(route_table_identifier, global_network_id)
@@ -1092,8 +2226,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29.
 - `"Types"`: The route types.
 """
-get_network_routes(RouteTableIdentifier, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/network-routes", Dict{String, Any}("RouteTableIdentifier"=>RouteTableIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_routes(RouteTableIdentifier, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/network-routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RouteTableIdentifier"=>RouteTableIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_routes(
+    RouteTableIdentifier,
+    globalNetworkId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/network-routes",
+    Dict{String,Any}("RouteTableIdentifier" => RouteTableIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_network_routes(
+    RouteTableIdentifier,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/network-routes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RouteTableIdentifier" => RouteTableIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_telemetry(global_network_id)
@@ -1121,8 +2284,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  - `transit-gateway-connect-peer`
  - `vpn-connection`
 """
-get_network_telemetry(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-telemetry"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_telemetry(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/network-telemetry", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_telemetry(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-telemetry";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_network_telemetry(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-telemetry",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_policy(resource_arn)
@@ -1134,8 +2315,26 @@ Returns information about a resource policy.
 
 - `resource_arn`: The ARN of the resource.
 """
-get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/resource-policy/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/resource-policy/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/resource-policy/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/resource-policy/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_route_analysis(global_network_id, route_analysis_id)
@@ -1148,8 +2347,28 @@ Gets information about the specified route analysis.
 - `global_network_id`: The ID of the global network.
 - `route_analysis_id`: The ID of the route analysis.
 """
-get_route_analysis(globalNetworkId, routeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_route_analysis(globalNetworkId, routeAnalysisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_route_analysis(
+    globalNetworkId, routeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_route_analysis(
+    globalNetworkId,
+    routeAnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_site_to_site_vpn_attachment(attachment_id)
@@ -1161,8 +2380,27 @@ Returns information about a site-to-site VPN attachment.
 
 - `attachment_id`: The ID of the attachment.
 """
-get_site_to_site_vpn_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/site-to-site-vpn-attachments/$(attachmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_site_to_site_vpn_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/site-to-site-vpn-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_site_to_site_vpn_attachment(
+    attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/site-to-site-vpn-attachments/$(attachmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_site_to_site_vpn_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/site-to-site-vpn-attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_sites(global_network_id)
@@ -1182,8 +2420,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"siteIds"`: One or more site IDs. The maximum is 10.
 """
-get_sites(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_sites(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sites(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/sites";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_sites(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/sites",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_connect_peer_associations(global_network_id)
@@ -1205,8 +2461,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transitGatewayConnectPeerArns"`: One or more transit gateway Connect peer Amazon
   Resource Names (ARNs).
 """
-get_transit_gateway_connect_peer_associations(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_connect_peer_associations(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_connect_peer_associations(
+    globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_connect_peer_associations(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_peering(peering_id)
@@ -1218,8 +2493,26 @@ Returns information about a transit gateway peer.
 
 - `peering_id`: The ID of the peering request.
 """
-get_transit_gateway_peering(peeringId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/transit-gateway-peerings/$(peeringId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_peering(peeringId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/transit-gateway-peerings/$(peeringId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_peering(peeringId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/transit-gateway-peerings/$(peeringId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_transit_gateway_peering(
+    peeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/transit-gateway-peerings/$(peeringId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_registrations(global_network_id)
@@ -1240,8 +2533,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transitGatewayArns"`: The Amazon Resource Names (ARNs) of one or more transit gateways.
   The maximum is 10.
 """
-get_transit_gateway_registrations(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_registrations(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_registrations(
+    globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/global-networks/$(globalNetworkId)/transit-gateway-registrations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_registrations(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_transit_gateway_route_table_attachment(attachment_id)
@@ -1253,8 +2565,27 @@ Returns information about a transit gateway route table attachment.
 
 - `attachment_id`: The ID of the transit gateway route table attachment.
 """
-get_transit_gateway_route_table_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/transit-gateway-route-table-attachments/$(attachmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_transit_gateway_route_table_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/transit-gateway-route-table-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_transit_gateway_route_table_attachment(
+    attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/transit-gateway-route-table-attachments/$(attachmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_transit_gateway_route_table_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/transit-gateway-route-table-attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_vpc_attachment(attachment_id)
@@ -1266,8 +2597,26 @@ Returns information about a VPC attachment.
 
 - `attachment_id`: The ID of the attachment.
 """
-get_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/vpc-attachments/$(attachmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_vpc_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/vpc-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/vpc-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_vpc_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/vpc-attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_attachments()
@@ -1286,8 +2635,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"state"`: The state of the attachment.
 """
-list_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/attachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_attachments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/attachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager(
+    "GET", "/attachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/attachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_connect_peers()
@@ -1304,8 +2665,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-list_connect_peers(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/connect-peers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_connect_peers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/connect-peers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_connect_peers(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager(
+    "GET", "/connect-peers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_connect_peers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/connect-peers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_core_network_policy_versions(core_network_id)
@@ -1324,8 +2697,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-list_core_network_policy_versions(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-policy-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_core_network_policy_versions(coreNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-policy-versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_core_network_policy_versions(
+    coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/core-networks/$(coreNetworkId)/core-network-policy-versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_core_network_policy_versions(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_core_networks()
@@ -1340,8 +2732,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-list_core_networks(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_core_networks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/core-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_core_networks(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager(
+    "GET", "/core-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_core_networks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/core-networks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_organization_service_access_status()
@@ -1357,8 +2761,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
-list_organization_service_access_status(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/organizations/service-access"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_organization_service_access_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/organizations/service-access", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_organization_service_access_status(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "GET",
+    "/organizations/service-access";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_organization_service_access_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/organizations/service-access",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_peerings()
@@ -1377,8 +2798,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"peeringType"`: Returns a list of a peering requests.
 - `"state"`: Returns a list of the peering request states.
 """
-list_peerings(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/peerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_peerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/peerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_peerings(; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager(
+    "GET", "/peerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_peerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET", "/peerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1390,8 +2819,26 @@ Lists the tags for a specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_core_network_policy(policy_document, core_network_id)
@@ -1413,8 +2860,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: a core network policy description.
 - `"LatestVersionId"`: The ID of a core network policy.
 """
-put_core_network_policy(PolicyDocument, coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-policy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_core_network_policy(PolicyDocument, coreNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_core_network_policy(
+    PolicyDocument, coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/core-networks/$(coreNetworkId)/core-network-policy",
+    Dict{String,Any}("PolicyDocument" => PolicyDocument, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_core_network_policy(
+    PolicyDocument,
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyDocument" => PolicyDocument, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy(policy_document, resource_arn)
@@ -1427,8 +2903,31 @@ Creates or updates a resource policy.
 - `policy_document`: The JSON resource policy document.
 - `resource_arn`: The ARN of the resource policy.
 """
-put_resource_policy(PolicyDocument, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/resource-policy/$(resourceArn)", Dict{String, Any}("PolicyDocument"=>PolicyDocument); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(PolicyDocument, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/resource-policy/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(
+    PolicyDocument, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/resource-policy/$(resourceArn)",
+    Dict{String,Any}("PolicyDocument" => PolicyDocument);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_policy(
+    PolicyDocument,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/resource-policy/$(resourceArn)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyDocument" => PolicyDocument), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_transit_gateway(transit_gateway_arn, global_network_id)
@@ -1446,8 +2945,33 @@ transit gateway in more than one global network.
 - `transit_gateway_arn`: The Amazon Resource Name (ARN) of the transit gateway.
 - `global_network_id`: The ID of the global network.
 """
-register_transit_gateway(TransitGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_transit_gateway(TransitGatewayArn, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_transit_gateway(
+    TransitGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
+    Dict{String,Any}("TransitGatewayArn" => TransitGatewayArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_transit_gateway(
+    TransitGatewayArn,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TransitGatewayArn" => TransitGatewayArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_attachment(attachment_id)
@@ -1459,8 +2983,26 @@ Rejects a core network attachment request.
 
 - `attachment_id`: The ID of the attachment.
 """
-reject_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/attachments/$(attachmentId)/reject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/attachments/$(attachmentId)/reject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/reject";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function reject_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/reject",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_core_network_policy_version(core_network_id, policy_version_id)
@@ -1475,8 +3017,28 @@ restored policy.
 - `core_network_id`: The ID of a core network.
 - `policy_version_id`: The ID of the policy version to restore.
 """
-restore_core_network_policy_version(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_core_network_policy_version(coreNetworkId, policyVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_core_network_policy_version(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_core_network_policy_version(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_organization_service_access_update(action)
@@ -1490,8 +3052,26 @@ be called by a management account within the organization.
 - `action`: The action to take for the update request. This can be either `ENABLE` or
   `DISABLE`.
 """
-start_organization_service_access_update(Action; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/organizations/service-access", Dict{String, Any}("Action"=>Action); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_organization_service_access_update(Action, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/organizations/service-access", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_organization_service_access_update(
+    Action; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/organizations/service-access",
+    Dict{String,Any}("Action" => Action);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_organization_service_access_update(
+    Action, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/organizations/service-access",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Action" => Action), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_route_analysis(destination, source, global_network_id)
@@ -1515,8 +3095,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UseMiddleboxes"`: Indicates whether to include the location of middlebox appliances in
   the route analysis. The default is `false`.
 """
-start_route_analysis(Destination, Source, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/route-analyses", Dict{String, Any}("Destination"=>Destination, "Source"=>Source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_route_analysis(Destination, Source, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/route-analyses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_route_analysis(
+    Destination, Source, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "POST",
+    "/global-networks/$(globalNetworkId)/route-analyses",
+    Dict{String,Any}("Destination" => Destination, "Source" => Source);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_route_analysis(
+    Destination,
+    Source,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/route-analyses",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Destination" => Destination, "Source" => Source),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(tags, resource_arn)
@@ -1529,8 +3137,28 @@ Tags a specified resource.
 - `tags`: The tags to apply to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    Tags,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1543,8 +3171,28 @@ Removes tags from a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys to remove from the specified resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_connection(connection_id, global_network_id)
@@ -1568,8 +3216,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 Length Constraints: Maximum length of 256 characters.
 - `"LinkId"`: The ID of the link for the first device in the connection.
 """
-update_connection(connectionId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/connections/$(connectionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_connection(connectionId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/connections/$(connectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_connection(
+    connectionId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "PATCH",
+    "/global-networks/$(globalNetworkId)/connections/$(connectionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_connection(
+    connectionId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_core_network(core_network_id)
@@ -1587,8 +3255,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the update.
 """
-update_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/core-networks/$(coreNetworkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_core_network(coreNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/core-networks/$(coreNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "PATCH",
+        "/core-networks/$(coreNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_core_network(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/core-networks/$(coreNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_device(device_id, global_network_id)
@@ -1624,8 +3310,28 @@ Constraints: Maximum length of 128 characters.
 
 Constraints: Maximum length of 128 characters.
 """
-update_device(deviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_device(deviceId, globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_device(
+    deviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = networkmanager(
+    "PATCH",
+    "/global-networks/$(globalNetworkId)/devices/$(deviceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_device(
+    deviceId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_global_network(global_network_id)
@@ -1646,8 +3352,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Constraints: Maximum length of 256 characters.
 """
-update_global_network(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_global_network(globalNetworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_global_network(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_global_network(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_link(global_network_id, link_id)
@@ -1676,8 +3400,27 @@ Constraints: Maximum length of 128 characters.
 
 Constraints: Maximum length of 128 characters.
 """
-update_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_link(globalNetworkId, linkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/links/$(linkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_link(
+    globalNetworkId,
+    linkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/links/$(linkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_network_resource_metadata(metadata, global_network_id, resource_arn)
@@ -1691,8 +3434,35 @@ Updates the resource metadata for the specified global network.
 - `global_network_id`: The ID of the global network.
 - `resource_arn`: The ARN of the resource.
 """
-update_network_resource_metadata(Metadata, globalNetworkId, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata", Dict{String, Any}("Metadata"=>Metadata); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_network_resource_metadata(Metadata, globalNetworkId, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metadata"=>Metadata), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_network_resource_metadata(
+    Metadata,
+    globalNetworkId,
+    resourceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = networkmanager(
+    "PATCH",
+    "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata",
+    Dict{String,Any}("Metadata" => Metadata);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_network_resource_metadata(
+    Metadata,
+    globalNetworkId,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Metadata" => Metadata), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_site(global_network_id, site_id)
@@ -1717,8 +3487,27 @@ Constraints: Maximum length of 256 characters.
    - `Latitude`: The latitude of the site.
  - `Longitude`: The longitude of the site.
 """
-update_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_site(globalNetworkId, siteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/sites/$(siteId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_site(
+    globalNetworkId,
+    siteId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/sites/$(siteId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_vpc_attachment(attachment_id)
@@ -1738,5 +3527,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: Additional options for updating the VPC attachment.
 - `"RemoveSubnetArns"`: Removes a subnet ARN from the attachment.
 """
-update_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/vpc-attachments/$(attachmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_vpc_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = networkmanager("PATCH", "/vpc-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    networkmanager(
+        "PATCH",
+        "/vpc-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_vpc_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/vpc-attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

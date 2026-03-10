@@ -15,8 +15,28 @@ Cancels the running of a specific batch job execution.
 - `application_id`: The unique identifier of the application.
 - `execution_id`: The unique identifier of the batch job execution.
 """
-cancel_batch_job_execution(applicationId, executionId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/batch-job-executions/$(executionId)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_batch_job_execution(applicationId, executionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/batch-job-executions/$(executionId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_batch_job_execution(
+    applicationId, executionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "POST",
+    "/applications/$(applicationId)/batch-job-executions/$(executionId)/cancel";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_batch_job_execution(
+    applicationId,
+    executionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/applications/$(applicationId)/batch-job-executions/$(executionId)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application(definition, engine_type, name)
@@ -48,8 +68,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in a different Amazon Web Services account.
 - `"tags"`: A list of tags to apply to the application.
 """
-create_application(definition, engineType, name; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications", Dict{String, Any}("definition"=>definition, "engineType"=>engineType, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(definition, engineType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "engineType"=>engineType, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(
+    definition, engineType, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "POST",
+    "/applications",
+    Dict{String,Any}(
+        "definition" => definition,
+        "engineType" => engineType,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application(
+    definition,
+    engineType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/applications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "definition" => definition,
+                    "engineType" => engineType,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_set_import_task(application_id, import_config)
@@ -73,8 +131,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   within this timeframe with the same clientToken, you will get the same response. The
   service also handles deleting the clientToken after it expires.
 """
-create_data_set_import_task(applicationId, importConfig; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/dataset-import-task", Dict{String, Any}("importConfig"=>importConfig, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_set_import_task(applicationId, importConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/dataset-import-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("importConfig"=>importConfig, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_set_import_task(
+    applicationId, importConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "POST",
+    "/applications/$(applicationId)/dataset-import-task",
+    Dict{String,Any}("importConfig" => importConfig, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_set_import_task(
+    applicationId,
+    importConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/applications/$(applicationId)/dataset-import-task",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "importConfig" => importConfig, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_deployment(application_id, application_version, environment_id)
@@ -99,8 +186,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeframe with the same clientToken, you will get the same response. The service also
   handles deleting the clientToken after it expires.
 """
-create_deployment(applicationId, applicationVersion, environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/deployments", Dict{String, Any}("applicationVersion"=>applicationVersion, "environmentId"=>environmentId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_deployment(applicationId, applicationVersion, environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationVersion"=>applicationVersion, "environmentId"=>environmentId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_deployment(
+    applicationId,
+    applicationVersion,
+    environmentId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = m2(
+    "POST",
+    "/applications/$(applicationId)/deployments",
+    Dict{String,Any}(
+        "applicationVersion" => applicationVersion,
+        "environmentId" => environmentId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_deployment(
+    applicationId,
+    applicationVersion,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/applications/$(applicationId)/deployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applicationVersion" => applicationVersion,
+                    "environmentId" => environmentId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment(engine_type, instance_type, name)
@@ -142,8 +268,46 @@ If you do not provide a value, a random system-generated value will be assigned.
 - `"subnetIds"`: The list of subnets associated with the VPC for this runtime environment.
 - `"tags"`: The tags for the runtime environment.
 """
-create_environment(engineType, instanceType, name; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/environments", Dict{String, Any}("engineType"=>engineType, "instanceType"=>instanceType, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment(engineType, instanceType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("engineType"=>engineType, "instanceType"=>instanceType, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment(
+    engineType, instanceType, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "POST",
+    "/environments",
+    Dict{String,Any}(
+        "engineType" => engineType,
+        "instanceType" => instanceType,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment(
+    engineType,
+    instanceType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/environments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "engineType" => engineType,
+                    "instanceType" => instanceType,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application(application_id)
@@ -155,8 +319,25 @@ Deletes a specific application. You cannot delete a running application.
 
 - `application_id`: The unique identifier of the application you want to delete.
 """
-delete_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/applications/$(applicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "DELETE",
+    "/applications/$(applicationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "DELETE",
+        "/applications/$(applicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application_from_environment(application_id, environment_id)
@@ -173,8 +354,28 @@ application with the runtime environment so you can delete the environment smoot
 - `environment_id`: The unique identifier of the runtime environment where the application
   was previously deployed.
 """
-delete_application_from_environment(applicationId, environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/applications/$(applicationId)/environment/$(environmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application_from_environment(applicationId, environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/applications/$(applicationId)/environment/$(environmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application_from_environment(
+    applicationId, environmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "DELETE",
+    "/applications/$(applicationId)/environment/$(environmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_from_environment(
+    applicationId,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "DELETE",
+        "/applications/$(applicationId)/environment/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment(environment_id)
@@ -188,8 +389,25 @@ environment.
 
 - `environment_id`: The unique identifier of the runtime environment you want to delete.
 """
-delete_environment(environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/environments/$(environmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment(environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/environments/$(environmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment(environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "DELETE",
+    "/environments/$(environmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "DELETE",
+        "/environments/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application(application_id)
@@ -201,8 +419,25 @@ Describes the details of a specific application.
 
 - `application_id`: The identifier of the application.
 """
-get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "GET",
+    "/applications/$(applicationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application_version(application_id, application_version)
@@ -215,8 +450,28 @@ Returns details about a specific version of a specific application.
 - `application_id`: The unique identifier of the application.
 - `application_version`: The specific version of the application.
 """
-get_application_version(applicationId, applicationVersion; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/versions/$(applicationVersion)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application_version(applicationId, applicationVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/versions/$(applicationVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application_version(
+    applicationId, applicationVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/versions/$(applicationVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_version(
+    applicationId,
+    applicationVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/versions/$(applicationVersion)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_batch_job_execution(application_id, execution_id)
@@ -229,8 +484,28 @@ Gets the details of a specific batch job execution for a specific application.
 - `application_id`: The identifier of the application.
 - `execution_id`: The unique identifier of the batch job execution.
 """
-get_batch_job_execution(applicationId, executionId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-executions/$(executionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_batch_job_execution(applicationId, executionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-executions/$(executionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_batch_job_execution(
+    applicationId, executionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/batch-job-executions/$(executionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_batch_job_execution(
+    applicationId,
+    executionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/batch-job-executions/$(executionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_set_details(application_id, data_set_name)
@@ -244,8 +519,28 @@ Gets the details of a specific data set.
   associated with.
 - `data_set_name`: The name of the data set.
 """
-get_data_set_details(applicationId, dataSetName; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/datasets/$(dataSetName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_set_details(applicationId, dataSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/datasets/$(dataSetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_set_details(
+    applicationId, dataSetName; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/datasets/$(dataSetName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_set_details(
+    applicationId,
+    dataSetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/datasets/$(dataSetName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_set_import_task(application_id, task_id)
@@ -259,8 +554,28 @@ operation.
 - `application_id`: The application identifier.
 - `task_id`: The task identifier returned by the <a>CreateDataSetImportTask</a> operation.
 """
-get_data_set_import_task(applicationId, taskId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/dataset-import-tasks/$(taskId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_set_import_task(applicationId, taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/dataset-import-tasks/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_set_import_task(
+    applicationId, taskId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/dataset-import-tasks/$(taskId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_set_import_task(
+    applicationId,
+    taskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/dataset-import-tasks/$(taskId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_deployment(application_id, deployment_id)
@@ -273,8 +588,28 @@ Gets details of a specific deployment with a given deployment identifier.
 - `application_id`: The unique identifier of the application.
 - `deployment_id`: The unique identifier for the deployment.
 """
-get_deployment(applicationId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/deployments/$(deploymentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_deployment(applicationId, deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/deployments/$(deploymentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_deployment(
+    applicationId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/deployments/$(deploymentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_deployment(
+    applicationId,
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/deployments/$(deploymentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment(environment_id)
@@ -286,8 +621,25 @@ Describes a specific runtime environment.
 
 - `environment_id`: The unique identifier of the runtime environment.
 """
-get_environment(environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/environments/$(environmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment(environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/environments/$(environmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment(environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "GET",
+    "/environments/$(environmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/environments/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_signed_bluinsights_url()
@@ -295,8 +647,19 @@ get_environment(environmentId, params::AbstractDict{String}; aws_config::Abstrac
 
 Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
 """
-get_signed_bluinsights_url(; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/signed-bi-url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_signed_bluinsights_url(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/signed-bi-url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_signed_bluinsights_url(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    m2("GET", "/signed-bi-url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_signed_bluinsights_url(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return m2(
+        "GET",
+        "/signed-bi-url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_versions(application_id)
@@ -317,8 +680,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies the next item to return. To return to the beginning of the list, exclude this
   parameter.
 """
-list_application_versions(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_versions(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_versions(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_versions(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_applications()
@@ -339,8 +721,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token to control the number of applications displayed in the
   list.
 """
-list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    m2("GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return m2(
+        "GET",
+        "/applications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_batch_job_definitions(application_id)
@@ -365,8 +758,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"prefix"`: If the batch job definition is a FileBatchJobDefinition, the prefix allows
   you to search on the file names of FileBatchJobDefinitions.
 """
-list_batch_job_definitions(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-definitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_batch_job_definitions(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-definitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_batch_job_definitions(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/batch-job-definitions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_batch_job_definitions(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/batch-job-definitions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_batch_job_executions(application_id)
@@ -391,8 +803,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startedBefore"`: The time before the batch job executions started.
 - `"status"`: The status of the batch job executions.
 """
-list_batch_job_executions(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-executions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_batch_job_executions(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-executions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_batch_job_executions(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/batch-job-executions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_batch_job_executions(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/batch-job-executions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_batch_job_restart_points(application_id, execution_id)
@@ -406,8 +837,28 @@ Micro Focus engine with versions 8.0.6 and above.
 - `application_id`: The unique identifier of the application.
 - `execution_id`: The unique identifier of each batch job execution.
 """
-list_batch_job_restart_points(applicationId, executionId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_batch_job_restart_points(applicationId, executionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_batch_job_restart_points(
+    applicationId, executionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_batch_job_restart_points(
+    applicationId,
+    executionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_set_import_history(application_id)
@@ -428,8 +879,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies the next item to return. To return to the beginning of the list, exclude this
   parameter.
 """
-list_data_set_import_history(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/dataset-import-tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_set_import_history(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/dataset-import-tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_set_import_history(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "GET",
+    "/applications/$(applicationId)/dataset-import-tasks";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_set_import_history(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/dataset-import-tasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_sets(application_id)
@@ -458,8 +928,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"prefix"`: The prefix of the data set name, which you can use to filter the list of data
   sets.
 """
-list_data_sets(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_sets(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_sets(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "GET",
+    "/applications/$(applicationId)/datasets";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_sets(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/datasets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_deployments(application_id)
@@ -482,8 +969,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies the next item to return. To return to the beginning of the list, exclude this
   parameter.
 """
-list_deployments(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/deployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_deployments(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/applications/$(applicationId)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_deployments(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "GET",
+    "/applications/$(applicationId)/deployments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_deployments(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/deployments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_engine_versions()
@@ -501,8 +1005,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies the next item to return. To return to the beginning of the list, exclude this
   parameter.
 """
-list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/engine-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_engine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/engine-versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    m2("GET", "/engine-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_engine_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return m2(
+        "GET",
+        "/engine-versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environments()
@@ -520,8 +1035,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token to control the number of runtime environments displayed
   in the list.
 """
-list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/environments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    m2("GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return m2(
+        "GET",
+        "/environments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -533,8 +1059,26 @@ Lists the tags for the specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    m2(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_application(application_id)
@@ -546,8 +1090,25 @@ Starts an application that is currently stopped.
 
 - `application_id`: The unique identifier of the application you want to start.
 """
-start_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_application(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "POST",
+    "/applications/$(applicationId)/start";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_application(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/applications/$(applicationId)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_batch_job(application_id, batch_job_identifier)
@@ -568,8 +1129,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobParams"`: The collection of batch job parameters. For details about limits for keys
   and values, see [Coding variables in JCL](https://www.ibm.com/docs/en/workload-automation/9.3.0?topic=zos-coding-variables-in-jcl).
 """
-start_batch_job(applicationId, batchJobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/batch-job", Dict{String, Any}("batchJobIdentifier"=>batchJobIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_batch_job(applicationId, batchJobIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/batch-job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batchJobIdentifier"=>batchJobIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_batch_job(
+    applicationId, batchJobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = m2(
+    "POST",
+    "/applications/$(applicationId)/batch-job",
+    Dict{String,Any}("batchJobIdentifier" => batchJobIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_batch_job(
+    applicationId,
+    batchJobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/applications/$(applicationId)/batch-job",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("batchJobIdentifier" => batchJobIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_application(application_id)
@@ -589,8 +1175,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to true lets you force stop the application so you don't need to wait until the
   process finishes to apply another action on the application. The default value is false.
 """
-stop_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_application(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/applications/$(applicationId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "POST",
+    "/applications/$(applicationId)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_application(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/applications/$(applicationId)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -603,8 +1206,27 @@ Adds one or more tags to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags to add to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -617,8 +1239,28 @@ Removes one or more tags from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The keys of the tags to remove.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    m2(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application(application_id, current_application_version)
@@ -639,8 +1281,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inline JSON or an S3 bucket location.
 - `"description"`: The description of the application to update.
 """
-update_application(applicationId, currentApplicationVersion; aws_config::AbstractAWSConfig=current_aws_config()) = m2("PATCH", "/applications/$(applicationId)", Dict{String, Any}("currentApplicationVersion"=>currentApplicationVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application(applicationId, currentApplicationVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("PATCH", "/applications/$(applicationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentApplicationVersion"=>currentApplicationVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(
+    applicationId,
+    currentApplicationVersion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = m2(
+    "PATCH",
+    "/applications/$(applicationId)",
+    Dict{String,Any}("currentApplicationVersion" => currentApplicationVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_application(
+    applicationId,
+    currentApplicationVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "PATCH",
+        "/applications/$(applicationId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("currentApplicationVersion" => currentApplicationVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment(environment_id)
@@ -683,5 +1354,22 @@ This option is not needed if the attribute being updated is `preferredMaintenanc
 
 If you do not provide a value, a random system-generated value will be assigned.
 """
-update_environment(environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2("PATCH", "/environments/$(environmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment(environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = m2("PATCH", "/environments/$(environmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment(environmentId; aws_config::AbstractAWSConfig=current_aws_config()) = m2(
+    "PATCH",
+    "/environments/$(environmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return m2(
+        "PATCH",
+        "/environments/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -18,8 +18,33 @@ you can back up and restore your VMs through the gateway.
 - `server_arn`: The Amazon Resource Name (ARN) of the server that hosts your virtual
   machines.
 """
-associate_gateway_to_server(GatewayArn, ServerArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("AssociateGatewayToServer", Dict{String, Any}("GatewayArn"=>GatewayArn, "ServerArn"=>ServerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_gateway_to_server(GatewayArn, ServerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("AssociateGatewayToServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn, "ServerArn"=>ServerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_gateway_to_server(
+    GatewayArn, ServerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "AssociateGatewayToServer",
+    Dict{String,Any}("GatewayArn" => GatewayArn, "ServerArn" => ServerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_gateway_to_server(
+    GatewayArn,
+    ServerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "AssociateGatewayToServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GatewayArn" => GatewayArn, "ServerArn" => ServerArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_gateway(activation_key, gateway_display_name, gateway_type)
@@ -40,8 +65,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair.
 """
-create_gateway(ActivationKey, GatewayDisplayName, GatewayType; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("CreateGateway", Dict{String, Any}("ActivationKey"=>ActivationKey, "GatewayDisplayName"=>GatewayDisplayName, "GatewayType"=>GatewayType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_gateway(ActivationKey, GatewayDisplayName, GatewayType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("CreateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey, "GatewayDisplayName"=>GatewayDisplayName, "GatewayType"=>GatewayType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_gateway(
+    ActivationKey,
+    GatewayDisplayName,
+    GatewayType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = backup_gateway(
+    "CreateGateway",
+    Dict{String,Any}(
+        "ActivationKey" => ActivationKey,
+        "GatewayDisplayName" => GatewayDisplayName,
+        "GatewayType" => GatewayType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_gateway(
+    ActivationKey,
+    GatewayDisplayName,
+    GatewayType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "CreateGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ActivationKey" => ActivationKey,
+                    "GatewayDisplayName" => GatewayDisplayName,
+                    "GatewayType" => GatewayType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_gateway(gateway_arn)
@@ -53,8 +115,27 @@ Deletes a backup gateway.
 
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to delete.
 """
-delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("DeleteGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_gateway(GatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("DeleteGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "DeleteGateway",
+        Dict{String,Any}("GatewayArn" => GatewayArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_gateway(
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "DeleteGateway",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_hypervisor(hypervisor_arn)
@@ -66,8 +147,27 @@ Deletes a hypervisor.
 
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor to delete.
 """
-delete_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("DeleteHypervisor", Dict{String, Any}("HypervisorArn"=>HypervisorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_hypervisor(HypervisorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("DeleteHypervisor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HypervisorArn"=>HypervisorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "DeleteHypervisor",
+        Dict{String,Any}("HypervisorArn" => HypervisorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_hypervisor(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "DeleteHypervisor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_gateway_from_server(gateway_arn)
@@ -80,8 +180,28 @@ finishes, the gateway can no longer access the virtual machines on the server.
 
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to disassociate.
 """
-disassociate_gateway_from_server(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("DisassociateGatewayFromServer", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_gateway_from_server(GatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("DisassociateGatewayFromServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_gateway_from_server(
+    GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "DisassociateGatewayFromServer",
+    Dict{String,Any}("GatewayArn" => GatewayArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_gateway_from_server(
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "DisassociateGatewayFromServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bandwidth_rate_limit_schedule(gateway_arn)
@@ -96,8 +216,28 @@ effect. Use this to get a gateway's bandwidth rate limit schedule.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [ `ListGateways` ](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 """
-get_bandwidth_rate_limit_schedule(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetBandwidthRateLimitSchedule", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bandwidth_rate_limit_schedule(GatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetBandwidthRateLimitSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bandwidth_rate_limit_schedule(
+    GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "GetBandwidthRateLimitSchedule",
+    Dict{String,Any}("GatewayArn" => GatewayArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_bandwidth_rate_limit_schedule(
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "GetBandwidthRateLimitSchedule",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_gateway(gateway_arn)
@@ -109,8 +249,27 @@ By providing the ARN (Amazon Resource Name), this API returns the gateway.
 
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway.
 """
-get_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_gateway(GatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "GetGateway",
+        Dict{String,Any}("GatewayArn" => GatewayArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_gateway(
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "GetGateway",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_hypervisor(hypervisor_arn)
@@ -124,8 +283,27 @@ machines, and allocates resources to them.
 
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 """
-get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetHypervisor", Dict{String, Any}("HypervisorArn"=>HypervisorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_hypervisor(HypervisorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetHypervisor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HypervisorArn"=>HypervisorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "GetHypervisor",
+        Dict{String,Any}("HypervisorArn" => HypervisorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_hypervisor(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "GetHypervisor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_hypervisor_property_mappings(hypervisor_arn)
@@ -139,8 +317,28 @@ premises hypervisor to the properties available in Amazon Web Services.
 
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 """
-get_hypervisor_property_mappings(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetHypervisorPropertyMappings", Dict{String, Any}("HypervisorArn"=>HypervisorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_hypervisor_property_mappings(HypervisorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetHypervisorPropertyMappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HypervisorArn"=>HypervisorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_hypervisor_property_mappings(
+    HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "GetHypervisorPropertyMappings",
+    Dict{String,Any}("HypervisorArn" => HypervisorArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_hypervisor_property_mappings(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "GetHypervisorPropertyMappings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_virtual_machine(resource_arn)
@@ -152,8 +350,27 @@ By providing the ARN (Amazon Resource Name), this API returns the virtual machin
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the virtual machine.
 """
-get_virtual_machine(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetVirtualMachine", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_virtual_machine(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("GetVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_virtual_machine(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "GetVirtualMachine",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_virtual_machine(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "GetVirtualMachine",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_hypervisor_configuration(host, name)
@@ -176,8 +393,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags of the hypervisor configuration to import.
 - `"Username"`: The username for the hypervisor.
 """
-import_hypervisor_configuration(Host, Name; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ImportHypervisorConfiguration", Dict{String, Any}("Host"=>Host, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_hypervisor_configuration(Host, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ImportHypervisorConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Host"=>Host, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_hypervisor_configuration(
+    Host, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "ImportHypervisorConfiguration",
+    Dict{String,Any}("Host" => Host, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_hypervisor_configuration(
+    Host,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "ImportHypervisorConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Host" => Host, "Name" => Name), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_gateways()
@@ -195,8 +433,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a request is made to return `MaxResults` number of resources, `NextToken` allows you
   to return more items in your list starting at the location pointed to by the next token.
 """
-list_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_gateways(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway("ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return backup_gateway(
+        "ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_hypervisors()
@@ -213,8 +458,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a request is made to return `maxResults` number of resources, `NextToken` allows you
   to return more items in your list starting at the location pointed to by the next token.
 """
-list_hypervisors(; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_hypervisors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListHypervisors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_hypervisors(; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway(
+    "ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_hypervisors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return backup_gateway(
+        "ListHypervisors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -226,8 +479,27 @@ Lists the tags applied to the resource identified by its Amazon Resource Name (A
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource's tags to list.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_virtual_machines()
@@ -246,8 +518,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a request is made to return `maxResults` number of resources, `NextToken` allows you
   to return more items in your list starting at the location pointed to by the next token.
 """
-list_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_virtual_machines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("ListVirtualMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_virtual_machines(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return backup_gateway(
+        "ListVirtualMachines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_bandwidth_rate_limit_schedule(bandwidth_rate_limit_intervals, gateway_arn)
@@ -265,8 +549,41 @@ limiting is in effect. Use this to initiate a gateway's bandwidth rate limit sch
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [ `ListGateways` ](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 """
-put_bandwidth_rate_limit_schedule(BandwidthRateLimitIntervals, GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("PutBandwidthRateLimitSchedule", Dict{String, Any}("BandwidthRateLimitIntervals"=>BandwidthRateLimitIntervals, "GatewayArn"=>GatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_bandwidth_rate_limit_schedule(BandwidthRateLimitIntervals, GatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("PutBandwidthRateLimitSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BandwidthRateLimitIntervals"=>BandwidthRateLimitIntervals, "GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_bandwidth_rate_limit_schedule(
+    BandwidthRateLimitIntervals,
+    GatewayArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = backup_gateway(
+    "PutBandwidthRateLimitSchedule",
+    Dict{String,Any}(
+        "BandwidthRateLimitIntervals" => BandwidthRateLimitIntervals,
+        "GatewayArn" => GatewayArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_bandwidth_rate_limit_schedule(
+    BandwidthRateLimitIntervals,
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "PutBandwidthRateLimitSchedule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BandwidthRateLimitIntervals" => BandwidthRateLimitIntervals,
+                    "GatewayArn" => GatewayArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_hypervisor_property_mappings(hypervisor_arn, iam_role_arn, vmware_to_aws_tag_mappings)
@@ -283,8 +600,45 @@ hypervisor to the properties available in Amazon Web Services.
 - `vmware_to_aws_tag_mappings`: This action requests the mappings of on-premises VMware
   tags to the Amazon Web Services tags.
 """
-put_hypervisor_property_mappings(HypervisorArn, IamRoleArn, VmwareToAwsTagMappings; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("PutHypervisorPropertyMappings", Dict{String, Any}("HypervisorArn"=>HypervisorArn, "IamRoleArn"=>IamRoleArn, "VmwareToAwsTagMappings"=>VmwareToAwsTagMappings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_hypervisor_property_mappings(HypervisorArn, IamRoleArn, VmwareToAwsTagMappings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("PutHypervisorPropertyMappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HypervisorArn"=>HypervisorArn, "IamRoleArn"=>IamRoleArn, "VmwareToAwsTagMappings"=>VmwareToAwsTagMappings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_hypervisor_property_mappings(
+    HypervisorArn,
+    IamRoleArn,
+    VmwareToAwsTagMappings;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = backup_gateway(
+    "PutHypervisorPropertyMappings",
+    Dict{String,Any}(
+        "HypervisorArn" => HypervisorArn,
+        "IamRoleArn" => IamRoleArn,
+        "VmwareToAwsTagMappings" => VmwareToAwsTagMappings,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_hypervisor_property_mappings(
+    HypervisorArn,
+    IamRoleArn,
+    VmwareToAwsTagMappings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "PutHypervisorPropertyMappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HypervisorArn" => HypervisorArn,
+                    "IamRoleArn" => IamRoleArn,
+                    "VmwareToAwsTagMappings" => VmwareToAwsTagMappings,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_maintenance_start_time(gateway_arn, hour_of_day, minute_of_hour)
@@ -308,8 +662,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 Valid values range from `Sunday` to `Saturday`.
 - `"DayOfWeek"`: The day of the week to start maintenance on a gateway.
 """
-put_maintenance_start_time(GatewayArn, HourOfDay, MinuteOfHour; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("PutMaintenanceStartTime", Dict{String, Any}("GatewayArn"=>GatewayArn, "HourOfDay"=>HourOfDay, "MinuteOfHour"=>MinuteOfHour); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_maintenance_start_time(GatewayArn, HourOfDay, MinuteOfHour, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("PutMaintenanceStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn, "HourOfDay"=>HourOfDay, "MinuteOfHour"=>MinuteOfHour), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_maintenance_start_time(
+    GatewayArn, HourOfDay, MinuteOfHour; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "PutMaintenanceStartTime",
+    Dict{String,Any}(
+        "GatewayArn" => GatewayArn,
+        "HourOfDay" => HourOfDay,
+        "MinuteOfHour" => MinuteOfHour,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_maintenance_start_time(
+    GatewayArn,
+    HourOfDay,
+    MinuteOfHour,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "PutMaintenanceStartTime",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GatewayArn" => GatewayArn,
+                    "HourOfDay" => HourOfDay,
+                    "MinuteOfHour" => MinuteOfHour,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_virtual_machines_metadata_sync(hypervisor_arn)
@@ -321,8 +709,28 @@ This action sends a request to sync metadata across the specified virtual machin
 
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 """
-start_virtual_machines_metadata_sync(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("StartVirtualMachinesMetadataSync", Dict{String, Any}("HypervisorArn"=>HypervisorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_virtual_machines_metadata_sync(HypervisorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("StartVirtualMachinesMetadataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HypervisorArn"=>HypervisorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_virtual_machines_metadata_sync(
+    HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "StartVirtualMachinesMetadataSync",
+    Dict{String,Any}("HypervisorArn" => HypervisorArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_virtual_machines_metadata_sync(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "StartVirtualMachinesMetadataSync",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -335,8 +743,32 @@ Tag the resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to tag.
 - `tags`: A list of tags to assign to the resource.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     test_hypervisor_configuration(gateway_arn, host)
@@ -358,8 +790,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Password"`: The password for the hypervisor.
 - `"Username"`: The username for the hypervisor.
 """
-test_hypervisor_configuration(GatewayArn, Host; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("TestHypervisorConfiguration", Dict{String, Any}("GatewayArn"=>GatewayArn, "Host"=>Host); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-test_hypervisor_configuration(GatewayArn, Host, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("TestHypervisorConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn, "Host"=>Host), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+test_hypervisor_configuration(
+    GatewayArn, Host; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "TestHypervisorConfiguration",
+    Dict{String,Any}("GatewayArn" => GatewayArn, "Host" => Host);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function test_hypervisor_configuration(
+    GatewayArn,
+    Host,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "TestHypervisorConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("GatewayArn" => GatewayArn, "Host" => Host), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -372,8 +827,32 @@ Removes tags from the resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to remove tags.
 - `tag_keys`: The list of tag keys specifying which tags to remove.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_gateway_information(gateway_arn)
@@ -392,8 +871,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"GatewayDisplayName"`: The updated display name of the gateway.
 """
-update_gateway_information(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UpdateGatewayInformation", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_gateway_information(GatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UpdateGatewayInformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_gateway_information(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "UpdateGatewayInformation",
+        Dict{String,Any}("GatewayArn" => GatewayArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_gateway_information(
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "UpdateGatewayInformation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_gateway_software_now(gateway_arn)
@@ -410,8 +908,28 @@ it might take some time for the update to complete.
 
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to be updated.
 """
-update_gateway_software_now(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UpdateGatewaySoftwareNow", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_gateway_software_now(GatewayArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UpdateGatewaySoftwareNow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_gateway_software_now(
+    GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = backup_gateway(
+    "UpdateGatewaySoftwareNow",
+    Dict{String,Any}("GatewayArn" => GatewayArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_gateway_software_now(
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "UpdateGatewaySoftwareNow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_hypervisor(hypervisor_arn)
@@ -436,5 +954,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Password"`: The updated password for the hypervisor.
 - `"Username"`: The updated username for the hypervisor.
 """
-update_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UpdateHypervisor", Dict{String, Any}("HypervisorArn"=>HypervisorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_hypervisor(HypervisorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = backup_gateway("UpdateHypervisor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HypervisorArn"=>HypervisorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    backup_gateway(
+        "UpdateHypervisor",
+        Dict{String,Any}("HypervisorArn" => HypervisorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_hypervisor(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return backup_gateway(
+        "UpdateHypervisor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

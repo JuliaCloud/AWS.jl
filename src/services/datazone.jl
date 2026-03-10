@@ -27,8 +27,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. This field is automatically populated if not provided.
 - `"revision"`: The revision that is to be made to the asset.
 """
-accept_predictions(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/accept-predictions", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_predictions(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/accept-predictions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_predictions(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/assets/$(identifier)/accept-predictions",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_predictions(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/assets/$(identifier)/accept-predictions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     accept_subscription_request(domain_identifier, identifier)
@@ -50,8 +73,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"decisionComment"`: A description that specifies the reason for accepting the specified
   subscription request.
 """
-accept_subscription_request(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/accept"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_subscription_request(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/accept", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_subscription_request(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/accept";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_subscription_request(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/accept",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_entity_owner(domain_identifier, entity_identifier, entity_type, owner)
@@ -73,8 +116,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-add_entity_owner(domainIdentifier, entityIdentifier, entityType, owner; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/addOwner", Dict{String, Any}("owner"=>owner, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_entity_owner(domainIdentifier, entityIdentifier, entityType, owner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/addOwner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("owner"=>owner, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/addOwner",
+    Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/addOwner",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_policy_grant(detail, domain_identifier, entity_identifier, entity_type, policy_type, principal)
@@ -100,8 +176,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-add_policy_grant(detail, domainIdentifier, entityIdentifier, entityType, policyType, principal; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/addGrant", Dict{String, Any}("detail"=>detail, "policyType"=>policyType, "principal"=>principal, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_policy_grant(detail, domainIdentifier, entityIdentifier, entityType, policyType, principal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/addGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detail"=>detail, "policyType"=>policyType, "principal"=>principal, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_policy_grant(
+    detail,
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/addGrant",
+    Dict{String,Any}(
+        "detail" => detail,
+        "policyType" => policyType,
+        "principal" => principal,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_policy_grant(
+    detail,
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/addGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "detail" => detail,
+                    "policyType" => policyType,
+                    "principal" => principal,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_environment_role(domain_identifier, environment_identifier, environment_role_arn)
@@ -116,8 +239,32 @@ Associates the environment role in Amazon DataZone.
 - `environment_identifier`: The ID of the Amazon DataZone environment.
 - `environment_role_arn`: The ARN of the environment role.
 """
-associate_environment_role(domainIdentifier, environmentIdentifier, environmentRoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_environment_role(domainIdentifier, environmentIdentifier, environmentRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_metadata_generation_run(domain_identifier, identifier)
@@ -131,8 +278,28 @@ Cancels the metadata generation run.
   generation run is to be cancelled.
 - `identifier`: The ID of the metadata generation run.
 """
-cancel_metadata_generation_run(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_metadata_generation_run(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_metadata_generation_run(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)/cancel";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_metadata_generation_run(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_subscription(domain_identifier, identifier)
@@ -146,8 +313,28 @@ Cancels the subscription to the specified asset.
   subscription request is being cancelled.
 - `identifier`: The unique identifier of the subscription that is being cancelled.
 """
-cancel_subscription(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_subscription(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_subscription(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/cancel";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_subscription(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_asset(domain_identifier, name, owning_project_identifier, type_identifier)
@@ -176,8 +363,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   friendly metadata for the asset.
 - `"typeRevision"`: The revision of this asset's type.
 """
-create_asset(domainIdentifier, name, owningProjectIdentifier, typeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/assets", Dict{String, Any}("name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier, "typeIdentifier"=>typeIdentifier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_asset(domainIdentifier, name, owningProjectIdentifier, typeIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier, "typeIdentifier"=>typeIdentifier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_asset(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier,
+    typeIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/assets",
+    Dict{String,Any}(
+        "name" => name,
+        "owningProjectIdentifier" => owningProjectIdentifier,
+        "typeIdentifier" => typeIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_asset(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier,
+    typeIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/assets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "owningProjectIdentifier" => owningProjectIdentifier,
+                    "typeIdentifier" => typeIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_asset_filter(asset_identifier, configuration, domain_identifier, name)
@@ -200,8 +430,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"description"`: The description of the asset filter.
 """
-create_asset_filter(assetIdentifier, configuration, domainIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters", Dict{String, Any}("configuration"=>configuration, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_asset_filter(assetIdentifier, configuration, domainIdentifier, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_asset_filter(
+    assetIdentifier,
+    configuration,
+    domainIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters",
+    Dict{String,Any}(
+        "configuration" => configuration,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_asset_filter(
+    assetIdentifier,
+    configuration,
+    domainIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_asset_revision(domain_identifier, identifier, name)
@@ -229,8 +500,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   friendly metadata for the asset.
 - `"typeRevision"`: The revision type of the asset.
 """
-create_asset_revision(domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions", Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_asset_revision(domainIdentifier, identifier, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_asset_revision(
+    domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions",
+    Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_asset_revision(
+    domainIdentifier,
+    identifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_asset_type(domain_identifier, forms_input, name, owning_project_identifier)
@@ -253,8 +552,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The descripton of the custom asset type.
 """
-create_asset_type(domainIdentifier, formsInput, name, owningProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/asset-types", Dict{String, Any}("formsInput"=>formsInput, "name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_asset_type(domainIdentifier, formsInput, name, owningProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/asset-types", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("formsInput"=>formsInput, "name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_asset_type(
+    domainIdentifier,
+    formsInput,
+    name,
+    owningProjectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/asset-types",
+    Dict{String,Any}(
+        "formsInput" => formsInput,
+        "name" => name,
+        "owningProjectIdentifier" => owningProjectIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_asset_type(
+    domainIdentifier,
+    formsInput,
+    name,
+    owningProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/asset-types",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "formsInput" => formsInput,
+                    "name" => name,
+                    "owningProjectIdentifier" => owningProjectIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_product(domain_identifier, name, owning_project_identifier)
@@ -279,8 +619,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"glossaryTerms"`: The glossary terms of the data product.
 - `"items"`: The data assets of the data product.
 """
-create_data_product(domainIdentifier, name, owningProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-products", Dict{String, Any}("name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_product(domainIdentifier, name, owningProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-products", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_product(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/data-products",
+    Dict{String,Any}(
+        "name" => name,
+        "owningProjectIdentifier" => owningProjectIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_product(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-products",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "owningProjectIdentifier" => owningProjectIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_product_revision(domain_identifier, identifier, name)
@@ -305,8 +684,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"glossaryTerms"`: The glossary terms of the data product revision.
 - `"items"`: The data assets of the data product revision.
 """
-create_data_product_revision(domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions", Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_product_revision(domainIdentifier, identifier, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_product_revision(
+    domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
+    Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_product_revision(
+    domainIdentifier,
+    identifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_source(domain_identifier, environment_identifier, name, project_identifier, type)
@@ -343,8 +750,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this data source.
 - `"schedule"`: The schedule of the data source runs.
 """
-create_data_source(domainIdentifier, environmentIdentifier, name, projectIdentifier, type; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-sources", Dict{String, Any}("environmentIdentifier"=>environmentIdentifier, "name"=>name, "projectIdentifier"=>projectIdentifier, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_source(domainIdentifier, environmentIdentifier, name, projectIdentifier, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-sources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentIdentifier"=>environmentIdentifier, "name"=>name, "projectIdentifier"=>projectIdentifier, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_source(
+    domainIdentifier,
+    environmentIdentifier,
+    name,
+    projectIdentifier,
+    type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/data-sources",
+    Dict{String,Any}(
+        "environmentIdentifier" => environmentIdentifier,
+        "name" => name,
+        "projectIdentifier" => projectIdentifier,
+        "type" => type,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_source(
+    domainIdentifier,
+    environmentIdentifier,
+    name,
+    projectIdentifier,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-sources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "environmentIdentifier" => environmentIdentifier,
+                    "name" => name,
+                    "projectIdentifier" => projectIdentifier,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_domain(domain_execution_role, name)
@@ -372,8 +826,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"singleSignOn"`: The single-sign on configuration of the Amazon DataZone domain.
 - `"tags"`: The tags specified for the Amazon DataZone domain.
 """
-create_domain(domainExecutionRole, name; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains", Dict{String, Any}("domainExecutionRole"=>domainExecutionRole, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_domain(domainExecutionRole, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainExecutionRole"=>domainExecutionRole, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_domain(
+    domainExecutionRole, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains",
+    Dict{String,Any}(
+        "domainExecutionRole" => domainExecutionRole,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_domain(
+    domainExecutionRole,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domainExecutionRole" => domainExecutionRole,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_domain_unit(domain_identifier, name, parent_domain_unit_identifier)
@@ -395,8 +884,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"description"`: The description of the domain unit.
 """
-create_domain_unit(domainIdentifier, name, parentDomainUnitIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/domain-units", Dict{String, Any}("name"=>name, "parentDomainUnitIdentifier"=>parentDomainUnitIdentifier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_domain_unit(domainIdentifier, name, parentDomainUnitIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/domain-units", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "parentDomainUnitIdentifier"=>parentDomainUnitIdentifier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_domain_unit(
+    domainIdentifier,
+    name,
+    parentDomainUnitIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/domain-units",
+    Dict{String,Any}(
+        "name" => name,
+        "parentDomainUnitIdentifier" => parentDomainUnitIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_domain_unit(
+    domainIdentifier,
+    name,
+    parentDomainUnitIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/domain-units",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "parentDomainUnitIdentifier" => parentDomainUnitIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment(domain_identifier, environment_profile_identifier, name, project_identifier)
@@ -429,8 +957,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment.
 - `"userParameters"`: The user parameters of this Amazon DataZone environment.
 """
-create_environment(domainIdentifier, environmentProfileIdentifier, name, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environments", Dict{String, Any}("environmentProfileIdentifier"=>environmentProfileIdentifier, "name"=>name, "projectIdentifier"=>projectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment(domainIdentifier, environmentProfileIdentifier, name, projectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentProfileIdentifier"=>environmentProfileIdentifier, "name"=>name, "projectIdentifier"=>projectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment(
+    domainIdentifier,
+    environmentProfileIdentifier,
+    name,
+    projectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/environments",
+    Dict{String,Any}(
+        "environmentProfileIdentifier" => environmentProfileIdentifier,
+        "name" => name,
+        "projectIdentifier" => projectIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment(
+    domainIdentifier,
+    environmentProfileIdentifier,
+    name,
+    projectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "environmentProfileIdentifier" => environmentProfileIdentifier,
+                    "name" => name,
+                    "projectIdentifier" => projectIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment_action(domain_identifier, environment_identifier, name, parameters)
@@ -455,8 +1024,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the environment action that is being created in the
   environment.
 """
-create_environment_action(domainIdentifier, environmentIdentifier, name, parameters; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions", Dict{String, Any}("name"=>name, "parameters"=>parameters); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment_action(domainIdentifier, environmentIdentifier, name, parameters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "parameters"=>parameters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    name,
+    parameters;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
+    Dict{String,Any}("name" => name, "parameters" => parameters);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    name,
+    parameters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "parameters" => parameters), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment_profile(domain_identifier, environment_blueprint_identifier, name, project_identifier)
@@ -485,8 +1085,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of this Amazon DataZone environment profile.
 - `"userParameters"`: The user parameters of this Amazon DataZone environment profile.
 """
-create_environment_profile(domainIdentifier, environmentBlueprintIdentifier, name, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environment-profiles", Dict{String, Any}("environmentBlueprintIdentifier"=>environmentBlueprintIdentifier, "name"=>name, "projectIdentifier"=>projectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment_profile(domainIdentifier, environmentBlueprintIdentifier, name, projectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environment-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentBlueprintIdentifier"=>environmentBlueprintIdentifier, "name"=>name, "projectIdentifier"=>projectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment_profile(
+    domainIdentifier,
+    environmentBlueprintIdentifier,
+    name,
+    projectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/environment-profiles",
+    Dict{String,Any}(
+        "environmentBlueprintIdentifier" => environmentBlueprintIdentifier,
+        "name" => name,
+        "projectIdentifier" => projectIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment_profile(
+    domainIdentifier,
+    environmentBlueprintIdentifier,
+    name,
+    projectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environment-profiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "environmentBlueprintIdentifier" => environmentBlueprintIdentifier,
+                    "name" => name,
+                    "projectIdentifier" => projectIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_form_type(domain_identifier, model, name, owning_project_identifier)
@@ -510,8 +1151,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of this Amazon DataZone metadata form type.
 - `"status"`: The status of this Amazon DataZone metadata form type.
 """
-create_form_type(domainIdentifier, model, name, owningProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/form-types", Dict{String, Any}("model"=>model, "name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_form_type(domainIdentifier, model, name, owningProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/form-types", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("model"=>model, "name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_form_type(
+    domainIdentifier,
+    model,
+    name,
+    owningProjectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/form-types",
+    Dict{String,Any}(
+        "model" => model,
+        "name" => name,
+        "owningProjectIdentifier" => owningProjectIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_form_type(
+    domainIdentifier,
+    model,
+    name,
+    owningProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/form-types",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "model" => model,
+                    "name" => name,
+                    "owningProjectIdentifier" => owningProjectIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_glossary(domain_identifier, name, owning_project_identifier)
@@ -535,8 +1217,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of this business glossary.
 - `"status"`: The status of this business glossary.
 """
-create_glossary(domainIdentifier, name, owningProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/glossaries", Dict{String, Any}("name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_glossary(domainIdentifier, name, owningProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/glossaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "owningProjectIdentifier"=>owningProjectIdentifier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_glossary(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/glossaries",
+    Dict{String,Any}(
+        "name" => name,
+        "owningProjectIdentifier" => owningProjectIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_glossary(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/glossaries",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "owningProjectIdentifier" => owningProjectIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_glossary_term(domain_identifier, glossary_identifier, name)
@@ -562,8 +1283,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of this business glossary term.
 - `"termRelations"`: The term relations of this business glossary term.
 """
-create_glossary_term(domainIdentifier, glossaryIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/glossary-terms", Dict{String, Any}("glossaryIdentifier"=>glossaryIdentifier, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_glossary_term(domainIdentifier, glossaryIdentifier, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/glossary-terms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("glossaryIdentifier"=>glossaryIdentifier, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_glossary_term(
+    domainIdentifier,
+    glossaryIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/glossary-terms",
+    Dict{String,Any}(
+        "glossaryIdentifier" => glossaryIdentifier,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_glossary_term(
+    domainIdentifier,
+    glossaryIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/glossary-terms",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "glossaryIdentifier" => glossaryIdentifier,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_group_profile(domain_identifier, group_identifier)
@@ -584,8 +1344,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`:  A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-create_group_profile(domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/group-profiles", Dict{String, Any}("groupIdentifier"=>groupIdentifier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_group_profile(domainIdentifier, groupIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/group-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupIdentifier"=>groupIdentifier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_group_profile(
+    domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/group-profiles",
+    Dict{String,Any}(
+        "groupIdentifier" => groupIdentifier, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_group_profile(
+    domainIdentifier,
+    groupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/group-profiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "groupIdentifier" => groupIdentifier, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_listing_change_set(action, domain_identifier, entity_identifier, entity_type)
@@ -609,8 +1400,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"entityRevision"`: The revision of an asset.
 """
-create_listing_change_set(action, domainIdentifier, entityIdentifier, entityType; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/listings/change-set", Dict{String, Any}("action"=>action, "entityIdentifier"=>entityIdentifier, "entityType"=>entityType, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_listing_change_set(action, domainIdentifier, entityIdentifier, entityType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/listings/change-set", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "entityIdentifier"=>entityIdentifier, "entityType"=>entityType, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_listing_change_set(
+    action,
+    domainIdentifier,
+    entityIdentifier,
+    entityType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/listings/change-set",
+    Dict{String,Any}(
+        "action" => action,
+        "entityIdentifier" => entityIdentifier,
+        "entityType" => entityType,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_listing_change_set(
+    action,
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/listings/change-set",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "action" => action,
+                    "entityIdentifier" => entityIdentifier,
+                    "entityType" => entityType,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_project(domain_identifier, name)
@@ -633,8 +1467,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, then the project is created at the root domain unit level.
 - `"glossaryTerms"`: The glossary terms that can be used in this Amazon DataZone project.
 """
-create_project(domainIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/projects", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_project(domainIdentifier, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_project(domainIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/projects",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_project(
+    domainIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/projects",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_project_membership(designation, domain_identifier, member, project_identifier)
@@ -650,8 +1504,41 @@ Creates a project membership in Amazon DataZone.
 - `member`: The project member whose project membership was created.
 - `project_identifier`: The ID of the project for which this project membership was created.
 """
-create_project_membership(designation, domainIdentifier, member, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/createMembership", Dict{String, Any}("designation"=>designation, "member"=>member); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_project_membership(designation, domainIdentifier, member, projectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/createMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("designation"=>designation, "member"=>member), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_project_membership(
+    designation,
+    domainIdentifier,
+    member,
+    projectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/createMembership",
+    Dict{String,Any}("designation" => designation, "member" => member);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_project_membership(
+    designation,
+    domainIdentifier,
+    member,
+    projectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/createMembership",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("designation" => designation, "member" => member),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_subscription_grant(domain_identifier, environment_identifier, granted_entity, subscription_target_identifier)
@@ -677,8 +1564,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-create_subscription_grant(domainIdentifier, environmentIdentifier, grantedEntity, subscriptionTargetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/subscription-grants", Dict{String, Any}("environmentIdentifier"=>environmentIdentifier, "grantedEntity"=>grantedEntity, "subscriptionTargetIdentifier"=>subscriptionTargetIdentifier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_subscription_grant(domainIdentifier, environmentIdentifier, grantedEntity, subscriptionTargetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/subscription-grants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentIdentifier"=>environmentIdentifier, "grantedEntity"=>grantedEntity, "subscriptionTargetIdentifier"=>subscriptionTargetIdentifier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subscription_grant(
+    domainIdentifier,
+    environmentIdentifier,
+    grantedEntity,
+    subscriptionTargetIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/subscription-grants",
+    Dict{String,Any}(
+        "environmentIdentifier" => environmentIdentifier,
+        "grantedEntity" => grantedEntity,
+        "subscriptionTargetIdentifier" => subscriptionTargetIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_subscription_grant(
+    domainIdentifier,
+    environmentIdentifier,
+    grantedEntity,
+    subscriptionTargetIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/subscription-grants",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "environmentIdentifier" => environmentIdentifier,
+                    "grantedEntity" => grantedEntity,
+                    "subscriptionTargetIdentifier" => subscriptionTargetIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_subscription_request(domain_identifier, request_reason, subscribed_listings, subscribed_principals)
@@ -703,8 +1633,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-create_subscription_request(domainIdentifier, requestReason, subscribedListings, subscribedPrincipals; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/subscription-requests", Dict{String, Any}("requestReason"=>requestReason, "subscribedListings"=>subscribedListings, "subscribedPrincipals"=>subscribedPrincipals, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_subscription_request(domainIdentifier, requestReason, subscribedListings, subscribedPrincipals, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/subscription-requests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestReason"=>requestReason, "subscribedListings"=>subscribedListings, "subscribedPrincipals"=>subscribedPrincipals, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subscription_request(
+    domainIdentifier,
+    requestReason,
+    subscribedListings,
+    subscribedPrincipals;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/subscription-requests",
+    Dict{String,Any}(
+        "requestReason" => requestReason,
+        "subscribedListings" => subscribedListings,
+        "subscribedPrincipals" => subscribedPrincipals,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_subscription_request(
+    domainIdentifier,
+    requestReason,
+    subscribedListings,
+    subscribedPrincipals,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/subscription-requests",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "requestReason" => requestReason,
+                    "subscribedListings" => subscribedListings,
+                    "subscribedPrincipals" => subscribedPrincipals,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_subscription_target(applicable_asset_types, authorized_principals, domain_identifier, environment_identifier, manage_access_role, name, subscription_target_config, type)
@@ -734,8 +1707,65 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"provider"`: The provider of the subscription target.
 """
-create_subscription_target(applicableAssetTypes, authorizedPrincipals, domainIdentifier, environmentIdentifier, manageAccessRole, name, subscriptionTargetConfig, type; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets", Dict{String, Any}("applicableAssetTypes"=>applicableAssetTypes, "authorizedPrincipals"=>authorizedPrincipals, "manageAccessRole"=>manageAccessRole, "name"=>name, "subscriptionTargetConfig"=>subscriptionTargetConfig, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_subscription_target(applicableAssetTypes, authorizedPrincipals, domainIdentifier, environmentIdentifier, manageAccessRole, name, subscriptionTargetConfig, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicableAssetTypes"=>applicableAssetTypes, "authorizedPrincipals"=>authorizedPrincipals, "manageAccessRole"=>manageAccessRole, "name"=>name, "subscriptionTargetConfig"=>subscriptionTargetConfig, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subscription_target(
+    applicableAssetTypes,
+    authorizedPrincipals,
+    domainIdentifier,
+    environmentIdentifier,
+    manageAccessRole,
+    name,
+    subscriptionTargetConfig,
+    type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets",
+    Dict{String,Any}(
+        "applicableAssetTypes" => applicableAssetTypes,
+        "authorizedPrincipals" => authorizedPrincipals,
+        "manageAccessRole" => manageAccessRole,
+        "name" => name,
+        "subscriptionTargetConfig" => subscriptionTargetConfig,
+        "type" => type,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_subscription_target(
+    applicableAssetTypes,
+    authorizedPrincipals,
+    domainIdentifier,
+    environmentIdentifier,
+    manageAccessRole,
+    name,
+    subscriptionTargetConfig,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applicableAssetTypes" => applicableAssetTypes,
+                    "authorizedPrincipals" => authorizedPrincipals,
+                    "manageAccessRole" => manageAccessRole,
+                    "name" => name,
+                    "subscriptionTargetConfig" => subscriptionTargetConfig,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_user_profile(domain_identifier, user_identifier)
@@ -757,8 +1787,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"userType"`: The user type of the user for which the user profile is created.
 """
-create_user_profile(domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/user-profiles", Dict{String, Any}("userIdentifier"=>userIdentifier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_user_profile(domainIdentifier, userIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/user-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userIdentifier"=>userIdentifier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_user_profile(
+    domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/user-profiles",
+    Dict{String,Any}("userIdentifier" => userIdentifier, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_user_profile(
+    domainIdentifier,
+    userIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/user-profiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "userIdentifier" => userIdentifier, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_asset(domain_identifier, identifier)
@@ -771,8 +1830,28 @@ Deletes an asset in Amazon DataZone.
 - `domain_identifier`: The ID of the Amazon DataZone domain in which the asset is deleted.
 - `identifier`: The identifier of the asset that is deleted.
 """
-delete_asset(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/assets/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_asset(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/assets/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_asset(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/assets/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_asset(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/assets/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_asset_filter(asset_identifier, domain_identifier, identifier)
@@ -786,8 +1865,32 @@ Deletes an asset filter.
 - `domain_identifier`: The ID of the domain where you want to delete an asset filter.
 - `identifier`: The ID of the asset filter that you want to delete.
 """
-delete_asset_filter(assetIdentifier, domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_asset_filter(assetIdentifier, domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_asset_type(domain_identifier, identifier)
@@ -801,8 +1904,28 @@ Deletes an asset type in Amazon DataZone.
   deleted.
 - `identifier`: The identifier of the asset type that is deleted.
 """
-delete_asset_type(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_asset_type(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_asset_type(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_asset_type(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_product(domain_identifier, identifier)
@@ -816,8 +1939,28 @@ Deletes a data product in Amazon DataZone.
   deleted.
 - `identifier`: The identifier of the data product that is deleted.
 """
-delete_data_product(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_product(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_product(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/data-products/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_product(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_source(domain_identifier, identifier)
@@ -840,8 +1983,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retainPermissionsOnRevokeFailure"`: Specifies that the granted permissions are retained
   in case of a self-subscribe functionality failure for a data source.
 """
-delete_data_source(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_source(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_source(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_source(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_domain(identifier)
@@ -862,8 +2028,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within
   the domain.
 """
-delete_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(identifier)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_domain(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone(
+    "DELETE",
+    "/v2/domains/$(identifier)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_domain(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_domain_unit(domain_identifier, identifier)
@@ -876,8 +2062,28 @@ Deletes a domain unit.
 - `domain_identifier`: The ID of the domain where you want to delete a domain unit.
 - `identifier`: The ID of the domain unit that you want to delete.
 """
-delete_domain_unit(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_domain_unit(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain_unit(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_domain_unit(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment(domain_identifier, identifier)
@@ -891,8 +2097,28 @@ Deletes an environment in Amazon DataZone.
   deleted.
 - `identifier`: The identifier of the environment that is to be deleted.
 """
-delete_environment(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/environments/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment_action(domain_identifier, environment_identifier, identifier)
@@ -909,8 +2135,32 @@ tool that is available in this environment.
   deleted.
 - `identifier`: The ID of the environment action that is deleted.
 """
-delete_environment_action(domainIdentifier, environmentIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment_action(domainIdentifier, environmentIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment_blueprint_configuration(domain_identifier, environment_blueprint_identifier)
@@ -925,8 +2175,30 @@ Deletes the blueprint configuration in Amazon DataZone.
 - `environment_blueprint_identifier`: The ID of the blueprint the configuration of which is
   deleted.
 """
-delete_environment_blueprint_configuration(domainIdentifier, environmentBlueprintIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment_blueprint_configuration(domainIdentifier, environmentBlueprintIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment_blueprint_configuration(
+    domainIdentifier,
+    environmentBlueprintIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment_blueprint_configuration(
+    domainIdentifier,
+    environmentBlueprintIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment_profile(domain_identifier, identifier)
@@ -940,8 +2212,28 @@ Deletes an environment profile in Amazon DataZone.
   profile is deleted.
 - `identifier`: The ID of the environment profile that is deleted.
 """
-delete_environment_profile(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment_profile(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment_profile(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment_profile(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_form_type(domain_identifier, form_type_identifier)
@@ -955,8 +2247,28 @@ Delets and metadata form type in Amazon DataZone.
   is deleted.
 - `form_type_identifier`: The ID of the metadata form type that is deleted.
 """
-delete_form_type(domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_form_type(domainIdentifier, formTypeIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_form_type(
+    domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_form_type(
+    domainIdentifier,
+    formTypeIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_glossary(domain_identifier, identifier)
@@ -970,8 +2282,28 @@ Deletes a business glossary in Amazon DataZone.
   is deleted.
 - `identifier`: The ID of the business glossary that is deleted.
 """
-delete_glossary(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_glossary(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_glossary(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_glossary(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_glossary_term(domain_identifier, identifier)
@@ -985,8 +2317,28 @@ Deletes a business glossary term in Amazon DataZone.
   term is deleted.
 - `identifier`: The ID of the business glossary term that is deleted.
 """
-delete_glossary_term(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_glossary_term(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_glossary_term(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_glossary_term(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_listing(domain_identifier, identifier)
@@ -999,8 +2351,28 @@ Deletes a listing (a record of an asset at a given time).
 - `domain_identifier`: The ID of the Amazon DataZone domain.
 - `identifier`: The ID of the listing to be deleted.
 """
-delete_listing(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/listings/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_listing(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/listings/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_listing(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/listings/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_listing(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/listings/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_project(domain_identifier, identifier)
@@ -1020,8 +2392,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within
   the project.
 """
-delete_project(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/projects/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_project(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/projects/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_project(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/projects/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_project(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_project_membership(domain_identifier, member, project_identifier)
@@ -1037,8 +2429,33 @@ Deletes project membership in Amazon DataZone.
 - `project_identifier`: The ID of the Amazon DataZone project the membership to which is
   deleted.
 """
-delete_project_membership(domainIdentifier, member, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/deleteMembership", Dict{String, Any}("member"=>member); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_project_membership(domainIdentifier, member, projectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/deleteMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("member"=>member), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_project_membership(
+    domainIdentifier,
+    member,
+    projectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/deleteMembership",
+    Dict{String,Any}("member" => member);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_project_membership(
+    domainIdentifier,
+    member,
+    projectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/deleteMembership",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("member" => member), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_subscription_grant(domain_identifier, identifier)
@@ -1052,8 +2469,28 @@ Deletes and subscription grant in Amazon DataZone.
   deleted.
 - `identifier`: The ID of the subscription grant that is deleted.
 """
-delete_subscription_grant(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_subscription_grant(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subscription_grant(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_subscription_grant(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_subscription_request(domain_identifier, identifier)
@@ -1067,8 +2504,28 @@ Deletes a subscription request in Amazon DataZone.
   request is deleted.
 - `identifier`: The ID of the subscription request that is deleted.
 """
-delete_subscription_request(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_subscription_request(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subscription_request(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_subscription_request(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_subscription_target(domain_identifier, environment_identifier, identifier)
@@ -1084,8 +2541,32 @@ Deletes a subscription target in Amazon DataZone.
   subscription target is deleted.
 - `identifier`: The ID of the subscription target that is deleted.
 """
-delete_subscription_target(domainIdentifier, environmentIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_subscription_target(domainIdentifier, environmentIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subscription_target(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_subscription_target(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_time_series_data_points(domain_identifier, entity_identifier, entity_type, form_name)
@@ -1108,8 +2589,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the
   request. This field is automatically populated if not provided.
 """
-delete_time_series_data_points(domainIdentifier, entityIdentifier, entityType, formName; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points", Dict{String, Any}("formName"=>formName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_time_series_data_points(domainIdentifier, entityIdentifier, entityType, formName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("formName"=>formName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_time_series_data_points(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    formName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
+    Dict{String,Any}("formName" => formName, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_time_series_data_points(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    formName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("formName" => formName, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_environment_role(domain_identifier, environment_identifier, environment_role_arn)
@@ -1124,8 +2638,32 @@ Disassociates the environment role in Amazon DataZone.
 - `environment_identifier`: The ID of the environment.
 - `environment_role_arn`: The ARN of the environment role.
 """
-disassociate_environment_role(domainIdentifier, environmentIdentifier, environmentRoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_environment_role(domainIdentifier, environmentIdentifier, environmentRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "DELETE",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_asset(domain_identifier, identifier)
@@ -1144,8 +2682,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"revision"`: The revision of the Amazon DataZone asset.
 """
-get_asset(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_asset(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_asset(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/assets/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_asset(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_asset_filter(asset_identifier, domain_identifier, identifier)
@@ -1159,8 +2717,32 @@ Gets an asset filter.
 - `domain_identifier`: The ID of the domain where you want to get an asset filter.
 - `identifier`: The ID of the asset filter.
 """
-get_asset_filter(assetIdentifier, domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_asset_filter(assetIdentifier, domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_asset_type(domain_identifier, identifier)
@@ -1179,8 +2761,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"revision"`: The revision of the asset type.
 """
-get_asset_type(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_asset_type(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_asset_type(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_asset_type(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_product(domain_identifier, identifier)
@@ -1199,8 +2801,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"revision"`: The revision of the data product.
 """
-get_data_product(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_product(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_product(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/data-products/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_product(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_source(domain_identifier, identifier)
@@ -1213,8 +2835,28 @@ Gets an Amazon DataZone data source.
 - `domain_identifier`: The ID of the Amazon DataZone domain in which the data source exists.
 - `identifier`: The ID of the Amazon DataZone data source.
 """
-get_data_source(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_source(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_source(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_source(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_source_run(domain_identifier, identifier)
@@ -1227,8 +2869,28 @@ Gets an Amazon DataZone data source run.
 - `domain_identifier`: The ID of the domain in which this data source run was performed.
 - `identifier`: The ID of the data source run.
 """
-get_data_source_run(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_source_run(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_source_run(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_source_run(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_domain(identifier)
@@ -1240,8 +2902,25 @@ Gets an Amazon DataZone domain.
 
 - `identifier`: The identifier of the specified Amazon DataZone domain.
 """
-get_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_domain(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone(
+    "GET",
+    "/v2/domains/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_domain(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_domain_unit(domain_identifier, identifier)
@@ -1254,8 +2933,28 @@ Gets the details of the specified domain unit.
 - `domain_identifier`: The ID of the domain where you want to get a domain unit.
 - `identifier`: The identifier of the domain unit that you want to get.
 """
-get_domain_unit(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_domain_unit(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_domain_unit(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_domain_unit(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment(domain_identifier, identifier)
@@ -1268,8 +2967,28 @@ Gets an Amazon DataZone environment.
 - `domain_identifier`: The ID of the Amazon DataZone domain where the environment exists.
 - `identifier`: The ID of the Amazon DataZone environment.
 """
-get_environment(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environments/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_action(domain_identifier, environment_identifier, identifier)
@@ -1284,8 +3003,32 @@ Gets the specified environment action.
 - `environment_identifier`: The environment ID of the environment action.
 - `identifier`: The ID of the environment action
 """
-get_environment_action(domainIdentifier, environmentIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_action(domainIdentifier, environmentIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_blueprint(domain_identifier, identifier)
@@ -1298,8 +3041,28 @@ Gets an Amazon DataZone blueprint.
 - `domain_identifier`: The identifier of the domain in which this blueprint exists.
 - `identifier`: The ID of this Amazon DataZone blueprint.
 """
-get_environment_blueprint(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_blueprint(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_blueprint(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment_blueprint(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_blueprint_configuration(domain_identifier, environment_blueprint_identifier)
@@ -1312,8 +3075,30 @@ Gets the blueprint configuration in Amazon DataZone.
 - `domain_identifier`: The ID of the Amazon DataZone domain where this blueprint exists.
 - `environment_blueprint_identifier`: He ID of the blueprint.
 """
-get_environment_blueprint_configuration(domainIdentifier, environmentBlueprintIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_blueprint_configuration(domainIdentifier, environmentBlueprintIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_blueprint_configuration(
+    domainIdentifier,
+    environmentBlueprintIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment_blueprint_configuration(
+    domainIdentifier,
+    environmentBlueprintIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_credentials(domain_identifier, environment_identifier)
@@ -1327,8 +3112,30 @@ Gets the credentials of an environment in Amazon DataZone.
   its credentials exist.
 - `environment_identifier`: The ID of the environment whose credentials this operation gets.
 """
-get_environment_credentials(domainIdentifier, environmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_credentials(domainIdentifier, environmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_credentials(
+    domainIdentifier,
+    environmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment_credentials(
+    domainIdentifier,
+    environmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_profile(domain_identifier, identifier)
@@ -1342,8 +3149,28 @@ Gets an evinronment profile in Amazon DataZone.
   profile exists.
 - `identifier`: The ID of the environment profile.
 """
-get_environment_profile(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_profile(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_profile(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment_profile(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_form_type(domain_identifier, form_type_identifier)
@@ -1363,8 +3190,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"revision"`: The revision of this metadata form type.
 """
-get_form_type(domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_form_type(domainIdentifier, formTypeIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_form_type(
+    domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_form_type(
+    domainIdentifier,
+    formTypeIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_glossary(domain_identifier, identifier)
@@ -1378,8 +3225,28 @@ Gets a business glossary in Amazon DataZone.
   exists.
 - `identifier`: The ID of the business glossary.
 """
-get_glossary(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_glossary(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_glossary(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_glossary(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_glossary_term(domain_identifier, identifier)
@@ -1393,8 +3260,28 @@ Gets a business glossary term in Amazon DataZone.
   term exists.
 - `identifier`: The ID of the business glossary term.
 """
-get_glossary_term(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_glossary_term(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_glossary_term(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_glossary_term(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_group_profile(domain_identifier, group_identifier)
@@ -1408,8 +3295,28 @@ Gets a group profile in Amazon DataZone.
   profile exists.
 - `group_identifier`: The identifier of the group profile.
 """
-get_group_profile(domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_group_profile(domainIdentifier, groupIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_group_profile(
+    domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_group_profile(
+    domainIdentifier,
+    groupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_iam_portal_login_url(domain_identifier)
@@ -1422,8 +3329,27 @@ Gets the data portal URL for the specified Amazon DataZone domain.
 - `domain_identifier`: the ID of the Amazon DataZone domain the data portal of which you
   want to get.
 """
-get_iam_portal_login_url(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/get-portal-login-url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_iam_portal_login_url(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/get-portal-login-url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_iam_portal_login_url(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/get-portal-login-url";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_iam_portal_login_url(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/get-portal-login-url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_lineage_node(domain_identifier, identifier)
@@ -1446,8 +3372,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"timestamp"`: The event time stamp for which you want to get the data lineage node.
 """
-get_lineage_node(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_lineage_node(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lineage_node(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_lineage_node(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_listing(domain_identifier, identifier)
@@ -1467,8 +3413,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"listingRevision"`: The revision of the listing.
 """
-get_listing(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/listings/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_listing(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/listings/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_listing(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/listings/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_listing(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/listings/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_metadata_generation_run(domain_identifier, identifier)
@@ -1482,8 +3448,28 @@ Gets a metadata generation run in Amazon DataZone.
   which you want to get.
 - `identifier`: The identifier of the metadata generation run.
 """
-get_metadata_generation_run(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_metadata_generation_run(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_metadata_generation_run(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_metadata_generation_run(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_project(domain_identifier, identifier)
@@ -1496,8 +3482,28 @@ Gets a project in Amazon DataZone.
 - `domain_identifier`: The ID of the Amazon DataZone domain in which the project exists.
 - `identifier`: The ID of the project.
 """
-get_project(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/projects/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_project(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/projects/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_project(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/projects/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_project(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_subscription(domain_identifier, identifier)
@@ -1511,8 +3517,28 @@ Gets a subscription in Amazon DataZone.
   exists.
 - `identifier`: The ID of the subscription.
 """
-get_subscription(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_subscription(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_subscription(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_subscription(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_subscription_grant(domain_identifier, identifier)
@@ -1526,8 +3552,28 @@ Gets the subscription grant in Amazon DataZone.
   exists.
 - `identifier`: The ID of the subscription grant.
 """
-get_subscription_grant(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_subscription_grant(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_subscription_grant(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_subscription_grant(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_subscription_request_details(domain_identifier, identifier)
@@ -1541,8 +3587,28 @@ Gets the details of the specified subscription request.
   subscription request details.
 - `identifier`: The identifier of the subscription request the details of which to get.
 """
-get_subscription_request_details(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_subscription_request_details(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_subscription_request_details(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_subscription_request_details(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_subscription_target(domain_identifier, environment_identifier, identifier)
@@ -1558,8 +3624,32 @@ Gets the subscription target in Amazon DataZone.
   target.
 - `identifier`: The ID of the subscription target.
 """
-get_subscription_target(domainIdentifier, environmentIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_subscription_target(domainIdentifier, environmentIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_subscription_target(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_subscription_target(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_time_series_data_point(domain_identifier, entity_identifier, entity_type, form_name, identifier)
@@ -1577,8 +3667,39 @@ Gets the existing data point for the asset.
   get.
 - `identifier`: The ID of the data point that you want to get.
 """
-get_time_series_data_point(domainIdentifier, entityIdentifier, entityType, formName, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points/$(identifier)", Dict{String, Any}("formName"=>formName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_time_series_data_point(domainIdentifier, entityIdentifier, entityType, formName, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points/$(identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("formName"=>formName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_time_series_data_point(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    formName,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points/$(identifier)",
+    Dict{String,Any}("formName" => formName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_time_series_data_point(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    formName,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points/$(identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("formName" => formName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_user_profile(domain_identifier, user_identifier)
@@ -1598,8 +3719,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"type"`: The type of the user profile.
 """
-get_user_profile(domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_user_profile(domainIdentifier, userIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_user_profile(
+    domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_user_profile(
+    domainIdentifier,
+    userIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_asset_filters(asset_identifier, domain_identifier)
@@ -1627,8 +3768,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListAssetFilters` to list the next set of asset filters.
 - `"status"`: The status of the asset filter.
 """
-list_asset_filters(assetIdentifier, domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_asset_filters(assetIdentifier, domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_asset_filters(
+    assetIdentifier, domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_asset_filters(
+    assetIdentifier,
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_asset_revisions(domain_identifier, identifier)
@@ -1655,8 +3816,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListAssetRevisions` to list the next set of revisions.
 """
-list_asset_revisions(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_asset_revisions(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_asset_revisions(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_asset_revisions(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_product_revisions(domain_identifier, identifier)
@@ -1686,8 +3867,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a subsequent call to `ListDataProductRevisions` to list the next set of data product
   revisions.
 """
-list_data_product_revisions(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_product_revisions(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_product_revisions(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_product_revisions(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_source_run_activities(domain_identifier, identifier)
@@ -1716,8 +3917,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListDataSourceRunActivities` to list the next set of activities.
 - `"status"`: The status of the data source run.
 """
-list_data_source_run_activities(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)/activities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_source_run_activities(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)/activities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_source_run_activities(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)/activities";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_source_run_activities(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)/activities",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_source_runs(data_source_identifier, domain_identifier)
@@ -1746,8 +3967,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list the next set of runs.
 - `"status"`: The status of the data source.
 """
-list_data_source_runs(dataSourceIdentifier, domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_source_runs(dataSourceIdentifier, domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_source_runs(
+    dataSourceIdentifier,
+    domainIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_source_runs(
+    dataSourceIdentifier,
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_sources(domain_identifier, project_identifier)
@@ -1780,8 +4023,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the data source.
 - `"type"`: The type of the data source.
 """
-list_data_sources(domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-sources", Dict{String, Any}("projectIdentifier"=>projectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_sources(domainIdentifier, projectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/data-sources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectIdentifier"=>projectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_sources(
+    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/data-sources",
+    Dict{String,Any}("projectIdentifier" => projectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_sources(
+    domainIdentifier,
+    projectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-sources",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("projectIdentifier" => projectIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_domain_units_for_parent(domain_identifier, parent_domain_unit_identifier)
@@ -1809,8 +4077,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken. You can specify this NextToken value in a subsequent call to
   ListDomainUnitsForParent to list the next set of domain units.
 """
-list_domain_units_for_parent(domainIdentifier, parentDomainUnitIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/domain-units", Dict{String, Any}("parentDomainUnitIdentifier"=>parentDomainUnitIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_domain_units_for_parent(domainIdentifier, parentDomainUnitIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/domain-units", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("parentDomainUnitIdentifier"=>parentDomainUnitIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domain_units_for_parent(
+    domainIdentifier,
+    parentDomainUnitIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/domain-units",
+    Dict{String,Any}("parentDomainUnitIdentifier" => parentDomainUnitIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_domain_units_for_parent(
+    domainIdentifier,
+    parentDomainUnitIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/domain-units",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "parentDomainUnitIdentifier" => parentDomainUnitIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_domains()
@@ -1833,8 +4132,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to list the next set of domains.
 - `"status"`: The status of the data source.
 """
-list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone("GET", "/v2/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_domains(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET", "/v2/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_entity_owners(domain_identifier, entity_identifier, entity_type)
@@ -1862,8 +4168,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListEntityOwners` to list the next set of entities.
 """
-list_entity_owners(domainIdentifier, entityIdentifier, entityType; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_entity_owners(domainIdentifier, entityIdentifier, entityType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_entity_owners(
+    domainIdentifier,
+    entityIdentifier,
+    entityType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_entity_owners(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_actions(domain_identifier, environment_identifier)
@@ -1892,8 +4222,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListEnvironmentActions` to list the next set of environment actions.
 """
-list_environment_actions(domainIdentifier, environmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_actions(domainIdentifier, environmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_actions(
+    domainIdentifier,
+    environmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_actions(
+    domainIdentifier,
+    environmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_blueprint_configurations(domain_identifier)
@@ -1921,8 +4273,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent call to `ListEnvironmentBlueprintConfigurations` to list the next set of
   configurations.
 """
-list_environment_blueprint_configurations(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_blueprint_configurations(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_blueprint_configurations(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_blueprint_configurations(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_blueprints(domain_identifier)
@@ -1950,8 +4321,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes a pagination token named `NextToken`. You can specify this `NextToken` value in
   a subsequent call to `ListEnvironmentBlueprints`to list the next set of blueprints.
 """
-list_environment_blueprints(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_blueprints(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-blueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_blueprints(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environment-blueprints";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_blueprints(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_profiles(domain_identifier)
@@ -1986,8 +4376,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListEnvironmentProfiles` to list the next set of environment profiles.
 - `"projectIdentifier"`: The identifier of the Amazon DataZone project.
 """
-list_environment_profiles(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_profiles(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environment-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_profiles(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environment-profiles";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_profiles(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environment-profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environments(domain_identifier, project_identifier)
@@ -2022,8 +4431,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"provider"`: The provider of the environment.
 - `"status"`: The status of the environments that you want to list.
 """
-list_environments(domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments", Dict{String, Any}("projectIdentifier"=>projectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environments(domainIdentifier, projectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectIdentifier"=>projectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environments(
+    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environments",
+    Dict{String,Any}("projectIdentifier" => projectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environments(
+    domainIdentifier,
+    projectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("projectIdentifier" => projectIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_lineage_node_history(domain_identifier, identifier)
@@ -2060,8 +4494,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timestampLTE"`: Specifies whether the action is to return data lineage node history
   from the time prior of the event timestamp.
 """
-list_lineage_node_history(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_lineage_node_history(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_lineage_node_history(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_lineage_node_history(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_metadata_generation_runs(domain_identifier)
@@ -2091,8 +4545,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the metadata generation runs.
 - `"type"`: The type of the metadata generation runs.
 """
-list_metadata_generation_runs(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/metadata-generation-runs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_metadata_generation_runs(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/metadata-generation-runs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_metadata_generation_runs(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/metadata-generation-runs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_metadata_generation_runs(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/metadata-generation-runs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_notifications(domain_identifier, type)
@@ -2123,8 +4596,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subjects"`: The subjects of notifications.
 - `"taskStatus"`: The task status of notifications.
 """
-list_notifications(domainIdentifier, type; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/notifications", Dict{String, Any}("type"=>type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_notifications(domainIdentifier, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/notifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_notifications(
+    domainIdentifier, type; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/notifications",
+    Dict{String,Any}("type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_notifications(
+    domainIdentifier,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/notifications",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_policy_grants(domain_identifier, entity_identifier, entity_type, policy_type)
@@ -2153,8 +4647,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListPolicyGrants` to list the next set of grants.
 """
-list_policy_grants(domainIdentifier, entityIdentifier, entityType, policyType; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/grants", Dict{String, Any}("policyType"=>policyType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_policy_grants(domainIdentifier, entityIdentifier, entityType, policyType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/grants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyType"=>policyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_policy_grants(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/grants",
+    Dict{String,Any}("policyType" => policyType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_policy_grants(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/grants",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("policyType" => policyType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_project_memberships(domain_identifier, project_identifier)
@@ -2184,8 +4707,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The method by which you want to sort the project memberships.
 - `"sortOrder"`: The sort order of the project memberships.
 """
-list_project_memberships(domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_project_memberships(domainIdentifier, projectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/memberships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_project_memberships(
+    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/memberships";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_project_memberships(
+    domainIdentifier,
+    projectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/memberships",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_projects(domain_identifier)
@@ -2214,8 +4757,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListProjects` to list the next set of projects.
 - `"userIdentifier"`: The identifier of the Amazon DataZone user.
 """
-list_projects(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_projects(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_projects(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/projects";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_projects(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/projects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_subscription_grants(domain_identifier)
@@ -2249,8 +4810,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriptionId"`: The identifier of the subscription.
 - `"subscriptionTargetId"`: The identifier of the subscription target.
 """
-list_subscription_grants(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-grants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_subscription_grants(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-grants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_subscription_grants(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/subscription-grants";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_subscription_grants(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/subscription-grants",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_subscription_requests(domain_identifier)
@@ -2287,8 +4867,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns only `PENDING` subscription requests.
 - `"subscribedListingId"`: The identifier of the subscribed listing.
 """
-list_subscription_requests(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-requests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_subscription_requests(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscription-requests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_subscription_requests(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/subscription-requests";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_subscription_requests(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/subscription-requests",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_subscription_targets(domain_identifier, environment_identifier)
@@ -2320,8 +4919,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies the way in which the results of this action are to be sorted.
 - `"sortOrder"`: Specifies the sort order for the results of this action.
 """
-list_subscription_targets(domainIdentifier, environmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_subscription_targets(domainIdentifier, environmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_subscription_targets(
+    domainIdentifier,
+    environmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_subscription_targets(
+    domainIdentifier,
+    environmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_subscriptions(domain_identifier)
@@ -2360,8 +4981,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriptionRequestIdentifier"`: The identifier of the subscription request for the
   subscriptions that you want to list.
 """
-list_subscriptions(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_subscriptions(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/subscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_subscriptions(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/subscriptions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_subscriptions(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/subscriptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -2373,8 +5012,26 @@ Lists tags for the specified resource in Amazon DataZone.
 
 - `resource_arn`: The ARN of the resource whose tags you want to list.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_time_series_data_points(domain_identifier, entity_identifier, entity_type, form_name)
@@ -2406,8 +5063,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list the next set of data points.
 - `"startedAt"`: The timestamp at which the data points that you want to list started.
 """
-list_time_series_data_points(domainIdentifier, entityIdentifier, entityType, formName; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points", Dict{String, Any}("formName"=>formName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_time_series_data_points(domainIdentifier, entityIdentifier, entityType, formName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("GET", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("formName"=>formName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_time_series_data_points(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    formName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "GET",
+    "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
+    Dict{String,Any}("formName" => formName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_time_series_data_points(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    formName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("formName" => formName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     post_lineage_event(domain_identifier, event)
@@ -2428,8 +5114,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-post_lineage_event(domainIdentifier, event; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/lineage/events", Dict{String, Any}("event"=>event, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-post_lineage_event(domainIdentifier, event, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/lineage/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("event"=>event, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+post_lineage_event(
+    domainIdentifier, event; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/lineage/events",
+    Dict{String,Any}("event" => event, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function post_lineage_event(
+    domainIdentifier,
+    event,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/lineage/events",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("event" => event, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     post_time_series_data_points(domain_identifier, entity_identifier, entity_type, forms)
@@ -2453,8 +5166,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-post_time_series_data_points(domainIdentifier, entityIdentifier, entityType, forms; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points", Dict{String, Any}("forms"=>forms, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-post_time_series_data_points(domainIdentifier, entityIdentifier, entityType, forms, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("forms"=>forms, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+post_time_series_data_points(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    forms;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
+    Dict{String,Any}("forms" => forms, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function post_time_series_data_points(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    forms,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("forms" => forms, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_environment_blueprint_configuration(domain_identifier, enabled_regions, environment_blueprint_identifier)
@@ -2477,8 +5223,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"provisioningRoleArn"`: The ARN of the provisioning role.
 - `"regionalParameters"`: The regional parameters in the environment blueprint.
 """
-put_environment_blueprint_configuration(domainIdentifier, enabledRegions, environmentBlueprintIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)", Dict{String, Any}("enabledRegions"=>enabledRegions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_environment_blueprint_configuration(domainIdentifier, enabledRegions, environmentBlueprintIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enabledRegions"=>enabledRegions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_environment_blueprint_configuration(
+    domainIdentifier,
+    enabledRegions,
+    environmentBlueprintIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)",
+    Dict{String,Any}("enabledRegions" => enabledRegions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_environment_blueprint_configuration(
+    domainIdentifier,
+    enabledRegions,
+    environmentBlueprintIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("enabledRegions" => enabledRegions), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_predictions(domain_identifier, identifier)
@@ -2503,8 +5276,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rejected.
 - `"revision"`: The revision that is to be made to the asset.
 """
-reject_predictions(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/reject-predictions", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_predictions(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/assets/$(identifier)/reject-predictions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_predictions(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/assets/$(identifier)/reject-predictions",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_predictions(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/assets/$(identifier)/reject-predictions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_subscription_request(domain_identifier, identifier)
@@ -2524,8 +5320,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"decisionComment"`: The decision comment of the rejected subscription request.
 """
-reject_subscription_request(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/reject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_subscription_request(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/reject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_subscription_request(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/reject";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_subscription_request(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/reject",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_entity_owner(domain_identifier, entity_identifier, entity_type, owner)
@@ -2548,8 +5364,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-remove_entity_owner(domainIdentifier, entityIdentifier, entityType, owner; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/removeOwner", Dict{String, Any}("owner"=>owner, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_entity_owner(domainIdentifier, entityIdentifier, entityType, owner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/removeOwner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("owner"=>owner, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/removeOwner",
+    Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/removeOwner",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_policy_grant(domain_identifier, entity_identifier, entity_type, policy_type, principal)
@@ -2572,8 +5421,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-remove_policy_grant(domainIdentifier, entityIdentifier, entityType, policyType, principal; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/removeGrant", Dict{String, Any}("policyType"=>policyType, "principal"=>principal, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_policy_grant(domainIdentifier, entityIdentifier, entityType, policyType, principal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/removeGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyType"=>policyType, "principal"=>principal, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_policy_grant(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/removeGrant",
+    Dict{String,Any}(
+        "policyType" => policyType,
+        "principal" => principal,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_policy_grant(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/removeGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyType" => policyType,
+                    "principal" => principal,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     revoke_subscription(domain_identifier, identifier)
@@ -2594,8 +5486,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retainPermissions"`: Specifies whether permissions are retained when the subscription
   is revoked.
 """
-revoke_subscription(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/revoke"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-revoke_subscription(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/revoke", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+revoke_subscription(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/revoke";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function revoke_subscription(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/revoke",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search(domain_identifier, search_scope)
@@ -2629,8 +5541,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 - `"sort"`: Specifies the way in which the search results are to be sorted.
 """
-search(domainIdentifier, searchScope; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/search", Dict{String, Any}("searchScope"=>searchScope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search(domainIdentifier, searchScope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchScope"=>searchScope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search(domainIdentifier, searchScope; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/search",
+        Dict{String,Any}("searchScope" => searchScope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function search(
+    domainIdentifier,
+    searchScope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/search",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("searchScope" => searchScope), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_group_profiles(domain_identifier, group_type)
@@ -2659,8 +5593,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `SearchGroupProfiles` to list the next set of results.
 - `"searchText"`: Specifies the text for which to search.
 """
-search_group_profiles(domainIdentifier, groupType; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/search-group-profiles", Dict{String, Any}("groupType"=>groupType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_group_profiles(domainIdentifier, groupType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/search-group-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupType"=>groupType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_group_profiles(
+    domainIdentifier, groupType; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/search-group-profiles",
+    Dict{String,Any}("groupType" => groupType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_group_profiles(
+    domainIdentifier,
+    groupType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/search-group-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("groupType" => groupType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_listings(domain_identifier)
@@ -2691,8 +5648,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 - `"sort"`: Specifies the way for sorting the search results.
 """
-search_listings(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/listings/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_listings(domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/listings/search", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_listings(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/listings/search";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function search_listings(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/listings/search",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_types(domain_identifier, managed, search_scope)
@@ -2725,8 +5700,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 - `"sort"`: The specifies the way to sort the `SearchTypes` results.
 """
-search_types(domainIdentifier, managed, searchScope; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/types-search", Dict{String, Any}("managed"=>managed, "searchScope"=>searchScope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_types(domainIdentifier, managed, searchScope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/types-search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("managed"=>managed, "searchScope"=>searchScope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_types(
+    domainIdentifier,
+    managed,
+    searchScope;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/types-search",
+    Dict{String,Any}("managed" => managed, "searchScope" => searchScope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_types(
+    domainIdentifier,
+    managed,
+    searchScope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/types-search",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("managed" => managed, "searchScope" => searchScope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_user_profiles(domain_identifier, user_type)
@@ -2755,8 +5761,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `SearchUserProfiles` to list the next set of results.
 - `"searchText"`: Specifies the text for which to search.
 """
-search_user_profiles(domainIdentifier, userType; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/search-user-profiles", Dict{String, Any}("userType"=>userType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_user_profiles(domainIdentifier, userType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/search-user-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userType"=>userType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_user_profiles(
+    domainIdentifier, userType; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/search-user-profiles",
+    Dict{String,Any}("userType" => userType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_user_profiles(
+    domainIdentifier,
+    userType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/search-user-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("userType" => userType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_data_source_run(data_source_identifier, domain_identifier)
@@ -2777,8 +5806,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
-start_data_source_run(dataSourceIdentifier, domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_data_source_run(dataSourceIdentifier, domainIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_data_source_run(
+    dataSourceIdentifier,
+    domainIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_data_source_run(
+    dataSourceIdentifier,
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_metadata_generation_run(domain_identifier, owning_project_identifier, target, type)
@@ -2802,8 +5856,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the
   request. This field is automatically populated if not provided.
 """
-start_metadata_generation_run(domainIdentifier, owningProjectIdentifier, target, type; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/metadata-generation-runs", Dict{String, Any}("owningProjectIdentifier"=>owningProjectIdentifier, "target"=>target, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_metadata_generation_run(domainIdentifier, owningProjectIdentifier, target, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/v2/domains/$(domainIdentifier)/metadata-generation-runs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("owningProjectIdentifier"=>owningProjectIdentifier, "target"=>target, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_metadata_generation_run(
+    domainIdentifier,
+    owningProjectIdentifier,
+    target,
+    type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "POST",
+    "/v2/domains/$(domainIdentifier)/metadata-generation-runs",
+    Dict{String,Any}(
+        "owningProjectIdentifier" => owningProjectIdentifier,
+        "target" => target,
+        "type" => type,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_metadata_generation_run(
+    domainIdentifier,
+    owningProjectIdentifier,
+    target,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/metadata-generation-runs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "owningProjectIdentifier" => owningProjectIdentifier,
+                    "target" => target,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -2816,8 +5913,28 @@ Tags a resource in Amazon DataZone.
 - `resource_arn`: The ARN of the resource to be tagged in Amazon DataZone.
 - `tags`: Specifies the tags for the `TagResource` action.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -2830,8 +5947,28 @@ Untags a resource in Amazon DataZone.
 - `resource_arn`: The ARN of the resource to be untagged in Amazon DataZone.
 - `tag_keys`: Specifies the tag keys for the `UntagResource` action.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    datazone(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_asset_filter(asset_identifier, domain_identifier, identifier)
@@ -2853,8 +5990,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the asset filter.
 - `"name"`: The name of the asset filter.
 """
-update_asset_filter(assetIdentifier, domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_asset_filter(assetIdentifier, domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_data_source(domain_identifier, identifier)
@@ -2887,8 +6048,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in case of a self-subscribe functionality failure for a data source.
 - `"schedule"`: The schedule to be updated as part of the `UpdateDataSource` action.
 """
-update_data_source(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_data_source(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_source(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_data_source(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_domain(identifier)
@@ -2913,8 +6094,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"singleSignOn"`: The single sign-on option to be updated as part of the `UpdateDomain`
   action.
 """
-update_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(identifier)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_domain(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone(
+    "PUT",
+    "/v2/domains/$(identifier)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_domain(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_domain_unit(domain_identifier, identifier)
@@ -2934,8 +6135,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the domain unit that you want to update.
 - `"name"`: The name of the domain unit that you want to update.
 """
-update_domain_unit(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_domain_unit(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain_unit(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_domain_unit(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment(domain_identifier, identifier)
@@ -2958,8 +6179,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action.
 - `"name"`: The name to be updated as part of the `UpdateEnvironment` action.
 """
-update_environment(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environments/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environments/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/environments/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment_action(domain_identifier, environment_identifier, identifier)
@@ -2981,8 +6222,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the environment action.
 - `"parameters"`: The parameters of the environment action.
 """
-update_environment_action(domainIdentifier, environmentIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment_action(domainIdentifier, environmentIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment_profile(domain_identifier, identifier)
@@ -3010,8 +6275,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userParameters"`: The user parameters to be updated as part of the
   `UpdateEnvironmentProfile` action.
 """
-update_environment_profile(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment_profile(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment_profile(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment_profile(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_glossary(domain_identifier, identifier)
@@ -3035,8 +6320,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name to be updated as part of the `UpdateGlossary` action.
 - `"status"`: The status to be updated as part of the `UpdateGlossary` action.
 """
-update_glossary(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_glossary(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_glossary(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_glossary(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_glossary_term(domain_identifier, identifier)
@@ -3065,8 +6373,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"termRelations"`: The term relations to be updated as part of the `UpdateGlossaryTerm`
   action.
 """
-update_glossary_term(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_glossary_term(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_glossary_term(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_glossary_term(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_group_profile(domain_identifier, group_identifier, status)
@@ -3081,8 +6409,33 @@ Updates the specified group profile in Amazon DataZone.
 - `group_identifier`: The identifier of the group profile that is updated.
 - `status`: The status of the group profile that is updated.
 """
-update_group_profile(domainIdentifier, groupIdentifier, status; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)", Dict{String, Any}("status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_group_profile(domainIdentifier, groupIdentifier, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_group_profile(
+    domainIdentifier,
+    groupIdentifier,
+    status;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)",
+    Dict{String,Any}("status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_group_profile(
+    domainIdentifier,
+    groupIdentifier,
+    status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_project(domain_identifier, identifier)
@@ -3104,8 +6457,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"glossaryTerms"`: The glossary terms to be updated as part of the `UpdateProject` action.
 - `"name"`: The name to be updated as part of the `UpdateProject` action.
 """
-update_project(domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/projects/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_project(domainIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/projects/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_project(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/projects/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_project(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_subscription_grant_status(asset_identifier, domain_identifier, identifier, status)
@@ -3132,8 +6505,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetName"`: The target name to be updated as part of the
   `UpdateSubscriptionGrantStatus` action.
 """
-update_subscription_grant_status(assetIdentifier, domainIdentifier, identifier, status; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)/status/$(assetIdentifier)", Dict{String, Any}("status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_subscription_grant_status(assetIdentifier, domainIdentifier, identifier, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)/status/$(assetIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subscription_grant_status(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    status;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)/status/$(assetIdentifier)",
+    Dict{String,Any}("status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_subscription_grant_status(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)/status/$(assetIdentifier)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_subscription_request(domain_identifier, identifier, request_reason)
@@ -3148,8 +6548,35 @@ Updates a specified subscription request in Amazon DataZone.
 - `identifier`: The identifier of the subscription request that is to be updated.
 - `request_reason`: The reason for the `UpdateSubscriptionRequest` action.
 """
-update_subscription_request(domainIdentifier, identifier, requestReason; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)", Dict{String, Any}("requestReason"=>requestReason); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_subscription_request(domainIdentifier, identifier, requestReason, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestReason"=>requestReason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subscription_request(
+    domainIdentifier,
+    identifier,
+    requestReason;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)",
+    Dict{String,Any}("requestReason" => requestReason);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_subscription_request(
+    domainIdentifier,
+    identifier,
+    requestReason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestReason" => requestReason), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_subscription_target(domain_identifier, environment_identifier, identifier)
@@ -3180,8 +6607,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriptionTargetConfig"`: The configuration to be updated as part of the
   `UpdateSubscriptionTarget` action.
 """
-update_subscription_target(domainIdentifier, environmentIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_subscription_target(domainIdentifier, environmentIdentifier, identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PATCH", "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subscription_target(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PATCH",
+    "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_subscription_target(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_user_profile(domain_identifier, status, user_identifier)
@@ -3202,5 +6653,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"type"`: The type of the user profile that are to be updated.
 """
-update_user_profile(domainIdentifier, status, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)", Dict{String, Any}("status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_user_profile(domainIdentifier, status, userIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = datazone("PUT", "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_user_profile(
+    domainIdentifier,
+    status,
+    userIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = datazone(
+    "PUT",
+    "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)",
+    Dict{String,Any}("status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_user_profile(
+    domainIdentifier,
+    status,
+    userIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

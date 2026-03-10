@@ -26,8 +26,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
-create_application(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig(
+    "POST",
+    "/applications",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appconfig(
+        "POST",
+        "/applications",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_configuration_profile(application_id, location_uri, name)
@@ -102,8 +118,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  `AWS.Freeform`
 - `"Validators"`: A list of methods for validating the configuration.
 """
-create_configuration_profile(ApplicationId, LocationUri, Name; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_configuration_profile(ApplicationId, LocationUri, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_configuration_profile(
+    ApplicationId, LocationUri, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "POST",
+    "/applications/$(ApplicationId)/configurationprofiles",
+    Dict{String,Any}("LocationUri" => LocationUri, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_configuration_profile(
+    ApplicationId,
+    LocationUri,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocationUri" => LocationUri, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name)
@@ -162,8 +206,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   categorize your AppConfig resources. Each tag consists of a key and an optional value,
   both of which you define.
 """
-create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_deployment_strategy(
+    DeploymentDurationInMinutes,
+    GrowthFactor,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "POST",
+    "/deploymentstrategies",
+    Dict{String,Any}(
+        "DeploymentDurationInMinutes" => DeploymentDurationInMinutes,
+        "GrowthFactor" => GrowthFactor,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_deployment_strategy(
+    DeploymentDurationInMinutes,
+    GrowthFactor,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/deploymentstrategies",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeploymentDurationInMinutes" => DeploymentDurationInMinutes,
+                    "GrowthFactor" => GrowthFactor,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment(application_id, name)
@@ -192,8 +275,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
-create_environment(ApplicationId, Name; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment(ApplicationId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment(
+    ApplicationId, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "POST",
+    "/applications/$(ApplicationId)/environments",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment(
+    ApplicationId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/environments",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_extension(actions, name)
@@ -239,8 +343,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you categorize resources in different ways, for example, by purpose, owner, or
   environment. Each tag consists of a key and an optional value, both of which you define.
 """
-create_extension(Actions, Name; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/extensions", Dict{String, Any}("Actions"=>Actions, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_extension(Actions, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/extensions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_extension(Actions, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "POST",
+        "/extensions",
+        Dict{String,Any}("Actions" => Actions, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_extension(
+    Actions,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/extensions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Actions" => Actions, "Name" => Name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_extension_association(extension_identifier, resource_identifier)
@@ -276,8 +404,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner, or environment. Each tag consists of a key and an optional value, both of which
   you define.
 """
-create_extension_association(ExtensionIdentifier, ResourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/extensionassociations", Dict{String, Any}("ExtensionIdentifier"=>ExtensionIdentifier, "ResourceIdentifier"=>ResourceIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_extension_association(ExtensionIdentifier, ResourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/extensionassociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExtensionIdentifier"=>ExtensionIdentifier, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_extension_association(
+    ExtensionIdentifier,
+    ResourceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "POST",
+    "/extensionassociations",
+    Dict{String,Any}(
+        "ExtensionIdentifier" => ExtensionIdentifier,
+        "ResourceIdentifier" => ResourceIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_extension_association(
+    ExtensionIdentifier,
+    ResourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/extensionassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExtensionIdentifier" => ExtensionIdentifier,
+                    "ResourceIdentifier" => ResourceIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type)
@@ -313,8 +476,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version. This value must contain at least one non-numeric character. For example,
   "v2.2.0".
 """
-create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    Content,
+    Content_Type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "POST",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions",
+    Dict{String,Any}(
+        "Content" => Content,
+        "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    Content,
+    Content_Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Content" => Content,
+                    "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application(application_id)
@@ -326,8 +528,26 @@ Deletes an application.
 
 - `application_id`: The ID of the application to delete.
 """
-delete_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_configuration_profile(application_id, configuration_profile_id)
@@ -363,8 +583,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
   deletion protection value specified in the `UpdateAccountSettings` API.
 """
-delete_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_configuration_profile(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "DELETE",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_deployment_strategy(deployment_strategy_id)
@@ -376,8 +618,27 @@ Deletes a deployment strategy.
 
 - `deployment_strategy_id`: The ID of the deployment strategy you want to delete.
 """
-delete_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_deployment_strategy(DeploymentStrategyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_deployment_strategy(
+    DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "DELETE",
+    "/deployementstrategies/$(DeploymentStrategyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_deployment_strategy(
+    DeploymentStrategyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/deployementstrategies/$(DeploymentStrategyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment(application_id, environment_id)
@@ -412,8 +673,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
   deletion protection value specified in the `UpdateAccountSettings` API.
 """
-delete_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "DELETE",
+    "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_extension(extension_identifier)
@@ -434,8 +715,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: A specific version of an extension to delete. If omitted, the highest
   version is deleted.
 """
-delete_extension(ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/extensions/$(ExtensionIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_extension(ExtensionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/extensions/$(ExtensionIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_extension(ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "DELETE",
+        "/extensions/$(ExtensionIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_extension(
+    ExtensionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/extensions/$(ExtensionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_extension_association(extension_association_id)
@@ -448,8 +747,27 @@ association.
 
 - `extension_association_id`: The ID of the extension association to delete.
 """
-delete_extension_association(ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/extensionassociations/$(ExtensionAssociationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_extension_association(ExtensionAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/extensionassociations/$(ExtensionAssociationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_extension_association(
+    ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "DELETE",
+    "/extensionassociations/$(ExtensionAssociationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_extension_association(
+    ExtensionAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/extensionassociations/$(ExtensionAssociationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_hosted_configuration_version(application_id, configuration_profile_id, version_number)
@@ -463,8 +781,32 @@ Deletes a version of a configuration from the AppConfig hosted configuration sto
 - `configuration_profile_id`: The configuration profile ID.
 - `version_number`: The versions number to delete.
 """
-delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "DELETE",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_account_settings()
@@ -472,8 +814,15 @@ delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Versi
 
 Returns information about the status of the `DeletionProtection` parameter.
 """
-get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig("GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appconfig(
+        "GET", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_application(application_id)
@@ -485,8 +834,26 @@ Retrieves information about an application.
 
 - `application_id`: The ID of the application you want to get.
 """
-get_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "GET",
+        "/applications/$(ApplicationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_configuration(application, configuration, environment, client_id)
@@ -537,8 +904,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html)
   in the *AppConfig User Guide*.
 """
-get_configuration(Application, Configuration, Environment, client_id; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}("client_id"=>client_id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_configuration(Application, Configuration, Environment, client_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_id"=>client_id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_configuration(
+    Application,
+    Configuration,
+    Environment,
+    client_id;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "GET",
+    "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)",
+    Dict{String,Any}("client_id" => client_id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_configuration(
+    Application,
+    Configuration,
+    Environment,
+    client_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("client_id" => client_id), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_configuration_profile(application_id, configuration_profile_id)
@@ -552,8 +948,30 @@ Retrieves information about a configuration profile.
   want to get.
 - `configuration_profile_id`: The ID of the configuration profile that you want to get.
 """
-get_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_configuration_profile(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "GET",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_deployment(application_id, deployment_number, environment_id)
@@ -567,8 +985,32 @@ Retrieves information about a configuration deployment.
 - `deployment_number`: The sequence number of the deployment.
 - `environment_id`: The ID of the environment that includes the deployment you want to get.
 """
-get_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_deployment(ApplicationId, DeploymentNumber, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "GET",
+    "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_deployment_strategy(deployment_strategy_id)
@@ -584,8 +1026,27 @@ time.
 
 - `deployment_strategy_id`: The ID of the deployment strategy to get.
 """
-get_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_deployment_strategy(DeploymentStrategyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_deployment_strategy(
+    DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "GET",
+    "/deploymentstrategies/$(DeploymentStrategyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_deployment_strategy(
+    DeploymentStrategyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/deploymentstrategies/$(DeploymentStrategyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment(application_id, environment_id)
@@ -602,8 +1063,28 @@ during a deployment, AppConfig roles back the configuration.
 - `application_id`: The ID of the application that includes the environment you want to get.
 - `environment_id`: The ID of the environment that you want to get.
 """
-get_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "GET",
+    "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_extension(extension_identifier)
@@ -623,8 +1104,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version_number"`: The extension version number. If no version number was defined,
   AppConfig uses the highest version.
 """
-get_extension(ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensions/$(ExtensionIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_extension(ExtensionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensions/$(ExtensionIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_extension(ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "GET",
+        "/extensions/$(ExtensionIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_extension(
+    ExtensionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/extensions/$(ExtensionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_extension_association(extension_association_id)
@@ -638,8 +1137,27 @@ in the *AppConfig User Guide*.
 
 - `extension_association_id`: The extension association ID to get.
 """
-get_extension_association(ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensionassociations/$(ExtensionAssociationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_extension_association(ExtensionAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensionassociations/$(ExtensionAssociationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_extension_association(
+    ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "GET",
+    "/extensionassociations/$(ExtensionAssociationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_extension_association(
+    ExtensionAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/extensionassociations/$(ExtensionAssociationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_hosted_configuration_version(application_id, configuration_profile_id, version_number)
@@ -653,8 +1171,32 @@ Retrieves information about a specific configuration version.
 - `configuration_profile_id`: The configuration profile ID.
 - `version_number`: The version.
 """
-get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "GET",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_applications()
@@ -674,8 +1216,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   should be set to the previous responses nextToken value. Use this token to get the next
   set of results.
 """
-list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig(
+    "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/applications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_configuration_profiles(application_id)
@@ -697,8 +1251,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: A filter based on the type of configurations that the configuration profile
   contains. A configuration can be a feature flag or a freeform configuration.
 """
-list_configuration_profiles(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_configuration_profiles(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_configuration_profiles(
+    ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "GET",
+    "/applications/$(ApplicationId)/configurationprofiles";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_configuration_profiles(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_deployment_strategies()
@@ -714,8 +1287,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_deployment_strategies(; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/deploymentstrategies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_deployment_strategies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/deploymentstrategies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_deployment_strategies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "GET",
+        "/deploymentstrategies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_deployment_strategies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/deploymentstrategies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_deployments(application_id, environment_id)
@@ -739,8 +1328,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of results to be returned. If not specified, the operation will return the first set
   of results.
 """
-list_deployments(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_deployments(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_deployments(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "GET",
+    "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_deployments(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environments(application_id)
@@ -760,8 +1369,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_environments(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environments(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environments(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_environments(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_extension_associations()
@@ -785,8 +1412,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or pass null to get the first set of results.
 - `"resource_identifier"`: The ARN of an application, configuration profile, or environment.
 """
-list_extension_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensionassociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_extension_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensionassociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_extension_associations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "GET",
+        "/extensionassociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_extension_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/extensionassociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_extensions()
@@ -805,8 +1448,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The extension name.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_extensions(; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_extensions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/extensions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_extensions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig("GET", "/extensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_extensions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appconfig(
+        "GET", "/extensions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_hosted_configuration_versions(application_id, configuration_profile_id)
@@ -831,8 +1481,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a wildcard, for example "v2*". If you don't specify an asterisk at the end of the value,
   only an exact match is returned.
 """
-list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_hosted_configuration_versions(
+    ApplicationId,
+    ConfigurationProfileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "GET",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_hosted_configuration_versions(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -844,8 +1516,26 @@ Retrieves the list of key-value tags assigned to the resource.
 
 - `resource_arn`: The resource ARN.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_deployment(application_id, configuration_profile_id, configuration_version, deployment_strategy_id, environment_id)
@@ -876,8 +1566,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
-start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_deployment(
+    ApplicationId,
+    ConfigurationProfileId,
+    ConfigurationVersion,
+    DeploymentStrategyId,
+    EnvironmentId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "POST",
+    "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments",
+    Dict{String,Any}(
+        "ConfigurationProfileId" => ConfigurationProfileId,
+        "ConfigurationVersion" => ConfigurationVersion,
+        "DeploymentStrategyId" => DeploymentStrategyId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_deployment(
+    ApplicationId,
+    ConfigurationProfileId,
+    ConfigurationVersion,
+    DeploymentStrategyId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConfigurationProfileId" => ConfigurationProfileId,
+                    "ConfigurationVersion" => ConfigurationVersion,
+                    "DeploymentStrategyId" => DeploymentStrategyId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_deployment(application_id, deployment_number, environment_id)
@@ -892,8 +1625,32 @@ Stops a deployment. This API action works only on deployments that have a status
 - `deployment_number`: The sequence number of the deployment.
 - `environment_id`: The environment ID.
 """
-stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "DELETE",
+    "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -908,8 +1665,28 @@ can specify a maximum of 50 tags for a resource.
 - `resource_arn`: The ARN of the resource for which to retrieve tags.
 - `tags`: The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -922,8 +1699,28 @@ Deletes a tag key and value from an AppConfig resource.
 - `resource_arn`: The ARN of the resource for which to remove tags.
 - `tag_keys`: The tag keys to delete.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_account_settings()
@@ -942,8 +1739,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Deletion protection is disabled by default. The default interval for
   `ProtectionPeriodInMinutes` is 60.
 """
-update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig("PATCH", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appconfig(
+        "PATCH", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     update_application(application_id)
@@ -962,8 +1766,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the application.
 - `"Name"`: The name of the application.
 """
-update_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_configuration_profile(application_id, configuration_profile_id)
@@ -992,8 +1814,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   at the specified `LocationUri`.
 - `"Validators"`: A list of methods for validating the configuration.
 """
-update_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_configuration_profile(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "PATCH",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_deployment_strategy(deployment_strategy_id)
@@ -1041,8 +1885,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targets, 8% of the targets, and continues until the configuration has been deployed to
   all targets.
 """
-update_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_deployment_strategy(DeploymentStrategyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_deployment_strategy(
+    DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "PATCH",
+    "/deploymentstrategies/$(DeploymentStrategyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_deployment_strategy(
+    DeploymentStrategyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/deploymentstrategies/$(DeploymentStrategyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment(application_id, environment_id)
@@ -1063,8 +1926,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Monitors"`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `"Name"`: The name of the environment.
 """
-update_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "PATCH",
+    "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_extension(extension_identifier)
@@ -1087,8 +1970,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: One or more parameters for the actions called by the extension.
 - `"VersionNumber"`: The extension version number.
 """
-update_extension(ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/extensions/$(ExtensionIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_extension(ExtensionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/extensions/$(ExtensionIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_extension(ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appconfig(
+        "PATCH",
+        "/extensions/$(ExtensionIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_extension(
+    ExtensionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/extensions/$(ExtensionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_extension_association(extension_association_id)
@@ -1107,8 +2008,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Parameters"`: The parameter names and values defined in the extension.
 """
-update_extension_association(ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/extensionassociations/$(ExtensionAssociationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_extension_association(ExtensionAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("PATCH", "/extensionassociations/$(ExtensionAssociationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_extension_association(
+    ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appconfig(
+    "PATCH",
+    "/extensionassociations/$(ExtensionAssociationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_extension_association(
+    ExtensionAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/extensionassociations/$(ExtensionAssociationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     validate_configuration(application_id, configuration_profile_id, configuration_version)
@@ -1122,5 +2042,36 @@ Uses the validators in a configuration profile to validate a configuration.
 - `configuration_profile_id`: The configuration profile ID.
 - `configuration_version`: The version of the configuration to validate.
 """
-validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}("configuration_version"=>configuration_version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_version"=>configuration_version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+validate_configuration(
+    ApplicationId,
+    ConfigurationProfileId,
+    configuration_version;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appconfig(
+    "POST",
+    "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators",
+    Dict{String,Any}("configuration_version" => configuration_version);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function validate_configuration(
+    ApplicationId,
+    ConfigurationProfileId,
+    configuration_version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("configuration_version" => configuration_version),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

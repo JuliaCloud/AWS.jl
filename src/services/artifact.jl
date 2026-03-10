@@ -10,8 +10,23 @@ using AWS.UUIDs
 
 Get the account settings for Artifact.
 """
-get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/account-settings/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/account-settings/get", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = artifact(
+    "GET",
+    "/v1/account-settings/get";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return artifact(
+        "GET",
+        "/v1/account-settings/get",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_report(report_id, term_token)
@@ -30,8 +45,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"reportVersion"`: Version for the report resource.
 """
-get_report(reportId, termToken; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/get", Dict{String, Any}("reportId"=>reportId, "termToken"=>termToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_report(reportId, termToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportId"=>reportId, "termToken"=>termToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_report(reportId, termToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    artifact(
+        "GET",
+        "/v1/report/get",
+        Dict{String,Any}("reportId" => reportId, "termToken" => termToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_report(
+    reportId,
+    termToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return artifact(
+        "GET",
+        "/v1/report/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("reportId" => reportId, "termToken" => termToken),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_report_metadata(report_id)
@@ -49,8 +90,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"reportVersion"`: Version for the report resource.
 """
-get_report_metadata(reportId; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/getMetadata", Dict{String, Any}("reportId"=>reportId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_report_metadata(reportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/getMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportId"=>reportId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_report_metadata(reportId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    artifact(
+        "GET",
+        "/v1/report/getMetadata",
+        Dict{String,Any}("reportId" => reportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_report_metadata(
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return artifact(
+        "GET",
+        "/v1/report/getMetadata",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_term_for_report(report_id)
@@ -68,8 +130,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"reportVersion"`: Version for the report resource.
 """
-get_term_for_report(reportId; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/getTermForReport", Dict{String, Any}("reportId"=>reportId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_term_for_report(reportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/getTermForReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportId"=>reportId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_term_for_report(reportId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    artifact(
+        "GET",
+        "/v1/report/getTermForReport",
+        Dict{String,Any}("reportId" => reportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_term_for_report(
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return artifact(
+        "GET",
+        "/v1/report/getTermForReport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_reports()
@@ -84,8 +167,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of resources to return in the paginated response.
 - `"nextToken"`: Pagination token to request the next page of resources.
 """
-list_reports(; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_reports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("GET", "/v1/report/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reports(; aws_config::AbstractAWSConfig=current_aws_config()) = artifact(
+    "GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_reports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return artifact(
+        "GET",
+        "/v1/report/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_account_settings()
@@ -99,5 +194,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"notificationSubscriptionStatus"`: Desired notification subscription status.
 """
-put_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("PUT", "/v1/account-settings/put"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = artifact("PUT", "/v1/account-settings/put", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = artifact(
+    "PUT",
+    "/v1/account-settings/put";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return artifact(
+        "PUT",
+        "/v1/account-settings/put",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

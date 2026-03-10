@@ -35,8 +35,29 @@ in the *Amazon Glacier Developer Guide*.
 - `upload_id`: The upload ID of the multipart upload to delete.
 - `vault_name`: The name of the vault.
 """
-abort_multipart_upload(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-abort_multipart_upload(accountId, uploadId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+abort_multipart_upload(
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "DELETE",
+    "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function abort_multipart_upload(
+    accountId,
+    uploadId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     abort_vault_lock(account_id, vault_name)
@@ -67,8 +88,27 @@ vault.
   If you specify your account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
-abort_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-abort_vault_lock(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+abort_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)/lock-policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function abort_vault_lock(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)/lock-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_tags_to_vault(account_id, vault_name)
@@ -95,8 +135,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to add to the vault. Each tag is composed of a key and a value. The
   value can be an empty string.
 """
-add_tags_to_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_tags_to_vault(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_tags_to_vault(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "POST",
+    "/$(accountId)/vaults/$(vaultName)/tags?operation=add";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_tags_to_vault(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/tags?operation=add",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     complete_multipart_upload(account_id, upload_id, vault_name)
@@ -159,8 +219,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   does not match the SHA256 tree hash of the final assembled archive as computed by Amazon
   S3 Glacier (Glacier), Glacier returns an error and the request fails.
 """
-complete_multipart_upload(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-complete_multipart_upload(accountId, uploadId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+complete_multipart_upload(
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "POST",
+    "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function complete_multipart_upload(
+    accountId,
+    uploadId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     complete_vault_lock(account_id, lock_id, vault_name)
@@ -193,8 +274,29 @@ throws an `InvalidParameter` error.
   request.
 - `vault_name`: The name of the vault.
 """
-complete_vault_lock(accountId, lockId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-complete_vault_lock(accountId, lockId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+complete_vault_lock(
+    accountId, lockId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "POST",
+    "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function complete_vault_lock(
+    accountId,
+    lockId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vault(account_id, vault_name)
@@ -226,8 +328,27 @@ in the *Amazon Glacier Developer Guide*.
   If you specify your account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
-create_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vault(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "PUT",
+        "/$(accountId)/vaults/$(vaultName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_vault(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "PUT",
+        "/$(accountId)/vaults/$(vaultName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_archive(account_id, archive_id, vault_name)
@@ -261,8 +382,29 @@ in the *Amazon Glacier Developer Guide*.
 - `archive_id`: The ID of the archive to delete.
 - `vault_name`: The name of the vault.
 """
-delete_archive(accountId, archiveId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_archive(accountId, archiveId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_archive(
+    accountId, archiveId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "DELETE",
+    "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_archive(
+    accountId,
+    archiveId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vault(account_id, vault_name)
@@ -295,8 +437,27 @@ in the *Amazon S3 Glacier Developer Guide*.
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
-delete_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vault(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_vault(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vault_access_policy(account_id, vault_name)
@@ -319,8 +480,28 @@ policy associated with the vault. For more information about vault access polici
   ID.
 - `vault_name`: The name of the vault.
 """
-delete_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vault_access_policy(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vault_access_policy(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "DELETE",
+    "/$(accountId)/vaults/$(vaultName)/access-policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vault_access_policy(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)/access-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vault_notifications(account_id, vault_name)
@@ -348,8 +529,28 @@ in the Amazon S3 Glacier Developer Guide.
   ID.
 - `vault_name`: The name of the vault.
 """
-delete_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vault_notifications(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vault_notifications(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "DELETE",
+    "/$(accountId)/vaults/$(vaultName)/notification-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vault_notifications(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "DELETE",
+        "/$(accountId)/vaults/$(vaultName)/notification-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_job(account_id, job_id, vault_name)
@@ -384,8 +585,29 @@ in the *Amazon Glacier Developer Guide*.
 - `job_id`: The ID of the job to describe.
 - `vault_name`: The name of the vault.
 """
-describe_job(accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_job(accountId, jobId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_job(
+    accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "GET",
+    "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_job(
+    accountId,
+    jobId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vault(account_id, vault_name)
@@ -418,8 +640,27 @@ in the *Amazon Glacier Developer Guide*.
   ID.
 - `vault_name`: The name of the vault.
 """
-describe_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vault(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_vault(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_retrieval_policy(account_id)
@@ -436,8 +677,26 @@ specified in the GET request. For more information about data retrieval policies
   Glacier uses the AWS account ID associated with the credentials used to sign the request.
   If you specify your account ID, do not include any hyphens ('-') in the ID.
 """
-get_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_retrieval_policy(accountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/policies/data-retrieval", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "GET",
+        "/$(accountId)/policies/data-retrieval";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_data_retrieval_policy(
+    accountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/policies/data-retrieval",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_job_output(account_id, job_id, vault_name)
@@ -516,8 +775,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Glacier. You compare this value with the checksum you computed to ensure you have
   downloaded the entire archive content with no errors. <p/>
 """
-get_job_output(accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_job_output(accountId, jobId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_job_output(
+    accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "GET",
+    "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_job_output(
+    accountId,
+    jobId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_vault_access_policy(account_id, vault_name)
@@ -536,8 +816,28 @@ error. For more information about vault access policies, see [Amazon Glacier Acc
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
-get_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_vault_access_policy(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_vault_access_policy(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "GET",
+    "/$(accountId)/vaults/$(vaultName)/access-policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_vault_access_policy(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/access-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_vault_lock(account_id, vault_name)
@@ -565,8 +865,27 @@ found` error. For more information about vault lock policies, [Amazon Glacier Ac
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
-get_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_vault_lock(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/lock-policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_vault_lock(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/lock-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_vault_notifications(account_id, vault_name)
@@ -597,8 +916,28 @@ in the *Amazon Glacier Developer Guide*.
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
-get_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_vault_notifications(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_vault_notifications(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "GET",
+    "/$(accountId)/vaults/$(vaultName)/notification-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_vault_notifications(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/notification-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     initiate_job(account_id, vault_name)
@@ -622,8 +961,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"jobParameters"`: Provides options for specifying job information.
 """
-initiate_job(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-initiate_job(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+initiate_job(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function initiate_job(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     initiate_multipart_upload(account_id, vault_name)
@@ -680,8 +1038,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-part-size"`: The size of each part except the last, in bytes. The last part can
   be smaller than this part size.
 """
-initiate_multipart_upload(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-initiate_multipart_upload(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+initiate_multipart_upload(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "POST",
+    "/$(accountId)/vaults/$(vaultName)/multipart-uploads";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function initiate_multipart_upload(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/multipart-uploads",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     initiate_vault_lock(account_id, vault_name)
@@ -728,8 +1106,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"policy"`: The vault lock policy as a JSON string, which uses "\" as an escape character.
 """
-initiate_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-initiate_vault_lock(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+initiate_vault_lock(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "POST",
+    "/$(accountId)/vaults/$(vaultName)/lock-policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function initiate_vault_lock(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/lock-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_jobs(account_id, vault_name)
@@ -791,8 +1189,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statuscode"`: The type of job status to return. You can specify the following values:
   `InProgress`, `Succeeded`, or `Failed`.
 """
-list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_jobs(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_jobs(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_multipart_uploads(account_id, vault_name)
@@ -844,8 +1261,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Uploads response. You need only include the marker if you are continuing the pagination
   of results started in a previous List Uploads request.
 """
-list_multipart_uploads(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_multipart_uploads(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_multipart_uploads(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "GET",
+    "/$(accountId)/vaults/$(vaultName)/multipart-uploads";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_multipart_uploads(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/multipart-uploads",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_parts(account_id, upload_id, vault_name)
@@ -894,8 +1331,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   List Parts response. You need only include the marker if you are continuing the
   pagination of results started in a previous List Parts request.
 """
-list_parts(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_parts(accountId, uploadId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_parts(
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "GET",
+    "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_parts(
+    accountId,
+    uploadId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_provisioned_capacity(account_id)
@@ -910,8 +1368,26 @@ This operation lists the provisioned capacity units for the specified AWS accoun
   Glacier uses the AWS account ID associated with the credentials used to sign the request.
   If you use an account ID, don't include any hyphens ('-') in the ID.
 """
-list_provisioned_capacity(accountId; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/provisioned-capacity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_provisioned_capacity(accountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/provisioned-capacity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_provisioned_capacity(accountId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "GET",
+        "/$(accountId)/provisioned-capacity";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_provisioned_capacity(
+    accountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/provisioned-capacity",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_vault(account_id, vault_name)
@@ -928,8 +1404,28 @@ if there are no tags. For more information about tags, see [Tagging Amazon S3 Gl
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
-list_tags_for_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_vault(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_vault(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "GET",
+    "/$(accountId)/vaults/$(vaultName)/tags";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags_for_vault(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults/$(vaultName)/tags",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_vaults(account_id)
@@ -971,8 +1467,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: A string used for pagination. The marker specifies the vault ARN after which
   the listing of vaults should begin.
 """
-list_vaults(accountId; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_vaults(accountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("GET", "/$(accountId)/vaults", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_vaults(accountId; aws_config::AbstractAWSConfig=current_aws_config()) = glacier(
+    "GET",
+    "/$(accountId)/vaults";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_vaults(
+    accountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "GET",
+        "/$(accountId)/vaults",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     purchase_provisioned_capacity(account_id)
@@ -987,8 +1500,27 @@ This operation purchases a provisioned capacity unit for an AWS account.
   Glacier uses the AWS account ID associated with the credentials used to sign the request.
   If you use an account ID, don't include any hyphens ('-') in the ID.
 """
-purchase_provisioned_capacity(accountId; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/provisioned-capacity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-purchase_provisioned_capacity(accountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/provisioned-capacity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_provisioned_capacity(
+    accountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "POST",
+    "/$(accountId)/provisioned-capacity";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function purchase_provisioned_capacity(
+    accountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/provisioned-capacity",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_tags_from_vault(account_id, vault_name)
@@ -1013,8 +1545,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"TagKeys"`: A list of tag keys. Each corresponding tag is removed from the vault.
 """
-remove_tags_from_vault(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_tags_from_vault(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_tags_from_vault(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "POST",
+    "/$(accountId)/vaults/$(vaultName)/tags?operation=remove";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_tags_from_vault(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/tags?operation=remove",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_data_retrieval_policy(account_id)
@@ -1041,8 +1593,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Policy"`: The data retrieval policy in JSON format.
 """
-set_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_data_retrieval_policy(accountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/policies/data-retrieval", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "PUT",
+        "/$(accountId)/policies/data-retrieval";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function set_data_retrieval_policy(
+    accountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "PUT",
+        "/$(accountId)/policies/data-retrieval",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_vault_access_policy(account_id, vault_name)
@@ -1068,8 +1638,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"policy"`: The vault access policy as a JSON string.
 """
-set_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_vault_access_policy(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_vault_access_policy(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "PUT",
+    "/$(accountId)/vaults/$(vaultName)/access-policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_vault_access_policy(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "PUT",
+        "/$(accountId)/vaults/$(vaultName)/access-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_vault_notifications(account_id, vault_name)
@@ -1115,8 +1705,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"vaultNotificationConfig"`: Provides options for specifying notification configuration.
 """
-set_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_vault_notifications(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_vault_notifications(
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "PUT",
+    "/$(accountId)/vaults/$(vaultName)/notification-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_vault_notifications(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "PUT",
+        "/$(accountId)/vaults/$(vaultName)/notification-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     upload_archive(account_id, vault_name)
@@ -1172,8 +1782,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-archive-description"`: The optional description of the archive you are uploading.
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
-upload_archive(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-upload_archive(accountId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upload_archive(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/archives";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function upload_archive(
+    accountId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "POST",
+        "/$(accountId)/vaults/$(vaultName)/archives",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     upload_multipart_part(account_id, upload_id, vault_name)
@@ -1233,5 +1862,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"body"`: The data to upload.
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
-upload_multipart_part(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-upload_multipart_part(accountId, uploadId, vaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upload_multipart_part(
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
+) = glacier(
+    "PUT",
+    "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function upload_multipart_part(
+    accountId,
+    uploadId,
+    vaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glacier(
+        "PUT",
+        "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

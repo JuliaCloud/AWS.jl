@@ -22,8 +22,46 @@ chime-bearer` request header is mandatory. Use the ARN of the `AppInstanceUser` 
 - `channel_arn`: The ARN of the channel.
 - `x-amz-chime-bearer`: The `AppInstanceUserArn` of the user making the API call.
 """
-associate_channel_flow(ChannelFlowArn, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/channel-flow", Dict{String, Any}("ChannelFlowArn"=>ChannelFlowArn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_channel_flow(ChannelFlowArn, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/channel-flow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelFlowArn"=>ChannelFlowArn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_channel_flow(
+    ChannelFlowArn,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "PUT",
+    "/channels/$(channelArn)/channel-flow",
+    Dict{String,Any}(
+        "ChannelFlowArn" => ChannelFlowArn,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_channel_flow(
+    ChannelFlowArn,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/channel-flow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChannelFlowArn" => ChannelFlowArn,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_create_channel_membership(member_arns, channel_arn, x-amz-chime-bearer)
@@ -53,8 +91,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are
   not returned. This is only supported by moderators.
 """
-batch_create_channel_membership(MemberArns, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/memberships?operation=batch-create", Dict{String, Any}("MemberArns"=>MemberArns, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_create_channel_membership(MemberArns, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/memberships?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArns"=>MemberArns, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_create_channel_membership(
+    MemberArns,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels/$(channelArn)/memberships?operation=batch-create",
+    Dict{String,Any}(
+        "MemberArns" => MemberArns,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_create_channel_membership(
+    MemberArns,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)/memberships?operation=batch-create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MemberArns" => MemberArns,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     channel_flow_callback(callback_id, channel_message, channel_arn)
@@ -82,8 +158,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteResource"`: When a processor determines that a message needs to be `DENIED`, pass
   this parameter with a value of true.
 """
-channel_flow_callback(CallbackId, ChannelMessage, channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)?operation=channel-flow-callback", Dict{String, Any}("CallbackId"=>CallbackId, "ChannelMessage"=>ChannelMessage); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-channel_flow_callback(CallbackId, ChannelMessage, channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)?operation=channel-flow-callback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallbackId"=>CallbackId, "ChannelMessage"=>ChannelMessage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+channel_flow_callback(
+    CallbackId,
+    ChannelMessage,
+    channelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels/$(channelArn)?operation=channel-flow-callback",
+    Dict{String,Any}("CallbackId" => CallbackId, "ChannelMessage" => ChannelMessage);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function channel_flow_callback(
+    CallbackId,
+    ChannelMessage,
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)?operation=channel-flow-callback",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CallbackId" => CallbackId, "ChannelMessage" => ChannelMessage
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel(app_instance_arn, client_request_token, name, x-amz-chime-bearer)
@@ -126,8 +235,52 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `AppInstance`.
 - `"Tags"`: The tags for the creation request.
 """
-create_channel(AppInstanceArn, ClientRequestToken, Name, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel(AppInstanceArn, ClientRequestToken, Name, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel(
+    AppInstanceArn,
+    ClientRequestToken,
+    Name,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels",
+    Dict{String,Any}(
+        "AppInstanceArn" => AppInstanceArn,
+        "ClientRequestToken" => ClientRequestToken,
+        "Name" => Name,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_channel(
+    AppInstanceArn,
+    ClientRequestToken,
+    Name,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppInstanceArn" => AppInstanceArn,
+                    "ClientRequestToken" => ClientRequestToken,
+                    "Name" => Name,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel_ban(member_arn, channel_arn, x-amz-chime-bearer)
@@ -151,8 +304,46 @@ the channel.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-create_channel_ban(MemberArn, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/bans", Dict{String, Any}("MemberArn"=>MemberArn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel_ban(MemberArn, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/bans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel_ban(
+    MemberArn,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels/$(channelArn)/bans",
+    Dict{String,Any}(
+        "MemberArn" => MemberArn,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_channel_ban(
+    MemberArn,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)/bans",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MemberArn" => MemberArn,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel_flow(app_instance_arn, client_request_token, name, processors)
@@ -186,8 +377,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags for the creation request.
 """
-create_channel_flow(AppInstanceArn, ClientRequestToken, Name, Processors; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channel-flows", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name, "Processors"=>Processors); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel_flow(AppInstanceArn, ClientRequestToken, Name, Processors, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channel-flows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name, "Processors"=>Processors), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel_flow(
+    AppInstanceArn,
+    ClientRequestToken,
+    Name,
+    Processors;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channel-flows",
+    Dict{String,Any}(
+        "AppInstanceArn" => AppInstanceArn,
+        "ClientRequestToken" => ClientRequestToken,
+        "Name" => Name,
+        "Processors" => Processors,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_channel_flow(
+    AppInstanceArn,
+    ClientRequestToken,
+    Name,
+    Processors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channel-flows",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppInstanceArn" => AppInstanceArn,
+                    "ClientRequestToken" => ClientRequestToken,
+                    "Name" => Name,
+                    "Processors" => Processors,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer)
@@ -229,8 +463,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Only required when creating membership in a SubChannel for a moderator in an elastic
   channel.
 """
-create_channel_membership(MemberArn, Type, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel_membership(MemberArn, Type, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel_membership(
+    MemberArn,
+    Type,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels/$(channelArn)/memberships",
+    Dict{String,Any}(
+        "MemberArn" => MemberArn,
+        "Type" => Type,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_channel_membership(
+    MemberArn,
+    Type,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)/memberships",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MemberArn" => MemberArn,
+                    "Type" => Type,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel_moderator(channel_moderator_arn, channel_arn, x-amz-chime-bearer)
@@ -256,8 +532,46 @@ the header.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-create_channel_moderator(ChannelModeratorArn, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel_moderator(ChannelModeratorArn, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel_moderator(
+    ChannelModeratorArn,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels/$(channelArn)/moderators",
+    Dict{String,Any}(
+        "ChannelModeratorArn" => ChannelModeratorArn,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_channel_moderator(
+    ChannelModeratorArn,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)/moderators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChannelModeratorArn" => ChannelModeratorArn,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel(channel_arn, x-amz-chime-bearer)
@@ -276,8 +590,40 @@ This is an irreversible process.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-delete_channel(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "DELETE",
+    "/channels/$(channelArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel_ban(channel_arn, member_arn, x-amz-chime-bearer)
@@ -296,8 +642,44 @@ Removes a member from a channel's ban list.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-delete_channel_ban(channelArn, memberArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/bans/$(memberArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel_ban(channelArn, memberArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/bans/$(memberArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel_ban(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "DELETE",
+    "/channels/$(channelArn)/bans/$(memberArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel_ban(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)/bans/$(memberArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel_flow(channel_flow_arn)
@@ -315,8 +697,26 @@ disassociate a channel flow from all channels.
 
 - `channel_flow_arn`: The ARN of the channel flow.
 """
-delete_channel_flow(channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channel-flows/$(channelFlowArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel_flow(channelFlowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channel-flows/$(channelFlowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel_flow(channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "DELETE",
+        "/channel-flows/$(channelFlowArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_channel_flow(
+    channelFlowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channel-flows/$(channelFlowArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel_membership(channel_arn, member_arn, x-amz-chime-bearer)
@@ -345,8 +745,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! note
     Only for use by moderators.
 """
-delete_channel_membership(channelArn, memberArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel_membership(channelArn, memberArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel_membership(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "DELETE",
+    "/channels/$(channelArn)/memberships/$(memberArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel_membership(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)/memberships/$(memberArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel_message(channel_arn, message_id, x-amz-chime-bearer)
@@ -376,8 +812,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Only required when deleting messages in a SubChannel that the user belongs to.
 """
-delete_channel_message(channelArn, messageId, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/messages/$(messageId)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel_message(channelArn, messageId, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/messages/$(messageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel_message(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "DELETE",
+    "/channels/$(channelArn)/messages/$(messageId)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel_message(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)/messages/$(messageId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel_moderator(channel_arn, channel_moderator_arn, x-amz-chime-bearer)
@@ -396,8 +868,44 @@ Deletes a channel moderator.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-delete_channel_moderator(channelArn, channelModeratorArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel_moderator(channelArn, channelModeratorArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel_moderator(
+    channelArn,
+    channelModeratorArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "DELETE",
+    "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel_moderator(
+    channelArn,
+    channelModeratorArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_messaging_streaming_configurations(app_instance_arn)
@@ -410,8 +918,27 @@ in the *Amazon Chime SDK Developer Guide*.
 
 - `app_instance_arn`: The ARN of the streaming configurations being deleted.
 """
-delete_messaging_streaming_configurations(appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_messaging_streaming_configurations(appInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_messaging_streaming_configurations(
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "DELETE",
+    "/app-instances/$(appInstanceArn)/streaming-configurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_messaging_streaming_configurations(
+    appInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel(channel_arn, x-amz-chime-bearer)
@@ -429,8 +956,40 @@ Returns the full details of a channel in an Amazon Chime `AppInstance`.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-describe_channel(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_channel(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel_ban(channel_arn, member_arn, x-amz-chime-bearer)
@@ -449,8 +1008,44 @@ Returns the full details of a channel ban.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-describe_channel_ban(channelArn, memberArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/bans/$(memberArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel_ban(channelArn, memberArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/bans/$(memberArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel_ban(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/bans/$(memberArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_channel_ban(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/bans/$(memberArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel_flow(channel_flow_arn)
@@ -463,8 +1058,26 @@ developer API.
 
 - `channel_flow_arn`: The ARN of the channel flow.
 """
-describe_channel_flow(channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channel-flows/$(channelFlowArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel_flow(channelFlowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channel-flows/$(channelFlowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel_flow(channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "GET",
+        "/channel-flows/$(channelFlowArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_channel_flow(
+    channelFlowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channel-flows/$(channelFlowArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel_membership(channel_arn, member_arn, x-amz-chime-bearer)
@@ -493,8 +1106,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! note
     Only required to get a user’s SubChannel membership details.
 """
-describe_channel_membership(channelArn, memberArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/memberships/$(memberArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel_membership(channelArn, memberArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/memberships/$(memberArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel_membership(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/memberships/$(memberArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_channel_membership(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/memberships/$(memberArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer)
@@ -514,8 +1163,46 @@ describe_channel_membership(channelArn, memberArn, x_amz_chime_bearer, params::A
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel_membership_for_app_instance_user(
+    app_instance_user_arn,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)?scope=app-instance-user-membership",
+    Dict{String,Any}(
+        "app-instance-user-arn" => app_instance_user_arn,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_channel_membership_for_app_instance_user(
+    app_instance_user_arn,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)?scope=app-instance-user-membership",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "app-instance-user-arn" => app_instance_user_arn,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel_moderated_by_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer)
@@ -535,8 +1222,46 @@ Returns the full details of a channel moderated by the specified `AppInstanceUse
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel_moderated_by_app_instance_user(
+    app_instance_user_arn,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)?scope=app-instance-user-moderated-channel",
+    Dict{String,Any}(
+        "app-instance-user-arn" => app_instance_user_arn,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_channel_moderated_by_app_instance_user(
+    app_instance_user_arn,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)?scope=app-instance-user-moderated-channel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "app-instance-user-arn" => app_instance_user_arn,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_channel_moderator(channel_arn, channel_moderator_arn, x-amz-chime-bearer)
@@ -555,8 +1280,44 @@ the user that makes the API call as the value in the header.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-describe_channel_moderator(channelArn, channelModeratorArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_channel_moderator(channelArn, channelModeratorArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_channel_moderator(
+    channelArn,
+    channelModeratorArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_channel_moderator(
+    channelArn,
+    channelModeratorArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_channel_flow(channel_arn, channel_flow_arn, x-amz-chime-bearer)
@@ -577,8 +1338,44 @@ that channel stop going through the channel flow processor.</p>
 - `channel_flow_arn`: The ARN of the channel flow.
 - `x-amz-chime-bearer`: The `AppInstanceUserArn` of the user making the API call.
 """
-disassociate_channel_flow(channelArn, channelFlowArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/channel-flow/$(channelFlowArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_channel_flow(channelArn, channelFlowArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("DELETE", "/channels/$(channelArn)/channel-flow/$(channelFlowArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_channel_flow(
+    channelArn,
+    channelFlowArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "DELETE",
+    "/channels/$(channelArn)/channel-flow/$(channelFlowArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_channel_flow(
+    channelArn,
+    channelFlowArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)/channel-flow/$(channelFlowArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer)
@@ -601,8 +1398,44 @@ bots can't retrieve membership preferences for the channel from which they are b
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-get_channel_membership_preferences(channelArn, memberArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/memberships/$(memberArn)/preferences", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_channel_membership_preferences(channelArn, memberArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/memberships/$(memberArn)/preferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_channel_membership_preferences(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_channel_membership_preferences(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_channel_message(channel_arn, message_id, x-amz-chime-bearer)
@@ -630,8 +1463,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
     Only required when getting messages in a SubChannel that the user belongs to.
 """
-get_channel_message(channelArn, messageId, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/messages/$(messageId)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_channel_message(channelArn, messageId, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/messages/$(messageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_channel_message(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/messages/$(messageId)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_channel_message(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/messages/$(messageId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_channel_message_status(channel_arn, message_id, x-amz-chime-bearer)
@@ -668,8 +1537,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Only required when getting message status in a SubChannel that the user belongs to.
 """
-get_channel_message_status(channelArn, messageId, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/messages/$(messageId)?scope=message-status", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_channel_message_status(channelArn, messageId, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/messages/$(messageId)?scope=message-status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_channel_message_status(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/messages/$(messageId)?scope=message-status",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_channel_message_status(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/messages/$(messageId)?scope=message-status",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_messaging_session_endpoint()
@@ -677,8 +1582,24 @@ get_channel_message_status(channelArn, messageId, x_amz_chime_bearer, params::Ab
 
 The details of the endpoint for the messaging session.
 """
-get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/endpoints/messaging-session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_messaging_session_endpoint(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/endpoints/messaging-session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "GET",
+        "/endpoints/messaging-session";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_messaging_session_endpoint(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/endpoints/messaging-session",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_messaging_streaming_configurations(app_instance_arn)
@@ -691,8 +1612,27 @@ in the *Amazon Chime SDK Developer Guide*.
 
 - `app_instance_arn`: The ARN of the streaming configurations.
 """
-get_messaging_streaming_configurations(appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_messaging_streaming_configurations(appInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/app-instances/$(appInstanceArn)/streaming-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_messaging_streaming_configurations(
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/app-instances/$(appInstanceArn)/streaming-configurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_messaging_streaming_configurations(
+    appInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channel_bans(channel_arn, x-amz-chime-bearer)
@@ -718,8 +1658,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested bans are
   returned.
 """
-list_channel_bans(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/bans", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channel_bans(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/bans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channel_bans(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/bans",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channel_bans(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/bans",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channel_flows(app-instance-arn)
@@ -740,8 +1712,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested channel flows
   are returned.
 """
-list_channel_flows(app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channel-flows", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channel_flows(app_instance_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channel-flows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channel_flows(app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "GET",
+        "/channel-flows",
+        Dict{String,Any}("app-instance-arn" => app_instance_arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_channel_flows(
+    app_instance_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channel-flows",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("app-instance-arn" => app_instance_arn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channel_memberships(channel_arn, x-amz-chime-bearer)
@@ -777,8 +1772,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned as part of `ListChannelMemberships` if no type is specified. Hidden members are
   only returned if the type filter in `ListChannelMemberships` equals `HIDDEN`.
 """
-list_channel_memberships(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/memberships", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channel_memberships(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channel_memberships(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/memberships",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channel_memberships(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/memberships",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channel_memberships_for_app_instance_user(x-amz-chime-bearer)
@@ -805,8 +1832,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token returned from previous API requests until the number of channel
   memberships is reached.
 """
-list_channel_memberships_for_app_instance_user(x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels?scope=app-instance-user-memberships", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channel_memberships_for_app_instance_user(x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels?scope=app-instance-user-memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channel_memberships_for_app_instance_user(
+    x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels?scope=app-instance-user-memberships",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channel_memberships_for_app_instance_user(
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels?scope=app-instance-user-memberships",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channel_messages(channel_arn, x-amz-chime-bearer)
@@ -845,8 +1903,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Only required when listing the messages in a SubChannel that the user belongs to.
 """
-list_channel_messages(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/messages", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channel_messages(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channel_messages(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/messages",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channel_messages(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/messages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channel_moderators(channel_arn, x-amz-chime-bearer)
@@ -872,8 +1962,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested moderators are
   returned.
 """
-list_channel_moderators(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/moderators", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channel_moderators(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/moderators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channel_moderators(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/moderators",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channel_moderators(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/moderators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channels(app-instance-arn, x-amz-chime-bearer)
@@ -909,8 +2031,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"privacy"`: The privacy setting. `PUBLIC` retrieves all the public channels. `PRIVATE`
   retrieves private channels. Only an `AppInstanceAdmin` can retrieve private channels.
 """
-list_channels(app_instance_arn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels", Dict{String, Any}("app-instance-arn"=>app_instance_arn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channels(app_instance_arn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channels(
+    app_instance_arn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels",
+    Dict{String,Any}(
+        "app-instance-arn" => app_instance_arn,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channels(
+    app_instance_arn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "app-instance-arn" => app_instance_arn,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channels_associated_with_channel_flow(channel-flow-arn)
@@ -932,8 +2088,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested channels are
   returned.
 """
-list_channels_associated_with_channel_flow(channel_flow_arn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels?scope=channel-flow-associations", Dict{String, Any}("channel-flow-arn"=>channel_flow_arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channels_associated_with_channel_flow(channel_flow_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels?scope=channel-flow-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channel-flow-arn"=>channel_flow_arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channels_associated_with_channel_flow(
+    channel_flow_arn; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels?scope=channel-flow-associations",
+    Dict{String,Any}("channel-flow-arn" => channel_flow_arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channels_associated_with_channel_flow(
+    channel_flow_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels?scope=channel-flow-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("channel-flow-arn" => channel_flow_arn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channels_moderated_by_app_instance_user(x-amz-chime-bearer)
@@ -959,8 +2139,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token returned from previous API requests until the number of
   channels moderated by the user is reached.
 """
-list_channels_moderated_by_app_instance_user(x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels?scope=app-instance-user-moderated-channels", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channels_moderated_by_app_instance_user(x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels?scope=app-instance-user-moderated-channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channels_moderated_by_app_instance_user(
+    x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels?scope=app-instance-user-moderated-channels",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_channels_moderated_by_app_instance_user(
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels?scope=app-instance-user-moderated-channels",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_sub_channels(channel_arn, x-amz-chime-bearer)
@@ -982,8 +2193,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested sub-channels
   are returned.
 """
-list_sub_channels(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/subchannels", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_sub_channels(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/channels/$(channelArn)/subchannels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sub_channels(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "GET",
+    "/channels/$(channelArn)/subchannels",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_sub_channels(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/subchannels",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(arn)
@@ -995,8 +2238,25 @@ Lists the tags applied to an Amazon Chime SDK messaging resource.
 
 - `arn`: The ARN of the resource.
 """
-list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/tags", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "GET",
+        "/tags",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/tags",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_channel_expiration_settings(channel_arn)
@@ -1025,8 +2285,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-chime-bearer"`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes
   the API call.
 """
-put_channel_expiration_settings(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/expiration-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_channel_expiration_settings(channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/expiration-settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_channel_expiration_settings(
+    channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "PUT",
+    "/channels/$(channelArn)/expiration-settings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_channel_expiration_settings(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/expiration-settings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer)
@@ -1050,8 +2329,48 @@ or `AppInstanceBot` that makes the API call as the value in the header.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-put_channel_membership_preferences(Preferences, channelArn, memberArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/memberships/$(memberArn)/preferences", Dict{String, Any}("Preferences"=>Preferences, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_channel_membership_preferences(Preferences, channelArn, memberArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/memberships/$(memberArn)/preferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Preferences"=>Preferences, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_channel_membership_preferences(
+    Preferences,
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "PUT",
+    "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+    Dict{String,Any}(
+        "Preferences" => Preferences,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_channel_membership_preferences(
+    Preferences,
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Preferences" => Preferences,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_messaging_streaming_configurations(streaming_configurations, app_instance_arn)
@@ -1065,8 +2384,37 @@ in the *Amazon Chime SDK Developer Guide*.
 - `streaming_configurations`: The streaming configurations.
 - `app_instance_arn`: The ARN of the streaming configuration.
 """
-put_messaging_streaming_configurations(StreamingConfigurations, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}("StreamingConfigurations"=>StreamingConfigurations); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_messaging_streaming_configurations(StreamingConfigurations, appInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingConfigurations"=>StreamingConfigurations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_messaging_streaming_configurations(
+    StreamingConfigurations,
+    appInstanceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "PUT",
+    "/app-instances/$(appInstanceArn)/streaming-configurations",
+    Dict{String,Any}("StreamingConfigurations" => StreamingConfigurations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_messaging_streaming_configurations(
+    StreamingConfigurations,
+    appInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("StreamingConfigurations" => StreamingConfigurations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     redact_channel_message(channel_arn, message_id, x-amz-chime-bearer)
@@ -1092,8 +2440,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 """
-redact_channel_message(channelArn, messageId, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-redact_channel_message(channelArn, messageId, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+redact_channel_message(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels/$(channelArn)/messages/$(messageId)?operation=redact",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function redact_channel_message(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)/messages/$(messageId)?operation=redact",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_channels(fields)
@@ -1119,8 +2503,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channels is reached.
 - `"x-amz-chime-bearer"`: The `AppInstanceUserArn` of the user making the API call.
 """
-search_channels(Fields; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels?operation=search", Dict{String, Any}("Fields"=>Fields); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_channels(Fields, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels?operation=search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Fields"=>Fields), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_channels(Fields; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "POST",
+        "/channels?operation=search",
+        Dict{String,Any}("Fields" => Fields);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function search_channels(
+    Fields, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels?operation=search",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Fields" => Fields), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     send_channel_message(client_request_token, content, persistence, type, channel_arn, x-amz-chime-bearer)
@@ -1170,8 +2571,58 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Only users who can see targeted messages can take actions on them. However,
   administrators can delete targeted messages that they can’t see.
 """
-send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/messages", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/channels/$(channelArn)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_channel_message(
+    ClientRequestToken,
+    Content,
+    Persistence,
+    Type,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "POST",
+    "/channels/$(channelArn)/messages",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken,
+        "Content" => Content,
+        "Persistence" => Persistence,
+        "Type" => Type,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function send_channel_message(
+    ClientRequestToken,
+    Content,
+    Persistence,
+    Type,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)/messages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "Content" => Content,
+                    "Persistence" => Persistence,
+                    "Type" => Type,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1184,8 +2635,34 @@ Applies the specified tags to the specified Amazon Chime SDK messaging resource.
 - `resource_arn`: The resource ARN.
 - `tags`: The tag key-value pairs.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/tags?operation=tag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/tags?operation=tag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1198,8 +2675,34 @@ Removes the specified tags from the specified Amazon Chime SDK messaging resourc
 - `resource_arn`: The resource ARN.
 - `tag_keys`: The tag keys.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/tags?operation=untag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("POST", "/tags?operation=untag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    chime_sdk_messaging(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel(channel_arn, x-amz-chime-bearer)
@@ -1227,8 +2730,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Mode"`: The mode of the update request.
 - `"Name"`: The name of the channel.
 """
-update_channel(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "PUT",
+    "/channels/$(channelArn)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel_flow(name, processors, channel_flow_arn)
@@ -1242,8 +2777,34 @@ Updates channel flow attributes. This is a developer API.
 - `processors`: Information about the processor Lambda functions
 - `channel_flow_arn`: The ARN of the channel flow.
 """
-update_channel_flow(Name, Processors, channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channel-flows/$(channelFlowArn)", Dict{String, Any}("Name"=>Name, "Processors"=>Processors); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel_flow(Name, Processors, channelFlowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channel-flows/$(channelFlowArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Processors"=>Processors), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel_flow(
+    Name, Processors, channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "PUT",
+    "/channel-flows/$(channelFlowArn)",
+    Dict{String,Any}("Name" => Name, "Processors" => Processors);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel_flow(
+    Name,
+    Processors,
+    channelFlowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channel-flows/$(channelFlowArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "Processors" => Processors), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel_message(content, channel_arn, message_id, x-amz-chime-bearer)
@@ -1274,8 +2835,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Only required when updating messages in a SubChannel that the user belongs to.
 """
-update_channel_message(Content, channelArn, messageId, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/messages/$(messageId)", Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel_message(Content, channelArn, messageId, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/messages/$(messageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel_message(
+    Content,
+    channelArn,
+    messageId,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = chime_sdk_messaging(
+    "PUT",
+    "/channels/$(channelArn)/messages/$(messageId)",
+    Dict{String,Any}(
+        "Content" => Content,
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel_message(
+    Content,
+    channelArn,
+    messageId,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/messages/$(messageId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Content" => Content,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel_read_marker(channel_arn, x-amz-chime-bearer)
@@ -1293,5 +2894,37 @@ The details of the time when a user last read messages in a channel.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 """
-update_channel_read_marker(channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/readMarker", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel_read_marker(channelArn, x_amz_chime_bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = chime_sdk_messaging("PUT", "/channels/$(channelArn)/readMarker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-chime-bearer"=>x_amz_chime_bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel_read_marker(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
+) = chime_sdk_messaging(
+    "PUT",
+    "/channels/$(channelArn)/readMarker",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel_read_marker(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/readMarker",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

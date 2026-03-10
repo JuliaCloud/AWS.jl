@@ -31,8 +31,33 @@ Gateway stage.
   id*/stages/*stage-name* `
 - `web_aclid`: A unique identifier (ID) for the web ACL.
 """
-associate_web_acl(ResourceArn, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("AssociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLId"=>WebACLId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_web_acl(ResourceArn, WebACLId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("AssociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_web_acl(
+    ResourceArn, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "AssociateWebACL",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLId" => WebACLId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_web_acl(
+    ResourceArn,
+    WebACLId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "AssociateWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLId" => WebACLId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_byte_match_set(change_token, name)
@@ -70,8 +95,33 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `name`: A friendly name or description of the <a>ByteMatchSet</a>. You can't change
   `Name` after you create a `ByteMatchSet`.
 """
-create_byte_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateByteMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_byte_match_set(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_byte_match_set(
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateByteMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_byte_match_set(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateByteMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_geo_match_set(change_token, name)
@@ -108,8 +158,33 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `name`: A friendly name or description of the <a>GeoMatchSet</a>. You can't change `Name`
   after you create the `GeoMatchSet`.
 """
-create_geo_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_geo_match_set(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_geo_match_set(
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateGeoMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_geo_match_set(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateGeoMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ipset(change_token, name)
@@ -146,8 +221,32 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `name`: A friendly name or description of the <a>IPSet</a>. You can't change `Name` after
   you create the `IPSet`.
 """
-create_ipset(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ipset(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ipset(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "CreateIPSet",
+        Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_ipset(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateIPSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rate_based_rule(change_token, metric_name, name, rate_key, rate_limit)
@@ -234,8 +333,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: <p/>
 """
-create_rate_based_rule(ChangeToken, MetricName, Name, RateKey, RateLimit; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rate_based_rule(ChangeToken, MetricName, Name, RateKey, RateLimit, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rate_based_rule(
+    ChangeToken,
+    MetricName,
+    Name,
+    RateKey,
+    RateLimit;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "CreateRateBasedRule",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "MetricName" => MetricName,
+        "Name" => Name,
+        "RateKey" => RateKey,
+        "RateLimit" => RateLimit,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rate_based_rule(
+    ChangeToken,
+    MetricName,
+    Name,
+    RateKey,
+    RateLimit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateRateBasedRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "MetricName" => MetricName,
+                    "Name" => Name,
+                    "RateKey" => RateKey,
+                    "RateLimit" => RateLimit,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_regex_match_set(change_token, name)
@@ -267,8 +411,33 @@ For more information about how to use the AWS WAF API to allow or block HTTP req
 - `name`: A friendly name or description of the <a>RegexMatchSet</a>. You can't change
   `Name` after you create a `RegexMatchSet`.
 """
-create_regex_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_regex_match_set(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_regex_match_set(
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateRegexMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_regex_match_set(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateRegexMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_regex_pattern_set(change_token, name)
@@ -297,8 +466,33 @@ For more information about how to use the AWS WAF API to allow or block HTTP req
 - `name`: A friendly name or description of the <a>RegexPatternSet</a>. You can't change
   `Name` after you create a `RegexPatternSet`.
 """
-create_regex_pattern_set(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_regex_pattern_set(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_regex_pattern_set(
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateRegexPatternSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_regex_pattern_set(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rule(change_token, metric_name, name)
@@ -354,8 +548,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: <p/>
 """
-create_rule(ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rule(ChangeToken, MetricName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rule(
+    ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateRule",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rule(
+    ChangeToken,
+    MetricName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rule_group(change_token, metric_name, name)
@@ -396,8 +620,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: <p/>
 """
-create_rule_group(ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rule_group(ChangeToken, MetricName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rule_group(
+    ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateRuleGroup",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rule_group(
+    ChangeToken,
+    MetricName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_size_constraint_set(change_token, name)
@@ -435,8 +689,33 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `name`: A friendly name or description of the <a>SizeConstraintSet</a>. You can't change
   `Name` after you create a `SizeConstraintSet`.
 """
-create_size_constraint_set(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_size_constraint_set(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_size_constraint_set(
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateSizeConstraintSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_size_constraint_set(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateSizeConstraintSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_sql_injection_match_set(change_token, name)
@@ -471,8 +750,33 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `name`: A friendly name or description for the <a>SqlInjectionMatchSet</a> that you're
   creating. You can't change `Name` after you create the `SqlInjectionMatchSet`.
 """
-create_sql_injection_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_sql_injection_match_set(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_sql_injection_match_set(
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateSqlInjectionMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_sql_injection_match_set(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateSqlInjectionMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_web_acl(change_token, default_action, metric_name, name)
@@ -530,8 +834,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: <p/>
 """
-create_web_acl(ChangeToken, DefaultAction, MetricName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_web_acl(ChangeToken, DefaultAction, MetricName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_web_acl(
+    ChangeToken,
+    DefaultAction,
+    MetricName,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "CreateWebACL",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "DefaultAction" => DefaultAction,
+        "MetricName" => MetricName,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_web_acl(
+    ChangeToken,
+    DefaultAction,
+    MetricName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "DefaultAction" => DefaultAction,
+                    "MetricName" => MetricName,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_web_aclmigration_stack(ignore_unsupported_type, s3_bucket_name, web_aclid)
@@ -563,8 +908,45 @@ in the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/develope
   the bucket policies, see the Examples section.
 - `web_aclid`: The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
 """
-create_web_aclmigration_stack(IgnoreUnsupportedType, S3BucketName, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateWebACLMigrationStack", Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_web_aclmigration_stack(IgnoreUnsupportedType, S3BucketName, WebACLId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateWebACLMigrationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_web_aclmigration_stack(
+    IgnoreUnsupportedType,
+    S3BucketName,
+    WebACLId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "CreateWebACLMigrationStack",
+    Dict{String,Any}(
+        "IgnoreUnsupportedType" => IgnoreUnsupportedType,
+        "S3BucketName" => S3BucketName,
+        "WebACLId" => WebACLId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_web_aclmigration_stack(
+    IgnoreUnsupportedType,
+    S3BucketName,
+    WebACLId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateWebACLMigrationStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IgnoreUnsupportedType" => IgnoreUnsupportedType,
+                    "S3BucketName" => S3BucketName,
+                    "WebACLId" => WebACLId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_xss_match_set(change_token, name)
@@ -599,8 +981,33 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `name`: A friendly name or description for the <a>XssMatchSet</a> that you're creating.
   You can't change `Name` after you create the `XssMatchSet`.
 """
-create_xss_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_xss_match_set(ChangeToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("CreateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_xss_match_set(
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "CreateXssMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_xss_match_set(
+    ChangeToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "CreateXssMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_byte_match_set(byte_match_set_id, change_token)
@@ -634,8 +1041,35 @@ parameter of a `DeleteByteMatchSet` request.
   <a>ListByteMatchSets</a>.
 - `change_token`: The value returned by the most recent call to <a>GetChangeToken</a>.
 """
-delete_byte_match_set(ByteMatchSetId, ChangeToken; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_byte_match_set(ByteMatchSetId, ChangeToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_byte_match_set(
+    ByteMatchSetId, ChangeToken; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteByteMatchSet",
+    Dict{String,Any}("ByteMatchSetId" => ByteMatchSetId, "ChangeToken" => ChangeToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_byte_match_set(
+    ByteMatchSetId,
+    ChangeToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteByteMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ByteMatchSetId" => ByteMatchSetId, "ChangeToken" => ChangeToken
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_geo_match_set(change_token, geo_match_set_id)
@@ -668,8 +1102,35 @@ parameter of a `DeleteGeoMatchSet` request.
   delete. `GeoMatchSetId` is returned by <a>CreateGeoMatchSet</a> and by
   <a>ListGeoMatchSets</a>.
 """
-delete_geo_match_set(ChangeToken, GeoMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_geo_match_set(ChangeToken, GeoMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_geo_match_set(
+    ChangeToken, GeoMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteGeoMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "GeoMatchSetId" => GeoMatchSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_geo_match_set(
+    ChangeToken,
+    GeoMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteGeoMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "GeoMatchSetId" => GeoMatchSetId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ipset(change_token, ipset_id)
@@ -701,8 +1162,32 @@ parameter of a `DeleteIPSet` request.
 - `ipset_id`: The `IPSetId` of the <a>IPSet</a> that you want to delete. `IPSetId` is
   returned by <a>CreateIPSet</a> and by <a>ListIPSets</a>.
 """
-delete_ipset(ChangeToken, IPSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ipset(ChangeToken, IPSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ipset(ChangeToken, IPSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "DeleteIPSet",
+        Dict{String,Any}("ChangeToken" => ChangeToken, "IPSetId" => IPSetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_ipset(
+    ChangeToken,
+    IPSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteIPSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "IPSetId" => IPSetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_logging_configuration(resource_arn)
@@ -723,8 +1208,28 @@ use.Permanently deletes the <a>LoggingConfiguration</a> from the specified web A
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL from which you want to
   delete the <a>LoggingConfiguration</a>.
 """
-delete_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_logging_configuration(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_logging_configuration(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteLoggingConfiguration",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_logging_configuration(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_permission_policy(resource_arn)
@@ -749,8 +1254,27 @@ With the latest version, AWS WAF has a single set of endpoints for regional and 
 
 The user making the request must be the owner of the RuleGroup.
 """
-delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeletePermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_permission_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "DeletePermissionPolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_permission_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeletePermissionPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rate_based_rule(change_token, rule_id)
@@ -783,8 +1307,33 @@ parameter of a `DeleteRateBasedRule` request.
 - `rule_id`: The `RuleId` of the <a>RateBasedRule</a> that you want to delete. `RuleId` is
   returned by <a>CreateRateBasedRule</a> and by <a>ListRateBasedRules</a>.
 """
-delete_rate_based_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rate_based_rule(ChangeToken, RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rate_based_rule(
+    ChangeToken, RuleId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteRateBasedRule",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_rate_based_rule(
+    ChangeToken,
+    RuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteRateBasedRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_regex_match_set(change_token, regex_match_set_id)
@@ -818,8 +1367,35 @@ parameter of a `DeleteRegexMatchSet` request.
   delete. `RegexMatchSetId` is returned by <a>CreateRegexMatchSet</a> and by
   <a>ListRegexMatchSets</a>.
 """
-delete_regex_match_set(ChangeToken, RegexMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_regex_match_set(ChangeToken, RegexMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_regex_match_set(
+    ChangeToken, RegexMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteRegexMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "RegexMatchSetId" => RegexMatchSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_regex_match_set(
+    ChangeToken,
+    RegexMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteRegexMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "RegexMatchSetId" => RegexMatchSetId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_regex_pattern_set(change_token, regex_pattern_set_id)
@@ -843,8 +1419,37 @@ it's still used in any `RegexMatchSet` or if the `RegexPatternSet` is not empty.
   want to delete. `RegexPatternSetId` is returned by <a>CreateRegexPatternSet</a> and by
   <a>ListRegexPatternSets</a>.
 """
-delete_regex_pattern_set(ChangeToken, RegexPatternSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_regex_pattern_set(ChangeToken, RegexPatternSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_regex_pattern_set(
+    ChangeToken, RegexPatternSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteRegexPatternSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "RegexPatternSetId" => RegexPatternSetId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_regex_pattern_set(
+    ChangeToken,
+    RegexPatternSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "RegexPatternSetId" => RegexPatternSetId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rule(change_token, rule_id)
@@ -875,8 +1480,32 @@ parameter of a `DeleteRule` request.
 - `rule_id`: The `RuleId` of the <a>Rule</a> that you want to delete. `RuleId` is returned
   by <a>CreateRule</a> and by <a>ListRules</a>.
 """
-delete_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rule(ChangeToken, RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "DeleteRule",
+        Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_rule(
+    ChangeToken,
+    RuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rule_group(change_token, rule_group_id)
@@ -908,8 +1537,35 @@ parameter of a `DeleteRuleGroup` request.
 - `rule_group_id`: The `RuleGroupId` of the <a>RuleGroup</a> that you want to delete.
   `RuleGroupId` is returned by <a>CreateRuleGroup</a> and by <a>ListRuleGroups</a>.
 """
-delete_rule_group(ChangeToken, RuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rule_group(ChangeToken, RuleGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rule_group(
+    ChangeToken, RuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteRuleGroup",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "RuleGroupId" => RuleGroupId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_rule_group(
+    ChangeToken,
+    RuleGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "RuleGroupId" => RuleGroupId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_size_constraint_set(change_token, size_constraint_set_id)
@@ -943,8 +1599,38 @@ parameter of a `DeleteSizeConstraintSet` request.
   you want to delete. `SizeConstraintSetId` is returned by <a>CreateSizeConstraintSet</a>
   and by <a>ListSizeConstraintSets</a>.
 """
-delete_size_constraint_set(ChangeToken, SizeConstraintSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_size_constraint_set(ChangeToken, SizeConstraintSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_size_constraint_set(
+    ChangeToken, SizeConstraintSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteSizeConstraintSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "SizeConstraintSetId" => SizeConstraintSetId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_size_constraint_set(
+    ChangeToken,
+    SizeConstraintSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteSizeConstraintSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "SizeConstraintSetId" => SizeConstraintSetId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_sql_injection_match_set(change_token, sql_injection_match_set_id)
@@ -978,8 +1664,38 @@ parameter of a `DeleteSqlInjectionMatchSet` request.
   <a>SqlInjectionMatchSet</a> that you want to delete. `SqlInjectionMatchSetId` is returned
   by <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
 """
-delete_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_sql_injection_match_set(
+    ChangeToken, SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteSqlInjectionMatchSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "SqlInjectionMatchSetId" => SqlInjectionMatchSetId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_sql_injection_match_set(
+    ChangeToken,
+    SqlInjectionMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteSqlInjectionMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "SqlInjectionMatchSetId" => SqlInjectionMatchSetId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_web_acl(change_token, web_aclid)
@@ -1008,8 +1724,32 @@ parameter of a `DeleteWebACL` request.
 - `web_aclid`: The `WebACLId` of the <a>WebACL</a> that you want to delete. `WebACLId` is
   returned by <a>CreateWebACL</a> and by <a>ListWebACLs</a>.
 """
-delete_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_web_acl(ChangeToken, WebACLId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "DeleteWebACL",
+        Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_web_acl(
+    ChangeToken,
+    WebACLId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_xss_match_set(change_token, xss_match_set_id)
@@ -1042,8 +1782,35 @@ parameter of a `DeleteXssMatchSet` request.
   delete. `XssMatchSetId` is returned by <a>CreateXssMatchSet</a> and by
   <a>ListXssMatchSets</a>.
 """
-delete_xss_match_set(ChangeToken, XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_xss_match_set(ChangeToken, XssMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DeleteXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_xss_match_set(
+    ChangeToken, XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "DeleteXssMatchSet",
+    Dict{String,Any}("ChangeToken" => ChangeToken, "XssMatchSetId" => XssMatchSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_xss_match_set(
+    ChangeToken,
+    XssMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DeleteXssMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "XssMatchSetId" => XssMatchSetId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_web_acl(resource_arn)
@@ -1071,8 +1838,27 @@ Amazon API Gateway stage.
    - For an Amazon API Gateway stage: `arn:aws:apigateway:*region*::/restapis/*api-
   id*/stages/*stage-name* `
 """
-disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DisassociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_web_acl(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("DisassociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "DisassociateWebACL",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disassociate_web_acl(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "DisassociateWebACL",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_byte_match_set(byte_match_set_id)
@@ -1094,8 +1880,27 @@ use.Returns the <a>ByteMatchSet</a> specified by `ByteMatchSetId`.
   get. `ByteMatchSetId` is returned by <a>CreateByteMatchSet</a> and by
   <a>ListByteMatchSets</a>.
 """
-get_byte_match_set(ByteMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_byte_match_set(ByteMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_byte_match_set(ByteMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetByteMatchSet",
+        Dict{String,Any}("ByteMatchSetId" => ByteMatchSetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_byte_match_set(
+    ByteMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetByteMatchSet",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ByteMatchSetId" => ByteMatchSetId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_change_token()
@@ -1123,8 +1928,15 @@ change token changes to `PENDING`, which indicates that AWS WAF is propagating t
 to all AWS WAF servers. Use `GetChangeTokenStatus` to determine the status of your change
 token.
 """
-get_change_token(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetChangeToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_change_token(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetChangeToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_change_token(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional("GetChangeToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_change_token(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "GetChangeToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_change_token_status(change_token)
@@ -1151,8 +1963,27 @@ servers.
 - `change_token`: The change token for which you want to get the status. This change token
   was previously returned in the `GetChangeToken` response.
 """
-get_change_token_status(ChangeToken; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetChangeTokenStatus", Dict{String, Any}("ChangeToken"=>ChangeToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_change_token_status(ChangeToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetChangeTokenStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_change_token_status(ChangeToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetChangeTokenStatus",
+        Dict{String,Any}("ChangeToken" => ChangeToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_change_token_status(
+    ChangeToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetChangeTokenStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ChangeToken" => ChangeToken), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_geo_match_set(geo_match_set_id)
@@ -1173,8 +2004,27 @@ use.Returns the <a>GeoMatchSet</a> that is specified by `GeoMatchSetId`.
 - `geo_match_set_id`: The `GeoMatchSetId` of the <a>GeoMatchSet</a> that you want to get.
   `GeoMatchSetId` is returned by <a>CreateGeoMatchSet</a> and by <a>ListGeoMatchSets</a>.
 """
-get_geo_match_set(GeoMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetGeoMatchSet", Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_geo_match_set(GeoMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_geo_match_set(GeoMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetGeoMatchSet",
+        Dict{String,Any}("GeoMatchSetId" => GeoMatchSetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_geo_match_set(
+    GeoMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetGeoMatchSet",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GeoMatchSetId" => GeoMatchSetId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ipset(ipset_id)
@@ -1195,8 +2045,24 @@ use.Returns the <a>IPSet</a> that is specified by `IPSetId`.
 - `ipset_id`: The `IPSetId` of the <a>IPSet</a> that you want to get. `IPSetId` is returned
   by <a>CreateIPSet</a> and by <a>ListIPSets</a>.
 """
-get_ipset(IPSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetIPSet", Dict{String, Any}("IPSetId"=>IPSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ipset(IPSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IPSetId"=>IPSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ipset(IPSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional(
+    "GetIPSet",
+    Dict{String,Any}("IPSetId" => IPSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ipset(
+    IPSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetIPSet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IPSetId" => IPSetId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_logging_configuration(resource_arn)
@@ -1217,8 +2083,27 @@ use.Returns the <a>LoggingConfiguration</a> for the specified web ACL.
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get
   the <a>LoggingConfiguration</a>.
 """
-get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_logging_configuration(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetLoggingConfiguration",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_logging_configuration(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_permission_policy(resource_arn)
@@ -1239,8 +2124,27 @@ use.Returns the IAM policy attached to the RuleGroup.
 - `resource_arn`: The Amazon Resource Name (ARN) of the RuleGroup for which you want to get
   the policy.
 """
-get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetPermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_permission_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetPermissionPolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_permission_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetPermissionPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rate_based_rule(rule_id)
@@ -1262,8 +2166,23 @@ the `GetRateBasedRule` request.
 - `rule_id`: The `RuleId` of the <a>RateBasedRule</a> that you want to get. `RuleId` is
   returned by <a>CreateRateBasedRule</a> and by <a>ListRateBasedRules</a>.
 """
-get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRateBasedRule", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rate_based_rule(RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetRateBasedRule",
+        Dict{String,Any}("RuleId" => RuleId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_rate_based_rule(
+    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "GetRateBasedRule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rate_based_rule_managed_keys(rule_id)
@@ -1294,8 +2213,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextMarker"`: A null value and not currently used. Do not include this in your request.
 """
-get_rate_based_rule_managed_keys(RuleId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRateBasedRuleManagedKeys", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rate_based_rule_managed_keys(RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRateBasedRuleManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rate_based_rule_managed_keys(
+    RuleId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "GetRateBasedRuleManagedKeys",
+    Dict{String,Any}("RuleId" => RuleId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_rate_based_rule_managed_keys(
+    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "GetRateBasedRuleManagedKeys",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_regex_match_set(regex_match_set_id)
@@ -1317,8 +2252,29 @@ use.Returns the <a>RegexMatchSet</a> specified by `RegexMatchSetId`.
   get. `RegexMatchSetId` is returned by <a>CreateRegexMatchSet</a> and by
   <a>ListRegexMatchSets</a>.
 """
-get_regex_match_set(RegexMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRegexMatchSet", Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_regex_match_set(RegexMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_regex_match_set(RegexMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetRegexMatchSet",
+        Dict{String,Any}("RegexMatchSetId" => RegexMatchSetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_regex_match_set(
+    RegexMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetRegexMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RegexMatchSetId" => RegexMatchSetId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_regex_pattern_set(regex_pattern_set_id)
@@ -1340,8 +2296,30 @@ use.Returns the <a>RegexPatternSet</a> specified by `RegexPatternSetId`.
   want to get. `RegexPatternSetId` is returned by <a>CreateRegexPatternSet</a> and by
   <a>ListRegexPatternSets</a>.
 """
-get_regex_pattern_set(RegexPatternSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRegexPatternSet", Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_regex_pattern_set(RegexPatternSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_regex_pattern_set(
+    RegexPatternSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "GetRegexPatternSet",
+    Dict{String,Any}("RegexPatternSetId" => RegexPatternSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_regex_pattern_set(
+    RegexPatternSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RegexPatternSetId" => RegexPatternSetId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rule(rule_id)
@@ -1363,8 +2341,22 @@ use.Returns the <a>Rule</a> that is specified by the `RuleId` that you included 
 - `rule_id`: The `RuleId` of the <a>Rule</a> that you want to get. `RuleId` is returned by
   <a>CreateRule</a> and by <a>ListRules</a>.
 """
-get_rule(RuleId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRule", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rule(RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rule(RuleId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional(
+    "GetRule",
+    Dict{String,Any}("RuleId" => RuleId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_rule(
+    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "GetRule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rule_group(rule_group_id)
@@ -1388,8 +2380,27 @@ in the `GetRuleGroup` request.
 - `rule_group_id`: The `RuleGroupId` of the <a>RuleGroup</a> that you want to get.
   `RuleGroupId` is returned by <a>CreateRuleGroup</a> and by <a>ListRuleGroups</a>.
 """
-get_rule_group(RuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRuleGroup", Dict{String, Any}("RuleGroupId"=>RuleGroupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rule_group(RuleGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleGroupId"=>RuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rule_group(RuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetRuleGroup",
+        Dict{String,Any}("RuleGroupId" => RuleGroupId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_rule_group(
+    RuleGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetRuleGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RuleGroupId" => RuleGroupId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_sampled_requests(max_items, rule_id, time_window, web_acl_id)
@@ -1433,8 +2444,49 @@ the requests in the sample.
 - `web_acl_id`: The `WebACLId` of the `WebACL` for which you want `GetSampledRequests` to
   return a sample of requests.
 """
-get_sampled_requests(MaxItems, RuleId, TimeWindow, WebAclId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetSampledRequests", Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_sampled_requests(MaxItems, RuleId, TimeWindow, WebAclId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sampled_requests(
+    MaxItems,
+    RuleId,
+    TimeWindow,
+    WebAclId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "GetSampledRequests",
+    Dict{String,Any}(
+        "MaxItems" => MaxItems,
+        "RuleId" => RuleId,
+        "TimeWindow" => TimeWindow,
+        "WebAclId" => WebAclId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_sampled_requests(
+    MaxItems,
+    RuleId,
+    TimeWindow,
+    WebAclId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetSampledRequests",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MaxItems" => MaxItems,
+                    "RuleId" => RuleId,
+                    "TimeWindow" => TimeWindow,
+                    "WebAclId" => WebAclId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_size_constraint_set(size_constraint_set_id)
@@ -1456,8 +2508,32 @@ use.Returns the <a>SizeConstraintSet</a> specified by `SizeConstraintSetId`.
   you want to get. `SizeConstraintSetId` is returned by <a>CreateSizeConstraintSet</a> and
   by <a>ListSizeConstraintSets</a>.
 """
-get_size_constraint_set(SizeConstraintSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetSizeConstraintSet", Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_size_constraint_set(SizeConstraintSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_size_constraint_set(
+    SizeConstraintSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "GetSizeConstraintSet",
+    Dict{String,Any}("SizeConstraintSetId" => SizeConstraintSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_size_constraint_set(
+    SizeConstraintSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetSizeConstraintSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SizeConstraintSetId" => SizeConstraintSetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_sql_injection_match_set(sql_injection_match_set_id)
@@ -1479,8 +2555,32 @@ use.Returns the <a>SqlInjectionMatchSet</a> that is specified by `SqlInjectionMa
   <a>SqlInjectionMatchSet</a> that you want to get. `SqlInjectionMatchSetId` is returned by
   <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
 """
-get_sql_injection_match_set(SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetSqlInjectionMatchSet", Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_sql_injection_match_set(SqlInjectionMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sql_injection_match_set(
+    SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "GetSqlInjectionMatchSet",
+    Dict{String,Any}("SqlInjectionMatchSetId" => SqlInjectionMatchSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_sql_injection_match_set(
+    SqlInjectionMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetSqlInjectionMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SqlInjectionMatchSetId" => SqlInjectionMatchSetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_web_acl(web_aclid)
@@ -1501,8 +2601,26 @@ use.Returns the <a>WebACL</a> that is specified by `WebACLId`.
 - `web_aclid`: The `WebACLId` of the <a>WebACL</a> that you want to get. `WebACLId` is
   returned by <a>CreateWebACL</a> and by <a>ListWebACLs</a>.
 """
-get_web_acl(WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetWebACL", Dict{String, Any}("WebACLId"=>WebACLId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_web_acl(WebACLId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_web_acl(WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional(
+    "GetWebACL",
+    Dict{String,Any}("WebACLId" => WebACLId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_web_acl(
+    WebACLId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetWebACL",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebACLId" => WebACLId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_web_aclfor_resource(resource_arn)
@@ -1530,8 +2648,27 @@ Amazon API Gateway stage.
    - For an Amazon API Gateway stage: `arn:aws:apigateway:*region*::/restapis/*api-
   id*/stages/*stage-name* `
 """
-get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetWebACLForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_web_aclfor_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetWebACLForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_web_aclfor_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetWebACLForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_xss_match_set(xss_match_set_id)
@@ -1552,8 +2689,27 @@ use.Returns the <a>XssMatchSet</a> that is specified by `XssMatchSetId`.
 - `xss_match_set_id`: The `XssMatchSetId` of the <a>XssMatchSet</a> that you want to get.
   `XssMatchSetId` is returned by <a>CreateXssMatchSet</a> and by <a>ListXssMatchSets</a>.
 """
-get_xss_match_set(XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetXssMatchSet", Dict{String, Any}("XssMatchSetId"=>XssMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_xss_match_set(XssMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("GetXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_xss_match_set(XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "GetXssMatchSet",
+        Dict{String,Any}("XssMatchSetId" => XssMatchSetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_xss_match_set(
+    XssMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "GetXssMatchSet",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("XssMatchSetId" => XssMatchSetId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_activated_rules_in_rule_group()
@@ -1585,8 +2741,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleGroupId"`: The `RuleGroupId` of the <a>RuleGroup</a> for which you want to get a
   list of <a>ActivatedRule</a> objects.
 """
-list_activated_rules_in_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListActivatedRulesInRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_activated_rules_in_rule_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListActivatedRulesInRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_activated_rules_in_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListActivatedRulesInRuleGroup";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_activated_rules_in_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListActivatedRulesInRuleGroup",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_byte_match_sets()
@@ -1616,8 +2786,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListByteMatchSets` requests, specify the value of `NextMarker` from the previous
   response to get information about another batch of `ByteMatchSets`.
 """
-list_byte_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListByteMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_byte_match_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListByteMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_byte_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional(
+    "ListByteMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_byte_match_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListByteMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_geo_match_sets()
@@ -1647,8 +2825,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListGeoMatchSets` requests, specify the value of `NextMarker` from the previous response
   to get information about another batch of `GeoMatchSet` objects.
 """
-list_geo_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListGeoMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_geo_match_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListGeoMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_geo_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional("ListGeoMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_geo_match_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListGeoMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_ipsets()
@@ -1677,8 +2862,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the value of `NextMarker` from the previous response to get information about
   another batch of `IPSets`.
 """
-list_ipsets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListIPSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_ipsets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListIPSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_ipsets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional("ListIPSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_ipsets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListIPSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_logging_configurations()
@@ -1709,8 +2901,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` from the previous response to get information about another batch of
   `ListLoggingConfigurations`.
 """
-list_logging_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListLoggingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_logging_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListLoggingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_logging_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListLoggingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_logging_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListLoggingConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rate_based_rules()
@@ -1739,8 +2943,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of `NextMarker` from the previous response to get information
   about another batch of `Rules`.
 """
-list_rate_based_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRateBasedRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rate_based_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRateBasedRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rate_based_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional(
+    "ListRateBasedRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_rate_based_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListRateBasedRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_regex_match_sets()
@@ -1770,8 +2982,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListRegexMatchSets` requests, specify the value of `NextMarker` from the previous
   response to get information about another batch of `RegexMatchSet` objects.
 """
-list_regex_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRegexMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_regex_match_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRegexMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_regex_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional(
+    "ListRegexMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_regex_match_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListRegexMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_regex_pattern_sets()
@@ -1801,8 +3021,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent `ListRegexPatternSets` requests, specify the value of `NextMarker` from the
   previous response to get information about another batch of `RegexPatternSet` objects.
 """
-list_regex_pattern_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRegexPatternSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_regex_pattern_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRegexPatternSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_regex_pattern_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListRegexPatternSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_regex_pattern_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListRegexPatternSets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_resources_for_web_acl(web_aclid)
@@ -1830,8 +3062,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: The type of resource to list, either an application load balancer or
   Amazon API Gateway.
 """
-list_resources_for_web_acl(WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListResourcesForWebACL", Dict{String, Any}("WebACLId"=>WebACLId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_resources_for_web_acl(WebACLId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListResourcesForWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_resources_for_web_acl(WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListResourcesForWebACL",
+        Dict{String,Any}("WebACLId" => WebACLId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_resources_for_web_acl(
+    WebACLId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "ListResourcesForWebACL",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebACLId" => WebACLId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rule_groups()
@@ -1861,8 +3112,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of `NextMarker` from the previous response to get information
   about another batch of `RuleGroups`.
 """
-list_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rule_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional("ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_rule_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_rules()
@@ -1891,8 +3149,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the value of `NextMarker` from the previous response to get information about
   another batch of `Rules`.
 """
-list_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rules(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_size_constraint_sets()
@@ -1922,8 +3187,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListSizeConstraintSets` requests, specify the value of `NextMarker` from the previous
   response to get information about another batch of `SizeConstraintSets`.
 """
-list_size_constraint_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListSizeConstraintSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_size_constraint_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListSizeConstraintSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_size_constraint_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListSizeConstraintSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_size_constraint_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListSizeConstraintSets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_sql_injection_match_sets()
@@ -1954,8 +3231,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of `NextMarker` from the previous response to get information
   about another batch of `SqlInjectionMatchSets`.
 """
-list_sql_injection_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListSqlInjectionMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_sql_injection_match_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListSqlInjectionMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sql_injection_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListSqlInjectionMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_sql_injection_match_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListSqlInjectionMatchSets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_subscribed_rule_groups()
@@ -1985,8 +3274,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the value of `NextMarker` from the previous response to get information about
   another batch of subscribed rule groups.
 """
-list_subscribed_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListSubscribedRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_subscribed_rule_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListSubscribedRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_subscribed_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListSubscribedRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_subscribed_rule_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListSubscribedRuleGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -2020,8 +3321,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: <p/>
 - `"NextMarker"`: <p/>
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_web_acls()
@@ -2051,8 +3371,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent `ListWebACLs` requests, specify the value of `NextMarker` from the previous
   response to get information about another batch of `WebACL` objects.
 """
-list_web_acls(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListWebACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_web_acls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListWebACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_web_acls(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional("ListWebACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_web_acls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListWebACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_xss_match_sets()
@@ -2082,8 +3409,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListXssMatchSets` requests, specify the value of `NextMarker` from the previous response
   to get information about another batch of `XssMatchSets`.
 """
-list_xss_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListXssMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_xss_match_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("ListXssMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_xss_match_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional("ListXssMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_xss_match_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return waf_regional(
+        "ListXssMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     put_logging_configuration(logging_configuration)
@@ -2124,8 +3458,32 @@ in the *AWS WAF Developer Guide*.
       When specifying `Type` in `RedactedFields`, you must use one of the following values:
   `URI`, `QUERY_STRING`, `HEADER`, or `METHOD`.
 """
-put_logging_configuration(LoggingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("PutLoggingConfiguration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_logging_configuration(LoggingConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_logging_configuration(
+    LoggingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "PutLoggingConfiguration",
+    Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_logging_configuration(
+    LoggingConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "PutLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_permission_policy(policy, resource_arn)
@@ -2165,8 +3523,33 @@ For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/
 - `resource_arn`: The Amazon Resource Name (ARN) of the RuleGroup to which you want to
   attach the policy.
 """
-put_permission_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("PutPermissionPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_permission_policy(Policy, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_permission_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "PutPermissionPolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_permission_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "PutPermissionPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -2194,8 +3577,32 @@ you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
 - `resource_arn`: <p/>
 - `tags`: <p/>
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -2216,8 +3623,32 @@ With the latest version, AWS WAF has a single set of endpoints for regional and 
 - `resource_arn`: <p/>
 - `tag_keys`: <p/>
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_byte_match_set(byte_match_set_id, change_token, updates)
@@ -2270,8 +3701,42 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
   `TargetString`, and `TextTransformation`
    - <a>FieldToMatch</a>: Contains `Data` and `Type`
 """
-update_byte_match_set(ByteMatchSetId, ChangeToken, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_byte_match_set(ByteMatchSetId, ChangeToken, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_byte_match_set(
+    ByteMatchSetId, ChangeToken, Updates; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "UpdateByteMatchSet",
+    Dict{String,Any}(
+        "ByteMatchSetId" => ByteMatchSetId,
+        "ChangeToken" => ChangeToken,
+        "Updates" => Updates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_byte_match_set(
+    ByteMatchSetId,
+    ChangeToken,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateByteMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ByteMatchSetId" => ByteMatchSetId,
+                    "ChangeToken" => ChangeToken,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_geo_match_set(change_token, geo_match_set_id, updates)
@@ -2291,7 +3756,7 @@ delete the object from the array. If you want to change an `GeoMatchConstraint` 
 delete the existing object and add a new one.
  - The `Type`. The only valid value for `Type` is `Country`.
  - The `Value`, which is a two character code for the country to add to the
-`GeoMatchConstraint` object. Valid codes are listed in <a>GeoMatchConstraint$Value</a>.
+`GeoMatchConstraint` object. Valid codes are listed in <a>GeoMatchConstraint\$Value</a>.
 To create and configure an `GeoMatchSet`, perform the following steps: 1. Submit a
 <a>CreateGeoMatchSet</a> request.
  2. Use <a>GetChangeToken</a> to get the change token that you provide in the `ChangeToken`
@@ -2319,8 +3784,42 @@ see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/develop
    <p>You can have only one `Type` and `Value` per `GeoMatchConstraint`. To add multiple
   countries, include multiple `GeoMatchSetUpdate` objects in your request.
 """
-update_geo_match_set(ChangeToken, GeoMatchSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_geo_match_set(ChangeToken, GeoMatchSetId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_geo_match_set(
+    ChangeToken, GeoMatchSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "UpdateGeoMatchSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "GeoMatchSetId" => GeoMatchSetId,
+        "Updates" => Updates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_geo_match_set(
+    ChangeToken,
+    GeoMatchSetId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateGeoMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "GeoMatchSetId" => GeoMatchSetId,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_ipset(change_token, ipset_id, updates)
@@ -2383,8 +3882,38 @@ see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/develop
    - <a>IPSetDescriptor</a>: Contains `Type` and `Value`
   You can insert a maximum of 1000 addresses in a single request.
 """
-update_ipset(ChangeToken, IPSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_ipset(ChangeToken, IPSetId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_ipset(
+    ChangeToken, IPSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "UpdateIPSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "IPSetId" => IPSetId, "Updates" => Updates
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_ipset(
+    ChangeToken,
+    IPSetId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateIPSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "IPSetId" => IPSetId, "Updates" => Updates
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_rate_based_rule(change_token, rate_limit, rule_id, updates)
@@ -2441,8 +3970,49 @@ page without affecting the rest of your site.
 - `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a
   <a>RateBasedRule</a>.
 """
-update_rate_based_rule(ChangeToken, RateLimit, RuleId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_rate_based_rule(ChangeToken, RateLimit, RuleId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rate_based_rule(
+    ChangeToken,
+    RateLimit,
+    RuleId,
+    Updates;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "UpdateRateBasedRule",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "RateLimit" => RateLimit,
+        "RuleId" => RuleId,
+        "Updates" => Updates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_rate_based_rule(
+    ChangeToken,
+    RateLimit,
+    RuleId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateRateBasedRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "RateLimit" => RateLimit,
+                    "RuleId" => RuleId,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_regex_match_set(change_token, regex_match_set_id, updates)
@@ -2483,8 +4053,45 @@ For more information about how to use the AWS WAF API to allow or block HTTP req
 - `updates`: An array of `RegexMatchSetUpdate` objects that you want to insert into or
   delete from a <a>RegexMatchSet</a>. For more information, see <a>RegexMatchTuple</a>.
 """
-update_regex_match_set(ChangeToken, RegexMatchSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_regex_match_set(ChangeToken, RegexMatchSetId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_regex_match_set(
+    ChangeToken,
+    RegexMatchSetId,
+    Updates;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "UpdateRegexMatchSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "RegexMatchSetId" => RegexMatchSetId,
+        "Updates" => Updates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_regex_match_set(
+    ChangeToken,
+    RegexMatchSetId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateRegexMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "RegexMatchSetId" => RegexMatchSetId,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_regex_pattern_set(change_token, regex_pattern_set_id, updates)
@@ -2521,8 +4128,45 @@ For more information about how to use the AWS WAF API to allow or block HTTP req
 - `updates`: An array of `RegexPatternSetUpdate` objects that you want to insert into or
   delete from a <a>RegexPatternSet</a>.
 """
-update_regex_pattern_set(ChangeToken, RegexPatternSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_regex_pattern_set(ChangeToken, RegexPatternSetId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_regex_pattern_set(
+    ChangeToken,
+    RegexPatternSetId,
+    Updates;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "UpdateRegexPatternSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "RegexPatternSetId" => RegexPatternSetId,
+        "Updates" => Updates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_regex_pattern_set(
+    ChangeToken,
+    RegexPatternSetId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateRegexPatternSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "RegexPatternSetId" => RegexPatternSetId,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_rule(change_token, rule_id, updates)
@@ -2572,8 +4216,38 @@ see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/develop
    - <a>Predicate</a>: Contains `DataId`, `Negated`, and `Type`
    - <a>FieldToMatch</a>: Contains `Data` and `Type`
 """
-update_rule(ChangeToken, RuleId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_rule(ChangeToken, RuleId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rule(
+    ChangeToken, RuleId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "UpdateRule",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "RuleId" => RuleId, "Updates" => Updates
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_rule(
+    ChangeToken,
+    RuleId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken, "RuleId" => RuleId, "Updates" => Updates
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_rule_group(change_token, rule_group_id, updates)
@@ -2619,8 +4293,40 @@ see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/develop
   `WebACL`. In this case you do not use `ActivatedRule|Action`. For all other update
   requests, `ActivatedRule|Action` is used instead of `ActivatedRule|OverrideAction`.
 """
-update_rule_group(ChangeToken, RuleGroupId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_rule_group(ChangeToken, RuleGroupId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rule_group(
+    ChangeToken, RuleGroupId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "UpdateRuleGroup",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken, "RuleGroupId" => RuleGroupId, "Updates" => Updates
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_rule_group(
+    ChangeToken,
+    RuleGroupId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "RuleGroupId" => RuleGroupId,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_size_constraint_set(change_token, size_constraint_set_id, updates)
@@ -2677,8 +4383,45 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
   `ComparisonOperator`, and `Size`
  - <a>FieldToMatch</a>: Contains `Data` and `Type`
 """
-update_size_constraint_set(ChangeToken, SizeConstraintSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_size_constraint_set(ChangeToken, SizeConstraintSetId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_size_constraint_set(
+    ChangeToken,
+    SizeConstraintSetId,
+    Updates;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "UpdateSizeConstraintSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "SizeConstraintSetId" => SizeConstraintSetId,
+        "Updates" => Updates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_size_constraint_set(
+    ChangeToken,
+    SizeConstraintSetId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateSizeConstraintSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "SizeConstraintSetId" => SizeConstraintSetId,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_sql_injection_match_set(change_token, sql_injection_match_set_id, updates)
@@ -2732,8 +4475,45 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
    - <a>SqlInjectionMatchTuple</a>: Contains `FieldToMatch` and `TextTransformation`
    - <a>FieldToMatch</a>: Contains `Data` and `Type`
 """
-update_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_sql_injection_match_set(
+    ChangeToken,
+    SqlInjectionMatchSetId,
+    Updates;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = waf_regional(
+    "UpdateSqlInjectionMatchSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "SqlInjectionMatchSetId" => SqlInjectionMatchSetId,
+        "Updates" => Updates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_sql_injection_match_set(
+    ChangeToken,
+    SqlInjectionMatchSetId,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateSqlInjectionMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "SqlInjectionMatchSetId" => SqlInjectionMatchSetId,
+                    "Updates" => Updates,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_web_acl(change_token, web_aclid)
@@ -2783,7 +4563,7 @@ The `ActivatedRule` can be a rule group. If you specify a rule group as your
 If you already have a rule group associated with a web ACL and want to submit an
 `UpdateWebACL` request to exclude certain rules from that rule group, you must first remove
 the rule group from the web ACL, the re-insert it again, specifying the excluded rules. For
-details, see <a>ActivatedRule$ExcludedRules</a> .
+details, see <a>ActivatedRule\$ExcludedRules</a> .
 Be aware that if you try to add a RATE_BASED rule to a web ACL without setting the rule
 type when first creating the rule, the <a>UpdateWebACL</a> request will fail because the
 request tries to add a REGULAR rule (the default rule type) with the specified ID, which
@@ -2816,8 +4596,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, `ActivatedRule|Action` is used instead of `ActivatedRule|OverrideAction`.
    - <a>WafAction</a>: Contains `Type`
 """
-update_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_web_acl(ChangeToken, WebACLId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    waf_regional(
+        "UpdateWebACL",
+        Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_web_acl(
+    ChangeToken,
+    WebACLId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateWebACL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_xss_match_set(change_token, updates, xss_match_set_id)
@@ -2868,5 +4672,39 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `xss_match_set_id`: The `XssMatchSetId` of the `XssMatchSet` that you want to update.
   `XssMatchSetId` is returned by <a>CreateXssMatchSet</a> and by <a>ListXssMatchSets</a>.
 """
-update_xss_match_set(ChangeToken, Updates, XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_xss_match_set(ChangeToken, Updates, XssMatchSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = waf_regional("UpdateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_xss_match_set(
+    ChangeToken, Updates, XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = waf_regional(
+    "UpdateXssMatchSet",
+    Dict{String,Any}(
+        "ChangeToken" => ChangeToken,
+        "Updates" => Updates,
+        "XssMatchSetId" => XssMatchSetId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_xss_match_set(
+    ChangeToken,
+    Updates,
+    XssMatchSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return waf_regional(
+        "UpdateXssMatchSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChangeToken" => ChangeToken,
+                    "Updates" => Updates,
+                    "XssMatchSetId" => XssMatchSetId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

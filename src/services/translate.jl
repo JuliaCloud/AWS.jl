@@ -32,8 +32,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata to a resource. Each tag key for the resource must be unique. For more
   information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 """
-create_parallel_data(ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=current_aws_config()) = translate("CreateParallelData", Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_parallel_data(ClientToken, Name, ParallelDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("CreateParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_parallel_data(
+    ClientToken,
+    Name,
+    ParallelDataConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = translate(
+    "CreateParallelData",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "Name" => Name,
+        "ParallelDataConfig" => ParallelDataConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_parallel_data(
+    ClientToken,
+    Name,
+    ParallelDataConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "CreateParallelData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "Name" => Name,
+                    "ParallelDataConfig" => ParallelDataConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_parallel_data(name)
@@ -45,8 +82,22 @@ Deletes a parallel data resource in Amazon Translate.
 
 - `name`: The name of the parallel data resource that is being deleted.
 """
-delete_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate("DeleteParallelData", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_parallel_data(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("DeleteParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate(
+    "DeleteParallelData",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_parallel_data(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "DeleteParallelData",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_terminology(name)
@@ -58,8 +109,22 @@ A synchronous action that deletes a custom terminology.
 
 - `name`: The name of the custom terminology being deleted.
 """
-delete_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate("DeleteTerminology", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_terminology(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("DeleteTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate(
+    "DeleteTerminology",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_terminology(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "DeleteTerminology",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_text_translation_job(job_id)
@@ -73,8 +138,23 @@ ID, status, source and target languages, input/output S3 buckets, and so on.
 - `job_id`: The identifier that Amazon Translate generated for the job. The
   <a>StartTextTranslationJob</a> operation returns this identifier in its response.
 """
-describe_text_translation_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = translate("DescribeTextTranslationJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_text_translation_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("DescribeTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_text_translation_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate(
+        "DescribeTextTranslationJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_text_translation_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "DescribeTextTranslationJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_parallel_data(name)
@@ -86,8 +166,22 @@ Provides information about a parallel data resource.
 
 - `name`: The name of the parallel data resource that is being retrieved.
 """
-get_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate("GetParallelData", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_parallel_data(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("GetParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate(
+    "GetParallelData",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_parallel_data(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "GetParallelData",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_terminology(name)
@@ -112,8 +206,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you must specify the same format as the input file that was imported to create it.
   Otherwise, Amazon Translate throws an error.
 """
-get_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate("GetTerminology", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_terminology(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("GetTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config()) = translate(
+    "GetTerminology",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_terminology(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "GetTerminology",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_terminology(merge_strategy, name, terminology_data)
@@ -147,8 +255,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata to a resource. Each tag key for the resource must be unique. For more
   information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 """
-import_terminology(MergeStrategy, Name, TerminologyData; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ImportTerminology", Dict{String, Any}("MergeStrategy"=>MergeStrategy, "Name"=>Name, "TerminologyData"=>TerminologyData); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_terminology(MergeStrategy, Name, TerminologyData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ImportTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MergeStrategy"=>MergeStrategy, "Name"=>Name, "TerminologyData"=>TerminologyData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_terminology(
+    MergeStrategy, Name, TerminologyData; aws_config::AbstractAWSConfig=current_aws_config()
+) = translate(
+    "ImportTerminology",
+    Dict{String,Any}(
+        "MergeStrategy" => MergeStrategy,
+        "Name" => Name,
+        "TerminologyData" => TerminologyData,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_terminology(
+    MergeStrategy,
+    Name,
+    TerminologyData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "ImportTerminology",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MergeStrategy" => MergeStrategy,
+                    "Name" => Name,
+                    "TerminologyData" => TerminologyData,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_languages()
@@ -166,8 +308,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include the NextToken value to fetch the next group of supported
   languages.
 """
-list_languages(; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListLanguages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_languages(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListLanguages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_languages(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate("ListLanguages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_languages(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "ListLanguages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_parallel_data()
@@ -183,8 +332,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string that specifies the next page of results to return in a paginated
   response.
 """
-list_parallel_data(; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListParallelData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_parallel_data(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListParallelData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_parallel_data(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate("ListParallelData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_parallel_data(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "ListParallelData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -198,8 +354,27 @@ Lists all tags associated with a given Amazon Translate resource. For more infor
 - `resource_arn`: The Amazon Resource Name (ARN) of the given Amazon Translate resource you
   are querying.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_terminologies()
@@ -215,8 +390,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the result of the request to ListTerminologies was truncated, include
   the NextToken to fetch the next group of custom terminologies.
 """
-list_terminologies(; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListTerminologies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_terminologies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListTerminologies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_terminologies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate("ListTerminologies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_terminologies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "ListTerminologies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_text_translation_jobs()
@@ -234,8 +416,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 100.
 - `"NextToken"`: The token to request the next page of results.
 """
-list_text_translation_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListTextTranslationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_text_translation_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("ListTextTranslationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_text_translation_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate(
+        "ListTextTranslationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_text_translation_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "ListTextTranslationJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_text_translation_job(client_token, data_access_role_arn, input_data_config, output_data_config, source_language_code, target_language_codes)
@@ -310,8 +504,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 """
-start_text_translation_job(ClientToken, DataAccessRoleArn, InputDataConfig, OutputDataConfig, SourceLanguageCode, TargetLanguageCodes; aws_config::AbstractAWSConfig=current_aws_config()) = translate("StartTextTranslationJob", Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCodes"=>TargetLanguageCodes); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_text_translation_job(ClientToken, DataAccessRoleArn, InputDataConfig, OutputDataConfig, SourceLanguageCode, TargetLanguageCodes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("StartTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCodes"=>TargetLanguageCodes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_text_translation_job(
+    ClientToken,
+    DataAccessRoleArn,
+    InputDataConfig,
+    OutputDataConfig,
+    SourceLanguageCode,
+    TargetLanguageCodes;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = translate(
+    "StartTextTranslationJob",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "DataAccessRoleArn" => DataAccessRoleArn,
+        "InputDataConfig" => InputDataConfig,
+        "OutputDataConfig" => OutputDataConfig,
+        "SourceLanguageCode" => SourceLanguageCode,
+        "TargetLanguageCodes" => TargetLanguageCodes,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_text_translation_job(
+    ClientToken,
+    DataAccessRoleArn,
+    InputDataConfig,
+    OutputDataConfig,
+    SourceLanguageCode,
+    TargetLanguageCodes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "StartTextTranslationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DataAccessRoleArn" => DataAccessRoleArn,
+                    "InputDataConfig" => InputDataConfig,
+                    "OutputDataConfig" => OutputDataConfig,
+                    "SourceLanguageCode" => SourceLanguageCode,
+                    "TargetLanguageCodes" => TargetLanguageCodes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_text_translation_job(job_id)
@@ -331,8 +574,23 @@ operation. You can use the <a>DescribeTextTranslationJob</a> or
 
 - `job_id`: The job ID of the job to be stopped.
 """
-stop_text_translation_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = translate("StopTextTranslationJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_text_translation_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("StopTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_text_translation_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate(
+        "StopTextTranslationJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_text_translation_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return translate(
+        "StopTextTranslationJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -348,8 +606,32 @@ metadata to a resource. For more information, see [ Tagging your resources](http
 - `tags`: Tags being associated with a specific Amazon Translate resource. There can be a
   maximum of 50 tags (both existing and pending) associated with a specific resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = translate("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     translate_document(document, source_language_code, target_language_code)
@@ -400,8 +682,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 """
-translate_document(Document, SourceLanguageCode, TargetLanguageCode; aws_config::AbstractAWSConfig=current_aws_config()) = translate("TranslateDocument", Dict{String, Any}("Document"=>Document, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-translate_document(Document, SourceLanguageCode, TargetLanguageCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("TranslateDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+translate_document(
+    Document,
+    SourceLanguageCode,
+    TargetLanguageCode;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = translate(
+    "TranslateDocument",
+    Dict{String,Any}(
+        "Document" => Document,
+        "SourceLanguageCode" => SourceLanguageCode,
+        "TargetLanguageCode" => TargetLanguageCode,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function translate_document(
+    Document,
+    SourceLanguageCode,
+    TargetLanguageCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "TranslateDocument",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Document" => Document,
+                    "SourceLanguageCode" => SourceLanguageCode,
+                    "TargetLanguageCode" => TargetLanguageCode,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     translate_text(source_language_code, target_language_code, text)
@@ -447,8 +766,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 """
-translate_text(SourceLanguageCode, TargetLanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()) = translate("TranslateText", Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-translate_text(SourceLanguageCode, TargetLanguageCode, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("TranslateText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+translate_text(
+    SourceLanguageCode,
+    TargetLanguageCode,
+    Text;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = translate(
+    "TranslateText",
+    Dict{String,Any}(
+        "SourceLanguageCode" => SourceLanguageCode,
+        "TargetLanguageCode" => TargetLanguageCode,
+        "Text" => Text,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function translate_text(
+    SourceLanguageCode,
+    TargetLanguageCode,
+    Text,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "TranslateText",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceLanguageCode" => SourceLanguageCode,
+                    "TargetLanguageCode" => TargetLanguageCode,
+                    "Text" => Text,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -464,8 +820,32 @@ see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/ta
 - `tag_keys`: The initial part of a key-value pair that forms a tag being removed from a
   given resource. Keys must be unique and cannot be duplicated for a particular resource.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = translate("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    translate(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_parallel_data(client_token, name, parallel_data_config)
@@ -488,5 +868,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A custom description for the parallel data resource in Amazon Translate.
 """
-update_parallel_data(ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=current_aws_config()) = translate("UpdateParallelData", Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_parallel_data(ClientToken, Name, ParallelDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = translate("UpdateParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_parallel_data(
+    ClientToken,
+    Name,
+    ParallelDataConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = translate(
+    "UpdateParallelData",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "Name" => Name,
+        "ParallelDataConfig" => ParallelDataConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_parallel_data(
+    ClientToken,
+    Name,
+    ParallelDataConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return translate(
+        "UpdateParallelData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "Name" => Name,
+                    "ParallelDataConfig" => ParallelDataConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

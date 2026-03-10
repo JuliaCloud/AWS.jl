@@ -19,8 +19,35 @@ later, excluding 5.0.x.
 - `cluster_id`: The unique identifier of the cluster.
 - `instance_fleet`: Specifies the configuration of the instance fleet.
 """
-add_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_instance_fleet(ClusterId, InstanceFleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_instance_fleet(
+    ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "AddInstanceFleet",
+    Dict{String,Any}("ClusterId" => ClusterId, "InstanceFleet" => InstanceFleet);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_instance_fleet(
+    ClusterId,
+    InstanceFleet,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "AddInstanceFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterId" => ClusterId, "InstanceFleet" => InstanceFleet
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_instance_groups(instance_groups, job_flow_id)
@@ -33,8 +60,35 @@ Adds one or more instance groups to a running cluster.
 - `instance_groups`: Instance groups to add.
 - `job_flow_id`: Job flow in which to add the instance groups.
 """
-add_instance_groups(InstanceGroups, JobFlowId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_instance_groups(InstanceGroups, JobFlowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_instance_groups(
+    InstanceGroups, JobFlowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "AddInstanceGroups",
+    Dict{String,Any}("InstanceGroups" => InstanceGroups, "JobFlowId" => JobFlowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_instance_groups(
+    InstanceGroups,
+    JobFlowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "AddInstanceGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceGroups" => InstanceGroups, "JobFlowId" => JobFlowId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_job_flow_steps(job_flow_id, steps)
@@ -82,8 +136,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, `arn:aws:IAM::1234567890:role/ReadOnly` is a correctly formatted runtime
   role ARN.
 """
-add_job_flow_steps(JobFlowId, Steps; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_job_flow_steps(JobFlowId, Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_job_flow_steps(JobFlowId, Steps; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr(
+        "AddJobFlowSteps",
+        Dict{String,Any}("JobFlowId" => JobFlowId, "Steps" => Steps);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function add_job_flow_steps(
+    JobFlowId,
+    Steps,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "AddJobFlowSteps",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("JobFlowId" => JobFlowId, "Steps" => Steps), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_tags(resource_id, tags)
@@ -101,8 +177,29 @@ Amazon EMR resource allocation costs. For more information, see [Tag Clusters](h
   pairs that consist of a required key string with a maximum of 128 characters, and an
   optional value string with a maximum of 256 characters.
 """
-add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_tags(ResourceId, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "AddTags",
+    Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_tags(
+    ResourceId,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "AddTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_steps(cluster_id, step_ids)
@@ -130,8 +227,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StepCancellationOption"`: The option to choose to cancel `RUNNING` steps. By default,
   the value is `SEND_INTERRUPT`.
 """
-cancel_steps(ClusterId, StepIds; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CancelSteps", Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_steps(ClusterId, StepIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_steps(ClusterId, StepIds; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "CancelSteps",
+    Dict{String,Any}("ClusterId" => ClusterId, "StepIds" => StepIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_steps(
+    ClusterId,
+    StepIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "CancelSteps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterId" => ClusterId, "StepIds" => StepIds),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_security_configuration(name, security_configuration)
@@ -147,8 +267,35 @@ a cluster is created.
   parameters and examples, see [Use Security Configurations to Set Up Cluster Security](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-security-configurations.html)
   in the *Amazon EMR Management Guide*.
 """
-create_security_configuration(Name, SecurityConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_security_configuration(Name, SecurityConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_security_configuration(
+    Name, SecurityConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "CreateSecurityConfiguration",
+    Dict{String,Any}("Name" => Name, "SecurityConfiguration" => SecurityConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_security_configuration(
+    Name,
+    SecurityConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "CreateSecurityConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "SecurityConfiguration" => SecurityConfiguration
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_studio(auth_mode, default_s3_location, engine_security_group_id, name, service_role, subnet_ids, vpc_id, workspace_security_group_id)
@@ -208,8 +355,65 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The permissions attached to the `UserRole` can be scoped down for each user or group
   using session policies.
 """
-create_studio(AuthMode, DefaultS3Location, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, VpcId, WorkspaceSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CreateStudio", Dict{String, Any}("AuthMode"=>AuthMode, "DefaultS3Location"=>DefaultS3Location, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_studio(AuthMode, DefaultS3Location, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, VpcId, WorkspaceSecurityGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CreateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "DefaultS3Location"=>DefaultS3Location, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_studio(
+    AuthMode,
+    DefaultS3Location,
+    EngineSecurityGroupId,
+    Name,
+    ServiceRole,
+    SubnetIds,
+    VpcId,
+    WorkspaceSecurityGroupId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = emr(
+    "CreateStudio",
+    Dict{String,Any}(
+        "AuthMode" => AuthMode,
+        "DefaultS3Location" => DefaultS3Location,
+        "EngineSecurityGroupId" => EngineSecurityGroupId,
+        "Name" => Name,
+        "ServiceRole" => ServiceRole,
+        "SubnetIds" => SubnetIds,
+        "VpcId" => VpcId,
+        "WorkspaceSecurityGroupId" => WorkspaceSecurityGroupId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_studio(
+    AuthMode,
+    DefaultS3Location,
+    EngineSecurityGroupId,
+    Name,
+    ServiceRole,
+    SubnetIds,
+    VpcId,
+    WorkspaceSecurityGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "CreateStudio",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthMode" => AuthMode,
+                    "DefaultS3Location" => DefaultS3Location,
+                    "EngineSecurityGroupId" => EngineSecurityGroupId,
+                    "Name" => Name,
+                    "ServiceRole" => ServiceRole,
+                    "SubnetIds" => SubnetIds,
+                    "VpcId" => VpcId,
+                    "WorkspaceSecurityGroupId" => WorkspaceSecurityGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_studio_session_mapping(identity_type, session_policy_arn, studio_id)
@@ -244,8 +448,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *IAM Identity Center Identity Store API Reference*. Either `IdentityName` or
   `IdentityId` must be specified, but not both.
 """
-create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_studio_session_mapping(
+    IdentityType,
+    SessionPolicyArn,
+    StudioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = emr(
+    "CreateStudioSessionMapping",
+    Dict{String,Any}(
+        "IdentityType" => IdentityType,
+        "SessionPolicyArn" => SessionPolicyArn,
+        "StudioId" => StudioId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_studio_session_mapping(
+    IdentityType,
+    SessionPolicyArn,
+    StudioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "CreateStudioSessionMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdentityType" => IdentityType,
+                    "SessionPolicyArn" => SessionPolicyArn,
+                    "StudioId" => StudioId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_security_configuration(name)
@@ -257,8 +498,23 @@ Deletes a security configuration.
 
 - `name`: The name of the security configuration.
 """
-delete_security_configuration(Name; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_security_configuration(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_security_configuration(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr(
+        "DeleteSecurityConfiguration",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_security_configuration(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "DeleteSecurityConfiguration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_studio(studio_id)
@@ -270,8 +526,26 @@ Removes an Amazon EMR Studio from the Studio metadata store.
 
 - `studio_id`: The ID of the Amazon EMR Studio.
 """
-delete_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DeleteStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_studio(StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DeleteStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "DeleteStudio",
+    Dict{String,Any}("StudioId" => StudioId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_studio(
+    StudioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "DeleteStudio",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StudioId" => StudioId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_studio_session_mapping(identity_type, studio_id)
@@ -300,8 +574,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *IAM Identity Center Store API Reference*. Either `IdentityName` or `IdentityId`
   must be specified.
 """
-delete_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_studio_session_mapping(IdentityType, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_studio_session_mapping(
+    IdentityType, StudioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "DeleteStudioSessionMapping",
+    Dict{String,Any}("IdentityType" => IdentityType, "StudioId" => StudioId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_studio_session_mapping(
+    IdentityType,
+    StudioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "DeleteStudioSessionMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IdentityType" => IdentityType, "StudioId" => StudioId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_cluster(cluster_id)
@@ -314,8 +613,26 @@ settings, and so on.
 
 - `cluster_id`: The identifier of the cluster to describe.
 """
-describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "DescribeCluster",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "DescribeCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_job_flows()
@@ -347,8 +664,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobFlowIds"`: Return only job flows whose job flow ID is contained in this list.
 - `"JobFlowStates"`: Return only job flows whose state is contained in this list.
 """
-describe_job_flows(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeJobFlows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_job_flows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeJobFlows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_job_flows(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("DescribeJobFlows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_job_flows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "DescribeJobFlows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_notebook_execution(notebook_execution_id)
@@ -360,8 +684,32 @@ Provides details of a notebook execution.
 
 - `notebook_execution_id`: The unique identifier of the notebook execution.
 """
-describe_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_notebook_execution(NotebookExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_notebook_execution(
+    NotebookExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "DescribeNotebookExecution",
+    Dict{String,Any}("NotebookExecutionId" => NotebookExecutionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_notebook_execution(
+    NotebookExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "DescribeNotebookExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("NotebookExecutionId" => NotebookExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_release_label()
@@ -379,8 +727,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. Reserved for future use. Currently set to null.
 - `"ReleaseLabel"`: The target release label to be described.
 """
-describe_release_label(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeReleaseLabel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_release_label(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeReleaseLabel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_release_label(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("DescribeReleaseLabel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_release_label(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "DescribeReleaseLabel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_security_configuration(name)
@@ -392,8 +750,23 @@ Provides the details of a security configuration by returning the configuration 
 
 - `name`: The name of the security configuration.
 """
-describe_security_configuration(Name; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_security_configuration(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_security_configuration(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr(
+        "DescribeSecurityConfiguration",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_security_configuration(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "DescribeSecurityConfiguration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_step(cluster_id, step_id)
@@ -406,8 +779,31 @@ Provides more detail about the cluster step.
 - `cluster_id`: The identifier of the cluster with steps to describe.
 - `step_id`: The identifier of the step to describe.
 """
-describe_step(ClusterId, StepId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeStep", Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_step(ClusterId, StepId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_step(ClusterId, StepId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "DescribeStep",
+    Dict{String,Any}("ClusterId" => ClusterId, "StepId" => StepId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_step(
+    ClusterId,
+    StepId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "DescribeStep",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterId" => ClusterId, "StepId" => StepId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_studio(studio_id)
@@ -420,8 +816,26 @@ URL, and so on.
 
 - `studio_id`: The Amazon EMR Studio ID.
 """
-describe_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_studio(StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("DescribeStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "DescribeStudio",
+    Dict{String,Any}("StudioId" => StudioId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_studio(
+    StudioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "DescribeStudio",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StudioId" => StudioId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_auto_termination_policy(cluster_id)
@@ -434,8 +848,27 @@ Returns the auto-termination policy for an Amazon EMR cluster.
 - `cluster_id`: Specifies the ID of the Amazon EMR cluster for which the auto-termination
   policy will be fetched.
 """
-get_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetAutoTerminationPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_auto_termination_policy(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetAutoTerminationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr(
+        "GetAutoTerminationPolicy",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_auto_termination_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "GetAutoTerminationPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_block_public_access_configuration()
@@ -445,8 +878,23 @@ Returns the Amazon EMR block public access configuration for your Amazon Web Ser
 account in the current Region. For more information see [Configure Block Public Access for Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/configure-block-public-access.html)
 in the *Amazon EMR Management Guide*.
 """
-get_block_public_access_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetBlockPublicAccessConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_block_public_access_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetBlockPublicAccessConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_block_public_access_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "GetBlockPublicAccessConfiguration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_block_public_access_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "GetBlockPublicAccessConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_cluster_session_credentials(cluster_id)
@@ -470,8 +918,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   runtime role ARN is a combination of account ID, role name, and role type using the
   following format: `arn:partition:service:region:account:resource`.
 """
-get_cluster_session_credentials(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetClusterSessionCredentials", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_cluster_session_credentials(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetClusterSessionCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_cluster_session_credentials(
+    ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "GetClusterSessionCredentials",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_cluster_session_credentials(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "GetClusterSessionCredentials",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_managed_scaling_policy(cluster_id)
@@ -484,8 +952,27 @@ Fetches the attached managed scaling policy for an Amazon EMR cluster.
 - `cluster_id`: Specifies the ID of the cluster for which the managed scaling policy will
   be fetched.
 """
-get_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_managed_scaling_policy(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr(
+        "GetManagedScalingPolicy",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_managed_scaling_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "GetManagedScalingPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_studio_session_mapping(identity_type, studio_id)
@@ -512,8 +999,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *IAM Identity Center Identity Store API Reference*. Either `IdentityName` or
   `IdentityId` must be specified.
 """
-get_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_studio_session_mapping(IdentityType, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_studio_session_mapping(
+    IdentityType, StudioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "GetStudioSessionMapping",
+    Dict{String,Any}("IdentityType" => IdentityType, "StudioId" => StudioId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_studio_session_mapping(
+    IdentityType,
+    StudioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "GetStudioSessionMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IdentityType" => IdentityType, "StudioId" => StudioId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_bootstrap_actions(cluster_id)
@@ -531,8 +1043,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
-list_bootstrap_actions(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_bootstrap_actions(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_bootstrap_actions(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "ListBootstrapActions",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_bootstrap_actions(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ListBootstrapActions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_clusters()
@@ -555,8 +1085,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CreatedBefore"`: The creation date and time end value filter for listing clusters.
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
-list_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_instance_fleets(cluster_id)
@@ -578,8 +1115,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
-list_instance_fleets(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_instance_fleets(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_instance_fleets(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "ListInstanceFleets",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_instance_fleets(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ListInstanceFleets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_instance_groups(cluster_id)
@@ -597,8 +1152,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
-list_instance_groups(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_instance_groups(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_instance_groups(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "ListInstanceGroups",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_instance_groups(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ListInstanceGroups",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_instances(cluster_id)
@@ -626,8 +1199,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with this request.
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
-list_instances(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListInstances", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_instances(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_instances(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "ListInstances",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_instances(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ListInstances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_notebook_executions()
@@ -666,8 +1257,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"To"`: The end of time range filter for listing notebook executions. The default is the
   current timestamp.
 """
-list_notebook_executions(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListNotebookExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_notebook_executions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListNotebookExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_notebook_executions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("ListNotebookExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_notebook_executions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "ListNotebookExecutions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_release_labels()
@@ -691,8 +1292,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all filtering parameters are different from the original request, or if the `NextToken`
   is expired or tampered with.
 """
-list_release_labels(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListReleaseLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_release_labels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListReleaseLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_release_labels(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("ListReleaseLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_release_labels(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "ListReleaseLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_security_configurations()
@@ -709,8 +1317,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: The pagination token that indicates the set of results to retrieve.
 """
-list_security_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListSecurityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_security_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListSecurityConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_security_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "ListSecurityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_security_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "ListSecurityConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_steps(cluster_id)
@@ -739,8 +1358,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   length of the array.
 - `"StepStates"`: The filter to limit the step list based on certain states.
 """
-list_steps(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListSteps", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_steps(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_steps(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "ListSteps",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_steps(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ListSteps",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_studio_session_mappings()
@@ -758,8 +1395,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the set of results to retrieve.
 - `"StudioId"`: The ID of the Amazon EMR Studio.
 """
-list_studio_session_mappings(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListStudioSessionMappings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_studio_session_mappings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListStudioSessionMappings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_studio_session_mappings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("ListStudioSessionMappings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_studio_session_mappings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "ListStudioSessionMappings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_studios()
@@ -774,8 +1421,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: The pagination token that indicates the set of results to retrieve.
 """
-list_studios(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListStudios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_studios(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListStudios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_studios(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("ListStudios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_studios(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "ListStudios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_supported_instance_types(release_label)
@@ -799,8 +1453,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: The pagination token that marks the next set of results to retrieve.
 """
-list_supported_instance_types(ReleaseLabel; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListSupportedInstanceTypes", Dict{String, Any}("ReleaseLabel"=>ReleaseLabel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_supported_instance_types(ReleaseLabel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ListSupportedInstanceTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReleaseLabel"=>ReleaseLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_supported_instance_types(
+    ReleaseLabel; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "ListSupportedInstanceTypes",
+    Dict{String,Any}("ReleaseLabel" => ReleaseLabel);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_supported_instance_types(
+    ReleaseLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ListSupportedInstanceTypes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ReleaseLabel" => ReleaseLabel), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_cluster(cluster_id)
@@ -820,10 +1494,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StepConcurrencyLevel"`: The number of steps that can be executed concurrently. You can
   specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not
   change this parameter while steps are running or the `ActionOnFailure` setting may not
-  behave as expected. For more information see <a>Step$ActionOnFailure</a>.
+  behave as expected. For more information see <a>Step\$ActionOnFailure</a>.
 """
-modify_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "ModifyCluster",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ModifyCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_fleet(cluster_id, instance_fleet)
@@ -842,8 +1534,35 @@ later, excluding 5.0.x versions.
 - `cluster_id`: The unique identifier of the cluster.
 - `instance_fleet`: The configuration parameters of the instance fleet.
 """
-modify_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_fleet(ClusterId, InstanceFleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_fleet(
+    ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "ModifyInstanceFleet",
+    Dict{String,Any}("ClusterId" => ClusterId, "InstanceFleet" => InstanceFleet);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_fleet(
+    ClusterId,
+    InstanceFleet,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "ModifyInstanceFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterId" => ClusterId, "InstanceFleet" => InstanceFleet
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_groups()
@@ -860,8 +1579,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterId"`: The ID of the cluster to which the instance group belongs.
 - `"InstanceGroups"`: Instance groups to change.
 """
-modify_instance_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ModifyInstanceGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("ModifyInstanceGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr("ModifyInstanceGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function modify_instance_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "ModifyInstanceGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_auto_scaling_policy(auto_scaling_policy, cluster_id, instance_group_id)
@@ -880,8 +1609,45 @@ CloudWatch metric.
 - `instance_group_id`: Specifies the ID of the instance group to which the automatic
   scaling policy is applied.
 """
-put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_auto_scaling_policy(
+    AutoScalingPolicy,
+    ClusterId,
+    InstanceGroupId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = emr(
+    "PutAutoScalingPolicy",
+    Dict{String,Any}(
+        "AutoScalingPolicy" => AutoScalingPolicy,
+        "ClusterId" => ClusterId,
+        "InstanceGroupId" => InstanceGroupId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_auto_scaling_policy(
+    AutoScalingPolicy,
+    ClusterId,
+    InstanceGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "PutAutoScalingPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingPolicy" => AutoScalingPolicy,
+                    "ClusterId" => ClusterId,
+                    "InstanceGroupId" => InstanceGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_auto_termination_policy(cluster_id)
@@ -907,8 +1673,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutoTerminationPolicy"`: Specifies the auto-termination policy to attach to the cluster.
 """
-put_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutAutoTerminationPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_auto_termination_policy(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutAutoTerminationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    emr(
+        "PutAutoTerminationPolicy",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_auto_termination_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "PutAutoTerminationPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_block_public_access_configuration(block_public_access_configuration)
@@ -936,8 +1721,34 @@ in the *Amazon EMR Management Guide*.
   enable and configure it. For accounts that did not create an Amazon EMR cluster in a
   Region before this date, block public access is enabled by default in that Region.
 """
-put_block_public_access_configuration(BlockPublicAccessConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_block_public_access_configuration(BlockPublicAccessConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_block_public_access_configuration(
+    BlockPublicAccessConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "PutBlockPublicAccessConfiguration",
+    Dict{String,Any}("BlockPublicAccessConfiguration" => BlockPublicAccessConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_block_public_access_configuration(
+    BlockPublicAccessConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "PutBlockPublicAccessConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BlockPublicAccessConfiguration" => BlockPublicAccessConfiguration
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_managed_scaling_policy(cluster_id, managed_scaling_policy)
@@ -954,8 +1765,37 @@ node cannot be scaled after initial configuration.
   is attached.
 - `managed_scaling_policy`: Specifies the constraints for the managed scaling policy.
 """
-put_managed_scaling_policy(ClusterId, ManagedScalingPolicy; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_managed_scaling_policy(ClusterId, ManagedScalingPolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_managed_scaling_policy(
+    ClusterId, ManagedScalingPolicy; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "PutManagedScalingPolicy",
+    Dict{String,Any}(
+        "ClusterId" => ClusterId, "ManagedScalingPolicy" => ManagedScalingPolicy
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_managed_scaling_policy(
+    ClusterId,
+    ManagedScalingPolicy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "PutManagedScalingPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterId" => ClusterId, "ManagedScalingPolicy" => ManagedScalingPolicy
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_auto_scaling_policy(cluster_id, instance_group_id)
@@ -971,8 +1811,35 @@ cluster.
 - `instance_group_id`: Specifies the ID of the instance group to which the scaling policy
   is applied.
 """
-remove_auto_scaling_policy(ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_auto_scaling_policy(ClusterId, InstanceGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_auto_scaling_policy(
+    ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "RemoveAutoScalingPolicy",
+    Dict{String,Any}("ClusterId" => ClusterId, "InstanceGroupId" => InstanceGroupId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_auto_scaling_policy(
+    ClusterId,
+    InstanceGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "RemoveAutoScalingPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterId" => ClusterId, "InstanceGroupId" => InstanceGroupId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_auto_termination_policy(cluster_id)
@@ -985,8 +1852,28 @@ Removes an auto-termination policy from an Amazon EMR cluster.
 - `cluster_id`: Specifies the ID of the Amazon EMR cluster from which the auto-termination
   policy will be removed.
 """
-remove_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveAutoTerminationPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_auto_termination_policy(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveAutoTerminationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_auto_termination_policy(
+    ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "RemoveAutoTerminationPolicy",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_auto_termination_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "RemoveAutoTerminationPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_managed_scaling_policy(cluster_id)
@@ -999,8 +1886,28 @@ remove_auto_termination_policy(ClusterId, params::AbstractDict{String}; aws_conf
 - `cluster_id`:  Specifies the ID of the cluster from which the managed scaling policy will
   be removed.
 """
-remove_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_managed_scaling_policy(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_managed_scaling_policy(
+    ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "RemoveManagedScalingPolicy",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_managed_scaling_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "RemoveManagedScalingPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_tags(resource_id, tag_keys)
@@ -1019,8 +1926,31 @@ The following example removes the stack tag with value Prod from a cluster:
   example, a cluster identifier or an Amazon EMR Studio ID.
 - `tag_keys`: A list of tag keys to remove from the resource.
 """
-remove_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_tags(ResourceId, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "RemoveTags",
+    Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_tags(
+    ResourceId,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "RemoveTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     run_job_flow(instances, name)
@@ -1188,8 +2118,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see [Understanding the Amazon EMR cluster VisibleToAllUsers setting](https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users)
   in the *Amazon EMR Management Guide*.
 """
-run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RunJobFlow", Dict{String, Any}("Instances"=>Instances, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-run_job_flow(Instances, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "RunJobFlow",
+    Dict{String,Any}("Instances" => Instances, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function run_job_flow(
+    Instances,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "RunJobFlow",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Instances" => Instances, "Name" => Name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_keep_job_flow_alive_when_no_steps(job_flow_ids, keep_job_flow_alive_when_no_steps)
@@ -1212,8 +2163,41 @@ in the *Amazon EMR Management Guide*.
 - `keep_job_flow_alive_when_no_steps`: A Boolean that indicates whether to terminate the
   cluster after all steps are executed.
 """
-set_keep_job_flow_alive_when_no_steps(JobFlowIds, KeepJobFlowAliveWhenNoSteps; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetKeepJobFlowAliveWhenNoSteps", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "KeepJobFlowAliveWhenNoSteps"=>KeepJobFlowAliveWhenNoSteps); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_keep_job_flow_alive_when_no_steps(JobFlowIds, KeepJobFlowAliveWhenNoSteps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetKeepJobFlowAliveWhenNoSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "KeepJobFlowAliveWhenNoSteps"=>KeepJobFlowAliveWhenNoSteps), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_keep_job_flow_alive_when_no_steps(
+    JobFlowIds,
+    KeepJobFlowAliveWhenNoSteps;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = emr(
+    "SetKeepJobFlowAliveWhenNoSteps",
+    Dict{String,Any}(
+        "JobFlowIds" => JobFlowIds,
+        "KeepJobFlowAliveWhenNoSteps" => KeepJobFlowAliveWhenNoSteps,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_keep_job_flow_alive_when_no_steps(
+    JobFlowIds,
+    KeepJobFlowAliveWhenNoSteps,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "SetKeepJobFlowAliveWhenNoSteps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "JobFlowIds" => JobFlowIds,
+                    "KeepJobFlowAliveWhenNoSteps" => KeepJobFlowAliveWhenNoSteps,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_termination_protection(job_flow_ids, termination_protected)
@@ -1245,8 +2229,38 @@ in the *Amazon EMR Management Guide*.
   prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user
   intervention, or job-flow error.
 """
-set_termination_protection(JobFlowIds, TerminationProtected; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_termination_protection(JobFlowIds, TerminationProtected, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_termination_protection(
+    JobFlowIds, TerminationProtected; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "SetTerminationProtection",
+    Dict{String,Any}(
+        "JobFlowIds" => JobFlowIds, "TerminationProtected" => TerminationProtected
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_termination_protection(
+    JobFlowIds,
+    TerminationProtected,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "SetTerminationProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "JobFlowIds" => JobFlowIds,
+                    "TerminationProtected" => TerminationProtected,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_unhealthy_node_replacement(job_flow_ids, unhealthy_node_replacement)
@@ -1275,8 +2289,39 @@ in the *Amazon EMR Management Guide*.
 - `unhealthy_node_replacement`: Indicates whether to turn on or turn off graceful unhealthy
   node replacement.
 """
-set_unhealthy_node_replacement(JobFlowIds, UnhealthyNodeReplacement; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetUnhealthyNodeReplacement", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "UnhealthyNodeReplacement"=>UnhealthyNodeReplacement); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_unhealthy_node_replacement(JobFlowIds, UnhealthyNodeReplacement, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetUnhealthyNodeReplacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "UnhealthyNodeReplacement"=>UnhealthyNodeReplacement), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_unhealthy_node_replacement(
+    JobFlowIds, UnhealthyNodeReplacement; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "SetUnhealthyNodeReplacement",
+    Dict{String,Any}(
+        "JobFlowIds" => JobFlowIds,
+        "UnhealthyNodeReplacement" => UnhealthyNodeReplacement,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_unhealthy_node_replacement(
+    JobFlowIds,
+    UnhealthyNodeReplacement,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "SetUnhealthyNodeReplacement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "JobFlowIds" => JobFlowIds,
+                    "UnhealthyNodeReplacement" => UnhealthyNodeReplacement,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     set_visible_to_all_users(job_flow_ids, visible_to_all_users)
@@ -1287,14 +2332,14 @@ set_unhealthy_node_replacement(JobFlowIds, UnhealthyNodeReplacement, params::Abs
 !!! important
     The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be visible
 to all users in your account. To restrict cluster access using an IAM policy, see [Identity and Access Management for Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-access-IAM.html).
-</p>Sets the <a>Cluster$VisibleToAllUsers</a> value for an Amazon EMR cluster. When `true`,
-IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions
-that their IAM policies allow. When `false`, only the IAM principal that created the
-cluster and the Amazon Web Services account root user can perform Amazon EMR actions on the
-cluster, regardless of IAM permissions policies attached to other IAM principals.
+</p>Sets the <a>Cluster\$VisibleToAllUsers</a> value for an Amazon EMR cluster. When
+`true`, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster
+actions that their IAM policies allow. When `false`, only the IAM principal that created
+the cluster and the Amazon Web Services account root user can perform Amazon EMR actions on
+the cluster, regardless of IAM permissions policies attached to other IAM principals.
 
 This action works on running clusters. When you create a cluster, use the
-<a>RunJobFlowInput$VisibleToAllUsers</a> parameter.
+<a>RunJobFlowInput\$VisibleToAllUsers</a> parameter.
 
  <p>For more information, see [Understanding the Amazon EMR Cluster VisibleToAllUsers Setting](https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users)
 in the *Amazon EMR Management Guide*.
@@ -1308,8 +2353,35 @@ in the *Amazon EMR Management Guide*.
   that created the cluster and the Amazon Web Services root user can perform Amazon EMR
   actions on the cluster.
 """
-set_visible_to_all_users(JobFlowIds, VisibleToAllUsers; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-set_visible_to_all_users(JobFlowIds, VisibleToAllUsers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+set_visible_to_all_users(
+    JobFlowIds, VisibleToAllUsers; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "SetVisibleToAllUsers",
+    Dict{String,Any}("JobFlowIds" => JobFlowIds, "VisibleToAllUsers" => VisibleToAllUsers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function set_visible_to_all_users(
+    JobFlowIds,
+    VisibleToAllUsers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "SetVisibleToAllUsers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "JobFlowIds" => JobFlowIds, "VisibleToAllUsers" => VisibleToAllUsers
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_notebook_execution(execution_engine, service_role)
@@ -1351,8 +2423,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value pairs that consist of a required key string with a maximum of 128 characters and an
   optional value string with a maximum of 256 characters.
 """
-start_notebook_execution(ExecutionEngine, ServiceRole; aws_config::AbstractAWSConfig=current_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}("ExecutionEngine"=>ExecutionEngine, "ServiceRole"=>ServiceRole); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_notebook_execution(ExecutionEngine, ServiceRole, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionEngine"=>ExecutionEngine, "ServiceRole"=>ServiceRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_notebook_execution(
+    ExecutionEngine, ServiceRole; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "StartNotebookExecution",
+    Dict{String,Any}("ExecutionEngine" => ExecutionEngine, "ServiceRole" => ServiceRole);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_notebook_execution(
+    ExecutionEngine,
+    ServiceRole,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "StartNotebookExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExecutionEngine" => ExecutionEngine, "ServiceRole" => ServiceRole
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_notebook_execution(notebook_execution_id)
@@ -1364,8 +2463,32 @@ Stops a notebook execution.
 
 - `notebook_execution_id`: The unique identifier of the notebook execution.
 """
-stop_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_notebook_execution(NotebookExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_notebook_execution(
+    NotebookExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = emr(
+    "StopNotebookExecution",
+    Dict{String,Any}("NotebookExecutionId" => NotebookExecutionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_notebook_execution(
+    NotebookExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "StopNotebookExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("NotebookExecutionId" => NotebookExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     terminate_job_flows(job_flow_ids)
@@ -1385,8 +2508,26 @@ instances.
 
 - `job_flow_ids`: A list of job flows to be shut down.
 """
-terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=current_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-terminate_job_flows(JobFlowIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "TerminateJobFlows",
+    Dict{String,Any}("JobFlowIds" => JobFlowIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function terminate_job_flows(
+    JobFlowIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "TerminateJobFlows",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("JobFlowIds" => JobFlowIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_studio(studio_id)
@@ -1414,8 +2555,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the Studio. The list order does not matter. A Studio can have a maximum of 5
   subnets. The subnets must belong to the same VPC as the Studio.
 """
-update_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("UpdateStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_studio(StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("UpdateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr(
+    "UpdateStudio",
+    Dict{String,Any}("StudioId" => StudioId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_studio(
+    StudioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "UpdateStudio",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StudioId" => StudioId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_studio_session_mapping(identity_type, session_policy_arn, studio_id)
@@ -1445,5 +2604,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *IAM Identity Center Identity Store API Reference*. Either `IdentityName` or
   `IdentityId` must be specified.
 """
-update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=current_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_studio_session_mapping(
+    IdentityType,
+    SessionPolicyArn,
+    StudioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = emr(
+    "UpdateStudioSessionMapping",
+    Dict{String,Any}(
+        "IdentityType" => IdentityType,
+        "SessionPolicyArn" => SessionPolicyArn,
+        "StudioId" => StudioId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_studio_session_mapping(
+    IdentityType,
+    SessionPolicyArn,
+    StudioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "UpdateStudioSessionMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdentityType" => IdentityType,
+                    "SessionPolicyArn" => SessionPolicyArn,
+                    "StudioId" => StudioId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -62,8 +62,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created or reopened.
 - `"notifyOnResolveCase"`: Whether you want to get notified when a support case is resolved.
 """
-create_slack_channel_configuration(channelId, channelRoleArn, notifyOnCaseSeverity, teamId; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/create-slack-channel-configuration", Dict{String, Any}("channelId"=>channelId, "channelRoleArn"=>channelRoleArn, "notifyOnCaseSeverity"=>notifyOnCaseSeverity, "teamId"=>teamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_slack_channel_configuration(channelId, channelRoleArn, notifyOnCaseSeverity, teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/create-slack-channel-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "channelRoleArn"=>channelRoleArn, "notifyOnCaseSeverity"=>notifyOnCaseSeverity, "teamId"=>teamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_slack_channel_configuration(
+    channelId,
+    channelRoleArn,
+    notifyOnCaseSeverity,
+    teamId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = support_app(
+    "POST",
+    "/control/create-slack-channel-configuration",
+    Dict{String,Any}(
+        "channelId" => channelId,
+        "channelRoleArn" => channelRoleArn,
+        "notifyOnCaseSeverity" => notifyOnCaseSeverity,
+        "teamId" => teamId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_slack_channel_configuration(
+    channelId,
+    channelRoleArn,
+    notifyOnCaseSeverity,
+    teamId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return support_app(
+        "POST",
+        "/control/create-slack-channel-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "channelId" => channelId,
+                    "channelRoleArn" => channelRoleArn,
+                    "notifyOnCaseSeverity" => notifyOnCaseSeverity,
+                    "teamId" => teamId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_account_alias()
@@ -73,8 +116,23 @@ Deletes an alias for an Amazon Web Services account ID. The alias appears in the
 Services Support App page of the Amazon Web Services Support Center. The alias also appears
 in Slack messages from the Amazon Web Services Support App.
 """
-delete_account_alias(; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/delete-account-alias"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_account_alias(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/delete-account-alias", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_account_alias(; aws_config::AbstractAWSConfig=current_aws_config()) = support_app(
+    "POST",
+    "/control/delete-account-alias";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_account_alias(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/delete-account-alias",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_slack_channel_configuration(channel_id, team_id)
@@ -90,8 +148,35 @@ doesn't delete your Slack channel.
 - `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
   `T012ABCDEFG`.
 """
-delete_slack_channel_configuration(channelId, teamId; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/delete-slack-channel-configuration", Dict{String, Any}("channelId"=>channelId, "teamId"=>teamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_slack_channel_configuration(channelId, teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/delete-slack-channel-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "teamId"=>teamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_slack_channel_configuration(
+    channelId, teamId; aws_config::AbstractAWSConfig=current_aws_config()
+) = support_app(
+    "POST",
+    "/control/delete-slack-channel-configuration",
+    Dict{String,Any}("channelId" => channelId, "teamId" => teamId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_slack_channel_configuration(
+    channelId,
+    teamId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return support_app(
+        "POST",
+        "/control/delete-slack-channel-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("channelId" => channelId, "teamId" => teamId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_slack_workspace_configuration(team_id)
@@ -105,8 +190,26 @@ operation doesn't delete your Slack workspace.
 - `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
   `T012ABCDEFG`.
 """
-delete_slack_workspace_configuration(teamId; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/delete-slack-workspace-configuration", Dict{String, Any}("teamId"=>teamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_slack_workspace_configuration(teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/delete-slack-workspace-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("teamId"=>teamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_slack_workspace_configuration(
+    teamId; aws_config::AbstractAWSConfig=current_aws_config()
+) = support_app(
+    "POST",
+    "/control/delete-slack-workspace-configuration",
+    Dict{String,Any}("teamId" => teamId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_slack_workspace_configuration(
+    teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/delete-slack-workspace-configuration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("teamId" => teamId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_account_alias()
@@ -116,8 +219,23 @@ Retrieves the alias from an Amazon Web Services account ID. The alias appears in
 Web Services Support App page of the Amazon Web Services Support Center. The alias also
 appears in Slack messages from the Amazon Web Services Support App.
 """
-get_account_alias(; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/get-account-alias"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_account_alias(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/get-account-alias", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_account_alias(; aws_config::AbstractAWSConfig=current_aws_config()) = support_app(
+    "POST",
+    "/control/get-account-alias";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_account_alias(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/get-account-alias",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_slack_channel_configurations()
@@ -135,8 +253,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the API returns the last set of results, the response doesn't include a pagination token
   value.
 """
-list_slack_channel_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/list-slack-channel-configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_slack_channel_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/list-slack-channel-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_slack_channel_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    support_app(
+        "POST",
+        "/control/list-slack-channel-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_slack_channel_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/list-slack-channel-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_slack_workspace_configurations()
@@ -154,8 +288,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the API returns the last set of results, the response doesn't include a pagination token
   value.
 """
-list_slack_workspace_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/list-slack-workspace-configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_slack_workspace_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/list-slack-workspace-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_slack_workspace_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    support_app(
+        "POST",
+        "/control/list-slack-workspace-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_slack_workspace_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/list-slack-workspace-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_account_alias(account_alias)
@@ -169,8 +319,29 @@ Center. The alias also appears in Slack messages from the Amazon Web Services Su
 
 - `account_alias`: An alias or short name for an Amazon Web Services account.
 """
-put_account_alias(accountAlias; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/put-account-alias", Dict{String, Any}("accountAlias"=>accountAlias); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_account_alias(accountAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/put-account-alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountAlias"=>accountAlias), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_account_alias(accountAlias; aws_config::AbstractAWSConfig=current_aws_config()) =
+    support_app(
+        "POST",
+        "/control/put-account-alias",
+        Dict{String,Any}("accountAlias" => accountAlias);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_account_alias(
+    accountAlias,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return support_app(
+        "POST",
+        "/control/put-account-alias",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("accountAlias" => accountAlias), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_slack_workspace_for_organization(team_id)
@@ -200,8 +371,26 @@ for that account. For more information, see [Configuring a Slack channel](https:
 - `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
   `T012ABCDEFG`. Specify the Slack workspace that you want to use for your organization.
 """
-register_slack_workspace_for_organization(teamId; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/register-slack-workspace-for-organization", Dict{String, Any}("teamId"=>teamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_slack_workspace_for_organization(teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/register-slack-workspace-for-organization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("teamId"=>teamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_slack_workspace_for_organization(
+    teamId; aws_config::AbstractAWSConfig=current_aws_config()
+) = support_app(
+    "POST",
+    "/control/register-slack-workspace-for-organization",
+    Dict{String,Any}("teamId" => teamId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_slack_workspace_for_organization(
+    teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/register-slack-workspace-for-organization",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("teamId" => teamId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_slack_channel_configuration(channel_id, team_id)
@@ -246,5 +435,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created or reopened.
 - `"notifyOnResolveCase"`: Whether you want to get notified when a support case is resolved.
 """
-update_slack_channel_configuration(channelId, teamId; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/update-slack-channel-configuration", Dict{String, Any}("channelId"=>channelId, "teamId"=>teamId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_slack_channel_configuration(channelId, teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = support_app("POST", "/control/update-slack-channel-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "teamId"=>teamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_slack_channel_configuration(
+    channelId, teamId; aws_config::AbstractAWSConfig=current_aws_config()
+) = support_app(
+    "POST",
+    "/control/update-slack-channel-configuration",
+    Dict{String,Any}("channelId" => channelId, "teamId" => teamId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_slack_channel_configuration(
+    channelId,
+    teamId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return support_app(
+        "POST",
+        "/control/update-slack-channel-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("channelId" => channelId, "teamId" => teamId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

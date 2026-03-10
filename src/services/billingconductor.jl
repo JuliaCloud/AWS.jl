@@ -19,8 +19,32 @@ accounts that can be associated in one call is 30.
 - `arn`:  The Amazon Resource Name (ARN) of the billing group that associates the array of
   account IDs.
 """
-associate_accounts(AccountIds, Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/associate-accounts", Dict{String, Any}("AccountIds"=>AccountIds, "Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_accounts(AccountIds, Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/associate-accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_accounts(AccountIds, Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/associate-accounts",
+        Dict{String,Any}("AccountIds" => AccountIds, "Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_accounts(
+    AccountIds,
+    Arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/associate-accounts",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AccountIds" => AccountIds, "Arn" => Arn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_pricing_rules(arn, pricing_rule_arns)
@@ -34,8 +58,35 @@ Connects an array of `PricingRuleArns` to a defined `PricingPlan`. The maximum n
 - `arn`:  The `PricingPlanArn` that the `PricingRuleArns` are associated with.
 - `pricing_rule_arns`:  The `PricingRuleArns` that are associated with the Pricing Plan.
 """
-associate_pricing_rules(Arn, PricingRuleArns; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/associate-pricing-rules", Dict{String, Any}("Arn"=>Arn, "PricingRuleArns"=>PricingRuleArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_pricing_rules(Arn, PricingRuleArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/associate-pricing-rules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "PricingRuleArns"=>PricingRuleArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_pricing_rules(
+    Arn, PricingRuleArns; aws_config::AbstractAWSConfig=current_aws_config()
+) = billingconductor(
+    "PUT",
+    "/associate-pricing-rules",
+    Dict{String,Any}("Arn" => Arn, "PricingRuleArns" => PricingRuleArns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_pricing_rules(
+    Arn,
+    PricingRuleArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "PUT",
+        "/associate-pricing-rules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Arn" => Arn, "PricingRuleArns" => PricingRuleArns),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_associate_resources_to_custom_line_item(resource_arns, target_arn)
@@ -54,8 +105,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"BillingPeriodRange"`:
 """
-batch_associate_resources_to_custom_line_item(ResourceArns, TargetArn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/batch-associate-resources-to-custom-line-item", Dict{String, Any}("ResourceArns"=>ResourceArns, "TargetArn"=>TargetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_associate_resources_to_custom_line_item(ResourceArns, TargetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/batch-associate-resources-to-custom-line-item", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "TargetArn"=>TargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_associate_resources_to_custom_line_item(
+    ResourceArns, TargetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = billingconductor(
+    "PUT",
+    "/batch-associate-resources-to-custom-line-item",
+    Dict{String,Any}("ResourceArns" => ResourceArns, "TargetArn" => TargetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_associate_resources_to_custom_line_item(
+    ResourceArns,
+    TargetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "PUT",
+        "/batch-associate-resources-to-custom-line-item",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArns" => ResourceArns, "TargetArn" => TargetArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_disassociate_resources_from_custom_line_item(resource_arns, target_arn)
@@ -74,8 +152,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"BillingPeriodRange"`:
 """
-batch_disassociate_resources_from_custom_line_item(ResourceArns, TargetArn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/batch-disassociate-resources-from-custom-line-item", Dict{String, Any}("ResourceArns"=>ResourceArns, "TargetArn"=>TargetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_disassociate_resources_from_custom_line_item(ResourceArns, TargetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/batch-disassociate-resources-from-custom-line-item", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "TargetArn"=>TargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_disassociate_resources_from_custom_line_item(
+    ResourceArns, TargetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = billingconductor(
+    "PUT",
+    "/batch-disassociate-resources-from-custom-line-item",
+    Dict{String,Any}("ResourceArns" => ResourceArns, "TargetArn" => TargetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_disassociate_resources_from_custom_line_item(
+    ResourceArns,
+    TargetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "PUT",
+        "/batch-disassociate-resources-from-custom-line-item",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArns" => ResourceArns, "TargetArn" => TargetArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_billing_group(account_grouping, computation_preference, name)
@@ -103,8 +208,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that is needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
-create_billing_group(AccountGrouping, ComputationPreference, Name; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-billing-group", Dict{String, Any}("AccountGrouping"=>AccountGrouping, "ComputationPreference"=>ComputationPreference, "Name"=>Name, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_billing_group(AccountGrouping, ComputationPreference, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-billing-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountGrouping"=>AccountGrouping, "ComputationPreference"=>ComputationPreference, "Name"=>Name, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_billing_group(
+    AccountGrouping,
+    ComputationPreference,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = billingconductor(
+    "POST",
+    "/create-billing-group",
+    Dict{String,Any}(
+        "AccountGrouping" => AccountGrouping,
+        "ComputationPreference" => ComputationPreference,
+        "Name" => Name,
+        "X-Amzn-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_billing_group(
+    AccountGrouping,
+    ComputationPreference,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/create-billing-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountGrouping" => AccountGrouping,
+                    "ComputationPreference" => ComputationPreference,
+                    "Name" => Name,
+                    "X-Amzn-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_custom_line_item(billing_group_arn, charge_details, description, name)
@@ -136,8 +282,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that is needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
-create_custom_line_item(BillingGroupArn, ChargeDetails, Description, Name; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-custom-line-item", Dict{String, Any}("BillingGroupArn"=>BillingGroupArn, "ChargeDetails"=>ChargeDetails, "Description"=>Description, "Name"=>Name, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_custom_line_item(BillingGroupArn, ChargeDetails, Description, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-custom-line-item", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BillingGroupArn"=>BillingGroupArn, "ChargeDetails"=>ChargeDetails, "Description"=>Description, "Name"=>Name, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_custom_line_item(
+    BillingGroupArn,
+    ChargeDetails,
+    Description,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = billingconductor(
+    "POST",
+    "/create-custom-line-item",
+    Dict{String,Any}(
+        "BillingGroupArn" => BillingGroupArn,
+        "ChargeDetails" => ChargeDetails,
+        "Description" => Description,
+        "Name" => Name,
+        "X-Amzn-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_custom_line_item(
+    BillingGroupArn,
+    ChargeDetails,
+    Description,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/create-custom-line-item",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BillingGroupArn" => BillingGroupArn,
+                    "ChargeDetails" => ChargeDetails,
+                    "Description" => Description,
+                    "Name" => Name,
+                    "X-Amzn-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_pricing_plan(name)
@@ -162,8 +353,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that is needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
-create_pricing_plan(Name; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-pricing-plan", Dict{String, Any}("Name"=>Name, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_pricing_plan(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-pricing-plan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_pricing_plan(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/create-pricing-plan",
+        Dict{String,Any}("Name" => Name, "X-Amzn-Client-Token" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_pricing_plan(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/create-pricing-plan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "X-Amzn-Client-Token" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_pricing_rule(name, scope, type)
@@ -209,8 +423,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that's needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
-create_pricing_rule(Name, Scope, Type; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-pricing-rule", Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "Type"=>Type, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_pricing_rule(Name, Scope, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/create-pricing-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "Type"=>Type, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_pricing_rule(Name, Scope, Type; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/create-pricing-rule",
+        Dict{String,Any}(
+            "Name" => Name,
+            "Scope" => Scope,
+            "Type" => Type,
+            "X-Amzn-Client-Token" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_pricing_rule(
+    Name,
+    Scope,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/create-pricing-rule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "Scope" => Scope,
+                    "Type" => Type,
+                    "X-Amzn-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_billing_group(arn)
@@ -222,8 +473,25 @@ create_pricing_rule(Name, Scope, Type, params::AbstractDict{String}; aws_config:
 
 - `arn`: The Amazon Resource Name (ARN) of the billing group that you're deleting.
 """
-delete_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-billing-group", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_billing_group(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-billing-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/delete-billing-group",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_billing_group(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/delete-billing-group",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_custom_line_item(arn)
@@ -242,8 +510,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"BillingPeriodRange"`:
 """
-delete_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-custom-line-item", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_custom_line_item(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-custom-line-item", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/delete-custom-line-item",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_custom_line_item(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/delete-custom-line-item",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_pricing_plan(arn)
@@ -256,8 +541,25 @@ delete successfully.
 
 - `arn`: The Amazon Resource Name (ARN) of the pricing plan that you're deleting.
 """
-delete_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-pricing-plan", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_pricing_plan(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-pricing-plan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/delete-pricing-plan",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_pricing_plan(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/delete-pricing-plan",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_pricing_rule(arn)
@@ -269,8 +571,25 @@ delete_pricing_plan(Arn, params::AbstractDict{String}; aws_config::AbstractAWSCo
 
 - `arn`:  The Amazon Resource Name (ARN) of the pricing rule that you are deleting.
 """
-delete_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-pricing-rule", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_pricing_rule(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/delete-pricing-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/delete-pricing-rule",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_pricing_rule(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/delete-pricing-rule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_accounts(account_ids, arn)
@@ -284,8 +603,32 @@ Removes the specified list of account IDs from the given billing group.
 - `arn`: The Amazon Resource Name (ARN) of the billing group that the array of account IDs
   will disassociate from.
 """
-disassociate_accounts(AccountIds, Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/disassociate-accounts", Dict{String, Any}("AccountIds"=>AccountIds, "Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_accounts(AccountIds, Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/disassociate-accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_accounts(AccountIds, Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/disassociate-accounts",
+        Dict{String,Any}("AccountIds" => AccountIds, "Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disassociate_accounts(
+    AccountIds,
+    Arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/disassociate-accounts",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AccountIds" => AccountIds, "Arn" => Arn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_pricing_rules(arn, pricing_rule_arns)
@@ -299,8 +642,35 @@ disassociate_accounts(AccountIds, Arn, params::AbstractDict{String}; aws_config:
 - `pricing_rule_arns`:  A list containing the Amazon Resource Name (ARN) of the pricing
   rules that will be disassociated.
 """
-disassociate_pricing_rules(Arn, PricingRuleArns; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/disassociate-pricing-rules", Dict{String, Any}("Arn"=>Arn, "PricingRuleArns"=>PricingRuleArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_pricing_rules(Arn, PricingRuleArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/disassociate-pricing-rules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "PricingRuleArns"=>PricingRuleArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_pricing_rules(
+    Arn, PricingRuleArns; aws_config::AbstractAWSConfig=current_aws_config()
+) = billingconductor(
+    "PUT",
+    "/disassociate-pricing-rules",
+    Dict{String,Any}("Arn" => Arn, "PricingRuleArns" => PricingRuleArns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_pricing_rules(
+    Arn,
+    PricingRuleArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "PUT",
+        "/disassociate-pricing-rules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Arn" => Arn, "PricingRuleArns" => PricingRuleArns),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_billing_group_cost_report(arn)
@@ -325,8 +695,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of margin summary reports to retrieve.
 - `"NextToken"`: The pagination token used on subsequent calls to get reports.
 """
-get_billing_group_cost_report(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/get-billing-group-cost-report", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_billing_group_cost_report(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/get-billing-group-cost-report", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_billing_group_cost_report(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/get-billing-group-cost-report",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_billing_group_cost_report(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/get-billing-group-cost-report",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_account_associations()
@@ -353,8 +740,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  The pagination token that's used on subsequent calls to retrieve
   accounts.
 """
-list_account_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-account-associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_account_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-account-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_associations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/list-account-associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_account_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-account-associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_billing_group_cost_reports()
@@ -374,8 +777,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of reports to retrieve.
 - `"NextToken"`: The pagination token that's used on subsequent calls to get reports.
 """
-list_billing_group_cost_reports(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-billing-group-cost-reports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_billing_group_cost_reports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-billing-group-cost-reports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_billing_group_cost_reports(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/list-billing-group-cost-reports";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_billing_group_cost_reports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-billing-group-cost-reports",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_billing_groups()
@@ -395,8 +814,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that's used on subsequent calls to get billing
   groups.
 """
-list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-billing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_billing_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-billing-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/list-billing-groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_billing_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-billing-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_custom_line_item_versions(arn)
@@ -418,8 +853,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that's used on subsequent calls to retrieve custom
   line item versions.
 """
-list_custom_line_item_versions(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-custom-line-item-versions", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_custom_line_item_versions(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-custom-line-item-versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_custom_line_item_versions(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/list-custom-line-item-versions",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_custom_line_item_versions(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-custom-line-item-versions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_custom_line_items()
@@ -439,8 +891,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  The pagination token that's used on subsequent calls to get custom line
   items (FFLIs).
 """
-list_custom_line_items(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-custom-line-items"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_custom_line_items(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-custom-line-items", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_custom_line_items(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/list-custom-line-items";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_custom_line_items(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-custom-line-items",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pricing_plans()
@@ -459,8 +927,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of pricing plans to retrieve.
 - `"NextToken"`: The pagination token that's used on subsequent call to get pricing plans.
 """
-list_pricing_plans(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-plans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pricing_plans(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-plans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pricing_plans(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor(
+    "POST",
+    "/list-pricing-plans";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_pricing_plans(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-pricing-plans",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pricing_plans_associated_with_pricing_rule(pricing_rule_arn)
@@ -482,8 +965,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The optional maximum number of pricing rule associations to retrieve.
 - `"NextToken"`:  The optional pagination token returned by a previous call.
 """
-list_pricing_plans_associated_with_pricing_rule(PricingRuleArn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-plans-associated-with-pricing-rule", Dict{String, Any}("PricingRuleArn"=>PricingRuleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pricing_plans_associated_with_pricing_rule(PricingRuleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-plans-associated-with-pricing-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PricingRuleArn"=>PricingRuleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pricing_plans_associated_with_pricing_rule(
+    PricingRuleArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = billingconductor(
+    "POST",
+    "/list-pricing-plans-associated-with-pricing-rule",
+    Dict{String,Any}("PricingRuleArn" => PricingRuleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_pricing_plans_associated_with_pricing_rule(
+    PricingRuleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/list-pricing-plans-associated-with-pricing-rule",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PricingRuleArn" => PricingRuleArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pricing_rules()
@@ -502,8 +1007,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The maximum number of pricing rules to retrieve.
 - `"NextToken"`:  The pagination token that's used on subsequent call to get pricing rules.
 """
-list_pricing_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pricing_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pricing_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor(
+    "POST",
+    "/list-pricing-rules";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_pricing_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-pricing-rules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pricing_rules_associated_to_pricing_plan(pricing_plan_arn)
@@ -525,8 +1045,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The optional maximum number of pricing rule associations to retrieve.
 - `"NextToken"`:  The optional pagination token returned by a previous call.
 """
-list_pricing_rules_associated_to_pricing_plan(PricingPlanArn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-rules-associated-to-pricing-plan", Dict{String, Any}("PricingPlanArn"=>PricingPlanArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pricing_rules_associated_to_pricing_plan(PricingPlanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-pricing-rules-associated-to-pricing-plan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PricingPlanArn"=>PricingPlanArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pricing_rules_associated_to_pricing_plan(
+    PricingPlanArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = billingconductor(
+    "POST",
+    "/list-pricing-rules-associated-to-pricing-plan",
+    Dict{String,Any}("PricingPlanArn" => PricingPlanArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_pricing_rules_associated_to_pricing_plan(
+    PricingPlanArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/list-pricing-rules-associated-to-pricing-plan",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PricingPlanArn" => PricingPlanArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_resources_associated_to_custom_line_item(arn)
@@ -550,8 +1092,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  (Optional) The maximum number of resource associations to be retrieved.
 - `"NextToken"`:  (Optional) The pagination token that's returned by a previous request.
 """
-list_resources_associated_to_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-resources-associated-to-custom-line-item", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_resources_associated_to_custom_line_item(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/list-resources-associated-to-custom-line-item", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_resources_associated_to_custom_line_item(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+) = billingconductor(
+    "POST",
+    "/list-resources-associated-to-custom-line-item",
+    Dict{String,Any}("Arn" => Arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_resources_associated_to_custom_line_item(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-resources-associated-to-custom-line-item",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -564,8 +1124,26 @@ list_resources_associated_to_custom_line_item(Arn, params::AbstractDict{String};
 - `resource_arn`:  The Amazon Resource Name (ARN) that identifies the resource to list the
   tags.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("GET", "/tags/$(ResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -579,8 +1157,28 @@ tags on a resource are not specified in the request parameters, they are not cha
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource to which to add tags.
 - `tags`:  The tags to add to the resource as a list of key-value pairs.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -593,8 +1191,28 @@ tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::Abstra
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource to which to delete tags.
 - `tag_keys`:  The tags to delete from the resource as a list of key-value pairs.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return billingconductor(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_billing_group(arn)
@@ -618,8 +1236,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the billing group. The names must be unique to each billing group.
 - `"Status"`: The status of the billing group. Only one of the valid values can be used.
 """
-update_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/update-billing-group", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_billing_group(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/update-billing-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/update-billing-group",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_billing_group(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/update-billing-group",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_custom_line_item(arn)
@@ -641,8 +1276,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`:  The new line item description of the custom line item.
 - `"Name"`:  The new name for the custom line item.
 """
-update_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/update-custom-line-item", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_custom_line_item(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("POST", "/update-custom-line-item", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "POST",
+        "/update-custom-line-item",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_custom_line_item(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/update-custom-line-item",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_pricing_plan(arn)
@@ -661,8 +1313,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the pricing plan.
 - `"Name"`: The name of the pricing plan. The name must be unique to each pricing plan.
 """
-update_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/update-pricing-plan", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_pricing_plan(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/update-pricing-plan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "PUT",
+        "/update-pricing-plan",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_pricing_plan(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "PUT",
+        "/update-pricing-plan",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_pricing_rule(arn)
@@ -685,5 +1354,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tiering"`:  The set of tiering configurations for the pricing rule.
 - `"Type"`:  The new pricing rule type.
 """
-update_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/update-pricing-rule", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_pricing_rule(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = billingconductor("PUT", "/update-pricing-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    billingconductor(
+        "PUT",
+        "/update-pricing-rule",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_pricing_rule(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return billingconductor(
+        "PUT",
+        "/update-pricing-rule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

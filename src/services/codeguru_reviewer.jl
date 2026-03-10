@@ -52,8 +52,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or a team name). Omitting the tag value is the same as using an empty string. Like tag
   keys, tag values are case sensitive.
 """
-associate_repository(Repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_repository(Repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_repository(Repository; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "POST",
+        "/associations",
+        Dict{String,Any}(
+            "Repository" => Repository, "ClientRequestToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_repository(
+    Repository,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "POST",
+        "/associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Repository" => Repository, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_code_review(name, repository_association_arn, type)
@@ -83,8 +112,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: Amazon CodeGuru Reviewer uses this value to prevent the
   accidental creation of duplicate code reviews if there are failures and retries.
 """
-create_code_review(Name, RepositoryAssociationArn, Type; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("POST", "/codereviews", Dict{String, Any}("Name"=>Name, "RepositoryAssociationArn"=>RepositoryAssociationArn, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_code_review(Name, RepositoryAssociationArn, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("POST", "/codereviews", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RepositoryAssociationArn"=>RepositoryAssociationArn, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_code_review(
+    Name, RepositoryAssociationArn, Type; aws_config::AbstractAWSConfig=current_aws_config()
+) = codeguru_reviewer(
+    "POST",
+    "/codereviews",
+    Dict{String,Any}(
+        "Name" => Name,
+        "RepositoryAssociationArn" => RepositoryAssociationArn,
+        "Type" => Type,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_code_review(
+    Name,
+    RepositoryAssociationArn,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "POST",
+        "/codereviews",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "RepositoryAssociationArn" => RepositoryAssociationArn,
+                    "Type" => Type,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_code_review(code_review_arn)
@@ -97,8 +164,26 @@ Returns the metadata associated with the code review along with its status.
 - `code_review_arn`: The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html)
   object.
 """
-describe_code_review(CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_code_review(CodeReviewArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_code_review(CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "GET",
+        "/codereviews/$(CodeReviewArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_code_review(
+    CodeReviewArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "GET",
+        "/codereviews/$(CodeReviewArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_recommendation_feedback(code_review_arn, recommendation_id)
@@ -124,8 +209,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ID or an Amazon Resource Name (ARN). For more information, see [ Specifying a Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
   in the *Amazon Web Services Identity and Access Management User Guide*.
 """
-describe_recommendation_feedback(CodeReviewArn, RecommendationId; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", Dict{String, Any}("RecommendationId"=>RecommendationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_recommendation_feedback(CodeReviewArn, RecommendationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecommendationId"=>RecommendationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_recommendation_feedback(
+    CodeReviewArn, RecommendationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = codeguru_reviewer(
+    "GET",
+    "/feedback/$(CodeReviewArn)",
+    Dict{String,Any}("RecommendationId" => RecommendationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_recommendation_feedback(
+    CodeReviewArn,
+    RecommendationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "GET",
+        "/feedback/$(CodeReviewArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RecommendationId" => RecommendationId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_repository_association(association_arn)
@@ -139,8 +249,27 @@ object that contains information about the requested repository association.
 - `association_arn`: The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
   object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 """
-describe_repository_association(AssociationArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/associations/$(AssociationArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_repository_association(AssociationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/associations/$(AssociationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_repository_association(
+    AssociationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = codeguru_reviewer(
+    "GET",
+    "/associations/$(AssociationArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_repository_association(
+    AssociationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "GET",
+        "/associations/$(AssociationArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_repository(association_arn)
@@ -153,8 +282,27 @@ Removes the association between Amazon CodeGuru Reviewer and a repository.
 - `association_arn`: The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
   object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 """
-disassociate_repository(AssociationArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_repository(AssociationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_repository(
+    AssociationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = codeguru_reviewer(
+    "DELETE",
+    "/associations/$(AssociationArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_repository(
+    AssociationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "DELETE",
+        "/associations/$(AssociationArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_code_reviews(type)
@@ -187,8 +335,25 @@ The valid code review states are: - `Completed`: The code review is complete.
  - `Failed`: The code review failed.
  - `Deleting`: The code review is being deleted.
 """
-list_code_reviews(Type; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/codereviews", Dict{String, Any}("Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_code_reviews(Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/codereviews", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_code_reviews(Type; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "GET",
+        "/codereviews",
+        Dict{String,Any}("Type" => Type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_code_reviews(
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codeguru_reviewer(
+        "GET",
+        "/codereviews",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_recommendation_feedback(code_review_arn)
@@ -220,8 +385,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ID or an Amazon Resource Name (ARN). For more information, see [ Specifying a Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
   in the *Amazon Web Services Identity and Access Management User Guide*.
 """
-list_recommendation_feedback(CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_recommendation_feedback(CodeReviewArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_recommendation_feedback(
+    CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = codeguru_reviewer(
+    "GET",
+    "/feedback/$(CodeReviewArn)/RecommendationFeedback";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_recommendation_feedback(
+    CodeReviewArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "GET",
+        "/feedback/$(CodeReviewArn)/RecommendationFeedback",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_recommendations(code_review_arn)
@@ -242,8 +426,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100.
 - `"NextToken"`: Pagination token.
 """
-list_recommendations(CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_recommendations(CodeReviewArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_recommendations(CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "GET",
+        "/codereviews/$(CodeReviewArn)/Recommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_recommendations(
+    CodeReviewArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "GET",
+        "/codereviews/$(CodeReviewArn)/Recommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_repository_associations()
@@ -305,8 +507,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see [Using tags to control access to associated repositories](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/auth-and-access-control-using-tags.html)
   in the *Amazon CodeGuru Reviewer User Guide*. </li> </ul>
 """
-list_repository_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_repository_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_repository_associations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "GET", "/associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_repository_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codeguru_reviewer(
+        "GET",
+        "/associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -319,8 +534,26 @@ Returns the list of tags associated with an associated repository resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
   object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_recommendation_feedback(code_review_arn, reactions, recommendation_id)
@@ -338,8 +571,47 @@ again with different reactions the previous feedback is overwritten.
 - `recommendation_id`: The recommendation ID that can be used to track the provided
   recommendations and then to collect the feedback.
 """
-put_recommendation_feedback(CodeReviewArn, Reactions, RecommendationId; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_recommendation_feedback(CodeReviewArn, Reactions, RecommendationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_recommendation_feedback(
+    CodeReviewArn,
+    Reactions,
+    RecommendationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = codeguru_reviewer(
+    "PUT",
+    "/feedback",
+    Dict{String,Any}(
+        "CodeReviewArn" => CodeReviewArn,
+        "Reactions" => Reactions,
+        "RecommendationId" => RecommendationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_recommendation_feedback(
+    CodeReviewArn,
+    Reactions,
+    RecommendationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "PUT",
+        "/feedback",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CodeReviewArn" => CodeReviewArn,
+                    "Reactions" => Reactions,
+                    "RecommendationId" => RecommendationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(tags, resource_arn)
@@ -358,8 +630,28 @@ Adds one or more tags to an associated repository.
 - `resource_arn`: The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
   object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 """
-tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    Tags,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -374,5 +666,25 @@ Removes a tag from an associated repository.
 - `tag_keys`: A list of the keys for each tag you want to remove from an associated
   repository.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeguru_reviewer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codeguru_reviewer(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codeguru_reviewer(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

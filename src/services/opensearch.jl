@@ -15,8 +15,27 @@ cluster search connection request. For more information, see [Cross-cluster sear
 
 - `connection_id`: The ID of the inbound connection to accept.
 """
-accept_inbound_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/accept"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_inbound_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/accept", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_inbound_connection(
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "PUT",
+    "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/accept";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_inbound_connection(
+    ConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/accept",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_data_source(data_source_type, domain_name, name)
@@ -36,8 +55,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the data source.
 """
-add_data_source(DataSourceType, DomainName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource", Dict{String, Any}("DataSourceType"=>DataSourceType, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_data_source(DataSourceType, DomainName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceType"=>DataSourceType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_data_source(
+    DataSourceType, DomainName, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/domain/$(DomainName)/dataSource",
+    Dict{String,Any}("DataSourceType" => DataSourceType, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_data_source(
+    DataSourceType,
+    DomainName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataSourceType" => DataSourceType, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_tags(arn, tag_list)
@@ -52,8 +99,29 @@ sensitive key-value pairs. A domain can have up to 10 tags. For more information
   attach resource tags.
 - `tag_list`: List of resource tags.
 """
-add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/tags", Dict{String, Any}("ARN"=>ARN, "TagList"=>TagList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_tags(ARN, TagList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ARN"=>ARN, "TagList"=>TagList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "POST",
+    "/2021-01-01/tags",
+    Dict{String,Any}("ARN" => ARN, "TagList" => TagList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_tags(
+    ARN,
+    TagList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/tags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ARN" => ARN, "TagList" => TagList), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_package(domain_name, package_id)
@@ -67,8 +135,28 @@ Associates a package with an Amazon OpenSearch Service domain. For more informat
 - `package_id`: Internal ID of the package to associate with a domain. Use
   `DescribePackages` to find this value.
 """
-associate_package(DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/associate/$(PackageID)/$(DomainName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_package(DomainName, PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/associate/$(PackageID)/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_package(
+    DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/packages/associate/$(PackageID)/$(DomainName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_package(
+    DomainName,
+    PackageID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/associate/$(PackageID)/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     authorize_vpc_endpoint_access(account, domain_name)
@@ -82,8 +170,29 @@ endpoint.
 - `account`: The Amazon Web Services account ID to grant access to.
 - `domain_name`: The name of the OpenSearch Service domain to provide access to.
 """
-authorize_vpc_endpoint_access(Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess", Dict{String, Any}("Account"=>Account); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-authorize_vpc_endpoint_access(Account, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+authorize_vpc_endpoint_access(
+    Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess",
+    Dict{String,Any}("Account" => Account);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function authorize_vpc_endpoint_access(
+    Account,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_domain_config_change(domain_name)
@@ -102,8 +211,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: When set to `True`, returns the list of change IDs and properties that will
   be cancelled without actually cancelling the change.
 """
-cancel_domain_config_change(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/config/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_domain_config_change(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/config/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_domain_config_change(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/domain/$(DomainName)/config/cancel";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_domain_config_change(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/config/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_service_software_update(domain_name)
@@ -118,8 +246,30 @@ can only perform this operation before the `AutomatedUpdateDate` and when the do
 - `domain_name`: Name of the OpenSearch Service domain that you want to cancel the service
   software update on.
 """
-cancel_service_software_update(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_service_software_update(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_service_software_update(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_service_software_update(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_domain(domain_name)
@@ -189,8 +339,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't specify these values, OpenSearch Service creates the domain with a public endpoint.
   For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
 """
-create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/domain",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_outbound_connection(connection_alias, local_domain_info, remote_domain_info)
@@ -212,8 +382,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectionMode"`: The connection mode.
 - `"ConnectionProperties"`: The `ConnectionProperties` for the outbound connection.
 """
-create_outbound_connection(ConnectionAlias, LocalDomainInfo, RemoteDomainInfo; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/cc/outboundConnection", Dict{String, Any}("ConnectionAlias"=>ConnectionAlias, "LocalDomainInfo"=>LocalDomainInfo, "RemoteDomainInfo"=>RemoteDomainInfo); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_outbound_connection(ConnectionAlias, LocalDomainInfo, RemoteDomainInfo, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/cc/outboundConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionAlias"=>ConnectionAlias, "LocalDomainInfo"=>LocalDomainInfo, "RemoteDomainInfo"=>RemoteDomainInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_outbound_connection(
+    ConnectionAlias,
+    LocalDomainInfo,
+    RemoteDomainInfo;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/cc/outboundConnection",
+    Dict{String,Any}(
+        "ConnectionAlias" => ConnectionAlias,
+        "LocalDomainInfo" => LocalDomainInfo,
+        "RemoteDomainInfo" => RemoteDomainInfo,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_outbound_connection(
+    ConnectionAlias,
+    LocalDomainInfo,
+    RemoteDomainInfo,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/cc/outboundConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionAlias" => ConnectionAlias,
+                    "LocalDomainInfo" => LocalDomainInfo,
+                    "RemoteDomainInfo" => RemoteDomainInfo,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_package(package_name, package_source, package_type)
@@ -234,8 +443,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PackageDescription"`: Description of the package.
 """
-create_package(PackageName, PackageSource, PackageType; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages", Dict{String, Any}("PackageName"=>PackageName, "PackageSource"=>PackageSource, "PackageType"=>PackageType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_package(PackageName, PackageSource, PackageType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageName"=>PackageName, "PackageSource"=>PackageSource, "PackageType"=>PackageType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_package(
+    PackageName,
+    PackageSource,
+    PackageType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = opensearch(
+    "POST",
+    "/2021-01-01/packages",
+    Dict{String,Any}(
+        "PackageName" => PackageName,
+        "PackageSource" => PackageSource,
+        "PackageType" => PackageType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_package(
+    PackageName,
+    PackageSource,
+    PackageType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PackageName" => PackageName,
+                    "PackageSource" => PackageSource,
+                    "PackageType" => PackageType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc_endpoint(domain_arn, vpc_options)
@@ -254,8 +502,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
-create_vpc_endpoint(DomainArn, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/vpcEndpoints", Dict{String, Any}("DomainArn"=>DomainArn, "VpcOptions"=>VpcOptions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_endpoint(DomainArn, VpcOptions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/vpcEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainArn"=>DomainArn, "VpcOptions"=>VpcOptions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_endpoint(
+    DomainArn, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/vpcEndpoints",
+    Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpc_endpoint(
+    DomainArn,
+    VpcOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_source(data_source_name, domain_name)
@@ -268,8 +543,28 @@ Deletes a direct-query data source. For more information, see [Deleting an Amazo
 - `data_source_name`: The name of the data source to delete.
 - `domain_name`: The name of the domain.
 """
-delete_data_source(DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_source(DataSourceName, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_source(
+    DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "DELETE",
+    "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_source(
+    DataSourceName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_domain(domain_name)
@@ -282,8 +577,25 @@ after you delete it.
 
 - `domain_name`: The name of the domain you want to permanently delete.
 """
-delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/domain/$(DomainName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/domain/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "DELETE",
+    "/2021-01-01/opensearch/domain/$(DomainName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/domain/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_inbound_connection(connection_id)
@@ -296,8 +608,27 @@ cross-cluster search connection. For more information, see [Cross-cluster search
 
 - `connection_id`: The ID of the inbound connection to permanently delete.
 """
-delete_inbound_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_inbound_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_inbound_connection(
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "DELETE",
+    "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_inbound_connection(
+    ConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_outbound_connection(connection_id)
@@ -310,8 +641,27 @@ cross-cluster search connection. For more information, see [Cross-cluster search
 
 - `connection_id`: The ID of the outbound connection you want to permanently delete.
 """
-delete_outbound_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/cc/outboundConnection/$(ConnectionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_outbound_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/cc/outboundConnection/$(ConnectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_outbound_connection(
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "DELETE",
+    "/2021-01-01/opensearch/cc/outboundConnection/$(ConnectionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_outbound_connection(
+    ConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/cc/outboundConnection/$(ConnectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_package(package_id)
@@ -324,8 +674,25 @@ Deletes an Amazon OpenSearch Service package. For more information, see [Custom 
 - `package_id`: The internal ID of the package you want to delete. Use `DescribePackages`
   to find this value.
 """
-delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/packages/$(PackageID)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_package(PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/packages/$(PackageID)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "DELETE",
+    "/2021-01-01/packages/$(PackageID)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_package(
+    PackageID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/packages/$(PackageID)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc_endpoint(vpc_endpoint_id)
@@ -337,8 +704,26 @@ Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
 
 - `vpc_endpoint_id`: The unique identifier of the endpoint.
 """
-delete_vpc_endpoint(VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/vpcEndpoints/$(VpcEndpointId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc_endpoint(VpcEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("DELETE", "/2021-01-01/opensearch/vpcEndpoints/$(VpcEndpointId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc_endpoint(VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/vpcEndpoints/$(VpcEndpointId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_vpc_endpoint(
+    VpcEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/vpcEndpoints/$(VpcEndpointId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_domain(domain_name)
@@ -351,8 +736,26 @@ including the domain ID, domain service endpoint, and domain ARN.
 
 - `domain_name`: The name of the domain that you want information about.
 """
-describe_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_domain_auto_tunes(domain_name)
@@ -375,8 +778,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned `nextToken` in subsequent `DescribeDomainAutoTunes`
   operations, which returns results in the next page.
 """
-describe_domain_auto_tunes(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/autoTunes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_domain_auto_tunes(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/autoTunes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain_auto_tunes(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/autoTunes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_domain_auto_tunes(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/autoTunes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_domain_change_progress(domain_name)
@@ -396,8 +817,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"changeid"`: The specific change ID for which you want to get progress information. If
   omitted, the request returns information about the most recent configuration change.
 """
-describe_domain_change_progress(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/progress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_domain_change_progress(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/progress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain_change_progress(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/domain/$(DomainName)/progress";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_domain_change_progress(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/progress",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_domain_config(domain_name)
@@ -410,8 +850,26 @@ Returns the configuration of an Amazon OpenSearch Service domain.
 - `domain_name`: Name of the OpenSearch Service domain configuration that you want to
   describe.
 """
-describe_domain_config(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_domain_config(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain_config(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_domain_config(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_domain_health(domain_name)
@@ -424,8 +882,26 @@ nodes per Availability Zone, and shard count per node.
 
 - `domain_name`: The name of the domain.
 """
-describe_domain_health(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/health"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_domain_health(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/health", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain_health(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/health";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_domain_health(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/health",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_domain_nodes(domain_name)
@@ -438,8 +914,26 @@ nodes, Availability Zone(s), standby nodes, node configurations, and node states
 
 - `domain_name`: The name of the domain.
 """
-describe_domain_nodes(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_domain_nodes(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain_nodes(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/nodes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_domain_nodes(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/nodes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_domains(domain_names)
@@ -453,8 +947,29 @@ domains.
 - `domain_names`: Array of OpenSearch Service domain names that you want information about.
   You must specify at least one domain name.
 """
-describe_domains(DomainNames; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain-info", Dict{String, Any}("DomainNames"=>DomainNames); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_domains(DomainNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain-info", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainNames"=>DomainNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domains(DomainNames; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain-info",
+        Dict{String,Any}("DomainNames" => DomainNames);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_domains(
+    DomainNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain-info",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainNames" => DomainNames), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_dry_run_progress(domain_name)
@@ -476,8 +991,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. The configuration specifies the updates that you're planning to make on the
   domain.
 """
-describe_dry_run_progress(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/dryRun"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_dry_run_progress(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/dryRun", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_dry_run_progress(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dryRun";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_dry_run_progress(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dryRun",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_inbound_connections()
@@ -498,8 +1031,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `nextToken`, you can include the returned `nextToken` in subsequent
   `DescribeInboundConnections` operations, which returns results in the next page.
 """
-describe_inbound_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/cc/inboundConnection/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_inbound_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/cc/inboundConnection/search", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_inbound_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "POST",
+        "/2021-01-01/opensearch/cc/inboundConnection/search";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_inbound_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/cc/inboundConnection/search",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_type_limits(engine_version, instance_type)
@@ -522,8 +1071,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of the domain. Only specify if you need the limits for an
   existing domain.
 """
-describe_instance_type_limits(EngineVersion, InstanceType; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/instanceTypeLimits/$(EngineVersion)/$(InstanceType)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_type_limits(EngineVersion, InstanceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/instanceTypeLimits/$(EngineVersion)/$(InstanceType)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_type_limits(
+    EngineVersion, InstanceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/instanceTypeLimits/$(EngineVersion)/$(InstanceType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_instance_type_limits(
+    EngineVersion,
+    InstanceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/instanceTypeLimits/$(EngineVersion)/$(InstanceType)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_outbound_connections()
@@ -543,8 +1112,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `nextToken`, you can include the returned `nextToken` in subsequent
   `DescribeOutboundConnections` operations, which returns results in the next page.
 """
-describe_outbound_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/cc/outboundConnection/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_outbound_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/cc/outboundConnection/search", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_outbound_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "POST",
+        "/2021-01-01/opensearch/cc/outboundConnection/search";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_outbound_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/cc/outboundConnection/search",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_packages()
@@ -563,8 +1148,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned `nextToken` in subsequent `DescribePackageFilters`
   operations, which returns results in the next page.
 """
-describe_packages(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/describe"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_packages(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/describe", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_packages(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "POST",
+    "/2021-01-01/packages/describe";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_packages(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/describe",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_reserved_instance_offerings()
@@ -585,8 +1185,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"offeringId"`: The Reserved Instance identifier filter value. Use this parameter to show
   only the available instance types that match the specified reservation identifier.
 """
-describe_reserved_instance_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/reservedInstanceOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_reserved_instance_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/reservedInstanceOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_instance_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/reservedInstanceOfferings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_reserved_instance_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/reservedInstanceOfferings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_reserved_instances()
@@ -607,8 +1223,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
   show only the reservation that matches the specified reserved OpenSearch instance ID.
 """
-describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/reservedInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_reserved_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/reservedInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/reservedInstances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_reserved_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/reservedInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_endpoints(vpc_endpoint_ids)
@@ -620,8 +1252,29 @@ Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
 
 - `vpc_endpoint_ids`: The unique identifiers of the endpoints to get information about.
 """
-describe_vpc_endpoints(VpcEndpointIds; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/vpcEndpoints/describe", Dict{String, Any}("VpcEndpointIds"=>VpcEndpointIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_endpoints(VpcEndpointIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/vpcEndpoints/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointIds"=>VpcEndpointIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_endpoints(VpcEndpointIds; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints/describe",
+        Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_vpc_endpoints(
+    VpcEndpointIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints/describe",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     dissociate_package(domain_name, package_id)
@@ -637,8 +1290,28 @@ available in OpenSearch Service for association later. For more information, see
 - `package_id`: Internal ID of the package to dissociate from the domain. Use
   `ListPackagesForDomain` to find this value.
 """
-dissociate_package(DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/dissociate/$(PackageID)/$(DomainName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-dissociate_package(DomainName, PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/dissociate/$(PackageID)/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+dissociate_package(
+    DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/packages/dissociate/$(PackageID)/$(DomainName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function dissociate_package(
+    DomainName,
+    PackageID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/dissociate/$(PackageID)/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_compatible_versions()
@@ -654,8 +1327,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of an existing domain. Provide this parameter to limit the
   results to a single domain.
 """
-get_compatible_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/compatibleVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_compatible_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/compatibleVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_compatible_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/compatibleVersions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_compatible_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/compatibleVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_source(data_source_name, domain_name)
@@ -668,8 +1356,28 @@ Retrieves information about a direct query data source.
 - `data_source_name`: The name of the data source to get information about.
 - `domain_name`: The name of the domain.
 """
-get_data_source(DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_source(DataSourceName, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_source(
+    DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_source(
+    DataSourceName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_domain_maintenance_status(domain_name, maintenance_id)
@@ -682,8 +1390,31 @@ The status of the maintenance action.
 - `domain_name`: The name of the domain.
 - `maintenance_id`: The request ID of the maintenance action.
 """
-get_domain_maintenance_status(DomainName, maintenanceId; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance", Dict{String, Any}("maintenanceId"=>maintenanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_domain_maintenance_status(DomainName, maintenanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("maintenanceId"=>maintenanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_domain_maintenance_status(
+    DomainName, maintenanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+    Dict{String,Any}("maintenanceId" => maintenanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_domain_maintenance_status(
+    DomainName,
+    maintenanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("maintenanceId" => maintenanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_package_version_history(package_id)
@@ -707,8 +1438,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `nextToken`, you can include the returned `nextToken` in subsequent
   `GetPackageVersionHistory` operations, which returns results in the next page.
 """
-get_package_version_history(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/packages/$(PackageID)/history"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_package_version_history(PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/packages/$(PackageID)/history", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_package_version_history(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/packages/$(PackageID)/history";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_package_version_history(
+    PackageID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/packages/$(PackageID)/history",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_upgrade_history(domain_name)
@@ -731,8 +1480,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can include the returned `nextToken` in subsequent `GetUpgradeHistory` operations, which
   returns results in the next page.
 """
-get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/history"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_upgrade_history(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/history", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/history";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_upgrade_history(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/history",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_upgrade_status(domain_name)
@@ -745,8 +1512,26 @@ on an Amazon OpenSearch Service domain.
 
 - `domain_name`: The domain of the domain to get upgrade status information for.
 """
-get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_upgrade_status(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_upgrade_status(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_sources(domain_name)
@@ -759,8 +1544,26 @@ information, see [Working with Amazon OpenSearch Service direct queries with Ama
 
 - `domain_name`: The name of the domain.
 """
-list_data_sources(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_sources(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_sources(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_data_sources(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_domain_maintenances(domain_name)
@@ -784,8 +1587,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 - `"status"`: The status of the action.
 """
-list_domain_maintenances(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_domain_maintenances(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domain_maintenances(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_domain_maintenances(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_domain_names()
@@ -800,8 +1621,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"engineType"`: Filters the output by domain engine type.
 """
-list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_domain_names(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/domain", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "GET", "/2021-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_domain_names(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/domain",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_domains_for_package(package_id)
@@ -824,8 +1657,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned `nextToken` in subsequent `ListDomainsForPackage`
   operations, which returns results in the next page.
 """
-list_domains_for_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/packages/$(PackageID)/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_domains_for_package(PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/packages/$(PackageID)/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domains_for_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/packages/$(PackageID)/domains";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_domains_for_package(
+    PackageID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/packages/$(PackageID)/domains",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_instance_type_details(engine_version)
@@ -853,8 +1704,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retrieveAZs"`: An optional parameter that specifies the Availability Zones for the
   domain.
 """
-list_instance_type_details(EngineVersion; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/instanceTypeDetails/$(EngineVersion)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_instance_type_details(EngineVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/instanceTypeDetails/$(EngineVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_instance_type_details(
+    EngineVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/instanceTypeDetails/$(EngineVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_instance_type_details(
+    EngineVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/instanceTypeDetails/$(EngineVersion)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_packages_for_domain(domain_name)
@@ -877,8 +1747,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned `nextToken` in subsequent `ListPackagesForDomain`
   operations, which returns results in the next page.
 """
-list_packages_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/domain/$(DomainName)/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_packages_for_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/domain/$(DomainName)/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_packages_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/domain/$(DomainName)/packages";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_packages_for_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/domain/$(DomainName)/packages",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_scheduled_actions(domain_name)
@@ -902,8 +1790,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned `nextToken` in subsequent `ListScheduledActions` operations,
   which returns results in the next page.
 """
-list_scheduled_actions(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/scheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_scheduled_actions(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/scheduledActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_scheduled_actions(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/scheduledActions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_scheduled_actions(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/scheduledActions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags(arn)
@@ -916,8 +1822,24 @@ see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/open
 
 - `arn`: Amazon Resource Name (ARN) for the domain to view tags for.
 """
-list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/tags/", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/tags/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "GET",
+    "/2021-01-01/tags/",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/tags/",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_versions()
@@ -935,8 +1857,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned `nextToken` in subsequent `ListVersions` operations, which returns
   results in the next page.
 """
-list_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_vpc_endpoint_access(domain_name)
@@ -958,8 +1895,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned `nextToken` in subsequent `ListVpcEndpointAccess`
   operations, which returns results in the next page.
 """
-list_vpc_endpoint_access(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/listVpcEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_vpc_endpoint_access(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/listVpcEndpointAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_vpc_endpoint_access(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/listVpcEndpointAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_vpc_endpoint_access(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/listVpcEndpointAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_vpc_endpoints()
@@ -976,8 +1931,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can include the returned `nextToken` in subsequent `ListVpcEndpoints` operations, which
   returns results in the next page.
 """
-list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/vpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_vpc_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/vpcEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/vpcEndpoints";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_vpc_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/vpcEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_vpc_endpoints_for_domain(domain_name)
@@ -998,8 +1968,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned `nextToken` in subsequent `ListEndpointsForDomain`
   operations, which returns results in the next page.
 """
-list_vpc_endpoints_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/vpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_vpc_endpoints_for_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("GET", "/2021-01-01/opensearch/domain/$(DomainName)/vpcEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_vpc_endpoints_for_domain(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "GET",
+    "/2021-01-01/opensearch/domain/$(DomainName)/vpcEndpoints";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_vpc_endpoints_for_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/vpcEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     purchase_reserved_instance_offering(reservation_name, reserved_instance_offering_id)
@@ -1018,8 +2007,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstanceCount"`: The number of OpenSearch instances to reserve.
 """
-purchase_reserved_instance_offering(ReservationName, ReservedInstanceOfferingId; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/purchaseReservedInstanceOffering", Dict{String, Any}("ReservationName"=>ReservationName, "ReservedInstanceOfferingId"=>ReservedInstanceOfferingId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-purchase_reserved_instance_offering(ReservationName, ReservedInstanceOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/purchaseReservedInstanceOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservationName"=>ReservationName, "ReservedInstanceOfferingId"=>ReservedInstanceOfferingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_reserved_instance_offering(
+    ReservationName,
+    ReservedInstanceOfferingId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
+    Dict{String,Any}(
+        "ReservationName" => ReservationName,
+        "ReservedInstanceOfferingId" => ReservedInstanceOfferingId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function purchase_reserved_instance_offering(
+    ReservationName,
+    ReservedInstanceOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReservationName" => ReservationName,
+                    "ReservedInstanceOfferingId" => ReservedInstanceOfferingId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_inbound_connection(connection_id)
@@ -1032,8 +2056,27 @@ connection request.
 
 - `connection_id`: The unique identifier of the inbound connection to reject.
 """
-reject_inbound_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/reject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_inbound_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/reject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_inbound_connection(
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "PUT",
+    "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/reject";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_inbound_connection(
+    ConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/reject",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_tags(arn, tag_keys)
@@ -1048,8 +2091,29 @@ information, see [ Tagging Amazon OpenSearch Service domains](https://docs.aws.a
   specified tags.
 - `tag_keys`: The list of tag keys to remove from the domain.
 """
-remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/tags-removal", Dict{String, Any}("ARN"=>ARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_tags(ARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/tags-removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ARN"=>ARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch(
+    "POST",
+    "/2021-01-01/tags-removal",
+    Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_tags(
+    ARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/tags-removal",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     revoke_vpc_endpoint_access(account, domain_name)
@@ -1063,8 +2127,29 @@ interface VPC endpoint.
 - `account`: The account ID to revoke access from.
 - `domain_name`: The name of the OpenSearch Service domain.
 """
-revoke_vpc_endpoint_access(Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess", Dict{String, Any}("Account"=>Account); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-revoke_vpc_endpoint_access(Account, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+revoke_vpc_endpoint_access(
+    Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess",
+    Dict{String,Any}("Account" => Account);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function revoke_vpc_endpoint_access(
+    Account,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_domain_maintenance(action, domain_name)
@@ -1084,8 +2169,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NodeId"`: The ID of the data node.
 """
-start_domain_maintenance(Action, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance", Dict{String, Any}("Action"=>Action); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_domain_maintenance(Action, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_domain_maintenance(
+    Action, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+    Dict{String,Any}("Action" => Action);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_domain_maintenance(
+    Action,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Action" => Action), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_service_software_update(domain_name)
@@ -1115,8 +2221,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: `NOW` if you don't specify a value for `DesiredStartTime`, and `TIMESTAMP` if
   you do.
 """
-start_service_software_update(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/serviceSoftwareUpdate/start", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_service_software_update(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/serviceSoftwareUpdate/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_service_software_update(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/serviceSoftwareUpdate/start",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_service_software_update(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/serviceSoftwareUpdate/start",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_data_source(data_source_name, data_source_type, domain_name)
@@ -1137,8 +2265,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A new description of the data source.
 - `"Status"`: The status of the data source update.
 """
-update_data_source(DataSourceName, DataSourceType, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)", Dict{String, Any}("DataSourceType"=>DataSourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_data_source(DataSourceName, DataSourceType, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceType"=>DataSourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_source(
+    DataSourceName,
+    DataSourceType,
+    DomainName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = opensearch(
+    "PUT",
+    "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+    Dict{String,Any}("DataSourceType" => DataSourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_data_source(
+    DataSourceName,
+    DataSourceType,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DataSourceType" => DataSourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_domain_config(domain_name)
@@ -1201,8 +2356,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint.
   For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
 """
-update_domain_config(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_domain_config(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/domain/$(DomainName)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain_config(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_domain_config(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_package(package_id, package_source)
@@ -1224,8 +2397,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `GetPackageVersionHistoryResponse`.
 - `"PackageDescription"`: A new description of the package.
 """
-update_package(PackageID, PackageSource; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/update", Dict{String, Any}("PackageID"=>PackageID, "PackageSource"=>PackageSource); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_package(PackageID, PackageSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/packages/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageID"=>PackageID, "PackageSource"=>PackageSource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_package(
+    PackageID, PackageSource; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/packages/update",
+    Dict{String,Any}("PackageID" => PackageID, "PackageSource" => PackageSource);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_package(
+    PackageID,
+    PackageSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PackageID" => PackageID, "PackageSource" => PackageSource
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_scheduled_action(action_id, action_type, domain_name, schedule_at)
@@ -1259,8 +2461,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DesiredStartTime"`: The time to implement the change, in Coordinated Universal Time
   (UTC). Only specify this parameter if you set `ScheduleAt` to `TIMESTAMP`.
 """
-update_scheduled_action(ActionID, ActionType, DomainName, ScheduleAt; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/domain/$(DomainName)/scheduledAction/update", Dict{String, Any}("ActionID"=>ActionID, "ActionType"=>ActionType, "ScheduleAt"=>ScheduleAt); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_scheduled_action(ActionID, ActionType, DomainName, ScheduleAt, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("PUT", "/2021-01-01/opensearch/domain/$(DomainName)/scheduledAction/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionID"=>ActionID, "ActionType"=>ActionType, "ScheduleAt"=>ScheduleAt), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_scheduled_action(
+    ActionID,
+    ActionType,
+    DomainName,
+    ScheduleAt;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = opensearch(
+    "PUT",
+    "/2021-01-01/opensearch/domain/$(DomainName)/scheduledAction/update",
+    Dict{String,Any}(
+        "ActionID" => ActionID, "ActionType" => ActionType, "ScheduleAt" => ScheduleAt
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_scheduled_action(
+    ActionID,
+    ActionType,
+    DomainName,
+    ScheduleAt,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/scheduledAction/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ActionID" => ActionID,
+                    "ActionType" => ActionType,
+                    "ScheduleAt" => ScheduleAt,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_vpc_endpoint(vpc_endpoint_id, vpc_options)
@@ -1273,8 +2514,37 @@ Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
 - `vpc_endpoint_id`: The unique identifier of the endpoint.
 - `vpc_options`: The security groups and/or subnets to add, remove, or modify.
 """
-update_vpc_endpoint(VpcEndpointId, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/vpcEndpoints/update", Dict{String, Any}("VpcEndpointId"=>VpcEndpointId, "VpcOptions"=>VpcOptions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_vpc_endpoint(VpcEndpointId, VpcOptions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/vpcEndpoints/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId, "VpcOptions"=>VpcOptions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_vpc_endpoint(
+    VpcEndpointId, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/vpcEndpoints/update",
+    Dict{String,Any}("VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_vpc_endpoint(
+    VpcEndpointId,
+    VpcOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     upgrade_domain(domain_name, target_version)
@@ -1300,5 +2570,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PerformCheckOnly"`: When true, indicates that an upgrade eligibility check needs to be
   performed. Does not actually perform the upgrade.
 """
-upgrade_domain(DomainName, TargetVersion; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/upgradeDomain", Dict{String, Any}("DomainName"=>DomainName, "TargetVersion"=>TargetVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-upgrade_domain(DomainName, TargetVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = opensearch("POST", "/2021-01-01/opensearch/upgradeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "TargetVersion"=>TargetVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upgrade_domain(
+    DomainName, TargetVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = opensearch(
+    "POST",
+    "/2021-01-01/opensearch/upgradeDomain",
+    Dict{String,Any}("DomainName" => DomainName, "TargetVersion" => TargetVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function upgrade_domain(
+    DomainName,
+    TargetVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/upgradeDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "TargetVersion" => TargetVersion
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -8,12 +8,12 @@ using AWS.UUIDs
     create_bot_version(name)
     create_bot_version(name, params::Dict{String,<:Any})
 
-Creates a new version of the bot based on the `$LATEST` version. If the `$LATEST` version
+Creates a new version of the bot based on the `\$LATEST` version. If the `\$LATEST` version
 of this resource hasn't changed since you created the last version, Amazon Lex doesn't
 create a new version. It returns the last created version.</p>
 
 !!! note
-    You can update only the `$LATEST` version of the bot. You can't update the numbered
+    You can update only the `\$LATEST` version of the bot. You can't update the numbered
 versions that you create with the `CreateBotVersion` operation. When you create the first
 version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For
 more information, see <a>versioning-intro</a>.
@@ -29,24 +29,40 @@ more information, see <a>versioning-intro</a>.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"checksum"`: Identifies a specific revision of the `$LATEST` version of the bot. If you
-  specify a checksum and the `$LATEST` version of the bot has a different checksum, a
+- `"checksum"`: Identifies a specific revision of the `\$LATEST` version of the bot. If you
+  specify a checksum and the `\$LATEST` version of the bot has a different checksum, a
   `PreconditionFailedException` exception is returned and Amazon Lex doesn't publish a new
-  version. If you don't specify a checksum, Amazon Lex publishes the `$LATEST` version.
+  version. If you don't specify a checksum, Amazon Lex publishes the `\$LATEST` version.
 """
-create_bot_version(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/bots/$(name)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_bot_version(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/bots/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_bot_version(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "POST",
+        "/bots/$(name)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_bot_version(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "POST",
+        "/bots/$(name)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_intent_version(name)
     create_intent_version(name, params::Dict{String,<:Any})
 
-Creates a new version of an intent based on the `$LATEST` version of the intent. If the
-`$LATEST` version of this intent hasn't changed since you last updated it, Amazon Lex
+Creates a new version of an intent based on the `\$LATEST` version of the intent. If the
+`\$LATEST` version of this intent hasn't changed since you last updated it, Amazon Lex
 doesn't create a new version. It returns the last version you created.</p>
 
 !!! note
-    You can update only the `$LATEST` version of the intent. You can't update the numbered
+    You can update only the `\$LATEST` version of the intent. You can't update the numbered
 versions that you create with the `CreateIntentVersion` operation. When you create a
 version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1.
 For more information, see <a>versioning-intro</a>.
@@ -62,29 +78,45 @@ For more information, see <a>versioning-intro</a>.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"checksum"`: Checksum of the `$LATEST` version of the intent that should be used to
-  create the new version. If you specify a checksum and the `$LATEST` version of the intent
-  has a different checksum, Amazon Lex returns a `PreconditionFailedException` exception
-  and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes
-  the `$LATEST` version.
+- `"checksum"`: Checksum of the `\$LATEST` version of the intent that should be used to
+  create the new version. If you specify a checksum and the `\$LATEST` version of the
+  intent has a different checksum, Amazon Lex returns a `PreconditionFailedException`
+  exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex
+  publishes the `\$LATEST` version.
 """
-create_intent_version(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/intents/$(name)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_intent_version(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/intents/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_intent_version(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "POST",
+        "/intents/$(name)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_intent_version(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "POST",
+        "/intents/$(name)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_slot_type_version(name)
     create_slot_type_version(name, params::Dict{String,<:Any})
 
-Creates a new version of a slot type based on the `$LATEST` version of the specified slot
-type. If the `$LATEST` version of this resource has not changed since the last version that
-you created, Amazon Lex doesn't create a new version. It returns the last version that you
-created. </p>
+Creates a new version of a slot type based on the `\$LATEST` version of the specified slot
+type. If the `\$LATEST` version of this resource has not changed since the last version
+that you created, Amazon Lex doesn't create a new version. It returns the last version that
+you created. </p>
 
 !!! note
-    You can update only the `$LATEST` version of a slot type. You can't update the numbered
-versions that you create with the `CreateSlotTypeVersion` operation.When you create a
-version of a slot type, Amazon Lex sets the version to 1. Subsequent versions increment by
-1. For more information, see <a>versioning-intro</a>.
+    You can update only the `\$LATEST` version of a slot type. You can't update the
+numbered versions that you create with the `CreateSlotTypeVersion` operation.When you
+create a version of a slot type, Amazon Lex sets the version to 1. Subsequent versions
+increment by 1. For more information, see <a>versioning-intro</a>.
 
  <p>This operation requires permissions for the `lex:CreateSlotTypeVersion` action.
 
@@ -97,20 +129,36 @@ version of a slot type, Amazon Lex sets the version to 1. Subsequent versions in
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"checksum"`: Checksum for the `$LATEST` version of the slot type that you want to
-  publish. If you specify a checksum and the `$LATEST` version of the slot type has a
+- `"checksum"`: Checksum for the `\$LATEST` version of the slot type that you want to
+  publish. If you specify a checksum and the `\$LATEST` version of the slot type has a
   different checksum, Amazon Lex returns a `PreconditionFailedException` exception and
   doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes
-  the `$LATEST` version.
+  the `\$LATEST` version.
 """
-create_slot_type_version(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/slottypes/$(name)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_slot_type_version(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/slottypes/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_slot_type_version(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "POST",
+        "/slottypes/$(name)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_slot_type_version(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "POST",
+        "/slottypes/$(name)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_bot(name)
     delete_bot(name, params::Dict{String,<:Any})
 
-Deletes all versions of the bot, including the `$LATEST` version. To delete a specific
+Deletes all versions of the bot, including the `\$LATEST` version. To delete a specific
 version of the bot, use the <a>DeleteBotVersion</a> operation. The `DeleteBot` operation
 doesn't immediately remove the bot schema. Instead, it is marked for deletion and removed
 later.
@@ -130,8 +178,21 @@ This operation requires permissions for the `lex:DeleteBot` action.
 
 - `name`: The name of the bot. The name is case sensitive.
 """
-delete_bot(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_bot(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_bot(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE", "/bots/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function delete_bot(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/bots/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_bot_alias(bot_name, name)
@@ -151,8 +212,27 @@ the `DeleteBotAlias` operation is successful.
 - `bot_name`: The name of the bot that the alias points to.
 - `name`: The name of the alias to delete. The name is case sensitive.
 """
-delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_bot_alias(botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE",
+        "/bots/$(botName)/aliases/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_bot_alias(
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/bots/$(botName)/aliases/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_bot_channel_association(alias_name, bot_name, name)
@@ -169,8 +249,29 @@ This operation requires permission for the `lex:DeleteBotChannelAssociation` act
 - `bot_name`: The name of the Amazon Lex bot.
 - `name`: The name of the association. The name is case sensitive.
 """
-delete_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_bot_channel_association(aliasName, botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_bot_channel_association(
+    aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = lex_model_building_service(
+    "DELETE",
+    "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_bot_channel_association(
+    aliasName,
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_bot_version(name, version)
@@ -184,17 +285,36 @@ This operation requires permissions for the `lex:DeleteBotVersion` action.
 # Arguments
 
 - `name`: The name of the bot.
-- `version`: The version of the bot to delete. You cannot delete the `$LATEST` version of
-  the bot. To delete the `$LATEST` version, use the <a>DeleteBot</a> operation.
+- `version`: The version of the bot to delete. You cannot delete the `\$LATEST` version of
+  the bot. To delete the `\$LATEST` version, use the <a>DeleteBot</a> operation.
 """
-delete_bot_version(name, version; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_bot_version(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_bot_version(name, version; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE",
+        "/bots/$(name)/versions/$(version)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_bot_version(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/bots/$(name)/versions/$(version)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_intent(name)
     delete_intent(name, params::Dict{String,<:Any})
 
-Deletes all versions of the intent, including the `$LATEST` version. To delete a specific
+Deletes all versions of the intent, including the `\$LATEST` version. To delete a specific
 version of the intent, use the <a>DeleteIntentVersion</a> operation.
 
  You can delete a version of an intent only if it is not referenced. To delete an intent
@@ -212,8 +332,21 @@ successful. This operation requires permission for the `lex:DeleteIntent` action
 
 - `name`: The name of the intent. The name is case sensitive.
 """
-delete_intent(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_intent(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_intent(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE", "/intents/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function delete_intent(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/intents/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_intent_version(name, version)
@@ -227,17 +360,36 @@ This operation requires permissions for the `lex:DeleteIntentVersion` action.
 # Arguments
 
 - `name`: The name of the intent.
-- `version`: The version of the intent to delete. You cannot delete the `$LATEST` version
-  of the intent. To delete the `$LATEST` version, use the <a>DeleteIntent</a> operation.
+- `version`: The version of the intent to delete. You cannot delete the `\$LATEST` version
+  of the intent. To delete the `\$LATEST` version, use the <a>DeleteIntent</a> operation.
 """
-delete_intent_version(name, version; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_intent_version(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_intent_version(name, version; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE",
+        "/intents/$(name)/versions/$(version)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_intent_version(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/intents/$(name)/versions/$(version)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_slot_type(name)
     delete_slot_type(name, params::Dict{String,<:Any})
 
-Deletes all versions of the slot type, including the `$LATEST` version. To delete a
+Deletes all versions of the slot type, including the `\$LATEST` version. To delete a
 specific version of the slot type, use the <a>DeleteSlotTypeVersion</a> operation.
 
  You can delete a version of a slot type only if it is not referenced. To delete a slot
@@ -255,8 +407,24 @@ the `DeleteSlotType` call is successful.This operation requires permission for t
 
 - `name`: The name of the slot type. The name is case sensitive.
 """
-delete_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_slot_type(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE",
+        "/slottypes/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_slot_type(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/slottypes/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_slot_type_version(name, version)
@@ -270,12 +438,32 @@ This operation requires permissions for the `lex:DeleteSlotTypeVersion` action.
 # Arguments
 
 - `name`: The name of the slot type.
-- `version`: The version of the slot type to delete. You cannot delete the `$LATEST`
-  version of the slot type. To delete the `$LATEST` version, use the <a>DeleteSlotType</a>
+- `version`: The version of the slot type to delete. You cannot delete the `\$LATEST`
+  version of the slot type. To delete the `\$LATEST` version, use the <a>DeleteSlotType</a>
   operation.
 """
-delete_slot_type_version(name, version; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_slot_type_version(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_slot_type_version(
+    name, version; aws_config::AbstractAWSConfig=current_aws_config()
+) = lex_model_building_service(
+    "DELETE",
+    "/slottypes/$(name)/version/$(version)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_slot_type_version(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/slottypes/$(name)/version/$(version)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_utterances(bot_name, user_id)
@@ -302,8 +490,27 @@ This operation requires permissions for the `lex:DeleteUtterances` action.
   or [PostText](http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html)
   operation request that contained the utterance.
 """
-delete_utterances(botName, userId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_utterances(botName, userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_utterances(botName, userId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE",
+        "/bots/$(botName)/utterances/$(userId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_utterances(
+    botName,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/bots/$(botName)/utterances/$(userId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bot(name, versionoralias)
@@ -319,8 +526,27 @@ version or alias.
 - `name`: The name of the bot. The name is case sensitive.
 - `versionoralias`: The version or alias of the bot.
 """
-get_bot(name, versionoralias; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bot(name, versionoralias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bot(name, versionoralias; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/bots/$(name)/versions/$(versionoralias)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_bot(
+    name,
+    versionoralias,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(name)/versions/$(versionoralias)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bot_alias(bot_name, name)
@@ -336,8 +562,27 @@ This operation requires permissions for the `lex:GetBotAlias` action.
 - `bot_name`: The name of the bot.
 - `name`: The name of the bot alias. The name is case sensitive.
 """
-get_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bot_alias(botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_bot_alias(
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bot_aliases(bot_name)
@@ -364,8 +609,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to this call is truncated, Amazon Lex returns a pagination token in the response. To
   fetch the next page of aliases, specify the pagination token in the next request.
 """
-get_bot_aliases(botName; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bot_aliases(botName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bot_aliases(botName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_bot_aliases(
+    botName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bot_channel_association(alias_name, bot_name, name)
@@ -384,8 +647,29 @@ This operation requires permissions for the `lex:GetBotChannelAssociation` actio
 - `name`: The name of the association between the bot and the channel. The name is case
   sensitive.
 """
-get_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bot_channel_association(aliasName, botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bot_channel_association(
+    aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = lex_model_building_service(
+    "GET",
+    "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_bot_channel_association(
+    aliasName,
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bot_channel_associations(alias_name, bot_name)
@@ -417,8 +701,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To fetch the next page of associations, specify the pagination token in the
   next request.
 """
-get_bot_channel_associations(aliasName, botName; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bot_channel_associations(aliasName, botName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bot_channel_associations(
+    aliasName, botName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lex_model_building_service(
+    "GET",
+    "/bots/$(botName)/aliases/$(aliasName)/channels/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_bot_channel_associations(
+    aliasName,
+    botName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bot_versions(name)
@@ -429,9 +733,9 @@ Gets information about all of the versions of a bot.
 The `GetBotVersions` operation returns a `BotMetadata` object for each version of a bot.
 For example, if a bot has three numbered versions, the `GetBotVersions` operation returns
 four `BotMetadata` objects in the response, one for each numbered version and one for the
-`$LATEST` version.
+`\$LATEST` version.
 
-The `GetBotVersions` operation always returns at least one version, the `$LATEST` version.
+The `GetBotVersions` operation always returns at least one version, the `\$LATEST` version.
 
 This operation requires permissions for the `lex:GetBotVersions` action.
 
@@ -450,18 +754,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To fetch the next page of versions, specify the pagination token in the next
   request.
 """
-get_bot_versions(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bot_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bot_versions(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/bots/$(name)/versions/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_bot_versions(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(name)/versions/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bots()
     get_bots(params::Dict{String,<:Any})
 
 Returns bot information as follows:  - If you provide the `nameContains` field, the
-response includes information for the `$LATEST` version of all bots whose name contains the
-specified string.
+response includes information for the `\$LATEST` version of all bots whose name contains
+the specified string.
  - If you don't specify the `nameContains` field, the operation returns information about
-the `$LATEST` version of all of your bots.
+the `\$LATEST` version of all of your bots.
 This operation requires permission for the `lex:GetBots` action.
 
 # Optional Parameters
@@ -476,8 +796,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this call is truncated, Amazon Lex returns a pagination token in the response. To fetch
   the next page of bots, specify the pagination token in the next request.
 """
-get_bots(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bots(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service(
+    "GET", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_bots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_builtin_intent(signature)
@@ -493,8 +821,26 @@ This operation requires permission for the `lex:GetBuiltinIntent` action.
   intent, see [Standard Built-in Intents](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents)
   in the *Alexa Skills Kit*.
 """
-get_builtin_intent(signature; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/builtins/intents/$(signature)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_builtin_intent(signature, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/builtins/intents/$(signature)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_builtin_intent(signature; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/builtins/intents/$(signature)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_builtin_intent(
+    signature,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/builtins/intents/$(signature)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_builtin_intents()
@@ -519,8 +865,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matches both "xyzabc" and "abcxyz." To find the signature for an intent, see [Standard Built-in Intents](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents)
   in the *Alexa Skills Kit*.
 """
-get_builtin_intents(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/builtins/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_builtin_intents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/builtins/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_builtin_intents(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET", "/builtins/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_builtin_intents(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET",
+        "/builtins/intents/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_builtin_slot_types()
@@ -548,8 +907,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be returned if any part of its signature matches the substring. For example, "xyz"
   matches both "xyzabc" and "abcxyz."
 """
-get_builtin_slot_types(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_builtin_slot_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_builtin_slot_types(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/builtins/slottypes/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_builtin_slot_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET",
+        "/builtins/slottypes/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_export(export_type, name, resource_type, version)
@@ -564,8 +939,51 @@ Exports the contents of a Amazon Lex resource in a specified format.
 - `resource_type`: The type of resource to export.
 - `version`: The version of the bot to export.
 """
-get_export(exportType, name, resourceType, version; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/exports/", Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_export(exportType, name, resourceType, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/exports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_export(
+    exportType,
+    name,
+    resourceType,
+    version;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lex_model_building_service(
+    "GET",
+    "/exports/",
+    Dict{String,Any}(
+        "exportType" => exportType,
+        "name" => name,
+        "resourceType" => resourceType,
+        "version" => version,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_export(
+    exportType,
+    name,
+    resourceType,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/exports/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "exportType" => exportType,
+                    "name" => name,
+                    "resourceType" => resourceType,
+                    "version" => version,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_import(import_id)
@@ -577,8 +995,26 @@ Gets information about an import job started with the `StartImport` operation.
 
 - `import_id`: The identifier of the import job information to return.
 """
-get_import(importId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/imports/$(importId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_import(importId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/imports/$(importId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_import(importId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/imports/$(importId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_import(
+    importId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/imports/$(importId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_intent(name, version)
@@ -594,8 +1030,27 @@ intent version.
 - `name`: The name of the intent. The name is case sensitive.
 - `version`: The version of the intent.
 """
-get_intent(name, version; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_intent(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_intent(name, version; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/intents/$(name)/versions/$(version)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_intent(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/intents/$(name)/versions/$(version)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_intent_versions(name)
@@ -606,9 +1061,9 @@ Gets information about all of the versions of an intent.
 The `GetIntentVersions` operation returns an `IntentMetadata` object for each version of an
 intent. For example, if an intent has three numbered versions, the `GetIntentVersions`
 operation returns four `IntentMetadata` objects in the response, one for each numbered
-version and one for the `$LATEST` version.
+version and one for the `\$LATEST` version.
 
-The `GetIntentVersions` operation always returns at least one version, the `$LATEST`
+The `GetIntentVersions` operation always returns at least one version, the `\$LATEST`
 version.
 
 This operation requires permissions for the `lex:GetIntentVersions` action.
@@ -628,16 +1083,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To fetch the next page of versions, specify the pagination token in the next
   request.
 """
-get_intent_versions(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_intent_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_intent_versions(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/intents/$(name)/versions/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_intent_versions(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET",
+        "/intents/$(name)/versions/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_intents()
     get_intents(params::Dict{String,<:Any})
 
 Returns intent information as follows:  - If you specify the `nameContains` field, returns
-the `$LATEST` version of all intents that contain the specified string.
- - If you don't specify the `nameContains` field, returns information about the `$LATEST`
+the `\$LATEST` version of all intents that contain the specified string.
+ - If you don't specify the `nameContains` field, returns information about the `\$LATEST`
 version of all intents.
  The operation requires permission for the `lex:GetIntents` action.
 
@@ -654,8 +1125,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to this API call is truncated, Amazon Lex returns a pagination token in the response. To
   fetch the next page of intents, specify the pagination token in the next request.
 """
-get_intents(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_intents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_intents(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET", "/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_intents(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_migration(migration_id)
@@ -670,8 +1150,26 @@ the migration.
 - `migration_id`: The unique identifier of the migration to view. The `migrationID` is
   returned by the operation.
 """
-get_migration(migrationId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/migrations/$(migrationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_migration(migrationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/migrations/$(migrationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_migration(migrationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/migrations/$(migrationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_migration(
+    migrationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/migrations/$(migrationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_migrations()
@@ -697,8 +1195,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"v1BotNameContains"`: Filters the list to contain only bots whose name contains the
   specified string. The string is matched anywhere in bot name.
 """
-get_migrations(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/migrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_migrations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/migrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_migrations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET", "/migrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_migrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/migrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_slot_type(name, version)
@@ -714,8 +1221,27 @@ This operation requires permissions for the `lex:GetSlotType` action.
 - `name`: The name of the slot type. The name is case sensitive.
 - `version`: The version of the slot type.
 """
-get_slot_type(name, version; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_slot_type(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_slot_type(name, version; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/slottypes/$(name)/versions/$(version)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_slot_type(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/slottypes/$(name)/versions/$(version)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_slot_type_versions(name)
@@ -726,9 +1252,9 @@ Gets information about all versions of a slot type.
 The `GetSlotTypeVersions` operation returns a `SlotTypeMetadata` object for each version of
 a slot type. For example, if a slot type has three numbered versions, the
 `GetSlotTypeVersions` operation returns four `SlotTypeMetadata` objects in the response,
-one for each numbered version and one for the `$LATEST` version.
+one for each numbered version and one for the `\$LATEST` version.
 
-The `GetSlotTypeVersions` operation always returns at least one version, the `$LATEST`
+The `GetSlotTypeVersions` operation always returns at least one version, the `\$LATEST`
 version.
 
 This operation requires permissions for the `lex:GetSlotTypeVersions` action.
@@ -748,16 +1274,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To fetch the next page of versions, specify the pagination token in the next
   request.
 """
-get_slot_type_versions(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_slot_type_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_slot_type_versions(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/slottypes/$(name)/versions/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_slot_type_versions(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET",
+        "/slottypes/$(name)/versions/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_slot_types()
     get_slot_types(params::Dict{String,<:Any})
 
 Returns slot type information as follows:  - If you specify the `nameContains` field,
-returns the `$LATEST` version of all slot types that contain the specified string.
- - If you don't specify the `nameContains` field, returns information about the `$LATEST`
+returns the `\$LATEST` version of all slot types that contain the specified string.
+ - If you don't specify the `nameContains` field, returns information about the `\$LATEST`
 version of all slot types.
  The operation requires permission for the `lex:GetSlotTypes` action.
 
@@ -775,8 +1317,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To fetch next page of slot types, specify the pagination token in the next
   request.
 """
-get_slot_types(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/slottypes/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_slot_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_slot_types(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET", "/slottypes/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_slot_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_utterances_view(bot_versions, botname, status_type)
@@ -814,8 +1365,38 @@ This operation requires permissions for the `lex:GetUtterancesView` action.
 - `status_type`: To return utterances that were recognized and handled, use `Detected`. To
   return utterances that were not recognized, use `Missed`.
 """
-get_utterances_view(bot_versions, botname, status_type; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_utterances_view(bot_versions, botname, status_type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_utterances_view(
+    bot_versions, botname, status_type; aws_config::AbstractAWSConfig=current_aws_config()
+) = lex_model_building_service(
+    "GET",
+    "/bots/$(botname)/utterances?view=aggregation",
+    Dict{String,Any}("bot_versions" => bot_versions, "status_type" => status_type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_utterances_view(
+    bot_versions,
+    botname,
+    status_type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botname)/utterances?view=aggregation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bot_versions" => bot_versions, "status_type" => status_type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -828,8 +1409,26 @@ channels can have tags associated with them.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get a list of tags for.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_bot(child_directed, locale, name)
@@ -844,7 +1443,7 @@ the bot after you add one or more intents. For more information about Amazon Lex
 <a>how-it-works</a>.
 
 If you specify the name of an existing bot, the fields in the request replace the existing
-values in the `$LATEST` version of the bot. Amazon Lex removes any fields that you don't
+values in the `\$LATEST` version of the bot. Amazon Lex removes any fields that you don't
 provide values for in the request, except for the `idleTTLInSeconds` and `privacySettings`
 fields, which are set to their default values. If you don't specify values for required
 fields, Amazon Lex throws an exception.
@@ -900,14 +1499,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you have defined a fallback intent the cancel statement will not be sent to the user,
   the fallback intent is used instead. For more information, see [ AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
-- `"checksum"`: Identifies a specific revision of the `$LATEST` version.
+- `"checksum"`: Identifies a specific revision of the `\$LATEST` version.
 
   When you create a new bot, leave the `checksum` field blank. If you specify a checksum
   you get a `BadRequestException` exception.
 
   When you want to update a bot, set the `checksum` field to the checksum of the most
-  recent revision of the `$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `$LATEST` version, you get a
+  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
+  if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
 - `"clarificationPrompt"`: When Amazon Lex doesn't understand the user's intent, it uses
   this message to get clarification. To specify how many times Amazon Lex should repeat the
@@ -1012,8 +1611,35 @@ If you don't specify this value, the default value is `BUILD`.
   the bot. For more information, see [Voices in Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
   in the *Amazon Polly Developer Guide*.
 """
-put_bot(childDirected, locale, name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_bot(childDirected, locale, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_bot(childDirected, locale, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "PUT",
+        "/bots/$(name)/versions/$LATEST",
+        Dict{String,Any}("childDirected" => childDirected, "locale" => locale);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_bot(
+    childDirected,
+    locale,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "PUT",
+        "/bots/$(name)/versions/$LATEST",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("childDirected" => childDirected, "locale" => locale),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_bot_alias(bot_name, bot_version, name)
@@ -1035,14 +1661,14 @@ This operation requires permissions for the `lex:PutBotAlias` action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"checksum"`: Identifies a specific revision of the `$LATEST` version.
+- `"checksum"`: Identifies a specific revision of the `\$LATEST` version.
 
   When you create a new bot alias, leave the `checksum` field blank. If you specify a
   checksum you get a `BadRequestException` exception.
 
   When you want to update a bot alias, set the `checksum` field to the checksum of the most
-  recent revision of the `$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `$LATEST` version, you get a
+  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
+  if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
 - `"conversationLogs"`: Settings for conversation logs for the alias.
 - `"description"`: A description of the alias.
@@ -1050,8 +1676,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an alias, you can't use the `PutBotAlias` operation to update the tags on a bot alias. To
   update tags, use the `TagResource` operation.
 """
-put_bot_alias(botName, botVersion, name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}("botVersion"=>botVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_bot_alias(botName, botVersion, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersion"=>botVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_bot_alias(
+    botName, botVersion, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = lex_model_building_service(
+    "PUT",
+    "/bots/$(botName)/aliases/$(name)",
+    Dict{String,Any}("botVersion" => botVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_bot_alias(
+    botName,
+    botVersion,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "PUT",
+        "/bots/$(botName)/aliases/$(name)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("botVersion" => botVersion), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_intent(name)
@@ -1081,10 +1731,10 @@ example, "I placed your pizza order."
  - A follow-up prompt that asks the user for additional activity. For example, asking "Do
 you want to order a drink with your pizza?"
 If you specify an existing intent name to update the intent, Amazon Lex replaces the values
-in the `$LATEST` version of the intent with the values in the request. Amazon Lex removes
+in the `\$LATEST` version of the intent with the values in the request. Amazon Lex removes
 fields that you don't provide in the request. If you don't specify the required fields,
-Amazon Lex throws an exception. When you update the `$LATEST` version of an intent, the
-`status` field of any bot that uses the `$LATEST` version of the intent is set to
+Amazon Lex throws an exception. When you update the `\$LATEST` version of an intent, the
+`status` field of any bot that uses the `\$LATEST` version of the intent is set to
 `NOT_BUILT`.
 
 For more information, see <a>how-it-works</a>.
@@ -1106,14 +1756,14 @@ For more information, see <a>how-it-works</a>.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"checksum"`: Identifies a specific revision of the `$LATEST` version.
+- `"checksum"`: Identifies a specific revision of the `\$LATEST` version.
 
   When you create a new intent, leave the `checksum` field blank. If you specify a checksum
   you get a `BadRequestException` exception.
 
   When you want to update a intent, set the `checksum` field to the checksum of the most
-  recent revision of the `$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `$LATEST` version, you get a
+  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
+  if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
 - `"conclusionStatement"`:  The statement that you want Amazon Lex to convey to the user
   after the intent is successfully fulfilled by the Lambda function.
@@ -1195,8 +1845,24 @@ In each utterance, a slot name is enclosed in curly braces.
   from the user using prompts defined in the slots. For more information, see <a>how-it-
   works</a>.
 """
-put_intent(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_intent(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_intent(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "PUT",
+        "/intents/$(name)/versions/$LATEST";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_intent(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "PUT",
+        "/intents/$(name)/versions/$LATEST",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_slot_type(name)
@@ -1209,11 +1875,11 @@ values, which are the values that a slot of this type can assume. For more infor
 <a>how-it-works</a>.
 
 If you specify the name of an existing slot type, the fields in the request replace the
-existing values in the `$LATEST` version of the slot type. Amazon Lex removes the fields
+existing values in the `\$LATEST` version of the slot type. Amazon Lex removes the fields
 that you don't provide in the request. If you don't specify required fields, Amazon Lex
-throws an exception. When you update the `$LATEST` version of a slot type, if a bot uses
-the `$LATEST` version of an intent that contains the slot type, the bot's `status` field is
-set to `NOT_BUILT`.
+throws an exception. When you update the `\$LATEST` version of a slot type, if a bot uses
+the `\$LATEST` version of an intent that contains the slot type, the bot's `status` field
+is set to `NOT_BUILT`.
 
 This operation requires permissions for the `lex:PutSlotType` action.
 
@@ -1232,14 +1898,14 @@ This operation requires permissions for the `lex:PutSlotType` action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"checksum"`: Identifies a specific revision of the `$LATEST` version.
+- `"checksum"`: Identifies a specific revision of the `\$LATEST` version.
 
   When you create a new slot type, leave the `checksum` field blank. If you specify a
   checksum you get a `BadRequestException` exception.
 
   When you want to update a slot type, set the `checksum` field to the checksum of the most
-  recent revision of the `$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `$LATEST` version, you get a
+  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
+  if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
 - `"createVersion"`: When set to `true` a new numbered version of the slot type is created.
   This is the same as calling the `CreateSlotTypeVersion` operation. If you do not specify
@@ -1274,8 +1940,24 @@ Only `AMAZON.AlphaNumeric` is supported.
   returned.
   If you don't specify the `valueSelectionStrategy`, the default is `ORIGINAL_VALUE`.
 """
-put_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_slot_type(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "PUT",
+        "/slottypes/$(name)/versions/$LATEST";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_slot_type(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_model_building_service(
+        "PUT",
+        "/slottypes/$(name)/versions/$LATEST",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_import(merge_strategy, payload, resource_type)
@@ -1292,7 +1974,7 @@ Starts a job to import a resource to Amazon Lex.
   `failureReason` field of the response to the `GetImport` operation.
 
    <p>OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an
-  existing resource. The $LASTEST version of the existing resource is overwritten with the
+  existing resource. The \$LASTEST version of the existing resource is overwritten with the
   data from the import file.
 - `payload`: A zip archive in binary format. The archive should contain one file, a JSON
   file containing the resource to import. The resource should match the type specified in
@@ -1308,8 +1990,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to add to the imported bot. You can only add tags when you
   import a bot, you can't add tags to an intent or slot type.
 """
-start_import(mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_import(mergeStrategy, payload, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_import(
+    mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = lex_model_building_service(
+    "POST",
+    "/imports/",
+    Dict{String,Any}(
+        "mergeStrategy" => mergeStrategy,
+        "payload" => payload,
+        "resourceType" => resourceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_import(
+    mergeStrategy,
+    payload,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "POST",
+        "/imports/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "mergeStrategy" => mergeStrategy,
+                    "payload" => payload,
+                    "resourceType" => resourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_migration(migration_strategy, v1_bot_name, v1_bot_version, v2_bot_name, v2_bot_role)
@@ -1330,7 +2048,7 @@ in the *Amazon Lex developer guide*.
   locale doesn't exist, a new locale is created in the Amazon Lex V2 bot.
 - `v1_bot_name`: The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
 - `v1_bot_version`: The version of the bot to migrate to Amazon Lex V2. You can migrate the
-  `$LATEST` version as well as any numbered version.
+  `\$LATEST` version as well as any numbered version.
 - `v2_bot_name`: The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1
   bot to.  - If the Amazon Lex V2 bot doesn't exist, you must use the `CREATE_NEW`
   migration strategy.
@@ -1338,8 +2056,55 @@ in the *Amazon Lex developer guide*.
   to change the contents of the Amazon Lex V2 bot.
 - `v2_bot_role`: The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
 """
-start_migration(migrationStrategy, v1BotName, v1BotVersion, v2BotName, v2BotRole; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/migrations", Dict{String, Any}("migrationStrategy"=>migrationStrategy, "v1BotName"=>v1BotName, "v1BotVersion"=>v1BotVersion, "v2BotName"=>v2BotName, "v2BotRole"=>v2BotRole); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_migration(migrationStrategy, v1BotName, v1BotVersion, v2BotName, v2BotRole, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/migrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("migrationStrategy"=>migrationStrategy, "v1BotName"=>v1BotName, "v1BotVersion"=>v1BotVersion, "v2BotName"=>v2BotName, "v2BotRole"=>v2BotRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_migration(
+    migrationStrategy,
+    v1BotName,
+    v1BotVersion,
+    v2BotName,
+    v2BotRole;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lex_model_building_service(
+    "POST",
+    "/migrations",
+    Dict{String,Any}(
+        "migrationStrategy" => migrationStrategy,
+        "v1BotName" => v1BotName,
+        "v1BotVersion" => v1BotVersion,
+        "v2BotName" => v2BotName,
+        "v2BotRole" => v2BotRole,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_migration(
+    migrationStrategy,
+    v1BotName,
+    v1BotVersion,
+    v2BotName,
+    v2BotRole,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "POST",
+        "/migrations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "migrationStrategy" => migrationStrategy,
+                    "v1BotName" => v1BotName,
+                    "v1BotVersion" => v1BotVersion,
+                    "v2BotName" => v2BotName,
+                    "v2BotRole" => v2BotRole,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1355,8 +2120,28 @@ existing value is replaced with the new value.
 - `tags`: A list of tag keys to add to the resource. If a tag key already exists, the
   existing value is replaced with the new value.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1370,5 +2155,25 @@ Removes tags from a bot, bot alias or bot channel.
 - `tag_keys`: A list of tag keys to remove from the resource. If a tag key does not exist
   on the resource, it is ignored.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lex_model_building_service(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

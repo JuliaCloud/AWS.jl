@@ -34,8 +34,30 @@ Learn more about working with routing controls in the following topics in the Am
 - `routing_control_arn`: The Amazon Resource Name (ARN) for the routing control that you
   want to get the state for.
 """
-get_routing_control_state(RoutingControlArn; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("GetRoutingControlState", Dict{String, Any}("RoutingControlArn"=>RoutingControlArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_routing_control_state(RoutingControlArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("GetRoutingControlState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingControlArn"=>RoutingControlArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_routing_control_state(
+    RoutingControlArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = route53_recovery_cluster(
+    "GetRoutingControlState",
+    Dict{String,Any}("RoutingControlArn" => RoutingControlArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_routing_control_state(
+    RoutingControlArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route53_recovery_cluster(
+        "GetRoutingControlState",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RoutingControlArn" => RoutingControlArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_routing_controls()
@@ -74,8 +96,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_routing_controls(; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("ListRoutingControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_routing_controls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("ListRoutingControls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_routing_controls(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route53_recovery_cluster(
+        "ListRoutingControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_routing_controls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_cluster(
+        "ListRoutingControls",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_routing_control_state(routing_control_arn, routing_control_state)
@@ -125,8 +159,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [ Override safety rules to reroute traffic](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.override-safety-rule.html)
   in the Amazon Route 53 Application Recovery Controller Developer Guide.
 """
-update_routing_control_state(RoutingControlArn, RoutingControlState; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("UpdateRoutingControlState", Dict{String, Any}("RoutingControlArn"=>RoutingControlArn, "RoutingControlState"=>RoutingControlState); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_routing_control_state(RoutingControlArn, RoutingControlState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("UpdateRoutingControlState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingControlArn"=>RoutingControlArn, "RoutingControlState"=>RoutingControlState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_routing_control_state(
+    RoutingControlArn,
+    RoutingControlState;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = route53_recovery_cluster(
+    "UpdateRoutingControlState",
+    Dict{String,Any}(
+        "RoutingControlArn" => RoutingControlArn,
+        "RoutingControlState" => RoutingControlState,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_routing_control_state(
+    RoutingControlArn,
+    RoutingControlState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route53_recovery_cluster(
+        "UpdateRoutingControlState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RoutingControlArn" => RoutingControlArn,
+                    "RoutingControlState" => RoutingControlState,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_routing_control_states(update_routing_control_state_entries)
@@ -172,5 +239,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [ Override safety rules to reroute traffic](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.override-safety-rule.html)
   in the Amazon Route 53 Application Recovery Controller Developer Guide.
 """
-update_routing_control_states(UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("UpdateRoutingControlStates", Dict{String, Any}("UpdateRoutingControlStateEntries"=>UpdateRoutingControlStateEntries); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_routing_control_states(UpdateRoutingControlStateEntries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route53_recovery_cluster("UpdateRoutingControlStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateRoutingControlStateEntries"=>UpdateRoutingControlStateEntries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_routing_control_states(
+    UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=current_aws_config()
+) = route53_recovery_cluster(
+    "UpdateRoutingControlStates",
+    Dict{String,Any}(
+        "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_routing_control_states(
+    UpdateRoutingControlStateEntries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route53_recovery_cluster(
+        "UpdateRoutingControlStates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

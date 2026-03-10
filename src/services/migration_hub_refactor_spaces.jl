@@ -38,8 +38,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to assign to the application. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key-value pair.
 """
-create_application(EnvironmentIdentifier, Name, ProxyType, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments/$(EnvironmentIdentifier)/applications", Dict{String, Any}("Name"=>Name, "ProxyType"=>ProxyType, "VpcId"=>VpcId, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(EnvironmentIdentifier, Name, ProxyType, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments/$(EnvironmentIdentifier)/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ProxyType"=>ProxyType, "VpcId"=>VpcId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(
+    EnvironmentIdentifier,
+    Name,
+    ProxyType,
+    VpcId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "POST",
+    "/environments/$(EnvironmentIdentifier)/applications",
+    Dict{String,Any}(
+        "Name" => Name,
+        "ProxyType" => ProxyType,
+        "VpcId" => VpcId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application(
+    EnvironmentIdentifier,
+    Name,
+    ProxyType,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "POST",
+        "/environments/$(EnvironmentIdentifier)/applications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "ProxyType" => ProxyType,
+                    "VpcId" => VpcId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment(name, network_fabric_type)
@@ -72,8 +115,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to assign to the environment. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key-value pair.
 """
-create_environment(Name, NetworkFabricType; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments", Dict{String, Any}("Name"=>Name, "NetworkFabricType"=>NetworkFabricType, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment(Name, NetworkFabricType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NetworkFabricType"=>NetworkFabricType, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment(
+    Name, NetworkFabricType; aws_config::AbstractAWSConfig=current_aws_config()
+) = migration_hub_refactor_spaces(
+    "POST",
+    "/environments",
+    Dict{String,Any}(
+        "Name" => Name,
+        "NetworkFabricType" => NetworkFabricType,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment(
+    Name,
+    NetworkFabricType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "POST",
+        "/environments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "NetworkFabricType" => NetworkFabricType,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_route(application_identifier, environment_identifier, route_type, service_identifier)
@@ -163,8 +241,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resource. Each tag consists of a key-value pair..
 - `"UriPathRoute"`: The configuration for the URI path route type.
 """
-create_route(ApplicationIdentifier, EnvironmentIdentifier, RouteType, ServiceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes", Dict{String, Any}("RouteType"=>RouteType, "ServiceIdentifier"=>ServiceIdentifier, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_route(ApplicationIdentifier, EnvironmentIdentifier, RouteType, ServiceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RouteType"=>RouteType, "ServiceIdentifier"=>ServiceIdentifier, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_route(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteType,
+    ServiceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "POST",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes",
+    Dict{String,Any}(
+        "RouteType" => RouteType,
+        "ServiceIdentifier" => ServiceIdentifier,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_route(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteType,
+    ServiceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "POST",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RouteType" => RouteType,
+                    "ServiceIdentifier" => ServiceIdentifier,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_service(application_identifier, endpoint_type, environment_identifier, name)
@@ -205,8 +324,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   seconds for TTLs less than 60 seconds.
 - `"VpcId"`: The ID of the VPC.
 """
-create_service(ApplicationIdentifier, EndpointType, EnvironmentIdentifier, Name; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services", Dict{String, Any}("EndpointType"=>EndpointType, "Name"=>Name, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_service(ApplicationIdentifier, EndpointType, EnvironmentIdentifier, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointType"=>EndpointType, "Name"=>Name, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_service(
+    ApplicationIdentifier,
+    EndpointType,
+    EnvironmentIdentifier,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "POST",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services",
+    Dict{String,Any}(
+        "EndpointType" => EndpointType, "Name" => Name, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_service(
+    ApplicationIdentifier,
+    EndpointType,
+    EnvironmentIdentifier,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "POST",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointType" => EndpointType,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application(application_identifier, environment_identifier)
@@ -220,8 +378,30 @@ delete an application, you must first delete any services or routes within the a
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
 """
-delete_application(ApplicationIdentifier, EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application(ApplicationIdentifier, EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(
+    ApplicationIdentifier,
+    EnvironmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "DELETE",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "DELETE",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment(environment_identifier)
@@ -235,8 +415,27 @@ environment.
 
 - `environment_identifier`: The ID of the environment.
 """
-delete_environment(EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment(EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment(
+    EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = migration_hub_refactor_spaces(
+    "DELETE",
+    "/environments/$(EnvironmentIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment(
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "DELETE",
+        "/environments/$(EnvironmentIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy(identifier)
@@ -248,8 +447,26 @@ Deletes the resource policy set for the environment.
 
 - `identifier`: Amazon Resource Name (ARN) of the resource associated with the policy.
 """
-delete_resource_policy(Identifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/resourcepolicy/$(Identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(Identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/resourcepolicy/$(Identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(Identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migration_hub_refactor_spaces(
+        "DELETE",
+        "/resourcepolicy/$(Identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resource_policy(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "DELETE",
+        "/resourcepolicy/$(Identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_route(application_identifier, environment_identifier, route_identifier)
@@ -263,8 +480,32 @@ Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
 - `environment_identifier`: The ID of the environment to delete the route from.
 - `route_identifier`: The ID of the route to delete.
 """
-delete_route(ApplicationIdentifier, EnvironmentIdentifier, RouteIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_route(ApplicationIdentifier, EnvironmentIdentifier, RouteIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_route(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "DELETE",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_route(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "DELETE",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_service(application_identifier, environment_identifier, service_identifier)
@@ -283,8 +524,32 @@ Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
 - `environment_identifier`: The ID of the environment that the service is in.
 - `service_identifier`: The ID of the service to delete.
 """
-delete_service(ApplicationIdentifier, EnvironmentIdentifier, ServiceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_service(ApplicationIdentifier, EnvironmentIdentifier, ServiceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_service(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    ServiceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "DELETE",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_service(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    ServiceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "DELETE",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application(application_identifier, environment_identifier)
@@ -297,8 +562,30 @@ Gets an Amazon Web Services Migration Hub Refactor Spaces application.
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
 """
-get_application(ApplicationIdentifier, EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application(ApplicationIdentifier, EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application(
+    ApplicationIdentifier,
+    EnvironmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "GET",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment(environment_identifier)
@@ -310,8 +597,26 @@ Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
 
 - `environment_identifier`: The ID of the environment.
 """
-get_environment(EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment(EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment(EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_environment(
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_policy(identifier)
@@ -323,8 +628,26 @@ Gets the resource-based permission policy that is set for the given environment.
 
 - `identifier`: The Amazon Resource Name (ARN) of the resource associated with the policy.
 """
-get_resource_policy(Identifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/resourcepolicy/$(Identifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_policy(Identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/resourcepolicy/$(Identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(Identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migration_hub_refactor_spaces(
+        "GET",
+        "/resourcepolicy/$(Identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_resource_policy(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/resourcepolicy/$(Identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_route(application_identifier, environment_identifier, route_identifier)
@@ -338,8 +661,32 @@ Gets an Amazon Web Services Migration Hub Refactor Spaces route.
 - `environment_identifier`: The ID of the environment.
 - `route_identifier`: The ID of the route.
 """
-get_route(ApplicationIdentifier, EnvironmentIdentifier, RouteIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_route(ApplicationIdentifier, EnvironmentIdentifier, RouteIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_route(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "GET",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_route(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service(application_identifier, environment_identifier, service_identifier)
@@ -353,8 +700,32 @@ Gets an Amazon Web Services Migration Hub Refactor Spaces service.
 - `environment_identifier`: The ID of the environment.
 - `service_identifier`: The ID of the service.
 """
-get_service(ApplicationIdentifier, EnvironmentIdentifier, ServiceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service(ApplicationIdentifier, EnvironmentIdentifier, ServiceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    ServiceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "GET",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    ServiceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_applications(environment_identifier)
@@ -375,8 +746,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_applications(EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_applications(EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_applications(
+    EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = migration_hub_refactor_spaces(
+    "GET",
+    "/environments/$(EnvironmentIdentifier)/applications";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_applications(
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)/applications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_vpcs(environment_identifier)
@@ -397,8 +787,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_environment_vpcs(EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/vpcs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_vpcs(EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/vpcs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_vpcs(
+    EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = migration_hub_refactor_spaces(
+    "GET",
+    "/environments/$(EnvironmentIdentifier)/vpcs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_vpcs(
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)/vpcs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environments()
@@ -415,8 +824,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migration_hub_refactor_spaces(
+        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_routes(application_identifier, environment_identifier)
@@ -438,8 +860,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_routes(ApplicationIdentifier, EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_routes(ApplicationIdentifier, EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_routes(
+    ApplicationIdentifier,
+    EnvironmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "GET",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_routes(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_services(application_identifier, environment_identifier)
@@ -461,8 +905,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_services(ApplicationIdentifier, EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_services(ApplicationIdentifier, EnvironmentIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_services(
+    ApplicationIdentifier,
+    EnvironmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "GET",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_services(
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -475,8 +941,26 @@ Lists the tags of a resource. The caller account must be the same as the resourc
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/tags/$(ResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migration_hub_refactor_spaces(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy(policy, resource_arn)
@@ -494,8 +978,35 @@ in Resource Access Manager. The policy must not contain new lines or blank lines
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the policy is
   being attached.
 """
-put_resource_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("PUT", "/resourcepolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(Policy, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("PUT", "/resourcepolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = migration_hub_refactor_spaces(
+    "PUT",
+    "/resourcepolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "PUT",
+        "/resourcepolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -514,8 +1025,28 @@ orchestrated resources, such as an environment’s transit gateway.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The new or modified tags for the resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migration_hub_refactor_spaces(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -530,8 +1061,28 @@ resource’s `OwnerAccountId`. Untagging resources across accounts is not suppor
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The list of keys of the tags to be removed from the resource.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migration_hub_refactor_spaces(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_route(activation_state, application_identifier, environment_identifier, route_identifier)
@@ -548,5 +1099,36 @@ untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::A
 - `environment_identifier`:  The ID of the environment in which the route is being updated.
 - `route_identifier`:  The unique identifier of the route to update.
 """
-update_route(ActivationState, ApplicationIdentifier, EnvironmentIdentifier, RouteIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("PATCH", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)", Dict{String, Any}("ActivationState"=>ActivationState); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_route(ActivationState, ApplicationIdentifier, EnvironmentIdentifier, RouteIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub_refactor_spaces("PATCH", "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationState"=>ActivationState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_route(
+    ActivationState,
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migration_hub_refactor_spaces(
+    "PATCH",
+    "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)",
+    Dict{String,Any}("ActivationState" => ActivationState);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_route(
+    ActivationState,
+    ApplicationIdentifier,
+    EnvironmentIdentifier,
+    RouteIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub_refactor_spaces(
+        "PATCH",
+        "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ActivationState" => ActivationState), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

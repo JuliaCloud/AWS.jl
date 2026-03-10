@@ -57,8 +57,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WrappedKey"`: The WrappedKeyBlock containing the encryption key for ciphertext
   decryption.
 """
-decrypt_data(CipherText, DecryptionAttributes, KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/keys/$(KeyIdentifier)/decrypt", Dict{String, Any}("CipherText"=>CipherText, "DecryptionAttributes"=>DecryptionAttributes); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-decrypt_data(CipherText, DecryptionAttributes, KeyIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/keys/$(KeyIdentifier)/decrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CipherText"=>CipherText, "DecryptionAttributes"=>DecryptionAttributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+decrypt_data(
+    CipherText,
+    DecryptionAttributes,
+    KeyIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/keys/$(KeyIdentifier)/decrypt",
+    Dict{String,Any}(
+        "CipherText" => CipherText, "DecryptionAttributes" => DecryptionAttributes
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function decrypt_data(
+    CipherText,
+    DecryptionAttributes,
+    KeyIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/keys/$(KeyIdentifier)/decrypt",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CipherText" => CipherText,
+                    "DecryptionAttributes" => DecryptionAttributes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     encrypt_data(encryption_attributes, key_identifier, plain_text)
@@ -127,8 +163,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WrappedKey"`: The WrappedKeyBlock containing the encryption key for plaintext
   encryption.
 """
-encrypt_data(EncryptionAttributes, KeyIdentifier, PlainText; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/keys/$(KeyIdentifier)/encrypt", Dict{String, Any}("EncryptionAttributes"=>EncryptionAttributes, "PlainText"=>PlainText); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-encrypt_data(EncryptionAttributes, KeyIdentifier, PlainText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/keys/$(KeyIdentifier)/encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionAttributes"=>EncryptionAttributes, "PlainText"=>PlainText), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+encrypt_data(
+    EncryptionAttributes,
+    KeyIdentifier,
+    PlainText;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/keys/$(KeyIdentifier)/encrypt",
+    Dict{String,Any}(
+        "EncryptionAttributes" => EncryptionAttributes, "PlainText" => PlainText
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function encrypt_data(
+    EncryptionAttributes,
+    KeyIdentifier,
+    PlainText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/keys/$(KeyIdentifier)/encrypt",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EncryptionAttributes" => EncryptionAttributes, "PlainText" => PlainText
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     generate_card_validation_data(generation_attributes, key_identifier, primary_account_number)
@@ -173,8 +244,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ValidationDataLength"`: The length of the CVV or CSC to be generated. The default value
   is 3.
 """
-generate_card_validation_data(GenerationAttributes, KeyIdentifier, PrimaryAccountNumber; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/cardvalidationdata/generate", Dict{String, Any}("GenerationAttributes"=>GenerationAttributes, "KeyIdentifier"=>KeyIdentifier, "PrimaryAccountNumber"=>PrimaryAccountNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-generate_card_validation_data(GenerationAttributes, KeyIdentifier, PrimaryAccountNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/cardvalidationdata/generate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GenerationAttributes"=>GenerationAttributes, "KeyIdentifier"=>KeyIdentifier, "PrimaryAccountNumber"=>PrimaryAccountNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+generate_card_validation_data(
+    GenerationAttributes,
+    KeyIdentifier,
+    PrimaryAccountNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/cardvalidationdata/generate",
+    Dict{String,Any}(
+        "GenerationAttributes" => GenerationAttributes,
+        "KeyIdentifier" => KeyIdentifier,
+        "PrimaryAccountNumber" => PrimaryAccountNumber,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function generate_card_validation_data(
+    GenerationAttributes,
+    KeyIdentifier,
+    PrimaryAccountNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/cardvalidationdata/generate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GenerationAttributes" => GenerationAttributes,
+                    "KeyIdentifier" => KeyIdentifier,
+                    "PrimaryAccountNumber" => PrimaryAccountNumber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     generate_mac(generation_attributes, key_identifier, message_data)
@@ -217,8 +327,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MacLength"`: The length of a MAC under generation.
 """
-generate_mac(GenerationAttributes, KeyIdentifier, MessageData; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/mac/generate", Dict{String, Any}("GenerationAttributes"=>GenerationAttributes, "KeyIdentifier"=>KeyIdentifier, "MessageData"=>MessageData); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-generate_mac(GenerationAttributes, KeyIdentifier, MessageData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/mac/generate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GenerationAttributes"=>GenerationAttributes, "KeyIdentifier"=>KeyIdentifier, "MessageData"=>MessageData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+generate_mac(
+    GenerationAttributes,
+    KeyIdentifier,
+    MessageData;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/mac/generate",
+    Dict{String,Any}(
+        "GenerationAttributes" => GenerationAttributes,
+        "KeyIdentifier" => KeyIdentifier,
+        "MessageData" => MessageData,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function generate_mac(
+    GenerationAttributes,
+    KeyIdentifier,
+    MessageData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/mac/generate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GenerationAttributes" => GenerationAttributes,
+                    "KeyIdentifier" => KeyIdentifier,
+                    "MessageData" => MessageData,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     generate_pin_data(encryption_key_identifier, generation_attributes, generation_key_identifier, pin_block_format, primary_account_number)
@@ -272,8 +421,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PinDataLength"`: The length of PIN under generation.
 """
-generate_pin_data(EncryptionKeyIdentifier, GenerationAttributes, GenerationKeyIdentifier, PinBlockFormat, PrimaryAccountNumber; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/pindata/generate", Dict{String, Any}("EncryptionKeyIdentifier"=>EncryptionKeyIdentifier, "GenerationAttributes"=>GenerationAttributes, "GenerationKeyIdentifier"=>GenerationKeyIdentifier, "PinBlockFormat"=>PinBlockFormat, "PrimaryAccountNumber"=>PrimaryAccountNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-generate_pin_data(EncryptionKeyIdentifier, GenerationAttributes, GenerationKeyIdentifier, PinBlockFormat, PrimaryAccountNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/pindata/generate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionKeyIdentifier"=>EncryptionKeyIdentifier, "GenerationAttributes"=>GenerationAttributes, "GenerationKeyIdentifier"=>GenerationKeyIdentifier, "PinBlockFormat"=>PinBlockFormat, "PrimaryAccountNumber"=>PrimaryAccountNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+generate_pin_data(
+    EncryptionKeyIdentifier,
+    GenerationAttributes,
+    GenerationKeyIdentifier,
+    PinBlockFormat,
+    PrimaryAccountNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/pindata/generate",
+    Dict{String,Any}(
+        "EncryptionKeyIdentifier" => EncryptionKeyIdentifier,
+        "GenerationAttributes" => GenerationAttributes,
+        "GenerationKeyIdentifier" => GenerationKeyIdentifier,
+        "PinBlockFormat" => PinBlockFormat,
+        "PrimaryAccountNumber" => PrimaryAccountNumber,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function generate_pin_data(
+    EncryptionKeyIdentifier,
+    GenerationAttributes,
+    GenerationKeyIdentifier,
+    PinBlockFormat,
+    PrimaryAccountNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/pindata/generate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EncryptionKeyIdentifier" => EncryptionKeyIdentifier,
+                    "GenerationAttributes" => GenerationAttributes,
+                    "GenerationKeyIdentifier" => GenerationKeyIdentifier,
+                    "PinBlockFormat" => PinBlockFormat,
+                    "PrimaryAccountNumber" => PrimaryAccountNumber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     re_encrypt_data(cipher_text, incoming_encryption_attributes, incoming_key_identifier, outgoing_encryption_attributes, outgoing_key_identifier)
@@ -328,8 +524,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutgoingWrappedKey"`: The WrappedKeyBlock containing the encryption key of outgoing
   ciphertext data after encryption by Amazon Web Services Payment Cryptography.
 """
-re_encrypt_data(CipherText, IncomingEncryptionAttributes, IncomingKeyIdentifier, OutgoingEncryptionAttributes, OutgoingKeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/keys/$(IncomingKeyIdentifier)/reencrypt", Dict{String, Any}("CipherText"=>CipherText, "IncomingEncryptionAttributes"=>IncomingEncryptionAttributes, "OutgoingEncryptionAttributes"=>OutgoingEncryptionAttributes, "OutgoingKeyIdentifier"=>OutgoingKeyIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-re_encrypt_data(CipherText, IncomingEncryptionAttributes, IncomingKeyIdentifier, OutgoingEncryptionAttributes, OutgoingKeyIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/keys/$(IncomingKeyIdentifier)/reencrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CipherText"=>CipherText, "IncomingEncryptionAttributes"=>IncomingEncryptionAttributes, "OutgoingEncryptionAttributes"=>OutgoingEncryptionAttributes, "OutgoingKeyIdentifier"=>OutgoingKeyIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+re_encrypt_data(
+    CipherText,
+    IncomingEncryptionAttributes,
+    IncomingKeyIdentifier,
+    OutgoingEncryptionAttributes,
+    OutgoingKeyIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/keys/$(IncomingKeyIdentifier)/reencrypt",
+    Dict{String,Any}(
+        "CipherText" => CipherText,
+        "IncomingEncryptionAttributes" => IncomingEncryptionAttributes,
+        "OutgoingEncryptionAttributes" => OutgoingEncryptionAttributes,
+        "OutgoingKeyIdentifier" => OutgoingKeyIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function re_encrypt_data(
+    CipherText,
+    IncomingEncryptionAttributes,
+    IncomingKeyIdentifier,
+    OutgoingEncryptionAttributes,
+    OutgoingKeyIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/keys/$(IncomingKeyIdentifier)/reencrypt",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CipherText" => CipherText,
+                    "IncomingEncryptionAttributes" => IncomingEncryptionAttributes,
+                    "OutgoingEncryptionAttributes" => OutgoingEncryptionAttributes,
+                    "OutgoingKeyIdentifier" => OutgoingKeyIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     translate_pin_data(encrypted_pin_block, incoming_key_identifier, incoming_translation_attributes, outgoing_key_identifier, outgoing_translation_attributes)
@@ -394,8 +635,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutgoingWrappedKey"`: The WrappedKeyBlock containing the encryption key for encrypting
   outgoing PIN block data.
 """
-translate_pin_data(EncryptedPinBlock, IncomingKeyIdentifier, IncomingTranslationAttributes, OutgoingKeyIdentifier, OutgoingTranslationAttributes; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/pindata/translate", Dict{String, Any}("EncryptedPinBlock"=>EncryptedPinBlock, "IncomingKeyIdentifier"=>IncomingKeyIdentifier, "IncomingTranslationAttributes"=>IncomingTranslationAttributes, "OutgoingKeyIdentifier"=>OutgoingKeyIdentifier, "OutgoingTranslationAttributes"=>OutgoingTranslationAttributes); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-translate_pin_data(EncryptedPinBlock, IncomingKeyIdentifier, IncomingTranslationAttributes, OutgoingKeyIdentifier, OutgoingTranslationAttributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/pindata/translate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedPinBlock"=>EncryptedPinBlock, "IncomingKeyIdentifier"=>IncomingKeyIdentifier, "IncomingTranslationAttributes"=>IncomingTranslationAttributes, "OutgoingKeyIdentifier"=>OutgoingKeyIdentifier, "OutgoingTranslationAttributes"=>OutgoingTranslationAttributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+translate_pin_data(
+    EncryptedPinBlock,
+    IncomingKeyIdentifier,
+    IncomingTranslationAttributes,
+    OutgoingKeyIdentifier,
+    OutgoingTranslationAttributes;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/pindata/translate",
+    Dict{String,Any}(
+        "EncryptedPinBlock" => EncryptedPinBlock,
+        "IncomingKeyIdentifier" => IncomingKeyIdentifier,
+        "IncomingTranslationAttributes" => IncomingTranslationAttributes,
+        "OutgoingKeyIdentifier" => OutgoingKeyIdentifier,
+        "OutgoingTranslationAttributes" => OutgoingTranslationAttributes,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function translate_pin_data(
+    EncryptedPinBlock,
+    IncomingKeyIdentifier,
+    IncomingTranslationAttributes,
+    OutgoingKeyIdentifier,
+    OutgoingTranslationAttributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/pindata/translate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EncryptedPinBlock" => EncryptedPinBlock,
+                    "IncomingKeyIdentifier" => IncomingKeyIdentifier,
+                    "IncomingTranslationAttributes" => IncomingTranslationAttributes,
+                    "OutgoingKeyIdentifier" => OutgoingKeyIdentifier,
+                    "OutgoingTranslationAttributes" => OutgoingTranslationAttributes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     verify_auth_request_cryptogram(auth_request_cryptogram, key_identifier, major_key_derivation_mode, session_key_derivation_attributes, transaction_data)
@@ -453,8 +741,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   verification. These parameters are required in case using ARPC Method 1 or Method 2 for
   ARQC verification.
 """
-verify_auth_request_cryptogram(AuthRequestCryptogram, KeyIdentifier, MajorKeyDerivationMode, SessionKeyDerivationAttributes, TransactionData; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/cryptogram/verify", Dict{String, Any}("AuthRequestCryptogram"=>AuthRequestCryptogram, "KeyIdentifier"=>KeyIdentifier, "MajorKeyDerivationMode"=>MajorKeyDerivationMode, "SessionKeyDerivationAttributes"=>SessionKeyDerivationAttributes, "TransactionData"=>TransactionData); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-verify_auth_request_cryptogram(AuthRequestCryptogram, KeyIdentifier, MajorKeyDerivationMode, SessionKeyDerivationAttributes, TransactionData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/cryptogram/verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthRequestCryptogram"=>AuthRequestCryptogram, "KeyIdentifier"=>KeyIdentifier, "MajorKeyDerivationMode"=>MajorKeyDerivationMode, "SessionKeyDerivationAttributes"=>SessionKeyDerivationAttributes, "TransactionData"=>TransactionData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+verify_auth_request_cryptogram(
+    AuthRequestCryptogram,
+    KeyIdentifier,
+    MajorKeyDerivationMode,
+    SessionKeyDerivationAttributes,
+    TransactionData;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/cryptogram/verify",
+    Dict{String,Any}(
+        "AuthRequestCryptogram" => AuthRequestCryptogram,
+        "KeyIdentifier" => KeyIdentifier,
+        "MajorKeyDerivationMode" => MajorKeyDerivationMode,
+        "SessionKeyDerivationAttributes" => SessionKeyDerivationAttributes,
+        "TransactionData" => TransactionData,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function verify_auth_request_cryptogram(
+    AuthRequestCryptogram,
+    KeyIdentifier,
+    MajorKeyDerivationMode,
+    SessionKeyDerivationAttributes,
+    TransactionData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/cryptogram/verify",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthRequestCryptogram" => AuthRequestCryptogram,
+                    "KeyIdentifier" => KeyIdentifier,
+                    "MajorKeyDerivationMode" => MajorKeyDerivationMode,
+                    "SessionKeyDerivationAttributes" => SessionKeyDerivationAttributes,
+                    "TransactionData" => TransactionData,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     verify_card_validation_data(key_identifier, primary_account_number, validation_data, verification_attributes)
@@ -495,8 +830,51 @@ accounts.
 - `verification_attributes`: The algorithm to use for verification of card data within
   Amazon Web Services Payment Cryptography.
 """
-verify_card_validation_data(KeyIdentifier, PrimaryAccountNumber, ValidationData, VerificationAttributes; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/cardvalidationdata/verify", Dict{String, Any}("KeyIdentifier"=>KeyIdentifier, "PrimaryAccountNumber"=>PrimaryAccountNumber, "ValidationData"=>ValidationData, "VerificationAttributes"=>VerificationAttributes); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-verify_card_validation_data(KeyIdentifier, PrimaryAccountNumber, ValidationData, VerificationAttributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/cardvalidationdata/verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyIdentifier"=>KeyIdentifier, "PrimaryAccountNumber"=>PrimaryAccountNumber, "ValidationData"=>ValidationData, "VerificationAttributes"=>VerificationAttributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+verify_card_validation_data(
+    KeyIdentifier,
+    PrimaryAccountNumber,
+    ValidationData,
+    VerificationAttributes;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/cardvalidationdata/verify",
+    Dict{String,Any}(
+        "KeyIdentifier" => KeyIdentifier,
+        "PrimaryAccountNumber" => PrimaryAccountNumber,
+        "ValidationData" => ValidationData,
+        "VerificationAttributes" => VerificationAttributes,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function verify_card_validation_data(
+    KeyIdentifier,
+    PrimaryAccountNumber,
+    ValidationData,
+    VerificationAttributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/cardvalidationdata/verify",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "KeyIdentifier" => KeyIdentifier,
+                    "PrimaryAccountNumber" => PrimaryAccountNumber,
+                    "ValidationData" => ValidationData,
+                    "VerificationAttributes" => VerificationAttributes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     verify_mac(key_identifier, mac, message_data, verification_attributes)
@@ -534,8 +912,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MacLength"`: The length of the MAC.
 """
-verify_mac(KeyIdentifier, Mac, MessageData, VerificationAttributes; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/mac/verify", Dict{String, Any}("KeyIdentifier"=>KeyIdentifier, "Mac"=>Mac, "MessageData"=>MessageData, "VerificationAttributes"=>VerificationAttributes); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-verify_mac(KeyIdentifier, Mac, MessageData, VerificationAttributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/mac/verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyIdentifier"=>KeyIdentifier, "Mac"=>Mac, "MessageData"=>MessageData, "VerificationAttributes"=>VerificationAttributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+verify_mac(
+    KeyIdentifier,
+    Mac,
+    MessageData,
+    VerificationAttributes;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/mac/verify",
+    Dict{String,Any}(
+        "KeyIdentifier" => KeyIdentifier,
+        "Mac" => Mac,
+        "MessageData" => MessageData,
+        "VerificationAttributes" => VerificationAttributes,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function verify_mac(
+    KeyIdentifier,
+    Mac,
+    MessageData,
+    VerificationAttributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/mac/verify",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "KeyIdentifier" => KeyIdentifier,
+                    "Mac" => Mac,
+                    "MessageData" => MessageData,
+                    "VerificationAttributes" => VerificationAttributes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     verify_pin_data(encrypted_pin_block, encryption_key_identifier, pin_block_format, primary_account_number, verification_attributes, verification_key_identifier)
@@ -589,5 +1010,56 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DukptAttributes"`: The attributes and values for the DUKPT encrypted PIN block data.
 - `"PinDataLength"`: The length of PIN being verified.
 """
-verify_pin_data(EncryptedPinBlock, EncryptionKeyIdentifier, PinBlockFormat, PrimaryAccountNumber, VerificationAttributes, VerificationKeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/pindata/verify", Dict{String, Any}("EncryptedPinBlock"=>EncryptedPinBlock, "EncryptionKeyIdentifier"=>EncryptionKeyIdentifier, "PinBlockFormat"=>PinBlockFormat, "PrimaryAccountNumber"=>PrimaryAccountNumber, "VerificationAttributes"=>VerificationAttributes, "VerificationKeyIdentifier"=>VerificationKeyIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-verify_pin_data(EncryptedPinBlock, EncryptionKeyIdentifier, PinBlockFormat, PrimaryAccountNumber, VerificationAttributes, VerificationKeyIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography_data("POST", "/pindata/verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedPinBlock"=>EncryptedPinBlock, "EncryptionKeyIdentifier"=>EncryptionKeyIdentifier, "PinBlockFormat"=>PinBlockFormat, "PrimaryAccountNumber"=>PrimaryAccountNumber, "VerificationAttributes"=>VerificationAttributes, "VerificationKeyIdentifier"=>VerificationKeyIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+verify_pin_data(
+    EncryptedPinBlock,
+    EncryptionKeyIdentifier,
+    PinBlockFormat,
+    PrimaryAccountNumber,
+    VerificationAttributes,
+    VerificationKeyIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = payment_cryptography_data(
+    "POST",
+    "/pindata/verify",
+    Dict{String,Any}(
+        "EncryptedPinBlock" => EncryptedPinBlock,
+        "EncryptionKeyIdentifier" => EncryptionKeyIdentifier,
+        "PinBlockFormat" => PinBlockFormat,
+        "PrimaryAccountNumber" => PrimaryAccountNumber,
+        "VerificationAttributes" => VerificationAttributes,
+        "VerificationKeyIdentifier" => VerificationKeyIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function verify_pin_data(
+    EncryptedPinBlock,
+    EncryptionKeyIdentifier,
+    PinBlockFormat,
+    PrimaryAccountNumber,
+    VerificationAttributes,
+    VerificationKeyIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography_data(
+        "POST",
+        "/pindata/verify",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EncryptedPinBlock" => EncryptedPinBlock,
+                    "EncryptionKeyIdentifier" => EncryptionKeyIdentifier,
+                    "PinBlockFormat" => PinBlockFormat,
+                    "PrimaryAccountNumber" => PrimaryAccountNumber,
+                    "VerificationAttributes" => VerificationAttributes,
+                    "VerificationKeyIdentifier" => VerificationKeyIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

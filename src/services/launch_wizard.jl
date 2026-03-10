@@ -36,8 +36,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UnauthorizedOperation`.
 - `"tags"`: The tags to add to the deployment.
 """
-create_deployment(deploymentPatternName, name, specifications, workloadName; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/createDeployment", Dict{String, Any}("deploymentPatternName"=>deploymentPatternName, "name"=>name, "specifications"=>specifications, "workloadName"=>workloadName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_deployment(deploymentPatternName, name, specifications, workloadName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/createDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentPatternName"=>deploymentPatternName, "name"=>name, "specifications"=>specifications, "workloadName"=>workloadName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_deployment(
+    deploymentPatternName,
+    name,
+    specifications,
+    workloadName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = launch_wizard(
+    "POST",
+    "/createDeployment",
+    Dict{String,Any}(
+        "deploymentPatternName" => deploymentPatternName,
+        "name" => name,
+        "specifications" => specifications,
+        "workloadName" => workloadName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_deployment(
+    deploymentPatternName,
+    name,
+    specifications,
+    workloadName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/createDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentPatternName" => deploymentPatternName,
+                    "name" => name,
+                    "specifications" => specifications,
+                    "workloadName" => workloadName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_deployment(deployment_id)
@@ -49,8 +92,29 @@ Deletes a deployment.
 
 - `deployment_id`: The ID of the deployment.
 """
-delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/deleteDeployment", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/deleteDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    launch_wizard(
+        "POST",
+        "/deleteDeployment",
+        Dict{String,Any}("deploymentId" => deploymentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_deployment(
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/deleteDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_deployment(deployment_id)
@@ -62,8 +126,29 @@ Returns information about the deployment.
 
 - `deployment_id`: The ID of the deployment.
 """
-get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/getDeployment", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/getDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    launch_wizard(
+        "POST",
+        "/getDeployment",
+        Dict{String,Any}("deploymentId" => deploymentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_deployment(
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/getDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_workload(workload_name)
@@ -75,8 +160,29 @@ Returns information about a workload.
 
 - `workload_name`: The name of the workload.
 """
-get_workload(workloadName; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/getWorkload", Dict{String, Any}("workloadName"=>workloadName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_workload(workloadName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/getWorkload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workloadName"=>workloadName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workload(workloadName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    launch_wizard(
+        "POST",
+        "/getWorkload",
+        Dict{String,Any}("workloadName" => workloadName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_workload(
+    workloadName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/getWorkload",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workloadName" => workloadName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_workload_deployment_pattern(deployment_pattern_name, workload_name)
@@ -92,8 +198,40 @@ operation to discover the available deployment pattern names of a given workload
 - `deployment_pattern_name`: The name of the deployment pattern.
 - `workload_name`: The name of the workload.
 """
-get_workload_deployment_pattern(deploymentPatternName, workloadName; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/getWorkloadDeploymentPattern", Dict{String, Any}("deploymentPatternName"=>deploymentPatternName, "workloadName"=>workloadName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_workload_deployment_pattern(deploymentPatternName, workloadName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/getWorkloadDeploymentPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentPatternName"=>deploymentPatternName, "workloadName"=>workloadName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workload_deployment_pattern(
+    deploymentPatternName, workloadName; aws_config::AbstractAWSConfig=current_aws_config()
+) = launch_wizard(
+    "POST",
+    "/getWorkloadDeploymentPattern",
+    Dict{String,Any}(
+        "deploymentPatternName" => deploymentPatternName, "workloadName" => workloadName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_workload_deployment_pattern(
+    deploymentPatternName,
+    workloadName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/getWorkloadDeploymentPattern",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentPatternName" => deploymentPatternName,
+                    "workloadName" => workloadName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_deployment_events(deployment_id)
@@ -114,8 +252,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-list_deployment_events(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listDeploymentEvents", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_deployment_events(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listDeploymentEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_deployment_events(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    launch_wizard(
+        "POST",
+        "/listDeploymentEvents",
+        Dict{String,Any}("deploymentId" => deploymentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_deployment_events(
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/listDeploymentEvents",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_deployments()
@@ -137,8 +296,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-list_deployments(; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_deployments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_deployments(; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard(
+    "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_deployments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return launch_wizard(
+        "POST",
+        "/listDeployments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -150,8 +321,26 @@ Lists the tags associated with a specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    launch_wizard(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workload_deployment_patterns(workload_name)
@@ -173,8 +362,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-list_workload_deployment_patterns(workloadName; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listWorkloadDeploymentPatterns", Dict{String, Any}("workloadName"=>workloadName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workload_deployment_patterns(workloadName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listWorkloadDeploymentPatterns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workloadName"=>workloadName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workload_deployment_patterns(
+    workloadName; aws_config::AbstractAWSConfig=current_aws_config()
+) = launch_wizard(
+    "POST",
+    "/listWorkloadDeploymentPatterns",
+    Dict{String,Any}("workloadName" => workloadName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_workload_deployment_patterns(
+    workloadName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/listWorkloadDeploymentPatterns",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workloadName" => workloadName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workloads()
@@ -192,8 +403,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-list_workloads(; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workloads(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/listWorkloads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workloads(; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard(
+    "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_workloads(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return launch_wizard(
+        "POST",
+        "/listWorkloads",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -206,8 +429,28 @@ Adds the specified tags to the given resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: One or more tags to attach to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    launch_wizard(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -220,5 +463,25 @@ Removes the specified tags from the given resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: Keys identifying the tags to remove.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = launch_wizard("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    launch_wizard(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

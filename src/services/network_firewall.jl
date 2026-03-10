@@ -44,8 +44,30 @@ You must specify the ARN or the name, and you can specify both.
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-associate_firewall_policy(FirewallPolicyArn; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("AssociateFirewallPolicy", Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_firewall_policy(FirewallPolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("AssociateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_firewall_policy(
+    FirewallPolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "AssociateFirewallPolicy",
+    Dict{String,Any}("FirewallPolicyArn" => FirewallPolicyArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_firewall_policy(
+    FirewallPolicyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "AssociateFirewallPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("FirewallPolicyArn" => FirewallPolicyArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_subnets(subnet_mappings)
@@ -88,8 +110,27 @@ You must specify the ARN or the name, and you can specify both.
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-associate_subnets(SubnetMappings; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("AssociateSubnets", Dict{String, Any}("SubnetMappings"=>SubnetMappings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_subnets(SubnetMappings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("AssociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetMappings"=>SubnetMappings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_subnets(SubnetMappings; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "AssociateSubnets",
+        Dict{String,Any}("SubnetMappings" => SubnetMappings);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_subnets(
+    SubnetMappings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "AssociateSubnets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SubnetMappings" => SubnetMappings), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id)
@@ -151,8 +192,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create a firewall, the operation initializes this setting to `TRUE`.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateFirewall", Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateFirewall", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_firewall(
+    FirewallName,
+    FirewallPolicyArn,
+    SubnetMappings,
+    VpcId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = network_firewall(
+    "CreateFirewall",
+    Dict{String,Any}(
+        "FirewallName" => FirewallName,
+        "FirewallPolicyArn" => FirewallPolicyArn,
+        "SubnetMappings" => SubnetMappings,
+        "VpcId" => VpcId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_firewall(
+    FirewallName,
+    FirewallPolicyArn,
+    SubnetMappings,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateFirewall",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallName" => FirewallName,
+                    "FirewallPolicyArn" => FirewallPolicyArn,
+                    "SubnetMappings" => SubnetMappings,
+                    "VpcId" => VpcId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_firewall_policy(firewall_policy, firewall_policy_name)
@@ -189,8 +271,38 @@ If set to `FALSE`, Network Firewall makes the requested changes to your resource
   firewall policy resources.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-create_firewall_policy(FirewallPolicy, FirewallPolicyName; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateFirewallPolicy", Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_firewall_policy(FirewallPolicy, FirewallPolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_firewall_policy(
+    FirewallPolicy, FirewallPolicyName; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "CreateFirewallPolicy",
+    Dict{String,Any}(
+        "FirewallPolicy" => FirewallPolicy, "FirewallPolicyName" => FirewallPolicyName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_firewall_policy(
+    FirewallPolicy,
+    FirewallPolicyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateFirewallPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallPolicy" => FirewallPolicy,
+                    "FirewallPolicyName" => FirewallPolicyName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rule_group(capacity, rule_group_name, type)
@@ -275,8 +387,38 @@ If set to `FALSE`, Network Firewall makes the requested changes to your resource
   the originating rule group.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-create_rule_group(Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rule_group(Capacity, RuleGroupName, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rule_group(
+    Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "CreateRuleGroup",
+    Dict{String,Any}(
+        "Capacity" => Capacity, "RuleGroupName" => RuleGroupName, "Type" => Type
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rule_group(
+    Capacity,
+    RuleGroupName,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Capacity" => Capacity, "RuleGroupName" => RuleGroupName, "Type" => Type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name)
@@ -333,8 +475,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionConfiguration"`:
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-create_tlsinspection_configuration(TLSInspectionConfiguration, TLSInspectionConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateTLSInspectionConfiguration", Dict{String, Any}("TLSInspectionConfiguration"=>TLSInspectionConfiguration, "TLSInspectionConfigurationName"=>TLSInspectionConfigurationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_tlsinspection_configuration(TLSInspectionConfiguration, TLSInspectionConfigurationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("CreateTLSInspectionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TLSInspectionConfiguration"=>TLSInspectionConfiguration, "TLSInspectionConfigurationName"=>TLSInspectionConfigurationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    TLSInspectionConfigurationName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = network_firewall(
+    "CreateTLSInspectionConfiguration",
+    Dict{String,Any}(
+        "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+        "TLSInspectionConfigurationName" => TLSInspectionConfigurationName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    TLSInspectionConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateTLSInspectionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+                    "TLSInspectionConfigurationName" => TLSInspectionConfigurationName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_firewall()
@@ -366,8 +541,16 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-delete_firewall(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_firewall(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_firewall(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall(
+    "DeleteFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function delete_firewall(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     delete_firewall_policy()
@@ -387,8 +570,20 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-delete_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_firewall_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteFirewallPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DeleteFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function delete_firewall_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteFirewallPolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy(resource_arn)
@@ -401,8 +596,27 @@ Deletes a resource policy that you created in a <a>PutResourcePolicy</a> request
 - `resource_arn`: The Amazon Resource Name (ARN) of the rule group or firewall policy whose
   resource policy you want to delete.
 """
-delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rule_group()
@@ -427,8 +641,16 @@ You must specify the ARN or the name, and you can specify both.
   !!! note
     This setting is required for requests that do not include the `RuleGroupARN`.
 """
-delete_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rule_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall(
+    "DeleteRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function delete_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     delete_tlsinspection_configuration()
@@ -450,8 +672,22 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-delete_tlsinspection_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteTLSInspectionConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_tlsinspection_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DeleteTLSInspectionConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_tlsinspection_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DeleteTLSInspectionConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_tlsinspection_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteTLSInspectionConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_firewall()
@@ -471,8 +707,16 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-describe_firewall(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_firewall(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_firewall(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall(
+    "DescribeFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_firewall(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_firewall_policy()
@@ -492,8 +736,20 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-describe_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_firewall_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeFirewallPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DescribeFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_firewall_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeFirewallPolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_logging_configuration()
@@ -513,8 +769,22 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-describe_logging_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeLoggingConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_logging_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeLoggingConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_logging_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DescribeLoggingConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_logging_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeLoggingConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_resource_policy(resource_arn)
@@ -527,8 +797,27 @@ Retrieves a resource policy that you created in a <a>PutResourcePolicy</a> reque
 - `resource_arn`: The Amazon Resource Name (ARN) of the rule group or firewall policy whose
   resource policy you want to retrieve.
 """
-describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DescribeResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DescribeResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_rule_group()
@@ -556,8 +845,17 @@ You must specify the ARN or the name, and you can specify both.
   !!! note
     This setting is required for requests that do not include the `RuleGroupARN`.
 """
-describe_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_rule_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_rule_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DescribeRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_rule_group_metadata()
@@ -585,8 +883,20 @@ You must specify the ARN or the name, and you can specify both.
   !!! note
     This setting is required for requests that do not include the `RuleGroupARN`.
 """
-describe_rule_group_metadata(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeRuleGroupMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_rule_group_metadata(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeRuleGroupMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_rule_group_metadata(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DescribeRuleGroupMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_rule_group_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeRuleGroupMetadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_tlsinspection_configuration()
@@ -608,8 +918,22 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-describe_tlsinspection_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeTLSInspectionConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_tlsinspection_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DescribeTLSInspectionConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_tlsinspection_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DescribeTLSInspectionConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_tlsinspection_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeTLSInspectionConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_subnets(subnet_ids)
@@ -648,8 +972,27 @@ You must specify the ARN or the name, and you can specify both.
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DisassociateSubnets", Dict{String, Any}("SubnetIds"=>SubnetIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_subnets(SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("DisassociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "DisassociateSubnets",
+        Dict{String,Any}("SubnetIds" => SubnetIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disassociate_subnets(
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DisassociateSubnets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SubnetIds" => SubnetIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_firewall_policies()
@@ -672,8 +1015,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
   next batch of objects, use the token returned from the prior request in your next request.
 """
-list_firewall_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListFirewallPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_firewall_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListFirewallPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_firewall_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "ListFirewallPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_firewall_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListFirewallPolicies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_firewalls()
@@ -700,8 +1055,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcIds"`: The unique identifiers of the VPCs that you want Network Firewall to retrieve
   the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
 """
-list_firewalls(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListFirewalls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_firewalls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListFirewalls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_firewalls(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall(
+    "ListFirewalls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_firewalls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListFirewalls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_rule_groups()
@@ -731,8 +1094,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 """
-list_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rule_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall(
+    "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_rule_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -764,8 +1135,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
   next batch of objects, use the token returned from the prior request in your next request.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tlsinspection_configurations()
@@ -788,8 +1178,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
   next batch of objects, use the token returned from the prior request in your next request.
 """
-list_tlsinspection_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListTLSInspectionConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tlsinspection_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("ListTLSInspectionConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tlsinspection_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "ListTLSInspectionConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tlsinspection_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListTLSInspectionConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy(policy, resource_arn)
@@ -829,8 +1233,33 @@ For additional information about resource sharing using RAM, see [Resource Acces
 - `resource_arn`: The Amazon Resource Name (ARN) of the account that you want to share rule
   groups and firewall policies with.
 """
-put_resource_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("PutResourcePolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(Policy, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "PutResourcePolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -850,8 +1279,32 @@ firewalls, firewall policies, and rule groups.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: <p/>
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -871,8 +1324,32 @@ Firewall: firewalls, firewall policies, and rule groups.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: <p/>
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_firewall_delete_protection(delete_protection)
@@ -914,8 +1391,30 @@ You must specify the ARN or the name, and you can specify both.
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-update_firewall_delete_protection(DeleteProtection; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}("DeleteProtection"=>DeleteProtection); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_firewall_delete_protection(DeleteProtection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteProtection"=>DeleteProtection), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_firewall_delete_protection(
+    DeleteProtection; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "UpdateFirewallDeleteProtection",
+    Dict{String,Any}("DeleteProtection" => DeleteProtection);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_firewall_delete_protection(
+    DeleteProtection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateFirewallDeleteProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeleteProtection" => DeleteProtection), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_firewall_description()
@@ -951,8 +1450,20 @@ You must specify the ARN or the name, and you can specify both.
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-update_firewall_description(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallDescription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_firewall_description(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallDescription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_firewall_description(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "UpdateFirewallDescription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function update_firewall_description(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallDescription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_firewall_encryption_configuration()
@@ -982,8 +1493,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-update_firewall_encryption_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallEncryptionConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_firewall_encryption_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallEncryptionConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_firewall_encryption_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "UpdateFirewallEncryptionConfiguration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_firewall_encryption_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallEncryptionConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_firewall_policy(firewall_policy, update_token)
@@ -1032,8 +1558,35 @@ You must specify the ARN or the name, and you can specify both.
 
 You must specify the ARN or the name, and you can specify both.
 """
-update_firewall_policy(FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallPolicy", Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_firewall_policy(FirewallPolicy, UpdateToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_firewall_policy(
+    FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "UpdateFirewallPolicy",
+    Dict{String,Any}("FirewallPolicy" => FirewallPolicy, "UpdateToken" => UpdateToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_firewall_policy(
+    FirewallPolicy,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateFirewallPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallPolicy" => FirewallPolicy, "UpdateToken" => UpdateToken
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_firewall_policy_change_protection(firewall_policy_change_protection)
@@ -1075,8 +1628,34 @@ You must specify the ARN or the name, and you can specify both.
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-update_firewall_policy_change_protection(FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_firewall_policy_change_protection(FirewallPolicyChangeProtection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_firewall_policy_change_protection(
+    FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "UpdateFirewallPolicyChangeProtection",
+    Dict{String,Any}("FirewallPolicyChangeProtection" => FirewallPolicyChangeProtection);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_firewall_policy_change_protection(
+    FirewallPolicyChangeProtection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateFirewallPolicyChangeProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallPolicyChangeProtection" => FirewallPolicyChangeProtection
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_logging_configuration()
@@ -1113,8 +1692,20 @@ You must specify the ARN or the name, and you can specify both.
 - `"LoggingConfiguration"`: Defines how Network Firewall performs logging for a firewall.
   If you omit this setting, Network Firewall disables logging for the firewall.
 """
-update_logging_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateLoggingConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_logging_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateLoggingConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_logging_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "UpdateLoggingConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function update_logging_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateLoggingConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_rule_group(update_token)
@@ -1191,8 +1782,27 @@ You must specify the ARN or the name, and you can specify both.
   !!! note
     This setting is required for requests that do not include the `RuleGroupARN`.
 """
-update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateRuleGroup", Dict{String, Any}("UpdateToken"=>UpdateToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_rule_group(UpdateToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    network_firewall(
+        "UpdateRuleGroup",
+        Dict{String,Any}("UpdateToken" => UpdateToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_rule_group(
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateRuleGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UpdateToken" => UpdateToken), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_subnet_change_protection(subnet_change_protection)
@@ -1232,8 +1842,32 @@ You must specify the ARN or the name, and you can specify both.
   this happens, retrieve the firewall again to get a current copy of it with a new token.
   Reapply your changes as needed, then try the operation again using the new token.
 """
-update_subnet_change_protection(SubnetChangeProtection; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_subnet_change_protection(SubnetChangeProtection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subnet_change_protection(
+    SubnetChangeProtection; aws_config::AbstractAWSConfig=current_aws_config()
+) = network_firewall(
+    "UpdateSubnetChangeProtection",
+    Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_subnet_change_protection(
+    SubnetChangeProtection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateSubnetChangeProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_tlsinspection_configuration(tlsinspection_configuration, update_token)
@@ -1290,5 +1924,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You can't change the name of a TLS inspection configuration after you
   create it.
 """
-update_tlsinspection_configuration(TLSInspectionConfiguration, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateTLSInspectionConfiguration", Dict{String, Any}("TLSInspectionConfiguration"=>TLSInspectionConfiguration, "UpdateToken"=>UpdateToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_tlsinspection_configuration(TLSInspectionConfiguration, UpdateToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = network_firewall("UpdateTLSInspectionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TLSInspectionConfiguration"=>TLSInspectionConfiguration, "UpdateToken"=>UpdateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    UpdateToken;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = network_firewall(
+    "UpdateTLSInspectionConfiguration",
+    Dict{String,Any}(
+        "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+        "UpdateToken" => UpdateToken,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateTLSInspectionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+                    "UpdateToken" => UpdateToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

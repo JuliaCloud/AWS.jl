@@ -19,8 +19,39 @@ action.
   (UUID) of the app bundle to use for the request.
 - `task_id_list`: The tasks IDs to use for the request.
 """
-batch_get_user_access_tasks(appBundleIdentifier, taskIdList; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/useraccess/batchget", Dict{String, Any}("appBundleIdentifier"=>appBundleIdentifier, "taskIdList"=>taskIdList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_user_access_tasks(appBundleIdentifier, taskIdList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/useraccess/batchget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appBundleIdentifier"=>appBundleIdentifier, "taskIdList"=>taskIdList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_user_access_tasks(
+    appBundleIdentifier, taskIdList; aws_config::AbstractAWSConfig=current_aws_config()
+) = appfabric(
+    "POST",
+    "/useraccess/batchget",
+    Dict{String,Any}(
+        "appBundleIdentifier" => appBundleIdentifier, "taskIdList" => taskIdList
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_user_access_tasks(
+    appBundleIdentifier,
+    taskIdList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/useraccess/batchget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appBundleIdentifier" => appBundleIdentifier, "taskIdList" => taskIdList
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     connect_app_authorization(app_authorization_identifier, app_bundle_identifier)
@@ -45,8 +76,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is required if the app authorization for the request is configured with an OAuth2
   (`oauth2`) authorization type.
 """
-connect_app_authorization(appAuthorizationIdentifier, appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)/connect"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-connect_app_authorization(appAuthorizationIdentifier, appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)/connect", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+connect_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "POST",
+    "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)/connect";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function connect_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)/connect",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app_authorization(app, app_bundle_identifier, auth_type, credential, tenant)
@@ -99,8 +152,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the retry fails with an `IdempotentParameterMismatch` error.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-create_app_authorization(app, appBundleIdentifier, authType, credential, tenant; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/appauthorizations", Dict{String, Any}("app"=>app, "authType"=>authType, "credential"=>credential, "tenant"=>tenant, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app_authorization(app, appBundleIdentifier, authType, credential, tenant, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/appauthorizations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app"=>app, "authType"=>authType, "credential"=>credential, "tenant"=>tenant, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app_authorization(
+    app,
+    appBundleIdentifier,
+    authType,
+    credential,
+    tenant;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "POST",
+    "/appbundles/$(appBundleIdentifier)/appauthorizations",
+    Dict{String,Any}(
+        "app" => app,
+        "authType" => authType,
+        "credential" => credential,
+        "tenant" => tenant,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app_authorization(
+    app,
+    appBundleIdentifier,
+    authType,
+    credential,
+    tenant,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/appbundles/$(appBundleIdentifier)/appauthorizations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "app" => app,
+                    "authType" => authType,
+                    "credential" => credential,
+                    "tenant" => tenant,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app_bundle()
@@ -127,8 +227,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services owned key is used for encryption.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-create_app_bundle(; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app_bundle(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app_bundle(; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric(
+    "POST",
+    "/appbundles",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app_bundle(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appfabric(
+        "POST",
+        "/appbundles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ingestion(app, app_bundle_identifier, ingestion_type, tenant_id)
@@ -173,8 +291,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the retry fails with an `IdempotentParameterMismatch` error.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-create_ingestion(app, appBundleIdentifier, ingestionType, tenantId; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions", Dict{String, Any}("app"=>app, "ingestionType"=>ingestionType, "tenantId"=>tenantId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ingestion(app, appBundleIdentifier, ingestionType, tenantId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app"=>app, "ingestionType"=>ingestionType, "tenantId"=>tenantId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ingestion(
+    app,
+    appBundleIdentifier,
+    ingestionType,
+    tenantId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "POST",
+    "/appbundles/$(appBundleIdentifier)/ingestions",
+    Dict{String,Any}(
+        "app" => app,
+        "ingestionType" => ingestionType,
+        "tenantId" => tenantId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ingestion(
+    app,
+    appBundleIdentifier,
+    ingestionType,
+    tenantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/appbundles/$(appBundleIdentifier)/ingestions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "app" => app,
+                    "ingestionType" => ingestionType,
+                    "tenantId" => tenantId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ingestion_destination(app_bundle_identifier, destination_configuration, ingestion_identifier, processing_configuration)
@@ -208,8 +369,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the retry fails with an `IdempotentParameterMismatch` error.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-create_ingestion_destination(appBundleIdentifier, destinationConfiguration, ingestionIdentifier, processingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations", Dict{String, Any}("destinationConfiguration"=>destinationConfiguration, "processingConfiguration"=>processingConfiguration, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ingestion_destination(appBundleIdentifier, destinationConfiguration, ingestionIdentifier, processingConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationConfiguration"=>destinationConfiguration, "processingConfiguration"=>processingConfiguration, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ingestion_destination(
+    appBundleIdentifier,
+    destinationConfiguration,
+    ingestionIdentifier,
+    processingConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "POST",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations",
+    Dict{String,Any}(
+        "destinationConfiguration" => destinationConfiguration,
+        "processingConfiguration" => processingConfiguration,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_ingestion_destination(
+    appBundleIdentifier,
+    destinationConfiguration,
+    ingestionIdentifier,
+    processingConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationConfiguration" => destinationConfiguration,
+                    "processingConfiguration" => processingConfiguration,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_authorization(app_authorization_identifier, app_bundle_identifier)
@@ -225,8 +427,30 @@ delete an app authorization.
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 """
-delete_app_authorization(appAuthorizationIdentifier, appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_authorization(appAuthorizationIdentifier, appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "DELETE",
+    "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "DELETE",
+        "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_bundle(app_bundle_identifier)
@@ -240,8 +464,26 @@ delete an app bundle.
 - `app_bundle_identifier`: The ID or Amazon Resource Name (ARN) of the app bundle that
   needs to be deleted.
 """
-delete_app_bundle(appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_bundle(appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_bundle(appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appfabric(
+        "DELETE",
+        "/appbundles/$(appBundleIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_app_bundle(
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "DELETE",
+        "/appbundles/$(appBundleIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ingestion(app_bundle_identifier, ingestion_identifier)
@@ -257,8 +499,30 @@ associated ingestion destinations before you can delete an app ingestion.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 """
-delete_ingestion(appBundleIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ingestion(appBundleIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "DELETE",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "DELETE",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ingestion_destination(app_bundle_identifier, ingestion_destination_identifier, ingestion_identifier)
@@ -280,8 +544,32 @@ is enabled, the ingestion will fail and is eventually disabled.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 """
-delete_ingestion_destination(appBundleIdentifier, ingestionDestinationIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ingestion_destination(appBundleIdentifier, ingestionDestinationIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ingestion_destination(
+    appBundleIdentifier,
+    ingestionDestinationIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "DELETE",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_ingestion_destination(
+    appBundleIdentifier,
+    ingestionDestinationIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "DELETE",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_app_authorization(app_authorization_identifier, app_bundle_identifier)
@@ -296,8 +584,30 @@ Returns information about an app authorization.
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 """
-get_app_authorization(appAuthorizationIdentifier, appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_app_authorization(appAuthorizationIdentifier, appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "GET",
+    "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_app_bundle(app_bundle_identifier)
@@ -310,8 +620,26 @@ Returns information about an app bundle.
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 """
-get_app_bundle(appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_app_bundle(appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_app_bundle(appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_app_bundle(
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ingestion(app_bundle_identifier, ingestion_identifier)
@@ -326,8 +654,30 @@ Returns information about an ingestion.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 """
-get_ingestion(appBundleIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ingestion(appBundleIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "GET",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ingestion_destination(app_bundle_identifier, ingestion_destination_identifier, ingestion_identifier)
@@ -344,8 +694,32 @@ Returns information about an ingestion destination.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 """
-get_ingestion_destination(appBundleIdentifier, ingestionDestinationIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ingestion_destination(appBundleIdentifier, ingestionDestinationIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ingestion_destination(
+    appBundleIdentifier,
+    ingestionDestinationIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "GET",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ingestion_destination(
+    appBundleIdentifier,
+    ingestionDestinationIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_authorizations(app_bundle_identifier)
@@ -373,8 +747,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   *HTTP 400 InvalidToken error*.
 """
-list_app_authorizations(appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/appauthorizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_authorizations(appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/appauthorizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_authorizations(
+    appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = appfabric(
+    "GET",
+    "/appbundles/$(appBundleIdentifier)/appauthorizations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_authorizations(
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)/appauthorizations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_bundles()
@@ -397,8 +790,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   *HTTP 400 InvalidToken error*.
 """
-list_app_bundles(; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_bundles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_bundles(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appfabric("GET", "/appbundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_app_bundles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appfabric(
+        "GET", "/appbundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_ingestion_destinations(app_bundle_identifier, ingestion_identifier)
@@ -428,8 +828,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   *HTTP 400 InvalidToken error*.
 """
-list_ingestion_destinations(appBundleIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_ingestion_destinations(appBundleIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_ingestion_destinations(
+    appBundleIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "GET",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_ingestion_destinations(
+    appBundleIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_ingestions(app_bundle_identifier)
@@ -457,8 +879,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   *HTTP 400 InvalidToken error*.
 """
-list_ingestions(appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_ingestions(appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/appbundles/$(appBundleIdentifier)/ingestions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_ingestions(appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)/ingestions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_ingestions(
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/appbundles/$(appBundleIdentifier)/ingestions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -471,8 +911,26 @@ Returns a list of tags for a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to
   retrieve tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appfabric(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_ingestion(app_bundle_identifier, ingestion_identifier)
@@ -487,8 +945,30 @@ Starts (enables) an ingestion, which collects data from an application.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 """
-start_ingestion(appBundleIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_ingestion(appBundleIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "POST",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/start";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_user_access_tasks(app_bundle_identifier, email)
@@ -505,8 +985,37 @@ when the API calls to the application time out.
   (UUID) of the app bundle to use for the request.
 - `email`: The email address of the target user.
 """
-start_user_access_tasks(appBundleIdentifier, email; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/useraccess/start", Dict{String, Any}("appBundleIdentifier"=>appBundleIdentifier, "email"=>email); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_user_access_tasks(appBundleIdentifier, email, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/useraccess/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appBundleIdentifier"=>appBundleIdentifier, "email"=>email), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_user_access_tasks(
+    appBundleIdentifier, email; aws_config::AbstractAWSConfig=current_aws_config()
+) = appfabric(
+    "POST",
+    "/useraccess/start",
+    Dict{String,Any}("appBundleIdentifier" => appBundleIdentifier, "email" => email);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_user_access_tasks(
+    appBundleIdentifier,
+    email,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/useraccess/start",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appBundleIdentifier" => appBundleIdentifier, "email" => email
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_ingestion(app_bundle_identifier, ingestion_identifier)
@@ -521,8 +1030,30 @@ Stops (disables) an ingestion.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 """
-stop_ingestion(appBundleIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_ingestion(appBundleIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "POST",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_ingestion(
+    appBundleIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -535,8 +1066,28 @@ Assigns one or more tags (key-value pairs) to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
 - `tags`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appfabric(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -550,8 +1101,28 @@ Removes a tag or tags from a resource.
 - `tag_keys`: The keys of the key-value pairs for the tag or tags you want to remove from
   the specified resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appfabric(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_app_authorization(app_authorization_identifier, app_bundle_identifier)
@@ -583,8 +1154,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tenant"`: Contains information about an application tenant, such as the application
   display name and identifier.
 """
-update_app_authorization(appAuthorizationIdentifier, appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("PATCH", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_app_authorization(appAuthorizationIdentifier, appBundleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("PATCH", "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "PATCH",
+    "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_app_authorization(
+    appAuthorizationIdentifier,
+    appBundleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "PATCH",
+        "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_ingestion_destination(app_bundle_identifier, destination_configuration, ingestion_destination_identifier, ingestion_identifier)
@@ -603,5 +1196,38 @@ processed by Amazon Web Services AppFabric and where it's delivered.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 """
-update_ingestion_destination(appBundleIdentifier, destinationConfiguration, ingestionDestinationIdentifier, ingestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("PATCH", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)", Dict{String, Any}("destinationConfiguration"=>destinationConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_ingestion_destination(appBundleIdentifier, destinationConfiguration, ingestionDestinationIdentifier, ingestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appfabric("PATCH", "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationConfiguration"=>destinationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_ingestion_destination(
+    appBundleIdentifier,
+    destinationConfiguration,
+    ingestionDestinationIdentifier,
+    ingestionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appfabric(
+    "PATCH",
+    "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)",
+    Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_ingestion_destination(
+    appBundleIdentifier,
+    destinationConfiguration,
+    ingestionDestinationIdentifier,
+    ingestionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appfabric(
+        "PATCH",
+        "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("destinationConfiguration" => destinationConfiguration),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

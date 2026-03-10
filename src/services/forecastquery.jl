@@ -47,8 +47,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartDate"`: The start date for the forecast. Specify the date using this format: yyyy-
   MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
-query_forecast(Filters, ForecastArn; aws_config::AbstractAWSConfig=current_aws_config()) = forecastquery("QueryForecast", Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-query_forecast(Filters, ForecastArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+query_forecast(Filters, ForecastArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    forecastquery(
+        "QueryForecast",
+        Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function query_forecast(
+    Filters,
+    ForecastArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return forecastquery(
+        "QueryForecast",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     query_what_if_forecast(filters, what_if_forecast_arn)
@@ -79,5 +103,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartDate"`: The start date for the what-if forecast. Specify the date using this
   format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
-query_what_if_forecast(Filters, WhatIfForecastArn; aws_config::AbstractAWSConfig=current_aws_config()) = forecastquery("QueryWhatIfForecast", Dict{String, Any}("Filters"=>Filters, "WhatIfForecastArn"=>WhatIfForecastArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-query_what_if_forecast(Filters, WhatIfForecastArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = forecastquery("QueryWhatIfForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "WhatIfForecastArn"=>WhatIfForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+query_what_if_forecast(
+    Filters, WhatIfForecastArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = forecastquery(
+    "QueryWhatIfForecast",
+    Dict{String,Any}("Filters" => Filters, "WhatIfForecastArn" => WhatIfForecastArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function query_what_if_forecast(
+    Filters,
+    WhatIfForecastArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return forecastquery(
+        "QueryWhatIfForecast",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Filters" => Filters, "WhatIfForecastArn" => WhatIfForecastArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

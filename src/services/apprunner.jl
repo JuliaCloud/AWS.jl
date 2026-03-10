@@ -35,8 +35,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `true`
 """
-associate_custom_domain(DomainName, ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("AssociateCustomDomain", Dict{String, Any}("DomainName"=>DomainName, "ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_custom_domain(DomainName, ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("AssociateCustomDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_custom_domain(
+    DomainName, ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "AssociateCustomDomain",
+    Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_custom_domain(
+    DomainName,
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "AssociateCustomDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_auto_scaling_configuration(auto_scaling_configuration_name)
@@ -109,8 +134,34 @@ Default: `1`
 - `"Tags"`: A list of metadata items that you can associate with your auto scaling
   configuration resource. A tag is a key-value pair.
 """
-create_auto_scaling_configuration(AutoScalingConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateAutoScalingConfiguration", Dict{String, Any}("AutoScalingConfigurationName"=>AutoScalingConfigurationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_auto_scaling_configuration(AutoScalingConfigurationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationName"=>AutoScalingConfigurationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_auto_scaling_configuration(
+    AutoScalingConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "CreateAutoScalingConfiguration",
+    Dict{String,Any}("AutoScalingConfigurationName" => AutoScalingConfigurationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_auto_scaling_configuration(
+    AutoScalingConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "CreateAutoScalingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingConfigurationName" => AutoScalingConfigurationName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_connection(connection_name, provider_type)
@@ -137,8 +188,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of metadata items that you can associate with your connection resource.
   A tag is a key-value pair.
 """
-create_connection(ConnectionName, ProviderType; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateConnection", Dict{String, Any}("ConnectionName"=>ConnectionName, "ProviderType"=>ProviderType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_connection(ConnectionName, ProviderType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName, "ProviderType"=>ProviderType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_connection(
+    ConnectionName, ProviderType; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "CreateConnection",
+    Dict{String,Any}("ConnectionName" => ConnectionName, "ProviderType" => ProviderType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_connection(
+    ConnectionName,
+    ProviderType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "CreateConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionName" => ConnectionName, "ProviderType" => ProviderType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_observability_configuration(observability_configuration_name)
@@ -185,8 +263,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TraceConfiguration"`: The configuration of the tracing feature within this
   observability configuration. If you don't specify it, App Runner doesn't enable tracing.
 """
-create_observability_configuration(ObservabilityConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateObservabilityConfiguration", Dict{String, Any}("ObservabilityConfigurationName"=>ObservabilityConfigurationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_observability_configuration(ObservabilityConfigurationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateObservabilityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObservabilityConfigurationName"=>ObservabilityConfigurationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_observability_configuration(
+    ObservabilityConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "CreateObservabilityConfiguration",
+    Dict{String,Any}("ObservabilityConfigurationName" => ObservabilityConfigurationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_observability_configuration(
+    ObservabilityConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "CreateObservabilityConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ObservabilityConfigurationName" => ObservabilityConfigurationName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_service(service_name, source_configuration)
@@ -234,8 +338,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An optional list of metadata items that you can associate with the App Runner
   service resource. A tag is a key-value pair.
 """
-create_service(ServiceName, SourceConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateService", Dict{String, Any}("ServiceName"=>ServiceName, "SourceConfiguration"=>SourceConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_service(ServiceName, SourceConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "SourceConfiguration"=>SourceConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_service(
+    ServiceName, SourceConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "CreateService",
+    Dict{String,Any}(
+        "ServiceName" => ServiceName, "SourceConfiguration" => SourceConfiguration
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_service(
+    ServiceName,
+    SourceConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "CreateService",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ServiceName" => ServiceName,
+                    "SourceConfiguration" => SourceConfiguration,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc_connector(subnets, vpc_connector_name)
@@ -266,8 +400,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of metadata items that you can associate with your VPC connector
   resource. A tag is a key-value pair.
 """
-create_vpc_connector(Subnets, VpcConnectorName; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateVpcConnector", Dict{String, Any}("Subnets"=>Subnets, "VpcConnectorName"=>VpcConnectorName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_connector(Subnets, VpcConnectorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateVpcConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Subnets"=>Subnets, "VpcConnectorName"=>VpcConnectorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_connector(
+    Subnets, VpcConnectorName; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "CreateVpcConnector",
+    Dict{String,Any}("Subnets" => Subnets, "VpcConnectorName" => VpcConnectorName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpc_connector(
+    Subnets,
+    VpcConnectorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "CreateVpcConnector",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Subnets" => Subnets, "VpcConnectorName" => VpcConnectorName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_vpc_ingress_connection(ingress_vpc_configuration, service_arn, vpc_ingress_connection_name)
@@ -294,8 +455,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An optional list of metadata items that you can associate with the VPC Ingress
   Connection resource. A tag is a key-value pair.
 """
-create_vpc_ingress_connection(IngressVpcConfiguration, ServiceArn, VpcIngressConnectionName; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateVpcIngressConnection", Dict{String, Any}("IngressVpcConfiguration"=>IngressVpcConfiguration, "ServiceArn"=>ServiceArn, "VpcIngressConnectionName"=>VpcIngressConnectionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_vpc_ingress_connection(IngressVpcConfiguration, ServiceArn, VpcIngressConnectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("CreateVpcIngressConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IngressVpcConfiguration"=>IngressVpcConfiguration, "ServiceArn"=>ServiceArn, "VpcIngressConnectionName"=>VpcIngressConnectionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    ServiceArn,
+    VpcIngressConnectionName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = apprunner(
+    "CreateVpcIngressConnection",
+    Dict{String,Any}(
+        "IngressVpcConfiguration" => IngressVpcConfiguration,
+        "ServiceArn" => ServiceArn,
+        "VpcIngressConnectionName" => VpcIngressConnectionName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    ServiceArn,
+    VpcIngressConnectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "CreateVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IngressVpcConfiguration" => IngressVpcConfiguration,
+                    "ServiceArn" => ServiceArn,
+                    "VpcIngressConnectionName" => VpcIngressConnectionName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_auto_scaling_configuration(auto_scaling_configuration_arn)
@@ -325,8 +523,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When `DeleteAllRevisions` is set to `true`, the only valid value for the Amazon Resource
   Name (ARN) is a partial ARN ending with: `.../name`.
 """
-delete_auto_scaling_configuration(AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteAutoScalingConfiguration", Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_auto_scaling_configuration(AutoScalingConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_auto_scaling_configuration(
+    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DeleteAutoScalingConfiguration",
+    Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_auto_scaling_configuration(
+    AutoScalingConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DeleteAutoScalingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingConfigurationArn" => AutoScalingConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_connection(connection_arn)
@@ -340,8 +564,27 @@ services that use this connection. If there are any, the `DeleteConnection` acti
 - `connection_arn`: The Amazon Resource Name (ARN) of the App Runner connection that you
   want to delete.
 """
-delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteConnection", Dict{String, Any}("ConnectionArn"=>ConnectionArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_connection(ConnectionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "DeleteConnection",
+        Dict{String,Any}("ConnectionArn" => ConnectionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_connection(
+    ConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DeleteConnection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectionArn" => ConnectionArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_observability_configuration(observability_configuration_arn)
@@ -360,8 +603,34 @@ or more App Runner services.
   either `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the
   latest active revision is deleted.
 """
-delete_observability_configuration(ObservabilityConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteObservabilityConfiguration", Dict{String, Any}("ObservabilityConfigurationArn"=>ObservabilityConfigurationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_observability_configuration(ObservabilityConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteObservabilityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObservabilityConfigurationArn"=>ObservabilityConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_observability_configuration(
+    ObservabilityConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DeleteObservabilityConfiguration",
+    Dict{String,Any}("ObservabilityConfigurationArn" => ObservabilityConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_observability_configuration(
+    ObservabilityConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DeleteObservabilityConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ObservabilityConfigurationArn" => ObservabilityConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_service(service_arn)
@@ -381,8 +650,26 @@ service you want to delete.
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want to
   delete.
 """
-delete_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteService", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_service(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner(
+    "DeleteService",
+    Dict{String,Any}("ServiceArn" => ServiceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_service(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DeleteService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc_connector(vpc_connector_arn)
@@ -398,8 +685,29 @@ one or more App Runner services.
 
 The ARN must be a full VPC connector ARN.
 """
-delete_vpc_connector(VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteVpcConnector", Dict{String, Any}("VpcConnectorArn"=>VpcConnectorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc_connector(VpcConnectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteVpcConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcConnectorArn"=>VpcConnectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc_connector(VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "DeleteVpcConnector",
+        Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_vpc_connector(
+    VpcConnectorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DeleteVpcConnector",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_vpc_ingress_connection(vpc_ingress_connection_arn)
@@ -417,8 +725,32 @@ service. The VPC Ingress Connection must be in one of the following states to be
 - `vpc_ingress_connection_arn`: The Amazon Resource Name (ARN) of the App Runner VPC
   Ingress Connection that you want to delete.
 """
-delete_vpc_ingress_connection(VpcIngressConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteVpcIngressConnection", Dict{String, Any}("VpcIngressConnectionArn"=>VpcIngressConnectionArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_vpc_ingress_connection(VpcIngressConnectionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DeleteVpcIngressConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcIngressConnectionArn"=>VpcIngressConnectionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_vpc_ingress_connection(
+    VpcIngressConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DeleteVpcIngressConnection",
+    Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_vpc_ingress_connection(
+    VpcIngressConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DeleteVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_auto_scaling_configuration(auto_scaling_configuration_arn)
@@ -435,8 +767,34 @@ Return a full description of an App Runner automatic scaling configuration resou
   `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the latest
   active revision is described.
 """
-describe_auto_scaling_configuration(AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeAutoScalingConfiguration", Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_auto_scaling_configuration(AutoScalingConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_auto_scaling_configuration(
+    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DescribeAutoScalingConfiguration",
+    Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_auto_scaling_configuration(
+    AutoScalingConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DescribeAutoScalingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingConfigurationArn" => AutoScalingConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_custom_domains(service_arn)
@@ -464,8 +822,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-describe_custom_domains(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeCustomDomains", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_custom_domains(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeCustomDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_custom_domains(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "DescribeCustomDomains",
+        Dict{String,Any}("ServiceArn" => ServiceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_custom_domains(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DescribeCustomDomains",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_observability_configuration(observability_configuration_arn)
@@ -482,8 +859,34 @@ Return a full description of an App Runner observability configuration resource.
   either `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the
   latest active revision is described.
 """
-describe_observability_configuration(ObservabilityConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeObservabilityConfiguration", Dict{String, Any}("ObservabilityConfigurationArn"=>ObservabilityConfigurationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_observability_configuration(ObservabilityConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeObservabilityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObservabilityConfigurationArn"=>ObservabilityConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_observability_configuration(
+    ObservabilityConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DescribeObservabilityConfiguration",
+    Dict{String,Any}("ObservabilityConfigurationArn" => ObservabilityConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_observability_configuration(
+    ObservabilityConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DescribeObservabilityConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ObservabilityConfigurationArn" => ObservabilityConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_service(service_arn)
@@ -496,8 +899,27 @@ Return a full description of an App Runner service.
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want a
   description for.
 """
-describe_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeService", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_service(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "DescribeService",
+        Dict{String,Any}("ServiceArn" => ServiceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_service(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DescribeService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_connector(vpc_connector_arn)
@@ -512,8 +934,30 @@ Return a description of an App Runner VPC connector resource.
 
 The ARN must be a full VPC connector ARN.
 """
-describe_vpc_connector(VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeVpcConnector", Dict{String, Any}("VpcConnectorArn"=>VpcConnectorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_connector(VpcConnectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeVpcConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcConnectorArn"=>VpcConnectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_connector(
+    VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DescribeVpcConnector",
+    Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_connector(
+    VpcConnectorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DescribeVpcConnector",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_vpc_ingress_connection(vpc_ingress_connection_arn)
@@ -526,8 +970,32 @@ Return a full description of an App Runner VPC Ingress Connection resource.
 - `vpc_ingress_connection_arn`: The Amazon Resource Name (ARN) of the App Runner VPC
   Ingress Connection that you want a description for.
 """
-describe_vpc_ingress_connection(VpcIngressConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeVpcIngressConnection", Dict{String, Any}("VpcIngressConnectionArn"=>VpcIngressConnectionArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_vpc_ingress_connection(VpcIngressConnectionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DescribeVpcIngressConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcIngressConnectionArn"=>VpcIngressConnectionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_vpc_ingress_connection(
+    VpcIngressConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DescribeVpcIngressConnection",
+    Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_vpc_ingress_connection(
+    VpcIngressConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DescribeVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_custom_domain(domain_name, service_arn)
@@ -546,8 +1014,33 @@ for 30 days after a domain is disassociated from your service.
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want to
   disassociate a custom domain name from.
 """
-disassociate_custom_domain(DomainName, ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DisassociateCustomDomain", Dict{String, Any}("DomainName"=>DomainName, "ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_custom_domain(DomainName, ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("DisassociateCustomDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_custom_domain(
+    DomainName, ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "DisassociateCustomDomain",
+    Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_custom_domain(
+    DomainName,
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "DisassociateCustomDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_auto_scaling_configurations()
@@ -585,8 +1078,22 @@ Default: `true`
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-list_auto_scaling_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListAutoScalingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_auto_scaling_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListAutoScalingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_auto_scaling_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "ListAutoScalingConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_auto_scaling_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apprunner(
+        "ListAutoScalingConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_connections()
@@ -612,8 +1119,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-list_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner("ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apprunner(
+        "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_observability_configurations()
@@ -651,8 +1165,22 @@ If you don't specify `NextToken`, the request retrieves the first result page.
   configuration that you want to list. If specified, App Runner lists revisions that share
   this name. If not specified, App Runner returns revisions of all active configurations.
 """
-list_observability_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListObservabilityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_observability_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListObservabilityConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_observability_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "ListObservabilityConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_observability_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apprunner(
+        "ListObservabilityConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_operations(service_arn)
@@ -683,8 +1211,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListOperations", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_operations(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner(
+    "ListOperations",
+    Dict{String,Any}("ServiceArn" => ServiceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_operations(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "ListOperations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_services()
@@ -707,8 +1253,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-list_services(; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_services(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apprunner(
+        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_services_for_auto_scaling_configuration(auto_scaling_configuration_arn)
@@ -740,8 +1293,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-list_services_for_auto_scaling_configuration(AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListServicesForAutoScalingConfiguration", Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_services_for_auto_scaling_configuration(AutoScalingConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListServicesForAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_services_for_auto_scaling_configuration(
+    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "ListServicesForAutoScalingConfiguration",
+    Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_services_for_auto_scaling_configuration(
+    AutoScalingConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "ListServicesForAutoScalingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingConfigurationArn" => AutoScalingConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -757,8 +1336,27 @@ of tag key-value pairs.
 
 It must be the ARN of an App Runner resource.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_vpc_connectors()
@@ -781,8 +1379,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-list_vpc_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListVpcConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_vpc_connectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListVpcConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_vpc_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner("ListVpcConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_vpc_connectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apprunner(
+        "ListVpcConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_vpc_ingress_connections()
@@ -807,8 +1412,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify `NextToken`, the request retrieves the first result page.
 """
-list_vpc_ingress_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListVpcIngressConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_vpc_ingress_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ListVpcIngressConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_vpc_ingress_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "ListVpcIngressConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_vpc_ingress_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apprunner(
+        "ListVpcIngressConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     pause_service(service_arn)
@@ -825,8 +1442,26 @@ This is an asynchronous operation. On a successful call, you can use the returne
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want to
   pause.
 """
-pause_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("PauseService", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-pause_service(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("PauseService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+pause_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner(
+    "PauseService",
+    Dict{String,Any}("ServiceArn" => ServiceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function pause_service(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "PauseService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     resume_service(service_arn)
@@ -843,8 +1478,26 @@ This is an asynchronous operation. On a successful call, you can use the returne
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want to
   resume.
 """
-resume_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ResumeService", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-resume_service(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("ResumeService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+resume_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner(
+    "ResumeService",
+    Dict{String,Any}("ServiceArn" => ServiceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function resume_service(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "ResumeService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_deployment(service_arn)
@@ -865,8 +1518,27 @@ This is an asynchronous operation. On a successful call, you can use the returne
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want to
   manually deploy to.
 """
-start_deployment(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("StartDeployment", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_deployment(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("StartDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_deployment(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "StartDeployment",
+        Dict{String,Any}("ServiceArn" => ServiceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_deployment(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "StartDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -884,8 +1556,32 @@ It must be the ARN of an App Runner resource.
   the tag is added with the provided value. If a key is already associated with the
   resource, the value of the tag is updated.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -901,8 +1597,32 @@ Remove tags from an App Runner resource.
 It must be the ARN of an App Runner resource.
 - `tag_keys`: A list of tag keys that you want to remove.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    apprunner(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_default_auto_scaling_configuration(auto_scaling_configuration_arn)
@@ -920,8 +1640,34 @@ configuration will be set to non-default automatically.
   `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the latest
   active revision is set as the default.
 """
-update_default_auto_scaling_configuration(AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UpdateDefaultAutoScalingConfiguration", Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_default_auto_scaling_configuration(AutoScalingConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UpdateDefaultAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_default_auto_scaling_configuration(
+    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = apprunner(
+    "UpdateDefaultAutoScalingConfiguration",
+    Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_default_auto_scaling_configuration(
+    AutoScalingConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "UpdateDefaultAutoScalingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingConfigurationArn" => AutoScalingConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service(service_arn)
@@ -966,8 +1712,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `CodeRepository` or `ImageRepository`. To update the source configuration, set the values
   to members of the structure that you include.
 """
-update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UpdateService", Dict{String, Any}("ServiceArn"=>ServiceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service(ServiceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner(
+    "UpdateService",
+    Dict{String,Any}("ServiceArn" => ServiceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service(
+    ServiceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "UpdateService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_vpc_ingress_connection(ingress_vpc_configuration, vpc_ingress_connection_arn)
@@ -986,5 +1750,38 @@ must be in one of the following states to be updated: - AVAILABLE
 - `vpc_ingress_connection_arn`: The Amazon Resource Name (Arn) for the App Runner VPC
   Ingress Connection resource that you want to update.
 """
-update_vpc_ingress_connection(IngressVpcConfiguration, VpcIngressConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UpdateVpcIngressConnection", Dict{String, Any}("IngressVpcConfiguration"=>IngressVpcConfiguration, "VpcIngressConnectionArn"=>VpcIngressConnectionArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_vpc_ingress_connection(IngressVpcConfiguration, VpcIngressConnectionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apprunner("UpdateVpcIngressConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IngressVpcConfiguration"=>IngressVpcConfiguration, "VpcIngressConnectionArn"=>VpcIngressConnectionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    VpcIngressConnectionArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = apprunner(
+    "UpdateVpcIngressConnection",
+    Dict{String,Any}(
+        "IngressVpcConfiguration" => IngressVpcConfiguration,
+        "VpcIngressConnectionArn" => VpcIngressConnectionArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    VpcIngressConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apprunner(
+        "UpdateVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IngressVpcConfiguration" => IngressVpcConfiguration,
+                    "VpcIngressConnectionArn" => VpcIngressConnectionArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

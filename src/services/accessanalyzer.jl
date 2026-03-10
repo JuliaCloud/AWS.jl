@@ -22,8 +22,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A client token.
 """
-apply_archive_rule(analyzerArn, ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-apply_archive_rule(analyzerArn, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+apply_archive_rule(
+    analyzerArn, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "PUT",
+    "/archive-rule",
+    Dict{String,Any}(
+        "analyzerArn" => analyzerArn,
+        "ruleName" => ruleName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function apply_archive_rule(
+    analyzerArn,
+    ruleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/archive-rule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analyzerArn" => analyzerArn,
+                    "ruleName" => ruleName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_policy_generation(job_id)
@@ -37,8 +72,24 @@ Cancels the requested policy generation.
   `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated policies or used
   with `CancelPolicyGeneration` to cancel the policy generation request.
 """
-cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/policy/generation/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_policy_generation(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/policy/generation/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "PUT",
+        "/policy/generation/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_policy_generation(
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return accessanalyzer(
+        "PUT",
+        "/policy/generation/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     check_access_not_granted(access, policy_document, policy_type)
@@ -63,8 +114,44 @@ Checks whether the specified access isn't allowed by a policy.
   provide a generic input such as identity policy or resource policy or a specific input
   such as managed policy or Amazon S3 bucket policy.
 """
-check_access_not_granted(access, policyDocument, policyType; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/check-access-not-granted", Dict{String, Any}("access"=>access, "policyDocument"=>policyDocument, "policyType"=>policyType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-check_access_not_granted(access, policyDocument, policyType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/check-access-not-granted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("access"=>access, "policyDocument"=>policyDocument, "policyType"=>policyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+check_access_not_granted(
+    access, policyDocument, policyType; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "POST",
+    "/policy/check-access-not-granted",
+    Dict{String,Any}(
+        "access" => access,
+        "policyDocument" => policyDocument,
+        "policyType" => policyType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function check_access_not_granted(
+    access,
+    policyDocument,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-access-not-granted",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "access" => access,
+                    "policyDocument" => policyDocument,
+                    "policyType" => policyType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     check_no_new_access(existing_policy_document, new_policy_document, policy_type)
@@ -93,8 +180,47 @@ the `existingPolicyDocument` request parameter.
   provide a generic input such as identity policy or resource policy or a specific input
   such as managed policy or Amazon S3 bucket policy.
 """
-check_no_new_access(existingPolicyDocument, newPolicyDocument, policyType; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/check-no-new-access", Dict{String, Any}("existingPolicyDocument"=>existingPolicyDocument, "newPolicyDocument"=>newPolicyDocument, "policyType"=>policyType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-check_no_new_access(existingPolicyDocument, newPolicyDocument, policyType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/check-no-new-access", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("existingPolicyDocument"=>existingPolicyDocument, "newPolicyDocument"=>newPolicyDocument, "policyType"=>policyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+check_no_new_access(
+    existingPolicyDocument,
+    newPolicyDocument,
+    policyType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = accessanalyzer(
+    "POST",
+    "/policy/check-no-new-access",
+    Dict{String,Any}(
+        "existingPolicyDocument" => existingPolicyDocument,
+        "newPolicyDocument" => newPolicyDocument,
+        "policyType" => policyType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function check_no_new_access(
+    existingPolicyDocument,
+    newPolicyDocument,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-no-new-access",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "existingPolicyDocument" => existingPolicyDocument,
+                    "newPolicyDocument" => newPolicyDocument,
+                    "policyType" => policyType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     check_no_public_access(policy_document, resource_type)
@@ -112,8 +238,37 @@ Checks whether a resource policy can grant public access to the specified resour
   For resource types not supported as valid values, IAM Access Analyzer will return an
   error.
 """
-check_no_public_access(policyDocument, resourceType; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/check-no-public-access", Dict{String, Any}("policyDocument"=>policyDocument, "resourceType"=>resourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-check_no_public_access(policyDocument, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/check-no-public-access", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+check_no_public_access(
+    policyDocument, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "POST",
+    "/policy/check-no-public-access",
+    Dict{String,Any}("policyDocument" => policyDocument, "resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function check_no_public_access(
+    policyDocument,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-no-public-access",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyDocument" => policyDocument, "resourceType" => resourceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_access_preview(analyzer_arn, configurations)
@@ -138,8 +293,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A client token.
 """
-create_access_preview(analyzerArn, configurations; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/access-preview", Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_access_preview(analyzerArn, configurations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_access_preview(
+    analyzerArn, configurations; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "PUT",
+    "/access-preview",
+    Dict{String,Any}(
+        "analyzerArn" => analyzerArn,
+        "configurations" => configurations,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_access_preview(
+    analyzerArn,
+    configurations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/access-preview",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analyzerArn" => analyzerArn,
+                    "configurations" => configurations,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_analyzer(analyzer_name, type)
@@ -167,8 +357,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. If the analyzer is an external access analyzer, this field is not used.
 - `"tags"`: An array of key-value pairs to apply to the analyzer.
 """
-create_analyzer(analyzerName, type; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_analyzer(analyzerName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_analyzer(analyzerName, type; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "PUT",
+        "/analyzer",
+        Dict{String,Any}(
+            "analyzerName" => analyzerName, "type" => type, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_analyzer(
+    analyzerName,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/analyzer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analyzerName" => analyzerName,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_archive_rule(analyzer_name, filter, rule_name)
@@ -192,8 +414,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A client token.
 """
-create_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_archive_rule(analyzerName, filter, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_archive_rule(
+    analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "PUT",
+    "/analyzer/$(analyzerName)/archive-rule",
+    Dict{String,Any}(
+        "filter" => filter, "ruleName" => ruleName, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_archive_rule(
+    analyzerName,
+    filter,
+    ruleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/analyzer/$(analyzerName)/archive-rule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "filter" => filter,
+                    "ruleName" => ruleName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_analyzer(analyzer_name)
@@ -213,8 +469,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A client token.
 """
-delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_analyzer(analyzerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "DELETE",
+        "/analyzer/$(analyzerName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_analyzer(
+    analyzerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "DELETE",
+        "/analyzer/$(analyzerName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_archive_rule(analyzer_name, rule_name)
@@ -233,8 +510,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A client token.
 """
-delete_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_archive_rule(analyzerName, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_archive_rule(
+    analyzerName, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "DELETE",
+    "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_archive_rule(
+    analyzerName,
+    ruleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "DELETE",
+        "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     generate_finding_recommendation(analyzer_arn, id)
@@ -248,8 +548,31 @@ Creates a recommendation for an unused permissions finding.
   used to generate the finding recommendation.
 - `id`: The unique ID for the finding recommendation.
 """
-generate_finding_recommendation(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/recommendation/$(id)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-generate_finding_recommendation(analyzerArn, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/recommendation/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+generate_finding_recommendation(
+    analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "POST",
+    "/recommendation/$(id)",
+    Dict{String,Any}("analyzerArn" => analyzerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function generate_finding_recommendation(
+    analyzerArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/recommendation/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_access_preview(access_preview_id, analyzer_arn)
@@ -263,8 +586,31 @@ Retrieves information about an access preview for the specified analyzer.
 - `analyzer_arn`: The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources)
   used to generate the access preview.
 """
-get_access_preview(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_access_preview(accessPreviewId, analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_access_preview(
+    accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "GET",
+    "/access-preview/$(accessPreviewId)",
+    Dict{String,Any}("analyzerArn" => analyzerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_access_preview(
+    accessPreviewId,
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/access-preview/$(accessPreviewId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_analyzed_resource(analyzer_arn, resource_arn)
@@ -278,8 +624,37 @@ Retrieves information about a resource that was analyzed.
   to retrieve information from.
 - `resource_arn`: The ARN of the resource to retrieve information about.
 """
-get_analyzed_resource(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_analyzed_resource(analyzerArn, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_analyzed_resource(
+    analyzerArn, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "GET",
+    "/analyzed-resource",
+    Dict{String,Any}("analyzerArn" => analyzerArn, "resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_analyzed_resource(
+    analyzerArn,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/analyzed-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analyzerArn" => analyzerArn, "resourceArn" => resourceArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_analyzer(analyzer_name)
@@ -291,8 +666,26 @@ Retrieves information about the specified analyzer.
 
 - `analyzer_name`: The name of the analyzer retrieved.
 """
-get_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_analyzer(analyzerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET",
+        "/analyzer/$(analyzerName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_analyzer(
+    analyzerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/analyzer/$(analyzerName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_archive_rule(analyzer_name, rule_name)
@@ -308,8 +701,28 @@ in the **IAM User Guide**.
 - `analyzer_name`: The name of the analyzer to retrieve rules from.
 - `rule_name`: The name of the rule to retrieve.
 """
-get_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_archive_rule(analyzerName, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_archive_rule(
+    analyzerName, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "GET",
+    "/analyzer/$(analyzerName)/archive-rule/$(ruleName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_archive_rule(
+    analyzerName,
+    ruleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_finding(analyzer_arn, id)
@@ -325,8 +738,30 @@ have permission to perform the `access-analyzer:GetFinding` action.
   that generated the finding.
 - `id`: The ID of the finding to retrieve.
 """
-get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_finding(analyzerArn, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET",
+        "/finding/$(id)",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_finding(
+    analyzerArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/finding/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_finding_recommendation(analyzer_arn, id)
@@ -347,8 +782,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned.
 """
-get_finding_recommendation(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/recommendation/$(id)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_finding_recommendation(analyzerArn, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/recommendation/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_finding_recommendation(
+    analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "GET",
+    "/recommendation/$(id)",
+    Dict{String,Any}("analyzerArn" => analyzerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_finding_recommendation(
+    analyzerArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/recommendation/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_finding_v2(analyzer_arn, id)
@@ -371,8 +829,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned.
 """
-get_finding_v2(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/findingv2/$(id)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_finding_v2(analyzerArn, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/findingv2/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_finding_v2(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET",
+        "/findingv2/$(id)",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_finding_v2(
+    analyzerArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/findingv2/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_generated_policy(job_id)
@@ -395,15 +875,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   support resource level granularity in policies.
 
   For example, in the resource section of a policy, you can receive a placeholder such as
-  `"Resource":"arn:aws:s3:::${BucketName}"` instead of `"*"`.
+  `"Resource":"arn:aws:s3:::\${BucketName}"` instead of `"*"`.
 - `"includeServiceLevelTemplate"`: The level of detail that you want to generate. You can
   specify whether to generate service-level policies.
 
   IAM Access Analyzer uses `iam:servicelastaccessed` to identify services that have been
   used recently to create this service-level template.
 """
-get_generated_policy(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/policy/generation/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_generated_policy(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/policy/generation/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_generated_policy(jobId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET",
+        "/policy/generation/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_generated_policy(
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return accessanalyzer(
+        "GET",
+        "/policy/generation/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_access_preview_findings(access_preview_id, analyzer_arn)
@@ -425,8 +921,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned.
 """
-list_access_preview_findings(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_access_preview_findings(accessPreviewId, analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_access_preview_findings(
+    accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "POST",
+    "/access-preview/$(accessPreviewId)",
+    Dict{String,Any}("analyzerArn" => analyzerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_access_preview_findings(
+    accessPreviewId,
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/access-preview/$(accessPreviewId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_access_previews(analyzer_arn)
@@ -446,8 +965,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned.
 """
-list_access_previews(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/access-preview", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_access_previews(analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_access_previews(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET",
+        "/access-preview",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_access_previews(
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/access-preview",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_analyzed_resources(analyzer_arn)
@@ -470,8 +1010,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 - `"resourceType"`: The type of resource.
 """
-list_analyzed_resources(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_analyzed_resources(analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_analyzed_resources(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "POST",
+        "/analyzed-resource",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_analyzed_resources(
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/analyzed-resource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_analyzers()
@@ -487,8 +1048,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 - `"type"`: The type of analyzer.
 """
-list_analyzers(; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_analyzers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_analyzers(; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer(
+    "GET", "/analyzer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_analyzers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return accessanalyzer(
+        "GET", "/analyzer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_archive_rules(analyzer_name)
@@ -507,8 +1076,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the request.
 - `"nextToken"`: A token used for pagination of results returned.
 """
-list_archive_rules(analyzerName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_archive_rules(analyzerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_archive_rules(analyzerName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET",
+        "/analyzer/$(analyzerName)/archive-rule";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_archive_rules(
+    analyzerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/analyzer/$(analyzerName)/archive-rule",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_findings(analyzer_arn)
@@ -536,8 +1123,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 - `"sort"`: The sort order for the findings returned.
 """
-list_findings(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_findings(analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_findings(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "POST",
+        "/finding",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_findings(
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/finding",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_findings_v2(analyzer_arn)
@@ -565,8 +1173,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 - `"sort"`:
 """
-list_findings_v2(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/findingv2", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_findings_v2(analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/findingv2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_findings_v2(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "POST",
+        "/findingv2",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_findings_v2(
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/findingv2",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_policy_generations()
@@ -584,8 +1213,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   policy. Use this with `ListGeneratedPolicies` to filter the results to only include
   results for a specific principal.
 """
-list_policy_generations(; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/policy/generation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_policy_generations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_policy_generations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET", "/policy/generation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_policy_generations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return accessanalyzer(
+        "GET",
+        "/policy/generation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -597,8 +1239,26 @@ Retrieves a list of tags applied to the specified resource.
 
 - `resource_arn`: The ARN of the resource to retrieve tags from.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_policy_generation(policy_generation_details)
@@ -626,8 +1286,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cloudTrailDetails"`: A `CloudTrailDetails` object that contains details about a `Trail`
   that you want to analyze to generate policies.
 """
-start_policy_generation(policyGenerationDetails; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/policy/generation", Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_policy_generation(policyGenerationDetails, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/policy/generation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_policy_generation(
+    policyGenerationDetails; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "PUT",
+    "/policy/generation",
+    Dict{String,Any}(
+        "policyGenerationDetails" => policyGenerationDetails,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_policy_generation(
+    policyGenerationDetails,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/policy/generation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyGenerationDetails" => policyGenerationDetails,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_resource_scan(analyzer_arn, resource_arn)
@@ -649,8 +1341,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most Amazon Web Services resources, the owning account is the account in which the
   resource was created.
 """
-start_resource_scan(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_resource_scan(analyzerArn, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_resource_scan(
+    analyzerArn, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "POST",
+    "/resource/scan",
+    Dict{String,Any}("analyzerArn" => analyzerArn, "resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_resource_scan(
+    analyzerArn,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/resource/scan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analyzerArn" => analyzerArn, "resourceArn" => resourceArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -663,8 +1384,28 @@ Adds a tag to the specified resource.
 - `resource_arn`: The ARN of the resource to add the tag to.
 - `tags`: The tags to add to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -677,8 +1418,28 @@ Removes a tag from the specified resource.
 - `resource_arn`: The ARN of the resource to remove the tag from.
 - `tag_keys`: The key for the tag to add.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_archive_rule(analyzer_name, filter, rule_name)
@@ -699,8 +1460,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A client token.
 """
-update_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_archive_rule(analyzerName, filter, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_archive_rule(
+    analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "PUT",
+    "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
+    Dict{String,Any}("filter" => filter, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_archive_rule(
+    analyzerName,
+    filter,
+    ruleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("filter" => filter, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_findings(analyzer_arn, status)
@@ -724,8 +1513,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ids"`: The IDs of the findings to update.
 - `"resourceArn"`: The ARN of the resource identified in the finding.
 """
-update_findings(analyzerArn, status; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_findings(analyzerArn, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_findings(analyzerArn, status; aws_config::AbstractAWSConfig=current_aws_config()) =
+    accessanalyzer(
+        "PUT",
+        "/finding",
+        Dict{String,Any}(
+            "analyzerArn" => analyzerArn,
+            "status" => status,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_findings(
+    analyzerArn,
+    status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/finding",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analyzerArn" => analyzerArn,
+                    "status" => status,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     validate_policy(policy_document, policy_type)
@@ -767,5 +1590,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to a KMS key, do not specify a value for the policy validation resource type and IAM
   Access Analyzer will run policy checks that apply to all resource policies.
 """
-validate_policy(policyDocument, policyType; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-validate_policy(policyDocument, policyType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+validate_policy(
+    policyDocument, policyType; aws_config::AbstractAWSConfig=current_aws_config()
+) = accessanalyzer(
+    "POST",
+    "/policy/validation",
+    Dict{String,Any}("policyDocument" => policyDocument, "policyType" => policyType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function validate_policy(
+    policyDocument,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/validation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyDocument" => policyDocument, "policyType" => policyType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -22,8 +22,27 @@ You can use this API only to enable natively supported Amazon Web Services as a 
 - `sources`: Specify the natively-supported Amazon Web Services service to add as a source
   in Security Lake.
 """
-create_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/aws", Dict{String, Any}("sources"=>sources); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_aws_log_source(sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/aws", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "POST",
+        "/v1/datalake/logsources/aws",
+        Dict{String,Any}("sources" => sources);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_aws_log_source(
+    sources,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/logsources/aws",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_custom_log_source(configuration, source_name)
@@ -81,8 +100,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceVersion"`: Specify the source version for the third-party custom source, to limit
   log collection to a specific version of custom data source.
 """
-create_custom_log_source(configuration, sourceName; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/custom", Dict{String, Any}("configuration"=>configuration, "sourceName"=>sourceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_custom_log_source(configuration, sourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/custom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration, "sourceName"=>sourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_custom_log_source(
+    configuration, sourceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "POST",
+    "/v1/datalake/logsources/custom",
+    Dict{String,Any}("configuration" => configuration, "sourceName" => sourceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_custom_log_source(
+    configuration,
+    sourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/logsources/custom",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration, "sourceName" => sourceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_lake(configurations, meta_store_manager_role_arn)
@@ -120,8 +168,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. For each tag, you must specify both a tag key and a tag value. A tag value
   cannot be null, but it can be an empty string.
 """
-create_data_lake(configurations, metaStoreManagerRoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake", Dict{String, Any}("configurations"=>configurations, "metaStoreManagerRoleArn"=>metaStoreManagerRoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_lake(configurations, metaStoreManagerRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurations"=>configurations, "metaStoreManagerRoleArn"=>metaStoreManagerRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_lake(
+    configurations,
+    metaStoreManagerRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = securitylake(
+    "POST",
+    "/v1/datalake",
+    Dict{String,Any}(
+        "configurations" => configurations,
+        "metaStoreManagerRoleArn" => metaStoreManagerRoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_lake(
+    configurations,
+    metaStoreManagerRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configurations" => configurations,
+                    "metaStoreManagerRoleArn" => metaStoreManagerRoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_lake_exception_subscription(notification_endpoint, subscription_protocol)
@@ -143,8 +226,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"exceptionTimeToLive"`: The expiration period and time-to-live (TTL).
 """
-create_data_lake_exception_subscription(notificationEndpoint, subscriptionProtocol; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/exceptions/subscription", Dict{String, Any}("notificationEndpoint"=>notificationEndpoint, "subscriptionProtocol"=>subscriptionProtocol); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_lake_exception_subscription(notificationEndpoint, subscriptionProtocol, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/exceptions/subscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("notificationEndpoint"=>notificationEndpoint, "subscriptionProtocol"=>subscriptionProtocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_lake_exception_subscription(
+    notificationEndpoint,
+    subscriptionProtocol;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = securitylake(
+    "POST",
+    "/v1/datalake/exceptions/subscription",
+    Dict{String,Any}(
+        "notificationEndpoint" => notificationEndpoint,
+        "subscriptionProtocol" => subscriptionProtocol,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_lake_exception_subscription(
+    notificationEndpoint,
+    subscriptionProtocol,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/exceptions/subscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "notificationEndpoint" => notificationEndpoint,
+                    "subscriptionProtocol" => subscriptionProtocol,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_lake_organization_configuration()
@@ -161,8 +279,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoEnableNewAccount"`: Enable Security Lake with the specified configuration settings,
   to begin collecting security data for new accounts in your organization.
 """
-create_data_lake_organization_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/organization/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_lake_organization_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/organization/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_lake_organization_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "POST",
+    "/v1/datalake/organization/configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_lake_organization_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/organization/configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_subscriber(sources, subscriber_identity, subscriber_name)
@@ -190,8 +325,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each tag, you must specify both a tag key and a tag value. A tag value cannot be null,
   but it can be an empty string.
 """
-create_subscriber(sources, subscriberIdentity, subscriberName; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/subscribers", Dict{String, Any}("sources"=>sources, "subscriberIdentity"=>subscriberIdentity, "subscriberName"=>subscriberName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_subscriber(sources, subscriberIdentity, subscriberName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/subscribers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sources"=>sources, "subscriberIdentity"=>subscriberIdentity, "subscriberName"=>subscriberName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subscriber(
+    sources,
+    subscriberIdentity,
+    subscriberName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = securitylake(
+    "POST",
+    "/v1/subscribers",
+    Dict{String,Any}(
+        "sources" => sources,
+        "subscriberIdentity" => subscriberIdentity,
+        "subscriberName" => subscriberName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_subscriber(
+    sources,
+    subscriberIdentity,
+    subscriberName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/subscribers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "sources" => sources,
+                    "subscriberIdentity" => subscriberIdentity,
+                    "subscriberName" => subscriberName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_subscriber_notification(configuration, subscriber_id)
@@ -207,8 +381,31 @@ subscriber.
   notification.
 - `subscriber_id`: The subscriber ID for the notification subscription.
 """
-create_subscriber_notification(configuration, subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/subscribers/$(subscriberId)/notification", Dict{String, Any}("configuration"=>configuration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_subscriber_notification(configuration, subscriberId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/subscribers/$(subscriberId)/notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subscriber_notification(
+    configuration, subscriberId; aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "POST",
+    "/v1/subscribers/$(subscriberId)/notification",
+    Dict{String,Any}("configuration" => configuration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_subscriber_notification(
+    configuration,
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/subscribers/$(subscriberId)/notification",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_aws_log_source(sources)
@@ -228,8 +425,27 @@ are part of a trusted organization or standalone accounts.
 - `sources`: Specify the natively-supported Amazon Web Services service to remove as a
   source in Security Lake.
 """
-delete_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/aws/delete", Dict{String, Any}("sources"=>sources); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_aws_log_source(sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/aws/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "POST",
+        "/v1/datalake/logsources/aws/delete",
+        Dict{String,Any}("sources" => sources);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_aws_log_source(
+    sources,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/logsources/aws/delete",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_custom_log_source(source_name)
@@ -249,8 +465,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceVersion"`: The source version for the third-party custom source. You can limit
   the custom source removal to the specified source version.
 """
-delete_custom_log_source(sourceName; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/datalake/logsources/custom/$(sourceName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_custom_log_source(sourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/datalake/logsources/custom/$(sourceName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_custom_log_source(sourceName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "DELETE",
+        "/v1/datalake/logsources/custom/$(sourceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_custom_log_source(
+    sourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "DELETE",
+        "/v1/datalake/logsources/custom/$(sourceName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_lake(regions)
@@ -269,8 +503,27 @@ bucket, which is owned by your Amazon Web Services account. For more information
 
 - `regions`: The list of Regions where Security Lake is enabled.
 """
-delete_data_lake(regions; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/delete", Dict{String, Any}("regions"=>regions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_lake(regions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regions"=>regions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_lake(regions; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "POST",
+        "/v1/datalake/delete",
+        Dict{String,Any}("regions" => regions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_data_lake(
+    regions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/delete",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("regions" => regions), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_lake_exception_subscription()
@@ -279,8 +532,25 @@ delete_data_lake(regions, params::AbstractDict{String}; aws_config::AbstractAWSC
 Deletes the specified notification subscription in Amazon Security Lake for the
 organization you specify.
 """
-delete_data_lake_exception_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/datalake/exceptions/subscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_lake_exception_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/datalake/exceptions/subscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_lake_exception_subscription(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "DELETE",
+    "/v1/datalake/exceptions/subscription";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_lake_exception_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "DELETE",
+        "/v1/datalake/exceptions/subscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_lake_organization_configuration()
@@ -299,8 +569,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoEnableNewAccount"`: Turns off automatic enablement of Security Lake for member
   accounts that are added to an organization.
 """
-delete_data_lake_organization_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/organization/configuration/delete"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_lake_organization_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/organization/configuration/delete", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_lake_organization_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "POST",
+    "/v1/datalake/organization/configuration/delete";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_lake_organization_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/organization/configuration/delete",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_subscriber(subscriber_id)
@@ -317,8 +604,26 @@ Services Region.
 - `subscriber_id`: A value created by Security Lake that uniquely identifies your
   `DeleteSubscriber` API request.
 """
-delete_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/subscribers/$(subscriberId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_subscriber(subscriberId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/subscribers/$(subscriberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "DELETE",
+        "/v1/subscribers/$(subscriberId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_subscriber(
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "DELETE",
+        "/v1/subscribers/$(subscriberId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_subscriber_notification(subscriber_id)
@@ -331,8 +636,27 @@ organization you specify.
 
 - `subscriber_id`: The ID of the Security Lake subscriber account.
 """
-delete_subscriber_notification(subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/subscribers/$(subscriberId)/notification"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_subscriber_notification(subscriberId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/subscribers/$(subscriberId)/notification", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subscriber_notification(
+    subscriberId; aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "DELETE",
+    "/v1/subscribers/$(subscriberId)/notification";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_subscriber_notification(
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "DELETE",
+        "/v1/subscribers/$(subscriberId)/notification",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_data_lake_delegated_administrator()
@@ -342,8 +666,25 @@ Deletes the Amazon Security Lake delegated administrator account for the organiz
 API can only be called by the organization management account. The organization management
 account cannot be the delegated administrator account.
 """
-deregister_data_lake_delegated_administrator(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/datalake/delegate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_data_lake_delegated_administrator(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/datalake/delegate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_data_lake_delegated_administrator(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "DELETE",
+    "/v1/datalake/delegate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_data_lake_delegated_administrator(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "DELETE",
+        "/v1/datalake/delegate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_lake_exception_subscription()
@@ -351,8 +692,24 @@ deregister_data_lake_delegated_administrator(params::AbstractDict{String}; aws_c
 
 Retrieves the details of exception notifications for the account in Amazon Security Lake.
 """
-get_data_lake_exception_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/datalake/exceptions/subscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_lake_exception_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/datalake/exceptions/subscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_lake_exception_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "GET",
+        "/v1/datalake/exceptions/subscription";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_data_lake_exception_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "GET",
+        "/v1/datalake/exceptions/subscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_lake_organization_configuration()
@@ -362,8 +719,25 @@ Retrieves the configuration that will be automatically set up for accounts added
 organization after the organization has onboarded to Amazon Security Lake. This API does
 not take input parameters.
 """
-get_data_lake_organization_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/datalake/organization/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_lake_organization_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/datalake/organization/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_lake_organization_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "GET",
+    "/v1/datalake/organization/configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_lake_organization_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "GET",
+        "/v1/datalake/organization/configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_lake_sources()
@@ -388,8 +762,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Each pagination token expires after 24 hours. Using an expired pagination token will
   return an HTTP 400 InvalidToken error.
 """
-get_data_lake_sources(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_lake_sources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/sources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_lake_sources(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake(
+    "POST",
+    "/v1/datalake/sources";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_lake_sources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/sources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_subscriber(subscriber_id)
@@ -403,8 +792,26 @@ information about a specific subscriber.
 - `subscriber_id`: A value created by Amazon Security Lake that uniquely identifies your
   `GetSubscriber` API request.
 """
-get_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/subscribers/$(subscriberId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_subscriber(subscriberId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/subscribers/$(subscriberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "GET",
+        "/v1/subscribers/$(subscriberId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_subscriber(
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "GET",
+        "/v1/subscribers/$(subscriberId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_lake_exceptions()
@@ -426,8 +833,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return an HTTP 400 InvalidToken error.
 - `"regions"`: The Amazon Web Services Regions from which exceptions are retrieved.
 """
-list_data_lake_exceptions(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/exceptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_lake_exceptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/exceptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_lake_exceptions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "POST",
+        "/v1/datalake/exceptions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_data_lake_exceptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/exceptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_lakes()
@@ -443,8 +866,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"regions"`: The list of Regions where Security Lake is enabled.
 """
-list_data_lakes(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_lakes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/datalakes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_lakes(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake(
+    "GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_data_lakes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "GET",
+        "/v1/datalakes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_log_sources()
@@ -464,8 +899,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"regions"`: The list of Regions for which log sources are displayed.
 - `"sources"`: The list of sources for which log sources are displayed.
 """
-list_log_sources(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_log_sources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/logsources/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_log_sources(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake(
+    "POST",
+    "/v1/datalake/logsources/list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_log_sources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/logsources/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_subscribers()
@@ -483,8 +933,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If nextToken is returned, there are more results available. You can repeat
   the call using the returned token to retrieve the next page.
 """
-list_subscribers(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/subscribers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_subscribers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/subscribers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_subscribers(; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake(
+    "GET", "/v1/subscribers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_subscribers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securitylake(
+        "GET",
+        "/v1/subscribers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -499,8 +961,26 @@ in a particular Amazon Web Services Region.
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Security Lake resource for
   which you want to retrieve the tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "GET",
+        "/v1/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "GET",
+        "/v1/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_data_lake_delegated_administrator(account_id)
@@ -515,8 +995,30 @@ management account cannot be the delegated administrator account.
 - `account_id`: The Amazon Web Services account ID of the Security Lake delegated
   administrator.
 """
-register_data_lake_delegated_administrator(accountId; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/delegate", Dict{String, Any}("accountId"=>accountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_data_lake_delegated_administrator(accountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/datalake/delegate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountId"=>accountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_data_lake_delegated_administrator(
+    accountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "POST",
+    "/v1/datalake/delegate",
+    Dict{String,Any}("accountId" => accountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_data_lake_delegated_administrator(
+    accountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/delegate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("accountId" => accountId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -540,8 +1042,28 @@ in the *Amazon Security Lake User Guide*.
   Amazon Security Lake resource. For each tag, you must specify both a tag key and a tag
   value. A tag value cannot be null, but it can be an empty string.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -558,8 +1080,28 @@ particular Amazon Web Services Region.
 - `tag_keys`: A list of one or more tag keys. For each value in the list, specify the tag
   key for a tag to remove from the Amazon Security Lake resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_data_lake(configurations)
@@ -581,8 +1123,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Glue table. This table contains partitions generated by the ingestion and normalization
   of Amazon Web Services log sources and custom sources.
 """
-update_data_lake(configurations; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/datalake", Dict{String, Any}("configurations"=>configurations); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_data_lake(configurations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/datalake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurations"=>configurations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_lake(configurations; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "PUT",
+        "/v1/datalake",
+        Dict{String,Any}("configurations" => configurations);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_data_lake(
+    configurations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "PUT",
+        "/v1/datalake",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("configurations" => configurations), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_data_lake_exception_subscription(notification_endpoint, subscription_protocol)
@@ -603,8 +1166,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"exceptionTimeToLive"`: The time-to-live (TTL) for the exception message to remain.
 """
-update_data_lake_exception_subscription(notificationEndpoint, subscriptionProtocol; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/datalake/exceptions/subscription", Dict{String, Any}("notificationEndpoint"=>notificationEndpoint, "subscriptionProtocol"=>subscriptionProtocol); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_data_lake_exception_subscription(notificationEndpoint, subscriptionProtocol, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/datalake/exceptions/subscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("notificationEndpoint"=>notificationEndpoint, "subscriptionProtocol"=>subscriptionProtocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_lake_exception_subscription(
+    notificationEndpoint,
+    subscriptionProtocol;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = securitylake(
+    "PUT",
+    "/v1/datalake/exceptions/subscription",
+    Dict{String,Any}(
+        "notificationEndpoint" => notificationEndpoint,
+        "subscriptionProtocol" => subscriptionProtocol,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_data_lake_exception_subscription(
+    notificationEndpoint,
+    subscriptionProtocol,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "PUT",
+        "/v1/datalake/exceptions/subscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "notificationEndpoint" => notificationEndpoint,
+                    "subscriptionProtocol" => subscriptionProtocol,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_subscriber(subscriber_id)
@@ -628,8 +1226,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriberIdentity"`: The AWS identity used to access your data.
 - `"subscriberName"`: The name of the Security Lake account subscriber.
 """
-update_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/subscribers/$(subscriberId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_subscriber(subscriberId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/subscribers/$(subscriberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    securitylake(
+        "PUT",
+        "/v1/subscribers/$(subscriberId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_subscriber(
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "PUT",
+        "/v1/subscribers/$(subscriberId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_subscriber_notification(configuration, subscriber_id)
@@ -643,5 +1259,28 @@ switches the notification subscription endpoint for a subscriber.
 - `configuration`: The configuration for subscriber notification.
 - `subscriber_id`: The subscription ID for which the subscription notification is specified.
 """
-update_subscriber_notification(configuration, subscriberId; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/subscribers/$(subscriberId)/notification", Dict{String, Any}("configuration"=>configuration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_subscriber_notification(configuration, subscriberId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = securitylake("PUT", "/v1/subscribers/$(subscriberId)/notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subscriber_notification(
+    configuration, subscriberId; aws_config::AbstractAWSConfig=current_aws_config()
+) = securitylake(
+    "PUT",
+    "/v1/subscribers/$(subscriberId)/notification",
+    Dict{String,Any}("configuration" => configuration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_subscriber_notification(
+    configuration,
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securitylake(
+        "PUT",
+        "/v1/subscribers/$(subscriberId)/notification",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -15,8 +15,38 @@ Associates the specified app block builder with the specified app block.
 - `app_block_arn`: The ARN of the app block.
 - `app_block_builder_name`: The name of the app block builder.
 """
-associate_app_block_builder_app_block(AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateAppBlockBuilderAppBlock", Dict{String, Any}("AppBlockArn"=>AppBlockArn, "AppBlockBuilderName"=>AppBlockBuilderName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_app_block_builder_app_block(AppBlockArn, AppBlockBuilderName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateAppBlockBuilderAppBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppBlockArn"=>AppBlockArn, "AppBlockBuilderName"=>AppBlockBuilderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_app_block_builder_app_block(
+    AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "AssociateAppBlockBuilderAppBlock",
+    Dict{String,Any}(
+        "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_app_block_builder_app_block(
+    AppBlockArn,
+    AppBlockBuilderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "AssociateAppBlockBuilderAppBlock",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppBlockArn" => AppBlockArn,
+                    "AppBlockBuilderName" => AppBlockBuilderName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_application_fleet(application_arn, fleet_name)
@@ -30,8 +60,35 @@ Elastic fleets.
 - `application_arn`: The ARN of the application.
 - `fleet_name`: The name of the fleet.
 """
-associate_application_fleet(ApplicationArn, FleetName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateApplicationFleet", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "FleetName"=>FleetName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_application_fleet(ApplicationArn, FleetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateApplicationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "FleetName"=>FleetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_application_fleet(
+    ApplicationArn, FleetName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "AssociateApplicationFleet",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_application_fleet(
+    ApplicationArn,
+    FleetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "AssociateApplicationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "FleetName" => FleetName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_application_to_entitlement(application_identifier, entitlement_name, stack_name)
@@ -45,8 +102,45 @@ Associates an application to entitle.
 - `entitlement_name`: The name of the entitlement.
 - `stack_name`: The name of the stack.
 """
-associate_application_to_entitlement(ApplicationIdentifier, EntitlementName, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateApplicationToEntitlement", Dict{String, Any}("ApplicationIdentifier"=>ApplicationIdentifier, "EntitlementName"=>EntitlementName, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_application_to_entitlement(ApplicationIdentifier, EntitlementName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateApplicationToEntitlement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationIdentifier"=>ApplicationIdentifier, "EntitlementName"=>EntitlementName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_application_to_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "AssociateApplicationToEntitlement",
+    Dict{String,Any}(
+        "ApplicationIdentifier" => ApplicationIdentifier,
+        "EntitlementName" => EntitlementName,
+        "StackName" => StackName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_application_to_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "AssociateApplicationToEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationIdentifier" => ApplicationIdentifier,
+                    "EntitlementName" => EntitlementName,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_fleet(fleet_name, stack_name)
@@ -59,8 +153,32 @@ Associates the specified fleet with the specified stack.
 - `fleet_name`: The name of the fleet.
 - `stack_name`: The name of the stack.
 """
-associate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_fleet(FleetName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("AssociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "AssociateFleet",
+        Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_fleet(
+    FleetName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "AssociateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_associate_user_stack(user_stack_associations)
@@ -73,8 +191,32 @@ assigned to stacks with fleets that are joined to an Active Directory domain.
 
 - `user_stack_associations`: The list of UserStackAssociation objects.
 """
-batch_associate_user_stack(UserStackAssociations; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("BatchAssociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_associate_user_stack(UserStackAssociations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("BatchAssociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_associate_user_stack(
+    UserStackAssociations; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "BatchAssociateUserStack",
+    Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_associate_user_stack(
+    UserStackAssociations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "BatchAssociateUserStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("UserStackAssociations" => UserStackAssociations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_disassociate_user_stack(user_stack_associations)
@@ -86,8 +228,32 @@ Disassociates the specified users from the specified stacks.
 
 - `user_stack_associations`: The list of UserStackAssociation objects.
 """
-batch_disassociate_user_stack(UserStackAssociations; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("BatchDisassociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_disassociate_user_stack(UserStackAssociations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("BatchDisassociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_disassociate_user_stack(
+    UserStackAssociations; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "BatchDisassociateUserStack",
+    Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_disassociate_user_stack(
+    UserStackAssociations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "BatchDisassociateUserStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("UserStackAssociations" => UserStackAssociations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     copy_image(destination_image_name, destination_region, source_image_name)
@@ -111,8 +277,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationImageDescription"`: The description that the image will have when it is
   copied to the destination.
 """
-copy_image(DestinationImageName, DestinationRegion, SourceImageName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CopyImage", Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-copy_image(DestinationImageName, DestinationRegion, SourceImageName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_image(
+    DestinationImageName,
+    DestinationRegion,
+    SourceImageName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "CopyImage",
+    Dict{String,Any}(
+        "DestinationImageName" => DestinationImageName,
+        "DestinationRegion" => DestinationRegion,
+        "SourceImageName" => SourceImageName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_image(
+    DestinationImageName,
+    DestinationRegion,
+    SourceImageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CopyImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationImageName" => DestinationImageName,
+                    "DestinationRegion" => DestinationRegion,
+                    "SourceImageName" => SourceImageName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app_block(name, source_s3_location)
@@ -146,8 +349,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the `CUSTOM` PackagingType.
 - `"Tags"`: The tags assigned to the app block.
 """
-create_app_block(Name, SourceS3Location; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateAppBlock", Dict{String, Any}("Name"=>Name, "SourceS3Location"=>SourceS3Location); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app_block(Name, SourceS3Location, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateAppBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceS3Location"=>SourceS3Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app_block(
+    Name, SourceS3Location; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "CreateAppBlock",
+    Dict{String,Any}("Name" => Name, "SourceS3Location" => SourceS3Location);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app_block(
+    Name,
+    SourceS3Location,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateAppBlock",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "SourceS3Location" => SourceS3Location),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app_block_builder(instance_type, name, platform, vpc_config)
@@ -205,8 +433,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
   in the *Amazon AppStream 2.0 Administration Guide*.
 """
-create_app_block_builder(InstanceType, Name, Platform, VpcConfig; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateAppBlockBuilder", Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name, "Platform"=>Platform, "VpcConfig"=>VpcConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app_block_builder(InstanceType, Name, Platform, VpcConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateAppBlockBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name, "Platform"=>Platform, "VpcConfig"=>VpcConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app_block_builder(
+    InstanceType,
+    Name,
+    Platform,
+    VpcConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "CreateAppBlockBuilder",
+    Dict{String,Any}(
+        "InstanceType" => InstanceType,
+        "Name" => Name,
+        "Platform" => Platform,
+        "VpcConfig" => VpcConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app_block_builder(
+    InstanceType,
+    Name,
+    Platform,
+    VpcConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateAppBlockBuilder",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceType" => InstanceType,
+                    "Name" => Name,
+                    "Platform" => Platform,
+                    "VpcConfig" => VpcConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app_block_builder_streaming_url(app_block_builder_name)
@@ -225,8 +494,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
-create_app_block_builder_streaming_url(AppBlockBuilderName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateAppBlockBuilderStreamingURL", Dict{String, Any}("AppBlockBuilderName"=>AppBlockBuilderName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app_block_builder_streaming_url(AppBlockBuilderName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateAppBlockBuilderStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppBlockBuilderName"=>AppBlockBuilderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app_block_builder_streaming_url(
+    AppBlockBuilderName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "CreateAppBlockBuilderStreamingURL",
+    Dict{String,Any}("AppBlockBuilderName" => AppBlockBuilderName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app_block_builder_streaming_url(
+    AppBlockBuilderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateAppBlockBuilderStreamingURL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AppBlockBuilderName" => AppBlockBuilderName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application(app_block_arn, icon_s3_location, instance_families, launch_path, name, platforms)
@@ -265,8 +558,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the application.
 - `"WorkingDirectory"`: The working directory of the application.
 """
-create_application(AppBlockArn, IconS3Location, InstanceFamilies, LaunchPath, Name, Platforms; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateApplication", Dict{String, Any}("AppBlockArn"=>AppBlockArn, "IconS3Location"=>IconS3Location, "InstanceFamilies"=>InstanceFamilies, "LaunchPath"=>LaunchPath, "Name"=>Name, "Platforms"=>Platforms); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(AppBlockArn, IconS3Location, InstanceFamilies, LaunchPath, Name, Platforms, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppBlockArn"=>AppBlockArn, "IconS3Location"=>IconS3Location, "InstanceFamilies"=>InstanceFamilies, "LaunchPath"=>LaunchPath, "Name"=>Name, "Platforms"=>Platforms), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(
+    AppBlockArn,
+    IconS3Location,
+    InstanceFamilies,
+    LaunchPath,
+    Name,
+    Platforms;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "CreateApplication",
+    Dict{String,Any}(
+        "AppBlockArn" => AppBlockArn,
+        "IconS3Location" => IconS3Location,
+        "InstanceFamilies" => InstanceFamilies,
+        "LaunchPath" => LaunchPath,
+        "Name" => Name,
+        "Platforms" => Platforms,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application(
+    AppBlockArn,
+    IconS3Location,
+    InstanceFamilies,
+    LaunchPath,
+    Name,
+    Platforms,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppBlockArn" => AppBlockArn,
+                    "IconS3Location" => IconS3Location,
+                    "InstanceFamilies" => InstanceFamilies,
+                    "LaunchPath" => LaunchPath,
+                    "Name" => Name,
+                    "Platforms" => Platforms,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_directory_config(directory_name, organizational_unit_distinguished_names)
@@ -298,8 +640,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
-create_directory_config(DirectoryName, OrganizationalUnitDistinguishedNames; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_directory_config(DirectoryName, OrganizationalUnitDistinguishedNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_directory_config(
+    DirectoryName,
+    OrganizationalUnitDistinguishedNames;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "CreateDirectoryConfig",
+    Dict{String,Any}(
+        "DirectoryName" => DirectoryName,
+        "OrganizationalUnitDistinguishedNames" => OrganizationalUnitDistinguishedNames,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_directory_config(
+    DirectoryName,
+    OrganizationalUnitDistinguishedNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateDirectoryConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DirectoryName" => DirectoryName,
+                    "OrganizationalUnitDistinguishedNames" =>
+                        OrganizationalUnitDistinguishedNames,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_entitlement(app_visibility, attributes, name, stack_name)
@@ -324,8 +700,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the entitlement.
 """
-create_entitlement(AppVisibility, Attributes, Name, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateEntitlement", Dict{String, Any}("AppVisibility"=>AppVisibility, "Attributes"=>Attributes, "Name"=>Name, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_entitlement(AppVisibility, Attributes, Name, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateEntitlement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppVisibility"=>AppVisibility, "Attributes"=>Attributes, "Name"=>Name, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_entitlement(
+    AppVisibility,
+    Attributes,
+    Name,
+    StackName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "CreateEntitlement",
+    Dict{String,Any}(
+        "AppVisibility" => AppVisibility,
+        "Attributes" => Attributes,
+        "Name" => Name,
+        "StackName" => StackName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_entitlement(
+    AppVisibility,
+    Attributes,
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppVisibility" => AppVisibility,
+                    "Attributes" => Attributes,
+                    "Name" => Name,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_fleet(instance_type, name)
@@ -482,8 +899,32 @@ The default value is `APP`.
   but not required for other fleet types. Elastic fleets require that you specify at least
   two subnets in different availability zones.
 """
-create_fleet(InstanceType, Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateFleet", Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_fleet(InstanceType, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_fleet(InstanceType, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "CreateFleet",
+        Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_fleet(
+    InstanceType,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_image_builder(instance_type, name)
@@ -572,8 +1013,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConfig"`: The VPC configuration for the image builder. You can specify only one
   subnet.
 """
-create_image_builder(InstanceType, Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateImageBuilder", Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_image_builder(InstanceType, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_image_builder(
+    InstanceType, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "CreateImageBuilder",
+    Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_image_builder(
+    InstanceType,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateImageBuilder",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_image_builder_streaming_url(name)
@@ -592,8 +1058,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
-create_image_builder_streaming_url(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_image_builder_streaming_url(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_image_builder_streaming_url(
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "CreateImageBuilderStreamingURL",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_image_builder_streaming_url(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "CreateImageBuilderStreamingURL",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_stack(name)
@@ -641,8 +1123,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """
-create_stack(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateStack", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_stack(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_stack(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "CreateStack",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_stack(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "CreateStack",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_streaming_url(fleet_name, stack_name, user_id)
@@ -670,8 +1166,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 60 seconds.
 """
-create_streaming_url(FleetName, StackName, UserId; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateStreamingURL", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_streaming_url(FleetName, StackName, UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_streaming_url(
+    FleetName, StackName, UserId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "CreateStreamingURL",
+    Dict{String,Any}(
+        "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_streaming_url(
+    FleetName,
+    StackName,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateStreamingURL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_theme_for_stack(favicon_s3_location, organization_logo_s3_location, stack_name, theme_styling, title_text)
@@ -703,8 +1229,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   catalog page. These links are helpful resources for users, such as the organization's IT
   support and product marketing sites.
 """
-create_theme_for_stack(FaviconS3Location, OrganizationLogoS3Location, StackName, ThemeStyling, TitleText; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateThemeForStack", Dict{String, Any}("FaviconS3Location"=>FaviconS3Location, "OrganizationLogoS3Location"=>OrganizationLogoS3Location, "StackName"=>StackName, "ThemeStyling"=>ThemeStyling, "TitleText"=>TitleText); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_theme_for_stack(FaviconS3Location, OrganizationLogoS3Location, StackName, ThemeStyling, TitleText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateThemeForStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FaviconS3Location"=>FaviconS3Location, "OrganizationLogoS3Location"=>OrganizationLogoS3Location, "StackName"=>StackName, "ThemeStyling"=>ThemeStyling, "TitleText"=>TitleText), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "CreateThemeForStack",
+    Dict{String,Any}(
+        "FaviconS3Location" => FaviconS3Location,
+        "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+        "StackName" => StackName,
+        "ThemeStyling" => ThemeStyling,
+        "TitleText" => TitleText,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateThemeForStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FaviconS3Location" => FaviconS3Location,
+                    "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+                    "StackName" => StackName,
+                    "ThemeStyling" => ThemeStyling,
+                    "TitleText" => TitleText,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_updated_image(existing_image_name, new_image_name)
@@ -748,8 +1319,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
   in the *Amazon AppStream 2.0 Administration Guide*.
 """
-create_updated_image(existingImageName, newImageName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateUpdatedImage", Dict{String, Any}("existingImageName"=>existingImageName, "newImageName"=>newImageName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_updated_image(existingImageName, newImageName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateUpdatedImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("existingImageName"=>existingImageName, "newImageName"=>newImageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_updated_image(
+    existingImageName, newImageName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "CreateUpdatedImage",
+    Dict{String,Any}(
+        "existingImageName" => existingImageName, "newImageName" => newImageName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_updated_image(
+    existingImageName,
+    newImageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateUpdatedImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "existingImageName" => existingImageName, "newImageName" => newImageName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_usage_report_subscription()
@@ -757,8 +1357,22 @@ create_updated_image(existingImageName, newImageName, params::AbstractDict{Strin
 
 Creates a usage report subscription. Usage reports are generated daily.
 """
-create_usage_report_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateUsageReportSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_usage_report_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateUsageReportSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_usage_report_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "CreateUsageReportSubscription";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_usage_report_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "CreateUsageReportSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_user(authentication_type, user_name)
@@ -791,8 +1405,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       The temporary password in the welcome email is valid for only 7 days. If users don’t
   set their passwords within 7 days, you must send them a new welcome email.
 """
-create_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "CreateUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_block(name)
@@ -804,8 +1445,22 @@ Deletes an app block.
 
 - `name`: The name of the app block.
 """
-delete_app_block(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteAppBlock", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_block(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteAppBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_block(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DeleteAppBlock",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_app_block(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteAppBlock",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_block_builder(name)
@@ -819,8 +1474,23 @@ An app block builder can only be deleted when it has no association with an app 
 
 - `name`: The name of the app block builder.
 """
-delete_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteAppBlockBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_block_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteAppBlockBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DeleteAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteAppBlockBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application(name)
@@ -832,8 +1502,22 @@ Deletes an application.
 
 - `name`: The name of the application.
 """
-delete_application(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteApplication", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DeleteApplication",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteApplication",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_directory_config(directory_name)
@@ -846,8 +1530,27 @@ information required to join streaming instances to an Active Directory domain.
 
 - `directory_name`: The name of the directory configuration.
 """
-delete_directory_config(DirectoryName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_directory_config(DirectoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_directory_config(DirectoryName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DeleteDirectoryConfig",
+        Dict{String,Any}("DirectoryName" => DirectoryName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_directory_config(
+    DirectoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DeleteDirectoryConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_entitlement(name, stack_name)
@@ -860,8 +1563,30 @@ Deletes the specified entitlement.
 - `name`: The name of the entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
 """
-delete_entitlement(Name, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteEntitlement", Dict{String, Any}("Name"=>Name, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_entitlement(Name, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteEntitlement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_entitlement(Name, StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DeleteEntitlement",
+        Dict{String,Any}("Name" => Name, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_entitlement(
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DeleteEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "StackName" => StackName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_fleet(name)
@@ -873,8 +1598,22 @@ Deletes the specified fleet.
 
 - `name`: The name of the fleet.
 """
-delete_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteFleet", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_fleet(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DeleteFleet",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_fleet(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_image(name)
@@ -887,8 +1626,22 @@ an image, you cannot provision new capacity using the image.
 
 - `name`: The name of the image.
 """
-delete_image(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteImage", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_image(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_image(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DeleteImage",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_image(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteImage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_image_builder(name)
@@ -900,8 +1653,22 @@ Deletes the specified image builder and releases the capacity.
 
 - `name`: The name of the image builder.
 """
-delete_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteImageBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_image_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DeleteImageBuilder",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_image_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteImageBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_image_permissions(name, shared_account_id)
@@ -917,8 +1684,33 @@ image.
 - `shared_account_id`: The 12-digit identifier of the AWS account for which to delete image
   permissions.
 """
-delete_image_permissions(Name, SharedAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteImagePermissions", Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_image_permissions(Name, SharedAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_image_permissions(
+    Name, SharedAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DeleteImagePermissions",
+    Dict{String,Any}("Name" => Name, "SharedAccountId" => SharedAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_image_permissions(
+    Name,
+    SharedAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DeleteImagePermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "SharedAccountId" => SharedAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_stack(name)
@@ -932,8 +1724,22 @@ made for application streaming sessions for the stack are released.
 
 - `name`: The name of the stack.
 """
-delete_stack(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteStack", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_stack(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_stack(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DeleteStack",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_stack(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteStack",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_theme_for_stack(stack_name)
@@ -946,8 +1752,27 @@ page.
 
 - `stack_name`: The name of the stack for the theme.
 """
-delete_theme_for_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteThemeForStack", Dict{String, Any}("StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_theme_for_stack(StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteThemeForStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_theme_for_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_usage_report_subscription()
@@ -955,8 +1780,22 @@ delete_theme_for_stack(StackName, params::AbstractDict{String}; aws_config::Abst
 
 Disables usage report generation.
 """
-delete_usage_report_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteUsageReportSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_usage_report_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteUsageReportSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_usage_report_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DeleteUsageReportSubscription";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_usage_report_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteUsageReportSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_user(authentication_type, user_name)
@@ -972,8 +1811,35 @@ Deletes a user from the user pool.
 !!! note
     Users' email addresses are case-sensitive.
 """
-delete_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DeleteUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DeleteUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_block_builder_app_block_associations()
@@ -991,8 +1857,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-describe_app_block_builder_app_block_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeAppBlockBuilderAppBlockAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_block_builder_app_block_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeAppBlockBuilderAppBlockAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_block_builder_app_block_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DescribeAppBlockBuilderAppBlockAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_app_block_builder_app_block_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeAppBlockBuilderAppBlockAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_block_builders()
@@ -1009,8 +1890,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-describe_app_block_builders(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeAppBlockBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_block_builders(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeAppBlockBuilders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_block_builders(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeAppBlockBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_app_block_builders(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeAppBlockBuilders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_blocks()
@@ -1027,8 +1920,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-describe_app_blocks(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_blocks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeAppBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_blocks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream("DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_app_blocks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeAppBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_application_fleet_associations()
@@ -1047,8 +1947,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-describe_application_fleet_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeApplicationFleetAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_application_fleet_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeApplicationFleetAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application_fleet_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DescribeApplicationFleetAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_fleet_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeApplicationFleetAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_applications()
@@ -1065,8 +1980,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-describe_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeApplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_directory_configs()
@@ -1089,8 +2015,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_directory_configs(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeDirectoryConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_directory_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeDirectoryConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_directory_configs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeDirectoryConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_directory_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeDirectoryConfigs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_entitlements(stack_name)
@@ -1111,8 +2049,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-describe_entitlements(StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeEntitlements", Dict{String, Any}("StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_entitlements(StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeEntitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_entitlements(StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeEntitlements",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_entitlements(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DescribeEntitlements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleets()
@@ -1129,8 +2086,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream("DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_fleets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_image_builders()
@@ -1148,8 +2112,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_image_builders(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeImageBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_image_builders(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeImageBuilders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_image_builders(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "DescribeImageBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_image_builders(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeImageBuilders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_image_permissions(name)
@@ -1173,8 +2148,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SharedAwsAccountIds"`: The 12-digit identifier of one or more AWS accounts with which
   the image is shared.
 """
-describe_image_permissions(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeImagePermissions", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_image_permissions(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_image_permissions(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeImagePermissions",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_image_permissions(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeImagePermissions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_images()
@@ -1194,8 +2184,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 - `"Type"`: The type of image (public, private, or shared) to describe.
 """
-describe_images(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_images(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream("DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_sessions(fleet_name, stack_name)
@@ -1226,8 +2223,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserId"`: The user identifier (ID). If you specify a user ID, you must also specify the
   authentication type.
 """
-describe_sessions(FleetName, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeSessions", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_sessions(FleetName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_sessions(
+    FleetName, StackName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DescribeSessions",
+    Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_sessions(
+    FleetName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DescribeSessions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_stacks()
@@ -1244,8 +2266,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_stacks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream("DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_stacks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_theme_for_stack(stack_name)
@@ -1258,8 +2287,27 @@ that customizes the appearance of the streaming application catalog page.
 
 - `stack_name`: The name of the stack for the theme.
 """
-describe_theme_for_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeThemeForStack", Dict{String, Any}("StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_theme_for_stack(StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeThemeForStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_theme_for_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_usage_report_subscriptions()
@@ -1275,8 +2323,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_usage_report_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeUsageReportSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_usage_report_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeUsageReportSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_usage_report_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeUsageReportSubscriptions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_usage_report_subscriptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeUsageReportSubscriptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_user_stack_associations()
@@ -1302,8 +2364,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! note
     Users' email addresses are case-sensitive.
 """
-describe_user_stack_associations(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeUserStackAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_user_stack_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeUserStackAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_user_stack_associations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeUserStackAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_user_stack_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeUserStackAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_users(authentication_type)
@@ -1324,8 +2400,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_users(AuthenticationType; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeUsers", Dict{String, Any}("AuthenticationType"=>AuthenticationType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_users(AuthenticationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DescribeUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_users(AuthenticationType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "DescribeUsers",
+        Dict{String,Any}("AuthenticationType" => AuthenticationType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_users(
+    AuthenticationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DescribeUsers",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AuthenticationType" => AuthenticationType), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_user(authentication_type, user_name)
@@ -1342,8 +2439,35 @@ they are re-enabled. This action does not delete the user.
 !!! note
     Users' email addresses are case-sensitive.
 """
-disable_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DisableUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DisableUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_app_block_builder_app_block(app_block_arn, app_block_builder_name)
@@ -1356,8 +2480,38 @@ Disassociates a specified app block builder from a specified app block.
 - `app_block_arn`: The ARN of the app block.
 - `app_block_builder_name`: The name of the app block builder.
 """
-disassociate_app_block_builder_app_block(AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateAppBlockBuilderAppBlock", Dict{String, Any}("AppBlockArn"=>AppBlockArn, "AppBlockBuilderName"=>AppBlockBuilderName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_app_block_builder_app_block(AppBlockArn, AppBlockBuilderName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateAppBlockBuilderAppBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppBlockArn"=>AppBlockArn, "AppBlockBuilderName"=>AppBlockBuilderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_app_block_builder_app_block(
+    AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DisassociateAppBlockBuilderAppBlock",
+    Dict{String,Any}(
+        "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_app_block_builder_app_block(
+    AppBlockArn,
+    AppBlockBuilderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DisassociateAppBlockBuilderAppBlock",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppBlockArn" => AppBlockArn,
+                    "AppBlockBuilderName" => AppBlockBuilderName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_application_fleet(application_arn, fleet_name)
@@ -1370,8 +2524,35 @@ Disassociates the specified application from the fleet.
 - `application_arn`: The ARN of the application.
 - `fleet_name`: The name of the fleet.
 """
-disassociate_application_fleet(ApplicationArn, FleetName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateApplicationFleet", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "FleetName"=>FleetName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_application_fleet(ApplicationArn, FleetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateApplicationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "FleetName"=>FleetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_application_fleet(
+    ApplicationArn, FleetName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DisassociateApplicationFleet",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_application_fleet(
+    ApplicationArn,
+    FleetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DisassociateApplicationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "FleetName" => FleetName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_application_from_entitlement(application_identifier, entitlement_name, stack_name)
@@ -1386,8 +2567,45 @@ Deletes the specified application from the specified entitlement.
 - `entitlement_name`: The name of the entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
 """
-disassociate_application_from_entitlement(ApplicationIdentifier, EntitlementName, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateApplicationFromEntitlement", Dict{String, Any}("ApplicationIdentifier"=>ApplicationIdentifier, "EntitlementName"=>EntitlementName, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_application_from_entitlement(ApplicationIdentifier, EntitlementName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateApplicationFromEntitlement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationIdentifier"=>ApplicationIdentifier, "EntitlementName"=>EntitlementName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_application_from_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "DisassociateApplicationFromEntitlement",
+    Dict{String,Any}(
+        "ApplicationIdentifier" => ApplicationIdentifier,
+        "EntitlementName" => EntitlementName,
+        "StackName" => StackName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_application_from_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DisassociateApplicationFromEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationIdentifier" => ApplicationIdentifier,
+                    "EntitlementName" => EntitlementName,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_fleet(fleet_name, stack_name)
@@ -1400,8 +2618,33 @@ Disassociates the specified fleet from the specified stack.
 - `fleet_name`: The name of the fleet.
 - `stack_name`: The name of the stack.
 """
-disassociate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_fleet(FleetName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("DisassociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_fleet(
+    FleetName, StackName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "DisassociateFleet",
+    Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_fleet(
+    FleetName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DisassociateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_user(authentication_type, user_name)
@@ -1420,8 +2663,35 @@ and open applications from the stacks to which they are assigned.
   address that doesn't use the same capitalization as the email address specified when
   their user pool account was created, a "user does not exist" error message displays.
 """
-enable_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("EnableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("EnableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "EnableUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "EnableUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     expire_session(session_id)
@@ -1433,8 +2703,26 @@ Immediately stops the specified streaming session.
 
 - `session_id`: The identifier of the streaming session.
 """
-expire_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ExpireSession", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-expire_session(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ExpireSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+expire_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "ExpireSession",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function expire_session(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "ExpireSession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_associated_fleets(stack_name)
@@ -1453,8 +2741,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-list_associated_fleets(StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListAssociatedFleets", Dict{String, Any}("StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_associated_fleets(StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListAssociatedFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_associated_fleets(StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "ListAssociatedFleets",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_associated_fleets(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "ListAssociatedFleets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_associated_stacks(fleet_name)
@@ -1473,8 +2780,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-list_associated_stacks(FleetName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListAssociatedStacks", Dict{String, Any}("FleetName"=>FleetName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_associated_stacks(FleetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListAssociatedStacks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_associated_stacks(FleetName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "ListAssociatedStacks",
+        Dict{String,Any}("FleetName" => FleetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_associated_stacks(
+    FleetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "ListAssociatedStacks",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FleetName" => FleetName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_entitled_applications(entitlement_name, stack_name)
@@ -1495,8 +2821,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-list_entitled_applications(EntitlementName, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListEntitledApplications", Dict{String, Any}("EntitlementName"=>EntitlementName, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_entitled_applications(EntitlementName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListEntitledApplications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntitlementName"=>EntitlementName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_entitled_applications(
+    EntitlementName, StackName; aws_config::AbstractAWSConfig=current_aws_config()
+) = appstream(
+    "ListEntitledApplications",
+    Dict{String,Any}("EntitlementName" => EntitlementName, "StackName" => StackName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_entitled_applications(
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "ListEntitledApplications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntitlementName" => EntitlementName, "StackName" => StackName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1512,8 +2865,27 @@ in the *Amazon AppStream 2.0 Administration Guide*.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_app_block_builder(name)
@@ -1530,8 +2902,23 @@ fleet instance with application builder assistance functionality.
 
 - `name`: The name of the app block builder.
 """
-start_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StartAppBlockBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_app_block_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StartAppBlockBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "StartAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "StartAppBlockBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_fleet(name)
@@ -1543,8 +2930,22 @@ Starts the specified fleet.
 
 - `name`: The name of the fleet.
 """
-start_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StartFleet", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_fleet(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StartFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "StartFleet",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_fleet(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "StartFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_image_builder(name)
@@ -1563,8 +2964,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AppstreamAgentVersion"`: The version of the AppStream 2.0 agent to use for this image
   builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
 """
-start_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StartImageBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_image_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StartImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "StartImageBuilder",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_image_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "StartImageBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_app_block_builder(name)
@@ -1579,8 +2994,23 @@ persisted.
 
 - `name`: The name of the app block builder.
 """
-stop_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StopAppBlockBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_app_block_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StopAppBlockBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "StopAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "StopAppBlockBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_fleet(name)
@@ -1592,8 +3022,22 @@ Stops the specified fleet.
 
 - `name`: The name of the fleet.
 """
-stop_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StopFleet", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_fleet(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StopFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "StopFleet",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_fleet(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "StopFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_image_builder(name)
@@ -1605,8 +3049,22 @@ Stops the specified image builder.
 
 - `name`: The name of the image builder.
 """
-stop_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StopImageBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_image_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("StopImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "StopImageBuilder",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_image_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "StopImageBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1637,8 +3095,32 @@ in the *Amazon AppStream 2.0 Administration Guide*.
 
 _ . : / = + \ - @
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1656,8 +3138,32 @@ in the *Amazon AppStream 2.0 Administration Guide*.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys for the tags to disassociate.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_app_block_builder(name)
@@ -1708,8 +3214,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   App block builders require that you specify at least two subnets in different
   availability zones.
 """
-update_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateAppBlockBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_app_block_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateAppBlockBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "UpdateAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "UpdateAppBlockBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application(name)
@@ -1736,8 +3257,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LaunchPath"`: The launch path of the application.
 - `"WorkingDirectory"`: The working directory of the application.
 """
-update_application(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateApplication", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "UpdateApplication",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_application(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "UpdateApplication",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_directory_config(directory_name)
@@ -1768,8 +3303,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
-update_directory_config(DirectoryName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_directory_config(DirectoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_directory_config(DirectoryName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "UpdateDirectoryConfig",
+        Dict{String,Any}("DirectoryName" => DirectoryName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_directory_config(
+    DirectoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "UpdateDirectoryConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_entitlement(name, stack_name)
@@ -1790,8 +3344,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Attributes"`: The attributes of the entitlement.
 - `"Description"`: The description of the entitlement.
 """
-update_entitlement(Name, StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateEntitlement", Dict{String, Any}("Name"=>Name, "StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_entitlement(Name, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateEntitlement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_entitlement(Name, StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "UpdateEntitlement",
+        Dict{String,Any}("Name" => Name, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_entitlement(
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "UpdateEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "StackName" => StackName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_fleet()
@@ -1934,8 +3510,15 @@ The default value is `APP`.
   but not required for other fleet types. Elastic fleets require that you specify at least
   two subnets in different availability zones.
 """
-update_fleet(; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_fleet(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateFleet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_fleet(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream("UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_fleet(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "UpdateFleet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     update_image_permissions(image_permissions, name, shared_account_id)
@@ -1950,8 +3533,45 @@ Adds or updates permissions for the specified private image.
 - `shared_account_id`: The 12-digit identifier of the AWS account for which you want add or
   update image permissions.
 """
-update_image_permissions(ImagePermissions, Name, SharedAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateImagePermissions", Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_image_permissions(ImagePermissions, Name, SharedAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_image_permissions(
+    ImagePermissions,
+    Name,
+    SharedAccountId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = appstream(
+    "UpdateImagePermissions",
+    Dict{String,Any}(
+        "ImagePermissions" => ImagePermissions,
+        "Name" => Name,
+        "SharedAccountId" => SharedAccountId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_image_permissions(
+    ImagePermissions,
+    Name,
+    SharedAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "UpdateImagePermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImagePermissions" => ImagePermissions,
+                    "Name" => Name,
+                    "SharedAccountId" => SharedAccountId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_stack(name)
@@ -1989,8 +3609,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """
-update_stack(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateStack", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_stack(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_stack(Name; aws_config::AbstractAWSConfig=current_aws_config()) = appstream(
+    "UpdateStack",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_stack(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "UpdateStack",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_theme_for_stack(stack_name)
@@ -2024,5 +3658,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TitleText"`: The title that is displayed at the top of the browser tab during users'
   application streaming sessions.
 """
-update_theme_for_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateThemeForStack", Dict{String, Any}("StackName"=>StackName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_theme_for_stack(StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = appstream("UpdateThemeForStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_theme_for_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

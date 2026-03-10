@@ -36,8 +36,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileVersion"`: The version of the signing profile.
 - `"revisionId"`: A unique identifier for the current profile revision.
 """
-add_profile_permission(action, principal, profileName, statementId; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/signing-profiles/$(profileName)/permissions", Dict{String, Any}("action"=>action, "principal"=>principal, "statementId"=>statementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_profile_permission(action, principal, profileName, statementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/signing-profiles/$(profileName)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "principal"=>principal, "statementId"=>statementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_profile_permission(
+    action,
+    principal,
+    profileName,
+    statementId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = signer(
+    "POST",
+    "/signing-profiles/$(profileName)/permissions",
+    Dict{String,Any}(
+        "action" => action, "principal" => principal, "statementId" => statementId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_profile_permission(
+    action,
+    principal,
+    profileName,
+    statementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "POST",
+        "/signing-profiles/$(profileName)/permissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "action" => action,
+                    "principal" => principal,
+                    "statementId" => statementId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_signing_profile(profile_name)
@@ -51,8 +90,26 @@ and is deleted two years after cancelation.
 
 - `profile_name`: The name of the signing profile to be canceled.
 """
-cancel_signing_profile(profileName; aws_config::AbstractAWSConfig=current_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_signing_profile(profileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_signing_profile(profileName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "DELETE",
+        "/signing-profiles/$(profileName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_signing_profile(
+    profileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "DELETE",
+        "/signing-profiles/$(profileName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_signing_job(job_id)
@@ -65,8 +122,23 @@ Returns information about a specific code signing job. You specify the job by us
 
 - `job_id`: The ID of the signing job on input.
 """
-describe_signing_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_signing_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_signing_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = signer(
+    "GET",
+    "/signing-jobs/$(jobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_signing_job(
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return signer(
+        "GET",
+        "/signing-jobs/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_revocation_status(certificate_hashes, job_arn, platform_id, profile_version_arn, signature_timestamp)
@@ -102,8 +174,55 @@ signing certificate.
 - `profile_version_arn`: The version of a signing profile.
 - `signature_timestamp`: The timestamp of the signature that validates the profile or job.
 """
-get_revocation_status(certificateHashes, jobArn, platformId, profileVersionArn, signatureTimestamp; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/revocations", Dict{String, Any}("certificateHashes"=>certificateHashes, "jobArn"=>jobArn, "platformId"=>platformId, "profileVersionArn"=>profileVersionArn, "signatureTimestamp"=>signatureTimestamp); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_revocation_status(certificateHashes, jobArn, platformId, profileVersionArn, signatureTimestamp, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/revocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateHashes"=>certificateHashes, "jobArn"=>jobArn, "platformId"=>platformId, "profileVersionArn"=>profileVersionArn, "signatureTimestamp"=>signatureTimestamp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_revocation_status(
+    certificateHashes,
+    jobArn,
+    platformId,
+    profileVersionArn,
+    signatureTimestamp;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = signer(
+    "GET",
+    "/revocations",
+    Dict{String,Any}(
+        "certificateHashes" => certificateHashes,
+        "jobArn" => jobArn,
+        "platformId" => platformId,
+        "profileVersionArn" => profileVersionArn,
+        "signatureTimestamp" => signatureTimestamp,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_revocation_status(
+    certificateHashes,
+    jobArn,
+    platformId,
+    profileVersionArn,
+    signatureTimestamp,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "GET",
+        "/revocations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateHashes" => certificateHashes,
+                    "jobArn" => jobArn,
+                    "platformId" => platformId,
+                    "profileVersionArn" => profileVersionArn,
+                    "signatureTimestamp" => signatureTimestamp,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_signing_platform(platform_id)
@@ -115,8 +234,26 @@ Returns information on a specific signing platform.
 
 - `platform_id`: The ID of the target signing platform.
 """
-get_signing_platform(platformId; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-platforms/$(platformId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_signing_platform(platformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-platforms/$(platformId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_signing_platform(platformId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "GET",
+        "/signing-platforms/$(platformId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_signing_platform(
+    platformId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "GET",
+        "/signing-platforms/$(platformId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_signing_profile(profile_name)
@@ -134,8 +271,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
-get_signing_profile(profileName; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-profiles/$(profileName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_signing_profile(profileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-profiles/$(profileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_signing_profile(profileName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "GET",
+        "/signing-profiles/$(profileName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_signing_profile(
+    profileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "GET",
+        "/signing-profiles/$(profileName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_profile_permissions(profile_name)
@@ -153,8 +308,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: String for specifying the next set of paginated results.
 """
-list_profile_permissions(profileName; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-profiles/$(profileName)/permissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_profile_permissions(profileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-profiles/$(profileName)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profile_permissions(profileName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "GET",
+        "/signing-profiles/$(profileName)/permissions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_profile_permissions(
+    profileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "GET",
+        "/signing-profiles/$(profileName)/permissions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_signing_jobs()
@@ -190,8 +363,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expiring before a specified timestamp.
 - `"status"`: A status value with which to filter your results.
 """
-list_signing_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_signing_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_signing_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer("GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_signing_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return signer(
+        "GET",
+        "/signing-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_signing_platforms()
@@ -215,8 +399,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"partner"`: Any partner entities connected to a signing platform.
 - `"target"`: The validation template that is used by the target signing platform.
 """
-list_signing_platforms(; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-platforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_signing_platforms(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-platforms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_signing_platforms(; aws_config::AbstractAWSConfig=current_aws_config()) = signer(
+    "GET", "/signing-platforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_signing_platforms(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return signer(
+        "GET",
+        "/signing-platforms",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_signing_profiles()
@@ -243,8 +439,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statuses"`: Filters results to return only signing jobs with statuses in the specified
   list.
 """
-list_signing_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_signing_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/signing-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_signing_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = signer(
+    "GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_signing_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return signer(
+        "GET",
+        "/signing-profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -256,8 +464,26 @@ Returns a list of the tags associated with a signing profile resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_signing_profile(platform_id, profile_name)
@@ -286,8 +512,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information that you want to use during signing.
 - `"tags"`: Tags to be associated with the signing profile that is being created.
 """
-put_signing_profile(platformId, profileName; aws_config::AbstractAWSConfig=current_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}("platformId"=>platformId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_signing_profile(platformId, profileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platformId"=>platformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_signing_profile(
+    platformId, profileName; aws_config::AbstractAWSConfig=current_aws_config()
+) = signer(
+    "PUT",
+    "/signing-profiles/$(profileName)",
+    Dict{String,Any}("platformId" => platformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_signing_profile(
+    platformId,
+    profileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "PUT",
+        "/signing-profiles/$(profileName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("platformId" => platformId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_profile_permission(profile_name, revision_id, statement_id)
@@ -302,8 +551,32 @@ Removes cross-account permissions from a signing profile.
 - `revision_id`: An identifier for the current revision of the signing profile permissions.
 - `statement_id`: A unique identifier for the cross-account permissions statement.
 """
-remove_profile_permission(profileName, revisionId, statementId; aws_config::AbstractAWSConfig=current_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)/permissions/$(statementId)", Dict{String, Any}("revisionId"=>revisionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_profile_permission(profileName, revisionId, statementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)/permissions/$(statementId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("revisionId"=>revisionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_profile_permission(
+    profileName, revisionId, statementId; aws_config::AbstractAWSConfig=current_aws_config()
+) = signer(
+    "DELETE",
+    "/signing-profiles/$(profileName)/permissions/$(statementId)",
+    Dict{String,Any}("revisionId" => revisionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_profile_permission(
+    profileName,
+    revisionId,
+    statementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "DELETE",
+        "/signing-profiles/$(profileName)/permissions/$(statementId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("revisionId" => revisionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     revoke_signature(job_id, reason)
@@ -323,8 +596,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"jobOwner"`: AWS account ID of the job owner.
 """
-revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=current_aws_config()) = signer("PUT", "/signing-jobs/$(jobId)/revoke", Dict{String, Any}("reason"=>reason); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-revoke_signature(jobId, reason, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("PUT", "/signing-jobs/$(jobId)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reason"=>reason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "PUT",
+        "/signing-jobs/$(jobId)/revoke",
+        Dict{String,Any}("reason" => reason);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function revoke_signature(
+    jobId,
+    reason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "PUT",
+        "/signing-jobs/$(jobId)/revoke",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("reason" => reason), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     revoke_signing_profile(effective_time, profile_name, profile_version, reason)
@@ -342,8 +635,49 @@ using the signing profile after an effective start date are no longer valid.
 - `profile_version`: The version of the signing profile to be revoked.
 - `reason`: The reason for revoking a signing profile.
 """
-revoke_signing_profile(effectiveTime, profileName, profileVersion, reason; aws_config::AbstractAWSConfig=current_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)/revoke", Dict{String, Any}("effectiveTime"=>effectiveTime, "profileVersion"=>profileVersion, "reason"=>reason); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-revoke_signing_profile(effectiveTime, profileName, profileVersion, reason, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("effectiveTime"=>effectiveTime, "profileVersion"=>profileVersion, "reason"=>reason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+revoke_signing_profile(
+    effectiveTime,
+    profileName,
+    profileVersion,
+    reason;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = signer(
+    "PUT",
+    "/signing-profiles/$(profileName)/revoke",
+    Dict{String,Any}(
+        "effectiveTime" => effectiveTime,
+        "profileVersion" => profileVersion,
+        "reason" => reason,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function revoke_signing_profile(
+    effectiveTime,
+    profileName,
+    profileVersion,
+    reason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "PUT",
+        "/signing-profiles/$(profileName)/revoke",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "effectiveTime" => effectiveTime,
+                    "profileVersion" => profileVersion,
+                    "reason" => reason,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     sign_payload(payload, payload_format, profile_name)
@@ -364,8 +698,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
-sign_payload(payload, payloadFormat, profileName; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/signing-jobs/with-payload", Dict{String, Any}("payload"=>payload, "payloadFormat"=>payloadFormat, "profileName"=>profileName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-sign_payload(payload, payloadFormat, profileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/signing-jobs/with-payload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload, "payloadFormat"=>payloadFormat, "profileName"=>profileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+sign_payload(
+    payload, payloadFormat, profileName; aws_config::AbstractAWSConfig=current_aws_config()
+) = signer(
+    "POST",
+    "/signing-jobs/with-payload",
+    Dict{String,Any}(
+        "payload" => payload,
+        "payloadFormat" => payloadFormat,
+        "profileName" => profileName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function sign_payload(
+    payload,
+    payloadFormat,
+    profileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "POST",
+        "/signing-jobs/with-payload",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "payload" => payload,
+                    "payloadFormat" => payloadFormat,
+                    "profileName" => profileName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_signing_job(client_request_token, destination, profile_name, source)
@@ -404,8 +774,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"profileOwner"`: The AWS account ID of the signing profile owner.
 """
-start_signing_job(clientRequestToken, destination, profileName, source; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/signing-jobs", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "profileName"=>profileName, "source"=>source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_signing_job(clientRequestToken, destination, profileName, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/signing-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "profileName"=>profileName, "source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_signing_job(
+    clientRequestToken,
+    destination,
+    profileName,
+    source;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = signer(
+    "POST",
+    "/signing-jobs",
+    Dict{String,Any}(
+        "clientRequestToken" => clientRequestToken,
+        "destination" => destination,
+        "profileName" => profileName,
+        "source" => source,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_signing_job(
+    clientRequestToken,
+    destination,
+    profileName,
+    source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "POST",
+        "/signing-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientRequestToken" => clientRequestToken,
+                    "destination" => destination,
+                    "profileName" => profileName,
+                    "source" => source,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -421,8 +834,28 @@ key-value pair.
 - `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 - `tags`: One or more tags to be associated with the signing profile.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -436,5 +869,25 @@ keys.
 - `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 - `tag_keys`: A list of tag keys to be removed from the signing profile.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    signer(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return signer(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

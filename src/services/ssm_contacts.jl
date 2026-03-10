@@ -31,8 +31,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContactChannelId"`: The ARN of the contact channel.
 - `"Note"`: Information provided by the user when the user acknowledges the page.
 """
-accept_page(AcceptCode, AcceptType, PageId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("AcceptPage", Dict{String, Any}("AcceptCode"=>AcceptCode, "AcceptType"=>AcceptType, "PageId"=>PageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_page(AcceptCode, AcceptType, PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("AcceptPage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptCode"=>AcceptCode, "AcceptType"=>AcceptType, "PageId"=>PageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_page(
+    AcceptCode, AcceptType, PageId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "AcceptPage",
+    Dict{String,Any}(
+        "AcceptCode" => AcceptCode, "AcceptType" => AcceptType, "PageId" => PageId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_page(
+    AcceptCode,
+    AcceptType,
+    PageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "AcceptPage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AcceptCode" => AcceptCode,
+                    "AcceptType" => AcceptType,
+                    "PageId" => PageId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     activate_contact_channel(activation_code, contact_channel_id)
@@ -47,8 +79,38 @@ contact channel has been activated.
   contact.
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel.
 """
-activate_contact_channel(ActivationCode, ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ActivateContactChannel", Dict{String, Any}("ActivationCode"=>ActivationCode, "ContactChannelId"=>ContactChannelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-activate_contact_channel(ActivationCode, ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ActivateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationCode"=>ActivationCode, "ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+activate_contact_channel(
+    ActivationCode, ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "ActivateContactChannel",
+    Dict{String,Any}(
+        "ActivationCode" => ActivationCode, "ContactChannelId" => ContactChannelId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function activate_contact_channel(
+    ActivationCode,
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ActivateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ActivationCode" => ActivationCode,
+                    "ContactChannelId" => ContactChannelId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_contact(alias, plan, type)
@@ -76,8 +138,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Adds a tag to the target. You can only tag resources created in the first
   Region of your replication set.
 """
-create_contact(Alias, Plan, Type; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateContact", Dict{String, Any}("Alias"=>Alias, "Plan"=>Plan, "Type"=>Type, "IdempotencyToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_contact(Alias, Plan, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "Plan"=>Plan, "Type"=>Type, "IdempotencyToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_contact(Alias, Plan, Type; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "CreateContact",
+        Dict{String,Any}(
+            "Alias" => Alias,
+            "Plan" => Plan,
+            "Type" => Type,
+            "IdempotencyToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_contact(
+    Alias,
+    Plan,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "CreateContact",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Alias" => Alias,
+                    "Plan" => Plan,
+                    "Type" => Type,
+                    "IdempotencyToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_contact_channel(contact_id, delivery_address, name, type)
@@ -110,8 +207,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
 """
-create_contact_channel(ContactId, DeliveryAddress, Name, Type; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateContactChannel", Dict{String, Any}("ContactId"=>ContactId, "DeliveryAddress"=>DeliveryAddress, "Name"=>Name, "Type"=>Type, "IdempotencyToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_contact_channel(ContactId, DeliveryAddress, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "DeliveryAddress"=>DeliveryAddress, "Name"=>Name, "Type"=>Type, "IdempotencyToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_contact_channel(
+    ContactId,
+    DeliveryAddress,
+    Name,
+    Type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ssm_contacts(
+    "CreateContactChannel",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "DeliveryAddress" => DeliveryAddress,
+        "Name" => Name,
+        "Type" => Type,
+        "IdempotencyToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_contact_channel(
+    ContactId,
+    DeliveryAddress,
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "CreateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "DeliveryAddress" => DeliveryAddress,
+                    "Name" => Name,
+                    "Type" => Type,
+                    "IdempotencyToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rotation(contact_ids, name, recurrence, time_zone_id)
@@ -149,8 +289,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Tagging Incident Manager resources](https://docs.aws.amazon.com/incident-manager/latest/userguide/tagging.html)
   in the *Incident Manager User Guide*.
 """
-create_rotation(ContactIds, Name, Recurrence, TimeZoneId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateRotation", Dict{String, Any}("ContactIds"=>ContactIds, "Name"=>Name, "Recurrence"=>Recurrence, "TimeZoneId"=>TimeZoneId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rotation(ContactIds, Name, Recurrence, TimeZoneId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactIds"=>ContactIds, "Name"=>Name, "Recurrence"=>Recurrence, "TimeZoneId"=>TimeZoneId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rotation(
+    ContactIds,
+    Name,
+    Recurrence,
+    TimeZoneId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ssm_contacts(
+    "CreateRotation",
+    Dict{String,Any}(
+        "ContactIds" => ContactIds,
+        "Name" => Name,
+        "Recurrence" => Recurrence,
+        "TimeZoneId" => TimeZoneId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rotation(
+    ContactIds,
+    Name,
+    Recurrence,
+    TimeZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "CreateRotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactIds" => ContactIds,
+                    "Name" => Name,
+                    "Recurrence" => Recurrence,
+                    "TimeZoneId" => TimeZoneId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rotation_override(end_time, new_contact_ids, rotation_id, start_time)
@@ -176,8 +357,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdempotencyToken"`: A token that ensures that the operation is called only once with
   the specified details.
 """
-create_rotation_override(EndTime, NewContactIds, RotationId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateRotationOverride", Dict{String, Any}("EndTime"=>EndTime, "NewContactIds"=>NewContactIds, "RotationId"=>RotationId, "StartTime"=>StartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rotation_override(EndTime, NewContactIds, RotationId, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("CreateRotationOverride", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "NewContactIds"=>NewContactIds, "RotationId"=>RotationId, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rotation_override(
+    EndTime,
+    NewContactIds,
+    RotationId,
+    StartTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ssm_contacts(
+    "CreateRotationOverride",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "NewContactIds" => NewContactIds,
+        "RotationId" => RotationId,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rotation_override(
+    EndTime,
+    NewContactIds,
+    RotationId,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "CreateRotationOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "NewContactIds" => NewContactIds,
+                    "RotationId" => RotationId,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deactivate_contact_channel(contact_channel_id)
@@ -191,8 +413,30 @@ the channel.
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel you're
   deactivating.
 """
-deactivate_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeactivateContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deactivate_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeactivateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deactivate_contact_channel(
+    ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "DeactivateContactChannel",
+    Dict{String,Any}("ContactChannelId" => ContactChannelId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deactivate_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "DeactivateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_contact(contact_id)
@@ -207,8 +451,27 @@ its contact channels before you can use it again.
 
 - `contact_id`: The Amazon Resource Name (ARN) of the contact that you're deleting.
 """
-delete_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "DeleteContact",
+        Dict{String,Any}("ContactId" => ContactId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_contact_channel(contact_channel_id)
@@ -223,8 +486,30 @@ during an incident.
 
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel.
 """
-delete_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_contact_channel(
+    ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "DeleteContactChannel",
+    Dict{String,Any}("ContactChannelId" => ContactChannelId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rotation(rotation_id)
@@ -237,8 +522,27 @@ schedule, this operation deletes it from all of them.
 
 - `rotation_id`: The Amazon Resource Name (ARN) of the on-call rotation to delete.
 """
-delete_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteRotation", Dict{String, Any}("RotationId"=>RotationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rotation(RotationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RotationId"=>RotationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "DeleteRotation",
+        Dict{String,Any}("RotationId" => RotationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_rotation(
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteRotation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RotationId" => RotationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rotation_override(rotation_id, rotation_override_id)
@@ -252,8 +556,37 @@ Deletes an existing override for an on-call rotation.
 - `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override
   to delete.
 """
-delete_rotation_override(RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteRotationOverride", Dict{String, Any}("RotationId"=>RotationId, "RotationOverrideId"=>RotationOverrideId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rotation_override(RotationId, RotationOverrideId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DeleteRotationOverride", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RotationId"=>RotationId, "RotationOverrideId"=>RotationOverrideId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rotation_override(
+    RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "DeleteRotationOverride",
+    Dict{String,Any}(
+        "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_rotation_override(
+    RotationId,
+    RotationOverrideId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteRotationOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_engagement(engagement_id)
@@ -266,8 +599,27 @@ incident. Use this command to describe the engagement that occurred during an in
 
 - `engagement_id`: The Amazon Resource Name (ARN) of the engagement you want the details of.
 """
-describe_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DescribeEngagement", Dict{String, Any}("EngagementId"=>EngagementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_engagement(EngagementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DescribeEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngagementId"=>EngagementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "DescribeEngagement",
+        Dict{String,Any}("EngagementId" => EngagementId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_engagement(
+    EngagementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "DescribeEngagement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_page(page_id)
@@ -279,8 +631,22 @@ Lists details of the engagement to a contact channel.
 
 - `page_id`: The ID of the engagement to a contact channel.
 """
-describe_page(PageId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DescribePage", Dict{String, Any}("PageId"=>PageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_page(PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("DescribePage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PageId"=>PageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_page(PageId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts(
+    "DescribePage",
+    Dict{String,Any}("PageId" => PageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_page(
+    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_contacts(
+        "DescribePage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_contact(contact_id)
@@ -292,8 +658,26 @@ Retrieves information about the specified contact or escalation plan.
 
 - `contact_id`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 """
-get_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts(
+    "GetContact",
+    Dict{String,Any}("ContactId" => ContactId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "GetContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_contact_channel(contact_channel_id)
@@ -306,8 +690,29 @@ List details about a specific contact channel.
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel you want
   information about.
 """
-get_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "GetContactChannel",
+        Dict{String,Any}("ContactChannelId" => ContactChannelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "GetContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_contact_policy(contact_arn)
@@ -319,8 +724,27 @@ Retrieves the resource policies attached to the specified contact or escalation 
 
 - `contact_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 """
-get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetContactPolicy", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_contact_policy(ContactArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetContactPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "GetContactPolicy",
+        Dict{String,Any}("ContactArn" => ContactArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_contact_policy(
+    ContactArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "GetContactPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactArn" => ContactArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rotation(rotation_id)
@@ -333,8 +757,26 @@ Retrieves information about an on-call rotation.
 - `rotation_id`: The Amazon Resource Name (ARN) of the on-call rotation to retrieve
   information about.
 """
-get_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetRotation", Dict{String, Any}("RotationId"=>RotationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rotation(RotationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RotationId"=>RotationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts(
+    "GetRotation",
+    Dict{String,Any}("RotationId" => RotationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_rotation(
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "GetRotation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RotationId" => RotationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rotation_override(rotation_id, rotation_override_id)
@@ -349,8 +791,37 @@ Retrieves information about an override to an on-call rotation.
 - `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override
   to retrieve information about.
 """
-get_rotation_override(RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetRotationOverride", Dict{String, Any}("RotationId"=>RotationId, "RotationOverrideId"=>RotationOverrideId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rotation_override(RotationId, RotationOverrideId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("GetRotationOverride", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RotationId"=>RotationId, "RotationOverrideId"=>RotationOverrideId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rotation_override(
+    RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "GetRotationOverride",
+    Dict{String,Any}(
+        "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_rotation_override(
+    RotationId,
+    RotationOverrideId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "GetRotationOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_contact_channels(contact_id)
@@ -369,8 +840,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of contact channels per page.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_contact_channels(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListContactChannels", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_contact_channels(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListContactChannels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_contact_channels(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "ListContactChannels",
+        Dict{String,Any}("ContactId" => ContactId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_contact_channels(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ListContactChannels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_contacts()
@@ -388,8 +878,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The type of contact. A contact is type `PERSONAL` and an escalation plan is
   type `ESCALATION`.
 """
-list_contacts(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_contacts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListContacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_contacts(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts("ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_contacts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_contacts(
+        "ListContacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_engagements()
@@ -407,8 +904,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to continue to the next page of results.
 - `"TimeRangeValue"`: The time range to lists engagements for an incident.
 """
-list_engagements(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_engagements(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListEngagements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_engagements(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts("ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_engagements(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_contacts(
+        "ListEngagements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_page_receipts(page_id)
@@ -427,8 +931,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of acknowledgements per page of results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_page_receipts(PageId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPageReceipts", Dict{String, Any}("PageId"=>PageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_page_receipts(PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPageReceipts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PageId"=>PageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_page_receipts(PageId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "ListPageReceipts",
+        Dict{String,Any}("PageId" => PageId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_page_receipts(
+    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_contacts(
+        "ListPageReceipts",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_page_resolutions(page_id)
@@ -449,8 +968,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
-list_page_resolutions(PageId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPageResolutions", Dict{String, Any}("PageId"=>PageId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_page_resolutions(PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPageResolutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PageId"=>PageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_page_resolutions(PageId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "ListPageResolutions",
+        Dict{String,Any}("PageId" => PageId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_page_resolutions(
+    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_contacts(
+        "ListPageResolutions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pages_by_contact(contact_id)
@@ -471,8 +1005,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_pages_by_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPagesByContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pages_by_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPagesByContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pages_by_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "ListPagesByContact",
+        Dict{String,Any}("ContactId" => ContactId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_pages_by_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ListPagesByContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pages_by_engagement(engagement_id)
@@ -492,8 +1045,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_pages_by_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPagesByEngagement", Dict{String, Any}("EngagementId"=>EngagementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pages_by_engagement(EngagementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPagesByEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngagementId"=>EngagementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pages_by_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "ListPagesByEngagement",
+        Dict{String,Any}("EngagementId" => EngagementId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_pages_by_engagement(
+    EngagementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ListPagesByEngagement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_preview_rotation_shifts(end_time, members, recurrence, time_zone_id)
@@ -529,8 +1101,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: Used to filter the range of calculated shifts before sending the response
   back to the user.
 """
-list_preview_rotation_shifts(EndTime, Members, Recurrence, TimeZoneId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPreviewRotationShifts", Dict{String, Any}("EndTime"=>EndTime, "Members"=>Members, "Recurrence"=>Recurrence, "TimeZoneId"=>TimeZoneId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_preview_rotation_shifts(EndTime, Members, Recurrence, TimeZoneId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListPreviewRotationShifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Members"=>Members, "Recurrence"=>Recurrence, "TimeZoneId"=>TimeZoneId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_preview_rotation_shifts(
+    EndTime,
+    Members,
+    Recurrence,
+    TimeZoneId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = ssm_contacts(
+    "ListPreviewRotationShifts",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "Members" => Members,
+        "Recurrence" => Recurrence,
+        "TimeZoneId" => TimeZoneId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_preview_rotation_shifts(
+    EndTime,
+    Members,
+    Recurrence,
+    TimeZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ListPreviewRotationShifts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "Members" => Members,
+                    "Recurrence" => Recurrence,
+                    "TimeZoneId" => TimeZoneId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rotation_overrides(end_time, rotation_id, start_time)
@@ -553,8 +1166,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
-list_rotation_overrides(EndTime, RotationId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListRotationOverrides", Dict{String, Any}("EndTime"=>EndTime, "RotationId"=>RotationId, "StartTime"=>StartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rotation_overrides(EndTime, RotationId, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListRotationOverrides", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "RotationId"=>RotationId, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rotation_overrides(
+    EndTime, RotationId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "ListRotationOverrides",
+    Dict{String,Any}(
+        "EndTime" => EndTime, "RotationId" => RotationId, "StartTime" => StartTime
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_rotation_overrides(
+    EndTime,
+    RotationId,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ListRotationOverrides",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "RotationId" => RotationId,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rotation_shifts(end_time, rotation_id)
@@ -577,8 +1222,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"StartTime"`: The date and time for the beginning of the time range to list shifts for.
 """
-list_rotation_shifts(EndTime, RotationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListRotationShifts", Dict{String, Any}("EndTime"=>EndTime, "RotationId"=>RotationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rotation_shifts(EndTime, RotationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListRotationShifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "RotationId"=>RotationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rotation_shifts(
+    EndTime, RotationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "ListRotationShifts",
+    Dict{String,Any}("EndTime" => EndTime, "RotationId" => RotationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_rotation_shifts(
+    EndTime,
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ListRotationShifts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "RotationId" => RotationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rotations()
@@ -597,8 +1267,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   common prefix. For example, entering prod returns a list of all rotation names that begin
   with `prod`, such as `production` and `prod-1`.
 """
-list_rotations(; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rotations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListRotations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rotations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts("ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_rotations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_contacts(
+        "ListRotations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -610,8 +1287,27 @@ Lists the tags of an escalation plan or contact.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_contact_policy(contact_arn, policy)
@@ -626,8 +1322,32 @@ information about cross-account sharing, see [Setting up cross-account functiona
 - `contact_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 - `policy`: Details of the resource policy.
 """
-put_contact_policy(ContactArn, Policy; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("PutContactPolicy", Dict{String, Any}("ContactArn"=>ContactArn, "Policy"=>Policy); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_contact_policy(ContactArn, Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("PutContactPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn, "Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_contact_policy(ContactArn, Policy; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "PutContactPolicy",
+        Dict{String,Any}("ContactArn" => ContactArn, "Policy" => Policy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_contact_policy(
+    ContactArn,
+    Policy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "PutContactPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ContactArn" => ContactArn, "Policy" => Policy),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     send_activation_code(contact_channel_id)
@@ -641,8 +1361,29 @@ Manager can't engage a contact channel until it has been activated.
 
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel.
 """
-send_activation_code(ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("SendActivationCode", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-send_activation_code(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("SendActivationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_activation_code(ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "SendActivationCode",
+        Dict{String,Any}("ContactChannelId" => ContactChannelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function send_activation_code(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "SendActivationCode",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_engagement(contact_id, content, sender, subject)
@@ -672,8 +1413,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PublicSubject"`: The insecure subject of the message that was sent to the contact. Use
   this field for engagements to `SMS`.
 """
-start_engagement(ContactId, Content, Sender, Subject; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("StartEngagement", Dict{String, Any}("ContactId"=>ContactId, "Content"=>Content, "Sender"=>Sender, "Subject"=>Subject, "IdempotencyToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_engagement(ContactId, Content, Sender, Subject, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("StartEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "Content"=>Content, "Sender"=>Sender, "Subject"=>Subject, "IdempotencyToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_engagement(
+    ContactId, Content, Sender, Subject; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "StartEngagement",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "Content" => Content,
+        "Sender" => Sender,
+        "Subject" => Subject,
+        "IdempotencyToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_engagement(
+    ContactId,
+    Content,
+    Sender,
+    Subject,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "StartEngagement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "Content" => Content,
+                    "Sender" => Sender,
+                    "Subject" => Subject,
+                    "IdempotencyToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_engagement(engagement_id)
@@ -692,8 +1472,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Reason"`: The reason that you're stopping the engagement.
 """
-stop_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("StopEngagement", Dict{String, Any}("EngagementId"=>EngagementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_engagement(EngagementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("StopEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngagementId"=>EngagementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "StopEngagement",
+        Dict{String,Any}("EngagementId" => EngagementId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_engagement(
+    EngagementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "StopEngagement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -707,8 +1506,32 @@ first region of your replication set.
 - `resource_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 - `tags`: A list of tags that you are adding to the contact or escalation plan.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -721,8 +1544,32 @@ Removes tags from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 - `tag_keys`: The key of the tag that you want to remove.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_contact(contact_id)
@@ -743,8 +1590,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Plan"`: A list of stages. A contact has an engagement plan with stages for specified
   contact channels. An escalation plan uses these stages to contact specified contacts.
 """
-update_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UpdateContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UpdateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ssm_contacts(
+        "UpdateContact",
+        Dict{String,Any}("ContactId" => ContactId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "UpdateContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_contact_channel(contact_channel_id)
@@ -765,8 +1631,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact channel.
 - `"Name"`: The name of the contact channel.
 """
-update_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UpdateContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UpdateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_contact_channel(
+    ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "UpdateContactChannel",
+    Dict{String,Any}("ContactChannelId" => ContactChannelId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "UpdateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_rotation(recurrence, rotation_id)
@@ -798,5 +1686,30 @@ The order in which you list the contacts is their shift order in the rotation sc
       Designators for time zones that don’t support Daylight Savings Time Rules, such as
   Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
 """
-update_rotation(Recurrence, RotationId; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UpdateRotation", Dict{String, Any}("Recurrence"=>Recurrence, "RotationId"=>RotationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_rotation(Recurrence, RotationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ssm_contacts("UpdateRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Recurrence"=>Recurrence, "RotationId"=>RotationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rotation(
+    Recurrence, RotationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ssm_contacts(
+    "UpdateRotation",
+    Dict{String,Any}("Recurrence" => Recurrence, "RotationId" => RotationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_rotation(
+    Recurrence,
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_contacts(
+        "UpdateRotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Recurrence" => Recurrence, "RotationId" => RotationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -30,8 +30,32 @@ created (also known as its home Region).
   2:123456789012:channel/01234567890`
 - `tags_list`: Contains a list of tags, up to a limit of 50
 """
-add_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagsList"=>TagsList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_tags(ResourceId, TagsList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagsList"=>TagsList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "AddTags",
+        Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function add_tags(
+    ResourceId,
+    TagsList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "AddTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_query(query_id)
@@ -54,8 +78,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventDataStore"`: The ARN (or the ID suffix of the ARN) of an event data store on which
   the specified query is running.
 """
-cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CancelQuery", Dict{String, Any}("QueryId"=>QueryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_query(QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "CancelQuery",
+    Dict{String,Any}("QueryId" => QueryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_query(
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "CancelQuery",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel(destinations, name, source)
@@ -84,8 +124,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`:
 """
-create_channel(Destinations, Name, Source; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CreateChannel", Dict{String, Any}("Destinations"=>Destinations, "Name"=>Name, "Source"=>Source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel(Destinations, Name, Source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CreateChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destinations"=>Destinations, "Name"=>Name, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel(
+    Destinations, Name, Source; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "CreateChannel",
+    Dict{String,Any}("Destinations" => Destinations, "Name" => Name, "Source" => Source);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_channel(
+    Destinations,
+    Name,
+    Source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "CreateChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Destinations" => Destinations, "Name" => Name, "Source" => Source
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_event_data_store(name)
@@ -176,8 +244,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the event data store. If termination protection is enabled, you cannot delete the event
   data store until termination protection is disabled.
 """
-create_event_data_store(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CreateEventDataStore", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_event_data_store(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CreateEventDataStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_event_data_store(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "CreateEventDataStore",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_event_data_store(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "CreateEventDataStore",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_trail(name, s3_bucket_name)
@@ -252,8 +335,32 @@ Not required unless you specify `CloudWatchLogsRoleArn`.
   log file delivery. The maximum length is 256 characters.
 - `"TagsList"`:
 """
-create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_trail(Name, S3BucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "CreateTrail",
+        Dict{String,Any}("Name" => Name, "S3BucketName" => S3BucketName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_trail(
+    Name,
+    S3BucketName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "CreateTrail",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "S3BucketName" => S3BucketName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel(channel)
@@ -265,8 +372,24 @@ Deletes a channel.
 
 - `channel`: The ARN or the `UUID` value of the channel that you want to delete.
 """
-delete_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteChannel", Dict{String, Any}("Channel"=>Channel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel(Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Channel"=>Channel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "DeleteChannel",
+    Dict{String,Any}("Channel" => Channel);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel(
+    Channel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "DeleteChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_event_data_store(event_data_store)
@@ -289,8 +412,28 @@ incur costs.
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store to
   delete.
 """
-delete_event_data_store(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteEventDataStore", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_event_data_store(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteEventDataStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_data_store(
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "DeleteEventDataStore",
+    Dict{String,Any}("EventDataStore" => EventDataStore);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "DeleteEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy(resource_arn)
@@ -304,8 +447,27 @@ delete_event_data_store(EventDataStore, params::AbstractDict{String}; aws_config
   the resource-based policy from. The following is the format of a resource ARN:
   `arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel`.
 """
-delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_trail(name)
@@ -321,8 +483,22 @@ Regions) of a trail that is enabled in all Regions.
   following is the format of a trail ARN. `arn:aws:cloudtrail:us-east-
   2:123456789012:trail/MyTrail`
 """
-delete_trail(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_trail(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_trail(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "DeleteTrail",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_trail(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "DeleteTrail",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_organization_delegated_admin(delegated_admin_account_id)
@@ -336,8 +512,32 @@ organization.
 - `delegated_admin_account_id`: A delegated administrator account ID. This is a member
   account in an organization that is currently designated as a delegated administrator.
 """
-deregister_organization_delegated_admin(DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeregisterOrganizationDelegatedAdmin", Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_organization_delegated_admin(DelegatedAdminAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DeregisterOrganizationDelegatedAdmin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_organization_delegated_admin(
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "DeregisterOrganizationDelegatedAdmin",
+    Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_organization_delegated_admin(
+    DelegatedAdminAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "DeregisterOrganizationDelegatedAdmin",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_query()
@@ -359,8 +559,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueryAlias"`:  The alias that identifies a query template.
 - `"QueryId"`: The query ID.
 """
-describe_query(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DescribeQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_query(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DescribeQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_query(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("DescribeQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_query(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "DescribeQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_trails()
@@ -396,8 +603,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match the names of trails belonging only to the current Region and current account. To
   return information about a trail in another Region, you must specify its trail ARN.
 """
-describe_trails(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DescribeTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_trails(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_trails(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("DescribeTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_trails(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     disable_federation(event_data_store)
@@ -416,8 +630,27 @@ queries in CloudTrail Lake.
 - `event_data_store`:  The ARN (or ID suffix of the ARN) of the event data store for which
   you want to disable Lake query federation.
 """
-disable_federation(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DisableFederation", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_federation(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("DisableFederation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_federation(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "DisableFederation",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_federation(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "DisableFederation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_federation(event_data_store, federation_role_arn)
@@ -447,8 +680,38 @@ For more information about Lake query federation, see [Federate an event data st
   for the federated event data store. The federation role must exist in your account and
   provide the [required minimum permissions](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation.html#query-federation-permissions-role).
 """
-enable_federation(EventDataStore, FederationRoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("EnableFederation", Dict{String, Any}("EventDataStore"=>EventDataStore, "FederationRoleArn"=>FederationRoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_federation(EventDataStore, FederationRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("EnableFederation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore, "FederationRoleArn"=>FederationRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_federation(
+    EventDataStore, FederationRoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "EnableFederation",
+    Dict{String,Any}(
+        "EventDataStore" => EventDataStore, "FederationRoleArn" => FederationRoleArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_federation(
+    EventDataStore,
+    FederationRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "EnableFederation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventDataStore" => EventDataStore,
+                    "FederationRoleArn" => FederationRoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_channel(channel)
@@ -460,8 +723,24 @@ enable_federation(EventDataStore, FederationRoleArn, params::AbstractDict{String
 
 - `channel`: The ARN or `UUID` of a channel.
 """
-get_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetChannel", Dict{String, Any}("Channel"=>Channel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_channel(Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Channel"=>Channel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "GetChannel",
+    Dict{String,Any}("Channel" => Channel);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_channel(
+    Channel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GetChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_event_data_store(event_data_store)
@@ -475,8 +754,27 @@ of the ARN.
 - `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store about which
   you want information.
 """
-get_event_data_store(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetEventDataStore", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_event_data_store(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetEventDataStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_data_store(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "GetEventDataStore",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GetEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_event_selectors(trail_name)
@@ -507,8 +805,27 @@ the *CloudTrail User Guide*: - [Logging management events](https://docs.aws.amaz
 
  <p> `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
 """
-get_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_event_selectors(TrailName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "GetEventSelectors",
+        Dict{String,Any}("TrailName" => TrailName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_event_selectors(
+    TrailName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GetEventSelectors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrailName" => TrailName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_import(import_id)
@@ -520,8 +837,26 @@ get_event_selectors(TrailName, params::AbstractDict{String}; aws_config::Abstrac
 
 - `import_id`:  The ID for the import.
 """
-get_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetImport", Dict{String, Any}("ImportId"=>ImportId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_import(ImportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportId"=>ImportId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "GetImport",
+    Dict{String,Any}("ImportId" => ImportId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_import(
+    ImportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GetImport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_insight_selectors()
@@ -562,8 +897,19 @@ You cannot use this parameter with the `TrailName` parameter.
 
  <p>You cannot use this parameter with the `EventDataStore` parameter.
 """
-get_insight_selectors(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetInsightSelectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_insight_selectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetInsightSelectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_insight_selectors(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "GetInsightSelectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_insight_selectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "GetInsightSelectors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_query_results(query_id)
@@ -585,8 +931,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxQueryResults"`: The maximum number of query results to display on a single page.
 - `"NextToken"`: A token you can use to get the next page of query results.
 """
-get_query_results(QueryId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetQueryResults", Dict{String, Any}("QueryId"=>QueryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_query_results(QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_query_results(QueryId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "GetQueryResults",
+    Dict{String,Any}("QueryId" => QueryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_query_results(
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GetQueryResults",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_policy(resource_arn)
@@ -601,8 +963,27 @@ channel.
   resource-based policy. The following is the format of a resource ARN:
   `arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel`.
 """
-get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "GetResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_trail(name)
@@ -615,8 +996,22 @@ Returns settings information for a specified trail.
 - `name`: The name or the Amazon Resource Name (ARN) of the trail for which you want to
   retrieve settings information.
 """
-get_trail(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_trail(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_trail(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "GetTrail",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_trail(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "GetTrail",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_trail_status(name)
@@ -635,8 +1030,22 @@ trail status from all Regions, you must call the operation on each Region.
 
  `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
 """
-get_trail_status(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_trail_status(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_trail_status(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "GetTrailStatus",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_trail_status(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "GetTrailStatus",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channels()
@@ -654,8 +1063,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
 """
-list_channels(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channels(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_channels(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_event_data_stores()
@@ -670,8 +1086,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of event data stores to display on a single page.
 - `"NextToken"`: A token you can use to get the next page of event data store results.
 """
-list_event_data_stores(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListEventDataStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_event_data_stores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListEventDataStores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_event_data_stores(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "ListEventDataStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_event_data_stores(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "ListEventDataStores",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_import_failures(import_id)
@@ -690,8 +1117,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The maximum number of failures to display on a single page.
 - `"NextToken"`:  A token you can use to get the next page of import failures.
 """
-list_import_failures(ImportId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListImportFailures", Dict{String, Any}("ImportId"=>ImportId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_import_failures(ImportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListImportFailures", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportId"=>ImportId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_import_failures(ImportId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "ListImportFailures",
+        Dict{String,Any}("ImportId" => ImportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_import_failures(
+    ImportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "ListImportFailures",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_imports()
@@ -709,8 +1155,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The maximum number of imports to display on a single page.
 - `"NextToken"`:  A token you can use to get the next page of import results.
 """
-list_imports(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_imports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListImports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_imports(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_imports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "ListImports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_insights_metric_data(event_name, event_source, insight_type)
@@ -772,8 +1225,42 @@ The default is the time of request.
 
 The default is 90 days before the time of request.
 """
-list_insights_metric_data(EventName, EventSource, InsightType; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListInsightsMetricData", Dict{String, Any}("EventName"=>EventName, "EventSource"=>EventSource, "InsightType"=>InsightType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_insights_metric_data(EventName, EventSource, InsightType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListInsightsMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventName"=>EventName, "EventSource"=>EventSource, "InsightType"=>InsightType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_insights_metric_data(
+    EventName, EventSource, InsightType; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "ListInsightsMetricData",
+    Dict{String,Any}(
+        "EventName" => EventName,
+        "EventSource" => EventSource,
+        "InsightType" => InsightType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_insights_metric_data(
+    EventName,
+    EventSource,
+    InsightType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "ListInsightsMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventName" => EventName,
+                    "EventSource" => EventSource,
+                    "InsightType" => InsightType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_public_keys()
@@ -799,8 +1286,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public keys for CloudTrail digest files. If not specified, the current time is used, and
   the current public key is returned.
 """
-list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_public_keys(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_public_keys(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_queries(event_data_store)
@@ -831,8 +1325,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: Use with `EndTime` to bound a `ListQueries` request, and limit its results
   to only those queries run within a specified time period.
 """
-list_queries(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListQueries", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_queries(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListQueries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_queries(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "ListQueries",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_queries(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "ListQueries",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags(resource_id_list)
@@ -860,8 +1373,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: Reserved for future use.
 """
-list_tags(ResourceIdList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListTags", Dict{String, Any}("ResourceIdList"=>ResourceIdList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags(ResourceIdList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdList"=>ResourceIdList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags(ResourceIdList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "ListTags",
+    Dict{String,Any}("ResourceIdList" => ResourceIdList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags(
+    ResourceIdList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "ListTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceIdList" => ResourceIdList), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_trails()
@@ -878,8 +1409,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
 """
-list_trails(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_trails(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("ListTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_trails(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("ListTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_trails(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "ListTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     lookup_events()
@@ -935,8 +1473,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned. If the specified start time is after the specified end time, an error is
   returned.
 """
-lookup_events(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("LookupEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-lookup_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("LookupEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+lookup_events(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("LookupEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function lookup_events(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "LookupEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     put_event_selectors(trail_name)
@@ -1008,8 +1553,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `AdvancedEventSelectors` in a `PutEventSelectors` request, but not both. If you apply
   `EventSelectors` to a trail, any existing `AdvancedEventSelectors` are overwritten.
 """
-put_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_event_selectors(TrailName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "PutEventSelectors",
+        Dict{String,Any}("TrailName" => TrailName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_event_selectors(
+    TrailName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "PutEventSelectors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TrailName" => TrailName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_insight_selectors(insight_selectors)
@@ -1072,8 +1636,30 @@ You cannot use this parameter with the `TrailName` parameter.
   You cannot use this parameter with the `EventDataStore` and `InsightsDestination`
   parameters.
 """
-put_insight_selectors(InsightSelectors; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}("InsightSelectors"=>InsightSelectors); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_insight_selectors(InsightSelectors, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightSelectors"=>InsightSelectors), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_insight_selectors(
+    InsightSelectors; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "PutInsightSelectors",
+    Dict{String,Any}("InsightSelectors" => InsightSelectors);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_insight_selectors(
+    InsightSelectors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "PutInsightSelectors",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("InsightSelectors" => InsightSelectors), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy(resource_arn, resource_policy)
@@ -1098,8 +1684,35 @@ in the *CloudTrail User Guide*.
    - Each statement contains at least one principal. A statement can have a maximum of 50
   principals.
 """
-put_resource_policy(ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("PutResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn, "ResourcePolicy"=>ResourcePolicy); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(ResourceArn, ResourcePolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "ResourcePolicy"=>ResourcePolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(
+    ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "PutResourcePolicy",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_policy(
+    ResourceArn,
+    ResourcePolicy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_organization_delegated_admin(member_account_id)
@@ -1112,8 +1725,30 @@ Registers an organization’s member account as the CloudTrail [delegated admini
 - `member_account_id`: An organization member account ID that you want to designate as a
   delegated administrator.
 """
-register_organization_delegated_admin(MemberAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("RegisterOrganizationDelegatedAdmin", Dict{String, Any}("MemberAccountId"=>MemberAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_organization_delegated_admin(MemberAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("RegisterOrganizationDelegatedAdmin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccountId"=>MemberAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_organization_delegated_admin(
+    MemberAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "RegisterOrganizationDelegatedAdmin",
+    Dict{String,Any}("MemberAccountId" => MemberAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_organization_delegated_admin(
+    MemberAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "RegisterOrganizationDelegatedAdmin",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("MemberAccountId" => MemberAccountId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_tags(resource_id, tags_list)
@@ -1135,8 +1770,32 @@ Removes the specified tags from a trail, event data store, or channel.
   2:123456789012:channel/01234567890`
 - `tags_list`: Specifies a list of tags to be removed.
 """
-remove_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagsList"=>TagsList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_tags(ResourceId, TagsList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagsList"=>TagsList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail(
+        "RemoveTags",
+        Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function remove_tags(
+    ResourceId,
+    TagsList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "RemoveTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     restore_event_data_store(event_data_store)
@@ -1152,8 +1811,28 @@ the size of the event data store.
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store that
   you want to restore.
 """
-restore_event_data_store(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("RestoreEventDataStore", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_event_data_store(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("RestoreEventDataStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_event_data_store(
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "RestoreEventDataStore",
+    Dict{String,Any}("EventDataStore" => EventDataStore);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "RestoreEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_event_data_store_ingestion(event_data_store)
@@ -1169,8 +1848,28 @@ the ID portion of the ARN. To start ingestion, the event data store `Status` mus
 - `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store for which
   you want to start ingestion.
 """
-start_event_data_store_ingestion(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartEventDataStoreIngestion", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_event_data_store_ingestion(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartEventDataStoreIngestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_event_data_store_ingestion(
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "StartEventDataStoreIngestion",
+    Dict{String,Any}("EventDataStore" => EventDataStore);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_event_data_store_ingestion(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "StartEventDataStoreIngestion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_import()
@@ -1216,8 +1915,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   names contain a date between the specified `StartEventTime` and `EndEventTime` before
   attempting to import events.
 """
-start_import(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_import(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartImport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_import(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function start_import(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "StartImport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     start_logging(name)
@@ -1235,8 +1941,22 @@ in which the trail was created. This operation cannot be called on the shadow tr
 
  `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
 """
-start_logging(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_logging(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_logging(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "StartLogging",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_logging(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "StartLogging",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_query()
@@ -1260,8 +1980,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueryParameters"`:  The query parameters for the specified `QueryAlias`.
 - `"QueryStatement"`: The SQL code of your query.
 """
-start_query(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_query(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StartQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_query(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudtrail("StartQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function start_query(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "StartQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     stop_event_data_store_ingestion(event_data_store)
@@ -1276,8 +2003,28 @@ and the `eventCategory` must be `Management`, `Data`, or `ConfigurationItem`.
 - `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store for which
   you want to stop ingestion.
 """
-stop_event_data_store_ingestion(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StopEventDataStoreIngestion", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_event_data_store_ingestion(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StopEventDataStoreIngestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_event_data_store_ingestion(
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "StopEventDataStoreIngestion",
+    Dict{String,Any}("EventDataStore" => EventDataStore);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_event_data_store_ingestion(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "StopEventDataStoreIngestion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_import(import_id)
@@ -1289,8 +2036,26 @@ stop_event_data_store_ingestion(EventDataStore, params::AbstractDict{String}; aw
 
 - `import_id`:  The ID of the import.
 """
-stop_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StopImport", Dict{String, Any}("ImportId"=>ImportId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_import(ImportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StopImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportId"=>ImportId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "StopImport",
+    Dict{String,Any}("ImportId" => ImportId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_import(
+    ImportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "StopImport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_logging(name)
@@ -1311,8 +2076,22 @@ all Regions.
 
  `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
 """
-stop_logging(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_logging(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_logging(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "StopLogging",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_logging(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "StopLogging",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel(channel)
@@ -1332,8 +2111,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   through the channel.
 - `"Name"`:  Changes the name of the channel.
 """
-update_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("UpdateChannel", Dict{String, Any}("Channel"=>Channel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel(Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("UpdateChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Channel"=>Channel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "UpdateChannel",
+    Dict{String,Any}("Channel" => Channel);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel(
+    Channel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "UpdateChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_event_data_store(event_data_store)
@@ -1433,8 +2228,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TerminationProtectionEnabled"`: Indicates that termination protection is enabled and
   the event data store cannot be automatically deleted.
 """
-update_event_data_store(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("UpdateEventDataStore", Dict{String, Any}("EventDataStore"=>EventDataStore); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_event_data_store(EventDataStore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("UpdateEventDataStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDataStore"=>EventDataStore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_event_data_store(
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudtrail(
+    "UpdateEventDataStore",
+    Dict{String,Any}("EventDataStore" => EventDataStore);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "UpdateEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_trail(name)
@@ -1524,5 +2339,19 @@ Not required unless you specify `CloudWatchLogsRoleArn`.
 - `"SnsTopicName"`: Specifies the name of the Amazon SNS topic defined for notification of
   log file delivery. The maximum length is 256 characters.
 """
-update_trail(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_trail(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_trail(Name; aws_config::AbstractAWSConfig=current_aws_config()) = cloudtrail(
+    "UpdateTrail",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_trail(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "UpdateTrail",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

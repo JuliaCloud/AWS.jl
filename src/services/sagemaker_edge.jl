@@ -16,8 +16,37 @@ Use to get the active deployments from a device.
 - `device_name`: The unique name of the device you want to get the configuration of active
   deployments from.
 """
-get_deployments(DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_edge("POST", "/GetDeployments", Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_deployments(DeviceFleetName, DeviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_edge("POST", "/GetDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_deployments(
+    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = sagemaker_edge(
+    "POST",
+    "/GetDeployments",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_deployments(
+    DeviceFleetName,
+    DeviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_edge(
+        "POST",
+        "/GetDeployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_device_registration(device_fleet_name, device_name)
@@ -30,8 +59,37 @@ Use to check if a device is registered with SageMaker Edge Manager.
 - `device_fleet_name`: The name of the fleet that the device belongs to.
 - `device_name`: The unique name of the device you want to get the registration status from.
 """
-get_device_registration(DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_edge("POST", "/GetDeviceRegistration", Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_device_registration(DeviceFleetName, DeviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_edge("POST", "/GetDeviceRegistration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_device_registration(
+    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = sagemaker_edge(
+    "POST",
+    "/GetDeviceRegistration",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_device_registration(
+    DeviceFleetName,
+    DeviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_edge(
+        "POST",
+        "/GetDeviceRegistration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     send_heartbeat(agent_version, device_fleet_name, device_name)
@@ -54,5 +112,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeploymentResult"`: Returns the result of a deployment on the device.
 - `"Models"`: Returns a list of models deployed on the the device.
 """
-send_heartbeat(AgentVersion, DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_edge("POST", "/SendHeartbeat", Dict{String, Any}("AgentVersion"=>AgentVersion, "DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-send_heartbeat(AgentVersion, DeviceFleetName, DeviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_edge("POST", "/SendHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentVersion"=>AgentVersion, "DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_heartbeat(
+    AgentVersion,
+    DeviceFleetName,
+    DeviceName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sagemaker_edge(
+    "POST",
+    "/SendHeartbeat",
+    Dict{String,Any}(
+        "AgentVersion" => AgentVersion,
+        "DeviceFleetName" => DeviceFleetName,
+        "DeviceName" => DeviceName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function send_heartbeat(
+    AgentVersion,
+    DeviceFleetName,
+    DeviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_edge(
+        "POST",
+        "/SendHeartbeat",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AgentVersion" => AgentVersion,
+                    "DeviceFleetName" => DeviceFleetName,
+                    "DeviceName" => DeviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

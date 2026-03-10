@@ -35,8 +35,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - Don’t use `aws:` as a prefix for your keys. This prefix is reserved for Amazon Web
   Services use
 """
-create_anomaly_monitor(AnomalyMonitor; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("CreateAnomalyMonitor", Dict{String, Any}("AnomalyMonitor"=>AnomalyMonitor); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_anomaly_monitor(AnomalyMonitor, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("CreateAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyMonitor"=>AnomalyMonitor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_anomaly_monitor(AnomalyMonitor; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "CreateAnomalyMonitor",
+        Dict{String,Any}("AnomalyMonitor" => AnomalyMonitor);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_anomaly_monitor(
+    AnomalyMonitor,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "CreateAnomalyMonitor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AnomalyMonitor" => AnomalyMonitor), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_anomaly_subscription(anomaly_subscription)
@@ -70,8 +89,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - Don’t use `aws:` as a prefix for your keys. This prefix is reserved for Amazon Web
   Services use
 """
-create_anomaly_subscription(AnomalySubscription; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("CreateAnomalySubscription", Dict{String, Any}("AnomalySubscription"=>AnomalySubscription); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_anomaly_subscription(AnomalySubscription, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("CreateAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalySubscription"=>AnomalySubscription), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_anomaly_subscription(
+    AnomalySubscription; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "CreateAnomalySubscription",
+    Dict{String,Any}("AnomalySubscription" => AnomalySubscription);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_anomaly_subscription(
+    AnomalySubscription,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "CreateAnomalySubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AnomalySubscription" => AnomalySubscription),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_cost_category_definition(name, rule_version, rules)
@@ -111,8 +154,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SplitChargeRules"`:  The split charge rules used to allocate your charges between your
   Cost Category values.
 """
-create_cost_category_definition(Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_cost_category_definition(Name, RuleVersion, Rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_cost_category_definition(
+    Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "CreateCostCategoryDefinition",
+    Dict{String,Any}("Name" => Name, "RuleVersion" => RuleVersion, "Rules" => Rules);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_cost_category_definition(
+    Name,
+    RuleVersion,
+    Rules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "CreateCostCategoryDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "RuleVersion" => RuleVersion, "Rules" => Rules
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_anomaly_monitor(monitor_arn)
@@ -124,8 +195,27 @@ Deletes a cost anomaly monitor.
 
 - `monitor_arn`: The unique identifier of the cost anomaly monitor that you want to delete.
 """
-delete_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DeleteAnomalyMonitor", Dict{String, Any}("MonitorArn"=>MonitorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_anomaly_monitor(MonitorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DeleteAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitorArn"=>MonitorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "DeleteAnomalyMonitor",
+        Dict{String,Any}("MonitorArn" => MonitorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_anomaly_monitor(
+    MonitorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "DeleteAnomalyMonitor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("MonitorArn" => MonitorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_anomaly_subscription(subscription_arn)
@@ -138,8 +228,30 @@ Deletes a cost anomaly subscription.
 - `subscription_arn`: The unique identifier of the cost anomaly subscription that you want
   to delete.
 """
-delete_anomaly_subscription(SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DeleteAnomalySubscription", Dict{String, Any}("SubscriptionArn"=>SubscriptionArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_anomaly_subscription(SubscriptionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DeleteAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_anomaly_subscription(
+    SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "DeleteAnomalySubscription",
+    Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_anomaly_subscription(
+    SubscriptionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "DeleteAnomalySubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SubscriptionArn" => SubscriptionArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_cost_category_definition(cost_category_arn)
@@ -152,8 +264,30 @@ categorized with this Cost Category.
 
 - `cost_category_arn`: The unique identifier for your Cost Category.
 """
-delete_cost_category_definition(CostCategoryArn; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_cost_category_definition(CostCategoryArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_cost_category_definition(
+    CostCategoryArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "DeleteCostCategoryDefinition",
+    Dict{String,Any}("CostCategoryArn" => CostCategoryArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_cost_category_definition(
+    CostCategoryArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "DeleteCostCategoryDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CostCategoryArn" => CostCategoryArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_cost_category_definition(cost_category_arn)
@@ -177,8 +311,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EffectiveOn"`: The date when the Cost Category was effective.
 """
-describe_cost_category_definition(CostCategoryArn; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_cost_category_definition(CostCategoryArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_cost_category_definition(
+    CostCategoryArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "DescribeCostCategoryDefinition",
+    Dict{String,Any}("CostCategoryArn" => CostCategoryArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_cost_category_definition(
+    CostCategoryArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "DescribeCostCategoryDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CostCategoryArn" => CostCategoryArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_anomalies(date_interval)
@@ -207,8 +363,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, you can filter anomalies `GREATER_THAN 200.00` to retrieve anomalies, with
   an estimated dollar impact greater than 200.
 """
-get_anomalies(DateInterval; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetAnomalies", Dict{String, Any}("DateInterval"=>DateInterval); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_anomalies(DateInterval, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetAnomalies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DateInterval"=>DateInterval), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_anomalies(DateInterval; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "GetAnomalies",
+        Dict{String,Any}("DateInterval" => DateInterval);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_anomalies(
+    DateInterval,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetAnomalies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DateInterval" => DateInterval), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_anomaly_monitors()
@@ -227,8 +402,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides the token when the response from a previous call has more results than the
   maximum page size.
 """
-get_anomaly_monitors(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetAnomalyMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_anomaly_monitors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetAnomalyMonitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_anomaly_monitors(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer(
+    "GetAnomalyMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_anomaly_monitors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "GetAnomalyMonitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_anomaly_subscriptions()
@@ -248,8 +431,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum page size.
 - `"SubscriptionArnList"`: A list of cost anomaly subscription ARNs.
 """
-get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetAnomalySubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_anomaly_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetAnomalySubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "GetAnomalySubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_anomaly_subscriptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "GetAnomalySubscriptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_approximate_usage_records(approximation_dimension, granularity)
@@ -273,8 +468,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Services"`: The service metadata for the service or services you want to query. If not
   specified, all elements are returned.
 """
-get_approximate_usage_records(ApproximationDimension, Granularity; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetApproximateUsageRecords", Dict{String, Any}("ApproximationDimension"=>ApproximationDimension, "Granularity"=>Granularity); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_approximate_usage_records(ApproximationDimension, Granularity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetApproximateUsageRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApproximationDimension"=>ApproximationDimension, "Granularity"=>Granularity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_approximate_usage_records(
+    ApproximationDimension, Granularity; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetApproximateUsageRecords",
+    Dict{String,Any}(
+        "ApproximationDimension" => ApproximationDimension, "Granularity" => Granularity
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_approximate_usage_records(
+    ApproximationDimension,
+    Granularity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetApproximateUsageRecords",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApproximationDimension" => ApproximationDimension,
+                    "Granularity" => Granularity,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_cost_and_usage(granularity, metrics, time_period)
@@ -342,8 +567,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides the token when the response from a previous call has more results than the
   maximum page size.
 """
-get_cost_and_usage(Granularity, Metrics, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}("Granularity"=>Granularity, "Metrics"=>Metrics, "TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_cost_and_usage(Granularity, Metrics, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metrics"=>Metrics, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_cost_and_usage(
+    Granularity, Metrics, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetCostAndUsage",
+    Dict{String,Any}(
+        "Granularity" => Granularity, "Metrics" => Metrics, "TimePeriod" => TimePeriod
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_cost_and_usage(
+    Granularity,
+    Metrics,
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostAndUsage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Granularity" => Granularity,
+                    "Metrics" => Metrics,
+                    "TimePeriod" => TimePeriod,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_cost_and_usage_with_resources(filter, granularity, time_period)
@@ -414,8 +671,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides the token when the response from a previous call has more results than the
   maximum page size.
 """
-get_cost_and_usage_with_resources(Filter, Granularity, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}("Filter"=>Filter, "Granularity"=>Granularity, "TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_cost_and_usage_with_resources(Filter, Granularity, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "Granularity"=>Granularity, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_cost_and_usage_with_resources(
+    Filter, Granularity, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetCostAndUsageWithResources",
+    Dict{String,Any}(
+        "Filter" => Filter, "Granularity" => Granularity, "TimePeriod" => TimePeriod
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_cost_and_usage_with_resources(
+    Filter,
+    Granularity,
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostAndUsageWithResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Filter" => Filter,
+                    "Granularity" => Granularity,
+                    "TimePeriod" => TimePeriod,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_cost_categories(time_period)
@@ -470,8 +759,27 @@ For `GetCostCategories`, MaxResults has an upper quota of 1000.
    <p>When you use the `SortBy` value, the `NextPageToken` and `SearchString` key values
   aren't supported.
 """
-get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostCategories", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_cost_categories(TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostCategories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "GetCostCategories",
+        Dict{String,Any}("TimePeriod" => TimePeriod);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_cost_categories(
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostCategories",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_cost_forecast(granularity, metric, time_period)
@@ -532,8 +840,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actual value falling in the prediction interval. Higher confidence levels result in wider
   prediction intervals.
 """
-get_cost_forecast(Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_cost_forecast(Granularity, Metric, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetCostForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_cost_forecast(
+    Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetCostForecast",
+    Dict{String,Any}(
+        "Granularity" => Granularity, "Metric" => Metric, "TimePeriod" => TimePeriod
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_cost_forecast(
+    Granularity,
+    Metric,
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostForecast",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Granularity" => Granularity,
+                    "Metric" => Metric,
+                    "TimePeriod" => TimePeriod,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_dimension_values(dimension, time_period)
@@ -661,8 +1001,33 @@ For `GetDimensionValues`, MaxResults has an upper limit of 1000.
    <p>When you specify a `SortBy` paramater, the context must be `COST_AND_USAGE`. Further,
   when using `SortBy`, `NextPageToken` and `SearchString` aren't supported.
 """
-get_dimension_values(Dimension, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetDimensionValues", Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_dimension_values(Dimension, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetDimensionValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_dimension_values(
+    Dimension, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetDimensionValues",
+    Dict{String,Any}("Dimension" => Dimension, "TimePeriod" => TimePeriod);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_dimension_values(
+    Dimension,
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetDimensionValues",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Dimension" => Dimension, "TimePeriod" => TimePeriod),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_reservation_coverage(time_period)
@@ -762,8 +1127,27 @@ Valid values are `Hour`, `Unit`, and `Cost`. You can use multiple values in a re
    - `Time`
 Supported values for `SortOrder` are `ASCENDING` or `DESCENDING`.
 """
-get_reservation_coverage(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetReservationCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_reservation_coverage(TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetReservationCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reservation_coverage(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "GetReservationCoverage",
+        Dict{String,Any}("TimePeriod" => TimePeriod);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_reservation_coverage(
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetReservationCoverage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_reservation_purchase_recommendation(service)
@@ -813,8 +1197,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want recommendations for, such as standard or convertible Amazon EC2 instances.
 - `"TermInYears"`: The reservation term that you want recommendations for.
 """
-get_reservation_purchase_recommendation(Service; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_reservation_purchase_recommendation(Service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reservation_purchase_recommendation(
+    Service; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetReservationPurchaseRecommendation",
+    Dict{String,Any}("Service" => Service);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_reservation_purchase_recommendation(
+    Service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetReservationPurchaseRecommendation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Service" => Service), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_reservation_utilization(time_period)
@@ -888,8 +1290,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `UnrealizedSavings`
   The supported values for `SortOrder` are `ASCENDING` and `DESCENDING`.
 """
-get_reservation_utilization(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetReservationUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_reservation_utilization(TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetReservationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reservation_utilization(
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetReservationUtilization",
+    Dict{String,Any}("TimePeriod" => TimePeriod);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_reservation_utilization(
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetReservationUtilization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rightsizing_recommendation(service)
@@ -923,8 +1345,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The number of recommendations that you want returned in a single response
   object.
 """
-get_rightsizing_recommendation(Service; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rightsizing_recommendation(Service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rightsizing_recommendation(
+    Service; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetRightsizingRecommendation",
+    Dict{String,Any}("Service" => Service);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_rightsizing_recommendation(
+    Service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetRightsizingRecommendation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Service" => Service), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_savings_plan_purchase_recommendation_details(recommendation_detail_id)
@@ -938,8 +1378,32 @@ data-points that construct the cost, coverage, and utilization charts.
 - `recommendation_detail_id`: The ID that is associated with the Savings Plan
   recommendation.
 """
-get_savings_plan_purchase_recommendation_details(RecommendationDetailId; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlanPurchaseRecommendationDetails", Dict{String, Any}("RecommendationDetailId"=>RecommendationDetailId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_savings_plan_purchase_recommendation_details(RecommendationDetailId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlanPurchaseRecommendationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecommendationDetailId"=>RecommendationDetailId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_savings_plan_purchase_recommendation_details(
+    RecommendationDetailId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetSavingsPlanPurchaseRecommendationDetails",
+    Dict{String,Any}("RecommendationDetailId" => RecommendationDetailId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_savings_plan_purchase_recommendation_details(
+    RecommendationDetailId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetSavingsPlanPurchaseRecommendationDetails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RecommendationDetailId" => RecommendationDetailId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_savings_plans_coverage(time_period)
@@ -999,8 +1463,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `Service`
 The supported values for `SortOrder` are `ASCENDING` and `DESCENDING`.
 """
-get_savings_plans_coverage(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_savings_plans_coverage(TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_savings_plans_coverage(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "GetSavingsPlansCoverage",
+        Dict{String,Any}("TimePeriod" => TimePeriod);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_savings_plans_coverage(
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetSavingsPlansCoverage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_savings_plans_purchase_recommendation(lookback_period_in_days, payment_option, savings_plans_type, term_in_years)
@@ -1042,8 +1525,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The number of recommendations that you want returned in a single response
   object.
 """
-get_savings_plans_purchase_recommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_savings_plans_purchase_recommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_savings_plans_purchase_recommendation(
+    LookbackPeriodInDays,
+    PaymentOption,
+    SavingsPlansType,
+    TermInYears;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = cost_explorer(
+    "GetSavingsPlansPurchaseRecommendation",
+    Dict{String,Any}(
+        "LookbackPeriodInDays" => LookbackPeriodInDays,
+        "PaymentOption" => PaymentOption,
+        "SavingsPlansType" => SavingsPlansType,
+        "TermInYears" => TermInYears,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_savings_plans_purchase_recommendation(
+    LookbackPeriodInDays,
+    PaymentOption,
+    SavingsPlansType,
+    TermInYears,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetSavingsPlansPurchaseRecommendation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LookbackPeriodInDays" => LookbackPeriodInDays,
+                    "PaymentOption" => PaymentOption,
+                    "SavingsPlansType" => SavingsPlansType,
+                    "TermInYears" => TermInYears,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_savings_plans_utilization(time_period)
@@ -1090,8 +1614,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `NetSavings`
 The supported values for `SortOrder` are `ASCENDING` and `DESCENDING`.
 """
-get_savings_plans_utilization(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_savings_plans_utilization(TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_savings_plans_utilization(
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetSavingsPlansUtilization",
+    Dict{String,Any}("TimePeriod" => TimePeriod);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_savings_plans_utilization(
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetSavingsPlansUtilization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_savings_plans_utilization_details(time_period)
@@ -1142,8 +1686,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `AmortizedUpfrontCommitment`
   The supported values for `SortOrder` are `ASCENDING` and `DESCENDING`.
 """
-get_savings_plans_utilization_details(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_savings_plans_utilization_details(TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_savings_plans_utilization_details(
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetSavingsPlansUtilizationDetails",
+    Dict{String,Any}("TimePeriod" => TimePeriod);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_savings_plans_utilization_details(
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetSavingsPlansUtilizationDetails",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_tags(time_period)
@@ -1189,8 +1753,26 @@ For `GetTags`, MaxResults has an upper quota of 1000.
  <p>When you use `SortBy`, `NextPageToken` and `SearchString` aren't supported.
 - `"TagKey"`: The key of the tag that you want to return values for.
 """
-get_tags(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetTags", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_tags(TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_tags(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer(
+    "GetTags",
+    Dict{String,Any}("TimePeriod" => TimePeriod);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_tags(
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_usage_forecast(granularity, metric, time_period)
@@ -1250,8 +1832,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Explorer is about the actual value falling in the prediction interval. Higher confidence
   levels result in wider prediction intervals.
 """
-get_usage_forecast(Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetUsageForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_usage_forecast(Granularity, Metric, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("GetUsageForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_usage_forecast(
+    Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "GetUsageForecast",
+    Dict{String,Any}(
+        "Granularity" => Granularity, "Metric" => Metric, "TimePeriod" => TimePeriod
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_usage_forecast(
+    Granularity,
+    Metric,
+    TimePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetUsageForecast",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Granularity" => Granularity,
+                    "Metric" => Metric,
+                    "TimePeriod" => TimePeriod,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_cost_allocation_tag_backfill_history()
@@ -1268,8 +1882,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides the token when the response from a previous call has more results than the
   maximum page size.
 """
-list_cost_allocation_tag_backfill_history(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListCostAllocationTagBackfillHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_cost_allocation_tag_backfill_history(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListCostAllocationTagBackfillHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_cost_allocation_tag_backfill_history(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "ListCostAllocationTagBackfillHistory";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_cost_allocation_tag_backfill_history(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListCostAllocationTagBackfillHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_cost_allocation_tags()
@@ -1294,8 +1923,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services resources for cost allocation purposes. The `UserDefined` type tags
   are tags that you define, create, and apply to resources.
 """
-list_cost_allocation_tags(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListCostAllocationTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_cost_allocation_tags(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListCostAllocationTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_cost_allocation_tags(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "ListCostAllocationTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_cost_allocation_tags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListCostAllocationTags",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_cost_category_definitions()
@@ -1319,8 +1960,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides the token when the response from a previous call has more results than the
   maximum page size.
 """
-list_cost_category_definitions(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListCostCategoryDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_cost_category_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListCostCategoryDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_cost_category_definitions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "ListCostCategoryDefinitions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_cost_category_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListCostCategoryDefinitions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_savings_plans_purchase_recommendation_generation()
@@ -1338,8 +1993,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 - `"RecommendationIds"`: The IDs for each specific recommendation.
 """
-list_savings_plans_purchase_recommendation_generation(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListSavingsPlansPurchaseRecommendationGeneration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_savings_plans_purchase_recommendation_generation(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListSavingsPlansPurchaseRecommendationGeneration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_savings_plans_purchase_recommendation_generation(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "ListSavingsPlansPurchaseRecommendationGeneration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_savings_plans_purchase_recommendation_generation(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListSavingsPlansPurchaseRecommendationGeneration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1353,8 +2023,27 @@ Resource Name (ARN).
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. For a list of supported
   resources, see [ResourceTag](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ResourceTag.html).
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     provide_anomaly_feedback(anomaly_id, feedback)
@@ -1368,8 +2057,33 @@ Modifies the feedback property of a given cost anomaly.
 - `feedback`: Describes whether the cost anomaly was a planned activity or you considered
   it an anomaly.
 """
-provide_anomaly_feedback(AnomalyId, Feedback; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ProvideAnomalyFeedback", Dict{String, Any}("AnomalyId"=>AnomalyId, "Feedback"=>Feedback); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-provide_anomaly_feedback(AnomalyId, Feedback, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("ProvideAnomalyFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyId"=>AnomalyId, "Feedback"=>Feedback), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+provide_anomaly_feedback(
+    AnomalyId, Feedback; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "ProvideAnomalyFeedback",
+    Dict{String,Any}("AnomalyId" => AnomalyId, "Feedback" => Feedback);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function provide_anomaly_feedback(
+    AnomalyId,
+    Feedback,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "ProvideAnomalyFeedback",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AnomalyId" => AnomalyId, "Feedback" => Feedback),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_cost_allocation_tag_backfill(backfill_from)
@@ -1387,8 +2101,28 @@ You can request a backfill once every 24 hours.
   first day of the month (a billing start date). Dates can't precede the previous twelve
   months, or in the future.
 """
-start_cost_allocation_tag_backfill(BackfillFrom; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("StartCostAllocationTagBackfill", Dict{String, Any}("BackfillFrom"=>BackfillFrom); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_cost_allocation_tag_backfill(BackfillFrom, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("StartCostAllocationTagBackfill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackfillFrom"=>BackfillFrom), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_cost_allocation_tag_backfill(
+    BackfillFrom; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "StartCostAllocationTagBackfill",
+    Dict{String,Any}("BackfillFrom" => BackfillFrom);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_cost_allocation_tag_backfill(
+    BackfillFrom,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "StartCostAllocationTagBackfill",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BackfillFrom" => BackfillFrom), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_savings_plans_purchase_recommendation_generation()
@@ -1403,8 +2137,23 @@ times daily for a consolidated billing family.
     `StartSavingsPlansPurchaseRecommendationGeneration` has no request syntax because no
 input parameters are needed to support this operation.
 """
-start_savings_plans_purchase_recommendation_generation(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("StartSavingsPlansPurchaseRecommendationGeneration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_savings_plans_purchase_recommendation_generation(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("StartSavingsPlansPurchaseRecommendationGeneration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_savings_plans_purchase_recommendation_generation(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "StartSavingsPlansPurchaseRecommendationGeneration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_savings_plans_purchase_recommendation_generation(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "StartSavingsPlansPurchaseRecommendationGeneration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, resource_tags)
@@ -1439,8 +2188,35 @@ are reserved for Amazon Web Services use.
    - Don’t use `aws:` as a prefix for your keys. This prefix is reserved for Amazon Web
   Services use
 """
-tag_resource(ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "ResourceTags"=>ResourceTags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, ResourceTags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "ResourceTags"=>ResourceTags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(
+    ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "TagResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "ResourceTags" => ResourceTags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    ResourceArn,
+    ResourceTags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ResourceTags" => ResourceTags
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, resource_tag_keys)
@@ -1458,8 +2234,35 @@ specify the value.
   maximum number of array members is 200, user-tag maximum is 50. The remaining are
   reserved for Amazon Web Services use.
 """
-untag_resource(ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "ResourceTagKeys"=>ResourceTagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, ResourceTagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "ResourceTagKeys"=>ResourceTagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(
+    ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "UntagResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "ResourceTagKeys" => ResourceTagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_resource(
+    ResourceArn,
+    ResourceTagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ResourceTagKeys" => ResourceTagKeys
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_anomaly_monitor(monitor_arn)
@@ -1478,8 +2281,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MonitorName"`: The new name for the cost anomaly monitor.
 """
-update_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateAnomalyMonitor", Dict{String, Any}("MonitorArn"=>MonitorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_anomaly_monitor(MonitorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitorArn"=>MonitorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_explorer(
+        "UpdateAnomalyMonitor",
+        Dict{String,Any}("MonitorArn" => MonitorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_anomaly_monitor(
+    MonitorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "UpdateAnomalyMonitor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("MonitorArn" => MonitorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_anomaly_subscription(subscription_arn)
@@ -1529,8 +2351,30 @@ You can specify either Threshold or ThresholdExpression, but not both.
  - `AND` two thresholds together: `{ "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }`
  - `OR` two thresholds together: `{ "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }`
 """
-update_anomaly_subscription(SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateAnomalySubscription", Dict{String, Any}("SubscriptionArn"=>SubscriptionArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_anomaly_subscription(SubscriptionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_anomaly_subscription(
+    SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "UpdateAnomalySubscription",
+    Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_anomaly_subscription(
+    SubscriptionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "UpdateAnomalySubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SubscriptionArn" => SubscriptionArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_cost_allocation_tags_status(cost_allocation_tags_status)
@@ -1546,8 +2390,32 @@ tag).
 - `cost_allocation_tags_status`: The list of `CostAllocationTagStatusEntry` objects that
   are used to update cost allocation tags status for this request.
 """
-update_cost_allocation_tags_status(CostAllocationTagsStatus; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateCostAllocationTagsStatus", Dict{String, Any}("CostAllocationTagsStatus"=>CostAllocationTagsStatus); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_cost_allocation_tags_status(CostAllocationTagsStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateCostAllocationTagsStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostAllocationTagsStatus"=>CostAllocationTagsStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_cost_allocation_tags_status(
+    CostAllocationTagsStatus; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "UpdateCostAllocationTagsStatus",
+    Dict{String,Any}("CostAllocationTagsStatus" => CostAllocationTagsStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_cost_allocation_tags_status(
+    CostAllocationTagsStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "UpdateCostAllocationTagsStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CostAllocationTagsStatus" => CostAllocationTagsStatus),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_cost_category_definition(cost_category_arn, rule_version, rules)
@@ -1574,5 +2442,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SplitChargeRules"`:  The split charge rules used to allocate your charges between your
   Cost Category values.
 """
-update_cost_category_definition(CostCategoryArn, RuleVersion, Rules; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_cost_category_definition(CostCategoryArn, RuleVersion, Rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_cost_category_definition(
+    CostCategoryArn, RuleVersion, Rules; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_explorer(
+    "UpdateCostCategoryDefinition",
+    Dict{String,Any}(
+        "CostCategoryArn" => CostCategoryArn,
+        "RuleVersion" => RuleVersion,
+        "Rules" => Rules,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_cost_category_definition(
+    CostCategoryArn,
+    RuleVersion,
+    Rules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "UpdateCostCategoryDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CostCategoryArn" => CostCategoryArn,
+                    "RuleVersion" => RuleVersion,
+                    "Rules" => Rules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

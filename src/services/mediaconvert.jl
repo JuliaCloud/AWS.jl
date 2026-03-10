@@ -16,8 +16,25 @@ MediaConvert.
 - `arn`: The ARN of the ACM certificate that you want to associate with your MediaConvert
   resource.
 """
-associate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_certificate(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "POST",
+        "/2017-08-29/certificates",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function associate_certificate(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/certificates",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_job(id)
@@ -29,8 +46,23 @@ Permanently cancel a job. Once you have canceled a job, you can't start it again
 
 - `id`: The Job ID of the job to be cancelled.
 """
-cancel_job(id; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_job(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_job(id; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "DELETE",
+    "/2017-08-29/jobs/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_job(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/jobs/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_job(role, settings)
@@ -94,8 +126,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrations or workflows that rely on job metadata tags. Otherwise, we recommend that
   you use standard AWS tags.
 """
-create_job(role, settings; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_job(role, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_job(role, settings; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "POST",
+        "/2017-08-29/jobs",
+        Dict{String,Any}(
+            "role" => role, "settings" => settings, "clientRequestToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_job(
+    role,
+    settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "role" => role,
+                    "settings" => settings,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_job_template(name, settings)
@@ -136,8 +200,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags that you want to add to the resource. You can tag resources with a key-
   value pair or with only a key.
 """
-create_job_template(name, settings; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_job_template(name, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_job_template(name, settings; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "POST",
+        "/2017-08-29/jobTemplates",
+        Dict{String,Any}("name" => name, "settings" => settings);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_job_template(
+    name,
+    settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/jobTemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "settings" => settings), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_preset(name, settings)
@@ -160,8 +248,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags that you want to add to the resource. You can tag resources with a key-
   value pair or with only a key.
 """
-create_preset(name, settings; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_preset(name, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_preset(name, settings; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "POST",
+        "/2017-08-29/presets",
+        Dict{String,Any}("name" => name, "settings" => settings);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_preset(
+    name,
+    settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/presets",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "settings" => settings), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_queue(name)
@@ -192,8 +304,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags that you want to add to the resource. You can tag resources with a key-
   value pair or with only a key.
 """
-create_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "POST",
+    "/2017-08-29/queues",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_queue(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/queues",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_job_template(name)
@@ -205,8 +333,24 @@ Permanently delete a job template you have created.
 
 - `name`: The name of the job template to be deleted.
 """
-delete_job_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_job_template(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "DELETE",
+        "/2017-08-29/jobTemplates/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_job_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/jobTemplates/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_policy()
@@ -214,8 +358,23 @@ delete_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSC
 
 Permanently delete a policy that you created.
 """
-delete_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "DELETE",
+    "/2017-08-29/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_preset(name)
@@ -227,8 +386,23 @@ Permanently delete a preset you have created.
 
 - `name`: The name of the preset to be deleted.
 """
-delete_preset(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_preset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_preset(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "DELETE",
+    "/2017-08-29/presets/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_preset(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/presets/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_queue(name)
@@ -240,8 +414,23 @@ Permanently delete a queue you have created.
 
 - `name`: The name of the queue that you want to delete.
 """
-delete_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "DELETE",
+    "/2017-08-29/queues/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_queue(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/queues/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_endpoints()
@@ -264,8 +453,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use this string, provided with the response to a previous request, to
   request the next batch of endpoints.
 """
-describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "POST",
+    "/2017-08-29/endpoints";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/endpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_certificate(arn)
@@ -279,8 +483,24 @@ Removes an association between the Amazon Resource Name (ARN) of an AWS Certific
 - `arn`: The ARN of the ACM certificate that you want to disassociate from your
   MediaConvert resource.
 """
-disassociate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_certificate(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "DELETE",
+        "/2017-08-29/certificates/$(arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disassociate_certificate(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/certificates/$(arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_job(id)
@@ -292,8 +512,23 @@ Retrieve the JSON for a specific transcoding job.
 
 - `id`: the job ID of the job.
 """
-get_job(id; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_job(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_job(id; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET",
+    "/2017-08-29/jobs/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_job(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/jobs/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_job_template(name)
@@ -305,8 +540,23 @@ Retrieve the JSON for a specific job template.
 
 - `name`: The name of the job template.
 """
-get_job_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_job_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET",
+    "/2017-08-29/jobTemplates/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_job_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/jobTemplates/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_policy()
@@ -314,8 +564,20 @@ get_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConf
 
 Retrieve the JSON for your policy.
 """
-get_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET", "/2017-08-29/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_preset(name)
@@ -327,8 +589,23 @@ Retrieve the JSON for a specific preset.
 
 - `name`: The name of the preset.
 """
-get_preset(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_preset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_preset(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET",
+    "/2017-08-29/presets/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_preset(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/presets/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_queue(name)
@@ -340,8 +617,23 @@ Retrieve the JSON for a specific queue.
 
 - `name`: The name of the queue that you want information about.
 """
-get_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET",
+    "/2017-08-29/queues/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_queue(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/queues/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_job_templates()
@@ -367,8 +659,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: Optional. When you request lists of resources, you can specify whether they
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_job_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET",
+    "/2017-08-29/jobTemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_job_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/jobTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_jobs()
@@ -392,8 +699,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED,
   or ERROR.
 """
-list_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET", "/2017-08-29/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_presets()
@@ -419,8 +738,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: Optional. When you request lists of resources, you can specify whether they
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-list_presets(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_presets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/presets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_presets(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET", "/2017-08-29/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_presets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/presets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_queues()
@@ -444,8 +775,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: Optional. When you request lists of resources, you can specify whether they
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-list_queues(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/queues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_queues(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/queues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_queues(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET", "/2017-08-29/queues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_queues(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/queues",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(arn)
@@ -458,8 +801,24 @@ Retrieve the tags for a MediaConvert resource.
 - `arn`: The Amazon Resource Name (ARN) of the resource that you want to list tags for. To
   get the ARN, send a GET request with the resource name.
 """
-list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "GET",
+        "/2017-08-29/tags/$(arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/tags/$(arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_policy(policy)
@@ -474,8 +833,24 @@ http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   information about MediaConvert policies, see the user guide at
   http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 """
-put_policy(policy; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/policy", Dict{String, Any}("policy"=>policy); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_policy(policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_policy(policy; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "PUT",
+    "/2017-08-29/policy",
+    Dict{String,Any}("policy" => policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_policy(
+    policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "PUT",
+        "/2017-08-29/policy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_jobs()
@@ -501,8 +876,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED,
   or ERROR.
 """
-search_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("GET", "/2017-08-29/search", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "GET", "/2017-08-29/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function search_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/search",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(arn, tags)
@@ -519,8 +906,29 @@ resources.html
 - `tags`: The tags that you want to add to the resource. You can tag resources with a key-
   value pair or with only a key.
 """
-tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}("arn"=>arn, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(arn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "POST",
+    "/2017-08-29/tags",
+    Dict{String,Any}("arn" => arn, "tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    arn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/tags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("arn" => arn, "tags" => tags), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(arn)
@@ -541,8 +949,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tagKeys"`: The keys of the tags that you want to remove from the resource.
 """
-untag_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "PUT",
+    "/2017-08-29/tags/$(arn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "PUT",
+        "/2017-08-29/tags/$(arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_job_template(name)
@@ -576,8 +999,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MediaConvert sends an update at this interval from the time the service begins processing
   your job to the time it completes the transcode or encounters an error.
 """
-update_job_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_job_template(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediaconvert(
+        "PUT",
+        "/2017-08-29/jobTemplates/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_job_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "PUT",
+        "/2017-08-29/jobTemplates/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_preset(name)
@@ -597,8 +1036,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The new description for the preset, if you are changing it.
 - `"settings"`: Settings for preset
 """
-update_preset(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_preset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_preset(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "PUT",
+    "/2017-08-29/presets/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_preset(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "PUT",
+        "/2017-08-29/presets/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_queue(name)
@@ -624,5 +1078,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you pause a queue, jobs in that queue won't begin. Jobs that are running when you
   pause the queue continue to run until they finish or result in an error.
 """
-update_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_queue(name; aws_config::AbstractAWSConfig=current_aws_config()) = mediaconvert(
+    "PUT",
+    "/2017-08-29/queues/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_queue(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "PUT",
+        "/2017-08-29/queues/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

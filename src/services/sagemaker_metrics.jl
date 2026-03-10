@@ -16,5 +16,36 @@ SageMaker Studio and retrieved with the `GetMetrics` API.
 - `metric_data`: A list of raw metric values to put.
 - `trial_component_name`: The name of the Trial Component to associate with the metrics.
 """
-batch_put_metrics(MetricData, TrialComponentName; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_metrics("PUT", "/BatchPutMetrics", Dict{String, Any}("MetricData"=>MetricData, "TrialComponentName"=>TrialComponentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_put_metrics(MetricData, TrialComponentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_metrics("PUT", "/BatchPutMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData, "TrialComponentName"=>TrialComponentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_put_metrics(
+    MetricData, TrialComponentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = sagemaker_metrics(
+    "PUT",
+    "/BatchPutMetrics",
+    Dict{String,Any}(
+        "MetricData" => MetricData, "TrialComponentName" => TrialComponentName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_put_metrics(
+    MetricData,
+    TrialComponentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_metrics(
+        "PUT",
+        "/BatchPutMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MetricData" => MetricData, "TrialComponentName" => TrialComponentName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

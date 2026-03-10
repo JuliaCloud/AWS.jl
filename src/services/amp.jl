@@ -27,8 +27,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-create_alert_manager_definition(data, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}("data"=>data, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_alert_manager_definition(data, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_alert_manager_definition(
+    data, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "POST",
+    "/workspaces/$(workspaceId)/alertmanager/definition",
+    Dict{String,Any}("data" => data, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_alert_manager_definition(
+    data,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/alertmanager/definition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("data" => data, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_logging_configuration(log_group_arn, workspace_id)
@@ -51,8 +78,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-create_logging_configuration(logGroupArn, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/logging", Dict{String, Any}("logGroupArn"=>logGroupArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_logging_configuration(logGroupArn, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupArn"=>logGroupArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_logging_configuration(
+    logGroupArn, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "POST",
+    "/workspaces/$(workspaceId)/logging",
+    Dict{String,Any}("logGroupArn" => logGroupArn, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_logging_configuration(
+    logGroupArn,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupArn" => logGroupArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_rule_groups_namespace(data, name, workspace_id)
@@ -83,8 +139,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request. Case-sensitive.
 - `"tags"`: The list of tag keys and values to associate with the rule groups namespace.
 """
-create_rule_groups_namespace(data, name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/rulegroupsnamespaces", Dict{String, Any}("data"=>data, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_rule_groups_namespace(data, name, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/rulegroupsnamespaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rule_groups_namespace(
+    data, name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "POST",
+    "/workspaces/$(workspaceId)/rulegroupsnamespaces",
+    Dict{String,Any}("data" => data, "name" => name, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_rule_groups_namespace(
+    data,
+    name,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/rulegroupsnamespaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "data" => data, "name" => name, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_scraper(destination, scrape_configuration, source)
@@ -129,8 +215,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure the idempotency of the request.
 - `"tags"`: (Optional) The list of tag keys and values to associate with the scraper.
 """
-create_scraper(destination, scrapeConfiguration, source; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/scrapers", Dict{String, Any}("destination"=>destination, "scrapeConfiguration"=>scrapeConfiguration, "source"=>source, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_scraper(destination, scrapeConfiguration, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/scrapers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination"=>destination, "scrapeConfiguration"=>scrapeConfiguration, "source"=>source, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_scraper(
+    destination,
+    scrapeConfiguration,
+    source;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amp(
+    "POST",
+    "/scrapers",
+    Dict{String,Any}(
+        "destination" => destination,
+        "scrapeConfiguration" => scrapeConfiguration,
+        "source" => source,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_scraper(
+    destination,
+    scrapeConfiguration,
+    source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/scrapers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destination" => destination,
+                    "scrapeConfiguration" => scrapeConfiguration,
+                    "source" => source,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_workspace()
@@ -157,8 +284,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon Managed Service for Prometheus User Guide*.
 - `"tags"`: The list of tag keys and values to associate with the workspace.
 """
-create_workspace(; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_workspace(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workspace(; aws_config::AbstractAWSConfig=current_aws_config()) = amp(
+    "POST",
+    "/workspaces",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_workspace(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "POST",
+        "/workspaces",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_alert_manager_definition(workspace_id)
@@ -177,8 +322,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-delete_alert_manager_definition(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_alert_manager_definition(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_alert_manager_definition(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "DELETE",
+    "/workspaces/$(workspaceId)/alertmanager/definition",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_alert_manager_definition(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/alertmanager/definition",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_logging_configuration(workspace_id)
@@ -197,8 +364,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-delete_logging_configuration(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)/logging", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_logging_configuration(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_logging_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "DELETE",
+    "/workspaces/$(workspaceId)/logging",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_logging_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_rule_groups_namespace(name, workspace_id)
@@ -219,8 +408,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-delete_rule_groups_namespace(name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_rule_groups_namespace(name, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rule_groups_namespace(
+    name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "DELETE",
+    "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_rule_groups_namespace(
+    name,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_scraper(scraper_id)
@@ -240,8 +452,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: (Optional) A unique, case-sensitive identifier that you can provide to
   ensure the idempotency of the request.
 """
-delete_scraper(scraperId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/scrapers/$(scraperId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_scraper(scraperId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/scrapers/$(scraperId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_scraper(scraperId; aws_config::AbstractAWSConfig=current_aws_config()) = amp(
+    "DELETE",
+    "/scrapers/$(scraperId)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_scraper(
+    scraperId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/scrapers/$(scraperId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_workspace(workspace_id)
@@ -264,8 +496,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp(
+    "DELETE",
+    "/workspaces/$(workspaceId)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_workspace(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_alert_manager_definition(workspace_id)
@@ -277,8 +529,27 @@ Retrieves the full information about the alert manager definition for a workspac
 
 - `workspace_id`: The ID of the workspace to retrieve the alert manager definition from.
 """
-describe_alert_manager_definition(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/alertmanager/definition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_alert_manager_definition(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/alertmanager/definition", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_alert_manager_definition(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "GET",
+    "/workspaces/$(workspaceId)/alertmanager/definition";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_alert_manager_definition(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/alertmanager/definition",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_logging_configuration(workspace_id)
@@ -290,8 +561,27 @@ Returns complete information about the current logging configuration of the work
 
 - `workspace_id`: The ID of the workspace to describe the logging configuration for.
 """
-describe_logging_configuration(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_logging_configuration(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_logging_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "GET",
+    "/workspaces/$(workspaceId)/logging";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_logging_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/logging",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_rule_groups_namespace(name, workspace_id)
@@ -305,8 +595,28 @@ groups namespaces, use `ListRuleGroupsNamespaces`.
 - `name`: The name of the rule groups namespace that you want information for.
 - `workspace_id`: The ID of the workspace containing the rule groups namespace.
 """
-describe_rule_groups_namespace(name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_rule_groups_namespace(name, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_rule_groups_namespace(
+    name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "GET",
+    "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_rule_groups_namespace(
+    name,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_scraper(scraper_id)
@@ -318,8 +628,25 @@ The `DescribeScraper` operation displays information about an existing scraper.
 
 - `scraper_id`: The ID of the scraper to describe.
 """
-describe_scraper(scraperId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/scrapers/$(scraperId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_scraper(scraperId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/scrapers/$(scraperId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_scraper(scraperId; aws_config::AbstractAWSConfig=current_aws_config()) = amp(
+    "GET",
+    "/scrapers/$(scraperId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_scraper(
+    scraperId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/scrapers/$(scraperId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_workspace(workspace_id)
@@ -331,8 +658,25 @@ Returns information about an existing workspace.
 
 - `workspace_id`: The ID of the workspace to describe.
 """
-describe_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp(
+    "GET",
+    "/workspaces/$(workspaceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_workspace(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_default_scraper_configuration()
@@ -341,8 +685,24 @@ describe_workspace(workspaceId, params::AbstractDict{String}; aws_config::Abstra
 The `GetDefaultScraperConfiguration` operation returns the default scraper configuration
 used when Amazon EKS creates a scraper for you.
 """
-get_default_scraper_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/scraperconfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_default_scraper_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/scraperconfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_default_scraper_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amp(
+        "GET",
+        "/scraperconfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_default_scraper_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET",
+        "/scraperconfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rule_groups_namespaces(workspace_id)
@@ -369,8 +729,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   namespaces to return, then your initial request will return 10 and a `nextToken`. Using
   the next token in a subsequent call will return the remaining 2 namespaces.
 """
-list_rule_groups_namespaces(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rule_groups_namespaces(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rule_groups_namespaces(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "GET",
+    "/workspaces/$(workspaceId)/rulegroupsnamespaces";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_rule_groups_namespaces(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/rulegroupsnamespaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_scrapers()
@@ -404,8 +783,15 @@ If you omit this parameter, the default of 100 is used.
 - `"nextToken"`: (Optional) The token for the next set of items to return. (You received
   this token from a previous call.)
 """
-list_scrapers(; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/scrapers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_scrapers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/scrapers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_scrapers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amp("GET", "/scrapers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_scrapers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET", "/scrapers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -420,8 +806,26 @@ are workspaces and rule groups namespaces.
 - `resource_arn`: The ARN of the resource to list tages for. Must be a workspace or rule
   groups namespace resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amp(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workspaces()
@@ -449,8 +853,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to return, then your initial request will return 10 and a `nextToken`. Using the next
   token in a subsequent call will return the remaining 2 workspaces.
 """
-list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workspaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amp("GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_workspaces(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     put_alert_manager_definition(data, workspace_id)
@@ -475,8 +886,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-put_alert_manager_definition(data, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("PUT", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}("data"=>data, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_alert_manager_definition(data, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("PUT", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_alert_manager_definition(
+    data, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "PUT",
+    "/workspaces/$(workspaceId)/alertmanager/definition",
+    Dict{String,Any}("data" => data, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_alert_manager_definition(
+    data,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/alertmanager/definition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("data" => data, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_rule_groups_namespace(data, name, workspace_id)
@@ -508,8 +946,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-put_rule_groups_namespace(data, name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("PUT", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}("data"=>data, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_rule_groups_namespace(data, name, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("PUT", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_rule_groups_namespace(
+    data, name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "PUT",
+    "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
+    Dict{String,Any}("data" => data, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_rule_groups_namespace(
+    data,
+    name,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("data" => data, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -529,8 +995,27 @@ resource, the new tag value that you specify replaces the previous value for tha
 
 Keys may not begin with `aws:`.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = amp(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -544,8 +1029,28 @@ resources that can be tagged are workspaces and rule groups namespaces.
 - `resource_arn`: The ARN of the workspace or rule groups namespace.
 - `tag_keys`: The keys of the tags to remove.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amp(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_logging_configuration(log_group_arn, workspace_id)
@@ -566,8 +1071,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-update_logging_configuration(logGroupArn, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("PUT", "/workspaces/$(workspaceId)/logging", Dict{String, Any}("logGroupArn"=>logGroupArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_logging_configuration(logGroupArn, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("PUT", "/workspaces/$(workspaceId)/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupArn"=>logGroupArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_logging_configuration(
+    logGroupArn, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = amp(
+    "PUT",
+    "/workspaces/$(workspaceId)/logging",
+    Dict{String,Any}("logGroupArn" => logGroupArn, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_logging_configuration(
+    logGroupArn,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupArn" => logGroupArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_workspace_alias(workspace_id)
@@ -590,5 +1124,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """
-update_workspace_alias(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_workspace_alias(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workspace_alias(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amp(
+        "POST",
+        "/workspaces/$(workspaceId)/alias",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_workspace_alias(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/alias",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

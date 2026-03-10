@@ -43,8 +43,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   within a maintenance window.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-create_environment(desktopArn; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("POST", "/environments", Dict{String, Any}("desktopArn"=>desktopArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment(desktopArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("POST", "/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("desktopArn"=>desktopArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment(desktopArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "POST",
+        "/environments",
+        Dict{String,Any}("desktopArn" => desktopArn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_environment(
+    desktopArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_thin_client(
+        "POST",
+        "/environments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "desktopArn" => desktopArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_device(id)
@@ -71,8 +98,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
 """
-delete_device(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("DELETE", "/devices/$(id)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_device(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("DELETE", "/devices/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_device(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "DELETE",
+        "/devices/$(id)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_device(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "DELETE",
+        "/devices/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment(id)
@@ -99,8 +145,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
 """
-delete_environment(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("DELETE", "/environments/$(id)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("DELETE", "/environments/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "DELETE",
+        "/environments/$(id)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_environment(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "DELETE",
+        "/environments/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_device(id)
@@ -128,8 +193,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the retry fails with an `IdempotentParameterMismatch` error.
 - `"targetDeviceStatus"`: The desired new status for the device.
 """
-deregister_device(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("POST", "/deregister-device/$(id)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_device(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("POST", "/deregister-device/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_device(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "POST",
+        "/deregister-device/$(id)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function deregister_device(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "POST",
+        "/deregister-device/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_device(id)
@@ -141,8 +225,20 @@ Returns information for a thin client device.
 
 - `id`: The ID of the device for which to return information.
 """
-get_device(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_device(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/devices/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_device(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client(
+    "GET", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_device(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "GET",
+        "/devices/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment(id)
@@ -154,8 +250,21 @@ Returns information for an environment.
 
 - `id`: The ID of the environment for which to return information.
 """
-get_environment(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/environments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/environments/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "GET", "/environments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_environment(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "GET",
+        "/environments/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_software_set(id)
@@ -167,8 +276,21 @@ Returns information for a software set.
 
 - `id`: The ID of the software set for which to return information.
 """
-get_software_set(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/softwaresets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_software_set(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/softwaresets/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_software_set(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "GET", "/softwaresets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_software_set(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "GET",
+        "/softwaresets/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_devices()
@@ -191,8 +313,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   *HTTP 400 InvalidToken error*.
 """
-list_devices(; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_devices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_devices(; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client(
+    "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_devices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_environments()
@@ -215,8 +345,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   *HTTP 400 InvalidToken error*.
 """
-list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/environments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "GET",
+        "/environments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_software_sets()
@@ -239,8 +382,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   *HTTP 400 InvalidToken error*.
 """
-list_software_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/softwaresets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_software_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/softwaresets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_software_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "GET", "/softwaresets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_software_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "GET",
+        "/softwaresets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -253,8 +409,26 @@ Returns a list of tags for a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to
   retrieve tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_thin_client(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -267,8 +441,28 @@ Assigns one or more tags (key-value pairs) to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
 - `tags`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_thin_client(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -282,8 +476,28 @@ Removes a tag or tags from a resource.
 - `tag_keys`: The keys of the key-value pairs for the tag or tags you want to remove from
   the specified resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_thin_client(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_device(id)
@@ -304,8 +518,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"softwareSetUpdateSchedule"`: An option to define if software updates should be applied
   within a maintenance window.
 """
-update_device(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("PATCH", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_device(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("PATCH", "/devices/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_device(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "PATCH", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function update_device(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "PATCH",
+        "/devices/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment(id)
@@ -334,8 +561,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"softwareSetUpdateSchedule"`: An option to define if software updates should be applied
   within a maintenance window.
 """
-update_environment(id; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("PATCH", "/environments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("PATCH", "/environments/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    workspaces_thin_client(
+        "PATCH",
+        "/environments/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_environment(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_thin_client(
+        "PATCH",
+        "/environments/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_software_set(id, validation_status)
@@ -348,5 +591,30 @@ Updates a software set.
 - `id`: The ID of the software set to update.
 - `validation_status`: An option to define if the software set has been validated.
 """
-update_software_set(id, validationStatus; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("PATCH", "/softwaresets/$(id)", Dict{String, Any}("validationStatus"=>validationStatus); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_software_set(id, validationStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = workspaces_thin_client("PATCH", "/softwaresets/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("validationStatus"=>validationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_software_set(
+    id, validationStatus; aws_config::AbstractAWSConfig=current_aws_config()
+) = workspaces_thin_client(
+    "PATCH",
+    "/softwaresets/$(id)",
+    Dict{String,Any}("validationStatus" => validationStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_software_set(
+    id,
+    validationStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_thin_client(
+        "PATCH",
+        "/softwaresets/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("validationStatus" => validationStatus), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

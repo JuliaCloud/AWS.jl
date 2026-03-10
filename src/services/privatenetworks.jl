@@ -14,8 +14,29 @@ Acknowledges that the specified network order was received.
 
 - `order_arn`: The Amazon Resource Name (ARN) of the order.
 """
-acknowledge_order_receipt(orderArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/orders/acknowledge", Dict{String, Any}("orderArn"=>orderArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-acknowledge_order_receipt(orderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/orders/acknowledge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("orderArn"=>orderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+acknowledge_order_receipt(orderArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/v1/orders/acknowledge",
+        Dict{String,Any}("orderArn" => orderArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function acknowledge_order_receipt(
+    orderArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/orders/acknowledge",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("orderArn" => orderArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     activate_device_identifier(device_identifier_arn)
@@ -34,8 +55,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
-activate_device_identifier(deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/device-identifiers/activate", Dict{String, Any}("deviceIdentifierArn"=>deviceIdentifierArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-activate_device_identifier(deviceIdentifierArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/device-identifiers/activate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceIdentifierArn"=>deviceIdentifierArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+activate_device_identifier(
+    deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "POST",
+    "/v1/device-identifiers/activate",
+    Dict{String,Any}("deviceIdentifierArn" => deviceIdentifierArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function activate_device_identifier(
+    deviceIdentifierArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/device-identifiers/activate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deviceIdentifierArn" => deviceIdentifierArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     activate_network_site(network_site_arn, shipping_address)
@@ -67,8 +114,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    <p>If you do not include `commitmentConfiguration` in the `ActivateNetworkSiteRequest`
   action, the commitment period is set to 60-days.
 """
-activate_network_site(networkSiteArn, shippingAddress; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-sites/activate", Dict{String, Any}("networkSiteArn"=>networkSiteArn, "shippingAddress"=>shippingAddress); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-activate_network_site(networkSiteArn, shippingAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-sites/activate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkSiteArn"=>networkSiteArn, "shippingAddress"=>shippingAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+activate_network_site(
+    networkSiteArn, shippingAddress; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "POST",
+    "/v1/network-sites/activate",
+    Dict{String,Any}(
+        "networkSiteArn" => networkSiteArn, "shippingAddress" => shippingAddress
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function activate_network_site(
+    networkSiteArn,
+    shippingAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-sites/activate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkSiteArn" => networkSiteArn, "shippingAddress" => shippingAddress
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     configure_access_point(access_point_arn)
@@ -99,8 +177,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the radio unit.
 - `"position"`: The position of the network resource.
 """
-configure_access_point(accessPointArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-resources/configure", Dict{String, Any}("accessPointArn"=>accessPointArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-configure_access_point(accessPointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-resources/configure", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPointArn"=>accessPointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+configure_access_point(accessPointArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/v1/network-resources/configure",
+        Dict{String,Any}("accessPointArn" => accessPointArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function configure_access_point(
+    accessPointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-resources/configure",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("accessPointArn" => accessPointArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network(network_name)
@@ -122,8 +221,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the network.
 - `"tags"`:  The tags to apply to the network.
 """
-create_network(networkName; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/networks", Dict{String, Any}("networkName"=>networkName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network(networkName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkName"=>networkName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network(networkName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/v1/networks",
+        Dict{String,Any}("networkName" => networkName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_network(
+    networkName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/networks",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("networkName" => networkName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_network_site(network_arn, network_site_name)
@@ -151,8 +271,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pendingPlan"`: Information about the pending plan for this site.
 - `"tags"`:  The tags to apply to the network site.
 """
-create_network_site(networkArn, networkSiteName; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-sites", Dict{String, Any}("networkArn"=>networkArn, "networkSiteName"=>networkSiteName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_network_site(networkArn, networkSiteName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-sites", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkArn"=>networkArn, "networkSiteName"=>networkSiteName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network_site(
+    networkArn, networkSiteName; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "POST",
+    "/v1/network-sites",
+    Dict{String,Any}("networkArn" => networkArn, "networkSiteName" => networkSiteName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_network_site(
+    networkArn,
+    networkSiteName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-sites",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkArn" => networkArn, "networkSiteName" => networkSiteName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deactivate_device_identifier(device_identifier_arn)
@@ -171,8 +320,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
-deactivate_device_identifier(deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/device-identifiers/deactivate", Dict{String, Any}("deviceIdentifierArn"=>deviceIdentifierArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deactivate_device_identifier(deviceIdentifierArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/device-identifiers/deactivate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceIdentifierArn"=>deviceIdentifierArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deactivate_device_identifier(
+    deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "POST",
+    "/v1/device-identifiers/deactivate",
+    Dict{String,Any}("deviceIdentifierArn" => deviceIdentifierArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deactivate_device_identifier(
+    deviceIdentifierArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/device-identifiers/deactivate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deviceIdentifierArn" => deviceIdentifierArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network(network_arn)
@@ -193,8 +368,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
-delete_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("DELETE", "/v1/networks/$(networkArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network(networkArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("DELETE", "/v1/networks/$(networkArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "DELETE",
+        "/v1/networks/$(networkArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_network(
+    networkArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "DELETE",
+        "/v1/networks/$(networkArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_network_site(network_site_arn)
@@ -215,8 +408,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
-delete_network_site(networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("DELETE", "/v1/network-sites/$(networkSiteArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_network_site(networkSiteArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("DELETE", "/v1/network-sites/$(networkSiteArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_network_site(networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "DELETE",
+        "/v1/network-sites/$(networkSiteArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_network_site(
+    networkSiteArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "DELETE",
+        "/v1/network-sites/$(networkSiteArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_device_identifier(device_identifier_arn)
@@ -228,8 +439,27 @@ Gets the specified device identifier.
 
 - `device_identifier_arn`: The Amazon Resource Name (ARN) of the device identifier.
 """
-get_device_identifier(deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/device-identifiers/$(deviceIdentifierArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_device_identifier(deviceIdentifierArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/device-identifiers/$(deviceIdentifierArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_device_identifier(
+    deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "GET",
+    "/v1/device-identifiers/$(deviceIdentifierArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_device_identifier(
+    deviceIdentifierArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "GET",
+        "/v1/device-identifiers/$(deviceIdentifierArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network(network_arn)
@@ -241,8 +471,26 @@ Gets the specified network.
 
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 """
-get_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/networks/$(networkArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network(networkArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/networks/$(networkArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "GET",
+        "/v1/networks/$(networkArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_network(
+    networkArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "GET",
+        "/v1/networks/$(networkArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_resource(network_resource_arn)
@@ -254,8 +502,27 @@ Gets the specified network resource.
 
 - `network_resource_arn`: The Amazon Resource Name (ARN) of the network resource.
 """
-get_network_resource(networkResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/network-resources/$(networkResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_resource(networkResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/network-resources/$(networkResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_resource(
+    networkResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "GET",
+    "/v1/network-resources/$(networkResourceArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_network_resource(
+    networkResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "GET",
+        "/v1/network-resources/$(networkResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_network_site(network_site_arn)
@@ -267,8 +534,26 @@ Gets the specified network site.
 
 - `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 """
-get_network_site(networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/network-sites/$(networkSiteArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_network_site(networkSiteArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/network-sites/$(networkSiteArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network_site(networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "GET",
+        "/v1/network-sites/$(networkSiteArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_network_site(
+    networkSiteArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "GET",
+        "/v1/network-sites/$(networkSiteArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_order(order_arn)
@@ -280,8 +565,25 @@ Gets the specified order.
 
 - `order_arn`: The Amazon Resource Name (ARN) of the order.
 """
-get_order(orderArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/orders/$(orderArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_order(orderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/v1/orders/$(orderArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_order(orderArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks(
+    "GET",
+    "/v1/orders/$(orderArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_order(
+    orderArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "GET",
+        "/v1/orders/$(orderArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_device_identifiers(network_arn)
@@ -311,8 +613,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-list_device_identifiers(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/device-identifiers/list", Dict{String, Any}("networkArn"=>networkArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_device_identifiers(networkArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/device-identifiers/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkArn"=>networkArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_device_identifiers(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/v1/device-identifiers/list",
+        Dict{String,Any}("networkArn" => networkArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_device_identifiers(
+    networkArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/device-identifiers/list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_network_resources(network_arn)
@@ -342,8 +665,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-list_network_resources(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-resources", Dict{String, Any}("networkArn"=>networkArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_network_resources(networkArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkArn"=>networkArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_network_resources(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/v1/network-resources",
+        Dict{String,Any}("networkArn" => networkArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_network_resources(
+    networkArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-resources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_network_sites(network_arn)
@@ -369,8 +713,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-list_network_sites(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-sites/list", Dict{String, Any}("networkArn"=>networkArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_network_sites(networkArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-sites/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkArn"=>networkArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_network_sites(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/v1/network-sites/list",
+        Dict{String,Any}("networkArn" => networkArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_network_sites(
+    networkArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-sites/list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_networks()
@@ -391,8 +756,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-list_networks(; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/networks/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_networks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/networks/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_networks(; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks(
+    "POST", "/v1/networks/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_networks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return privatenetworks(
+        "POST",
+        "/v1/networks/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_orders(network_arn)
@@ -422,8 +799,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-list_orders(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/orders/list", Dict{String, Any}("networkArn"=>networkArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_orders(networkArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/orders/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkArn"=>networkArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_orders(networkArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/v1/orders/list",
+        Dict{String,Any}("networkArn" => networkArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_orders(
+    networkArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/orders/list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -435,8 +833,26 @@ Lists the tags for the specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     ping()
@@ -444,8 +860,15 @@ list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::Ab
 
 Checks the health of the service.
 """
-ping(; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/ping"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-ping(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("GET", "/ping", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+ping(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks("GET", "/ping"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function ping(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return privatenetworks(
+        "GET", "/ping", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     start_network_resource_update(network_resource_arn, update_type)
@@ -493,8 +916,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replacing or returning a network resource, we use the address from the original order for
   the network resource.
 """
-start_network_resource_update(networkResourceArn, updateType; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-resources/update", Dict{String, Any}("networkResourceArn"=>networkResourceArn, "updateType"=>updateType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_network_resource_update(networkResourceArn, updateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/v1/network-resources/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkResourceArn"=>networkResourceArn, "updateType"=>updateType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_network_resource_update(
+    networkResourceArn, updateType; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "POST",
+    "/v1/network-resources/update",
+    Dict{String,Any}(
+        "networkResourceArn" => networkResourceArn, "updateType" => updateType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_network_resource_update(
+    networkResourceArn,
+    updateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-resources/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkResourceArn" => networkResourceArn, "updateType" => updateType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -507,8 +961,28 @@ start_network_resource_update(networkResourceArn, updateType, params::AbstractDi
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags to add to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -521,8 +995,28 @@ Removes tags from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_network_site(network_site_arn)
@@ -542,8 +1036,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"description"`: The description.
 """
-update_network_site(networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("PUT", "/v1/network-sites/site", Dict{String, Any}("networkSiteArn"=>networkSiteArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_network_site(networkSiteArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("PUT", "/v1/network-sites/site", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkSiteArn"=>networkSiteArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_network_site(networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    privatenetworks(
+        "PUT",
+        "/v1/network-sites/site",
+        Dict{String,Any}("networkSiteArn" => networkSiteArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_network_site(
+    networkSiteArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "PUT",
+        "/v1/network-sites/site",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("networkSiteArn" => networkSiteArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_network_site_plan(network_site_arn, pending_plan)
@@ -563,5 +1078,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
-update_network_site_plan(networkSiteArn, pendingPlan; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("PUT", "/v1/network-sites/plan", Dict{String, Any}("networkSiteArn"=>networkSiteArn, "pendingPlan"=>pendingPlan); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_network_site_plan(networkSiteArn, pendingPlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = privatenetworks("PUT", "/v1/network-sites/plan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkSiteArn"=>networkSiteArn, "pendingPlan"=>pendingPlan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_network_site_plan(
+    networkSiteArn, pendingPlan; aws_config::AbstractAWSConfig=current_aws_config()
+) = privatenetworks(
+    "PUT",
+    "/v1/network-sites/plan",
+    Dict{String,Any}("networkSiteArn" => networkSiteArn, "pendingPlan" => pendingPlan);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_network_site_plan(
+    networkSiteArn,
+    pendingPlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return privatenetworks(
+        "PUT",
+        "/v1/network-sites/plan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkSiteArn" => networkSiteArn, "pendingPlan" => pendingPlan
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -29,8 +29,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the ingested data described in the dataset.
 """
-create_dataset(ClientToken, DatasetName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateDataset", Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_dataset(ClientToken, DatasetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_dataset(
+    ClientToken, DatasetName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "CreateDataset",
+    Dict{String,Any}("ClientToken" => ClientToken, "DatasetName" => DatasetName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_dataset(
+    ClientToken,
+    DatasetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "CreateDataset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken, "DatasetName" => DatasetName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_inference_scheduler(client_token, data_input_configuration, data_output_configuration, data_upload_frequency, inference_scheduler_name, model_name, role_arn)
@@ -80,8 +107,61 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduler data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the inference scheduler.
 """
-create_inference_scheduler(ClientToken, DataInputConfiguration, DataOutputConfiguration, DataUploadFrequency, InferenceSchedulerName, ModelName, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateInferenceScheduler", Dict{String, Any}("ClientToken"=>ClientToken, "DataInputConfiguration"=>DataInputConfiguration, "DataOutputConfiguration"=>DataOutputConfiguration, "DataUploadFrequency"=>DataUploadFrequency, "InferenceSchedulerName"=>InferenceSchedulerName, "ModelName"=>ModelName, "RoleArn"=>RoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_inference_scheduler(ClientToken, DataInputConfiguration, DataOutputConfiguration, DataUploadFrequency, InferenceSchedulerName, ModelName, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataInputConfiguration"=>DataInputConfiguration, "DataOutputConfiguration"=>DataOutputConfiguration, "DataUploadFrequency"=>DataUploadFrequency, "InferenceSchedulerName"=>InferenceSchedulerName, "ModelName"=>ModelName, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_inference_scheduler(
+    ClientToken,
+    DataInputConfiguration,
+    DataOutputConfiguration,
+    DataUploadFrequency,
+    InferenceSchedulerName,
+    ModelName,
+    RoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutequipment(
+    "CreateInferenceScheduler",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "DataInputConfiguration" => DataInputConfiguration,
+        "DataOutputConfiguration" => DataOutputConfiguration,
+        "DataUploadFrequency" => DataUploadFrequency,
+        "InferenceSchedulerName" => InferenceSchedulerName,
+        "ModelName" => ModelName,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_inference_scheduler(
+    ClientToken,
+    DataInputConfiguration,
+    DataOutputConfiguration,
+    DataUploadFrequency,
+    InferenceSchedulerName,
+    ModelName,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "CreateInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DataInputConfiguration" => DataInputConfiguration,
+                    "DataOutputConfiguration" => DataOutputConfiguration,
+                    "DataUploadFrequency" => DataUploadFrequency,
+                    "InferenceSchedulerName" => InferenceSchedulerName,
+                    "ModelName" => ModelName,
+                    "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_label(client_token, end_time, label_group_name, rating, start_time)
@@ -119,8 +199,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
 """
-create_label(ClientToken, EndTime, LabelGroupName, Rating, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateLabel", Dict{String, Any}("ClientToken"=>ClientToken, "EndTime"=>EndTime, "LabelGroupName"=>LabelGroupName, "Rating"=>Rating, "StartTime"=>StartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_label(ClientToken, EndTime, LabelGroupName, Rating, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "EndTime"=>EndTime, "LabelGroupName"=>LabelGroupName, "Rating"=>Rating, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_label(
+    ClientToken,
+    EndTime,
+    LabelGroupName,
+    Rating,
+    StartTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutequipment(
+    "CreateLabel",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "EndTime" => EndTime,
+        "LabelGroupName" => LabelGroupName,
+        "Rating" => Rating,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_label(
+    ClientToken,
+    EndTime,
+    LabelGroupName,
+    Rating,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "CreateLabel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "EndTime" => EndTime,
+                    "LabelGroupName" => LabelGroupName,
+                    "Rating" => Rating,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_label_group(client_token, label_group_name)
@@ -151,8 +276,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
 """
-create_label_group(ClientToken, LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateLabelGroup", Dict{String, Any}("ClientToken"=>ClientToken, "LabelGroupName"=>LabelGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_label_group(ClientToken, LabelGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateLabelGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LabelGroupName"=>LabelGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_label_group(
+    ClientToken, LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "CreateLabelGroup",
+    Dict{String,Any}("ClientToken" => ClientToken, "LabelGroupName" => LabelGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_label_group(
+    ClientToken,
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "CreateLabelGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken, "LabelGroupName" => LabelGroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_model(client_token, dataset_name, model_name)
@@ -213,8 +365,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrainingDataStartTime"`: Indicates the time reference in the dataset that should be
   used to begin the subset of training data for the machine learning model.
 """
-create_model(ClientToken, DatasetName, ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateModel", Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_model(ClientToken, DatasetName, ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_model(
+    ClientToken, DatasetName, ModelName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "CreateModel",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "DatasetName" => DatasetName,
+        "ModelName" => ModelName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_model(
+    ClientToken,
+    DatasetName,
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "CreateModel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DatasetName" => DatasetName,
+                    "ModelName" => ModelName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_retraining_scheduler(client_token, lookback_window, model_name, retraining_frequency)
@@ -246,8 +432,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """
-create_retraining_scheduler(ClientToken, LookbackWindow, ModelName, RetrainingFrequency; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateRetrainingScheduler", Dict{String, Any}("ClientToken"=>ClientToken, "LookbackWindow"=>LookbackWindow, "ModelName"=>ModelName, "RetrainingFrequency"=>RetrainingFrequency); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_retraining_scheduler(ClientToken, LookbackWindow, ModelName, RetrainingFrequency, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("CreateRetrainingScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LookbackWindow"=>LookbackWindow, "ModelName"=>ModelName, "RetrainingFrequency"=>RetrainingFrequency), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_retraining_scheduler(
+    ClientToken,
+    LookbackWindow,
+    ModelName,
+    RetrainingFrequency;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutequipment(
+    "CreateRetrainingScheduler",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "LookbackWindow" => LookbackWindow,
+        "ModelName" => ModelName,
+        "RetrainingFrequency" => RetrainingFrequency,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_retraining_scheduler(
+    ClientToken,
+    LookbackWindow,
+    ModelName,
+    RetrainingFrequency,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "CreateRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "LookbackWindow" => LookbackWindow,
+                    "ModelName" => ModelName,
+                    "RetrainingFrequency" => RetrainingFrequency,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_dataset(dataset_name)
@@ -263,8 +490,27 @@ does prevent it from being used in the future.
 
 - `dataset_name`: The name of the dataset to be deleted.
 """
-delete_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteDataset", Dict{String, Any}("DatasetName"=>DatasetName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_dataset(DatasetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DeleteDataset",
+        Dict{String,Any}("DatasetName" => DatasetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_dataset(
+    DatasetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteDataset",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_inference_scheduler(inference_scheduler_name)
@@ -277,8 +523,32 @@ deleted.
 
 - `inference_scheduler_name`: The name of the inference scheduler to be deleted.
 """
-delete_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "DeleteInferenceScheduler",
+    Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_label(label_group_name, label_id)
@@ -293,8 +563,32 @@ delete_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String};
   the security of your data.
 - `label_id`:  The ID of the label that you want to delete.
 """
-delete_label(LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteLabel", Dict{String, Any}("LabelGroupName"=>LabelGroupName, "LabelId"=>LabelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_label(LabelGroupName, LabelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelGroupName"=>LabelGroupName, "LabelId"=>LabelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_label(LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DeleteLabel",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_label(
+    LabelGroupName,
+    LabelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteLabel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_label_group(label_group_name)
@@ -308,8 +602,27 @@ delete_label(LabelGroupName, LabelId, params::AbstractDict{String}; aws_config::
   field will be retained for service usage. Follow best practices for the security of your
   data.
 """
-delete_label_group(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteLabelGroup", Dict{String, Any}("LabelGroupName"=>LabelGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_label_group(LabelGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteLabelGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelGroupName"=>LabelGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_label_group(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DeleteLabelGroup",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_label_group(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteLabelGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_model(model_name)
@@ -323,8 +636,27 @@ up.
 
 - `model_name`: The name of the machine learning model to be deleted.
 """
-delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_model(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DeleteModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy(resource_arn)
@@ -337,8 +669,27 @@ Deletes the resource policy attached to the resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which the resource
   policy should be deleted.
 """
-delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_retraining_scheduler(model_name)
@@ -351,8 +702,27 @@ Deletes a retraining scheduler from a model. The retraining scheduler must be in
 
 - `model_name`: The name of the model whose retraining scheduler you want to delete.
 """
-delete_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteRetrainingScheduler", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_retraining_scheduler(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DeleteRetrainingScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DeleteRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_data_ingestion_job(job_id)
@@ -365,8 +735,23 @@ and status.
 
 - `job_id`: The job ID of the data ingestion job.
 """
-describe_data_ingestion_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeDataIngestionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_data_ingestion_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeDataIngestionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_data_ingestion_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DescribeDataIngestionJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_data_ingestion_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lookoutequipment(
+        "DescribeDataIngestionJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_dataset(dataset_name)
@@ -379,8 +764,27 @@ column names, and data types.
 
 - `dataset_name`: The name of the dataset to be described.
 """
-describe_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeDataset", Dict{String, Any}("DatasetName"=>DatasetName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_dataset(DatasetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DescribeDataset",
+        Dict{String,Any}("DatasetName" => DatasetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_dataset(
+    DatasetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeDataset",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_inference_scheduler(inference_scheduler_name)
@@ -393,8 +797,32 @@ status, and associated metadata
 
 - `inference_scheduler_name`: The name of the inference scheduler being described.
 """
-describe_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "DescribeInferenceScheduler",
+    Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_label(label_group_name, label_id)
@@ -407,8 +835,33 @@ describe_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String
 - `label_group_name`:  Returns the name of the group containing the label.
 - `label_id`:  Returns the ID of the label.
 """
-describe_label(LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeLabel", Dict{String, Any}("LabelGroupName"=>LabelGroupName, "LabelId"=>LabelId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_label(LabelGroupName, LabelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelGroupName"=>LabelGroupName, "LabelId"=>LabelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_label(
+    LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "DescribeLabel",
+    Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_label(
+    LabelGroupName,
+    LabelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeLabel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_label_group(label_group_name)
@@ -420,8 +873,27 @@ describe_label(LabelGroupName, LabelId, params::AbstractDict{String}; aws_config
 
 - `label_group_name`:  Returns the name of the label group.
 """
-describe_label_group(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeLabelGroup", Dict{String, Any}("LabelGroupName"=>LabelGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_label_group(LabelGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeLabelGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelGroupName"=>LabelGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_label_group(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DescribeLabelGroup",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_label_group(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeLabelGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_model(model_name)
@@ -435,8 +907,27 @@ on.
 
 - `model_name`: The name of the machine learning model to be described.
 """
-describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_model(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DescribeModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_model_version(model_name, model_version)
@@ -449,8 +940,33 @@ Retrieves information about a specific machine learning model version.
 - `model_name`: The name of the machine learning model that this version belongs to.
 - `model_version`: The version of the machine learning model.
 """
-describe_model_version(ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeModelVersion", Dict{String, Any}("ModelName"=>ModelName, "ModelVersion"=>ModelVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_model_version(ModelName, ModelVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName, "ModelVersion"=>ModelVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_model_version(
+    ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "DescribeModelVersion",
+    Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_model_version(
+    ModelName,
+    ModelVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeModelVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_resource_policy(resource_arn)
@@ -463,8 +979,27 @@ Provides the details of a resource policy attached to a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that is associated with
   the resource policy.
 """
-describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "DescribeResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_retraining_scheduler(model_name)
@@ -477,8 +1012,28 @@ name and retraining parameters.
 
 - `model_name`: The name of the model that the retraining scheduler is attached to.
 """
-describe_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeRetrainingScheduler", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_retraining_scheduler(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("DescribeRetrainingScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_retraining_scheduler(
+    ModelName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "DescribeRetrainingScheduler",
+    Dict{String,Any}("ModelName" => ModelName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_dataset(client_token, source_dataset_arn)
@@ -503,8 +1058,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the dataset to be created.
 """
-import_dataset(ClientToken, SourceDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ImportDataset", Dict{String, Any}("ClientToken"=>ClientToken, "SourceDatasetArn"=>SourceDatasetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_dataset(ClientToken, SourceDatasetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ImportDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "SourceDatasetArn"=>SourceDatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_dataset(
+    ClientToken, SourceDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "ImportDataset",
+    Dict{String,Any}("ClientToken" => ClientToken, "SourceDatasetArn" => SourceDatasetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_dataset(
+    ClientToken,
+    SourceDatasetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ImportDataset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken, "SourceDatasetArn" => SourceDatasetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_model_version(client_token, dataset_name, source_model_version_arn)
@@ -540,8 +1122,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data by Amazon Lookout for Equipment.
 - `"Tags"`: The tags associated with the machine learning model to be created.
 """
-import_model_version(ClientToken, DatasetName, SourceModelVersionArn; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ImportModelVersion", Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "SourceModelVersionArn"=>SourceModelVersionArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_model_version(ClientToken, DatasetName, SourceModelVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ImportModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "SourceModelVersionArn"=>SourceModelVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_model_version(
+    ClientToken,
+    DatasetName,
+    SourceModelVersionArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutequipment(
+    "ImportModelVersion",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "DatasetName" => DatasetName,
+        "SourceModelVersionArn" => SourceModelVersionArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_model_version(
+    ClientToken,
+    DatasetName,
+    SourceModelVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ImportModelVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DatasetName" => DatasetName,
+                    "SourceModelVersionArn" => SourceModelVersionArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_ingestion_jobs()
@@ -560,8 +1179,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data ingestion jobs.
 - `"Status"`: Indicates the status of the data ingestion job.
 """
-list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_ingestion_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListDataIngestionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_data_ingestion_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lookoutequipment(
+        "ListDataIngestionJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_datasets()
@@ -578,8 +1209,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   datasets.
 """
-list_datasets(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_datasets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_datasets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_datasets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lookoutequipment(
+        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_inference_events(inference_scheduler_name, interval_end_time, interval_start_time)
@@ -604,8 +1242,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   inference events.
 """
-list_inference_events(InferenceSchedulerName, IntervalEndTime, IntervalStartTime; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListInferenceEvents", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName, "IntervalEndTime"=>IntervalEndTime, "IntervalStartTime"=>IntervalStartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_inference_events(InferenceSchedulerName, IntervalEndTime, IntervalStartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListInferenceEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName, "IntervalEndTime"=>IntervalEndTime, "IntervalStartTime"=>IntervalStartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_inference_events(
+    InferenceSchedulerName,
+    IntervalEndTime,
+    IntervalStartTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutequipment(
+    "ListInferenceEvents",
+    Dict{String,Any}(
+        "InferenceSchedulerName" => InferenceSchedulerName,
+        "IntervalEndTime" => IntervalEndTime,
+        "IntervalStartTime" => IntervalStartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_inference_events(
+    InferenceSchedulerName,
+    IntervalEndTime,
+    IntervalStartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ListInferenceEvents",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InferenceSchedulerName" => InferenceSchedulerName,
+                    "IntervalEndTime" => IntervalEndTime,
+                    "IntervalStartTime" => IntervalStartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_inference_executions(inference_scheduler_name)
@@ -632,8 +1307,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inference executions.
 - `"Status"`: The status of the inference execution.
 """
-list_inference_executions(InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListInferenceExecutions", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_inference_executions(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListInferenceExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_inference_executions(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "ListInferenceExecutions",
+    Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_inference_executions(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ListInferenceExecutions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_inference_schedulers()
@@ -654,8 +1353,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inference schedulers.
 - `"Status"`: Specifies the current status of the inference schedulers.
 """
-list_inference_schedulers(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_inference_schedulers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListInferenceSchedulers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_inference_schedulers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_inference_schedulers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lookoutequipment(
+        "ListInferenceSchedulers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_label_groups()
@@ -673,8 +1384,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   label groups.
 """
-list_label_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_label_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListLabelGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_label_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment(
+    "ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_label_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lookoutequipment(
+        "ListLabelGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_labels(label_group_name)
@@ -700,8 +1419,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   label groups.
 """
-list_labels(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListLabels", Dict{String, Any}("LabelGroupName"=>LabelGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_labels(LabelGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelGroupName"=>LabelGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_labels(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "ListLabels",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_labels(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ListLabels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_model_versions(model_name)
@@ -734,8 +1472,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceType"`: Filter the results based on the way the model version was generated.
 - `"Status"`: Filter the results based on the current status of the model version.
 """
-list_model_versions(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListModelVersions", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_model_versions(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListModelVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_model_versions(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "ListModelVersions",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_model_versions(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ListModelVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_models()
@@ -757,8 +1514,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   machine learning models.
 - `"Status"`: The status of the machine learning model.
 """
-list_models(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_models(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_models(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment("ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_models(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lookoutequipment(
+        "ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_retraining_schedulers()
@@ -778,8 +1542,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specify this field to only list retraining schedulers whose status matches
   the value you specify.
 """
-list_retraining_schedulers(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_retraining_schedulers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListRetrainingSchedulers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_retraining_schedulers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_retraining_schedulers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lookoutequipment(
+        "ListRetrainingSchedulers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_sensor_statistics(dataset_name)
@@ -804,8 +1580,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   sensor statistics.
 """
-list_sensor_statistics(DatasetName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListSensorStatistics", Dict{String, Any}("DatasetName"=>DatasetName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_sensor_statistics(DatasetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListSensorStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sensor_statistics(DatasetName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "ListSensorStatistics",
+        Dict{String,Any}("DatasetName" => DatasetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_sensor_statistics(
+    DatasetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ListSensorStatistics",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -818,8 +1613,27 @@ Lists all the tags for a specified resource, including key and value.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource (such as the dataset or
   model) that is the focus of the `ListTagsForResource` operation.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy(client_token, resource_arn, resource_policy)
@@ -841,8 +1655,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PolicyRevisionId"`: A unique identifier for a revision of the resource policy.
 """
-put_resource_policy(ClientToken, ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("PutResourcePolicy", Dict{String, Any}("ClientToken"=>ClientToken, "ResourceArn"=>ResourceArn, "ResourcePolicy"=>ResourcePolicy); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(ClientToken, ResourceArn, ResourcePolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "ResourceArn"=>ResourceArn, "ResourcePolicy"=>ResourcePolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(
+    ClientToken,
+    ResourceArn,
+    ResourcePolicy;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutequipment(
+    "PutResourcePolicy",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "ResourceArn" => ResourceArn,
+        "ResourcePolicy" => ResourcePolicy,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_policy(
+    ClientToken,
+    ResourceArn,
+    ResourcePolicy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "ResourceArn" => ResourceArn,
+                    "ResourcePolicy" => ResourcePolicy,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_data_ingestion_job(client_token, dataset_name, ingestion_input_configuration, role_arn)
@@ -860,8 +1711,49 @@ Starts a data ingestion job. Amazon Lookout for Equipment returns the job status
 - `role_arn`:  The Amazon Resource Name (ARN) of a role with permission to access the data
   source for the data ingestion job.
 """
-start_data_ingestion_job(ClientToken, DatasetName, IngestionInputConfiguration, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StartDataIngestionJob", Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "IngestionInputConfiguration"=>IngestionInputConfiguration, "RoleArn"=>RoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_data_ingestion_job(ClientToken, DatasetName, IngestionInputConfiguration, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StartDataIngestionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "IngestionInputConfiguration"=>IngestionInputConfiguration, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_data_ingestion_job(
+    ClientToken,
+    DatasetName,
+    IngestionInputConfiguration,
+    RoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutequipment(
+    "StartDataIngestionJob",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "DatasetName" => DatasetName,
+        "IngestionInputConfiguration" => IngestionInputConfiguration,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_data_ingestion_job(
+    ClientToken,
+    DatasetName,
+    IngestionInputConfiguration,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "StartDataIngestionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DatasetName" => DatasetName,
+                    "IngestionInputConfiguration" => IngestionInputConfiguration,
+                    "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_inference_scheduler(inference_scheduler_name)
@@ -873,8 +1765,32 @@ Starts an inference scheduler.
 
 - `inference_scheduler_name`: The name of the inference scheduler to be started.
 """
-start_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StartInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StartInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "StartInferenceScheduler",
+    Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "StartInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_retraining_scheduler(model_name)
@@ -886,8 +1802,27 @@ Starts a retraining scheduler.
 
 - `model_name`: The name of the model whose retraining scheduler you want to start.
 """
-start_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StartRetrainingScheduler", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_retraining_scheduler(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StartRetrainingScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "StartRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "StartRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_inference_scheduler(inference_scheduler_name)
@@ -899,8 +1834,32 @@ Stops an inference scheduler.
 
 - `inference_scheduler_name`: The name of the inference scheduler to be stopped.
 """
-stop_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StopInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StopInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "StopInferenceScheduler",
+    Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "StopInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_retraining_scheduler(model_name)
@@ -912,8 +1871,27 @@ Stops a retraining scheduler.
 
 - `model_name`: The name of the model whose retraining scheduler you want to stop.
 """
-stop_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StopRetrainingScheduler", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_retraining_scheduler(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("StopRetrainingScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "StopRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "StopRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -932,8 +1910,32 @@ associated with each resource.
 - `tags`: The tag or tags to be associated with a specific resource. Both the tag key and
   value are specified.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -947,8 +1949,32 @@ Removes a specific tag from a given resource. The tag is specified by its key.
   currently associated.
 - `tag_keys`: Specifies the key of the tag to be removed from a specified resource.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_active_model_version(model_name, model_version)
@@ -963,8 +1989,33 @@ Sets the active model version for a given machine learning model.
 - `model_version`: The version of the machine learning model for which the active model
   version is being set.
 """
-update_active_model_version(ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateActiveModelVersion", Dict{String, Any}("ModelName"=>ModelName, "ModelVersion"=>ModelVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_active_model_version(ModelName, ModelVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateActiveModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName, "ModelVersion"=>ModelVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_active_model_version(
+    ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "UpdateActiveModelVersion",
+    Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_active_model_version(
+    ModelName,
+    ModelVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateActiveModelVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_inference_scheduler(inference_scheduler_name)
@@ -1000,8 +2051,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
   source for the inference scheduler.
 """
-update_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutequipment(
+    "UpdateInferenceScheduler",
+    Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_label_group(label_group_name)
@@ -1023,8 +2098,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
 """
-update_label_group(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateLabelGroup", Dict{String, Any}("LabelGroupName"=>LabelGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_label_group(LabelGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateLabelGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelGroupName"=>LabelGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_label_group(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "UpdateLabelGroup",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_label_group(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateLabelGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_model(model_name)
@@ -1046,8 +2140,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also specify the `RoleArn` request parameter.
 - `"RoleArn"`: The ARN of the model to update.
 """
-update_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_model(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "UpdateModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_retraining_scheduler(model_name)
@@ -1077,5 +2190,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """
-update_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateRetrainingScheduler", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_retraining_scheduler(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutequipment("UpdateRetrainingScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_retraining_scheduler(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutequipment(
+        "UpdateRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

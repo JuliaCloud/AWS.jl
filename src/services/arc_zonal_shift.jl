@@ -19,8 +19,26 @@ run with zonal autoshift.
 
 - `zonal_shift_id`: The internally-generated identifier of a zonal shift.
 """
-cancel_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("DELETE", "/zonalshifts/$(zonalShiftId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_zonal_shift(zonalShiftId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("DELETE", "/zonalshifts/$(zonalShiftId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    arc_zonal_shift(
+        "DELETE",
+        "/zonalshifts/$(zonalShiftId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_zonal_shift(
+    zonalShiftId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "DELETE",
+        "/zonalshifts/$(zonalShiftId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_practice_run_configuration(outcome_alarms, resource_identifier)
@@ -87,8 +105,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   practice runs. This alarm blocks Route 53 ARC from starting practice run zonal shifts,
   and ends a practice run that's in progress, when the alarm is in an `ALARM` state.
 """
-create_practice_run_configuration(outcomeAlarms, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("POST", "/configuration", Dict{String, Any}("outcomeAlarms"=>outcomeAlarms, "resourceIdentifier"=>resourceIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_practice_run_configuration(outcomeAlarms, resourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("POST", "/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("outcomeAlarms"=>outcomeAlarms, "resourceIdentifier"=>resourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_practice_run_configuration(
+    outcomeAlarms, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = arc_zonal_shift(
+    "POST",
+    "/configuration",
+    Dict{String,Any}(
+        "outcomeAlarms" => outcomeAlarms, "resourceIdentifier" => resourceIdentifier
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_practice_run_configuration(
+    outcomeAlarms,
+    resourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "POST",
+        "/configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "outcomeAlarms" => outcomeAlarms,
+                    "resourceIdentifier" => resourceIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_practice_run_configuration(resource_identifier)
@@ -104,8 +154,27 @@ runs must be configured for zonal autoshift to be enabled.
   practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the
   resource.
 """
-delete_practice_run_configuration(resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("DELETE", "/configuration/$(resourceIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_practice_run_configuration(resourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("DELETE", "/configuration/$(resourceIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_practice_run_configuration(
+    resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = arc_zonal_shift(
+    "DELETE",
+    "/configuration/$(resourceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_practice_run_configuration(
+    resourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "DELETE",
+        "/configuration/$(resourceIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_autoshift_observer_notification_status()
@@ -123,8 +192,25 @@ included in the autoshift.
 For more information, see [ Notifications for practice runs and autoshifts](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification)
 in the Amazon Route 53 Application Recovery Controller Developer Guide.
 """
-get_autoshift_observer_notification_status(; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/autoshift-observer-notification"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_autoshift_observer_notification_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/autoshift-observer-notification", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_autoshift_observer_notification_status(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = arc_zonal_shift(
+    "GET",
+    "/autoshift-observer-notification";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_autoshift_observer_notification_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return arc_zonal_shift(
+        "GET",
+        "/autoshift-observer-notification",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_managed_resource(resource_identifier)
@@ -146,8 +232,27 @@ Load Balancers and Application Load Balancers with cross-zone load balancing tur
   At this time, supported resources are Network Load Balancers and Application Load
   Balancers with cross-zone load balancing turned off.
 """
-get_managed_resource(resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/managedresources/$(resourceIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_managed_resource(resourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/managedresources/$(resourceIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_managed_resource(
+    resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = arc_zonal_shift(
+    "GET",
+    "/managedresources/$(resourceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_managed_resource(
+    resourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "GET",
+        "/managedresources/$(resourceIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_autoshifts()
@@ -168,8 +273,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call's `NextToken` response to request the next page of results.
 - `"status"`: The status of the autoshift.
 """
-list_autoshifts(; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_autoshifts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/autoshifts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_autoshifts(; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift(
+    "GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_autoshifts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return arc_zonal_shift(
+        "GET", "/autoshifts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_managed_resources()
@@ -191,8 +304,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_managed_resources(; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/managedresources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_managed_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/managedresources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_managed_resources(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    arc_zonal_shift(
+        "GET", "/managedresources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_managed_resources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return arc_zonal_shift(
+        "GET",
+        "/managedresources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_zonal_shifts()
@@ -224,8 +350,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - **EXPIRED**: The zonal shift has expired (the expiry time was exceeded).
    - **CANCELED**: The zonal shift was canceled.
 """
-list_zonal_shifts(; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_zonal_shifts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("GET", "/zonalshifts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_zonal_shifts(; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift(
+    "GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_zonal_shifts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return arc_zonal_shift(
+        "GET",
+        "/zonalshifts",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_zonal_shift(away_from, comment, expires_in, resource_identifier)
@@ -279,8 +417,51 @@ in the Amazon Route 53 Application Recovery Controller Developer Guide.
   At this time, supported resources are Network Load Balancers and Application Load
   Balancers with cross-zone load balancing turned off.
 """
-start_zonal_shift(awayFrom, comment, expiresIn, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("POST", "/zonalshifts", Dict{String, Any}("awayFrom"=>awayFrom, "comment"=>comment, "expiresIn"=>expiresIn, "resourceIdentifier"=>resourceIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_zonal_shift(awayFrom, comment, expiresIn, resourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("POST", "/zonalshifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("awayFrom"=>awayFrom, "comment"=>comment, "expiresIn"=>expiresIn, "resourceIdentifier"=>resourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_zonal_shift(
+    awayFrom,
+    comment,
+    expiresIn,
+    resourceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = arc_zonal_shift(
+    "POST",
+    "/zonalshifts",
+    Dict{String,Any}(
+        "awayFrom" => awayFrom,
+        "comment" => comment,
+        "expiresIn" => expiresIn,
+        "resourceIdentifier" => resourceIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_zonal_shift(
+    awayFrom,
+    comment,
+    expiresIn,
+    resourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "POST",
+        "/zonalshifts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "awayFrom" => awayFrom,
+                    "comment" => comment,
+                    "expiresIn" => expiresIn,
+                    "resourceIdentifier" => resourceIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_autoshift_observer_notification_status(status)
@@ -306,8 +487,26 @@ in the Amazon Route 53 Application Recovery Controller Developer Guide.
   only autoshift events for autoshifts when one or more of your resources is included in
   the autoshift.
 """
-update_autoshift_observer_notification_status(status; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PUT", "/autoshift-observer-notification", Dict{String, Any}("status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_autoshift_observer_notification_status(status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PUT", "/autoshift-observer-notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_autoshift_observer_notification_status(
+    status; aws_config::AbstractAWSConfig=current_aws_config()
+) = arc_zonal_shift(
+    "PUT",
+    "/autoshift-observer-notification",
+    Dict{String,Any}("status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_autoshift_observer_notification_status(
+    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return arc_zonal_shift(
+        "PUT",
+        "/autoshift-observer-notification",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_practice_run_configuration(resource_identifier)
@@ -353,8 +552,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outcomeAlarms"`: Specify a new the Amazon CloudWatch alarm as the outcome alarm for
   practice runs.
 """
-update_practice_run_configuration(resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PATCH", "/configuration/$(resourceIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_practice_run_configuration(resourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PATCH", "/configuration/$(resourceIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_practice_run_configuration(
+    resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = arc_zonal_shift(
+    "PATCH",
+    "/configuration/$(resourceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_practice_run_configuration(
+    resourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "PATCH",
+        "/configuration/$(resourceIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_zonal_autoshift_configuration(resource_identifier, zonal_autoshift_status)
@@ -382,8 +600,37 @@ reduce time to recovery. Traffic is also shifted away for the required weekly pr
   Services to shift away resource traffic for an application from an Availability Zone
   during events, on your behalf, to help reduce time to recovery.
 """
-update_zonal_autoshift_configuration(resourceIdentifier, zonalAutoshiftStatus; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PUT", "/managedresources/$(resourceIdentifier)", Dict{String, Any}("zonalAutoshiftStatus"=>zonalAutoshiftStatus); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_zonal_autoshift_configuration(resourceIdentifier, zonalAutoshiftStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PUT", "/managedresources/$(resourceIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("zonalAutoshiftStatus"=>zonalAutoshiftStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_zonal_autoshift_configuration(
+    resourceIdentifier,
+    zonalAutoshiftStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = arc_zonal_shift(
+    "PUT",
+    "/managedresources/$(resourceIdentifier)",
+    Dict{String,Any}("zonalAutoshiftStatus" => zonalAutoshiftStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_zonal_autoshift_configuration(
+    resourceIdentifier,
+    zonalAutoshiftStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "PUT",
+        "/managedresources/$(resourceIdentifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("zonalAutoshiftStatus" => zonalAutoshiftStatus),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_zonal_shift(zonal_shift_id)
@@ -419,5 +666,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example: `20h` means the zonal shift expires in 20 hours. `120m` means the zonal
   shift expires in 120 minutes (2 hours).
 """
-update_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PATCH", "/zonalshifts/$(zonalShiftId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_zonal_shift(zonalShiftId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = arc_zonal_shift("PATCH", "/zonalshifts/$(zonalShiftId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    arc_zonal_shift(
+        "PATCH",
+        "/zonalshifts/$(zonalShiftId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_zonal_shift(
+    zonalShiftId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return arc_zonal_shift(
+        "PATCH",
+        "/zonalshifts/$(zonalShiftId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

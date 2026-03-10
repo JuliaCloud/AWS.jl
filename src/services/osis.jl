@@ -33,8 +33,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline
   with a public endpoint.
 """
-create_pipeline(MaxUnits, MinUnits, PipelineConfigurationBody, PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/createPipeline", Dict{String, Any}("MaxUnits"=>MaxUnits, "MinUnits"=>MinUnits, "PipelineConfigurationBody"=>PipelineConfigurationBody, "PipelineName"=>PipelineName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_pipeline(MaxUnits, MinUnits, PipelineConfigurationBody, PipelineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/createPipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxUnits"=>MaxUnits, "MinUnits"=>MinUnits, "PipelineConfigurationBody"=>PipelineConfigurationBody, "PipelineName"=>PipelineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_pipeline(
+    MaxUnits,
+    MinUnits,
+    PipelineConfigurationBody,
+    PipelineName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = osis(
+    "POST",
+    "/2022-01-01/osis/createPipeline",
+    Dict{String,Any}(
+        "MaxUnits" => MaxUnits,
+        "MinUnits" => MinUnits,
+        "PipelineConfigurationBody" => PipelineConfigurationBody,
+        "PipelineName" => PipelineName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_pipeline(
+    MaxUnits,
+    MinUnits,
+    PipelineConfigurationBody,
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/createPipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MaxUnits" => MaxUnits,
+                    "MinUnits" => MinUnits,
+                    "PipelineConfigurationBody" => PipelineConfigurationBody,
+                    "PipelineName" => PipelineName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_pipeline(pipeline_name)
@@ -46,8 +89,25 @@ Deletes an OpenSearch Ingestion pipeline. For more information, see [Deleting Am
 
 - `pipeline_name`: The name of the pipeline to delete.
 """
-delete_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("DELETE", "/2022-01-01/osis/deletePipeline/$(PipelineName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_pipeline(PipelineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("DELETE", "/2022-01-01/osis/deletePipeline/$(PipelineName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "DELETE",
+    "/2022-01-01/osis/deletePipeline/$(PipelineName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_pipeline(
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "DELETE",
+        "/2022-01-01/osis/deletePipeline/$(PipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_pipeline(pipeline_name)
@@ -59,8 +119,25 @@ Retrieves information about an OpenSearch Ingestion pipeline.
 
 - `pipeline_name`: The name of the pipeline.
 """
-get_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/getPipeline/$(PipelineName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_pipeline(PipelineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/getPipeline/$(PipelineName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "GET",
+    "/2022-01-01/osis/getPipeline/$(PipelineName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_pipeline(
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/getPipeline/$(PipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_pipeline_blueprint(blueprint_name)
@@ -80,8 +157,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"format"`: The format format of the blueprint to retrieve.
 """
-get_pipeline_blueprint(BlueprintName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/getPipelineBlueprint/$(BlueprintName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_pipeline_blueprint(BlueprintName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/getPipelineBlueprint/$(BlueprintName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_pipeline_blueprint(BlueprintName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    osis(
+        "GET",
+        "/2022-01-01/osis/getPipelineBlueprint/$(BlueprintName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_pipeline_blueprint(
+    BlueprintName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/getPipelineBlueprint/$(BlueprintName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_pipeline_change_progress(pipeline_name)
@@ -97,8 +192,27 @@ For more information, see [Tracking the status of pipeline creation](https://doc
 
 - `pipeline_name`: The name of the pipeline.
 """
-get_pipeline_change_progress(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/getPipelineChangeProgress/$(PipelineName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_pipeline_change_progress(PipelineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/getPipelineChangeProgress/$(PipelineName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_pipeline_change_progress(
+    PipelineName; aws_config::AbstractAWSConfig=current_aws_config()
+) = osis(
+    "GET",
+    "/2022-01-01/osis/getPipelineChangeProgress/$(PipelineName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_pipeline_change_progress(
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/getPipelineChangeProgress/$(PipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pipeline_blueprints()
@@ -106,8 +220,23 @@ get_pipeline_change_progress(PipelineName, params::AbstractDict{String}; aws_con
 
 Retrieves a list of all available blueprints for Data Prepper. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
 """
-list_pipeline_blueprints(; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/listPipelineBlueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pipeline_blueprints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/listPipelineBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pipeline_blueprints(; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "POST",
+    "/2022-01-01/osis/listPipelineBlueprints";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_pipeline_blueprints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/listPipelineBlueprints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pipelines()
@@ -126,8 +255,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned `nextToken` in subsequent `ListPipelines` operations, which returns
   results in the next page.
 """
-list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/listPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pipelines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/listPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "GET",
+    "/2022-01-01/osis/listPipelines";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_pipelines(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/listPipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(arn)
@@ -140,8 +284,24 @@ information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aw
 
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to retrieve tags for.
 """
-list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/listTagsForResource/", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("GET", "/2022-01-01/osis/listTagsForResource/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "GET",
+    "/2022-01-01/osis/listTagsForResource/",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags_for_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/listTagsForResource/",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_pipeline(pipeline_name)
@@ -153,8 +313,25 @@ Starts an OpenSearch Ingestion pipeline. For more information, see [Starting an 
 
 - `pipeline_name`: The name of the pipeline to start.
 """
-start_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("PUT", "/2022-01-01/osis/startPipeline/$(PipelineName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_pipeline(PipelineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("PUT", "/2022-01-01/osis/startPipeline/$(PipelineName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "PUT",
+    "/2022-01-01/osis/startPipeline/$(PipelineName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_pipeline(
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "PUT",
+        "/2022-01-01/osis/startPipeline/$(PipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_pipeline(pipeline_name)
@@ -166,8 +343,25 @@ Stops an OpenSearch Ingestion pipeline. For more information, see [Stopping an O
 
 - `pipeline_name`: The name of the pipeline to stop.
 """
-stop_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("PUT", "/2022-01-01/osis/stopPipeline/$(PipelineName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_pipeline(PipelineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("PUT", "/2022-01-01/osis/stopPipeline/$(PipelineName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "PUT",
+    "/2022-01-01/osis/stopPipeline/$(PipelineName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_pipeline(
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "PUT",
+        "/2022-01-01/osis/stopPipeline/$(PipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(tags, arn)
@@ -180,8 +374,29 @@ Tags an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon
 - `tags`: The list of key-value tags to add to the pipeline.
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to tag.
 """
-tag_resource(Tags, arn; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/tagResource/", Dict{String, Any}("Tags"=>Tags, "arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(Tags, arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/tagResource/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(Tags, arn; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "POST",
+    "/2022-01-01/osis/tagResource/",
+    Dict{String,Any}("Tags" => Tags, "arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    Tags,
+    arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/tagResource/",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Tags" => Tags, "arn" => arn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(tag_keys, arn)
@@ -194,8 +409,29 @@ Removes one or more tags from an OpenSearch Ingestion pipeline. For more informa
 - `tag_keys`: The tag keys to remove.
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to remove tags from.
 """
-untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/untagResource/", Dict{String, Any}("TagKeys"=>TagKeys, "arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(TagKeys, arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/untagResource/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "POST",
+    "/2022-01-01/osis/untagResource/",
+    Dict{String,Any}("TagKeys" => TagKeys, "arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_resource(
+    TagKeys,
+    arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/untagResource/",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys, "arn" => arn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_pipeline(pipeline_name)
@@ -221,8 +457,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accepts the pipeline configuration as a string or within a .yaml file. If you provide the
   configuration as a string, each new line must be escaped with `\n`.
 """
-update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis("PUT", "/2022-01-01/osis/updatePipeline/$(PipelineName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_pipeline(PipelineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("PUT", "/2022-01-01/osis/updatePipeline/$(PipelineName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config()) = osis(
+    "PUT",
+    "/2022-01-01/osis/updatePipeline/$(PipelineName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_pipeline(
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "PUT",
+        "/2022-01-01/osis/updatePipeline/$(PipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     validate_pipeline(pipeline_configuration_body)
@@ -237,5 +490,31 @@ For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https
   accepts the pipeline configuration as a string or within a .yaml file. If you provide the
   configuration as a string, each new line must be escaped with `\n`.
 """
-validate_pipeline(PipelineConfigurationBody; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/validatePipeline", Dict{String, Any}("PipelineConfigurationBody"=>PipelineConfigurationBody); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-validate_pipeline(PipelineConfigurationBody, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = osis("POST", "/2022-01-01/osis/validatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PipelineConfigurationBody"=>PipelineConfigurationBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+validate_pipeline(
+    PipelineConfigurationBody; aws_config::AbstractAWSConfig=current_aws_config()
+) = osis(
+    "POST",
+    "/2022-01-01/osis/validatePipeline",
+    Dict{String,Any}("PipelineConfigurationBody" => PipelineConfigurationBody);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function validate_pipeline(
+    PipelineConfigurationBody,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/validatePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("PipelineConfigurationBody" => PipelineConfigurationBody),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

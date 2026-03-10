@@ -17,8 +17,41 @@ Associates one or more configuration items with an application.
 - `configuration_ids`: The ID of each configuration item to be associated with an
   application.
 """
-associate_configuration_items_to_application(applicationConfigurationId, configurationIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("AssociateConfigurationItemsToApplication", Dict{String, Any}("applicationConfigurationId"=>applicationConfigurationId, "configurationIds"=>configurationIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_configuration_items_to_application(applicationConfigurationId, configurationIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("AssociateConfigurationItemsToApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationConfigurationId"=>applicationConfigurationId, "configurationIds"=>configurationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_configuration_items_to_application(
+    applicationConfigurationId,
+    configurationIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = application_discovery_service(
+    "AssociateConfigurationItemsToApplication",
+    Dict{String,Any}(
+        "applicationConfigurationId" => applicationConfigurationId,
+        "configurationIds" => configurationIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_configuration_items_to_application(
+    applicationConfigurationId,
+    configurationIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "AssociateConfigurationItemsToApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applicationConfigurationId" => applicationConfigurationId,
+                    "configurationIds" => configurationIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_delete_agents(delete_agents)
@@ -32,8 +65,27 @@ collector does not delete the previously discovered data. To delete the data col
 
 - `delete_agents`:  The list of agents to delete.
 """
-batch_delete_agents(deleteAgents; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("BatchDeleteAgents", Dict{String, Any}("deleteAgents"=>deleteAgents); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete_agents(deleteAgents, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("BatchDeleteAgents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deleteAgents"=>deleteAgents), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_agents(deleteAgents; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "BatchDeleteAgents",
+        Dict{String,Any}("deleteAgents" => deleteAgents);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_delete_agents(
+    deleteAgents,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "BatchDeleteAgents",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("deleteAgents" => deleteAgents), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_delete_import_data(import_task_ids)
@@ -59,8 +111,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deleteHistory"`:  Set to `true` to remove the deleted import task from
   <a>DescribeImportTasks</a>.
 """
-batch_delete_import_data(importTaskIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("BatchDeleteImportData", Dict{String, Any}("importTaskIds"=>importTaskIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete_import_data(importTaskIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("BatchDeleteImportData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("importTaskIds"=>importTaskIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_import_data(
+    importTaskIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = application_discovery_service(
+    "BatchDeleteImportData",
+    Dict{String,Any}("importTaskIds" => importTaskIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_delete_import_data(
+    importTaskIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "BatchDeleteImportData",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("importTaskIds" => importTaskIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application(name)
@@ -78,8 +150,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: Description of the application to be created.
 """
-create_application(name; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("CreateApplication", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "CreateApplication",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_application(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "CreateApplication",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_tags(configuration_ids, tags)
@@ -99,8 +186,32 @@ categorize IT assets. This API accepts a list of multiple configuration items.
 
  `{"key": "serverType", "value": "webServer"}`
 """
-create_tags(configurationIds, tags; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("CreateTags", Dict{String, Any}("configurationIds"=>configurationIds, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_tags(configurationIds, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationIds"=>configurationIds, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_tags(configurationIds, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "CreateTags",
+        Dict{String,Any}("configurationIds" => configurationIds, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_tags(
+    configurationIds,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "CreateTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("configurationIds" => configurationIds, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_applications(configuration_ids)
@@ -112,8 +223,29 @@ Deletes a list of applications and their associations with configuration items.
 
 - `configuration_ids`: Configuration ID of an application to be deleted.
 """
-delete_applications(configurationIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DeleteApplications", Dict{String, Any}("configurationIds"=>configurationIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_applications(configurationIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DeleteApplications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationIds"=>configurationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_applications(configurationIds; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DeleteApplications",
+        Dict{String,Any}("configurationIds" => configurationIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_applications(
+    configurationIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "DeleteApplications",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configurationIds" => configurationIds), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_tags(configuration_ids)
@@ -135,8 +267,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  `{"key": "serverType", "value": "webServer"}`
 """
-delete_tags(configurationIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DeleteTags", Dict{String, Any}("configurationIds"=>configurationIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_tags(configurationIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationIds"=>configurationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_tags(configurationIds; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DeleteTags",
+        Dict{String,Any}("configurationIds" => configurationIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_tags(
+    configurationIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "DeleteTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configurationIds" => configurationIds), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_agents()
@@ -160,12 +313,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The total number of agents/collectors to return in a single page of
   output. The maximum value is 100.
 - `"nextToken"`: Token to retrieve the next set of results. For example, if you previously
-  specified 100 IDs for `DescribeAgentsRequest$agentIds` but set
-  `DescribeAgentsRequest$maxResults` to 10, you received a set of 10 results along with a
+  specified 100 IDs for `DescribeAgentsRequest\$agentIds` but set
+  `DescribeAgentsRequest\$maxResults` to 10, you received a set of 10 results along with a
   token. Use that token in this query to get the next set of 10.
 """
-describe_agents(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_agents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_agents(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DescribeAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_agents(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "DescribeAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_batch_delete_configuration_task(task_id)
@@ -178,8 +340,24 @@ configuration deletion task.
 
 - `task_id`:  The ID of the task to delete.
 """
-describe_batch_delete_configuration_task(taskId; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeBatchDeleteConfigurationTask", Dict{String, Any}("taskId"=>taskId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_batch_delete_configuration_task(taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeBatchDeleteConfigurationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_batch_delete_configuration_task(
+    taskId; aws_config::AbstractAWSConfig=current_aws_config()
+) = application_discovery_service(
+    "DescribeBatchDeleteConfigurationTask",
+    Dict{String,Any}("taskId" => taskId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_batch_delete_configuration_task(
+    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "DescribeBatchDeleteConfigurationTask",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_configurations(configuration_ids)
@@ -204,8 +382,30 @@ in the *Amazon Web Services Application Discovery Service User Guide*.
 
 - `configuration_ids`: One or more configuration IDs.
 """
-describe_configurations(configurationIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeConfigurations", Dict{String, Any}("configurationIds"=>configurationIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_configurations(configurationIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationIds"=>configurationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_configurations(
+    configurationIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = application_discovery_service(
+    "DescribeConfigurations",
+    Dict{String,Any}("configurationIds" => configurationIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_configurations(
+    configurationIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "DescribeConfigurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configurationIds" => configurationIds), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_continuous_exports()
@@ -223,8 +423,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export descriptions returned.
 - `"nextToken"`: The token from the previous call to `DescribeExportTasks`.
 """
-describe_continuous_exports(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeContinuousExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_continuous_exports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeContinuousExports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_continuous_exports(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DescribeContinuousExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_continuous_exports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "DescribeContinuousExports",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_export_configurations()
@@ -242,8 +454,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export descriptions returned.
 - `"nextToken"`: The token from the previous call to describe-export-tasks.
 """
-describe_export_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeExportConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_export_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeExportConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_export_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DescribeExportConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_export_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "DescribeExportConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_export_tasks()
@@ -269,8 +495,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the `nextToken` value. This value is null when there are no more results to
   return.
 """
-describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_export_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeExportTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_export_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "DescribeExportTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_import_tasks()
@@ -290,8 +528,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100.
 - `"nextToken"`: The token to request a specific page of results.
 """
-describe_import_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeImportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_import_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeImportTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_import_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DescribeImportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_import_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "DescribeImportTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_tags()
@@ -317,8 +567,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum value is 100.
 - `"nextToken"`: A token to start the list. Use this token to get the next set of results.
 """
-describe_tags(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_tags(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_tags(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_tags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     disassociate_configuration_items_from_application(application_configuration_id, configuration_ids)
@@ -333,8 +592,41 @@ Disassociates one or more configuration items from an application.
 - `configuration_ids`: Configuration ID of each item to be disassociated from an
   application.
 """
-disassociate_configuration_items_from_application(applicationConfigurationId, configurationIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DisassociateConfigurationItemsFromApplication", Dict{String, Any}("applicationConfigurationId"=>applicationConfigurationId, "configurationIds"=>configurationIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_configuration_items_from_application(applicationConfigurationId, configurationIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("DisassociateConfigurationItemsFromApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationConfigurationId"=>applicationConfigurationId, "configurationIds"=>configurationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_configuration_items_from_application(
+    applicationConfigurationId,
+    configurationIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = application_discovery_service(
+    "DisassociateConfigurationItemsFromApplication",
+    Dict{String,Any}(
+        "applicationConfigurationId" => applicationConfigurationId,
+        "configurationIds" => configurationIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_configuration_items_from_application(
+    applicationConfigurationId,
+    configurationIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "DisassociateConfigurationItemsFromApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applicationConfigurationId" => applicationConfigurationId,
+                    "configurationIds" => configurationIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_configurations()
@@ -348,8 +640,20 @@ processes, connections, servers, and system performance. This API returns an exp
 you can query using the *DescribeExportConfigurations* API. The system imposes a limit of
 two configuration exports in six hours.
 """
-export_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("ExportConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("ExportConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "ExportConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function export_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "ExportConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_discovery_summary()
@@ -360,8 +664,20 @@ Retrieves a short summary of discovered assets.
 This API operation takes no request parameters and is called as is at the command prompt as
 shown in the example.
 """
-get_discovery_summary(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("GetDiscoverySummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_discovery_summary(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("GetDiscoverySummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_discovery_summary(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "GetDiscoverySummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_discovery_summary(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "GetDiscoverySummary",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_configurations(configuration_type)
@@ -389,14 +705,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The total number of items to return. The maximum value is 100.
 - `"nextToken"`: Token to retrieve the next set of results. For example, if a previous call
   to ListConfigurations returned 100 items, but you set
-  `ListConfigurationsRequest$maxResults` to 10, you received a set of 10 results along with
-  a token. Use that token in this query to get the next set of 10.
+  `ListConfigurationsRequest\$maxResults` to 10, you received a set of 10 results along
+  with a token. Use that token in this query to get the next set of 10.
 - `"orderBy"`: Certain filter criteria return output that can be sorted in ascending or
   descending order. For a list of output characteristics for each filter, see [Using the ListConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations)
   in the *Amazon Web Services Application Discovery Service User Guide*.
 """
-list_configurations(configurationType; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("ListConfigurations", Dict{String, Any}("configurationType"=>configurationType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_configurations(configurationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("ListConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationType"=>configurationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_configurations(configurationType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "ListConfigurations",
+        Dict{String,Any}("configurationType" => configurationType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_configurations(
+    configurationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "ListConfigurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configurationType" => configurationType), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_server_neighbors(configuration_id)
@@ -415,14 +752,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of results to return in a single page of output.
 - `"neighborConfigurationIds"`: List of configuration IDs to test for one-hop-away.
 - `"nextToken"`: Token to retrieve the next set of results. For example, if you previously
-  specified 100 IDs for `ListServerNeighborsRequest$neighborConfigurationIds` but set
-  `ListServerNeighborsRequest$maxResults` to 10, you received a set of 10 results along
+  specified 100 IDs for `ListServerNeighborsRequest\$neighborConfigurationIds` but set
+  `ListServerNeighborsRequest\$maxResults` to 10, you received a set of 10 results along
   with a token. Use that token in this query to get the next set of 10.
 - `"portInformationNeeded"`: Flag to indicate if port and protocol information is needed as
   part of the response.
 """
-list_server_neighbors(configurationId; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("ListServerNeighbors", Dict{String, Any}("configurationId"=>configurationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_server_neighbors(configurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("ListServerNeighbors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationId"=>configurationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_server_neighbors(configurationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "ListServerNeighbors",
+        Dict{String,Any}("configurationId" => configurationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_server_neighbors(
+    configurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "ListServerNeighbors",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configurationId" => configurationId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_batch_delete_configuration_task(configuration_ids, configuration_type)
@@ -437,8 +795,38 @@ remove the configurationItems. Returns a unique deletion task identifier.
 - `configuration_type`:  The type of configuration item to delete. Supported types are:
   SERVER.
 """
-start_batch_delete_configuration_task(configurationIds, configurationType; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartBatchDeleteConfigurationTask", Dict{String, Any}("configurationIds"=>configurationIds, "configurationType"=>configurationType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_batch_delete_configuration_task(configurationIds, configurationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartBatchDeleteConfigurationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationIds"=>configurationIds, "configurationType"=>configurationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_batch_delete_configuration_task(
+    configurationIds, configurationType; aws_config::AbstractAWSConfig=current_aws_config()
+) = application_discovery_service(
+    "StartBatchDeleteConfigurationTask",
+    Dict{String,Any}(
+        "configurationIds" => configurationIds, "configurationType" => configurationType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_batch_delete_configuration_task(
+    configurationIds,
+    configurationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "StartBatchDeleteConfigurationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configurationIds" => configurationIds,
+                    "configurationType" => configurationType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_continuous_export()
@@ -446,8 +834,20 @@ start_batch_delete_configuration_task(configurationIds, configurationType, param
 
 Start the continuous flow of agent's discovered data into Amazon Athena.
 """
-start_continuous_export(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartContinuousExport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_continuous_export(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartContinuousExport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_continuous_export(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "StartContinuousExport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function start_continuous_export(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "StartContinuousExport",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_data_collection_by_agent_ids(agent_ids)
@@ -464,8 +864,28 @@ Instructs the specified agents to start collecting data.
   not have permission to contact some of those agents, the system does not throw an
   exception. Instead, the system shows `Failed` in the *Description* field.
 """
-start_data_collection_by_agent_ids(agentIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartDataCollectionByAgentIds", Dict{String, Any}("agentIds"=>agentIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_data_collection_by_agent_ids(agentIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartDataCollectionByAgentIds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentIds"=>agentIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_data_collection_by_agent_ids(
+    agentIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = application_discovery_service(
+    "StartDataCollectionByAgentIds",
+    Dict{String,Any}("agentIds" => agentIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_data_collection_by_agent_ids(
+    agentIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "StartDataCollectionByAgentIds",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("agentIds" => agentIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_export_task()
@@ -515,8 +935,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Discovery Agent selected in the filters. If no value is specified, data is exported
   starting from the first data collected by the agent.
 """
-start_export_task(; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartExportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_export_task(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartExportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_export_task(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "StartExportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function start_export_task(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_discovery_service(
+        "StartExportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     start_import_task(import_url, name)
@@ -568,8 +997,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sending more than one `StartImportTask` request with the same client request token will
   return information about the original import task with that client request token.
 """
-start_import_task(importUrl, name; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartImportTask", Dict{String, Any}("importUrl"=>importUrl, "name"=>name, "clientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_import_task(importUrl, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StartImportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("importUrl"=>importUrl, "name"=>name, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_import_task(importUrl, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "StartImportTask",
+        Dict{String,Any}(
+            "importUrl" => importUrl,
+            "name" => name,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_import_task(
+    importUrl,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "StartImportTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "importUrl" => importUrl,
+                    "name" => name,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_continuous_export(export_id)
@@ -581,8 +1042,27 @@ Stop the continuous flow of agent's discovered data into Amazon Athena.
 
 - `export_id`: The unique ID assigned to this export.
 """
-stop_continuous_export(exportId; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StopContinuousExport", Dict{String, Any}("exportId"=>exportId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_continuous_export(exportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StopContinuousExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportId"=>exportId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_continuous_export(exportId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "StopContinuousExport",
+        Dict{String,Any}("exportId" => exportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_continuous_export(
+    exportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "StopContinuousExport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("exportId" => exportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_data_collection_by_agent_ids(agent_ids)
@@ -594,8 +1074,28 @@ Instructs the specified agents to stop collecting data.
 
 - `agent_ids`: The IDs of the agents from which to stop collecting data.
 """
-stop_data_collection_by_agent_ids(agentIds; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StopDataCollectionByAgentIds", Dict{String, Any}("agentIds"=>agentIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_data_collection_by_agent_ids(agentIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("StopDataCollectionByAgentIds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentIds"=>agentIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_data_collection_by_agent_ids(
+    agentIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = application_discovery_service(
+    "StopDataCollectionByAgentIds",
+    Dict{String,Any}("agentIds" => agentIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_data_collection_by_agent_ids(
+    agentIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "StopDataCollectionByAgentIds",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("agentIds" => agentIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application(configuration_id)
@@ -614,5 +1114,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: New description of the application to be updated.
 - `"name"`: New name of the application to be updated.
 """
-update_application(configurationId; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("UpdateApplication", Dict{String, Any}("configurationId"=>configurationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application(configurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_discovery_service("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationId"=>configurationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(configurationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    application_discovery_service(
+        "UpdateApplication",
+        Dict{String,Any}("configurationId" => configurationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_application(
+    configurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_discovery_service(
+        "UpdateApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configurationId" => configurationId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

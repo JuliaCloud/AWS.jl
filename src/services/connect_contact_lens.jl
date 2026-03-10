@@ -23,5 +23,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_realtime_contact_analysis_segments(ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = connect_contact_lens("POST", "/realtime-contact-analysis/analysis-segments", Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_realtime_contact_analysis_segments(ContactId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connect_contact_lens("POST", "/realtime-contact-analysis/analysis-segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_realtime_contact_analysis_segments(
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = connect_contact_lens(
+    "POST",
+    "/realtime-contact-analysis/analysis-segments",
+    Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_realtime_contact_analysis_segments(
+    ContactId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connect_contact_lens(
+        "POST",
+        "/realtime-contact-analysis/analysis-segments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

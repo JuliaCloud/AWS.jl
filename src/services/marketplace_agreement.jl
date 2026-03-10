@@ -15,8 +15,27 @@ date.
 
 - `agreement_id`: The unique identifier of the agreement.
 """
-describe_agreement(agreementId; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_agreement("DescribeAgreement", Dict{String, Any}("agreementId"=>agreementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_agreement(agreementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_agreement("DescribeAgreement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agreementId"=>agreementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_agreement(agreementId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_agreement(
+        "DescribeAgreement",
+        Dict{String,Any}("agreementId" => agreementId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_agreement(
+    agreementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "DescribeAgreement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("agreementId" => agreementId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_agreement_terms(agreement_id)
@@ -45,8 +64,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of agreements to return in the response.
 - `"nextToken"`: A token to specify where to start pagination
 """
-get_agreement_terms(agreementId; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_agreement("GetAgreementTerms", Dict{String, Any}("agreementId"=>agreementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_agreement_terms(agreementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_agreement("GetAgreementTerms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agreementId"=>agreementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_agreement_terms(agreementId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_agreement(
+        "GetAgreementTerms",
+        Dict{String,Any}("agreementId" => agreementId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_agreement_terms(
+    agreementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "GetAgreementTerms",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("agreementId" => agreementId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_agreements()
@@ -102,5 +140,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start pagination.
 - `"sort"`: An object that contains the `SortBy` and `SortOrder` attributes.
 """
-search_agreements(; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_agreement("SearchAgreements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_agreements(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_agreement("SearchAgreements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_agreements(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_agreement(
+        "SearchAgreements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function search_agreements(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "SearchAgreements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end

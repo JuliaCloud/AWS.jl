@@ -25,8 +25,43 @@ used to identify the profile that it belongs to.
 - `profile_id`: The unique identifier of a customer profile.
 - `values`: A list of key values.
 """
-add_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_profile_key(DomainName, KeyName, ProfileId, Values, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_profile_key(
+    DomainName,
+    KeyName,
+    ProfileId,
+    Values;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/profiles/keys",
+    Dict{String,Any}("KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_profile_key(
+    DomainName,
+    KeyName,
+    ProfileId,
+    Values,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/keys",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_calculated_attribute_definition(attribute_details, calculated_attribute_name, domain_name, statistic)
@@ -57,8 +92,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The display name of the calculated attribute.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_calculated_attribute_definition(AttributeDetails, CalculatedAttributeName, DomainName, Statistic; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)", Dict{String, Any}("AttributeDetails"=>AttributeDetails, "Statistic"=>Statistic); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_calculated_attribute_definition(AttributeDetails, CalculatedAttributeName, DomainName, Statistic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeDetails"=>AttributeDetails, "Statistic"=>Statistic), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_calculated_attribute_definition(
+    AttributeDetails,
+    CalculatedAttributeName,
+    DomainName,
+    Statistic;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+    Dict{String,Any}("AttributeDetails" => AttributeDetails, "Statistic" => Statistic);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_calculated_attribute_definition(
+    AttributeDetails,
+    CalculatedAttributeName,
+    DomainName,
+    Statistic,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AttributeDetails" => AttributeDetails, "Statistic" => Statistic
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_domain(default_expiration_days, domain_name)
@@ -119,8 +189,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ExportingConfig` in the `RuleBasedMatchingRequest`, you can download the results from S3.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_domain(DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_domain(DefaultExpirationDays, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_domain(
+    DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)",
+    Dict{String,Any}("DefaultExpirationDays" => DefaultExpirationDays);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_domain(
+    DefaultExpirationDays,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DefaultExpirationDays" => DefaultExpirationDays),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_event_stream(domain_name, event_stream_name, uri)
@@ -145,8 +242,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_event_stream(DomainName, EventStreamName, Uri; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/event-streams/$(EventStreamName)", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_event_stream(DomainName, EventStreamName, Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/event-streams/$(EventStreamName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_event_stream(
+    DomainName, EventStreamName, Uri; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+    Dict{String,Any}("Uri" => Uri);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_event_stream(
+    DomainName,
+    EventStreamName,
+    Uri,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_integration_workflow(domain_name, integration_config, object_type_name, role_arn, workflow_type)
@@ -171,8 +290,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_integration_workflow(DomainName, IntegrationConfig, ObjectTypeName, RoleArn, WorkflowType; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/workflows/integrations", Dict{String, Any}("IntegrationConfig"=>IntegrationConfig, "ObjectTypeName"=>ObjectTypeName, "RoleArn"=>RoleArn, "WorkflowType"=>WorkflowType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_integration_workflow(DomainName, IntegrationConfig, ObjectTypeName, RoleArn, WorkflowType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/workflows/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntegrationConfig"=>IntegrationConfig, "ObjectTypeName"=>ObjectTypeName, "RoleArn"=>RoleArn, "WorkflowType"=>WorkflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_integration_workflow(
+    DomainName,
+    IntegrationConfig,
+    ObjectTypeName,
+    RoleArn,
+    WorkflowType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/workflows/integrations",
+    Dict{String,Any}(
+        "IntegrationConfig" => IntegrationConfig,
+        "ObjectTypeName" => ObjectTypeName,
+        "RoleArn" => RoleArn,
+        "WorkflowType" => WorkflowType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_integration_workflow(
+    DomainName,
+    IntegrationConfig,
+    ObjectTypeName,
+    RoleArn,
+    WorkflowType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/workflows/integrations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IntegrationConfig" => IntegrationConfig,
+                    "ObjectTypeName" => ObjectTypeName,
+                    "RoleArn" => RoleArn,
+                    "WorkflowType" => WorkflowType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_profile(domain_name)
@@ -218,8 +382,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   home, or business number.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
-create_profile(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_profile(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_profile(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_profile(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_calculated_attribute_definition(calculated_attribute_name, domain_name)
@@ -235,8 +417,28 @@ CreateCalculatedAttributeDefinition API if you want it back.
 - `calculated_attribute_name`: The unique name of the calculated attribute.
 - `domain_name`: The unique name of the domain.
 """
-delete_calculated_attribute_definition(CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_calculated_attribute_definition(CalculatedAttributeName, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_calculated_attribute_definition(
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "DELETE",
+    "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_calculated_attribute_definition(
+    CalculatedAttributeName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_domain(domain_name)
@@ -249,8 +451,26 @@ and their related objects.
 
 - `domain_name`: The unique name of the domain.
 """
-delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_event_stream(domain_name, event_stream_name)
@@ -263,8 +483,28 @@ Disables and deletes the specified event stream.
 - `domain_name`: The unique name of the domain.
 - `event_stream_name`: The name of the event stream
 """
-delete_event_stream(DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/event-streams/$(EventStreamName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_event_stream(DomainName, EventStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/event-streams/$(EventStreamName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_stream(
+    DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "DELETE",
+    "/domains/$(DomainName)/event-streams/$(EventStreamName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_event_stream(
+    DomainName,
+    EventStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_integration(domain_name, uri)
@@ -277,8 +517,28 @@ Removes an integration from a specific domain.
 - `domain_name`: The unique name of the domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 """
-delete_integration(DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_integration(DomainName, Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_integration(DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/integrations/delete",
+        Dict{String,Any}("Uri" => Uri);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_integration(
+    DomainName,
+    Uri,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/integrations/delete",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_profile(domain_name, profile_id)
@@ -291,8 +551,30 @@ Deletes the standard customer profile and all data pertaining to the profile.
 - `domain_name`: The unique name of the domain.
 - `profile_id`: The unique identifier of a customer profile.
 """
-delete_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_profile(DomainName, ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/delete",
+        Dict{String,Any}("ProfileId" => ProfileId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_profile(
+    DomainName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_profile_key(domain_name, key_name, profile_id, values)
@@ -307,8 +589,43 @@ Removes a searchable key from a customer profile.
 - `profile_id`: The unique identifier of a customer profile.
 - `values`: A list of key values.
 """
-delete_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_profile_key(DomainName, KeyName, ProfileId, Values, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile_key(
+    DomainName,
+    KeyName,
+    ProfileId,
+    Values;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/profiles/keys/delete",
+    Dict{String,Any}("KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_profile_key(
+    DomainName,
+    KeyName,
+    ProfileId,
+    Values,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/keys/delete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_profile_object(domain_name, object_type_name, profile_id, profile_object_unique_key)
@@ -324,8 +641,49 @@ Removes an object associated with a profile of a given ProfileObjectType.
 - `profile_object_unique_key`: The unique identifier of the profile object generated by the
   service.
 """
-delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile_object(
+    DomainName,
+    ObjectTypeName,
+    ProfileId,
+    ProfileObjectUniqueKey;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/profiles/objects/delete",
+    Dict{String,Any}(
+        "ObjectTypeName" => ObjectTypeName,
+        "ProfileId" => ProfileId,
+        "ProfileObjectUniqueKey" => ProfileObjectUniqueKey,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_profile_object(
+    DomainName,
+    ObjectTypeName,
+    ProfileId,
+    ProfileObjectUniqueKey,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/objects/delete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ObjectTypeName" => ObjectTypeName,
+                    "ProfileId" => ProfileId,
+                    "ProfileObjectUniqueKey" => ProfileObjectUniqueKey,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_profile_object_type(domain_name, object_type_name)
@@ -341,8 +699,28 @@ were populated from this ProfileObjectType.
 - `domain_name`: The unique name of the domain.
 - `object_type_name`: The name of the profile object type.
 """
-delete_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_profile_object_type(DomainName, ObjectTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile_object_type(
+    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "DELETE",
+    "/domains/$(DomainName)/object-types/$(ObjectTypeName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_profile_object_type(
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_workflow(domain_name, workflow_id)
@@ -356,8 +734,28 @@ process.
 - `domain_name`: The unique name of the domain.
 - `workflow_id`: Unique identifier for the workflow.
 """
-delete_workflow(DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/workflows/$(WorkflowId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_workflow(DomainName, WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/workflows/$(WorkflowId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workflow(
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "DELETE",
+    "/domains/$(DomainName)/workflows/$(WorkflowId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_workflow(
+    DomainName,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detect_profile_object_type(domain_name, objects)
@@ -370,8 +768,29 @@ The process of detecting profile object type mapping by using given objects.
 - `domain_name`: The unique name of the domain.
 - `objects`: A string that is serialized from a JSON object.
 """
-detect_profile_object_type(DomainName, Objects; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/detect/object-types", Dict{String, Any}("Objects"=>Objects); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detect_profile_object_type(DomainName, Objects, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/detect/object-types", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Objects"=>Objects), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detect_profile_object_type(
+    DomainName, Objects; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/detect/object-types",
+    Dict{String,Any}("Objects" => Objects);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detect_profile_object_type(
+    DomainName,
+    Objects,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/detect/object-types",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Objects" => Objects), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_auto_merging_preview(conflict_resolution, consolidation, domain_name)
@@ -406,8 +825,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MinAllowedConfidenceScoreForMerging"`: Minimum confidence score required for profiles
   within a matching group to be merged during the auto-merge process.
 """
-get_auto_merging_preview(ConflictResolution, Consolidation, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/identity-resolution-jobs/auto-merging-preview", Dict{String, Any}("ConflictResolution"=>ConflictResolution, "Consolidation"=>Consolidation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_auto_merging_preview(ConflictResolution, Consolidation, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/identity-resolution-jobs/auto-merging-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConflictResolution"=>ConflictResolution, "Consolidation"=>Consolidation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_auto_merging_preview(
+    ConflictResolution,
+    Consolidation,
+    DomainName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/identity-resolution-jobs/auto-merging-preview",
+    Dict{String,Any}(
+        "ConflictResolution" => ConflictResolution, "Consolidation" => Consolidation
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_auto_merging_preview(
+    ConflictResolution,
+    Consolidation,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/identity-resolution-jobs/auto-merging-preview",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConflictResolution" => ConflictResolution,
+                    "Consolidation" => Consolidation,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_calculated_attribute_definition(calculated_attribute_name, domain_name)
@@ -420,8 +875,28 @@ Provides more information on a calculated attribute definition for Customer Prof
 - `calculated_attribute_name`: The unique name of the calculated attribute.
 - `domain_name`: The unique name of the domain.
 """
-get_calculated_attribute_definition(CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_calculated_attribute_definition(CalculatedAttributeName, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_calculated_attribute_definition(
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_calculated_attribute_definition(
+    CalculatedAttributeName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_calculated_attribute_for_profile(calculated_attribute_name, domain_name, profile_id)
@@ -435,8 +910,32 @@ Retrieve a calculated attribute for a customer profile.
 - `domain_name`: The unique name of the domain.
 - `profile_id`: The unique identifier of a customer profile.
 """
-get_calculated_attribute_for_profile(CalculatedAttributeName, DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_calculated_attribute_for_profile(CalculatedAttributeName, DomainName, ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_calculated_attribute_for_profile(
+    CalculatedAttributeName,
+    DomainName,
+    ProfileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_calculated_attribute_for_profile(
+    CalculatedAttributeName,
+    DomainName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_domain(domain_name)
@@ -448,8 +947,26 @@ Returns information about a specific domain.
 
 - `domain_name`: The unique name of the domain.
 """
-get_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/domains/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_event_stream(domain_name, event_stream_name)
@@ -462,8 +979,28 @@ Returns information about the specified event stream in a specific domain.
 - `domain_name`: The unique name of the domain.
 - `event_stream_name`: The name of the event stream provided during create operations.
 """
-get_event_stream(DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/event-streams/$(EventStreamName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_event_stream(DomainName, EventStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/event-streams/$(EventStreamName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_stream(
+    DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/event-streams/$(EventStreamName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_event_stream(
+    DomainName,
+    EventStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_identity_resolution_job(domain_name, job_id)
@@ -479,8 +1016,28 @@ information, see [Use Identity Resolution to consolidate similar profiles](https
 - `domain_name`: The unique name of the domain.
 - `job_id`: The unique identifier of the Identity Resolution Job.
 """
-get_identity_resolution_job(DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/identity-resolution-jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_identity_resolution_job(DomainName, JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/identity-resolution-jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_identity_resolution_job(
+    DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/identity-resolution-jobs/$(JobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_identity_resolution_job(
+    DomainName,
+    JobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/identity-resolution-jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_integration(domain_name, uri)
@@ -493,8 +1050,28 @@ Returns an integration for a domain.
 - `domain_name`: The unique name of the domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 """
-get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_integration(DomainName, Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/integrations",
+        Dict{String,Any}("Uri" => Uri);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_integration(
+    DomainName,
+    Uri,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/integrations",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_matches(domain_name)
@@ -542,8 +1119,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-get_matches(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/matches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_matches(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/matches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_matches(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/matches";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_matches(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/matches",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_profile_object_type(domain_name, object_type_name)
@@ -556,8 +1151,28 @@ Returns the object types for a specific domain.
 - `domain_name`: The unique name of the domain.
 - `object_type_name`: The name of the profile object type.
 """
-get_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_profile_object_type(DomainName, ObjectTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_profile_object_type(
+    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/object-types/$(ObjectTypeName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_profile_object_type(
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_profile_object_type_template(template_id)
@@ -573,8 +1188,27 @@ ObjectTypeName that matches one of the TemplateIds, it uses the mappings from th
 
 - `template_id`: A unique identifier for the object template.
 """
-get_profile_object_type_template(TemplateId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/templates/$(TemplateId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_profile_object_type_template(TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/templates/$(TemplateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_profile_object_type_template(
+    TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/templates/$(TemplateId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_profile_object_type_template(
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/templates/$(TemplateId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_similar_profiles(domain_name, match_type, search_key, search_value)
@@ -598,8 +1232,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous `GetSimilarProfiles` API call.
 """
-get_similar_profiles(DomainName, MatchType, SearchKey, SearchValue; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/matches", Dict{String, Any}("MatchType"=>MatchType, "SearchKey"=>SearchKey, "SearchValue"=>SearchValue); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_similar_profiles(DomainName, MatchType, SearchKey, SearchValue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/matches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MatchType"=>MatchType, "SearchKey"=>SearchKey, "SearchValue"=>SearchValue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_similar_profiles(
+    DomainName,
+    MatchType,
+    SearchKey,
+    SearchValue;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/matches",
+    Dict{String,Any}(
+        "MatchType" => MatchType, "SearchKey" => SearchKey, "SearchValue" => SearchValue
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_similar_profiles(
+    DomainName,
+    MatchType,
+    SearchKey,
+    SearchValue,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/matches",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MatchType" => MatchType,
+                    "SearchKey" => SearchKey,
+                    "SearchValue" => SearchValue,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_workflow(domain_name, workflow_id)
@@ -612,8 +1285,27 @@ Get details of specified workflow.
 - `domain_name`: The unique name of the domain.
 - `workflow_id`: Unique identifier for the workflow.
 """
-get_workflow(DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/workflows/$(WorkflowId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_workflow(DomainName, WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/workflows/$(WorkflowId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workflow(DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_workflow(
+    DomainName,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_workflow_steps(domain_name, workflow_id)
@@ -634,8 +1326,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-get_workflow_steps(DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/workflows/$(WorkflowId)/steps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_workflow_steps(DomainName, WorkflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/workflows/$(WorkflowId)/steps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workflow_steps(
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/workflows/$(WorkflowId)/steps";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_workflow_steps(
+    DomainName,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)/steps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_account_integrations(uri)
@@ -656,8 +1368,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListAccountIntegrations API call.
 """
-list_account_integrations(Uri; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/integrations", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_account_integrations(Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_integrations(Uri; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "POST",
+        "/integrations",
+        Dict{String,Any}("Uri" => Uri);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_account_integrations(
+    Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "POST",
+        "/integrations",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_calculated_attribute_definitions(domain_name)
@@ -677,8 +1406,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous call to
   ListCalculatedAttributeDefinitions.
 """
-list_calculated_attribute_definitions(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/calculated-attributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_calculated_attribute_definitions(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/calculated-attributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_calculated_attribute_definitions(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/calculated-attributes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_calculated_attribute_definitions(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/calculated-attributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_calculated_attributes_for_profile(domain_name, profile_id)
@@ -699,8 +1447,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous call to
   ListCalculatedAttributesForProfile.
 """
-list_calculated_attributes_for_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_calculated_attributes_for_profile(DomainName, ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_calculated_attributes_for_profile(
+    DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_calculated_attributes_for_profile(
+    DomainName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_domains()
@@ -715,8 +1483,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListDomain API call.
 """
-list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles(
+    "GET", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_domains(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_event_streams(domain_name)
@@ -735,8 +1511,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: Identifies the next page of results to return.
 """
-list_event_streams(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/event-streams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_event_streams(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/event-streams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_event_streams(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-streams";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_event_streams(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-streams",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_identity_resolution_jobs(domain_name)
@@ -757,8 +1551,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_identity_resolution_jobs(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/identity-resolution-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_identity_resolution_jobs(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/identity-resolution-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_identity_resolution_jobs(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "GET",
+    "/domains/$(DomainName)/identity-resolution-jobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_identity_resolution_jobs(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/identity-resolution-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_integrations(domain_name)
@@ -779,8 +1592,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListIntegrations API call.
 """
-list_integrations(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/integrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_integrations(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/integrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_integrations(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/integrations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_integrations(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/integrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_profile_object_type_templates()
@@ -795,8 +1626,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListObjectTypeTemplates API call.
 """
-list_profile_object_type_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_profile_object_type_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profile_object_type_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET", "/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_profile_object_type_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET", "/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_profile_object_types(domain_name)
@@ -815,8 +1655,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: Identifies the next page of results to return.
 """
-list_profile_object_types(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_profile_object_types(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profile_object_types(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/object-types";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_profile_object_types(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/object-types",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_profile_objects(domain_name, object_type_name, profile_id)
@@ -839,8 +1697,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous call to ListProfileObjects.
 """
-list_profile_objects(DomainName, ObjectTypeName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_profile_objects(DomainName, ObjectTypeName, ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profile_objects(
+    DomainName,
+    ObjectTypeName,
+    ProfileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/profiles/objects",
+    Dict{String,Any}("ObjectTypeName" => ObjectTypeName, "ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_profile_objects(
+    DomainName,
+    ObjectTypeName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/objects",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ObjectTypeName" => ObjectTypeName, "ProfileId" => ProfileId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_rule_based_matches(domain_name)
@@ -859,8 +1750,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of `MatchIds` returned per page.
 - `"next-token"`: The pagination token from the previous `ListRuleBasedMatches` API call.
 """
-list_rule_based_matches(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/profiles/ruleBasedMatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_rule_based_matches(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/profiles/ruleBasedMatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_rule_based_matches(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profiles/ruleBasedMatches";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_rule_based_matches(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profiles/ruleBasedMatches",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -873,8 +1782,26 @@ Customer Profiles, domains, profile object types, and integrations can be tagged
 
 - `resource_arn`: The ARN of the resource for which you want to view tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workflows(domain_name)
@@ -898,8 +1825,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_workflows(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/workflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workflows(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/workflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workflows(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/workflows";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_workflows(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/workflows",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     merge_profiles(domain_name, main_profile_id, profile_ids_to_be_merged)
@@ -935,8 +1880,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EmailAddress from Profile1 into MainProfile. This would be the identifier of the
   EmailAddress field in Profile1.
 """
-merge_profiles(DomainName, MainProfileId, ProfileIdsToBeMerged; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/merge", Dict{String, Any}("MainProfileId"=>MainProfileId, "ProfileIdsToBeMerged"=>ProfileIdsToBeMerged); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-merge_profiles(DomainName, MainProfileId, ProfileIdsToBeMerged, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/merge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MainProfileId"=>MainProfileId, "ProfileIdsToBeMerged"=>ProfileIdsToBeMerged), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+merge_profiles(
+    DomainName,
+    MainProfileId,
+    ProfileIdsToBeMerged;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/profiles/objects/merge",
+    Dict{String,Any}(
+        "MainProfileId" => MainProfileId, "ProfileIdsToBeMerged" => ProfileIdsToBeMerged
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function merge_profiles(
+    DomainName,
+    MainProfileId,
+    ProfileIdsToBeMerged,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/objects/merge",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MainProfileId" => MainProfileId,
+                    "ProfileIdsToBeMerged" => ProfileIdsToBeMerged,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_integration(domain_name)
@@ -968,8 +1949,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 - `"Uri"`: The URI of the S3 bucket or any other type of data source.
 """
-put_integration(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_integration(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_integration(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/integrations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_integration(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/integrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_profile_object(domain_name, object, object_type_name)
@@ -994,8 +1993,36 @@ PutProfileObject needs an ObjectType, which can be created using PutProfileObjec
 - `object`: A string that is serialized from a JSON object.
 - `object_type_name`: The name of the profile object type.
 """
-put_profile_object(DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_profile_object(DomainName, Object, ObjectTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_profile_object(
+    DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "PUT",
+    "/domains/$(DomainName)/profiles/objects",
+    Dict{String,Any}("Object" => Object, "ObjectTypeName" => ObjectTypeName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_profile_object(
+    DomainName,
+    Object,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/profiles/objects",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Object" => Object, "ObjectTypeName" => ObjectTypeName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_profile_object_type(description, domain_name, object_type_name)
@@ -1037,8 +2064,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation
   is set to true when TemplateId is set, the service may return a `BadRequestException`.
 """
-put_profile_object_type(Description, DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}("Description"=>Description); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_profile_object_type(Description, DomainName, ObjectTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_profile_object_type(
+    Description,
+    DomainName,
+    ObjectTypeName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = customer_profiles(
+    "PUT",
+    "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
+    Dict{String,Any}("Description" => Description);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_profile_object_type(
+    Description,
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Description" => Description), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     search_profiles(domain_name, key_name, values)
@@ -1087,8 +2141,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 The default is 20 if this parameter is not included in the request.
 - `"next-token"`: The pagination token from the previous SearchProfiles API call.
 """
-search_profiles(DomainName, KeyName, Values; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search_profiles(DomainName, KeyName, Values, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_profiles(
+    DomainName, KeyName, Values; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "POST",
+    "/domains/$(DomainName)/profiles/search",
+    Dict{String,Any}("KeyName" => KeyName, "Values" => Values);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_profiles(
+    DomainName,
+    KeyName,
+    Values,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/search",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("KeyName" => KeyName, "Values" => Values), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1115,8 +2195,28 @@ You can associate as many as 50 tags with a resource.
 - `resource_arn`: The ARN of the resource that you're adding tags to.
 - `tags`: The tags used to organize, track, or control access for this resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1130,8 +2230,28 @@ Connect Customer Profiles, domains, profile object types, and integrations can b
 - `resource_arn`: The ARN of the resource from which you are removing tags.
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_calculated_attribute_definition(calculated_attribute_name, domain_name)
@@ -1155,8 +2275,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the calculated attribute.
 - `"DisplayName"`: The display name of the calculated attribute.
 """
-update_calculated_attribute_definition(CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_calculated_attribute_definition(CalculatedAttributeName, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_calculated_attribute_definition(
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = customer_profiles(
+    "PUT",
+    "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_calculated_attribute_definition(
+    CalculatedAttributeName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_domain(domain_name)
@@ -1211,8 +2351,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ExportingConfig` in the `RuleBasedMatchingRequest`, you can download the results from S3.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
-update_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_profile(domain_name, profile_id)
@@ -1262,5 +2420,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   home, or business number.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
-update_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_profile(DomainName, ProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/profiles",
+        Dict{String,Any}("ProfileId" => ProfileId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_profile(
+    DomainName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

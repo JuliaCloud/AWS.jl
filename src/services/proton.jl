@@ -19,8 +19,24 @@ in the *Proton User guide*.
 
 - `id`: The ID of the environment account connection.
 """
-accept_environment_account_connection(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton("AcceptEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("AcceptEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "AcceptEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "AcceptEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_component_deployment(component_name)
@@ -36,8 +52,28 @@ in the *Proton User Guide*.
 
 - `component_name`: The name of the component with the deployment to cancel.
 """
-cancel_component_deployment(componentName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelComponentDeployment", Dict{String, Any}("componentName"=>componentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_component_deployment(componentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelComponentDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentName"=>componentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_component_deployment(
+    componentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CancelComponentDeployment",
+    Dict{String,Any}("componentName" => componentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_component_deployment(
+    componentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CancelComponentDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("componentName" => componentName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_environment_deployment(environment_name)
@@ -58,8 +94,30 @@ has no effect.
 
 - `environment_name`: The name of the environment with the deployment to cancel.
 """
-cancel_environment_deployment(environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelEnvironmentDeployment", Dict{String, Any}("environmentName"=>environmentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_environment_deployment(environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelEnvironmentDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_environment_deployment(
+    environmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CancelEnvironmentDeployment",
+    Dict{String,Any}("environmentName" => environmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_environment_deployment(
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CancelEnvironmentDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("environmentName" => environmentName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_service_instance_deployment(service_instance_name, service_name)
@@ -81,8 +139,38 @@ has no effect.
 - `service_instance_name`: The name of the service instance with the deployment to cancel.
 - `service_name`: The name of the service with the service instance deployment to cancel.
 """
-cancel_service_instance_deployment(serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelServiceInstanceDeployment", Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_service_instance_deployment(serviceInstanceName, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelServiceInstanceDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_service_instance_deployment(
+    serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CancelServiceInstanceDeployment",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_service_instance_deployment(
+    serviceInstanceName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CancelServiceInstanceDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "serviceInstanceName" => serviceInstanceName,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_service_pipeline_deployment(service_name)
@@ -103,8 +191,28 @@ has no effect.
 
 - `service_name`: The name of the service with the service pipeline deployment to cancel.
 """
-cancel_service_pipeline_deployment(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelServicePipelineDeployment", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_service_pipeline_deployment(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CancelServicePipelineDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_service_pipeline_deployment(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CancelServicePipelineDeployment",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_service_pipeline_deployment(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CancelServicePipelineDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_component(manifest, name, template_file)
@@ -152,8 +260,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html)
   in the *Proton User Guide*.
 """
-create_component(manifest, name, templateFile; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateComponent", Dict{String, Any}("manifest"=>manifest, "name"=>name, "templateFile"=>templateFile, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_component(manifest, name, templateFile, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("manifest"=>manifest, "name"=>name, "templateFile"=>templateFile, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_component(
+    manifest, name, templateFile; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CreateComponent",
+    Dict{String,Any}(
+        "manifest" => manifest,
+        "name" => name,
+        "templateFile" => templateFile,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_component(
+    manifest,
+    name,
+    templateFile,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "manifest" => manifest,
+                    "name" => name,
+                    "templateFile" => templateFile,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment(name, spec, template_major_version, template_name)
@@ -231,8 +375,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Proton User Guide*.
 - `"templateMinorVersion"`: The minor version of the environment template.
 """
-create_environment(name, spec, templateMajorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironment", Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment(name, spec, templateMajorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "CreateEnvironment",
+    Dict{String,Any}(
+        "name" => name,
+        "spec" => spec,
+        "templateMajorVersion" => templateMajorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateEnvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "spec" => spec,
+                    "templateMajorVersion" => templateMajorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment_account_connection(environment_name, management_account_id)
@@ -284,8 +469,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html)
   in the *Proton User Guide*.
 """
-create_environment_account_connection(environmentName, managementAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironmentAccountConnection", Dict{String, Any}("environmentName"=>environmentName, "managementAccountId"=>managementAccountId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment_account_connection(environmentName, managementAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName, "managementAccountId"=>managementAccountId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment_account_connection(
+    environmentName, managementAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CreateEnvironmentAccountConnection",
+    Dict{String,Any}(
+        "environmentName" => environmentName,
+        "managementAccountId" => managementAccountId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment_account_connection(
+    environmentName,
+    managementAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateEnvironmentAccountConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "environmentName" => environmentName,
+                    "managementAccountId" => managementAccountId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment_template(name)
@@ -323,8 +541,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html)
   in the *Proton User Guide*.
 """
-create_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "CreateEnvironmentTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "CreateEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_environment_template_version(source, template_name)
@@ -358,8 +591,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html)
   in the *Proton User Guide*.
 """
-create_environment_template_version(source, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironmentTemplateVersion", Dict{String, Any}("source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_environment_template_version(source, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_environment_template_version(
+    source, templateName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CreateEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "source" => source,
+        "templateName" => templateName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_environment_template_version(
+    source,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "source" => source,
+                    "templateName" => templateName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_repository(connection_arn, name, provider)
@@ -397,8 +663,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html)
   in the *Proton User Guide*.
 """
-create_repository(connectionArn, name, provider; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateRepository", Dict{String, Any}("connectionArn"=>connectionArn, "name"=>name, "provider"=>provider); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_repository(connectionArn, name, provider, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionArn"=>connectionArn, "name"=>name, "provider"=>provider), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_repository(
+    connectionArn, name, provider; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CreateRepository",
+    Dict{String,Any}(
+        "connectionArn" => connectionArn, "name" => name, "provider" => provider
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_repository(
+    connectionArn,
+    name,
+    provider,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateRepository",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectionArn" => connectionArn, "name" => name, "provider" => provider
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_service(name, spec, template_major_version, template_name)
@@ -442,8 +738,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service.
 """
-create_service(name, spec, templateMajorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateService", Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_service(name, spec, templateMajorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_service(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "CreateService",
+    Dict{String,Any}(
+        "name" => name,
+        "spec" => spec,
+        "templateMajorVersion" => templateMajorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_service(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateService",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "spec" => spec,
+                    "templateMajorVersion" => templateMajorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_service_instance(name, service_name, spec)
@@ -472,8 +809,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: To create a new minor version of the service template, include
   a `major Version`.
 """
-create_service_instance(name, serviceName, spec; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceInstance", Dict{String, Any}("name"=>name, "serviceName"=>serviceName, "spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_service_instance(name, serviceName, spec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serviceName"=>serviceName, "spec"=>spec, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_service_instance(
+    name, serviceName, spec; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "CreateServiceInstance",
+    Dict{String,Any}(
+        "name" => name,
+        "serviceName" => serviceName,
+        "spec" => spec,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_service_instance(
+    name,
+    serviceName,
+    spec,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateServiceInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "serviceName" => serviceName,
+                    "spec" => spec,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_service_sync_config(branch, file_path, repository_name, repository_provider, service_name)
@@ -489,8 +862,53 @@ Create the Proton Ops configuration file.
 - `repository_provider`: The provider type for your repository.
 - `service_name`: The name of the service the Proton Ops file is for.
 """
-create_service_sync_config(branch, filePath, repositoryName, repositoryProvider, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceSyncConfig", Dict{String, Any}("branch"=>branch, "filePath"=>filePath, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_service_sync_config(branch, filePath, repositoryName, repositoryProvider, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branch"=>branch, "filePath"=>filePath, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "CreateServiceSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "filePath" => filePath,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "serviceName" => serviceName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "branch" => branch,
+                    "filePath" => filePath,
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_service_template(name)
@@ -526,8 +944,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html)
   in the *Proton User Guide*.
 """
-create_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "CreateServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "CreateServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_service_template_version(compatible_environment_templates, source, template_name)
@@ -570,8 +1002,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html)
   in the *Proton User Guide*.
 """
-create_service_template_version(compatibleEnvironmentTemplates, source, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceTemplateVersion", Dict{String, Any}("compatibleEnvironmentTemplates"=>compatibleEnvironmentTemplates, "source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_service_template_version(compatibleEnvironmentTemplates, source, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("compatibleEnvironmentTemplates"=>compatibleEnvironmentTemplates, "source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_service_template_version(
+    compatibleEnvironmentTemplates,
+    source,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "CreateServiceTemplateVersion",
+    Dict{String,Any}(
+        "compatibleEnvironmentTemplates" => compatibleEnvironmentTemplates,
+        "source" => source,
+        "templateName" => templateName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_service_template_version(
+    compatibleEnvironmentTemplates,
+    source,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "compatibleEnvironmentTemplates" => compatibleEnvironmentTemplates,
+                    "source" => source,
+                    "templateName" => templateName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_template_sync_config(branch, repository_name, repository_provider, template_name, template_type)
@@ -602,8 +1073,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subdirectory"`: A repository subdirectory path to your template bundle directory. When
   included, Proton limits the template bundle search to this repository directory.
 """
-create_template_sync_config(branch, repositoryName, repositoryProvider, templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateTemplateSyncConfig", Dict{String, Any}("branch"=>branch, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "templateName"=>templateName, "templateType"=>templateType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_template_sync_config(branch, repositoryName, repositoryProvider, templateName, templateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("CreateTemplateSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branch"=>branch, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "templateName"=>templateName, "templateType"=>templateType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_template_sync_config(
+    branch,
+    repositoryName,
+    repositoryProvider,
+    templateName,
+    templateType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "CreateTemplateSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "templateName" => templateName,
+        "templateType" => templateType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_template_sync_config(
+    branch,
+    repositoryName,
+    repositoryProvider,
+    templateName,
+    templateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "CreateTemplateSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "branch" => branch,
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "templateName" => templateName,
+                    "templateType" => templateType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_component(name)
@@ -618,8 +1134,22 @@ in the *Proton User Guide*.
 
 - `name`: The name of the component to delete.
 """
-delete_component(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteComponent", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_component(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_component(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "DeleteComponent",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_component(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "DeleteComponent",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_deployment(id)
@@ -631,8 +1161,22 @@ Delete the deployment.
 
 - `id`: The ID of the deployment to delete.
 """
-delete_deployment(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteDeployment", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_deployment(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_deployment(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "DeleteDeployment",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_deployment(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "DeleteDeployment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment(name)
@@ -644,8 +1188,22 @@ Delete an environment.
 
 - `name`: The name of the environment to delete.
 """
-delete_environment(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironment", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "DeleteEnvironment",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "DeleteEnvironment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment_account_connection(id)
@@ -666,8 +1224,24 @@ in the *Proton User guide*.
 
 - `id`: The ID of the environment account connection to delete.
 """
-delete_environment_account_connection(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "DeleteEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "DeleteEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment_template(name)
@@ -680,8 +1254,23 @@ environment template.
 
 - `name`: The name of the environment template to delete.
 """
-delete_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "DeleteEnvironmentTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "DeleteEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_environment_template_version(major_version, minor_version, template_name)
@@ -704,8 +1293,45 @@ that's backward compatible.
 - `minor_version`: The environment template minor version to delete.
 - `template_name`: The name of the environment template.
 """
-delete_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironmentTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_environment_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "DeleteEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "DeleteEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_repository(name, provider)
@@ -718,8 +1344,30 @@ De-register and unlink your repository.
 - `name`: The repository name.
 - `provider`: The repository provider.
 """
-delete_repository(name, provider; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteRepository", Dict{String, Any}("name"=>name, "provider"=>provider); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_repository(name, provider, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "provider"=>provider), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_repository(name, provider; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "DeleteRepository",
+        Dict{String,Any}("name" => name, "provider" => provider);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_repository(
+    name,
+    provider,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "DeleteRepository",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "provider" => provider), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_service(name)
@@ -738,8 +1386,22 @@ in the *Proton User Guide*.
 
 - `name`: The name of the service to delete.
 """
-delete_service(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteService", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_service(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_service(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "DeleteService",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_service(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "DeleteService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_service_sync_config(service_name)
@@ -752,8 +1414,28 @@ Delete the Proton Ops file.
 - `service_name`: The name of the service that you want to delete the service sync
   configuration for.
 """
-delete_service_sync_config(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteServiceSyncConfig", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_service_sync_config(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteServiceSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_service_sync_config(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "DeleteServiceSyncConfig",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_service_sync_config(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "DeleteServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_service_template(name)
@@ -766,8 +1448,22 @@ template.
 
 - `name`: The name of the service template to delete.
 """
-delete_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "DeleteServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "DeleteServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_service_template_version(major_version, minor_version, template_name)
@@ -790,8 +1486,45 @@ compatible.
 - `minor_version`: The service template minor version to delete.
 - `template_name`: The name of the service template.
 """
-delete_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteServiceTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_service_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "DeleteServiceTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "DeleteServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_template_sync_config(template_name, template_type)
@@ -804,8 +1537,35 @@ Delete a template sync configuration.
 - `template_name`: The template name.
 - `template_type`: The template type.
 """
-delete_template_sync_config(templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteTemplateSyncConfig", Dict{String, Any}("templateName"=>templateName, "templateType"=>templateType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_template_sync_config(templateName, templateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("DeleteTemplateSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName, "templateType"=>templateType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_template_sync_config(
+    templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "DeleteTemplateSyncConfig",
+    Dict{String,Any}("templateName" => templateName, "templateType" => templateType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_template_sync_config(
+    templateName,
+    templateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "DeleteTemplateSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "templateName" => templateName, "templateType" => templateType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_account_settings()
@@ -813,8 +1573,15 @@ delete_template_sync_config(templateName, templateType, params::AbstractDict{Str
 
 Get detail data for Proton account-wide settings.
 """
-get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_component(name)
@@ -829,8 +1596,22 @@ in the *Proton User Guide*.
 
 - `name`: The name of the component that you want to get the detailed data for.
 """
-get_component(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetComponent", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_component(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_component(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "GetComponent",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_component(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetComponent",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_deployment(id)
@@ -852,8 +1633,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployment ID. `serviceName` must be specified to identify the service instance.
 - `"serviceName"`: The name of the service associated with the given deployment ID.
 """
-get_deployment(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetDeployment", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_deployment(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_deployment(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "GetDeployment",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_deployment(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetDeployment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment(name)
@@ -865,8 +1660,22 @@ Get detailed data for an environment.
 
 - `name`: The name of the environment that you want to get the detailed data for.
 """
-get_environment(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironment", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "GetEnvironment",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetEnvironment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_account_connection(id)
@@ -882,8 +1691,23 @@ in the *Proton User guide*.
 - `id`: The ID of the environment account connection that you want to get the detailed data
   for.
 """
-get_environment_account_connection(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_account_connection(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "GetEnvironmentAccountConnection",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_template(name)
@@ -895,8 +1719,22 @@ Get detailed data for an environment template.
 
 - `name`: The name of the environment template that you want to get the detailed data for.
 """
-get_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "GetEnvironmentTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_environment_template_version(major_version, minor_version, template_name)
@@ -913,8 +1751,45 @@ Get detailed data for a major or minor version of an environment template.
 - `template_name`: The name of the environment template a version of which you want to get
   detailed data for.
 """
-get_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironmentTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_environment_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "GetEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_repository(name, provider)
@@ -927,8 +1802,29 @@ Get detail data for a linked repository.
 - `name`: The repository name, for example `myrepos/myrepo`.
 - `provider`: The repository provider.
 """
-get_repository(name, provider; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetRepository", Dict{String, Any}("name"=>name, "provider"=>provider); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_repository(name, provider, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "provider"=>provider), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_repository(name, provider; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "GetRepository",
+    Dict{String,Any}("name" => name, "provider" => provider);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_repository(
+    name,
+    provider,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetRepository",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "provider" => provider), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_repository_sync_status(branch, repository_name, repository_provider, sync_type)
@@ -953,8 +1849,49 @@ in the *Proton User Guide*.
 - `repository_provider`: The repository provider.
 - `sync_type`: The repository sync type.
 """
-get_repository_sync_status(branch, repositoryName, repositoryProvider, syncType; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetRepositorySyncStatus", Dict{String, Any}("branch"=>branch, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "syncType"=>syncType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_repository_sync_status(branch, repositoryName, repositoryProvider, syncType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetRepositorySyncStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branch"=>branch, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "syncType"=>syncType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_repository_sync_status(
+    branch,
+    repositoryName,
+    repositoryProvider,
+    syncType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "GetRepositorySyncStatus",
+    Dict{String,Any}(
+        "branch" => branch,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "syncType" => syncType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_repository_sync_status(
+    branch,
+    repositoryName,
+    repositoryProvider,
+    syncType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetRepositorySyncStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "branch" => branch,
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "syncType" => syncType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resources_summary()
@@ -979,8 +1916,18 @@ the Amazon Web Services account.
 For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html)
 in the *Proton User Guide*.
 """
-get_resources_summary(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetResourcesSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resources_summary(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetResourcesSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resources_summary(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("GetResourcesSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_resources_summary(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetResourcesSummary",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service(name)
@@ -992,8 +1939,22 @@ Get detailed data for a service.
 
 - `name`: The name of the service that you want to get the detailed data for.
 """
-get_service(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetService", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "GetService",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_instance(name, service_name)
@@ -1007,8 +1968,33 @@ template and it runs in a specific environment.
 - `name`: The name of a service instance that you want to get the detailed data for.
 - `service_name`: The name of the service that you want the service instance input for.
 """
-get_service_instance(name, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceInstance", Dict{String, Any}("name"=>name, "serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_instance(name, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_instance(
+    name, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "GetServiceInstance",
+    Dict{String,Any}("name" => name, "serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service_instance(
+    name,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetServiceInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "serviceName" => serviceName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_instance_sync_status(service_instance_name, service_name)
@@ -1022,8 +2008,38 @@ Get the status of the synced service instance.
   input for.
 - `service_name`: The name of the service that the service instance belongs to.
 """
-get_service_instance_sync_status(serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceInstanceSyncStatus", Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_instance_sync_status(serviceInstanceName, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceInstanceSyncStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_instance_sync_status(
+    serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "GetServiceInstanceSyncStatus",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service_instance_sync_status(
+    serviceInstanceName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetServiceInstanceSyncStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "serviceInstanceName" => serviceInstanceName,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_sync_blocker_summary(service_name)
@@ -1044,8 +2060,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service sync blocker summary for. If given bothe the instance name and the service name,
   only the instance is blocked.
 """
-get_service_sync_blocker_summary(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceSyncBlockerSummary", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_sync_blocker_summary(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceSyncBlockerSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_sync_blocker_summary(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "GetServiceSyncBlockerSummary",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service_sync_blocker_summary(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetServiceSyncBlockerSummary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_sync_config(service_name)
@@ -1058,8 +2094,27 @@ Get detailed information for the service sync configuration.
 - `service_name`: The name of the service that you want to get the service sync
   configuration for.
 """
-get_service_sync_config(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceSyncConfig", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_sync_config(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_sync_config(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "GetServiceSyncConfig",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_service_sync_config(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_template(name)
@@ -1071,8 +2126,22 @@ Get detailed data for a service template.
 
 - `name`: The name of the service template that you want to get detailed data for.
 """
-get_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "GetServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "GetServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_template_version(major_version, minor_version, template_name)
@@ -1089,8 +2158,45 @@ Get detailed data for a major or minor version of a service template.
 - `template_name`: The name of the service template a version of which you want to get
   detailed data for.
 """
-get_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "GetServiceTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_template_sync_config(template_name, template_type)
@@ -1103,8 +2209,35 @@ Get detail data for a template sync configuration.
 - `template_name`: The template name.
 - `template_type`: The template type.
 """
-get_template_sync_config(templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetTemplateSyncConfig", Dict{String, Any}("templateName"=>templateName, "templateType"=>templateType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_template_sync_config(templateName, templateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetTemplateSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName, "templateType"=>templateType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_template_sync_config(
+    templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "GetTemplateSyncConfig",
+    Dict{String,Any}("templateName" => templateName, "templateType" => templateType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_template_sync_config(
+    templateName,
+    templateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetTemplateSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "templateName" => templateName, "templateType" => templateType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_template_sync_status(template_name, template_type, template_version)
@@ -1118,8 +2251,45 @@ Get the status of a template sync.
 - `template_type`: The template type.
 - `template_version`: The template major version.
 """
-get_template_sync_status(templateName, templateType, templateVersion; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetTemplateSyncStatus", Dict{String, Any}("templateName"=>templateName, "templateType"=>templateType, "templateVersion"=>templateVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_template_sync_status(templateName, templateType, templateVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("GetTemplateSyncStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName, "templateType"=>templateType, "templateVersion"=>templateVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_template_sync_status(
+    templateName,
+    templateType,
+    templateVersion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "GetTemplateSyncStatus",
+    Dict{String,Any}(
+        "templateName" => templateName,
+        "templateType" => templateType,
+        "templateVersion" => templateVersion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_template_sync_status(
+    templateName,
+    templateType,
+    templateVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "GetTemplateSyncStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "templateName" => templateName,
+                    "templateType" => templateType,
+                    "templateVersion" => templateVersion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_component_outputs(component_name)
@@ -1142,8 +2312,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
-list_component_outputs(componentName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListComponentOutputs", Dict{String, Any}("componentName"=>componentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_component_outputs(componentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListComponentOutputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentName"=>componentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_component_outputs(componentName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "ListComponentOutputs",
+        Dict{String,Any}("componentName" => componentName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_component_outputs(
+    componentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListComponentOutputs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("componentName" => componentName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_component_provisioned_resources(component_name)
@@ -1166,8 +2355,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
-list_component_provisioned_resources(componentName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListComponentProvisionedResources", Dict{String, Any}("componentName"=>componentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_component_provisioned_resources(componentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListComponentProvisionedResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentName"=>componentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_component_provisioned_resources(
+    componentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListComponentProvisionedResources",
+    Dict{String,Any}("componentName" => componentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_component_provisioned_resources(
+    componentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListComponentProvisionedResources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("componentName" => componentName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_components()
@@ -1193,8 +2402,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of a service for result list filtering. Proton returns
   components attached to service instances of the service.
 """
-list_components(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_components(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListComponents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_components(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_components(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListComponents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_deployments()
@@ -1219,8 +2435,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of a service for result list filtering. Proton returns
   deployments associated with service instances of the service.
 """
-list_deployments(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_deployments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_deployments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_deployments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_environment_account_connections(requested_by)
@@ -1248,8 +2471,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account connections that was previously requested.
 - `"statuses"`: The status details for each listed environment account connection.
 """
-list_environment_account_connections(requestedBy; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentAccountConnections", Dict{String, Any}("requestedBy"=>requestedBy); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_account_connections(requestedBy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentAccountConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestedBy"=>requestedBy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_account_connections(
+    requestedBy; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListEnvironmentAccountConnections",
+    Dict{String,Any}("requestedBy" => requestedBy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_account_connections(
+    requestedBy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListEnvironmentAccountConnections",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestedBy" => requestedBy), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_outputs(environment_name)
@@ -1270,8 +2513,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array of environment outputs, after the list of environment outputs that was previously
   requested.
 """
-list_environment_outputs(environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentOutputs", Dict{String, Any}("environmentName"=>environmentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_outputs(environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentOutputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_outputs(
+    environmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListEnvironmentOutputs",
+    Dict{String,Any}("environmentName" => environmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_outputs(
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListEnvironmentOutputs",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("environmentName" => environmentName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_provisioned_resources(environment_name)
@@ -1291,8 +2556,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource in the array of environment provisioned resources, after the list of environment
   provisioned resources that was previously requested.
 """
-list_environment_provisioned_resources(environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentProvisionedResources", Dict{String, Any}("environmentName"=>environmentName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_provisioned_resources(environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentProvisionedResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_provisioned_resources(
+    environmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListEnvironmentProvisionedResources",
+    Dict{String,Any}("environmentName" => environmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_provisioned_resources(
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListEnvironmentProvisionedResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("environmentName" => environmentName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_template_versions(template_name)
@@ -1318,8 +2605,28 @@ To view a list of major versions of an environment template, *exclude* `major Ve
   the array of major or minor versions of an environment template, after the list of major
   or minor versions that was previously requested.
 """
-list_environment_template_versions(templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentTemplateVersions", Dict{String, Any}("templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_template_versions(templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_template_versions(
+    templateName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListEnvironmentTemplateVersions",
+    Dict{String,Any}("templateName" => templateName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_environment_template_versions(
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListEnvironmentTemplateVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environment_templates()
@@ -1336,8 +2643,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of environment templates, after the list of environment templates that was
   previously requested.
 """
-list_environment_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environment_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironmentTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environment_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "ListEnvironmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_environment_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListEnvironmentTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_environments()
@@ -1354,8 +2672,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next environment in the array
   of environments, after the list of environments that was previously requested.
 """
-list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_repositories()
@@ -1371,8 +2696,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next repository in the array of
   repositories, after the list of repositories previously requested.
 """
-list_repositories(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_repositories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListRepositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_repositories(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_repositories(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListRepositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_repository_sync_definitions(repository_name, repository_provider, sync_type)
@@ -1394,8 +2726,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the array of repository sync definitions, after the list of repository sync
   definitions previously requested.
 """
-list_repository_sync_definitions(repositoryName, repositoryProvider, syncType; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListRepositorySyncDefinitions", Dict{String, Any}("repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "syncType"=>syncType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_repository_sync_definitions(repositoryName, repositoryProvider, syncType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListRepositorySyncDefinitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "syncType"=>syncType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_repository_sync_definitions(
+    repositoryName,
+    repositoryProvider,
+    syncType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "ListRepositorySyncDefinitions",
+    Dict{String,Any}(
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "syncType" => syncType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_repository_sync_definitions(
+    repositoryName,
+    repositoryProvider,
+    syncType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListRepositorySyncDefinitions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "syncType" => syncType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_instance_outputs(service_instance_name, service_name)
@@ -1416,8 +2785,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
-list_service_instance_outputs(serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceInstanceOutputs", Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_instance_outputs(serviceInstanceName, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceInstanceOutputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_instance_outputs(
+    serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListServiceInstanceOutputs",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_service_instance_outputs(
+    serviceInstanceName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListServiceInstanceOutputs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "serviceInstanceName" => serviceInstanceName,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_instance_provisioned_resources(service_instance_name, service_name)
@@ -1439,8 +2838,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
-list_service_instance_provisioned_resources(serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceInstanceProvisionedResources", Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_instance_provisioned_resources(serviceInstanceName, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceInstanceProvisionedResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_instance_provisioned_resources(
+    serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListServiceInstanceProvisionedResources",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_service_instance_provisioned_resources(
+    serviceInstanceName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListServiceInstanceProvisionedResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "serviceInstanceName" => serviceInstanceName,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_instances()
@@ -1469,8 +2898,18 @@ Default: `serviceName`
 
 Default: `ASCENDING`
 """
-list_service_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("ListServiceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_service_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListServiceInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_pipeline_outputs(service_name)
@@ -1490,8 +2929,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
-list_service_pipeline_outputs(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServicePipelineOutputs", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_pipeline_outputs(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServicePipelineOutputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_pipeline_outputs(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListServicePipelineOutputs",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_service_pipeline_outputs(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListServicePipelineOutputs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_pipeline_provisioned_resources(service_name)
@@ -1511,8 +2970,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
-list_service_pipeline_provisioned_resources(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServicePipelineProvisionedResources", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_pipeline_provisioned_resources(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServicePipelineProvisionedResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_pipeline_provisioned_resources(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListServicePipelineProvisionedResources",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_service_pipeline_provisioned_resources(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListServicePipelineProvisionedResources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_template_versions(template_name)
@@ -1538,8 +3017,28 @@ To view a list of major versions of a service template, *exclude* `major Version
   the array of major or minor versions of a service template, after the list of major or
   minor versions that was previously requested.
 """
-list_service_template_versions(templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceTemplateVersions", Dict{String, Any}("templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_template_versions(templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_template_versions(
+    templateName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "ListServiceTemplateVersions",
+    Dict{String,Any}("templateName" => templateName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_service_template_versions(
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListServiceTemplateVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_service_templates()
@@ -1555,8 +3054,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next service template in the
   array of service templates, after the list of service templates previously requested.
 """
-list_service_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_service_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServiceTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_service_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("ListServiceTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_service_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListServiceTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_services()
@@ -1572,8 +3081,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next service in the array of
   services, after the list of services that was previously requested.
 """
-list_services(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_services(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1594,8 +3110,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next resource tag in the array
   of resource tags, after the list of resource tags that was previously requested.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     notify_resource_deployment_status_change(resource_arn)
@@ -1620,8 +3155,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of your provisioned resource.
 - `"statusMessage"`: The deployment status message for your provisioned resource.
 """
-notify_resource_deployment_status_change(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = proton("NotifyResourceDeploymentStatusChange", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-notify_resource_deployment_status_change(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("NotifyResourceDeploymentStatusChange", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+notify_resource_deployment_status_change(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "NotifyResourceDeploymentStatusChange",
+    Dict{String,Any}("resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function notify_resource_deployment_status_change(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "NotifyResourceDeploymentStatusChange",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_environment_account_connection(id)
@@ -1642,8 +3197,24 @@ in the *Proton User guide*.
 
 - `id`: The ID of the environment account connection to reject.
 """
-reject_environment_account_connection(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton("RejectEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("RejectEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "RejectEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "RejectEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1661,8 +3232,32 @@ in the *Proton User Guide*.
   tags to.
 - `tags`: A list of customer tags to apply to the Proton resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = proton("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1681,8 +3276,32 @@ in the *Proton User Guide*.
 - `tag_keys`: A list of customer tag keys that indicate the customer tags to be removed
   from the resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_account_settings()
@@ -1714,8 +3333,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 To remove a previously configured ARN, specify an empty string.
 """
-update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton("UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "UpdateAccountSettings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_component(deployment_type, name)
@@ -1770,8 +3399,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Components support a single IaC file, even if you use Terraform as your template
   language.
 """
-update_component(deploymentType, name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateComponent", Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_component(deploymentType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_component(deploymentType, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "UpdateComponent",
+        Dict{String,Any}(
+            "deploymentType" => deploymentType,
+            "name" => name,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_component(
+    deploymentType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentType" => deploymentType,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment(deployment_type, name)
@@ -1880,8 +3541,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The major version of the environment to update.
 - `"templateMinorVersion"`: The minor version of the environment to update.
 """
-update_environment(deploymentType, name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironment", Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment(deploymentType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment(
+    deploymentType, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "UpdateEnvironment",
+    Dict{String,Any}("deploymentType" => deploymentType, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment(
+    deploymentType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateEnvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deploymentType" => deploymentType, "name" => name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment_account_connection(id)
@@ -1915,8 +3601,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM service role that's associated
   with the environment account connection to update.
 """
-update_environment_account_connection(id; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "UpdateEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "UpdateEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment_template(name)
@@ -1936,8 +3638,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the environment template to update as displayed in the
   developer interface.
 """
-update_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    proton(
+        "UpdateEnvironmentTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "UpdateEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_environment_template_version(major_version, minor_version, template_name)
@@ -1960,8 +3677,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of environment template version to update.
 - `"status"`: The status of the environment template minor version to update.
 """
-update_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironmentTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_environment_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "UpdateEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service(name)
@@ -1996,8 +3750,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   edits to the existing service instances or pipeline. For more information, see [Edit a service](https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-update.html)
   in the *Proton User Guide*.
 """
-update_service(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateService", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "UpdateService",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "UpdateService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service_instance(deployment_type, name, service_name)
@@ -2048,8 +3816,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The major version of the service template to update.
 - `"templateMinorVersion"`: The minor version of the service template to update.
 """
-update_service_instance(deploymentType, name, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceInstance", Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name, "serviceName"=>serviceName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service_instance(deploymentType, name, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name, "serviceName"=>serviceName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service_instance(
+    deploymentType, name, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "UpdateServiceInstance",
+    Dict{String,Any}(
+        "deploymentType" => deploymentType,
+        "name" => name,
+        "serviceName" => serviceName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service_instance(
+    deploymentType,
+    name,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateServiceInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentType" => deploymentType,
+                    "name" => name,
+                    "serviceName" => serviceName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service_pipeline(deployment_type, service_name, spec)
@@ -2112,8 +3916,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service that the pipeline is associated with.
 """
-update_service_pipeline(deploymentType, serviceName, spec; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServicePipeline", Dict{String, Any}("deploymentType"=>deploymentType, "serviceName"=>serviceName, "spec"=>spec); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service_pipeline(deploymentType, serviceName, spec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServicePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "serviceName"=>serviceName, "spec"=>spec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service_pipeline(
+    deploymentType, serviceName, spec; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "UpdateServicePipeline",
+    Dict{String,Any}(
+        "deploymentType" => deploymentType, "serviceName" => serviceName, "spec" => spec
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service_pipeline(
+    deploymentType,
+    serviceName,
+    spec,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateServicePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentType" => deploymentType,
+                    "serviceName" => serviceName,
+                    "spec" => spec,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service_sync_blocker(id, resolved_reason)
@@ -2126,8 +3962,33 @@ Update the service sync blocker by resolving it.
 - `id`: The ID of the service sync blocker.
 - `resolved_reason`: The reason the service sync blocker was resolved.
 """
-update_service_sync_blocker(id, resolvedReason; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceSyncBlocker", Dict{String, Any}("id"=>id, "resolvedReason"=>resolvedReason); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service_sync_blocker(id, resolvedReason, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceSyncBlocker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "resolvedReason"=>resolvedReason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service_sync_blocker(
+    id, resolvedReason; aws_config::AbstractAWSConfig=current_aws_config()
+) = proton(
+    "UpdateServiceSyncBlocker",
+    Dict{String,Any}("id" => id, "resolvedReason" => resolvedReason);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service_sync_blocker(
+    id,
+    resolvedReason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateServiceSyncBlocker",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("id" => id, "resolvedReason" => resolvedReason),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service_sync_config(branch, file_path, repository_name, repository_provider, service_name)
@@ -2144,8 +4005,53 @@ Update the Proton Ops config file.
   found.
 - `service_name`: The name of the service the Proton Ops file is for.
 """
-update_service_sync_config(branch, filePath, repositoryName, repositoryProvider, serviceName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceSyncConfig", Dict{String, Any}("branch"=>branch, "filePath"=>filePath, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "serviceName"=>serviceName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service_sync_config(branch, filePath, repositoryName, repositoryProvider, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branch"=>branch, "filePath"=>filePath, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "UpdateServiceSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "filePath" => filePath,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "serviceName" => serviceName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "branch" => branch,
+                    "filePath" => filePath,
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service_template(name)
@@ -2165,8 +4071,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the service template to update that's displayed in the
   developer interface.
 """
-update_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service_template(name; aws_config::AbstractAWSConfig=current_aws_config()) = proton(
+    "UpdateServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return proton(
+        "UpdateServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_service_template_version(major_version, minor_version, template_name)
@@ -2199,8 +4119,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
   in the *Proton User Guide*.
 """
-update_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_service_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "UpdateServiceTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_template_sync_config(branch, repository_name, repository_provider, template_name, template_type)
@@ -2226,5 +4183,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subdirectory"`: A subdirectory path to your template bundle version. When included,
   limits the template bundle search to this repository directory.
 """
-update_template_sync_config(branch, repositoryName, repositoryProvider, templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateTemplateSyncConfig", Dict{String, Any}("branch"=>branch, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "templateName"=>templateName, "templateType"=>templateType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_template_sync_config(branch, repositoryName, repositoryProvider, templateName, templateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = proton("UpdateTemplateSyncConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branch"=>branch, "repositoryName"=>repositoryName, "repositoryProvider"=>repositoryProvider, "templateName"=>templateName, "templateType"=>templateType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_template_sync_config(
+    branch,
+    repositoryName,
+    repositoryProvider,
+    templateName,
+    templateType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = proton(
+    "UpdateTemplateSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "templateName" => templateName,
+        "templateType" => templateType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_template_sync_config(
+    branch,
+    repositoryName,
+    repositoryProvider,
+    templateName,
+    templateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return proton(
+        "UpdateTemplateSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "branch" => branch,
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "templateName" => templateName,
+                    "templateType" => templateType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

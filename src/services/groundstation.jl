@@ -14,8 +14,26 @@ Cancels a contact with a specified contact ID.
 
 - `contact_id`: UUID of a contact.
 """
-cancel_contact(contactId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/contact/$(contactId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_contact(contactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/contact/$(contactId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_contact(contactId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "DELETE",
+        "/contact/$(contactId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_contact(
+    contactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "DELETE",
+        "/contact/$(contactId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_config(config_data, name)
@@ -36,8 +54,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: Tags assigned to a `Config`.
 """
-create_config(configData, name; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/config", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_config(configData, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_config(configData, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "POST",
+        "/config",
+        Dict{String,Any}("configData" => configData, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_config(
+    configData,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configData" => configData, "name" => name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_dataflow_endpoint_group(endpoint_details)
@@ -70,8 +112,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Endpoint Group enters and exits the `PREPASS` state.
 - `"tags"`: Tags of a dataflow endpoint group.
 """
-create_dataflow_endpoint_group(endpointDetails; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}("endpointDetails"=>endpointDetails); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_dataflow_endpoint_group(endpointDetails, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointDetails"=>endpointDetails), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_dataflow_endpoint_group(
+    endpointDetails; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "POST",
+    "/dataflowEndpointGroup",
+    Dict{String,Any}("endpointDetails" => endpointDetails);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_dataflow_endpoint_group(
+    endpointDetails,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/dataflowEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("endpointDetails" => endpointDetails), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_ephemeris(name, satellite_id)
@@ -105,8 +171,34 @@ Setting this to false will set the ephemeris status to `DISABLED` after validati
 Priority must be 1 or greater
 - `"tags"`: Tags assigned to an ephemeris.
 """
-create_ephemeris(name, satelliteId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/ephemeris", Dict{String, Any}("name"=>name, "satelliteId"=>satelliteId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_ephemeris(name, satelliteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/ephemeris", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "satelliteId"=>satelliteId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_ephemeris(name, satelliteId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "POST",
+        "/ephemeris",
+        Dict{String,Any}("name" => name, "satelliteId" => satelliteId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_ephemeris(
+    name,
+    satelliteId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/ephemeris",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "satelliteId" => satelliteId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn)
@@ -139,8 +231,52 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
 - `"tags"`: Tags assigned to a mission profile.
 """
-create_mission_profile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/missionprofile", Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_mission_profile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/missionprofile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_mission_profile(
+    dataflowEdges,
+    minimumViableContactDurationSeconds,
+    name,
+    trackingConfigArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = groundstation(
+    "POST",
+    "/missionprofile",
+    Dict{String,Any}(
+        "dataflowEdges" => dataflowEdges,
+        "minimumViableContactDurationSeconds" => minimumViableContactDurationSeconds,
+        "name" => name,
+        "trackingConfigArn" => trackingConfigArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_mission_profile(
+    dataflowEdges,
+    minimumViableContactDurationSeconds,
+    name,
+    trackingConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/missionprofile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "dataflowEdges" => dataflowEdges,
+                    "minimumViableContactDurationSeconds" =>
+                        minimumViableContactDurationSeconds,
+                    "name" => name,
+                    "trackingConfigArn" => trackingConfigArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_config(config_id, config_type)
@@ -153,8 +289,27 @@ Deletes a `Config`.
 - `config_id`: UUID of a `Config`.
 - `config_type`: Type of a `Config`.
 """
-delete_config(configId, configType; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/config/$(configType)/$(configId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_config(configId, configType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/config/$(configType)/$(configId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_config(configId, configType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "DELETE",
+        "/config/$(configType)/$(configId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_config(
+    configId,
+    configType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "DELETE",
+        "/config/$(configType)/$(configId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_dataflow_endpoint_group(dataflow_endpoint_group_id)
@@ -166,8 +321,27 @@ Deletes a dataflow endpoint group.
 
 - `dataflow_endpoint_group_id`: UUID of a dataflow endpoint group.
 """
-delete_dataflow_endpoint_group(dataflowEndpointGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_dataflow_endpoint_group(dataflowEndpointGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_dataflow_endpoint_group(
+    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "DELETE",
+    "/dataflowEndpointGroup/$(dataflowEndpointGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_dataflow_endpoint_group(
+    dataflowEndpointGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "DELETE",
+        "/dataflowEndpointGroup/$(dataflowEndpointGroupId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_ephemeris(ephemeris_id)
@@ -179,8 +353,26 @@ Deletes an ephemeris
 
 - `ephemeris_id`: The AWS Ground Station ephemeris ID.
 """
-delete_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/ephemeris/$(ephemerisId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_ephemeris(ephemerisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/ephemeris/$(ephemerisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "DELETE",
+        "/ephemeris/$(ephemerisId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_ephemeris(
+    ephemerisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "DELETE",
+        "/ephemeris/$(ephemerisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_mission_profile(mission_profile_id)
@@ -192,8 +384,27 @@ Deletes a mission profile.
 
 - `mission_profile_id`: UUID of a mission profile.
 """
-delete_mission_profile(missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/missionprofile/$(missionProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_mission_profile(missionProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/missionprofile/$(missionProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_mission_profile(
+    missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "DELETE",
+    "/missionprofile/$(missionProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_mission_profile(
+    missionProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "DELETE",
+        "/missionprofile/$(missionProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_contact(contact_id)
@@ -205,8 +416,26 @@ Describes an existing contact.
 
 - `contact_id`: UUID of a contact.
 """
-describe_contact(contactId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/contact/$(contactId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_contact(contactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/contact/$(contactId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_contact(contactId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/contact/$(contactId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_contact(
+    contactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/contact/$(contactId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_ephemeris(ephemeris_id)
@@ -218,8 +447,26 @@ Describes an existing ephemeris.
 
 - `ephemeris_id`: The AWS Ground Station ephemeris ID.
 """
-describe_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/ephemeris/$(ephemerisId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_ephemeris(ephemerisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/ephemeris/$(ephemerisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/ephemeris/$(ephemerisId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_ephemeris(
+    ephemerisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/ephemeris/$(ephemerisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_agent_configuration(agent_id)
@@ -235,8 +482,26 @@ configuration information for a registered agent.
 
 - `agent_id`: UUID of agent to get configuration information for.
 """
-get_agent_configuration(agentId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/agent/$(agentId)/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_agent_configuration(agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/agent/$(agentId)/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_agent_configuration(agentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/agent/$(agentId)/configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_agent_configuration(
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/agent/$(agentId)/configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_config(config_id, config_type)
@@ -251,8 +516,27 @@ Only one `Config` response can be returned.
 - `config_id`: UUID of a `Config`.
 - `config_type`: Type of a `Config`.
 """
-get_config(configId, configType; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/config/$(configType)/$(configId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_config(configId, configType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/config/$(configType)/$(configId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_config(configId, configType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/config/$(configType)/$(configId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_config(
+    configId,
+    configType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/config/$(configType)/$(configId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_dataflow_endpoint_group(dataflow_endpoint_group_id)
@@ -264,8 +548,27 @@ Returns the dataflow endpoint group.
 
 - `dataflow_endpoint_group_id`: UUID of a dataflow endpoint group.
 """
-get_dataflow_endpoint_group(dataflowEndpointGroupId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_dataflow_endpoint_group(dataflowEndpointGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_dataflow_endpoint_group(
+    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "GET",
+    "/dataflowEndpointGroup/$(dataflowEndpointGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_dataflow_endpoint_group(
+    dataflowEndpointGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/dataflowEndpointGroup/$(dataflowEndpointGroupId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_minute_usage(month, year)
@@ -278,8 +581,30 @@ Returns the number of reserved minutes used by account.
 - `month`: The month being requested, with a value of 1-12.
 - `year`: The year being requested, in the format of YYYY.
 """
-get_minute_usage(month, year; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/minute-usage", Dict{String, Any}("month"=>month, "year"=>year); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_minute_usage(month, year, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/minute-usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("month"=>month, "year"=>year), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_minute_usage(month, year; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "POST",
+        "/minute-usage",
+        Dict{String,Any}("month" => month, "year" => year);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_minute_usage(
+    month,
+    year,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/minute-usage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("month" => month, "year" => year), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_mission_profile(mission_profile_id)
@@ -291,8 +616,26 @@ Returns a mission profile.
 
 - `mission_profile_id`: UUID of a mission profile.
 """
-get_mission_profile(missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/missionprofile/$(missionProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_mission_profile(missionProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/missionprofile/$(missionProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_mission_profile(missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/missionprofile/$(missionProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_mission_profile(
+    missionProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/missionprofile/$(missionProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_satellite(satellite_id)
@@ -304,8 +647,26 @@ Returns a satellite.
 
 - `satellite_id`: UUID of a satellite.
 """
-get_satellite(satelliteId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/satellite/$(satelliteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_satellite(satelliteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/satellite/$(satelliteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_satellite(satelliteId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/satellite/$(satelliteId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_satellite(
+    satelliteId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/satellite/$(satelliteId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_configs()
@@ -321,8 +682,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token returned in the request of a previous `ListConfigs` call. Used
   to get the next page of results.
 """
-list_configs(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_configs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation("GET", "/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return groundstation(
+        "GET", "/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_contacts(end_time, start_time, status_list)
@@ -350,8 +718,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to get the next page of results.
 - `"satelliteArn"`: ARN of a satellite.
 """
-list_contacts(endTime, startTime, statusList; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/contacts", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_contacts(endTime, startTime, statusList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_contacts(
+    endTime, startTime, statusList; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "POST",
+    "/contacts",
+    Dict{String,Any}(
+        "endTime" => endTime, "startTime" => startTime, "statusList" => statusList
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_contacts(
+    endTime,
+    startTime,
+    statusList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/contacts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "startTime" => startTime,
+                    "statusList" => statusList,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_dataflow_endpoint_groups()
@@ -367,8 +769,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token returned in the request of a previous
   `ListDataflowEndpointGroups` call. Used to get the next page of results.
 """
-list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/dataflowEndpointGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_dataflow_endpoint_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/dataflowEndpointGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/dataflowEndpointGroup";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_dataflow_endpoint_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return groundstation(
+        "GET",
+        "/dataflowEndpointGroup",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_ephemerides(end_time, satellite_id, start_time)
@@ -392,8 +810,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token.
 - `"statusList"`: The list of ephemeris status to return.
 """
-list_ephemerides(endTime, satelliteId, startTime; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/ephemerides", Dict{String, Any}("endTime"=>endTime, "satelliteId"=>satelliteId, "startTime"=>startTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_ephemerides(endTime, satelliteId, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/ephemerides", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "satelliteId"=>satelliteId, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_ephemerides(
+    endTime, satelliteId, startTime; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "POST",
+    "/ephemerides",
+    Dict{String,Any}(
+        "endTime" => endTime, "satelliteId" => satelliteId, "startTime" => startTime
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_ephemerides(
+    endTime,
+    satelliteId,
+    startTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/ephemerides",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "satelliteId" => satelliteId,
+                    "startTime" => startTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_ground_stations()
@@ -410,8 +862,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ground stations.
 - `"satelliteId"`: Satellite ID to retrieve on-boarded ground stations.
 """
-list_ground_stations(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/groundstation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_ground_stations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/groundstation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_ground_stations(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation(
+    "GET", "/groundstation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_ground_stations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return groundstation(
+        "GET",
+        "/groundstation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_mission_profiles()
@@ -427,8 +891,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token returned in the request of a previous `ListMissionProfiles`
   call. Used to get the next page of results.
 """
-list_mission_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/missionprofile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_mission_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/missionprofile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_mission_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation(
+    "GET", "/missionprofile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_mission_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return groundstation(
+        "GET",
+        "/missionprofile",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_satellites()
@@ -444,8 +920,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token that can be supplied in the next call to get the next page of
   satellites.
 """
-list_satellites(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/satellite"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_satellites(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/satellite", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_satellites(; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation(
+    "GET", "/satellite"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_satellites(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return groundstation(
+        "GET", "/satellite", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -457,8 +941,26 @@ Returns a list of tags for a specified resource.
 
 - `resource_arn`: ARN of a resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_agent(agent_details, discovery_data)
@@ -475,8 +977,37 @@ agent with AWS Ground Station.
 - `agent_details`: Detailed information about the agent being registered.
 - `discovery_data`: Data for associating an agent with the capabilities it is managing.
 """
-register_agent(agentDetails, discoveryData; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/agent", Dict{String, Any}("agentDetails"=>agentDetails, "discoveryData"=>discoveryData); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_agent(agentDetails, discoveryData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/agent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentDetails"=>agentDetails, "discoveryData"=>discoveryData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_agent(
+    agentDetails, discoveryData; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "POST",
+    "/agent",
+    Dict{String,Any}("agentDetails" => agentDetails, "discoveryData" => discoveryData);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_agent(
+    agentDetails,
+    discoveryData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/agent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agentDetails" => agentDetails, "discoveryData" => discoveryData
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time)
@@ -498,8 +1029,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: Tags assigned to a contact.
 """
-reserve_contact(endTime, groundStation, missionProfileArn, satelliteArn, startTime; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/contact", Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reserve_contact(endTime, groundStation, missionProfileArn, satelliteArn, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/contact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reserve_contact(
+    endTime,
+    groundStation,
+    missionProfileArn,
+    satelliteArn,
+    startTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = groundstation(
+    "POST",
+    "/contact",
+    Dict{String,Any}(
+        "endTime" => endTime,
+        "groundStation" => groundStation,
+        "missionProfileArn" => missionProfileArn,
+        "satelliteArn" => satelliteArn,
+        "startTime" => startTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reserve_contact(
+    endTime,
+    groundStation,
+    missionProfileArn,
+    satelliteArn,
+    startTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/contact",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "groundStation" => groundStation,
+                    "missionProfileArn" => missionProfileArn,
+                    "satelliteArn" => satelliteArn,
+                    "startTime" => startTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -512,8 +1090,28 @@ Assigns a tag to a resource.
 - `resource_arn`: ARN of a resource tag.
 - `tags`: Tags assigned to a resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -526,8 +1124,28 @@ Deassigns a resource tag.
 - `resource_arn`: ARN of a resource.
 - `tag_keys`: Keys of a resource tag.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_agent_status(agent_id, aggregate_status, component_statuses, task_id)
@@ -546,8 +1164,49 @@ of the agent.
 - `component_statuses`: List of component statuses for agent.
 - `task_id`: GUID of agent task.
 """
-update_agent_status(agentId, aggregateStatus, componentStatuses, taskId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/agent/$(agentId)", Dict{String, Any}("aggregateStatus"=>aggregateStatus, "componentStatuses"=>componentStatuses, "taskId"=>taskId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_agent_status(agentId, aggregateStatus, componentStatuses, taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/agent/$(agentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateStatus"=>aggregateStatus, "componentStatuses"=>componentStatuses, "taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_agent_status(
+    agentId,
+    aggregateStatus,
+    componentStatuses,
+    taskId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = groundstation(
+    "PUT",
+    "/agent/$(agentId)",
+    Dict{String,Any}(
+        "aggregateStatus" => aggregateStatus,
+        "componentStatuses" => componentStatuses,
+        "taskId" => taskId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_agent_status(
+    agentId,
+    aggregateStatus,
+    componentStatuses,
+    taskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "PUT",
+        "/agent/$(agentId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "aggregateStatus" => aggregateStatus,
+                    "componentStatuses" => componentStatuses,
+                    "taskId" => taskId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_config(config_data, config_id, config_type, name)
@@ -565,8 +1224,39 @@ scheduled with this `Config`.
 - `config_type`: Type of a `Config`.
 - `name`: Name of a `Config`.
 """
-update_config(configData, configId, configType, name; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_config(configData, configId, configType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_config(
+    configData,
+    configId,
+    configType,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = groundstation(
+    "PUT",
+    "/config/$(configType)/$(configId)",
+    Dict{String,Any}("configData" => configData, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_config(
+    configData,
+    configId,
+    configType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "PUT",
+        "/config/$(configType)/$(configId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("configData" => configData, "name" => name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_ephemeris(enabled, ephemeris_id)
@@ -594,8 +1284,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Priority must be 1 or greater
 """
-update_ephemeris(enabled, ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/ephemeris/$(ephemerisId)", Dict{String, Any}("enabled"=>enabled); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_ephemeris(enabled, ephemerisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/ephemeris/$(ephemerisId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enabled"=>enabled), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_ephemeris(enabled, ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    groundstation(
+        "PUT",
+        "/ephemeris/$(ephemerisId)",
+        Dict{String,Any}("enabled" => enabled);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_ephemeris(
+    enabled,
+    ephemerisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "PUT",
+        "/ephemeris/$(ephemerisId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("enabled" => enabled), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_mission_profile(mission_profile_id)
@@ -628,5 +1338,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
 - `"trackingConfigArn"`: ARN of a tracking `Config`.
 """
-update_mission_profile(missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/missionprofile/$(missionProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_mission_profile(missionProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = groundstation("PUT", "/missionprofile/$(missionProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_mission_profile(
+    missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()
+) = groundstation(
+    "PUT",
+    "/missionprofile/$(missionProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_mission_profile(
+    missionProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "PUT",
+        "/missionprofile/$(missionProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

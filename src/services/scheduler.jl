@@ -61,8 +61,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
-create_schedule(FlexibleTimeWindow, Name, ScheduleExpression, Target; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("POST", "/schedules/$(Name)", Dict{String, Any}("FlexibleTimeWindow"=>FlexibleTimeWindow, "ScheduleExpression"=>ScheduleExpression, "Target"=>Target, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_schedule(FlexibleTimeWindow, Name, ScheduleExpression, Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("POST", "/schedules/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlexibleTimeWindow"=>FlexibleTimeWindow, "ScheduleExpression"=>ScheduleExpression, "Target"=>Target, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_schedule(
+    FlexibleTimeWindow,
+    Name,
+    ScheduleExpression,
+    Target;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = scheduler(
+    "POST",
+    "/schedules/$(Name)",
+    Dict{String,Any}(
+        "FlexibleTimeWindow" => FlexibleTimeWindow,
+        "ScheduleExpression" => ScheduleExpression,
+        "Target" => Target,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_schedule(
+    FlexibleTimeWindow,
+    Name,
+    ScheduleExpression,
+    Target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return scheduler(
+        "POST",
+        "/schedules/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FlexibleTimeWindow" => FlexibleTimeWindow,
+                    "ScheduleExpression" => ScheduleExpression,
+                    "Target" => Target,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_schedule_group(name)
@@ -83,8 +126,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   randomly generated token for the request to ensure idempotency.
 - `"Tags"`: The list of tags to associate with the schedule group.
 """
-create_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("POST", "/schedule-groups/$(Name)", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_schedule_group(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("POST", "/schedule-groups/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler(
+    "POST",
+    "/schedule-groups/$(Name)",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_schedule_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return scheduler(
+        "POST",
+        "/schedule-groups/$(Name)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_schedule(name)
@@ -106,8 +167,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
   this, the default schedule group is used.
 """
-delete_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("DELETE", "/schedules/$(Name)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_schedule(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("DELETE", "/schedules/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler(
+    "DELETE",
+    "/schedules/$(Name)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_schedule(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return scheduler(
+        "DELETE",
+        "/schedules/$(Name)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_schedule_group(name)
@@ -135,8 +214,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the request. If you do not specify a client token, EventBridge Scheduler uses a
   randomly generated token for the request to ensure idempotency.
 """
-delete_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("DELETE", "/schedule-groups/$(Name)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_schedule_group(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("DELETE", "/schedule-groups/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler(
+    "DELETE",
+    "/schedule-groups/$(Name)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_schedule_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return scheduler(
+        "DELETE",
+        "/schedule-groups/$(Name)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_schedule(name)
@@ -156,8 +253,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this, EventBridge Scheduler assumes that the schedule is associated with the default
   group.
 """
-get_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_schedule(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedules/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler(
+    "GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_schedule(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return scheduler(
+        "GET",
+        "/schedules/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_schedule_group(name)
@@ -169,8 +278,23 @@ Retrieves the specified schedule group.
 
 - `name`: The name of the schedule group to retrieve.
 """
-get_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedule-groups/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_schedule_group(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedule-groups/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler(
+    "GET",
+    "/schedule-groups/$(Name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_schedule_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return scheduler(
+        "GET",
+        "/schedule-groups/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_schedule_groups()
@@ -189,8 +313,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schedule groups.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-list_schedule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_schedule_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedule-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_schedule_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler(
+    "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_schedule_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return scheduler(
+        "GET",
+        "/schedule-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_schedules()
@@ -212,8 +348,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: If specified, only lists the schedules whose current state matches the given
   filter.
 """
-list_schedules(; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_schedules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_schedules(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    scheduler("GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_schedules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return scheduler(
+        "GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -226,8 +369,26 @@ Lists the tags associated with the Scheduler resource.
 - `resource_arn`: The ARN of the EventBridge Scheduler resource for which you want to view
   tags.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/tags/$(ResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    scheduler(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return scheduler(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -242,8 +403,28 @@ You can only assign tags to schedule groups.
   tags to.
 - `tags`: The list of tags to associate with the schedule group.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    scheduler(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return scheduler(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -257,8 +438,28 @@ Removes one or more tags from the specified EventBridge Scheduler schedule group
   removing tags.
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    scheduler(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return scheduler(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_schedule(flexible_time_window, name, schedule_expression, target)
@@ -326,5 +527,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
-update_schedule(FlexibleTimeWindow, Name, ScheduleExpression, Target; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("PUT", "/schedules/$(Name)", Dict{String, Any}("FlexibleTimeWindow"=>FlexibleTimeWindow, "ScheduleExpression"=>ScheduleExpression, "Target"=>Target, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_schedule(FlexibleTimeWindow, Name, ScheduleExpression, Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = scheduler("PUT", "/schedules/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlexibleTimeWindow"=>FlexibleTimeWindow, "ScheduleExpression"=>ScheduleExpression, "Target"=>Target, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_schedule(
+    FlexibleTimeWindow,
+    Name,
+    ScheduleExpression,
+    Target;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = scheduler(
+    "PUT",
+    "/schedules/$(Name)",
+    Dict{String,Any}(
+        "FlexibleTimeWindow" => FlexibleTimeWindow,
+        "ScheduleExpression" => ScheduleExpression,
+        "Target" => Target,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_schedule(
+    FlexibleTimeWindow,
+    Name,
+    ScheduleExpression,
+    Target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return scheduler(
+        "PUT",
+        "/schedules/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FlexibleTimeWindow" => FlexibleTimeWindow,
+                    "ScheduleExpression" => ScheduleExpression,
+                    "Target" => Target,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

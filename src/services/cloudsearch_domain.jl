@@ -245,8 +245,24 @@ To sort the facets by value, use the `bucket` option. For example, the following
   specified in JSON using the form: `{"FIELD-A":{},"FIELD-B":{}}`There are currently no
   options supported for statistics.
 """
-search(q; aws_config::AbstractAWSConfig=current_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}("q"=>q); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-search(q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search(q; aws_config::AbstractAWSConfig=current_aws_config()) = cloudsearch_domain(
+    "GET",
+    "/2013-01-01/search?format=sdk&pretty=true",
+    Dict{String,Any}("q" => q);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search(
+    q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudsearch_domain(
+        "GET",
+        "/2013-01-01/search?format=sdk&pretty=true",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("q" => q), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     suggest(q, suggester)
@@ -278,8 +294,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"size"`: Specifies the maximum number of suggestions to return.
 """
-suggest(q, suggester; aws_config::AbstractAWSConfig=current_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}("q"=>q, "suggester"=>suggester); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-suggest(q, suggester, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q, "suggester"=>suggester), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+suggest(q, suggester; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudsearch_domain(
+        "GET",
+        "/2013-01-01/suggest?format=sdk&pretty=true",
+        Dict{String,Any}("q" => q, "suggester" => suggester);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function suggest(
+    q,
+    suggester,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudsearch_domain(
+        "GET",
+        "/2013-01-01/suggest?format=sdk&pretty=true",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("q" => q, "suggester" => suggester), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     upload_documents(content-_type, documents)
@@ -313,5 +351,38 @@ in the *Amazon CloudSearch Developer Guide*.
  - application/xml
 - `documents`: A batch of documents formatted in JSON or HTML.
 """
-upload_documents(Content_Type, documents; aws_config::AbstractAWSConfig=current_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-upload_documents(Content_Type, documents, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upload_documents(
+    Content_Type, documents; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudsearch_domain(
+    "POST",
+    "/2013-01-01/documents/batch?format=sdk",
+    Dict{String,Any}(
+        "documents" => documents,
+        "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function upload_documents(
+    Content_Type,
+    documents,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudsearch_domain(
+        "POST",
+        "/2013-01-01/documents/batch?format=sdk",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "documents" => documents,
+                    "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

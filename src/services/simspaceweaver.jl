@@ -37,8 +37,35 @@ digit year
 The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation.
 - `simulation`: The name of the simulation.
 """
-create_snapshot(Destination, Simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/createsnapshot", Dict{String, Any}("Destination"=>Destination, "Simulation"=>Simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_snapshot(Destination, Simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/createsnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Simulation"=>Simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_snapshot(
+    Destination, Simulation; aws_config::AbstractAWSConfig=current_aws_config()
+) = simspaceweaver(
+    "POST",
+    "/createsnapshot",
+    Dict{String,Any}("Destination" => Destination, "Simulation" => Simulation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_snapshot(
+    Destination,
+    Simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/createsnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Destination" => Destination, "Simulation" => Simulation),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app(app, domain, simulation)
@@ -52,8 +79,37 @@ Deletes the instance of the given custom app.
 - `domain`: The name of the domain of the app.
 - `simulation`: The name of the simulation of the app.
 """
-delete_app(app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("DELETE", "/deleteapp", Dict{String, Any}("app"=>app, "domain"=>domain, "simulation"=>simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app(app, domain, simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("DELETE", "/deleteapp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app"=>app, "domain"=>domain, "simulation"=>simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app(app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "DELETE",
+        "/deleteapp",
+        Dict{String,Any}("app" => app, "domain" => domain, "simulation" => simulation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_app(
+    app,
+    domain,
+    simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "DELETE",
+        "/deleteapp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "app" => app, "domain" => domain, "simulation" => simulation
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_simulation(simulation)
@@ -69,8 +125,29 @@ delete resources in other Amazon Web Services.
 
 - `simulation`: The name of the simulation.
 """
-delete_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("DELETE", "/deletesimulation", Dict{String, Any}("simulation"=>simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_simulation(simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("DELETE", "/deletesimulation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("simulation"=>simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "DELETE",
+        "/deletesimulation",
+        Dict{String,Any}("simulation" => simulation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_simulation(
+    simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "DELETE",
+        "/deletesimulation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("simulation" => simulation), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app(app, domain, simulation)
@@ -84,8 +161,37 @@ Returns the state of the given custom app.
 - `domain`: The name of the domain of the app.
 - `simulation`: The name of the simulation of the app.
 """
-describe_app(app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/describeapp", Dict{String, Any}("app"=>app, "domain"=>domain, "simulation"=>simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app(app, domain, simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/describeapp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app"=>app, "domain"=>domain, "simulation"=>simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app(app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "GET",
+        "/describeapp",
+        Dict{String,Any}("app" => app, "domain" => domain, "simulation" => simulation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_app(
+    app,
+    domain,
+    simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "GET",
+        "/describeapp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "app" => app, "domain" => domain, "simulation" => simulation
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_simulation(simulation)
@@ -97,8 +203,29 @@ Returns the current state of the given simulation.
 
 - `simulation`: The name of the simulation.
 """
-describe_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/describesimulation", Dict{String, Any}("simulation"=>simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_simulation(simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/describesimulation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("simulation"=>simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "GET",
+        "/describesimulation",
+        Dict{String,Any}("simulation" => simulation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_simulation(
+    simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "GET",
+        "/describesimulation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("simulation" => simulation), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_apps(simulation)
@@ -123,8 +250,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. If you provide a token that isn't valid, then
   you receive an *HTTP 400 ValidationException* error.
 """
-list_apps(simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/listapps", Dict{String, Any}("simulation"=>simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_apps(simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/listapps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("simulation"=>simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_apps(simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver(
+    "GET",
+    "/listapps",
+    Dict{String,Any}("simulation" => simulation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_apps(
+    simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "GET",
+        "/listapps",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("simulation" => simulation), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_simulations()
@@ -145,8 +292,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. If you provide a token that isn't valid, then
   you receive an *HTTP 400 ValidationException* error.
 """
-list_simulations(; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/listsimulations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_simulations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/listsimulations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_simulations(; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver(
+    "GET", "/listsimulations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_simulations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return simspaceweaver(
+        "GET",
+        "/listsimulations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -160,8 +319,26 @@ Lists all tags on a SimSpace Weaver resource.
   about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/tags/$(ResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_app(domain, name, simulation)
@@ -185,8 +362,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the app.
 - `"LaunchOverrides"`:
 """
-start_app(Domain, Name, Simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/startapp", Dict{String, Any}("Domain"=>Domain, "Name"=>Name, "Simulation"=>Simulation, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_app(Domain, Name, Simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/startapp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain, "Name"=>Name, "Simulation"=>Simulation, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_app(Domain, Name, Simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "POST",
+        "/startapp",
+        Dict{String,Any}(
+            "Domain" => Domain,
+            "Name" => Name,
+            "Simulation" => Simulation,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_app(
+    Domain,
+    Name,
+    Simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/startapp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Domain" => Domain,
+                    "Name" => Name,
+                    "Simulation" => Simulation,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_clock(simulation)
@@ -198,8 +412,29 @@ Starts the simulation clock.
 
 - `simulation`: The name of the simulation.
 """
-start_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/startclock", Dict{String, Any}("Simulation"=>Simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_clock(Simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/startclock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Simulation"=>Simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "POST",
+        "/startclock",
+        Dict{String,Any}("Simulation" => Simulation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_clock(
+    Simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/startclock",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Simulation" => Simulation), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_simulation(name, role_arn)
@@ -250,8 +485,38 @@ If you provide a `SnapshotS3Location` then you can't provide a `SchemaS3Location
 - `"Tags"`: A list of tags for the simulation. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
 """
-start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/startsimulation", Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_simulation(Name, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/startsimulation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "POST",
+        "/startsimulation",
+        Dict{String,Any}(
+            "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_simulation(
+    Name,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/startsimulation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_app(app, domain, simulation)
@@ -265,8 +530,37 @@ Stops the given custom app and shuts down all of its allocated compute resources
 - `domain`: The name of the domain of the app.
 - `simulation`: The name of the simulation of the app.
 """
-stop_app(App, Domain, Simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/stopapp", Dict{String, Any}("App"=>App, "Domain"=>Domain, "Simulation"=>Simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_app(App, Domain, Simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/stopapp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("App"=>App, "Domain"=>Domain, "Simulation"=>Simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_app(App, Domain, Simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "POST",
+        "/stopapp",
+        Dict{String,Any}("App" => App, "Domain" => Domain, "Simulation" => Simulation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_app(
+    App,
+    Domain,
+    Simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/stopapp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "App" => App, "Domain" => Domain, "Simulation" => Simulation
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_clock(simulation)
@@ -278,8 +572,28 @@ Stops the simulation clock.
 
 - `simulation`: The name of the simulation.
 """
-stop_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/stopclock", Dict{String, Any}("Simulation"=>Simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_clock(Simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/stopclock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Simulation"=>Simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver(
+    "POST",
+    "/stopclock",
+    Dict{String,Any}("Simulation" => Simulation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_clock(
+    Simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/stopclock",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Simulation" => Simulation), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_simulation(simulation)
@@ -295,8 +609,29 @@ then you must stop it, delete it, and start a new instance of it.
 
 - `simulation`: The name of the simulation.
 """
-stop_simulation(Simulation; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/stopsimulation", Dict{String, Any}("Simulation"=>Simulation); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_simulation(Simulation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/stopsimulation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Simulation"=>Simulation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_simulation(Simulation; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "POST",
+        "/stopsimulation",
+        Dict{String,Any}("Simulation" => Simulation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_simulation(
+    Simulation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/stopsimulation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Simulation" => Simulation), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -312,8 +647,28 @@ in the *Amazon Web Services General Reference*.
   in the *Amazon Web Services General Reference*.
 - `tags`: A list of tags to apply to the resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -329,5 +684,25 @@ in the *Amazon Web Services General Reference*.
   in the *Amazon Web Services General Reference*.
 - `tag_keys`: A list of tag keys to remove from the resource.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = simspaceweaver("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    simspaceweaver(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return simspaceweaver(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

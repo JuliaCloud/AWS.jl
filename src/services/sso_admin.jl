@@ -19,8 +19,45 @@ Attaches the specified customer managed policy to the specified <a>PermissionSet
   will be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
-attach_customer_managed_policy_reference_to_permission_set(CustomerManagedPolicyReference, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("AttachCustomerManagedPolicyReferenceToPermissionSet", Dict{String, Any}("CustomerManagedPolicyReference"=>CustomerManagedPolicyReference, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_customer_managed_policy_reference_to_permission_set(CustomerManagedPolicyReference, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("AttachCustomerManagedPolicyReferenceToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerManagedPolicyReference"=>CustomerManagedPolicyReference, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_customer_managed_policy_reference_to_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "AttachCustomerManagedPolicyReferenceToPermissionSet",
+    Dict{String,Any}(
+        "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_customer_managed_policy_reference_to_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "AttachCustomerManagedPolicyReferenceToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
@@ -44,8 +81,45 @@ accounts.
 - `permission_set_arn`: The ARN of the <a>PermissionSet</a> that the managed policy should
   be attached to.
 """
-attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("AttachManagedPolicyToPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("AttachManagedPolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+attach_managed_policy_to_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "AttachManagedPolicyToPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "ManagedPolicyArn" => ManagedPolicyArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function attach_managed_policy_to_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "AttachManagedPolicyToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ManagedPolicyArn" => ManagedPolicyArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
@@ -85,8 +159,57 @@ the status of an assignment creation request.
   123456789012).
 - `target_type`: The entity type for which the assignment will be created.
 """
-create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "CreateAccountAssignment",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+        "TargetId" => TargetId,
+        "TargetType" => TargetType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "CreateAccountAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                    "TargetId" => TargetId,
+                    "TargetType" => TargetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application(application_provider_arn, instance_arn, name)
@@ -123,8 +246,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specifies whether the application is enabled or disabled.
 - `"Tags"`: Specifies tags to be attached to the application.
 """
-create_application(ApplicationProviderArn, InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateApplication", Dict{String, Any}("ApplicationProviderArn"=>ApplicationProviderArn, "InstanceArn"=>InstanceArn, "Name"=>Name, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(ApplicationProviderArn, InstanceArn, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationProviderArn"=>ApplicationProviderArn, "InstanceArn"=>InstanceArn, "Name"=>Name, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(
+    ApplicationProviderArn,
+    InstanceArn,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "CreateApplication",
+    Dict{String,Any}(
+        "ApplicationProviderArn" => ApplicationProviderArn,
+        "InstanceArn" => InstanceArn,
+        "Name" => Name,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application(
+    ApplicationProviderArn,
+    InstanceArn,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "CreateApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationProviderArn" => ApplicationProviderArn,
+                    "InstanceArn" => InstanceArn,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application_assignment(application_arn, principal_id, principal_type)
@@ -140,8 +302,45 @@ Grant application access to a user or group.
   more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be created.
 """
-create_application_assignment(ApplicationArn, PrincipalId, PrincipalType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateApplicationAssignment", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application_assignment(ApplicationArn, PrincipalId, PrincipalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateApplicationAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "CreateApplicationAssignment",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "CreateApplicationAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_instance()
@@ -173,8 +372,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the instance of IAM Identity Center.
 - `"Tags"`: Specifies tags to be attached to the instance of IAM Identity Center.
 """
-create_instance(; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateInstance", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_instance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_instance(; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin(
+    "CreateInstance",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "CreateInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
@@ -201,8 +416,43 @@ to validate that `InstanceAccessControlAttributeConfiguration` was created.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed.
 """
-create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "CreateInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}(
+        "InstanceAccessControlAttributeConfiguration" =>
+            InstanceAccessControlAttributeConfiguration,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "CreateInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceAccessControlAttributeConfiguration" =>
+                        InstanceAccessControlAttributeConfiguration,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_permission_set(instance_arn, name)
@@ -232,8 +482,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ISO-8601 standard.
 - `"Tags"`: The tags to attach to the new <a>PermissionSet</a>.
 """
-create_permission_set(InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreatePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_permission_set(InstanceArn, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_permission_set(
+    InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "CreatePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_permission_set(
+    InstanceArn,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "CreatePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_trusted_token_issuer(instance_arn, name, trusted_token_issuer_configuration, trusted_token_issuer_type)
@@ -273,8 +548,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the retry fails with an `IdempotentParameterMismatch` error.
 - `"Tags"`: Specifies tags to be attached to the new trusted token issuer configuration.
 """
-create_trusted_token_issuer(InstanceArn, Name, TrustedTokenIssuerConfiguration, TrustedTokenIssuerType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateTrustedTokenIssuer", Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name, "TrustedTokenIssuerConfiguration"=>TrustedTokenIssuerConfiguration, "TrustedTokenIssuerType"=>TrustedTokenIssuerType, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_trusted_token_issuer(InstanceArn, Name, TrustedTokenIssuerConfiguration, TrustedTokenIssuerType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("CreateTrustedTokenIssuer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name, "TrustedTokenIssuerConfiguration"=>TrustedTokenIssuerConfiguration, "TrustedTokenIssuerType"=>TrustedTokenIssuerType, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_trusted_token_issuer(
+    InstanceArn,
+    Name,
+    TrustedTokenIssuerConfiguration,
+    TrustedTokenIssuerType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "CreateTrustedTokenIssuer",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "Name" => Name,
+        "TrustedTokenIssuerConfiguration" => TrustedTokenIssuerConfiguration,
+        "TrustedTokenIssuerType" => TrustedTokenIssuerType,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_trusted_token_issuer(
+    InstanceArn,
+    Name,
+    TrustedTokenIssuerConfiguration,
+    TrustedTokenIssuerType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "CreateTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "Name" => Name,
+                    "TrustedTokenIssuerConfiguration" => TrustedTokenIssuerConfiguration,
+                    "TrustedTokenIssuerType" => TrustedTokenIssuerType,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
@@ -301,8 +619,57 @@ the status of an assignment deletion request.
   123456789012).
 - `target_type`: The entity type for which the assignment will be deleted.
 """
-delete_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteAccountAssignment", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DeleteAccountAssignment",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+        "TargetId" => TargetId,
+        "TargetType" => TargetType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteAccountAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                    "TargetId" => TargetId,
+                    "TargetType" => TargetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application(application_arn)
@@ -316,8 +683,27 @@ Deletes the association with the application. The connected service resource sti
   see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-delete_application(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplication", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "DeleteApplication",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_application(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application_access_scope(application_arn, scope)
@@ -330,8 +716,33 @@ Deletes an IAM Identity Center access scope from an application.
 - `application_arn`: Specifies the ARN of the application with the access scope to delete.
 - `scope`: Specifies the name of the access scope to remove from the application.
 """
-delete_application_access_scope(ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationAccessScope", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application_access_scope(ApplicationArn, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationAccessScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application_access_scope(
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DeleteApplicationAccessScope",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_access_scope(
+    ApplicationArn,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application_assignment(application_arn, principal_id, principal_type)
@@ -348,8 +759,45 @@ or group.
   more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be deleted.
 """
-delete_application_assignment(ApplicationArn, PrincipalId, PrincipalType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationAssignment", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application_assignment(ApplicationArn, PrincipalId, PrincipalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DeleteApplicationAssignment",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application_authentication_method(application_arn, authentication_method_type)
@@ -364,8 +812,41 @@ Deletes an authentication method from an application.
 - `authentication_method_type`: Specifies the authentication method type to delete from the
   application.
 """
-delete_application_authentication_method(ApplicationArn, AuthenticationMethodType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationAuthenticationMethod", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AuthenticationMethodType"=>AuthenticationMethodType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application_authentication_method(ApplicationArn, AuthenticationMethodType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationAuthenticationMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AuthenticationMethodType"=>AuthenticationMethodType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DeleteApplicationAuthenticationMethod",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "AuthenticationMethodType" => AuthenticationMethodType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationAuthenticationMethod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AuthenticationMethodType" => AuthenticationMethodType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application_grant(application_arn, grant_type)
@@ -378,8 +859,35 @@ Deletes a grant from an application.
 - `application_arn`: Specifies the ARN of the application with the grant to delete.
 - `grant_type`: Specifies the type of grant to delete from the application.
 """
-delete_application_grant(ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationGrant", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "GrantType"=>GrantType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application_grant(ApplicationArn, GrantType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteApplicationGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "GrantType"=>GrantType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application_grant(
+    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DeleteApplicationGrant",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "GrantType" => GrantType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_grant(
+    ApplicationArn,
+    GrantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "GrantType" => GrantType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_inline_policy_from_permission_set(instance_arn, permission_set_arn)
@@ -394,8 +902,35 @@ Deletes the inline policy from a specified permission set.
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 """
-delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_inline_policy_from_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DeleteInlinePolicyFromPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_inline_policy_from_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteInlinePolicyFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_instance(instance_arn)
@@ -410,8 +945,27 @@ organization instance, but those roles can delete their own instance.
 - `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
   will run.
 """
-delete_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteInstance", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_instance(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "DeleteInstance",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_instance(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_instance_access_control_attribute_configuration(instance_arn)
@@ -428,8 +982,28 @@ in the *IAM Identity Center User Guide*.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed.
 """
-delete_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_instance_access_control_attribute_configuration(
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DeleteInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_instance_access_control_attribute_configuration(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_permission_set(instance_arn, permission_set_arn)
@@ -444,8 +1018,35 @@ Deletes the specified permission set.
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that should be deleted.
 """
-delete_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeletePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeletePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DeletePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeletePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_permissions_boundary_from_permission_set(instance_arn, permission_set_arn)
@@ -459,8 +1060,35 @@ Deletes the permissions boundary from a specified <a>PermissionSet</a>.
   will be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
-delete_permissions_boundary_from_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeletePermissionsBoundaryFromPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_permissions_boundary_from_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeletePermissionsBoundaryFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_permissions_boundary_from_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DeletePermissionsBoundaryFromPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_permissions_boundary_from_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeletePermissionsBoundaryFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_trusted_token_issuer(trusted_token_issuer_arn)
@@ -477,8 +1105,32 @@ applications that are configured to use the trusted token issuer.
 - `trusted_token_issuer_arn`: Specifies the ARN of the trusted token issuer configuration
   to delete.
 """
-delete_trusted_token_issuer(TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteTrustedTokenIssuer", Dict{String, Any}("TrustedTokenIssuerArn"=>TrustedTokenIssuerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_trusted_token_issuer(TrustedTokenIssuerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DeleteTrustedTokenIssuer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustedTokenIssuerArn"=>TrustedTokenIssuerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_trusted_token_issuer(
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DeleteTrustedTokenIssuer",
+    Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_trusted_token_issuer(
+    TrustedTokenIssuerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DeleteTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn)
@@ -494,8 +1146,42 @@ Describes the status of the assignment creation request.
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-describe_account_assignment_creation_status(AccountAssignmentCreationRequestId, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeAccountAssignmentCreationStatus", Dict{String, Any}("AccountAssignmentCreationRequestId"=>AccountAssignmentCreationRequestId, "InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_account_assignment_creation_status(AccountAssignmentCreationRequestId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentCreationRequestId"=>AccountAssignmentCreationRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_account_assignment_creation_status(
+    AccountAssignmentCreationRequestId,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DescribeAccountAssignmentCreationStatus",
+    Dict{String,Any}(
+        "AccountAssignmentCreationRequestId" => AccountAssignmentCreationRequestId,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_account_assignment_creation_status(
+    AccountAssignmentCreationRequestId,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeAccountAssignmentCreationStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountAssignmentCreationRequestId" =>
+                        AccountAssignmentCreationRequestId,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_account_assignment_deletion_status(account_assignment_deletion_request_id, instance_arn)
@@ -511,8 +1197,42 @@ Describes the status of the assignment deletion request.
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_account_assignment_deletion_status(
+    AccountAssignmentDeletionRequestId,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DescribeAccountAssignmentDeletionStatus",
+    Dict{String,Any}(
+        "AccountAssignmentDeletionRequestId" => AccountAssignmentDeletionRequestId,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_account_assignment_deletion_status(
+    AccountAssignmentDeletionRequestId,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeAccountAssignmentDeletionStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountAssignmentDeletionRequestId" =>
+                        AccountAssignmentDeletionRequestId,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_application(application_arn)
@@ -526,8 +1246,27 @@ Retrieves the details of an application associated with an instance of IAM Ident
   see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-describe_application(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeApplication", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_application(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "DescribeApplication",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_application(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_application_assignment(application_arn, principal_id, principal_type)
@@ -548,8 +1287,45 @@ for a user. Instead use <a>ListApplicationAssignmentsForPrincipal</a>.
   more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be created.
 """
-describe_application_assignment(ApplicationArn, PrincipalId, PrincipalType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeApplicationAssignment", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_application_assignment(ApplicationArn, PrincipalId, PrincipalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeApplicationAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DescribeApplicationAssignment",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeApplicationAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_application_provider(application_provider_arn)
@@ -563,8 +1339,32 @@ managed application or customer managed application to IAM Identity Center.
 - `application_provider_arn`: Specifies the ARN of the application provider for which you
   want details.
 """
-describe_application_provider(ApplicationProviderArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeApplicationProvider", Dict{String, Any}("ApplicationProviderArn"=>ApplicationProviderArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_application_provider(ApplicationProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeApplicationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationProviderArn"=>ApplicationProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application_provider(
+    ApplicationProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DescribeApplicationProvider",
+    Dict{String,Any}("ApplicationProviderArn" => ApplicationProviderArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_provider(
+    ApplicationProviderArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeApplicationProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationProviderArn" => ApplicationProviderArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance(instance_arn)
@@ -584,8 +1384,27 @@ after the delete operation completes.
 - `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
   will run.
 """
-describe_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeInstance", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "DescribeInstance",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_instance(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_access_control_attribute_configuration(instance_arn)
@@ -602,8 +1421,28 @@ in the *IAM Identity Center User Guide*.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed.
 """
-describe_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_access_control_attribute_configuration(
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DescribeInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_instance_access_control_attribute_configuration(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_permission_set(instance_arn, permission_set_arn)
@@ -618,8 +1457,35 @@ Gets the details of the permission set.
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
-describe_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DescribePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_permission_set_provisioning_status(instance_arn, provision_permission_set_request_id)
@@ -636,8 +1502,41 @@ Describes the status for the given permission set provisioning request.
   <a>ProvisionPermissionSet</a> call to retrieve the current status of the provisioning
   workflow.
 """
-describe_permission_set_provisioning_status(InstanceArn, ProvisionPermissionSetRequestId; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribePermissionSetProvisioningStatus", Dict{String, Any}("InstanceArn"=>InstanceArn, "ProvisionPermissionSetRequestId"=>ProvisionPermissionSetRequestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_permission_set_provisioning_status(InstanceArn, ProvisionPermissionSetRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribePermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ProvisionPermissionSetRequestId"=>ProvisionPermissionSetRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_permission_set_provisioning_status(
+    InstanceArn,
+    ProvisionPermissionSetRequestId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DescribePermissionSetProvisioningStatus",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_permission_set_provisioning_status(
+    InstanceArn,
+    ProvisionPermissionSetRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribePermissionSetProvisioningStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_trusted_token_issuer(trusted_token_issuer_arn)
@@ -653,8 +1552,32 @@ configuration.
 - `trusted_token_issuer_arn`: Specifies the ARN of the trusted token issuer configuration
   that you want details about.
 """
-describe_trusted_token_issuer(TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeTrustedTokenIssuer", Dict{String, Any}("TrustedTokenIssuerArn"=>TrustedTokenIssuerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_trusted_token_issuer(TrustedTokenIssuerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DescribeTrustedTokenIssuer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustedTokenIssuerArn"=>TrustedTokenIssuerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_trusted_token_issuer(
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "DescribeTrustedTokenIssuer",
+    Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_trusted_token_issuer(
+    TrustedTokenIssuerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
@@ -671,8 +1594,45 @@ Detaches the specified customer managed policy from the specified <a>PermissionS
   will be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
-detach_customer_managed_policy_reference_from_permission_set(CustomerManagedPolicyReference, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DetachCustomerManagedPolicyReferenceFromPermissionSet", Dict{String, Any}("CustomerManagedPolicyReference"=>CustomerManagedPolicyReference, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_customer_managed_policy_reference_from_permission_set(CustomerManagedPolicyReference, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DetachCustomerManagedPolicyReferenceFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerManagedPolicyReference"=>CustomerManagedPolicyReference, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_customer_managed_policy_reference_from_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DetachCustomerManagedPolicyReferenceFromPermissionSet",
+    Dict{String,Any}(
+        "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detach_customer_managed_policy_reference_from_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DetachCustomerManagedPolicyReferenceFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
@@ -691,8 +1651,45 @@ set.
 - `permission_set_arn`: The ARN of the <a>PermissionSet</a> from which the policy should be
   detached.
 """
-detach_managed_policy_from_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DetachManagedPolicyFromPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-detach_managed_policy_from_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("DetachManagedPolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+detach_managed_policy_from_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "DetachManagedPolicyFromPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "ManagedPolicyArn" => ManagedPolicyArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function detach_managed_policy_from_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DetachManagedPolicyFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ManagedPolicyArn" => ManagedPolicyArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application_access_scope(application_arn, scope)
@@ -706,8 +1703,33 @@ Retrieves the authorized targets for an IAM Identity Center access scope for an 
   want to retrieve.
 - `scope`: Specifies the name of the access scope for which you want the authorized targets.
 """
-get_application_access_scope(ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationAccessScope", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application_access_scope(ApplicationArn, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationAccessScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application_access_scope(
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "GetApplicationAccessScope",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_access_scope(
+    ApplicationArn,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application_assignment_configuration(application_arn)
@@ -721,8 +1743,28 @@ Retrieves the configuration of <a>PutApplicationAssignmentConfiguration</a>.
   see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-get_application_assignment_configuration(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationAssignmentConfiguration", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application_assignment_configuration(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationAssignmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application_assignment_configuration(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "GetApplicationAssignmentConfiguration",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_assignment_configuration(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application_authentication_method(application_arn, authentication_method_type)
@@ -736,8 +1778,41 @@ Retrieves details about an authentication method used by an application.
 - `authentication_method_type`: Specifies the type of authentication method for which you
   want details.
 """
-get_application_authentication_method(ApplicationArn, AuthenticationMethodType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationAuthenticationMethod", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AuthenticationMethodType"=>AuthenticationMethodType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application_authentication_method(ApplicationArn, AuthenticationMethodType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationAuthenticationMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AuthenticationMethodType"=>AuthenticationMethodType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "GetApplicationAuthenticationMethod",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "AuthenticationMethodType" => AuthenticationMethodType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationAuthenticationMethod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AuthenticationMethodType" => AuthenticationMethodType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application_grant(application_arn, grant_type)
@@ -750,8 +1825,35 @@ Retrieves details about an application grant.
 - `application_arn`: Specifies the ARN of the application that contains the grant.
 - `grant_type`: Specifies the type of grant.
 """
-get_application_grant(ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationGrant", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "GrantType"=>GrantType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application_grant(ApplicationArn, GrantType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetApplicationGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "GrantType"=>GrantType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application_grant(
+    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "GetApplicationGrant",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "GrantType" => GrantType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_grant(
+    ApplicationArn,
+    GrantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "GrantType" => GrantType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_inline_policy_for_permission_set(instance_arn, permission_set_arn)
@@ -766,8 +1868,35 @@ Obtains the inline policy assigned to the permission set.
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
-get_inline_policy_for_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetInlinePolicyForPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_inline_policy_for_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetInlinePolicyForPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_inline_policy_for_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "GetInlinePolicyForPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_inline_policy_for_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "GetInlinePolicyForPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_permissions_boundary_for_permission_set(instance_arn, permission_set_arn)
@@ -781,8 +1910,35 @@ Obtains the permissions boundary for a specified <a>PermissionSet</a>.
   will be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
-get_permissions_boundary_for_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetPermissionsBoundaryForPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_permissions_boundary_for_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("GetPermissionsBoundaryForPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_permissions_boundary_for_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "GetPermissionsBoundaryForPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_permissions_boundary_for_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "GetPermissionsBoundaryForPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_account_assignment_creation_status(instance_arn)
@@ -806,8 +1962,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_account_assignment_creation_status(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignmentCreationStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_account_assignment_creation_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_assignment_creation_status(
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListAccountAssignmentCreationStatus",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_account_assignment_creation_status(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignmentCreationStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_account_assignment_deletion_status(instance_arn)
@@ -831,8 +2007,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_account_assignment_deletion_status(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignmentDeletionStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_account_assignment_deletion_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_assignment_deletion_status(
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListAccountAssignmentDeletionStatus",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_account_assignment_deletion_status(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignmentDeletionStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_account_assignments(account_id, instance_arn, permission_set_arn)
@@ -858,8 +2054,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_account_assignments(AccountId, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignments", Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_account_assignments(AccountId, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_assignments(
+    AccountId,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "ListAccountAssignments",
+    Dict{String,Any}(
+        "AccountId" => AccountId,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_account_assignments(
+    AccountId,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_account_assignments_for_principal(instance_arn, principal_id, principal_type)
@@ -894,8 +2127,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_account_assignments_for_principal(InstanceArn, PrincipalId, PrincipalType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignmentsForPrincipal", Dict{String, Any}("InstanceArn"=>InstanceArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_account_assignments_for_principal(InstanceArn, PrincipalId, PrincipalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountAssignmentsForPrincipal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "ListAccountAssignmentsForPrincipal",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_account_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignmentsForPrincipal",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn)
@@ -922,8 +2192,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
   account.
 """
-list_accounts_for_provisioned_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountsForProvisionedPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_accounts_for_provisioned_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListAccountsForProvisionedPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_accounts_for_provisioned_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListAccountsForProvisionedPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_accounts_for_provisioned_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListAccountsForProvisionedPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_access_scopes(application_arn)
@@ -951,8 +2248,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_application_access_scopes(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAccessScopes", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_access_scopes(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAccessScopes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_access_scopes(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListApplicationAccessScopes",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_access_scopes(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAccessScopes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_assignments(application_arn)
@@ -980,8 +2297,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_application_assignments(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAssignments", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_assignments(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAssignments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_assignments(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListApplicationAssignments",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_assignments(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAssignments",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_assignments_for_principal(instance_arn, principal_id, principal_type)
@@ -1016,8 +2353,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_application_assignments_for_principal(InstanceArn, PrincipalId, PrincipalType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAssignmentsForPrincipal", Dict{String, Any}("InstanceArn"=>InstanceArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_assignments_for_principal(InstanceArn, PrincipalId, PrincipalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAssignmentsForPrincipal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "ListApplicationAssignmentsForPrincipal",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAssignmentsForPrincipal",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_authentication_methods(application_arn)
@@ -1039,8 +2413,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_application_authentication_methods(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAuthenticationMethods", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_authentication_methods(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationAuthenticationMethods", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_authentication_methods(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListApplicationAuthenticationMethods",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_authentication_methods(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAuthenticationMethods",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_grants(application_arn)
@@ -1061,8 +2455,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_application_grants(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationGrants", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_grants(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_grants(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListApplicationGrants",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_grants(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationGrants",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_providers()
@@ -1086,8 +2500,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_application_providers(; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_providers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplicationProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_providers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_application_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "ListApplicationProviders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_applications(instance_arn)
@@ -1121,8 +2547,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_applications(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplications", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_applications(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListApplications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_applications(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "ListApplications",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_applications(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListApplications",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn)
@@ -1144,8 +2589,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_customer_managed_policy_references_in_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListCustomerManagedPolicyReferencesInPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_customer_managed_policy_references_in_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListCustomerManagedPolicyReferencesInPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_customer_managed_policy_references_in_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListCustomerManagedPolicyReferencesInPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_customer_managed_policy_references_in_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListCustomerManagedPolicyReferencesInPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_instances()
@@ -1162,8 +2634,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin("ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "ListInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_managed_policies_in_permission_set(instance_arn, permission_set_arn)
@@ -1187,8 +2666,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_managed_policies_in_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListManagedPoliciesInPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_managed_policies_in_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListManagedPoliciesInPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_managed_policies_in_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListManagedPoliciesInPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_managed_policies_in_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListManagedPoliciesInPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_permission_set_provisioning_status(instance_arn)
@@ -1212,8 +2718,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_permission_set_provisioning_status(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListPermissionSetProvisioningStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_permission_set_provisioning_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListPermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_permission_set_provisioning_status(
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListPermissionSetProvisioningStatus",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_permission_set_provisioning_status(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListPermissionSetProvisioningStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_permission_sets(instance_arn)
@@ -1235,8 +2761,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_permission_sets(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListPermissionSets", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_permission_sets(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListPermissionSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_permission_sets(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "ListPermissionSets",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_permission_sets(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListPermissionSets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_permission_sets_provisioned_to_account(account_id, instance_arn)
@@ -1262,8 +2807,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 - `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
 """
-list_permission_sets_provisioned_to_account(AccountId, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListPermissionSetsProvisionedToAccount", Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_permission_sets_provisioned_to_account(AccountId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListPermissionSetsProvisionedToAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_permission_sets_provisioned_to_account(
+    AccountId, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListPermissionSetsProvisionedToAccount",
+    Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_permission_sets_provisioned_to_account(
+    AccountId,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListPermissionSetsProvisionedToAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1285,8 +2855,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_trusted_token_issuers(instance_arn)
@@ -1315,8 +2904,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_trusted_token_issuers(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListTrustedTokenIssuers", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_trusted_token_issuers(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ListTrustedTokenIssuers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_trusted_token_issuers(
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "ListTrustedTokenIssuers",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_trusted_token_issuers(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListTrustedTokenIssuers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     provision_permission_set(instance_arn, permission_set_arn, target_type)
@@ -1339,8 +2948,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetId"`: TargetID is an Amazon Web Services account identifier, (For example,
   123456789012).
 """
-provision_permission_set(InstanceArn, PermissionSetArn, TargetType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-provision_permission_set(InstanceArn, PermissionSetArn, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+provision_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    TargetType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "ProvisionPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "TargetType" => TargetType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function provision_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    TargetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ProvisionPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "TargetType" => TargetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_application_access_scope(application_arn, scope)
@@ -1363,8 +3009,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthorizedTargets"`: Specifies an array list of ARNs that represent the authorized
   targets for this access scope.
 """
-put_application_access_scope(ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationAccessScope", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Scope"=>Scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_application_access_scope(ApplicationArn, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationAccessScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_application_access_scope(
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "PutApplicationAccessScope",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_access_scope(
+    ApplicationArn,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_application_assignment_configuration(application_arn, assignment_required)
@@ -1385,8 +3056,38 @@ the user retains access if `AssignmentsRequired` is set to `true`.
   have access to the application unless an assignment is created using the [CreateApplicationAssignment API](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html).
   If `false`, all users have access to the application.
 """
-put_application_assignment_configuration(ApplicationArn, AssignmentRequired; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationAssignmentConfiguration", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AssignmentRequired"=>AssignmentRequired); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_application_assignment_configuration(ApplicationArn, AssignmentRequired, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationAssignmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AssignmentRequired"=>AssignmentRequired), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_application_assignment_configuration(
+    ApplicationArn, AssignmentRequired; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "PutApplicationAssignmentConfiguration",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn, "AssignmentRequired" => AssignmentRequired
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_assignment_configuration(
+    ApplicationArn,
+    AssignmentRequired,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AssignmentRequired" => AssignmentRequired,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_application_authentication_method(application_arn, authentication_method, authentication_method_type)
@@ -1404,8 +3105,45 @@ Adds or updates an authentication method for an application.
 - `authentication_method_type`: Specifies the type of the authentication method that you
   want to add or update.
 """
-put_application_authentication_method(ApplicationArn, AuthenticationMethod, AuthenticationMethodType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationAuthenticationMethod", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AuthenticationMethod"=>AuthenticationMethod, "AuthenticationMethodType"=>AuthenticationMethodType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_application_authentication_method(ApplicationArn, AuthenticationMethod, AuthenticationMethodType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationAuthenticationMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "AuthenticationMethod"=>AuthenticationMethod, "AuthenticationMethodType"=>AuthenticationMethodType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethod,
+    AuthenticationMethodType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "PutApplicationAuthenticationMethod",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "AuthenticationMethod" => AuthenticationMethod,
+        "AuthenticationMethodType" => AuthenticationMethodType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethod,
+    AuthenticationMethodType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationAuthenticationMethod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AuthenticationMethod" => AuthenticationMethod,
+                    "AuthenticationMethodType" => AuthenticationMethodType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_application_grant(application_arn, grant, grant_type)
@@ -1419,8 +3157,40 @@ Adds a grant to an application.
 - `grant`: Specifies a structure that describes the grant to update.
 - `grant_type`: Specifies the type of grant to update.
 """
-put_application_grant(ApplicationArn, Grant, GrantType; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationGrant", Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Grant"=>Grant, "GrantType"=>GrantType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_application_grant(ApplicationArn, Grant, GrantType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutApplicationGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "Grant"=>Grant, "GrantType"=>GrantType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_application_grant(
+    ApplicationArn, Grant, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "PutApplicationGrant",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn, "Grant" => Grant, "GrantType" => GrantType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_grant(
+    ApplicationArn,
+    Grant,
+    GrantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "Grant" => Grant,
+                    "GrantType" => GrantType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn)
@@ -1441,8 +3211,45 @@ corresponding IAM policy updates to all assigned accounts.
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
-put_inline_policy_to_permission_set(InlinePolicy, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutInlinePolicyToPermissionSet", Dict{String, Any}("InlinePolicy"=>InlinePolicy, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_inline_policy_to_permission_set(InlinePolicy, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutInlinePolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InlinePolicy"=>InlinePolicy, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_inline_policy_to_permission_set(
+    InlinePolicy,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "PutInlinePolicyToPermissionSet",
+    Dict{String,Any}(
+        "InlinePolicy" => InlinePolicy,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_inline_policy_to_permission_set(
+    InlinePolicy,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "PutInlinePolicyToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InlinePolicy" => InlinePolicy,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary)
@@ -1459,8 +3266,45 @@ Attaches an Amazon Web Services managed or customer managed policy to the specif
 - `permissions_boundary`: The permissions boundary that you want to attach to a
   `PermissionSet`.
 """
-put_permissions_boundary_to_permission_set(InstanceArn, PermissionSetArn, PermissionsBoundary; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutPermissionsBoundaryToPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PermissionsBoundary"=>PermissionsBoundary); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_permissions_boundary_to_permission_set(InstanceArn, PermissionSetArn, PermissionsBoundary, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("PutPermissionsBoundaryToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PermissionsBoundary"=>PermissionsBoundary), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_permissions_boundary_to_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    PermissionsBoundary;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "PutPermissionsBoundaryToPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "PermissionsBoundary" => PermissionsBoundary,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_permissions_boundary_to_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    PermissionsBoundary,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "PutPermissionsBoundaryToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "PermissionsBoundary" => PermissionsBoundary,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1481,8 +3325,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1503,8 +3371,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application(application_arn)
@@ -1528,8 +3420,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an application.
 - `"Status"`: Specifies whether the application is enabled or disabled.
 """
-update_application(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateApplication", Dict{String, Any}("ApplicationArn"=>ApplicationArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application(ApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "UpdateApplication",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_application(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "UpdateApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_instance(instance_arn, name)
@@ -1545,8 +3456,32 @@ Services account.
   in the *Amazon Web Services General Reference*.
 - `name`: Updates the instance name.
 """
-update_instance(InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateInstance", Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_instance(InstanceArn, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_instance(InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sso_admin(
+        "UpdateInstance",
+        Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_instance(
+    InstanceArn,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "UpdateInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
@@ -1568,8 +3503,43 @@ in the *IAM Identity Center User Guide*.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed.
 """
-update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sso_admin(
+    "UpdateInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}(
+        "InstanceAccessControlAttributeConfiguration" =>
+            InstanceAccessControlAttributeConfiguration,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "UpdateInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceAccessControlAttributeConfiguration" =>
+                        InstanceAccessControlAttributeConfiguration,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_permission_set(instance_arn, permission_set_arn)
@@ -1594,8 +3564,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionDuration"`: The length of time that the application user sessions are valid for
   in the ISO-8601 standard.
 """
-update_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdatePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "UpdatePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "UpdatePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_trusted_token_issuer(trusted_token_issuer_arn)
@@ -1623,5 +3620,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified trusted token issuer. The settings that you can provide are determined by the
   type of the trusted token issuer that you are updating.
 """
-update_trusted_token_issuer(TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateTrustedTokenIssuer", Dict{String, Any}("TrustedTokenIssuerArn"=>TrustedTokenIssuerArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_trusted_token_issuer(TrustedTokenIssuerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso_admin("UpdateTrustedTokenIssuer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustedTokenIssuerArn"=>TrustedTokenIssuerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_trusted_token_issuer(
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = sso_admin(
+    "UpdateTrustedTokenIssuer",
+    Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_trusted_token_issuer(
+    TrustedTokenIssuerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "UpdateTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

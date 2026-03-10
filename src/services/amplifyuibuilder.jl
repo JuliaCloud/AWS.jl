@@ -22,8 +22,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: The unique client token.
 """
-create_component(appId, componentToCreate, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/components", Dict{String, Any}("componentToCreate"=>componentToCreate, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_component(appId, componentToCreate, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/components", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentToCreate"=>componentToCreate, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_component(
+    appId,
+    componentToCreate,
+    environmentName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amplifyuibuilder(
+    "POST",
+    "/app/$(appId)/environment/$(environmentName)/components",
+    Dict{String,Any}(
+        "componentToCreate" => componentToCreate, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_component(
+    appId,
+    componentToCreate,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/components",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "componentToCreate" => componentToCreate,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_form(app_id, environment_name, form_to_create)
@@ -43,8 +79,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: The unique client token.
 """
-create_form(appId, environmentName, formToCreate; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/forms", Dict{String, Any}("formToCreate"=>formToCreate, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_form(appId, environmentName, formToCreate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/forms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("formToCreate"=>formToCreate, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_form(
+    appId, environmentName, formToCreate; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "POST",
+    "/app/$(appId)/environment/$(environmentName)/forms",
+    Dict{String,Any}("formToCreate" => formToCreate, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_form(
+    appId,
+    environmentName,
+    formToCreate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/forms",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "formToCreate" => formToCreate, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_theme(app_id, environment_name, theme_to_create)
@@ -64,8 +130,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: The unique client token.
 """
-create_theme(appId, environmentName, themeToCreate; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/themes", Dict{String, Any}("themeToCreate"=>themeToCreate, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_theme(appId, environmentName, themeToCreate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/themes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("themeToCreate"=>themeToCreate, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_theme(
+    appId,
+    environmentName,
+    themeToCreate;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amplifyuibuilder(
+    "POST",
+    "/app/$(appId)/environment/$(environmentName)/themes",
+    Dict{String,Any}("themeToCreate" => themeToCreate, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_theme(
+    appId,
+    environmentName,
+    themeToCreate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/themes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "themeToCreate" => themeToCreate, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_component(app_id, environment_name, id)
@@ -79,8 +178,29 @@ Deletes a component from an Amplify app.
 - `environment_name`: The name of the backend environment that is a part of the Amplify app.
 - `id`: The unique ID of the component to delete.
 """
-delete_component(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/app/$(appId)/environment/$(environmentName)/components/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_component(appId, environmentName, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/app/$(appId)/environment/$(environmentName)/components/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_component(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "DELETE",
+    "/app/$(appId)/environment/$(environmentName)/components/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_component(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/app/$(appId)/environment/$(environmentName)/components/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_form(app_id, environment_name, id)
@@ -94,8 +214,29 @@ Deletes a form from an Amplify app.
 - `environment_name`: The name of the backend environment that is a part of the Amplify app.
 - `id`: The unique ID of the form to delete.
 """
-delete_form(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/app/$(appId)/environment/$(environmentName)/forms/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_form(appId, environmentName, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/app/$(appId)/environment/$(environmentName)/forms/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_form(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "DELETE",
+    "/app/$(appId)/environment/$(environmentName)/forms/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_form(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_theme(app_id, environment_name, id)
@@ -109,8 +250,29 @@ Deletes a theme from an Amplify app.
 - `environment_name`: The name of the backend environment that is a part of the Amplify app.
 - `id`: The unique ID of the theme to delete.
 """
-delete_theme(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/app/$(appId)/environment/$(environmentName)/themes/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_theme(appId, environmentName, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/app/$(appId)/environment/$(environmentName)/themes/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_theme(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "DELETE",
+    "/app/$(appId)/environment/$(environmentName)/themes/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_theme(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     exchange_code_for_token(provider, request)
@@ -127,8 +289,29 @@ token.
 - `provider`: The third-party provider for the token. The only valid value is `figma`.
 - `request`: Describes the configuration of the request.
 """
-exchange_code_for_token(provider, request; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/tokens/$(provider)", Dict{String, Any}("request"=>request); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-exchange_code_for_token(provider, request, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/tokens/$(provider)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("request"=>request), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+exchange_code_for_token(
+    provider, request; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "POST",
+    "/tokens/$(provider)",
+    Dict{String,Any}("request" => request);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function exchange_code_for_token(
+    provider,
+    request,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/tokens/$(provider)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("request" => request), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_components(app_id, environment_name)
@@ -147,8 +330,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: The token to request the next page of results.
 """
-export_components(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/export/app/$(appId)/environment/$(environmentName)/components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_components(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/export/app/$(appId)/environment/$(environmentName)/components", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_components(
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "GET",
+    "/export/app/$(appId)/environment/$(environmentName)/components";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_components(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/export/app/$(appId)/environment/$(environmentName)/components",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_forms(app_id, environment_name)
@@ -167,8 +370,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: The token to request the next page of results.
 """
-export_forms(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/export/app/$(appId)/environment/$(environmentName)/forms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_forms(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/export/app/$(appId)/environment/$(environmentName)/forms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_forms(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/export/app/$(appId)/environment/$(environmentName)/forms";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function export_forms(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/export/app/$(appId)/environment/$(environmentName)/forms",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_themes(app_id, environment_name)
@@ -187,8 +409,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: The token to request the next page of results.
 """
-export_themes(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/export/app/$(appId)/environment/$(environmentName)/themes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_themes(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/export/app/$(appId)/environment/$(environmentName)/themes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_themes(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/export/app/$(appId)/environment/$(environmentName)/themes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function export_themes(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/export/app/$(appId)/environment/$(environmentName)/themes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_codegen_job(app_id, environment_name, id)
@@ -203,8 +444,29 @@ Returns an existing code generation job.
   associated with the code generation job.
 - `id`: The unique ID of the code generation job.
 """
-get_codegen_job(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_codegen_job(appId, environmentName, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_codegen_job(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "GET",
+    "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_codegen_job(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_component(app_id, environment_name, id)
@@ -218,8 +480,29 @@ Returns an existing component for an Amplify app.
 - `environment_name`: The name of the backend environment that is part of the Amplify app.
 - `id`: The unique ID of the component.
 """
-get_component(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/components/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_component(appId, environmentName, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/components/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_component(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "GET",
+    "/app/$(appId)/environment/$(environmentName)/components/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_component(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/components/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_form(app_id, environment_name, id)
@@ -233,8 +516,28 @@ Returns an existing form for an Amplify app.
 - `environment_name`: The name of the backend environment that is part of the Amplify app.
 - `id`: The unique ID of the form.
 """
-get_form(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/forms/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_form(appId, environmentName, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/forms/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_form(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_form(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_metadata(app_id, environment_name)
@@ -247,8 +550,27 @@ Returns existing metadata for an Amplify app.
 - `app_id`: The unique ID of the Amplify app.
 - `environment_name`: The name of the backend environment that is part of the Amplify app.
 """
-get_metadata(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/metadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_metadata(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/metadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_metadata(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/metadata";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_metadata(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/metadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_theme(app_id, environment_name, id)
@@ -262,8 +584,28 @@ Returns an existing theme for an Amplify app.
 - `environment_name`: The name of the backend environment that is part of the Amplify app.
 - `id`: The unique ID for the theme.
 """
-get_theme(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/themes/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_theme(appId, environmentName, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/themes/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_theme(appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/themes/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_theme(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_codegen_jobs(app_id, environment_name)
@@ -284,8 +626,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of jobs to retrieve.
 - `"nextToken"`: The token to request the next page of results.
 """
-list_codegen_jobs(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/codegen-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_codegen_jobs(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/codegen-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_codegen_jobs(
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "GET",
+    "/app/$(appId)/environment/$(environmentName)/codegen-jobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_codegen_jobs(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_components(app_id, environment_name)
@@ -305,8 +667,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of components to retrieve.
 - `"nextToken"`: The token to request the next page of results.
 """
-list_components(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_components(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/components", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_components(
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "GET",
+    "/app/$(appId)/environment/$(environmentName)/components";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_components(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/components",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_forms(app_id, environment_name)
@@ -326,8 +708,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of forms to retrieve.
 - `"nextToken"`: The token to request the next page of results.
 """
-list_forms(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/forms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_forms(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/forms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_forms(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_forms(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -339,8 +740,26 @@ Returns a list of tags for a specified Amazon Resource Name (ARN).
 
 - `resource_arn`: The Amazon Resource Name (ARN) to use to list tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_themes(app_id, environment_name)
@@ -360,8 +779,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of theme results to return in the response.
 - `"nextToken"`: The token to request the next page of results.
 """
-list_themes(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/themes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_themes(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("GET", "/app/$(appId)/environment/$(environmentName)/themes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_themes(appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/themes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_themes(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/themes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_metadata_flag(app_id, body, environment_name, feature_name)
@@ -376,8 +814,35 @@ Stores the metadata information about a feature on a form.
 - `environment_name`: The name of the backend environment that is part of the Amplify app.
 - `feature_name`: The name of the feature associated with the metadata.
 """
-put_metadata_flag(appId, body, environmentName, featureName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PUT", "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)", Dict{String, Any}("body"=>body); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_metadata_flag(appId, body, environmentName, featureName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PUT", "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_metadata_flag(
+    appId,
+    body,
+    environmentName,
+    featureName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amplifyuibuilder(
+    "PUT",
+    "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)",
+    Dict{String,Any}("body" => body);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_metadata_flag(
+    appId,
+    body,
+    environmentName,
+    featureName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "PUT",
+        "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     refresh_token(provider, refresh_token_body)
@@ -394,8 +859,33 @@ token that might have expired.
 - `provider`: The third-party provider for the token. The only valid value is `figma`.
 - `refresh_token_body`: Information about the refresh token request.
 """
-refresh_token(provider, refreshTokenBody; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/tokens/$(provider)/refresh", Dict{String, Any}("refreshTokenBody"=>refreshTokenBody); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-refresh_token(provider, refreshTokenBody, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/tokens/$(provider)/refresh", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("refreshTokenBody"=>refreshTokenBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+refresh_token(
+    provider, refreshTokenBody; aws_config::AbstractAWSConfig=current_aws_config()
+) = amplifyuibuilder(
+    "POST",
+    "/tokens/$(provider)/refresh",
+    Dict{String,Any}("refreshTokenBody" => refreshTokenBody);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function refresh_token(
+    provider,
+    refreshTokenBody,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/tokens/$(provider)/refresh",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("refreshTokenBody" => refreshTokenBody), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_codegen_job(app_id, codegen_job_to_create, environment_name)
@@ -416,8 +906,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotency token used to ensure that the code generation job
   request completes only once.
 """
-start_codegen_job(appId, codegenJobToCreate, environmentName; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/codegen-jobs", Dict{String, Any}("codegenJobToCreate"=>codegenJobToCreate, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_codegen_job(appId, codegenJobToCreate, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/app/$(appId)/environment/$(environmentName)/codegen-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("codegenJobToCreate"=>codegenJobToCreate, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_codegen_job(
+    appId,
+    codegenJobToCreate,
+    environmentName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amplifyuibuilder(
+    "POST",
+    "/app/$(appId)/environment/$(environmentName)/codegen-jobs",
+    Dict{String,Any}(
+        "codegenJobToCreate" => codegenJobToCreate, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_codegen_job(
+    appId,
+    codegenJobToCreate,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "codegenJobToCreate" => codegenJobToCreate,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -430,8 +956,28 @@ Tags the resource with a tag key and value.
 - `resource_arn`: The Amazon Resource Name (ARN) to use to tag a resource.
 - `tags`: A list of tag key value pairs for a specified Amazon Resource Name (ARN).
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -444,8 +990,28 @@ Untags a resource with a specified Amazon Resource Name (ARN).
 - `resource_arn`: The Amazon Resource Name (ARN) to use to untag a resource.
 - `tag_keys`: The tag keys to use to untag a resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    amplifyuibuilder(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_component(app_id, environment_name, id, updated_component)
@@ -466,8 +1032,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: The unique client token.
 """
-update_component(appId, environmentName, id, updatedComponent; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PATCH", "/app/$(appId)/environment/$(environmentName)/components/$(id)", Dict{String, Any}("updatedComponent"=>updatedComponent, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_component(appId, environmentName, id, updatedComponent, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PATCH", "/app/$(appId)/environment/$(environmentName)/components/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("updatedComponent"=>updatedComponent, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_component(
+    appId,
+    environmentName,
+    id,
+    updatedComponent;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amplifyuibuilder(
+    "PATCH",
+    "/app/$(appId)/environment/$(environmentName)/components/$(id)",
+    Dict{String,Any}(
+        "updatedComponent" => updatedComponent, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_component(
+    appId,
+    environmentName,
+    id,
+    updatedComponent,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "PATCH",
+        "/app/$(appId)/environment/$(environmentName)/components/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "updatedComponent" => updatedComponent, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_form(app_id, environment_name, id, updated_form)
@@ -488,8 +1091,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: The unique client token.
 """
-update_form(appId, environmentName, id, updatedForm; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PATCH", "/app/$(appId)/environment/$(environmentName)/forms/$(id)", Dict{String, Any}("updatedForm"=>updatedForm, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_form(appId, environmentName, id, updatedForm, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PATCH", "/app/$(appId)/environment/$(environmentName)/forms/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("updatedForm"=>updatedForm, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_form(
+    appId,
+    environmentName,
+    id,
+    updatedForm;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amplifyuibuilder(
+    "PATCH",
+    "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
+    Dict{String,Any}("updatedForm" => updatedForm, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_form(
+    appId,
+    environmentName,
+    id,
+    updatedForm,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "PATCH",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "updatedForm" => updatedForm, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_theme(app_id, environment_name, id, updated_theme)
@@ -510,5 +1148,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: The unique client token.
 """
-update_theme(appId, environmentName, id, updatedTheme; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PATCH", "/app/$(appId)/environment/$(environmentName)/themes/$(id)", Dict{String, Any}("updatedTheme"=>updatedTheme, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_theme(appId, environmentName, id, updatedTheme, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = amplifyuibuilder("PATCH", "/app/$(appId)/environment/$(environmentName)/themes/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("updatedTheme"=>updatedTheme, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_theme(
+    appId,
+    environmentName,
+    id,
+    updatedTheme;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = amplifyuibuilder(
+    "PATCH",
+    "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
+    Dict{String,Any}("updatedTheme" => updatedTheme, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_theme(
+    appId,
+    environmentName,
+    id,
+    updatedTheme,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amplifyuibuilder(
+        "PATCH",
+        "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "updatedTheme" => updatedTheme, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

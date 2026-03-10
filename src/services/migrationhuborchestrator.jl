@@ -25,8 +25,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to add to the migration workflow template.
 - `"templateDescription"`: A description of the migration workflow template.
 """
-create_template(templateName, templateSource; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/template", Dict{String, Any}("templateName"=>templateName, "templateSource"=>templateSource, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_template(templateName, templateSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName, "templateSource"=>templateSource, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_template(
+    templateName, templateSource; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "POST",
+    "/template",
+    Dict{String,Any}(
+        "templateName" => templateName,
+        "templateSource" => templateSource,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_template(
+    templateName,
+    templateSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/template",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "templateName" => templateName,
+                    "templateSource" => templateSource,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_workflow(input_parameters, name, template_id)
@@ -50,8 +85,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stepTargets"`: The servers on which a step will be run.
 - `"tags"`: The tags to add on a migration workflow.
 """
-create_workflow(inputParameters, name, templateId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/", Dict{String, Any}("inputParameters"=>inputParameters, "name"=>name, "templateId"=>templateId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_workflow(inputParameters, name, templateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputParameters"=>inputParameters, "name"=>name, "templateId"=>templateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workflow(
+    inputParameters, name, templateId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "POST",
+    "/migrationworkflow/",
+    Dict{String,Any}(
+        "inputParameters" => inputParameters, "name" => name, "templateId" => templateId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_workflow(
+    inputParameters,
+    name,
+    templateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/migrationworkflow/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputParameters" => inputParameters,
+                    "name" => name,
+                    "templateId" => templateId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_workflow_step(name, step_action_type, step_group_id, workflow_id)
@@ -79,8 +148,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workflowStepAutomationConfiguration"`: The custom script to run tests on source or
   target environments.
 """
-create_workflow_step(name, stepActionType, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstep", Dict{String, Any}("name"=>name, "stepActionType"=>stepActionType, "stepGroupId"=>stepGroupId, "workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_workflow_step(name, stepActionType, stepGroupId, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "stepActionType"=>stepActionType, "stepGroupId"=>stepGroupId, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workflow_step(
+    name,
+    stepActionType,
+    stepGroupId,
+    workflowId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = migrationhuborchestrator(
+    "POST",
+    "/workflowstep",
+    Dict{String,Any}(
+        "name" => name,
+        "stepActionType" => stepActionType,
+        "stepGroupId" => stepGroupId,
+        "workflowId" => workflowId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_workflow_step(
+    name,
+    stepActionType,
+    stepGroupId,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/workflowstep",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "stepActionType" => stepActionType,
+                    "stepGroupId" => stepGroupId,
+                    "workflowId" => workflowId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_workflow_step_group(name, workflow_id)
@@ -101,8 +213,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next"`: The next step group.
 - `"previous"`: The previous step group.
 """
-create_workflow_step_group(name, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstepgroups", Dict{String, Any}("name"=>name, "workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_workflow_step_group(name, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstepgroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workflow_step_group(
+    name, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "POST",
+    "/workflowstepgroups",
+    Dict{String,Any}("name" => name, "workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_workflow_step_group(
+    name,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/workflowstepgroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "workflowId" => workflowId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_template(id)
@@ -114,8 +251,21 @@ Deletes a migration workflow template.
 
 - `id`: The ID of the request to delete a migration workflow template.
 """
-delete_template(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/template/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/template/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "DELETE", "/template/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function delete_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "DELETE",
+        "/template/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_workflow(id)
@@ -128,8 +278,24 @@ Orchestrator console to delete it.
 
 - `id`: The ID of the migration workflow you want to delete.
 """
-delete_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/migrationworkflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/migrationworkflow/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "DELETE",
+        "/migrationworkflow/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_workflow(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "DELETE",
+        "/migrationworkflow/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_workflow_step(id, step_group_id, workflow_id)
@@ -143,8 +309,36 @@ Delete a step in a migration workflow. Pause the workflow to delete a running st
 - `step_group_id`: The ID of the step group that contains the step you want to delete.
 - `workflow_id`: The ID of the migration workflow.
 """
-delete_workflow_step(id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/workflowstep/$(id)", Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_workflow_step(id, stepGroupId, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/workflowstep/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workflow_step(
+    id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "DELETE",
+    "/workflowstep/$(id)",
+    Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_workflow_step(
+    id,
+    stepGroupId,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "DELETE",
+        "/workflowstep/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_workflow_step_group(id, workflow_id)
@@ -157,8 +351,31 @@ Delete a step group in a migration workflow.
 - `id`: The ID of the step group you want to delete.
 - `workflow_id`: The ID of the migration workflow.
 """
-delete_workflow_step_group(id, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/workflowstepgroup/$(id)", Dict{String, Any}("workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_workflow_step_group(id, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/workflowstepgroup/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workflow_step_group(
+    id, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "DELETE",
+    "/workflowstepgroup/$(id)",
+    Dict{String,Any}("workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_workflow_step_group(
+    id,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "DELETE",
+        "/workflowstepgroup/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_template(id)
@@ -170,8 +387,24 @@ Get the template you want to use for creating a migration workflow.
 
 - `id`: The ID of the template.
 """
-get_template(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflowtemplate/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflowtemplate/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET",
+        "/migrationworkflowtemplate/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/migrationworkflowtemplate/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_template_step(id, step_group_id, template_id)
@@ -185,8 +418,36 @@ Get a specific step in a template.
 - `step_group_id`: The ID of the step group.
 - `template_id`: The ID of the template.
 """
-get_template_step(id, stepGroupId, templateId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templatestep/$(id)", Dict{String, Any}("stepGroupId"=>stepGroupId, "templateId"=>templateId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_template_step(id, stepGroupId, templateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templatestep/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stepGroupId"=>stepGroupId, "templateId"=>templateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_template_step(
+    id, stepGroupId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "GET",
+    "/templatestep/$(id)",
+    Dict{String,Any}("stepGroupId" => stepGroupId, "templateId" => templateId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_template_step(
+    id,
+    stepGroupId,
+    templateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/templatestep/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("stepGroupId" => stepGroupId, "templateId" => templateId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_template_step_group(id, template_id)
@@ -199,8 +460,28 @@ Get a step group in a template.
 - `id`: The ID of the step group.
 - `template_id`: The ID of the template.
 """
-get_template_step_group(id, templateId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templates/$(templateId)/stepgroups/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_template_step_group(id, templateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templates/$(templateId)/stepgroups/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_template_step_group(
+    id, templateId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "GET",
+    "/templates/$(templateId)/stepgroups/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_template_step_group(
+    id,
+    templateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/templates/$(templateId)/stepgroups/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_workflow(id)
@@ -212,8 +493,24 @@ Get migration workflow.
 
 - `id`: The ID of the migration workflow.
 """
-get_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflow/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET",
+        "/migrationworkflow/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_workflow(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/migrationworkflow/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_workflow_step(id, step_group_id, workflow_id)
@@ -227,8 +524,36 @@ Get a step in the migration workflow.
 - `step_group_id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
 """
-get_workflow_step(id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflowstep/$(id)", Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_workflow_step(id, stepGroupId, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflowstep/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workflow_step(
+    id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "GET",
+    "/workflowstep/$(id)",
+    Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_workflow_step(
+    id,
+    stepGroupId,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/workflowstep/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_workflow_step_group(id, workflow_id)
@@ -241,8 +566,31 @@ Get the step group of a migration workflow.
 - `id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
 """
-get_workflow_step_group(id, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflowstepgroup/$(id)", Dict{String, Any}("workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_workflow_step_group(id, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflowstepgroup/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workflow_step_group(
+    id, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "GET",
+    "/workflowstepgroup/$(id)",
+    Dict{String,Any}("workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_workflow_step_group(
+    id,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/workflowstepgroup/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_plugins()
@@ -257,8 +605,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of plugins that can be returned.
 - `"nextToken"`: The pagination token.
 """
-list_plugins(; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_plugins(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/plugins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_plugins(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET", "/plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_plugins(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "GET", "/plugins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -270,8 +627,26 @@ List the tags added to a resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_template_step_groups(template_id)
@@ -290,8 +665,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
-list_template_step_groups(templateId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templatestepgroups/$(templateId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_template_step_groups(templateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templatestepgroups/$(templateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_template_step_groups(templateId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET",
+        "/templatestepgroups/$(templateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_template_step_groups(
+    templateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/templatestepgroups/$(templateId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_template_steps(step_group_id, template_id)
@@ -311,8 +704,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
-list_template_steps(stepGroupId, templateId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templatesteps", Dict{String, Any}("stepGroupId"=>stepGroupId, "templateId"=>templateId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_template_steps(stepGroupId, templateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/templatesteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stepGroupId"=>stepGroupId, "templateId"=>templateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_template_steps(
+    stepGroupId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "GET",
+    "/templatesteps",
+    Dict{String,Any}("stepGroupId" => stepGroupId, "templateId" => templateId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_template_steps(
+    stepGroupId,
+    templateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/templatesteps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("stepGroupId" => stepGroupId, "templateId" => templateId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_templates()
@@ -328,8 +748,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the template.
 - `"nextToken"`: The pagination token.
 """
-list_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflowtemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflowtemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET",
+        "/migrationworkflowtemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/migrationworkflowtemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workflow_step_groups(workflow_id)
@@ -348,8 +784,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
-list_workflow_step_groups(workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflowstepgroups", Dict{String, Any}("workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workflow_step_groups(workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflowstepgroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workflow_step_groups(workflowId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET",
+        "/workflowstepgroups",
+        Dict{String,Any}("workflowId" => workflowId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_workflow_step_groups(
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/workflowstepgroups",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workflow_steps(step_group_id, workflow_id)
@@ -369,8 +826,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
-list_workflow_steps(stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflow/$(workflowId)/workflowstepgroups/$(stepGroupId)/workflowsteps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workflow_steps(stepGroupId, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/workflow/$(workflowId)/workflowstepgroups/$(stepGroupId)/workflowsteps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workflow_steps(
+    stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "GET",
+    "/workflow/$(workflowId)/workflowstepgroups/$(stepGroupId)/workflowsteps";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_workflow_steps(
+    stepGroupId,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/workflow/$(workflowId)/workflowstepgroups/$(stepGroupId)/workflowsteps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_workflows()
@@ -390,8 +867,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the migration workflow.
 - `"templateId"`: The ID of the template.
 """
-list_workflows(; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_workflows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("GET", "/migrationworkflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workflows(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "GET", "/migrationworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_workflows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "GET",
+        "/migrationworkflows",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     retry_workflow_step(id, step_group_id, workflow_id)
@@ -405,8 +895,36 @@ Retry a failed step in a migration workflow.
 - `step_group_id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
 """
-retry_workflow_step(id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/retryworkflowstep/$(id)", Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-retry_workflow_step(id, stepGroupId, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/retryworkflowstep/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+retry_workflow_step(
+    id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "POST",
+    "/retryworkflowstep/$(id)",
+    Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function retry_workflow_step(
+    id,
+    stepGroupId,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/retryworkflowstep/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_workflow(id)
@@ -418,8 +936,24 @@ Start a migration workflow.
 
 - `id`: The ID of the migration workflow.
 """
-start_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/$(id)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/$(id)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "POST",
+        "/migrationworkflow/$(id)/start";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_workflow(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/migrationworkflow/$(id)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_workflow(id)
@@ -431,8 +965,24 @@ Stop an ongoing migration workflow.
 
 - `id`: The ID of the migration workflow.
 """
-stop_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/$(id)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/$(id)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "POST",
+        "/migrationworkflow/$(id)/stop";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_workflow(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/migrationworkflow/$(id)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -447,8 +997,28 @@ Tag a resource by specifying its Amazon Resource Name (ARN).
 - `tags`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -462,8 +1032,28 @@ Deletes the tags for a resource.
   remove tags.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_template(id)
@@ -484,8 +1074,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateDescription"`: The description of the migration workflow template to update.
 - `"templateName"`: The name of the migration workflow template to update.
 """
-update_template(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/template/$(id)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/template/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "POST",
+        "/template/$(id)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/template/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_workflow(id)
@@ -506,8 +1115,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the migration workflow.
 - `"stepTargets"`: The servers on which a step will be run.
 """
-update_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/migrationworkflow/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) =
+    migrationhuborchestrator(
+        "POST",
+        "/migrationworkflow/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_workflow(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/migrationworkflow/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_workflow_step(id, step_group_id, workflow_id)
@@ -537,8 +1162,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workflowStepAutomationConfiguration"`: The custom script to run tests on the source and
   target environments.
 """
-update_workflow_step(id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstep/$(id)", Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_workflow_step(id, stepGroupId, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstep/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stepGroupId"=>stepGroupId, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workflow_step(
+    id, stepGroupId, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "POST",
+    "/workflowstep/$(id)",
+    Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_workflow_step(
+    id,
+    stepGroupId,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/workflowstep/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_workflow_step_group(id, workflow_id)
@@ -560,5 +1213,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next"`: The next step group.
 - `"previous"`: The previous step group.
 """
-update_workflow_step_group(id, workflowId; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstepgroup/$(id)", Dict{String, Any}("workflowId"=>workflowId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_workflow_step_group(id, workflowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhuborchestrator("POST", "/workflowstepgroup/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workflow_step_group(
+    id, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
+) = migrationhuborchestrator(
+    "POST",
+    "/workflowstepgroup/$(id)",
+    Dict{String,Any}("workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_workflow_step_group(
+    id,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/workflowstepgroup/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

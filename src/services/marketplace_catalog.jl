@@ -15,8 +15,32 @@ Returns metadata and content for multiple entities. This is the Batch version of
 
 - `entity_request_list`: List of entity IDs and the catalogs the entities are present in.
 """
-batch_describe_entities(EntityRequestList; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/BatchDescribeEntities", Dict{String, Any}("EntityRequestList"=>EntityRequestList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_describe_entities(EntityRequestList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/BatchDescribeEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRequestList"=>EntityRequestList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_describe_entities(
+    EntityRequestList; aws_config::AbstractAWSConfig=current_aws_config()
+) = marketplace_catalog(
+    "POST",
+    "/BatchDescribeEntities",
+    Dict{String,Any}("EntityRequestList" => EntityRequestList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_describe_entities(
+    EntityRequestList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/BatchDescribeEntities",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EntityRequestList" => EntityRequestList), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_change_set(catalog, change_set_id)
@@ -32,8 +56,35 @@ a change during the 60-day request history retention period for API calls.
 - `change_set_id`: Required. The unique identifier of the `StartChangeSet` request that you
   want to cancel.
 """
-cancel_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_change_set(catalog, changeSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_change_set(
+    catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = marketplace_catalog(
+    "PATCH",
+    "/CancelChangeSet",
+    Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_change_set(
+    catalog,
+    changeSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "PATCH",
+        "/CancelChangeSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy(resource_arn)
@@ -46,8 +97,29 @@ Deletes a resource-based policy on an entity that is identified by its resource 
 - `resource_arn`: The Amazon Resource Name (ARN) of the entity resource that is associated
   with the resource policy.
 """
-delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("DELETE", "/DeleteResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("DELETE", "/DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "DELETE",
+        "/DeleteResourcePolicy",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "DELETE",
+        "/DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_change_set(catalog, change_set_id)
@@ -61,8 +133,35 @@ Provides information about a given change set.
 - `change_set_id`: Required. The unique identifier for the `StartChangeSet` request that
   you want to describe the details for.
 """
-describe_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_change_set(catalog, changeSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_change_set(
+    catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
+) = marketplace_catalog(
+    "GET",
+    "/DescribeChangeSet",
+    Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_change_set(
+    catalog,
+    changeSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "GET",
+        "/DescribeChangeSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_entity(catalog, entity_id)
@@ -75,8 +174,34 @@ Returns the metadata and content of the entity.
 - `catalog`: Required. The catalog related to the request. Fixed value: `AWSMarketplace`
 - `entity_id`: Required. The unique ID of the entity to describe.
 """
-describe_entity(catalog, entityId; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_entity(catalog, entityId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_entity(catalog, entityId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "GET",
+        "/DescribeEntity",
+        Dict{String,Any}("catalog" => catalog, "entityId" => entityId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_entity(
+    catalog,
+    entityId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "GET",
+        "/DescribeEntity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("catalog" => catalog, "entityId" => entityId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_policy(resource_arn)
@@ -89,8 +214,29 @@ Gets a resource-based policy of an entity that is identified by its resource ARN
 - `resource_arn`: The Amazon Resource Name (ARN) of the entity resource that is associated
   with the resource policy.
 """
-get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("GET", "/GetResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("GET", "/GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "GET",
+        "/GetResourcePolicy",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "GET",
+        "/GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_change_sets(catalog)
@@ -119,8 +265,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"Sort"`: An object that contains two attributes, `SortBy` and `SortOrder`.
 """
-list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}("Catalog"=>Catalog); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_change_sets(Catalog, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "POST",
+        "/ListChangeSets",
+        Dict{String,Any}("Catalog" => Catalog);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_change_sets(
+    Catalog,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/ListChangeSets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Catalog" => Catalog), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_entities(catalog, entity_type)
@@ -157,8 +322,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `PutResourcePolicy` operation can't be discovered through the `SHARED` parameter.
 - `"Sort"`: An object that contains two attributes, `SortBy` and `SortOrder`.
 """
-list_entities(Catalog, EntityType; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_entities(Catalog, EntityType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_entities(Catalog, EntityType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "POST",
+        "/ListEntities",
+        Dict{String,Any}("Catalog" => Catalog, "EntityType" => EntityType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_entities(
+    Catalog,
+    EntityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/ListEntities",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Catalog" => Catalog, "EntityType" => EntityType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -172,8 +363,29 @@ or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-refer
 - `resource_arn`: Required. The Amazon Resource Name (ARN) associated with the resource you
   want to list tags on.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy(policy, resource_arn)
@@ -188,8 +400,35 @@ and `ContainerProduct`.
 - `resource_arn`: The Amazon Resource Name (ARN) of the entity resource you want to
   associate with a resource policy.
 """
-put_resource_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/PutResourcePolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(Policy, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = marketplace_catalog(
+    "POST",
+    "/PutResourcePolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_change_set(catalog, change_set)
@@ -229,8 +468,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   currently available for adding versions to single-AMI products. For more information, see
   [Add a new version](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version).
 """
-start_change_set(Catalog, ChangeSet; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_change_set(Catalog, ChangeSet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_change_set(Catalog, ChangeSet; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "POST",
+        "/StartChangeSet",
+        Dict{String,Any}(
+            "Catalog" => Catalog,
+            "ChangeSet" => ChangeSet,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_change_set(
+    Catalog,
+    ChangeSet,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/StartChangeSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Catalog" => Catalog,
+                    "ChangeSet" => ChangeSet,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -246,8 +519,34 @@ or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-refer
 - `tags`: Required. A list of objects specifying each key name and value. Number of objects
   allowed: 1-50.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -263,5 +562,31 @@ or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-refer
 - `tag_keys`: Required. A list of key names of tags to be removed. Number of strings
   allowed: 0-256.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = marketplace_catalog("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    marketplace_catalog(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

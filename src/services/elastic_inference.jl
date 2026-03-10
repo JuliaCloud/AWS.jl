@@ -33,8 +33,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"acceleratorTypes"`:  The list of accelerator types to describe.
 """
-describe_accelerator_offerings(locationType; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}("locationType"=>locationType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_accelerator_offerings(locationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("locationType"=>locationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_accelerator_offerings(
+    locationType; aws_config::AbstractAWSConfig=current_aws_config()
+) = elastic_inference(
+    "POST",
+    "/describe-accelerator-offerings",
+    Dict{String,Any}("locationType" => locationType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_accelerator_offerings(
+    locationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_inference(
+        "POST",
+        "/describe-accelerator-offerings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("locationType" => locationType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_accelerator_types()
@@ -50,8 +72,24 @@ able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
 Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day
 period are considered current customers and will be able to continue using the service.
 """
-describe_accelerator_types(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("GET", "/describe-accelerator-types"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_accelerator_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("GET", "/describe-accelerator-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_accelerator_types(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_inference(
+        "GET",
+        "/describe-accelerator-types";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_accelerator_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_inference(
+        "GET",
+        "/describe-accelerator-types",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_accelerators()
@@ -82,8 +120,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  A token to specify where to start paginating. This is the NextToken from
   a previously truncated response.
 """
-describe_accelerators(; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("POST", "/describe-accelerators"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_accelerators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("POST", "/describe-accelerators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_accelerators(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_inference(
+        "POST",
+        "/describe-accelerators";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_accelerators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elastic_inference(
+        "POST",
+        "/describe-accelerators",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -102,8 +156,26 @@ period are considered current customers and will be able to continue using the s
 
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to list the tags for.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_inference(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_inference(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -123,8 +195,28 @@ period are considered current customers and will be able to continue using the s
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to tag.
 - `tags`:  The tags to add to the Elastic Inference Accelerator.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_inference(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_inference(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -144,5 +236,25 @@ period are considered current customers and will be able to continue using the s
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to untag.
 - `tag_keys`:  The list of tags to remove from the Elastic Inference Accelerator.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    elastic_inference(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return elastic_inference(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

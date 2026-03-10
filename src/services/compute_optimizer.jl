@@ -33,8 +33,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html)
   in the *Compute Optimizer User Guide*.
 """
-delete_recommendation_preferences(recommendationPreferenceNames, resourceType; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("DeleteRecommendationPreferences", Dict{String, Any}("recommendationPreferenceNames"=>recommendationPreferenceNames, "resourceType"=>resourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_recommendation_preferences(recommendationPreferenceNames, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("DeleteRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recommendationPreferenceNames"=>recommendationPreferenceNames, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_recommendation_preferences(
+    recommendationPreferenceNames,
+    resourceType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = compute_optimizer(
+    "DeleteRecommendationPreferences",
+    Dict{String,Any}(
+        "recommendationPreferenceNames" => recommendationPreferenceNames,
+        "resourceType" => resourceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_recommendation_preferences(
+    recommendationPreferenceNames,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "DeleteRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "recommendationPreferenceNames" => recommendationPreferenceNames,
+                    "resourceType" => resourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_recommendation_export_jobs()
@@ -64,8 +97,22 @@ All export jobs created in the last seven days are returned if this parameter is
   value.
 - `"nextToken"`: The token to advance to the next page of export jobs.
 """
-describe_recommendation_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("DescribeRecommendationExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_recommendation_export_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("DescribeRecommendationExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_recommendation_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "DescribeRecommendationExportJobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_recommendation_export_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "DescribeRecommendationExportJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_auto_scaling_group_recommendations(s3_destination_config)
@@ -138,8 +185,32 @@ The only export file format currently supported is `Csv`.
 - `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to export.
 """
-export_auto_scaling_group_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_auto_scaling_group_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_auto_scaling_group_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "ExportAutoScalingGroupRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_auto_scaling_group_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportAutoScalingGroupRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_ebsvolume_recommendations(s3_destination_config)
@@ -201,8 +272,32 @@ The only export file format currently supported is `Csv`.
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
 """
-export_ebsvolume_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportEBSVolumeRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_ebsvolume_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportEBSVolumeRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_ebsvolume_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "ExportEBSVolumeRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_ebsvolume_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportEBSVolumeRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_ec2_instance_recommendations(s3_destination_config)
@@ -272,8 +367,32 @@ The only export file format currently supported is `Csv`.
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to export.
 """
-export_ec2_instance_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_ec2_instance_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_ec2_instance_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "ExportEC2InstanceRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_ec2_instance_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportEC2InstanceRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_ecsservice_recommendations(s3_destination_config)
@@ -333,8 +452,32 @@ The CSV file is the only export file format currently supported.
   If this parameter or the account ID parameter is omitted, recommendations for member
   accounts aren't included in the export.
 """
-export_ecsservice_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportECSServiceRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_ecsservice_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportECSServiceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_ecsservice_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "ExportECSServiceRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_ecsservice_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportECSServiceRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_lambda_function_recommendations(s3_destination_config)
@@ -395,8 +538,32 @@ The only export file format currently supported is `Csv`.
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
 """
-export_lambda_function_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportLambdaFunctionRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_lambda_function_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportLambdaFunctionRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_lambda_function_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "ExportLambdaFunctionRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_lambda_function_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportLambdaFunctionRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_license_recommendations(s3_destination_config)
@@ -454,8 +621,32 @@ A CSV file is the only export format currently supported.
   This parameter cannot be specified together with the account IDs parameter. The
   parameters are mutually exclusive.
 """
-export_license_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportLicenseRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_license_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportLicenseRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_license_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "ExportLicenseRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_license_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportLicenseRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_rdsdatabase_recommendations(s3_destination_config)
@@ -516,8 +707,32 @@ The CSV file is the only export file format currently supported.
   accounts aren't included in the export.
 - `"recommendationPreferences"`:
 """
-export_rdsdatabase_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportRDSDatabaseRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_rdsdatabase_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("ExportRDSDatabaseRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_rdsdatabase_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "ExportRDSDatabaseRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_rdsdatabase_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportRDSDatabaseRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_auto_scaling_group_recommendations()
@@ -555,8 +770,23 @@ Only one account ID can be specified per request.
 - `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to return in the response.
 """
-get_auto_scaling_group_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_auto_scaling_group_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_auto_scaling_group_recommendations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "GetAutoScalingGroupRecommendations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_auto_scaling_group_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetAutoScalingGroupRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ebsvolume_recommendations()
@@ -590,8 +820,22 @@ Only one account ID can be specified per request.
 - `"volumeArns"`: The Amazon Resource Name (ARN) of the volumes for which to return
   recommendations.
 """
-get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEBSVolumeRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ebsvolume_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEBSVolumeRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetEBSVolumeRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_ebsvolume_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetEBSVolumeRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ec2_instance_recommendations()
@@ -627,8 +871,22 @@ Only one account ID can be specified per request.
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to return in the response.
 """
-get_ec2_instance_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEC2InstanceRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ec2_instance_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEC2InstanceRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ec2_instance_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetEC2InstanceRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_ec2_instance_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetEC2InstanceRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ec2_recommendation_projected_metrics(end_time, instance_arn, period, start_time, stat)
@@ -657,8 +915,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   recommendation projected metrics to return in the response.
 """
-get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime, stat; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime, stat, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ec2_recommendation_projected_metrics(
+    endTime,
+    instanceArn,
+    period,
+    startTime,
+    stat;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = compute_optimizer(
+    "GetEC2RecommendationProjectedMetrics",
+    Dict{String,Any}(
+        "endTime" => endTime,
+        "instanceArn" => instanceArn,
+        "period" => period,
+        "startTime" => startTime,
+        "stat" => stat,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ec2_recommendation_projected_metrics(
+    endTime,
+    instanceArn,
+    period,
+    startTime,
+    stat,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "GetEC2RecommendationProjectedMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "instanceArn" => instanceArn,
+                    "period" => period,
+                    "startTime" => startTime,
+                    "stat" => stat,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ecsservice_recommendation_projected_metrics(end_time, period, service_arn, start_time, stat)
@@ -678,8 +981,53 @@ get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime
 - `start_time`:  The timestamp of the first projected metrics data point to return.
 - `stat`:  The statistic of the projected metrics.
 """
-get_ecsservice_recommendation_projected_metrics(endTime, period, serviceArn, startTime, stat; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetECSServiceRecommendationProjectedMetrics", Dict{String, Any}("endTime"=>endTime, "period"=>period, "serviceArn"=>serviceArn, "startTime"=>startTime, "stat"=>stat); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ecsservice_recommendation_projected_metrics(endTime, period, serviceArn, startTime, stat, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetECSServiceRecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "period"=>period, "serviceArn"=>serviceArn, "startTime"=>startTime, "stat"=>stat), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ecsservice_recommendation_projected_metrics(
+    endTime,
+    period,
+    serviceArn,
+    startTime,
+    stat;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = compute_optimizer(
+    "GetECSServiceRecommendationProjectedMetrics",
+    Dict{String,Any}(
+        "endTime" => endTime,
+        "period" => period,
+        "serviceArn" => serviceArn,
+        "startTime" => startTime,
+        "stat" => stat,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_ecsservice_recommendation_projected_metrics(
+    endTime,
+    period,
+    serviceArn,
+    startTime,
+    stat,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "GetECSServiceRecommendationProjectedMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "period" => period,
+                    "serviceArn" => serviceArn,
+                    "startTime" => startTime,
+                    "stat" => stat,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_ecsservice_recommendations()
@@ -718,8 +1066,22 @@ You can only specify one account ID per request.
 
  `arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name`
 """
-get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetECSServiceRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_ecsservice_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetECSServiceRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetECSServiceRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_ecsservice_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetECSServiceRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_effective_recommendation_preferences(resource_arn)
@@ -739,8 +1101,28 @@ When you create a recommendation preference, you can set its status to `Active` 
   effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are
   currently supported.
 """
-get_effective_recommendation_preferences(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEffectiveRecommendationPreferences", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_effective_recommendation_preferences(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEffectiveRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_effective_recommendation_preferences(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "GetEffectiveRecommendationPreferences",
+    Dict{String,Any}("resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_effective_recommendation_preferences(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "GetEffectiveRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_enrollment_status()
@@ -753,8 +1135,20 @@ enrollment status of member accounts of the organization. Use the [`get_enrollme
 action to get detailed information about the enrollment status of member accounts of an
 organization.
 """
-get_enrollment_status(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_enrollment_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEnrollmentStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_enrollment_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_enrollment_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetEnrollmentStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_enrollment_statuses_for_organization()
@@ -779,8 +1173,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value.
 - `"nextToken"`: The token to advance to the next page of account enrollment statuses.
 """
-get_enrollment_statuses_for_organization(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEnrollmentStatusesForOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_enrollment_statuses_for_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetEnrollmentStatusesForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_enrollment_statuses_for_organization(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "GetEnrollmentStatusesForOrganization";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_enrollment_statuses_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetEnrollmentStatusesForOrganization",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_lambda_function_recommendations()
@@ -810,7 +1219,7 @@ Only one account ID can be specified per request.
 
   You can specify a qualified or unqualified ARN. If you specify an unqualified ARN without
   a function version suffix, Compute Optimizer will return recommendations for the latest
-  (`$LATEST`) version of the function. If you specify a qualified ARN with a version
+  (`\$LATEST`) version of the function. If you specify a qualified ARN with a version
   suffix, Compute Optimizer will return recommendations for the specified function version.
   For more information about using function versions, see [Using versions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-versions.html#versioning-versions-using)
   in the *Lambda Developer Guide*.
@@ -821,8 +1230,22 @@ Only one account ID can be specified per request.
   value.
 - `"nextToken"`: The token to advance to the next page of function recommendations.
 """
-get_lambda_function_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetLambdaFunctionRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_lambda_function_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetLambdaFunctionRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lambda_function_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetLambdaFunctionRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_lambda_function_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetLambdaFunctionRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_license_recommendations()
@@ -859,8 +1282,20 @@ Only one account ID can be specified per request.
 
  `arn:aws:ec2:region:aws_account_id:instance/instance-id`
 """
-get_license_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_license_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetLicenseRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_license_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_license_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetLicenseRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rdsdatabase_recommendation_projected_metrics(end_time, period, resource_arn, start_time, stat)
@@ -886,8 +1321,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"recommendationPreferences"`:
 """
-get_rdsdatabase_recommendation_projected_metrics(endTime, period, resourceArn, startTime, stat; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRDSDatabaseRecommendationProjectedMetrics", Dict{String, Any}("endTime"=>endTime, "period"=>period, "resourceArn"=>resourceArn, "startTime"=>startTime, "stat"=>stat); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rdsdatabase_recommendation_projected_metrics(endTime, period, resourceArn, startTime, stat, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRDSDatabaseRecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "period"=>period, "resourceArn"=>resourceArn, "startTime"=>startTime, "stat"=>stat), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rdsdatabase_recommendation_projected_metrics(
+    endTime,
+    period,
+    resourceArn,
+    startTime,
+    stat;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = compute_optimizer(
+    "GetRDSDatabaseRecommendationProjectedMetrics",
+    Dict{String,Any}(
+        "endTime" => endTime,
+        "period" => period,
+        "resourceArn" => resourceArn,
+        "startTime" => startTime,
+        "stat" => stat,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_rdsdatabase_recommendation_projected_metrics(
+    endTime,
+    period,
+    resourceArn,
+    startTime,
+    stat,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "GetRDSDatabaseRecommendationProjectedMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "period" => period,
+                    "resourceArn" => resourceArn,
+                    "startTime" => startTime,
+                    "stat" => stat,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_rdsdatabase_recommendations()
@@ -930,8 +1410,22 @@ You can only specify one account ID per request.
 
  `arn:aws:rds:{region}:{accountId}:cluster:{resourceName}`
 """
-get_rdsdatabase_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRDSDatabaseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_rdsdatabase_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRDSDatabaseRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rdsdatabase_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetRDSDatabaseRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_rdsdatabase_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetRDSDatabaseRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_recommendation_preferences(resource_type)
@@ -972,8 +1466,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html)
   in the *Compute Optimizer User Guide*.
 """
-get_recommendation_preferences(resourceType; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRecommendationPreferences", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_recommendation_preferences(resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_recommendation_preferences(
+    resourceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "GetRecommendationPreferences",
+    Dict{String,Any}("resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_recommendation_preferences(
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "GetRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_recommendation_summaries()
@@ -1007,8 +1521,20 @@ Only one account ID can be specified per request.
   value.
 - `"nextToken"`: The token to advance to the next page of recommendation summaries.
 """
-get_recommendation_summaries(; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_recommendation_summaries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("GetRecommendationSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_recommendation_summaries(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_recommendation_summaries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetRecommendationSummaries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_recommendation_preferences(resource_type)
@@ -1121,8 +1647,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource type.
  - The threshold setting isn’t available for memory utilization.
 """
-put_recommendation_preferences(resourceType; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("PutRecommendationPreferences", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_recommendation_preferences(resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("PutRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_recommendation_preferences(
+    resourceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = compute_optimizer(
+    "PutRecommendationPreferences",
+    Dict{String,Any}("resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_recommendation_preferences(
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "PutRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_enrollment_status(status)
@@ -1168,5 +1714,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
   organization if the account is the management account of an organization.
 """
-update_enrollment_status(status; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}("status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_enrollment_status(status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_enrollment_status(status; aws_config::AbstractAWSConfig=current_aws_config()) =
+    compute_optimizer(
+        "UpdateEnrollmentStatus",
+        Dict{String,Any}("status" => status);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_enrollment_status(
+    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "UpdateEnrollmentStatus",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

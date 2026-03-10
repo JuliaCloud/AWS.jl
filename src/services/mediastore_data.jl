@@ -15,8 +15,16 @@ Deletes an object at the specified path.
 - `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-delete_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_object(Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("DELETE", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data(
+    "DELETE", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function delete_object(
+    Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediastore_data(
+        "DELETE", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_object(path)
@@ -29,8 +37,16 @@ Gets the headers for an object at the specified path.
 - `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-describe_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_object(Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("HEAD", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data(
+    "HEAD", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_object(
+    Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediastore_data(
+        "HEAD", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_object(path)
@@ -73,8 +89,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Elemental MediaStore ignores this header for partially uploaded objects that have
   streaming upload availability.
 """
-get_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("GET", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_object(Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("GET", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data(
+    "GET", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_object(
+    Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediastore_data(
+        "GET", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_items()
@@ -104,8 +128,15 @@ Tokens expire after 15 minutes.
 - `"Path"`: The path in the container from which to retrieve items. Format: &lt;folder
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-list_items(; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_items(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("GET", "/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_items(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediastore_data("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_items(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediastore_data(
+        "GET", "/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     put_object(body, path)
@@ -159,5 +190,25 @@ Headers with a custom user-defined value are also accepted.
 
 To use this header, you must also set the HTTP `Transfer-Encoding` header to `chunked`.
 """
-put_object(Body, Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}("Body"=>Body); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_object(Body, Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_object(Body, Path; aws_config::AbstractAWSConfig=current_aws_config()) =
+    mediastore_data(
+        "PUT",
+        "/$(Path)",
+        Dict{String,Any}("Body" => Body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_object(
+    Body,
+    Path,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediastore_data(
+        "PUT",
+        "/$(Path)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Body" => Body), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

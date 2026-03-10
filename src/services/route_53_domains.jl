@@ -30,8 +30,33 @@ provides additional information, for example, `Domain Transfer from Aws Account
 - `password`: The password that was returned by the [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html)
   request.
 """
-accept_domain_transfer_from_another_aws_account(DomainName, Password; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("AcceptDomainTransferFromAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName, "Password"=>Password); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_domain_transfer_from_another_aws_account(DomainName, Password, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("AcceptDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Password"=>Password), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_domain_transfer_from_another_aws_account(
+    DomainName, Password; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "AcceptDomainTransferFromAnotherAwsAccount",
+    Dict{String,Any}("DomainName" => DomainName, "Password" => Password);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_domain_transfer_from_another_aws_account(
+    DomainName,
+    Password,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "AcceptDomainTransferFromAnotherAwsAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "Password" => Password),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     associate_delegation_signer_to_domain(domain_name, signing_attributes)
@@ -51,8 +76,35 @@ in the *Route 53 developer guide*.
 - `signing_attributes`: The information about a key, including the algorithm, public key-
   value, and flags.
 """
-associate_delegation_signer_to_domain(DomainName, SigningAttributes; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("AssociateDelegationSignerToDomain", Dict{String, Any}("DomainName"=>DomainName, "SigningAttributes"=>SigningAttributes); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_delegation_signer_to_domain(DomainName, SigningAttributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("AssociateDelegationSignerToDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "SigningAttributes"=>SigningAttributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_delegation_signer_to_domain(
+    DomainName, SigningAttributes; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "AssociateDelegationSignerToDomain",
+    Dict{String,Any}("DomainName" => DomainName, "SigningAttributes" => SigningAttributes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_delegation_signer_to_domain(
+    DomainName,
+    SigningAttributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "AssociateDelegationSignerToDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "SigningAttributes" => SigningAttributes
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_domain_transfer_to_another_aws_account(domain_name)
@@ -76,8 +128,28 @@ provides additional information, for example, `Domain Transfer from Aws Account
 - `domain_name`: The name of the domain for which you want to cancel the transfer to
   another Amazon Web Services account.
 """
-cancel_domain_transfer_to_another_aws_account(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("CancelDomainTransferToAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_domain_transfer_to_another_aws_account(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("CancelDomainTransferToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_domain_transfer_to_another_aws_account(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "CancelDomainTransferToAnotherAwsAccount",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_domain_transfer_to_another_aws_account(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "CancelDomainTransferToAnotherAwsAccount",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     check_domain_availability(domain_name)
@@ -109,8 +181,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"IdnLangCode"`: Reserved for future use.
 """
-check_domain_availability(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("CheckDomainAvailability", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-check_domain_availability(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("CheckDomainAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+check_domain_availability(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "CheckDomainAvailability",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function check_domain_availability(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "CheckDomainAvailability",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     check_domain_transferability(domain_name)
@@ -139,8 +230,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   code to transfer the domain, the code that you got from the current registrar for the
   domain.
 """
-check_domain_transferability(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("CheckDomainTransferability", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-check_domain_transferability(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("CheckDomainTransferability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+check_domain_transferability(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "CheckDomainTransferability",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function check_domain_transferability(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "CheckDomainTransferability",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_domain(domain_name)
@@ -162,8 +273,27 @@ contact. The email will come from `noreply@domainnameverification.net` or
 
 - `domain_name`: Name of the domain to be deleted.
 """
-delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DeleteDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "DeleteDomain",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "DeleteDomain",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_tags_for_domain(domain_name, tags_to_delete)
@@ -179,8 +309,35 @@ represent all issued operations.
 - `domain_name`: The domain for which you want to delete one or more tags.
 - `tags_to_delete`: A list of tag keys to delete.
 """
-delete_tags_for_domain(DomainName, TagsToDelete; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DeleteTagsForDomain", Dict{String, Any}("DomainName"=>DomainName, "TagsToDelete"=>TagsToDelete); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_tags_for_domain(DomainName, TagsToDelete, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DeleteTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "TagsToDelete"=>TagsToDelete), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_tags_for_domain(
+    DomainName, TagsToDelete; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "DeleteTagsForDomain",
+    Dict{String,Any}("DomainName" => DomainName, "TagsToDelete" => TagsToDelete);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_tags_for_domain(
+    DomainName,
+    TagsToDelete,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "DeleteTagsForDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "TagsToDelete" => TagsToDelete
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_domain_auto_renew(domain_name)
@@ -192,8 +349,27 @@ This operation disables automatic renewal of domain registration for the specifi
 
 - `domain_name`: The name of the domain that you want to disable automatic renewal for.
 """
-disable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DisableDomainAutoRenew", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_domain_auto_renew(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DisableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "DisableDomainAutoRenew",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_domain_auto_renew(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "DisableDomainAutoRenew",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_domain_transfer_lock(domain_name)
@@ -210,8 +386,28 @@ registrant will be notified by email.
 
 - `domain_name`: The name of the domain that you want to remove the transfer lock for.
 """
-disable_domain_transfer_lock(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DisableDomainTransferLock", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_domain_transfer_lock(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DisableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_domain_transfer_lock(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "DisableDomainTransferLock",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_domain_transfer_lock(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "DisableDomainTransferLock",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_delegation_signer_from_domain(domain_name, id)
@@ -225,8 +421,31 @@ Deletes a delegation signer (DS) record in the registry zone for this domain nam
 - `id`: An internal identification number assigned to each DS record after it’s created.
   You can retrieve it as part of DNSSEC information returned by [GetDomainDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetDomainDetail.html).
 """
-disassociate_delegation_signer_from_domain(DomainName, Id; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DisassociateDelegationSignerFromDomain", Dict{String, Any}("DomainName"=>DomainName, "Id"=>Id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_delegation_signer_from_domain(DomainName, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("DisassociateDelegationSignerFromDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_delegation_signer_from_domain(
+    DomainName, Id; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "DisassociateDelegationSignerFromDomain",
+    Dict{String,Any}("DomainName" => DomainName, "Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_delegation_signer_from_domain(
+    DomainName,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "DisassociateDelegationSignerFromDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DomainName" => DomainName, "Id" => Id), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_domain_auto_renew(domain_name)
@@ -245,8 +464,27 @@ of the renewal period so we can complete processing before the deadline.
 
 - `domain_name`: The name of the domain that you want to enable automatic renewal for.
 """
-enable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("EnableDomainAutoRenew", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_domain_auto_renew(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("EnableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "EnableDomainAutoRenew",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function enable_domain_auto_renew(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "EnableDomainAutoRenew",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_domain_transfer_lock(domain_name)
@@ -262,8 +500,28 @@ notified by email.
 
 - `domain_name`: The name of the domain that you want to set the transfer lock for.
 """
-enable_domain_transfer_lock(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("EnableDomainTransferLock", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_domain_transfer_lock(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("EnableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_domain_transfer_lock(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "EnableDomainTransferLock",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_domain_transfer_lock(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "EnableDomainTransferLock",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_contact_reachability_status()
@@ -282,8 +540,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of the domain for which you want to know whether the registrant
   contact has confirmed that the email address is valid.
 """
-get_contact_reachability_status(; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetContactReachabilityStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_contact_reachability_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetContactReachabilityStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_contact_reachability_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "GetContactReachabilityStatus";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_contact_reachability_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route_53_domains(
+        "GetContactReachabilityStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_domain_detail(domain_name)
@@ -297,8 +569,27 @@ returned as part of the output.
 
 - `domain_name`: The name of the domain that you want to get detailed information about.
 """
-get_domain_detail(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetDomainDetail", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_domain_detail(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetDomainDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_domain_detail(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "GetDomainDetail",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_domain_detail(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "GetDomainDetail",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_domain_suggestions(domain_name, only_available, suggestion_count)
@@ -327,8 +618,45 @@ The GetDomainSuggestions operation returns a list of suggested domain names.
 - `suggestion_count`: The number of suggested domain names that you want Route 53 to
   return. Specify a value between 1 and 50.
 """
-get_domain_suggestions(DomainName, OnlyAvailable, SuggestionCount; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetDomainSuggestions", Dict{String, Any}("DomainName"=>DomainName, "OnlyAvailable"=>OnlyAvailable, "SuggestionCount"=>SuggestionCount); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_domain_suggestions(DomainName, OnlyAvailable, SuggestionCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetDomainSuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "OnlyAvailable"=>OnlyAvailable, "SuggestionCount"=>SuggestionCount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_domain_suggestions(
+    DomainName,
+    OnlyAvailable,
+    SuggestionCount;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = route_53_domains(
+    "GetDomainSuggestions",
+    Dict{String,Any}(
+        "DomainName" => DomainName,
+        "OnlyAvailable" => OnlyAvailable,
+        "SuggestionCount" => SuggestionCount,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_domain_suggestions(
+    DomainName,
+    OnlyAvailable,
+    SuggestionCount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "GetDomainSuggestions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName,
+                    "OnlyAvailable" => OnlyAvailable,
+                    "SuggestionCount" => SuggestionCount,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_operation_detail(operation_id)
@@ -341,8 +669,27 @@ This operation returns the current status of an operation that is not completed.
 - `operation_id`: The identifier for the operation for which you want to get the status.
   Route 53 returned the identifier in the response to the original request.
 """
-get_operation_detail(OperationId; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetOperationDetail", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_operation_detail(OperationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("GetOperationDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_operation_detail(OperationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "GetOperationDetail",
+        Dict{String,Any}("OperationId" => OperationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_operation_detail(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "GetOperationDetail",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_domains()
@@ -372,8 +719,15 @@ Default: 20
 - `"SortCondition"`: A complex type that contains information about the requested ordering
   of domains in the returned list.
 """
-list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_domains(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route_53_domains(
+        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_operations()
@@ -404,8 +758,16 @@ Default: 20
   in Unix time format and Coordinated Universal time (UTC).
 - `"Type"`:  An arrays of the domains operation types.
 """
-list_operations(; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_operations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_operations(; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains(
+    "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_operations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route_53_domains(
+        "ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_prices()
@@ -438,8 +800,15 @@ Used only for all TLDs. If you specify a TLD, don't specify a `MaxItems`.
   If a `Tld` value is not provided, a list of prices for all TLDs supported by Route 53 is
   returned.
 """
-list_prices(; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListPrices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_prices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListPrices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_prices(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains("ListPrices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_prices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route_53_domains(
+        "ListPrices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_domain(domain_name)
@@ -454,8 +823,27 @@ represent all issued operations.
 
 - `domain_name`: The domain for which you want to get a list of tags.
 """
-list_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListTagsForDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ListTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "ListTagsForDomain",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "ListTagsForDomain",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     push_domain(domain_name, target)
@@ -471,8 +859,32 @@ Transit means that the domain is ready to be transferred to another registrar.
 - `domain_name`:  Name of the domain.
 - `target`:  New IPS tag for the domain.
 """
-push_domain(DomainName, Target; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("PushDomain", Dict{String, Any}("DomainName"=>DomainName, "Target"=>Target); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-push_domain(DomainName, Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("PushDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Target"=>Target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+push_domain(DomainName, Target; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "PushDomain",
+        Dict{String,Any}("DomainName" => DomainName, "Target" => Target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function push_domain(
+    DomainName,
+    Target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "PushDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "Target" => Target),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact)
@@ -574,8 +986,53 @@ Default: `true`
       You must specify the same privacy setting for the administrative, billing,
   registrant, and technical contacts.Default: `true`
 """
-register_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RegisterDomain", Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_domain(
+    AdminContact,
+    DomainName,
+    DurationInYears,
+    RegistrantContact,
+    TechContact;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = route_53_domains(
+    "RegisterDomain",
+    Dict{String,Any}(
+        "AdminContact" => AdminContact,
+        "DomainName" => DomainName,
+        "DurationInYears" => DurationInYears,
+        "RegistrantContact" => RegistrantContact,
+        "TechContact" => TechContact,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_domain(
+    AdminContact,
+    DomainName,
+    DurationInYears,
+    RegistrantContact,
+    TechContact,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "RegisterDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AdminContact" => AdminContact,
+                    "DomainName" => DomainName,
+                    "DurationInYears" => DurationInYears,
+                    "RegistrantContact" => RegistrantContact,
+                    "TechContact" => TechContact,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_domain_transfer_from_another_aws_account(domain_name)
@@ -598,8 +1055,28 @@ provides additional information, for example, `Domain Transfer from Aws Account
   account submitted a [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html)
   request.
 """
-reject_domain_transfer_from_another_aws_account(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RejectDomainTransferFromAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_domain_transfer_from_another_aws_account(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RejectDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_domain_transfer_from_another_aws_account(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "RejectDomainTransferFromAnotherAwsAccount",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_domain_transfer_from_another_aws_account(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "RejectDomainTransferFromAnotherAwsAccount",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     renew_domain(current_expiry_year, domain_name)
@@ -630,8 +1107,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: 1
 """
-renew_domain(CurrentExpiryYear, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RenewDomain", Dict{String, Any}("CurrentExpiryYear"=>CurrentExpiryYear, "DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-renew_domain(CurrentExpiryYear, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RenewDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentExpiryYear"=>CurrentExpiryYear, "DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+renew_domain(
+    CurrentExpiryYear, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "RenewDomain",
+    Dict{String,Any}("CurrentExpiryYear" => CurrentExpiryYear, "DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function renew_domain(
+    CurrentExpiryYear,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "RenewDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrentExpiryYear" => CurrentExpiryYear, "DomainName" => DomainName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     resend_contact_reachability_email()
@@ -648,8 +1152,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of the domain for which you want Route 53 to resend a
   confirmation email to the registrant contact.
 """
-resend_contact_reachability_email(; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ResendContactReachabilityEmail"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-resend_contact_reachability_email(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ResendContactReachabilityEmail", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+resend_contact_reachability_email(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "ResendContactReachabilityEmail";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function resend_contact_reachability_email(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route_53_domains(
+        "ResendContactReachabilityEmail",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     resend_operation_authorization(operation_id)
@@ -661,8 +1179,28 @@ resend_contact_reachability_email(params::AbstractDict{String}; aws_config::Abst
 
 - `operation_id`:  Operation ID.
 """
-resend_operation_authorization(OperationId; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ResendOperationAuthorization", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-resend_operation_authorization(OperationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ResendOperationAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+resend_operation_authorization(
+    OperationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "ResendOperationAuthorization",
+    Dict{String,Any}("OperationId" => OperationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function resend_operation_authorization(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "ResendOperationAuthorization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     retrieve_domain_auth_code(domain_name)
@@ -675,8 +1213,27 @@ another registrar, you provide this value to the new registrar.
 
 - `domain_name`: The name of the domain that you want to get an authorization code for.
 """
-retrieve_domain_auth_code(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RetrieveDomainAuthCode", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-retrieve_domain_auth_code(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("RetrieveDomainAuthCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+retrieve_domain_auth_code(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "RetrieveDomainAuthCode",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function retrieve_domain_auth_code(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "RetrieveDomainAuthCode",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     transfer_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact)
@@ -781,8 +1338,53 @@ Default: true
       You must specify the same privacy setting for the administrative, billing,
   registrant, and technical contacts.Default: `true`
 """
-transfer_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("TransferDomain", Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-transfer_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("TransferDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+transfer_domain(
+    AdminContact,
+    DomainName,
+    DurationInYears,
+    RegistrantContact,
+    TechContact;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = route_53_domains(
+    "TransferDomain",
+    Dict{String,Any}(
+        "AdminContact" => AdminContact,
+        "DomainName" => DomainName,
+        "DurationInYears" => DurationInYears,
+        "RegistrantContact" => RegistrantContact,
+        "TechContact" => TechContact,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function transfer_domain(
+    AdminContact,
+    DomainName,
+    DurationInYears,
+    RegistrantContact,
+    TechContact,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "TransferDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AdminContact" => AdminContact,
+                    "DomainName" => DomainName,
+                    "DurationInYears" => DurationInYears,
+                    "RegistrantContact" => RegistrantContact,
+                    "TechContact" => TechContact,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     transfer_domain_to_another_aws_account(account_id, domain_name)
@@ -815,8 +1417,33 @@ provides additional information, for example, `Domain Transfer from Aws Account
 - `domain_name`: The name of the domain that you want to transfer from the current Amazon
   Web Services account to another account.
 """
-transfer_domain_to_another_aws_account(AccountId, DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("TransferDomainToAnotherAwsAccount", Dict{String, Any}("AccountId"=>AccountId, "DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-transfer_domain_to_another_aws_account(AccountId, DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("TransferDomainToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+transfer_domain_to_another_aws_account(
+    AccountId, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "TransferDomainToAnotherAwsAccount",
+    Dict{String,Any}("AccountId" => AccountId, "DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function transfer_domain_to_another_aws_account(
+    AccountId,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "TransferDomainToAnotherAwsAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "DomainName" => DomainName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_domain_contact(domain_name)
@@ -840,12 +1467,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdminContact"`: Provides detailed contact information.
 - `"BillingContact"`: Provides detailed contact information.
 - `"Consent"`:  Customer's consent for the owner change request. Required if the domain is
-  not free (consent price is more than $0.00).
+  not free (consent price is more than \$0.00).
 - `"RegistrantContact"`: Provides detailed contact information.
 - `"TechContact"`: Provides detailed contact information.
 """
-update_domain_contact(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateDomainContact", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_domain_contact(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateDomainContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain_contact(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "UpdateDomainContact",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_domain_contact(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "UpdateDomainContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_domain_contact_privacy(domain_name)
@@ -916,8 +1562,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       You must specify the same privacy setting for the administrative, billing,
   registrant, and technical contacts.
 """
-update_domain_contact_privacy(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateDomainContactPrivacy", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_domain_contact_privacy(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateDomainContactPrivacy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain_contact_privacy(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "UpdateDomainContactPrivacy",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_domain_contact_privacy(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "UpdateDomainContactPrivacy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_domain_nameservers(domain_name, nameservers)
@@ -942,8 +1608,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FIAuthKey"`: The authorization key for .fi domains
 """
-update_domain_nameservers(DomainName, Nameservers; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateDomainNameservers", Dict{String, Any}("DomainName"=>DomainName, "Nameservers"=>Nameservers); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_domain_nameservers(DomainName, Nameservers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateDomainNameservers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Nameservers"=>Nameservers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain_nameservers(
+    DomainName, Nameservers; aws_config::AbstractAWSConfig=current_aws_config()
+) = route_53_domains(
+    "UpdateDomainNameservers",
+    Dict{String,Any}("DomainName" => DomainName, "Nameservers" => Nameservers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_domain_nameservers(
+    DomainName,
+    Nameservers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "UpdateDomainNameservers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "Nameservers" => Nameservers),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_tags_for_domain(domain_name)
@@ -965,8 +1656,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagsToUpdate"`: A list of the tag keys and values that you want to add or update. If
   you specify a key that already exists, the corresponding value will be replaced.
 """
-update_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateTagsForDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_tags_for_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("UpdateTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains(
+        "UpdateTagsForDomain",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_tags_for_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53_domains(
+        "UpdateTagsForDomain",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     view_billing()
@@ -998,5 +1708,12 @@ Default: 20
   billing records. Specify the date and time in Unix time format and Coordinated Universal
   time (UTC).
 """
-view_billing(; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ViewBilling"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-view_billing(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = route_53_domains("ViewBilling", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+view_billing(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    route_53_domains("ViewBilling"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function view_billing(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route_53_domains(
+        "ViewBilling", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end

@@ -28,8 +28,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The metadata assigned to the analysis report consisting of a key-value pair.
 """
-create_performance_analysis_report(EndTime, Identifier, ServiceType, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) = pi("CreatePerformanceAnalysisReport", Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "ServiceType"=>ServiceType, "StartTime"=>StartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_performance_analysis_report(EndTime, Identifier, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("CreatePerformanceAnalysisReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_performance_analysis_report(
+    EndTime,
+    Identifier,
+    ServiceType,
+    StartTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = pi(
+    "CreatePerformanceAnalysisReport",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "Identifier" => Identifier,
+        "ServiceType" => ServiceType,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_performance_analysis_report(
+    EndTime,
+    Identifier,
+    ServiceType,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "CreatePerformanceAnalysisReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_performance_analysis_report(analysis_report_id, identifier, service_type)
@@ -50,8 +91,45 @@ Deletes a performance analysis report.
 - `service_type`: The Amazon Web Services service for which Performance Insights will
   return metrics. Valid value is `RDS`.
 """
-delete_performance_analysis_report(AnalysisReportId, Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("DeletePerformanceAnalysisReport", Dict{String, Any}("AnalysisReportId"=>AnalysisReportId, "Identifier"=>Identifier, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_performance_analysis_report(AnalysisReportId, Identifier, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("DeletePerformanceAnalysisReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalysisReportId"=>AnalysisReportId, "Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = pi(
+    "DeletePerformanceAnalysisReport",
+    Dict{String,Any}(
+        "AnalysisReportId" => AnalysisReportId,
+        "Identifier" => Identifier,
+        "ServiceType" => ServiceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "DeletePerformanceAnalysisReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AnalysisReportId" => AnalysisReportId,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_dimension_keys(end_time, group_by, identifier, metric, service_type, start_time)
@@ -134,8 +212,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify `PeriodInSeconds`, then Performance Insights chooses a value for
   you, with a goal of returning roughly 100-200 data points in the response.
 """
-describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_dimension_keys(
+    EndTime,
+    GroupBy,
+    Identifier,
+    Metric,
+    ServiceType,
+    StartTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = pi(
+    "DescribeDimensionKeys",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "GroupBy" => GroupBy,
+        "Identifier" => Identifier,
+        "Metric" => Metric,
+        "ServiceType" => ServiceType,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_dimension_keys(
+    EndTime,
+    GroupBy,
+    Identifier,
+    Metric,
+    ServiceType,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "DescribeDimensionKeys",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "GroupBy" => GroupBy,
+                    "Identifier" => Identifier,
+                    "Metric" => Metric,
+                    "ServiceType" => ServiceType,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_dimension_key_details(group, group_identifier, identifier, service_type)
@@ -176,8 +303,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `db.query` - Specify either the full dimension name `db.query.statement` or the short
   dimension name `statement` (DocumentDB only).
 """
-get_dimension_key_details(Group, GroupIdentifier, Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetDimensionKeyDetails", Dict{String, Any}("Group"=>Group, "GroupIdentifier"=>GroupIdentifier, "Identifier"=>Identifier, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_dimension_key_details(Group, GroupIdentifier, Identifier, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetDimensionKeyDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "GroupIdentifier"=>GroupIdentifier, "Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_dimension_key_details(
+    Group,
+    GroupIdentifier,
+    Identifier,
+    ServiceType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = pi(
+    "GetDimensionKeyDetails",
+    Dict{String,Any}(
+        "Group" => Group,
+        "GroupIdentifier" => GroupIdentifier,
+        "Identifier" => Identifier,
+        "ServiceType" => ServiceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_dimension_key_details(
+    Group,
+    GroupIdentifier,
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "GetDimensionKeyDetails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Group" => Group,
+                    "GroupIdentifier" => GroupIdentifier,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_performance_analysis_report(analysis_report_id, identifier, service_type)
@@ -210,8 +378,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TextFormat"`: Indicates the text format in the report. The options are `PLAIN_TEXT` or
   `MARKDOWN`. The default value is `plain text`.
 """
-get_performance_analysis_report(AnalysisReportId, Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetPerformanceAnalysisReport", Dict{String, Any}("AnalysisReportId"=>AnalysisReportId, "Identifier"=>Identifier, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_performance_analysis_report(AnalysisReportId, Identifier, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetPerformanceAnalysisReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalysisReportId"=>AnalysisReportId, "Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = pi(
+    "GetPerformanceAnalysisReport",
+    Dict{String,Any}(
+        "AnalysisReportId" => AnalysisReportId,
+        "Identifier" => Identifier,
+        "ServiceType" => ServiceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "GetPerformanceAnalysisReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AnalysisReportId" => AnalysisReportId,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_metadata(identifier, service_type)
@@ -229,8 +434,33 @@ a feature is turned on or off on a specific DB instance.
 - `service_type`: The Amazon Web Services service for which Performance Insights returns
   metrics.
 """
-get_resource_metadata(Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetResourceMetadata", Dict{String, Any}("Identifier"=>Identifier, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_metadata(Identifier, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetResourceMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_metadata(
+    Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = pi(
+    "GetResourceMetadata",
+    Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_resource_metadata(
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "GetResourceMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time)
@@ -296,8 +526,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify `PeriodInSeconds`, then Performance Insights will choose a value for
   you, with a goal of returning roughly 100-200 data points in the response.
 """
-get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetResourceMetrics", Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("GetResourceMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_metrics(
+    EndTime,
+    Identifier,
+    MetricQueries,
+    ServiceType,
+    StartTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = pi(
+    "GetResourceMetrics",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "Identifier" => Identifier,
+        "MetricQueries" => MetricQueries,
+        "ServiceType" => ServiceType,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_resource_metrics(
+    EndTime,
+    Identifier,
+    MetricQueries,
+    ServiceType,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "GetResourceMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "Identifier" => Identifier,
+                    "MetricQueries" => MetricQueries,
+                    "ServiceType" => ServiceType,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_available_resource_dimensions(identifier, metrics, service_type)
@@ -335,8 +610,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by `MaxRecords`.
 """
-list_available_resource_dimensions(Identifier, Metrics, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListAvailableResourceDimensions", Dict{String, Any}("Identifier"=>Identifier, "Metrics"=>Metrics, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_available_resource_dimensions(Identifier, Metrics, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListAvailableResourceDimensions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "Metrics"=>Metrics, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_available_resource_dimensions(
+    Identifier, Metrics, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = pi(
+    "ListAvailableResourceDimensions",
+    Dict{String,Any}(
+        "Identifier" => Identifier, "Metrics" => Metrics, "ServiceType" => ServiceType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_available_resource_dimensions(
+    Identifier,
+    Metrics,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "ListAvailableResourceDimensions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Identifier" => Identifier,
+                    "Metrics" => Metrics,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_available_resource_metrics(identifier, metric_types, service_type)
@@ -369,8 +676,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by `MaxRecords`.
 """
-list_available_resource_metrics(Identifier, MetricTypes, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListAvailableResourceMetrics", Dict{String, Any}("Identifier"=>Identifier, "MetricTypes"=>MetricTypes, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_available_resource_metrics(Identifier, MetricTypes, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListAvailableResourceMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "MetricTypes"=>MetricTypes, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_available_resource_metrics(
+    Identifier, MetricTypes, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = pi(
+    "ListAvailableResourceMetrics",
+    Dict{String,Any}(
+        "Identifier" => Identifier,
+        "MetricTypes" => MetricTypes,
+        "ServiceType" => ServiceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_available_resource_metrics(
+    Identifier,
+    MetricTypes,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "ListAvailableResourceMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Identifier" => Identifier,
+                    "MetricTypes" => MetricTypes,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_performance_analysis_reports(identifier, service_type)
@@ -403,8 +744,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by `MaxResults`.
 """
-list_performance_analysis_reports(Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListPerformanceAnalysisReports", Dict{String, Any}("Identifier"=>Identifier, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_performance_analysis_reports(Identifier, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListPerformanceAnalysisReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_performance_analysis_reports(
+    Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = pi(
+    "ListPerformanceAnalysisReports",
+    Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_performance_analysis_reports(
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "ListPerformanceAnalysisReports",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn, service_type)
@@ -419,8 +785,35 @@ Retrieves all the metadata tags associated with Amazon RDS Performance Insights 
 - `service_type`: List the tags for the Amazon Web Services service for which Performance
   Insights returns metrics. Valid value is `RDS`.
 """
-list_tags_for_resource(ResourceARN, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "ServiceType"=>ServiceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(
+    ResourceARN, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
+) = pi(
+    "ListTagsForResource",
+    Dict{String,Any}("ResourceARN" => ResourceARN, "ServiceType" => ServiceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags_for_resource(
+    ResourceARN,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN, "ServiceType" => ServiceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, service_type, tags)
@@ -436,8 +829,40 @@ Adds metadata tags to the Amazon RDS Performance Insights resource.
   metrics. Valid value is `RDS`.
 - `tags`: The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
 """
-tag_resource(ResourceARN, ServiceType, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = pi("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "ServiceType"=>ServiceType, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, ServiceType, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "ServiceType"=>ServiceType, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(
+    ResourceARN, ServiceType, Tags; aws_config::AbstractAWSConfig=current_aws_config()
+) = pi(
+    "TagResource",
+    Dict{String,Any}(
+        "ResourceARN" => ResourceARN, "ServiceType" => ServiceType, "Tags" => Tags
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    ResourceARN,
+    ServiceType,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN,
+                    "ServiceType" => ServiceType,
+                    "Tags" => Tags,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, service_type, tag_keys)
@@ -454,5 +879,37 @@ Deletes the metadata tags from the Amazon RDS Performance Insights resource.
 - `tag_keys`: The metadata assigned to an Amazon RDS Performance Insights resource
   consisting of a key-value pair.
 """
-untag_resource(ResourceARN, ServiceType, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = pi("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "ServiceType"=>ServiceType, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, ServiceType, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pi("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "ServiceType"=>ServiceType, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(
+    ResourceARN, ServiceType, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+) = pi(
+    "UntagResource",
+    Dict{String,Any}(
+        "ResourceARN" => ResourceARN, "ServiceType" => ServiceType, "TagKeys" => TagKeys
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_resource(
+    ResourceARN,
+    ServiceType,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pi(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN,
+                    "ServiceType" => ServiceType,
+                    "TagKeys" => TagKeys,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

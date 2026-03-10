@@ -27,8 +27,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags, only these tags will be applied to the destination backup. If you do not specify
   tags, the service copies tags from the source backup to the destination backup.
 """
-copy_backup_to_region(BackupId, DestinationRegion; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-copy_backup_to_region(BackupId, DestinationRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_backup_to_region(
+    BackupId, DestinationRegion; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudhsm_v2(
+    "CopyBackupToRegion",
+    Dict{String,Any}("BackupId" => BackupId, "DestinationRegion" => DestinationRegion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_backup_to_region(
+    BackupId,
+    DestinationRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "CopyBackupToRegion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BackupId" => BackupId, "DestinationRegion" => DestinationRegion
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_cluster(hsm_type, subnet_ids)
@@ -61,8 +88,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using a backup in another account, the full ARN must be supplied.*
 - `"TagList"`: Tags to apply to the CloudHSM cluster during creation.
 """
-create_cluster(HsmType, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_cluster(HsmType, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_cluster(HsmType, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudhsm_v2(
+        "CreateCluster",
+        Dict{String,Any}("HsmType" => HsmType, "SubnetIds" => SubnetIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_cluster(
+    HsmType,
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "CreateCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("HsmType" => HsmType, "SubnetIds" => SubnetIds),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_hsm(availability_zone, cluster_id)
@@ -88,8 +139,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   address from the subnet that maps to the Availability Zone where you are creating the
   HSM. If you don't specify an IP address, one is chosen for you from that subnet.
 """
-create_hsm(AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_hsm(AvailabilityZone, ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_hsm(
+    AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudhsm_v2(
+    "CreateHsm",
+    Dict{String,Any}("AvailabilityZone" => AvailabilityZone, "ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_hsm(
+    AvailabilityZone,
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "CreateHsm",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AvailabilityZone" => AvailabilityZone, "ClusterId" => ClusterId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_backup(backup_id)
@@ -107,8 +185,26 @@ different Amazon Web Services account.
 - `backup_id`: The ID of the backup to be deleted. To find the ID of a backup, use the
   <a>DescribeBackups</a> operation.
 """
-delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_backup(BackupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2(
+    "DeleteBackup",
+    Dict{String,Any}("BackupId" => BackupId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_backup(
+    BackupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "DeleteBackup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BackupId" => BackupId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_cluster(cluster_id)
@@ -126,8 +222,26 @@ different Amazon Web Services account.
 - `cluster_id`: The identifier (ID) of the cluster that you are deleting. To find the
   cluster ID, use <a>DescribeClusters</a>.
 """
-delete_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2(
+    "DeleteCluster",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "DeleteCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_hsm(cluster_id)
@@ -155,8 +269,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deleting.
 - `"HsmId"`: The identifier (ID) of the HSM that you are deleting.
 """
-delete_hsm(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_hsm(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_hsm(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2(
+    "DeleteHsm",
+    Dict{String,Any}("ClusterId" => ClusterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_hsm(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "DeleteHsm",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy()
@@ -176,8 +308,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceArn"`: Amazon Resource Name (ARN) of the resource from which the policy will be
   removed.
 """
-delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2(
+    "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function delete_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudhsm_v2(
+        "DeleteResourcePolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_backups()
@@ -232,8 +375,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortAscending"`: Designates whether or not to sort the return backups by ascending
   chronological order of generation.
 """
-describe_backups(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_backups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_backups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudhsm_v2("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_backups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudhsm_v2(
+        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_clusters()
@@ -268,8 +418,15 @@ Use the `states` filter to return only clusters that match the specified state.
 - `"NextToken"`: The `NextToken` value that you received in the previous response. Use this
   value to get more clusters.
 """
-describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudhsm_v2("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudhsm_v2(
+        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_resource_policy()
@@ -286,8 +443,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ResourceArn"`: Amazon Resource Name (ARN) of the resource to which a policy is attached.
 """
-get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("GetResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudhsm_v2("GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudhsm_v2(
+        "GetResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     initialize_cluster(cluster_id, signed_cert, trust_anchor)
@@ -314,8 +478,42 @@ different Amazon Web Services account.
   root certificate. The certificate must be in PEM format and can contain a maximum of 5000
   characters.
 """
-initialize_cluster(ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-initialize_cluster(ClusterId, SignedCert, TrustAnchor, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+initialize_cluster(
+    ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudhsm_v2(
+    "InitializeCluster",
+    Dict{String,Any}(
+        "ClusterId" => ClusterId,
+        "SignedCert" => SignedCert,
+        "TrustAnchor" => TrustAnchor,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function initialize_cluster(
+    ClusterId,
+    SignedCert,
+    TrustAnchor,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "InitializeCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterId" => ClusterId,
+                    "SignedCert" => SignedCert,
+                    "TrustAnchor" => TrustAnchor,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags(resource_id)
@@ -346,8 +544,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The `NextToken` value that you received in the previous response. Use this
   value to get more tags.
 """
-list_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2(
+    "ListTags",
+    Dict{String,Any}("ResourceId" => ResourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "ListTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_backup_attributes(backup_id, never_expires)
@@ -366,8 +582,33 @@ different Amazon Web Services account.
   policy for the cluster. `True` exempts a backup from the retention policy. `False` means
   the service applies the backup retention policy defined at the cluster.
 """
-modify_backup_attributes(BackupId, NeverExpires; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_backup_attributes(BackupId, NeverExpires, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_backup_attributes(
+    BackupId, NeverExpires; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudhsm_v2(
+    "ModifyBackupAttributes",
+    Dict{String,Any}("BackupId" => BackupId, "NeverExpires" => NeverExpires);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_backup_attributes(
+    BackupId,
+    NeverExpires,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "ModifyBackupAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("BackupId" => BackupId, "NeverExpires" => NeverExpires),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_cluster(backup_retention_policy, cluster_id)
@@ -384,8 +625,38 @@ different Amazon Web Services account.
 - `cluster_id`: The identifier (ID) of the cluster that you want to modify. To find the
   cluster ID, use <a>DescribeClusters</a>.
 """
-modify_cluster(BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_cluster(BackupRetentionPolicy, ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_cluster(
+    BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cloudhsm_v2(
+    "ModifyCluster",
+    Dict{String,Any}(
+        "BackupRetentionPolicy" => BackupRetentionPolicy, "ClusterId" => ClusterId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_cluster(
+    BackupRetentionPolicy,
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "ModifyCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BackupRetentionPolicy" => BackupRetentionPolicy,
+                    "ClusterId" => ClusterId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy()
@@ -420,8 +691,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceArn"`: Amazon Resource Name (ARN) of the resource to which you want to attach a
   policy.
 """
-put_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("PutResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudhsm_v2("PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function put_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudhsm_v2(
+        "PutResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     restore_backup(backup_id)
@@ -438,8 +716,26 @@ different Amazon Web Services account.
 - `backup_id`: The ID of the backup to be restored. To find the ID of a backup, use the
   <a>DescribeBackups</a> operation.
 """
-restore_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-restore_backup(BackupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2(
+    "RestoreBackup",
+    Dict{String,Any}("BackupId" => BackupId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function restore_backup(
+    BackupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "RestoreBackup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BackupId" => BackupId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_id, tag_list)
@@ -456,8 +752,32 @@ different Amazon Web Services account.
   the cluster ID, use <a>DescribeClusters</a>.
 - `tag_list`: A list of one or more tags.
 """
-tag_resource(ResourceId, TagList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceId, TagList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceId, TagList; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudhsm_v2(
+        "TagResource",
+        Dict{String,Any}("ResourceId" => ResourceId, "TagList" => TagList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceId,
+    TagList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagList" => TagList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_id, tag_key_list)
@@ -475,5 +795,29 @@ different Amazon Web Services account.
 - `tag_key_list`: A list of one or more tag keys for the tags that you are removing.
   Specify only the tag keys, not the tag values.
 """
-untag_resource(ResourceId, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceId, TagKeyList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceId, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cloudhsm_v2(
+        "UntagResource",
+        Dict{String,Any}("ResourceId" => ResourceId, "TagKeyList" => TagKeyList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceId,
+    TagKeyList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudhsm_v2(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagKeyList" => TagKeyList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

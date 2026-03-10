@@ -24,8 +24,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `BatchGetRecord` will return the value of `ExpiresAt`, if it is not null. If `Disabled`
   and null, `BatchGetRecord` will return null.
 """
-batch_get_record(Identifiers; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("POST", "/BatchGetRecord", Dict{String, Any}("Identifiers"=>Identifiers); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_record(Identifiers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("POST", "/BatchGetRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifiers"=>Identifiers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_record(Identifiers; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sagemaker_featurestore_runtime(
+        "POST",
+        "/BatchGetRecord",
+        Dict{String,Any}("Identifiers" => Identifiers);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_get_record(
+    Identifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_featurestore_runtime(
+        "POST",
+        "/BatchGetRecord",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Identifiers" => Identifiers), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_record(event_time, feature_group_name, record_identifier_value_as_string)
@@ -72,8 +93,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Feature Store deletes the record from all of the stores that you're using for the
   `FeatureGroup`.
 """
-delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_record(
+    EventTime,
+    FeatureGroupName,
+    RecordIdentifierValueAsString;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sagemaker_featurestore_runtime(
+    "DELETE",
+    "/FeatureGroup/$(FeatureGroupName)",
+    Dict{String,Any}(
+        "EventTime" => EventTime,
+        "RecordIdentifierValueAsString" => RecordIdentifierValueAsString,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_record(
+    EventTime,
+    FeatureGroupName,
+    RecordIdentifierValueAsString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_featurestore_runtime(
+        "DELETE",
+        "/FeatureGroup/$(FeatureGroupName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventTime" => EventTime,
+                    "RecordIdentifierValueAsString" => RecordIdentifierValueAsString,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_record(feature_group_name, record_identifier_value_as_string)
@@ -100,8 +158,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FeatureName"`: List of names of Features to be retrieved. If not specified, the latest
   value for all the Features are returned.
 """
-get_record(FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_record(FeatureGroupName, RecordIdentifierValueAsString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_record(
+    FeatureGroupName,
+    RecordIdentifierValueAsString;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = sagemaker_featurestore_runtime(
+    "GET",
+    "/FeatureGroup/$(FeatureGroupName)",
+    Dict{String,Any}("RecordIdentifierValueAsString" => RecordIdentifierValueAsString);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_record(
+    FeatureGroupName,
+    RecordIdentifierValueAsString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_featurestore_runtime(
+        "GET",
+        "/FeatureGroup/$(FeatureGroupName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RecordIdentifierValueAsString" => RecordIdentifierValueAsString
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_record(feature_group_name, record)
@@ -144,5 +233,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html)
   API in the Amazon SageMaker API Reference guide.
 """
-put_record(FeatureGroupName, Record; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("Record"=>Record); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_record(FeatureGroupName, Record, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Record"=>Record), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_record(FeatureGroupName, Record; aws_config::AbstractAWSConfig=current_aws_config()) =
+    sagemaker_featurestore_runtime(
+        "PUT",
+        "/FeatureGroup/$(FeatureGroupName)",
+        Dict{String,Any}("Record" => Record);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_record(
+    FeatureGroupName,
+    Record,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_featurestore_runtime(
+        "PUT",
+        "/FeatureGroup/$(FeatureGroupName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Record" => Record), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

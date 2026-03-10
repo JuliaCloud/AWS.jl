@@ -27,8 +27,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuntimeRoleArn"`: The ARN of a runtime role for the application instance.
 - `"Tags"`: Tags for the application instance.
 """
-create_application_instance(DefaultRuntimeContextDevice, ManifestPayload; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/application-instances", Dict{String, Any}("DefaultRuntimeContextDevice"=>DefaultRuntimeContextDevice, "ManifestPayload"=>ManifestPayload); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application_instance(DefaultRuntimeContextDevice, ManifestPayload, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/application-instances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultRuntimeContextDevice"=>DefaultRuntimeContextDevice, "ManifestPayload"=>ManifestPayload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application_instance(
+    DefaultRuntimeContextDevice,
+    ManifestPayload;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = panorama(
+    "POST",
+    "/application-instances",
+    Dict{String,Any}(
+        "DefaultRuntimeContextDevice" => DefaultRuntimeContextDevice,
+        "ManifestPayload" => ManifestPayload,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application_instance(
+    DefaultRuntimeContextDevice,
+    ManifestPayload,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "POST",
+        "/application-instances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DefaultRuntimeContextDevice" => DefaultRuntimeContextDevice,
+                    "ManifestPayload" => ManifestPayload,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_job_for_devices(device_ids, job_type)
@@ -47,8 +82,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DeviceJobConfig"`: Configuration settings for a software update job.
 """
-create_job_for_devices(DeviceIds, JobType; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/jobs", Dict{String, Any}("DeviceIds"=>DeviceIds, "JobType"=>JobType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_job_for_devices(DeviceIds, JobType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds, "JobType"=>JobType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_job_for_devices(
+    DeviceIds, JobType; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "POST",
+    "/jobs",
+    Dict{String,Any}("DeviceIds" => DeviceIds, "JobType" => JobType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_job_for_devices(
+    DeviceIds,
+    JobType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "POST",
+        "/jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DeviceIds" => DeviceIds, "JobType" => JobType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_node_from_template_job(node_name, output_package_name, output_package_version, template_parameters, template_type)
@@ -71,8 +133,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobTags"`: Tags for the job.
 - `"NodeDescription"`: A description for the node.
 """
-create_node_from_template_job(NodeName, OutputPackageName, OutputPackageVersion, TemplateParameters, TemplateType; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/packages/template-job", Dict{String, Any}("NodeName"=>NodeName, "OutputPackageName"=>OutputPackageName, "OutputPackageVersion"=>OutputPackageVersion, "TemplateParameters"=>TemplateParameters, "TemplateType"=>TemplateType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_node_from_template_job(NodeName, OutputPackageName, OutputPackageVersion, TemplateParameters, TemplateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/packages/template-job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "OutputPackageName"=>OutputPackageName, "OutputPackageVersion"=>OutputPackageVersion, "TemplateParameters"=>TemplateParameters, "TemplateType"=>TemplateType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_node_from_template_job(
+    NodeName,
+    OutputPackageName,
+    OutputPackageVersion,
+    TemplateParameters,
+    TemplateType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = panorama(
+    "POST",
+    "/packages/template-job",
+    Dict{String,Any}(
+        "NodeName" => NodeName,
+        "OutputPackageName" => OutputPackageName,
+        "OutputPackageVersion" => OutputPackageVersion,
+        "TemplateParameters" => TemplateParameters,
+        "TemplateType" => TemplateType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_node_from_template_job(
+    NodeName,
+    OutputPackageName,
+    OutputPackageVersion,
+    TemplateParameters,
+    TemplateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "POST",
+        "/packages/template-job",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NodeName" => NodeName,
+                    "OutputPackageName" => OutputPackageName,
+                    "OutputPackageVersion" => OutputPackageVersion,
+                    "TemplateParameters" => TemplateParameters,
+                    "TemplateType" => TemplateType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_package(package_name)
@@ -90,8 +199,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: Tags for the package.
 """
-create_package(PackageName; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/packages", Dict{String, Any}("PackageName"=>PackageName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_package(PackageName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageName"=>PackageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_package(PackageName; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "POST",
+    "/packages",
+    Dict{String,Any}("PackageName" => PackageName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_package(
+    PackageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "POST",
+        "/packages",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PackageName" => PackageName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_package_import_job(client_token, input_config, job_type, output_config)
@@ -112,8 +241,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobTags"`: Tags for the package import job.
 """
-create_package_import_job(ClientToken, InputConfig, JobType, OutputConfig; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/packages/import-jobs", Dict{String, Any}("ClientToken"=>ClientToken, "InputConfig"=>InputConfig, "JobType"=>JobType, "OutputConfig"=>OutputConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_package_import_job(ClientToken, InputConfig, JobType, OutputConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/packages/import-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "InputConfig"=>InputConfig, "JobType"=>JobType, "OutputConfig"=>OutputConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_package_import_job(
+    ClientToken,
+    InputConfig,
+    JobType,
+    OutputConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = panorama(
+    "POST",
+    "/packages/import-jobs",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "InputConfig" => InputConfig,
+        "JobType" => JobType,
+        "OutputConfig" => OutputConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_package_import_job(
+    ClientToken,
+    InputConfig,
+    JobType,
+    OutputConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "POST",
+        "/packages/import-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "InputConfig" => InputConfig,
+                    "JobType" => JobType,
+                    "OutputConfig" => OutputConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_device(device_id)
@@ -125,8 +297,25 @@ Deletes a device.
 
 - `device_id`: The device's ID.
 """
-delete_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/devices/$(DeviceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_device(DeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/devices/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "DELETE",
+    "/devices/$(DeviceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_device(
+    DeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "DELETE",
+        "/devices/$(DeviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_package(package_id)
@@ -149,8 +338,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForceDelete"`: Delete the package even if it has artifacts stored in its access point.
   Deletes the package's artifacts from Amazon S3.
 """
-delete_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/packages/$(PackageId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_package(PackageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/packages/$(PackageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "DELETE",
+    "/packages/$(PackageId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_package(
+    PackageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "DELETE",
+        "/packages/$(PackageId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     deregister_package_version(package_id, package_version, patch_version)
@@ -172,8 +378,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdatedLatestPatchVersion"`: If the version was marked latest, the new version to maker
   as latest.
 """
-deregister_package_version(PackageId, PackageVersion, PatchVersion; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-deregister_package_version(PackageId, PackageVersion, PatchVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_package_version(
+    PackageId,
+    PackageVersion,
+    PatchVersion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = panorama(
+    "DELETE",
+    "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function deregister_package_version(
+    PackageId,
+    PackageVersion,
+    PatchVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "DELETE",
+        "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_application_instance(application_instance_id)
@@ -185,8 +415,27 @@ Returns information about an application instance on a device.
 
 - `application_instance_id`: The application instance's ID.
 """
-describe_application_instance(ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_application_instance(ApplicationInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application_instance(
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "GET",
+    "/application-instances/$(ApplicationInstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_instance(
+    ApplicationInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/application-instances/$(ApplicationInstanceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_application_instance_details(application_instance_id)
@@ -198,8 +447,27 @@ Returns information about an application instance's configuration manifest.
 
 - `application_instance_id`: The application instance's ID.
 """
-describe_application_instance_details(ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)/details"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_application_instance_details(ApplicationInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)/details", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application_instance_details(
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "GET",
+    "/application-instances/$(ApplicationInstanceId)/details";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_instance_details(
+    ApplicationInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/application-instances/$(ApplicationInstanceId)/details",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_device(device_id)
@@ -211,8 +479,25 @@ Returns information about a device.
 
 - `device_id`: The device's ID.
 """
-describe_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/devices/$(DeviceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_device(DeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/devices/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "GET",
+    "/devices/$(DeviceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_device(
+    DeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/devices/$(DeviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_device_job(job_id)
@@ -224,8 +509,20 @@ Returns information about a device job.
 
 - `job_id`: The job's ID.
 """
-describe_device_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_device_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_device_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_device_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET",
+        "/jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_node(node_id)
@@ -243,8 +540,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"OwnerAccount"`: The account ID of the node's owner.
 """
-describe_node(NodeId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_node(NodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/nodes/$(NodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_node(NodeId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_node(
+    NodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET",
+        "/nodes/$(NodeId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_node_from_template_job(job_id)
@@ -256,8 +565,24 @@ Returns information about a job to create a camera stream node.
 
 - `job_id`: The job's ID.
 """
-describe_node_from_template_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/template-job/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_node_from_template_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/template-job/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_node_from_template_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama(
+        "GET",
+        "/packages/template-job/$(JobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_node_from_template_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET",
+        "/packages/template-job/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_package(package_id)
@@ -269,8 +594,25 @@ Returns information about a package.
 
 - `package_id`: The package's ID.
 """
-describe_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/metadata/$(PackageId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_package(PackageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/metadata/$(PackageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "GET",
+    "/packages/metadata/$(PackageId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_package(
+    PackageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/packages/metadata/$(PackageId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_package_import_job(job_id)
@@ -282,8 +624,24 @@ Returns information about a package import job.
 
 - `job_id`: The job's ID.
 """
-describe_package_import_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/import-jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_package_import_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/import-jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_package_import_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama(
+        "GET",
+        "/packages/import-jobs/$(JobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_package_import_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET",
+        "/packages/import-jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_package_version(package_id, package_version)
@@ -303,8 +661,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OwnerAccount"`: The version's owner account.
 - `"PatchVersion"`: The version's patch version.
 """
-describe_package_version(PackageId, PackageVersion; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/metadata/$(PackageId)/versions/$(PackageVersion)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_package_version(PackageId, PackageVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/metadata/$(PackageId)/versions/$(PackageVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_package_version(
+    PackageId, PackageVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "GET",
+    "/packages/metadata/$(PackageId)/versions/$(PackageVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_package_version(
+    PackageId,
+    PackageVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/packages/metadata/$(PackageId)/versions/$(PackageVersion)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_instance_dependencies(application_instance_id)
@@ -325,8 +703,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_application_instance_dependencies(ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)/package-dependencies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_instance_dependencies(ApplicationInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)/package-dependencies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_instance_dependencies(
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "GET",
+    "/application-instances/$(ApplicationInstanceId)/package-dependencies";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_instance_dependencies(
+    ApplicationInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/application-instances/$(ApplicationInstanceId)/package-dependencies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_instance_node_instances(application_instance_id)
@@ -346,8 +743,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_application_instance_node_instances(ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)/node-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_instance_node_instances(ApplicationInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances/$(ApplicationInstanceId)/node-instances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_instance_node_instances(
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "GET",
+    "/application-instances/$(ApplicationInstanceId)/node-instances";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_instance_node_instances(
+    ApplicationInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/application-instances/$(ApplicationInstanceId)/node-instances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_instances()
@@ -366,8 +782,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 - `"statusFilter"`: Only include instances with a specific status.
 """
-list_application_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/application-instances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "GET",
+    "/application-instances";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET",
+        "/application-instances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_devices()
@@ -388,8 +819,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sorting order for the returned list. SortOrder is DESCENDING by
   default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
 """
-list_devices(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_devices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_devices(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama("GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_devices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_devices_jobs()
@@ -406,8 +844,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_devices_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_devices_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_devices_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_devices_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_node_from_template_jobs()
@@ -424,8 +869,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_node_from_template_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/template-job"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_node_from_template_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/template-job", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_node_from_template_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama(
+        "GET",
+        "/packages/template-job";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_node_from_template_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET",
+        "/packages/template-job",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_nodes()
@@ -446,8 +907,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"packageVersion"`: Search for nodes by version.
 - `"patchVersion"`: Search for nodes by patch version.
 """
-list_nodes(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_nodes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_nodes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama("GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_nodes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET", "/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_package_import_jobs()
@@ -464,8 +932,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_package_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/import-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_package_import_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages/import-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_package_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "GET",
+    "/packages/import-jobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_package_import_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET",
+        "/packages/import-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_packages()
@@ -481,8 +964,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_packages(; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_packages(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_packages(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama("GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_packages(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "GET", "/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -494,8 +984,26 @@ Returns a list of tags for a resource.
 
 - `resource_arn`: The resource's ARN.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/tags/$(ResourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     provision_device(name)
@@ -519,8 +1027,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkingConfiguration"`: A networking configuration for the device.
 - `"Tags"`: Tags for the device.
 """
-provision_device(Name; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/devices", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-provision_device(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+provision_device(Name; aws_config::AbstractAWSConfig=current_aws_config()) = panorama(
+    "POST",
+    "/devices",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function provision_device(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return panorama(
+        "POST",
+        "/devices",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     register_package_version(package_id, package_version, patch_version)
@@ -541,8 +1065,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MarkLatest"`: Whether to mark the new version as the latest version.
 - `"OwnerAccount"`: An owner account.
 """
-register_package_version(PackageId, PackageVersion, PatchVersion; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("PUT", "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-register_package_version(PackageId, PackageVersion, PatchVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("PUT", "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_package_version(
+    PackageId,
+    PackageVersion,
+    PatchVersion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = panorama(
+    "PUT",
+    "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function register_package_version(
+    PackageId,
+    PackageVersion,
+    PatchVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "PUT",
+        "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_application_instance(application_instance_id)
@@ -554,8 +1102,27 @@ Removes an application instance.
 
 - `application_instance_id`: An application instance ID.
 """
-remove_application_instance(ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/application-instances/$(ApplicationInstanceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_application_instance(ApplicationInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/application-instances/$(ApplicationInstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_application_instance(
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "DELETE",
+    "/application-instances/$(ApplicationInstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_application_instance(
+    ApplicationInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "DELETE",
+        "/application-instances/$(ApplicationInstanceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     signal_application_instance_node_instances(application_instance_id, node_signals)
@@ -568,8 +1135,31 @@ Signal camera nodes to stop or resume.
 - `application_instance_id`: An application instance ID.
 - `node_signals`: A list of signals.
 """
-signal_application_instance_node_instances(ApplicationInstanceId, NodeSignals; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("PUT", "/application-instances/$(ApplicationInstanceId)/node-signals", Dict{String, Any}("NodeSignals"=>NodeSignals); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-signal_application_instance_node_instances(ApplicationInstanceId, NodeSignals, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("PUT", "/application-instances/$(ApplicationInstanceId)/node-signals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeSignals"=>NodeSignals), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+signal_application_instance_node_instances(
+    ApplicationInstanceId, NodeSignals; aws_config::AbstractAWSConfig=current_aws_config()
+) = panorama(
+    "PUT",
+    "/application-instances/$(ApplicationInstanceId)/node-signals",
+    Dict{String,Any}("NodeSignals" => NodeSignals);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function signal_application_instance_node_instances(
+    ApplicationInstanceId,
+    NodeSignals,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "PUT",
+        "/application-instances/$(ApplicationInstanceId)/node-signals",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NodeSignals" => NodeSignals), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -582,8 +1172,28 @@ Tags a resource.
 - `resource_arn`: The resource's ARN.
 - `tags`: Tags for the resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -596,8 +1206,28 @@ Removes tags from a resource.
 - `resource_arn`: The resource's ARN.
 - `tag_keys`: Tag keys to remove.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_device_metadata(device_id)
@@ -615,5 +1245,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description for the device.
 """
-update_device_metadata(DeviceId; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("PUT", "/devices/$(DeviceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_device_metadata(DeviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = panorama("PUT", "/devices/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_device_metadata(DeviceId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    panorama(
+        "PUT",
+        "/devices/$(DeviceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_device_metadata(
+    DeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return panorama(
+        "PUT",
+        "/devices/$(DeviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

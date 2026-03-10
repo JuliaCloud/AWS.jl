@@ -15,8 +15,27 @@ Deletes the specified report. Any tags associated with the report are also delet
 - `report_name`: The name of the report that you want to delete. The name must be unique,
   is case sensitive, and can't include spaces.
 """
-delete_report_definition(ReportName; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("DeleteReportDefinition", Dict{String, Any}("ReportName"=>ReportName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_report_definition(ReportName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("DeleteReportDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportName"=>ReportName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_report_definition(ReportName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_and_usage_report_service(
+        "DeleteReportDefinition",
+        Dict{String,Any}("ReportName" => ReportName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_report_definition(
+    ReportName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_and_usage_report_service(
+        "DeleteReportDefinition",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ReportName" => ReportName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_report_definitions()
@@ -31,8 +50,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-describe_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("DescribeReportDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_report_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("DescribeReportDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_and_usage_report_service(
+        "DescribeReportDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_report_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_and_usage_report_service(
+        "DescribeReportDefinitions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(report_name)
@@ -44,8 +75,27 @@ Lists the tags associated with the specified report definition.
 
 - `report_name`: The report name of the report definition that tags are to be returned for.
 """
-list_tags_for_resource(ReportName; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("ListTagsForResource", Dict{String, Any}("ReportName"=>ReportName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ReportName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportName"=>ReportName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ReportName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_and_usage_report_service(
+        "ListTagsForResource",
+        Dict{String,Any}("ReportName" => ReportName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ReportName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_and_usage_report_service(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ReportName" => ReportName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_report_definition(report_definition, report_name)
@@ -58,8 +108,35 @@ Allows you to programmatically update your report preferences.
 - `report_definition`:
 - `report_name`:
 """
-modify_report_definition(ReportDefinition, ReportName; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("ModifyReportDefinition", Dict{String, Any}("ReportDefinition"=>ReportDefinition, "ReportName"=>ReportName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_report_definition(ReportDefinition, ReportName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("ModifyReportDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportDefinition"=>ReportDefinition, "ReportName"=>ReportName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_report_definition(
+    ReportDefinition, ReportName; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_and_usage_report_service(
+    "ModifyReportDefinition",
+    Dict{String,Any}("ReportDefinition" => ReportDefinition, "ReportName" => ReportName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_report_definition(
+    ReportDefinition,
+    ReportName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_and_usage_report_service(
+        "ModifyReportDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReportDefinition" => ReportDefinition, "ReportName" => ReportName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_report_definition(report_definition)
@@ -78,8 +155,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to be assigned to the report definition resource.
 """
-put_report_definition(ReportDefinition; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("PutReportDefinition", Dict{String, Any}("ReportDefinition"=>ReportDefinition); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_report_definition(ReportDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("PutReportDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportDefinition"=>ReportDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_report_definition(
+    ReportDefinition; aws_config::AbstractAWSConfig=current_aws_config()
+) = cost_and_usage_report_service(
+    "PutReportDefinition",
+    Dict{String,Any}("ReportDefinition" => ReportDefinition);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_report_definition(
+    ReportDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_and_usage_report_service(
+        "PutReportDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReportDefinition" => ReportDefinition), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(report_name, tags)
@@ -93,8 +192,30 @@ Associates a set of tags with a report definition.
   with.
 - `tags`: The tags to be assigned to the report definition resource.
 """
-tag_resource(ReportName, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("TagResource", Dict{String, Any}("ReportName"=>ReportName, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ReportName, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportName"=>ReportName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ReportName, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_and_usage_report_service(
+        "TagResource",
+        Dict{String,Any}("ReportName" => ReportName, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ReportName,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_and_usage_report_service(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReportName" => ReportName, "Tags" => Tags), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(report_name, tag_keys)
@@ -108,5 +229,29 @@ Disassociates a set of tags from a report definition.
   from.
 - `tag_keys`: The tags to be disassociated from the report definition resource.
 """
-untag_resource(ReportName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("UntagResource", Dict{String, Any}("ReportName"=>ReportName, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ReportName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cost_and_usage_report_service("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportName"=>ReportName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ReportName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cost_and_usage_report_service(
+        "UntagResource",
+        Dict{String,Any}("ReportName" => ReportName, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ReportName,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_and_usage_report_service(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReportName" => ReportName, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

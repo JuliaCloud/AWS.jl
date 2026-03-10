@@ -16,8 +16,34 @@ acknowledge them.
 - `acknowledge_action_requests`: The list of acknowledge action requests. You can specify
   up to 10 requests per operation.
 """
-batch_acknowledge_alarm(acknowledgeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/acknowledge", Dict{String, Any}("acknowledgeActionRequests"=>acknowledgeActionRequests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_acknowledge_alarm(acknowledgeActionRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/acknowledge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("acknowledgeActionRequests"=>acknowledgeActionRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_acknowledge_alarm(
+    acknowledgeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
+) = iot_events_data(
+    "POST",
+    "/alarms/acknowledge",
+    Dict{String,Any}("acknowledgeActionRequests" => acknowledgeActionRequests);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_acknowledge_alarm(
+    acknowledgeActionRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/alarms/acknowledge",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("acknowledgeActionRequests" => acknowledgeActionRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_delete_detector(detectors)
@@ -32,8 +58,29 @@ API call.
 
 - `detectors`: The list of one or more detectors to be deleted.
 """
-batch_delete_detector(detectors; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/detectors/delete", Dict{String, Any}("detectors"=>detectors); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete_detector(detectors, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/detectors/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectors"=>detectors), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_detector(detectors; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "POST",
+        "/detectors/delete",
+        Dict{String,Any}("detectors" => detectors);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_delete_detector(
+    detectors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/detectors/delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("detectors" => detectors), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_disable_alarm(disable_action_requests)
@@ -47,8 +94,34 @@ them.
 - `disable_action_requests`: The list of disable action requests. You can specify up to 10
   requests per operation.
 """
-batch_disable_alarm(disableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/disable", Dict{String, Any}("disableActionRequests"=>disableActionRequests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_disable_alarm(disableActionRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("disableActionRequests"=>disableActionRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_disable_alarm(
+    disableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
+) = iot_events_data(
+    "POST",
+    "/alarms/disable",
+    Dict{String,Any}("disableActionRequests" => disableActionRequests);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_disable_alarm(
+    disableActionRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/alarms/disable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("disableActionRequests" => disableActionRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_enable_alarm(enable_action_requests)
@@ -61,8 +134,34 @@ Enables one or more alarms. The alarms change to the `NORMAL` state after you en
 - `enable_action_requests`: The list of enable action requests. You can specify up to 10
   requests per operation.
 """
-batch_enable_alarm(enableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/enable", Dict{String, Any}("enableActionRequests"=>enableActionRequests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_enable_alarm(enableActionRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enableActionRequests"=>enableActionRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_enable_alarm(
+    enableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
+) = iot_events_data(
+    "POST",
+    "/alarms/enable",
+    Dict{String,Any}("enableActionRequests" => enableActionRequests);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_enable_alarm(
+    enableActionRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/alarms/enable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("enableActionRequests" => enableActionRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_put_message(messages)
@@ -79,8 +178,29 @@ successful response.
 - `messages`: The list of messages to send. Each message has the following format: `'{
   "messageId": "string", "inputName": "string", "payload": "string"}'`
 """
-batch_put_message(messages; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}("messages"=>messages); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_put_message(messages, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("messages"=>messages), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_put_message(messages; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "POST",
+        "/inputs/messages",
+        Dict{String,Any}("messages" => messages);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_put_message(
+    messages,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/inputs/messages",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("messages" => messages), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_reset_alarm(reset_action_requests)
@@ -93,8 +213,33 @@ Resets one or more alarms. The alarms return to the `NORMAL` state after you res
 - `reset_action_requests`: The list of reset action requests. You can specify up to 10
   requests per operation.
 """
-batch_reset_alarm(resetActionRequests; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/reset", Dict{String, Any}("resetActionRequests"=>resetActionRequests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_reset_alarm(resetActionRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/reset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resetActionRequests"=>resetActionRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_reset_alarm(resetActionRequests; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "POST",
+        "/alarms/reset",
+        Dict{String,Any}("resetActionRequests" => resetActionRequests);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_reset_alarm(
+    resetActionRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/alarms/reset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resetActionRequests" => resetActionRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_snooze_alarm(snooze_action_requests)
@@ -108,8 +253,34 @@ state after you set them to the snooze mode.
 - `snooze_action_requests`: The list of snooze action requests. You can specify up to 10
   requests per operation.
 """
-batch_snooze_alarm(snoozeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/snooze", Dict{String, Any}("snoozeActionRequests"=>snoozeActionRequests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_snooze_alarm(snoozeActionRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/alarms/snooze", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("snoozeActionRequests"=>snoozeActionRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_snooze_alarm(
+    snoozeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
+) = iot_events_data(
+    "POST",
+    "/alarms/snooze",
+    Dict{String,Any}("snoozeActionRequests" => snoozeActionRequests);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_snooze_alarm(
+    snoozeActionRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/alarms/snooze",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("snoozeActionRequests" => snoozeActionRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_update_detector(detectors)
@@ -122,8 +293,29 @@ of a specified detector model.
 
 - `detectors`: The list of detectors (instances) to update, along with the values to update.
 """
-batch_update_detector(detectors; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}("detectors"=>detectors); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_update_detector(detectors, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectors"=>detectors), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_update_detector(detectors; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "POST",
+        "/detectors",
+        Dict{String,Any}("detectors" => detectors);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_update_detector(
+    detectors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/detectors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("detectors" => detectors), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_alarm(alarm_model_name)
@@ -142,8 +334,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"keyValue"`: The value of the key used as a filter to select only the alarms associated
   with the [key](https://docs.aws.amazon.com/iotevents/latest/apireference/API_CreateAlarmModel.html#iotevents-CreateAlarmModel-request-key).
 """
-describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/alarms/$(alarmModelName)/keyValues/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_alarm(alarmModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/alarms/$(alarmModelName)/keyValues/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "GET",
+        "/alarms/$(alarmModelName)/keyValues/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_alarm(
+    alarmModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "GET",
+        "/alarms/$(alarmModelName)/keyValues/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_detector(detector_model_name)
@@ -163,8 +373,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"keyValue"`: A filter used to limit results to detectors (instances) created because of
   the given key ID.
 """
-describe_detector(detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_detector(detectorModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_detector(detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "GET",
+        "/detectors/$(detectorModelName)/keyValues/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_detector(
+    detectorModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "GET",
+        "/detectors/$(detectorModelName)/keyValues/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_alarms(alarm_model_name)
@@ -184,8 +412,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
-list_alarms(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/alarms/$(alarmModelName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_alarms(alarmModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/alarms/$(alarmModelName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_alarms(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "GET",
+        "/alarms/$(alarmModelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_alarms(
+    alarmModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "GET",
+        "/alarms/$(alarmModelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_detectors(detector_model_name)
@@ -207,5 +453,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stateName"`: A filter that limits results to those detectors (instances) in the given
   state.
 """
-list_detectors(detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_detectors(detectorModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_detectors(detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iot_events_data(
+        "GET",
+        "/detectors/$(detectorModelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_detectors(
+    detectorModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_events_data(
+        "GET",
+        "/detectors/$(detectorModelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

@@ -28,8 +28,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: An idempotency token.
 """
-create_bill_of_materials_import_job(instanceId, s3uri; aws_config::AbstractAWSConfig=current_aws_config()) = supplychain("POST", "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs", Dict{String, Any}("s3uri"=>s3uri, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_bill_of_materials_import_job(instanceId, s3uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = supplychain("POST", "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3uri"=>s3uri, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_bill_of_materials_import_job(
+    instanceId, s3uri; aws_config::AbstractAWSConfig=current_aws_config()
+) = supplychain(
+    "POST",
+    "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs",
+    Dict{String,Any}("s3uri" => s3uri, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_bill_of_materials_import_job(
+    instanceId,
+    s3uri,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "POST",
+        "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3uri" => s3uri, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_bill_of_materials_import_job(instance_id, job_id)
@@ -42,8 +69,28 @@ Get status and details of a BillOfMaterialsImportJob.
 - `instance_id`: The AWS Supply Chain instance identifier.
 - `job_id`: The BillOfMaterialsImportJob identifier.
 """
-get_bill_of_materials_import_job(instanceId, jobId; aws_config::AbstractAWSConfig=current_aws_config()) = supplychain("GET", "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_bill_of_materials_import_job(instanceId, jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = supplychain("GET", "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_bill_of_materials_import_job(
+    instanceId, jobId; aws_config::AbstractAWSConfig=current_aws_config()
+) = supplychain(
+    "GET",
+    "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_bill_of_materials_import_job(
+    instanceId,
+    jobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     send_data_integration_event(data, event_group_id, event_type, instance_id)
@@ -70,5 +117,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotent client token.
 - `"eventTimestamp"`: The event timestamp (in epoch seconds).
 """
-send_data_integration_event(data, eventGroupId, eventType, instanceId; aws_config::AbstractAWSConfig=current_aws_config()) = supplychain("POST", "/api-data/data-integration/instance/$(instanceId)/data-integration-events", Dict{String, Any}("data"=>data, "eventGroupId"=>eventGroupId, "eventType"=>eventType, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-send_data_integration_event(data, eventGroupId, eventType, instanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = supplychain("POST", "/api-data/data-integration/instance/$(instanceId)/data-integration-events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "eventGroupId"=>eventGroupId, "eventType"=>eventType, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_data_integration_event(
+    data,
+    eventGroupId,
+    eventType,
+    instanceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = supplychain(
+    "POST",
+    "/api-data/data-integration/instance/$(instanceId)/data-integration-events",
+    Dict{String,Any}(
+        "data" => data,
+        "eventGroupId" => eventGroupId,
+        "eventType" => eventType,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function send_data_integration_event(
+    data,
+    eventGroupId,
+    eventType,
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "POST",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-events",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "data" => data,
+                    "eventGroupId" => eventGroupId,
+                    "eventType" => eventType,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

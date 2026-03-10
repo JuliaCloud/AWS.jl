@@ -22,7 +22,7 @@ request body, or in the PolicyDetails request structure, but not both.
 
 # Arguments
 
-- `description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
+- `description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+\$ are supported.
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role used to run the
   operations specified by the lifecycle policy.
 - `state`: The activation state of the lifecycle policy after creation.
@@ -68,8 +68,44 @@ If you do not specify a value, the default is `false`.
 Default: 7
 - `"Tags"`: The tags to apply to the lifecycle policy during creation.
 """
-create_lifecycle_policy(Description, ExecutionRoleArn, State; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("POST", "/policies", Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "State"=>State); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_lifecycle_policy(Description, ExecutionRoleArn, State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("POST", "/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "State"=>State), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_lifecycle_policy(
+    Description, ExecutionRoleArn, State; aws_config::AbstractAWSConfig=current_aws_config()
+) = dlm(
+    "POST",
+    "/policies",
+    Dict{String,Any}(
+        "Description" => Description,
+        "ExecutionRoleArn" => ExecutionRoleArn,
+        "State" => State,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_lifecycle_policy(
+    Description,
+    ExecutionRoleArn,
+    State,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dlm(
+        "POST",
+        "/policies",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "ExecutionRoleArn" => ExecutionRoleArn,
+                    "State" => State,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_lifecycle_policy(policy_id)
@@ -84,8 +120,25 @@ For more information about deleting a policy, see [Delete lifecycle policies](ht
 
 - `policy_id`: The identifier of the lifecycle policy.
 """
-delete_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("DELETE", "/policies/$(policyId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_lifecycle_policy(policyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("DELETE", "/policies/$(policyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config()) = dlm(
+    "DELETE",
+    "/policies/$(policyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_lifecycle_policy(
+    policyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dlm(
+        "DELETE",
+        "/policies/$(policyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_lifecycle_policies()
@@ -115,8 +168,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Tags are strings in the format `key=value`.
 """
-get_lifecycle_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_lifecycle_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("GET", "/policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lifecycle_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    dlm("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_lifecycle_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return dlm(
+        "GET", "/policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     get_lifecycle_policy(policy_id)
@@ -128,8 +188,25 @@ Gets detailed information about the specified lifecycle policy.
 
 - `policy_id`: The identifier of the lifecycle policy.
 """
-get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("GET", "/policies/$(policyId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_lifecycle_policy(policyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("GET", "/policies/$(policyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config()) = dlm(
+    "GET",
+    "/policies/$(policyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_lifecycle_policy(
+    policyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dlm(
+        "GET",
+        "/policies/$(policyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -141,8 +218,26 @@ Lists the tags for the specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    dlm(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dlm(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(tags, resource_arn)
@@ -155,8 +250,27 @@ Adds the specified tags to the specified resource.
 - `tags`: One or more tags.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = dlm(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    Tags,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dlm(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -169,8 +283,28 @@ Removes the specified tags from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    dlm(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dlm(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_lifecycle_policy(policy_id)
@@ -215,5 +349,22 @@ By default (**ExtendDeletion=false**):</p>
 - `"RetainInterval"`:  **[Default policies only]** Specifies how long the policy should retain snapshots or AMIs before deleting them. The retention period can range from 2 to 14 days, but it must be greater than the creation frequency to ensure that the policy retains at least 1 snapshot or AMI at any given time.
 - `"State"`: The desired activation state of the lifecycle policy after creation.
 """
-update_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("PATCH", "/policies/$(policyId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_lifecycle_policy(policyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = dlm("PATCH", "/policies/$(policyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config()) = dlm(
+    "PATCH",
+    "/policies/$(policyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_lifecycle_policy(
+    policyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dlm(
+        "PATCH",
+        "/policies/$(policyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

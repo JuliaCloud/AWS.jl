@@ -38,8 +38,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   session credentials.
 - `"tags"`: The tags to attach to the profile.
 """
-create_profile(name, roleArns; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/profiles", Dict{String, Any}("name"=>name, "roleArns"=>roleArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_profile(name, roleArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "roleArns"=>roleArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_profile(name, roleArns; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/profiles",
+        Dict{String,Any}("name" => name, "roleArns" => roleArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_profile(
+    name,
+    roleArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/profiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "roleArns" => roleArns), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_trust_anchor(name, source)
@@ -67,8 +91,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   anchor.
 - `"tags"`: The tags to attach to the trust anchor.
 """
-create_trust_anchor(name, source; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/trustanchors", Dict{String, Any}("name"=>name, "source"=>source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_trust_anchor(name, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/trustanchors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_trust_anchor(name, source; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/trustanchors",
+        Dict{String,Any}("name" => name, "source" => source);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_trust_anchor(
+    name,
+    source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/trustanchors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "source" => source), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_attribute_mapping(certificate_field, profile_id)
@@ -89,8 +135,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"specifiers"`: A list of specifiers of a certificate field; for example, CN, OU, UID
   from a Subject.
 """
-delete_attribute_mapping(certificateField, profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/profiles/$(profileId)/mappings", Dict{String, Any}("certificateField"=>certificateField); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_attribute_mapping(certificateField, profileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/profiles/$(profileId)/mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateField"=>certificateField), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_attribute_mapping(
+    certificateField, profileId; aws_config::AbstractAWSConfig=current_aws_config()
+) = rolesanywhere(
+    "DELETE",
+    "/profiles/$(profileId)/mappings",
+    Dict{String,Any}("certificateField" => certificateField);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_attribute_mapping(
+    certificateField,
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "DELETE",
+        "/profiles/$(profileId)/mappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("certificateField" => certificateField), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_crl(crl_id)
@@ -104,8 +175,20 @@ Deletes a certificate revocation list (CRL).
 
 - `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
-delete_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_crl(crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/crl/$(crlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "DELETE", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function delete_crl(
+    crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "DELETE",
+        "/crl/$(crlId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_profile(profile_id)
@@ -119,8 +202,26 @@ Deletes a profile.
 
 - `profile_id`: The unique identifier of the profile.
 """
-delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/profile/$(profileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_profile(profileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/profile/$(profileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "DELETE",
+        "/profile/$(profileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_profile(
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "DELETE",
+        "/profile/$(profileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_trust_anchor(trust_anchor_id)
@@ -134,8 +235,26 @@ Deletes a trust anchor.
 
 - `trust_anchor_id`: The unique identifier of the trust anchor.
 """
-delete_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/trustanchor/$(trustAnchorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_trust_anchor(trustAnchorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("DELETE", "/trustanchor/$(trustAnchorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "DELETE",
+        "/trustanchor/$(trustAnchorId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_trust_anchor(
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "DELETE",
+        "/trustanchor/$(trustAnchorId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_crl(crl_id)
@@ -149,8 +268,23 @@ Disables a certificate revocation list (CRL).
 
 - `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
-disable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/crl/$(crlId)/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_crl(crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/crl/$(crlId)/disable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "POST",
+    "/crl/$(crlId)/disable";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disable_crl(
+    crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "POST",
+        "/crl/$(crlId)/disable",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_profile(profile_id)
@@ -164,8 +298,26 @@ Disables a profile. When disabled, temporary credential requests with this profi
 
 - `profile_id`: The unique identifier of the profile.
 """
-disable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/profile/$(profileId)/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_profile(profileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/profile/$(profileId)/disable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/profile/$(profileId)/disable";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_profile(
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/profile/$(profileId)/disable",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disable_trust_anchor(trust_anchor_id)
@@ -180,8 +332,26 @@ anchor are unauthorized.
 
 - `trust_anchor_id`: The unique identifier of the trust anchor.
 """
-disable_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/trustanchor/$(trustAnchorId)/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disable_trust_anchor(trustAnchorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/trustanchor/$(trustAnchorId)/disable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/trustanchor/$(trustAnchorId)/disable";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function disable_trust_anchor(
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/trustanchor/$(trustAnchorId)/disable",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_crl(crl_id)
@@ -196,8 +366,23 @@ are unauthorized to receive session credentials.
 
 - `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
-enable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/crl/$(crlId)/enable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_crl(crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/crl/$(crlId)/enable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "POST",
+    "/crl/$(crlId)/enable";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function enable_crl(
+    crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "POST",
+        "/crl/$(crlId)/enable",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_profile(profile_id)
@@ -211,8 +396,26 @@ Enables temporary credential requests for a profile.
 
 - `profile_id`: The unique identifier of the profile.
 """
-enable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/profile/$(profileId)/enable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_profile(profileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/profile/$(profileId)/enable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/profile/$(profileId)/enable";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function enable_profile(
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/profile/$(profileId)/enable",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     enable_trust_anchor(trust_anchor_id)
@@ -227,8 +430,26 @@ for trust validation.
 
 - `trust_anchor_id`: The unique identifier of the trust anchor.
 """
-enable_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/trustanchor/$(trustAnchorId)/enable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-enable_trust_anchor(trustAnchorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/trustanchor/$(trustAnchorId)/enable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/trustanchor/$(trustAnchorId)/enable";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function enable_trust_anchor(
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/trustanchor/$(trustAnchorId)/enable",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_crl(crl_id)
@@ -242,8 +463,20 @@ Gets a certificate revocation list (CRL).
 
 - `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
-get_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_crl(crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/crl/$(crlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "GET", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function get_crl(
+    crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "GET",
+        "/crl/$(crlId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_profile(profile_id)
@@ -257,8 +490,25 @@ Gets a profile.
 
 - `profile_id`: The unique identifier of the profile.
 """
-get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/profile/$(profileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_profile(profileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/profile/$(profileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "GET",
+    "/profile/$(profileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_profile(
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "GET",
+        "/profile/$(profileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_subject(subject_id)
@@ -275,8 +525,25 @@ attempted authentication.
 
 - `subject_id`: The unique identifier of the subject.
 """
-get_subject(subjectId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/subject/$(subjectId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_subject(subjectId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/subject/$(subjectId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_subject(subjectId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "GET",
+    "/subject/$(subjectId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_subject(
+    subjectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "GET",
+        "/subject/$(subjectId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_trust_anchor(trust_anchor_id)
@@ -290,8 +557,26 @@ Gets a trust anchor.
 
 - `trust_anchor_id`: The unique identifier of the trust anchor.
 """
-get_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/trustanchor/$(trustAnchorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_trust_anchor(trustAnchorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/trustanchor/$(trustAnchorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "GET",
+        "/trustanchor/$(trustAnchorId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_trust_anchor(
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "GET",
+        "/trustanchor/$(trustAnchorId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_crl(crl_data, name, trust_anchor_arn)
@@ -318,8 +603,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enabled"`: Specifies whether the certificate revocation list (CRL) is enabled.
 - `"tags"`: A list of tags to attach to the certificate revocation list (CRL).
 """
-import_crl(crlData, name, trustAnchorArn; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/crls", Dict{String, Any}("crlData"=>crlData, "name"=>name, "trustAnchorArn"=>trustAnchorArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_crl(crlData, name, trustAnchorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/crls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("crlData"=>crlData, "name"=>name, "trustAnchorArn"=>trustAnchorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_crl(
+    crlData, name, trustAnchorArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = rolesanywhere(
+    "POST",
+    "/crls",
+    Dict{String,Any}(
+        "crlData" => crlData, "name" => name, "trustAnchorArn" => trustAnchorArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_crl(
+    crlData,
+    name,
+    trustAnchorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/crls",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "crlData" => crlData, "name" => name, "trustAnchorArn" => trustAnchorArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_crls()
@@ -339,8 +656,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   again with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
-list_crls(; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/crls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_crls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/crls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_crls(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere("GET", "/crls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_crls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "GET", "/crls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_profiles()
@@ -359,8 +683,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   again with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
-list_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "GET", "/profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_subjects()
@@ -379,8 +711,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   again with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
-list_subjects(; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/subjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_subjects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/subjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_subjects(; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "GET", "/subjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_subjects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "GET", "/subjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -394,8 +734,29 @@ Lists the tags attached to the resource.
 
 - `resource_arn`: The ARN of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "GET",
+        "/ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "GET",
+        "/ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_trust_anchors()
@@ -414,8 +775,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   again with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
-list_trust_anchors(; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/trustanchors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_trust_anchors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("GET", "/trustanchors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_trust_anchors(; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "GET", "/trustanchors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_trust_anchors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "GET",
+        "/trustanchors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_attribute_mapping(certificate_field, mapping_rules, profile_id)
@@ -432,8 +805,43 @@ meanings.
 - `mapping_rules`: A list of mapping entries for every supported specifier or sub-field.
 - `profile_id`: The unique identifier of the profile.
 """
-put_attribute_mapping(certificateField, mappingRules, profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PUT", "/profiles/$(profileId)/mappings", Dict{String, Any}("certificateField"=>certificateField, "mappingRules"=>mappingRules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_attribute_mapping(certificateField, mappingRules, profileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PUT", "/profiles/$(profileId)/mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateField"=>certificateField, "mappingRules"=>mappingRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_attribute_mapping(
+    certificateField,
+    mappingRules,
+    profileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = rolesanywhere(
+    "PUT",
+    "/profiles/$(profileId)/mappings",
+    Dict{String,Any}(
+        "certificateField" => certificateField, "mappingRules" => mappingRules
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_attribute_mapping(
+    certificateField,
+    mappingRules,
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "PUT",
+        "/profiles/$(profileId)/mappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateField" => certificateField, "mappingRules" => mappingRules
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_notification_settings(notification_settings, trust_anchor_id)
@@ -452,8 +860,40 @@ notification setting, and the channel to notify.
   anchor.
 - `trust_anchor_id`: The unique identifier of the trust anchor.
 """
-put_notification_settings(notificationSettings, trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/put-notifications-settings", Dict{String, Any}("notificationSettings"=>notificationSettings, "trustAnchorId"=>trustAnchorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_notification_settings(notificationSettings, trustAnchorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/put-notifications-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("notificationSettings"=>notificationSettings, "trustAnchorId"=>trustAnchorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_notification_settings(
+    notificationSettings, trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()
+) = rolesanywhere(
+    "PATCH",
+    "/put-notifications-settings",
+    Dict{String,Any}(
+        "notificationSettings" => notificationSettings, "trustAnchorId" => trustAnchorId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_notification_settings(
+    notificationSettings,
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "PATCH",
+        "/put-notifications-settings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "notificationSettings" => notificationSettings,
+                    "trustAnchorId" => trustAnchorId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reset_notification_settings(notification_setting_keys, trust_anchor_id)
@@ -469,8 +909,43 @@ Resets the *custom notification setting* to IAM Roles Anywhere default setting.
   setting key includes the event and the channel.
 - `trust_anchor_id`: The unique identifier of the trust anchor.
 """
-reset_notification_settings(notificationSettingKeys, trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/reset-notifications-settings", Dict{String, Any}("notificationSettingKeys"=>notificationSettingKeys, "trustAnchorId"=>trustAnchorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reset_notification_settings(notificationSettingKeys, trustAnchorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/reset-notifications-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("notificationSettingKeys"=>notificationSettingKeys, "trustAnchorId"=>trustAnchorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_notification_settings(
+    notificationSettingKeys,
+    trustAnchorId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = rolesanywhere(
+    "PATCH",
+    "/reset-notifications-settings",
+    Dict{String,Any}(
+        "notificationSettingKeys" => notificationSettingKeys,
+        "trustAnchorId" => trustAnchorId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_notification_settings(
+    notificationSettingKeys,
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "PATCH",
+        "/reset-notifications-settings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "notificationSettingKeys" => notificationSettingKeys,
+                    "trustAnchorId" => trustAnchorId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -485,8 +960,34 @@ Attaches tags to a resource.
 - `resource_arn`: The ARN of the resource.
 - `tags`: The tags to attach to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -501,8 +1002,34 @@ Removes tags from the resource.
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: A list of keys. Tag keys are the unique identifiers of tags.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_crl(crl_id)
@@ -525,8 +1052,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"crlData"`: The x509 v3 specified certificate revocation list (CRL).
 - `"name"`: The name of the Crl.
 """
-update_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_crl(crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/crl/$(crlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere(
+    "PATCH", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function update_crl(
+    crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rolesanywhere(
+        "PATCH",
+        "/crl/$(crlId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_profile(profile_id)
@@ -559,8 +1098,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionPolicy"`: A session policy that applies to the trust boundary of the vended
   session credentials.
 """
-update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/profile/$(profileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_profile(profileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/profile/$(profileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "PATCH",
+        "/profile/$(profileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_profile(
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "PATCH",
+        "/profile/$(profileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_trust_anchor(trust_anchor_id)
@@ -585,5 +1142,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the trust anchor.
 - `"source"`: The trust anchor type and its related certificate data.
 """
-update_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/trustanchor/$(trustAnchorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_trust_anchor(trustAnchorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = rolesanywhere("PATCH", "/trustanchor/$(trustAnchorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    rolesanywhere(
+        "PATCH",
+        "/trustanchor/$(trustAnchorId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_trust_anchor(
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rolesanywhere(
+        "PATCH",
+        "/trustanchor/$(trustAnchorId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

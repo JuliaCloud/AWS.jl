@@ -21,8 +21,28 @@ in the *IoT Greengrass Version 2 Developer Guide*.
 - `role_arn`: The Amazon Resource Name (ARN) of the service role to associate with IoT
   Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
 """
-associate_service_role_to_account(RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("PUT", "/greengrass/servicerole", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-associate_service_role_to_account(RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("PUT", "/greengrass/servicerole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_service_role_to_account(
+    RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "PUT",
+    "/greengrass/servicerole",
+    Dict{String,Any}("RoleArn" => RoleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_service_role_to_account(
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "PUT",
+        "/greengrass/servicerole",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_associate_client_device_with_core_device(core_device_thing_name)
@@ -52,8 +72,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"entries"`: The list of client devices to associate.
 """
-batch_associate_client_device_with_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_associate_client_device_with_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_associate_client_device_with_core_device(
+    coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "POST",
+    "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_associate_client_device_with_core_device(
+    coreDeviceThingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "POST",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_disassociate_client_device_from_core_device(core_device_thing_name)
@@ -74,8 +113,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"entries"`: The list of client devices to disassociate.
 """
-batch_disassociate_client_device_from_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_disassociate_client_device_from_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_disassociate_client_device_from_core_device(
+    coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "POST",
+    "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_disassociate_client_device_from_core_device(
+    coreDeviceThingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "POST",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_deployment(deployment_id)
@@ -89,8 +147,26 @@ anything for that device.
 
 - `deployment_id`: The ID of the deployment.
 """
-cancel_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "POST",
+        "/greengrass/v2/deployments/$(deploymentId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_deployment(
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "POST",
+        "/greengrass/v2/deployments/$(deploymentId)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_component_version()
@@ -146,8 +222,27 @@ You must specify either `inlineRecipe` or `lambdaFunction`.
   information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
   in the *IoT Greengrass V2 Developer Guide*.
 """
-create_component_version(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_component_version(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_component_version(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "POST",
+        "/greengrass/v2/createComponentVersion",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_component_version(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "POST",
+        "/greengrass/v2/createComponentVersion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_deployment(target_arn)
@@ -198,8 +293,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
   in the *IoT Greengrass V2 Developer Guide*.
 """
-create_deployment(targetArn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}("targetArn"=>targetArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_deployment(targetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetArn"=>targetArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_deployment(targetArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "POST",
+        "/greengrass/v2/deployments",
+        Dict{String,Any}("targetArn" => targetArn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_deployment(
+    targetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "POST",
+        "/greengrass/v2/deployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "targetArn" => targetArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_component(arn)
@@ -218,8 +340,23 @@ deployment to use a valid version.
 - `arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the component version.
 """
-delete_component(arn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_component(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_component(arn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2(
+    "DELETE",
+    "/greengrass/v2/components/$(arn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_component(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "DELETE",
+        "/greengrass/v2/components/$(arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_core_device(core_device_thing_name)
@@ -235,8 +372,27 @@ in the *IoT API Reference*.
 - `core_device_thing_name`: The name of the core device. This is also the name of the IoT
   thing.
 """
-delete_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_core_device(
+    coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "DELETE",
+    "/greengrass/v2/coreDevices/$(coreDeviceThingName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_core_device(
+    coreDeviceThingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "DELETE",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_deployment(deployment_id)
@@ -253,8 +409,26 @@ roll back to a previous deployment that has been deleted.
 
 - `deployment_id`: The ID of the deployment.
 """
-delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/deployments/$(deploymentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/deployments/$(deploymentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "DELETE",
+        "/greengrass/v2/deployments/$(deploymentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_deployment(
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "DELETE",
+        "/greengrass/v2/deployments/$(deploymentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_component(arn)
@@ -267,8 +441,23 @@ Retrieves metadata for a version of a component.
 - `arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the component version.
 """
-describe_component(arn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_component(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_component(arn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2(
+    "GET",
+    "/greengrass/v2/components/$(arn)/metadata";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_component(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/components/$(arn)/metadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     disassociate_service_role_from_account()
@@ -280,8 +469,25 @@ verify the identity of client devices or manage core device connectivity informa
 more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html)
 in the *IoT Greengrass Version 2 Developer Guide*.
 """
-disassociate_service_role_from_account(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/servicerole"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-disassociate_service_role_from_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/greengrass/servicerole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_service_role_from_account(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "DELETE",
+    "/greengrass/servicerole";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function disassociate_service_role_from_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "DELETE",
+        "/greengrass/servicerole",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_component(arn)
@@ -300,8 +506,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"recipeOutputFormat"`: The format of the recipe.
 """
-get_component(arn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_component(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_component(arn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2(
+    "GET",
+    "/greengrass/v2/components/$(arn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_component(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/components/$(arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_component_version_artifact(arn, artifact_name)
@@ -336,8 +557,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is
   `standard`.
 """
-get_component_version_artifact(arn, artifactName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_component_version_artifact(arn, artifactName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_component_version_artifact(
+    arn, artifactName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "GET",
+    "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_component_version_artifact(
+    arn,
+    artifactName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_connectivity_info(thing_name)
@@ -355,8 +596,26 @@ in the *IoT Greengrass Version 2 Developer Guide*.
 
 - `thing_name`: The name of the core device. This is also the name of the IoT thing.
 """
-get_connectivity_info(thingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/things/$(thingName)/connectivityInfo"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_connectivity_info(thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/things/$(thingName)/connectivityInfo", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_connectivity_info(thingName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "GET",
+        "/greengrass/things/$(thingName)/connectivityInfo";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_connectivity_info(
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/things/$(thingName)/connectivityInfo",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_core_device(core_device_thing_name)
@@ -385,8 +644,26 @@ deployment and cloud deployment
 - `core_device_thing_name`: The name of the core device. This is also the name of the IoT
   thing.
 """
-get_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "GET",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_core_device(
+    coreDeviceThingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_deployment(deployment_id)
@@ -398,8 +675,26 @@ Gets a deployment. Deployments define the components that run on Greengrass core
 
 - `deployment_id`: The ID of the deployment.
 """
-get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "GET",
+        "/greengrass/v2/deployments/$(deploymentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_deployment(
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/deployments/$(deploymentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_service_role_for_account()
@@ -410,8 +705,24 @@ in this Amazon Web Services Region. IoT Greengrass uses this role to verify the 
 client devices and manage core device connectivity information. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html)
 in the *IoT Greengrass Version 2 Developer Guide*.
 """
-get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/servicerole"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_service_role_for_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/servicerole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "GET",
+        "/greengrass/servicerole";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_service_role_for_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/servicerole",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_client_devices_associated_with_core_device(core_device_thing_name)
@@ -431,8 +742,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
-list_client_devices_associated_with_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_client_devices_associated_with_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_client_devices_associated_with_core_device(
+    coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "GET",
+    "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_client_devices_associated_with_core_device(
+    coreDeviceThingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_component_versions(arn)
@@ -453,8 +783,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
-list_component_versions(arn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_component_versions(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_component_versions(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "GET",
+        "/greengrass/v2/components/$(arn)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_component_versions(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/components/$(arn)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_components()
@@ -473,8 +819,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `PRIVATE`
 """
-list_components(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_components(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/components", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_components(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2(
+    "GET",
+    "/greengrass/v2/components";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_components(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/components",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_core_devices()
@@ -516,8 +877,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   thing group. When you remove a core device from a thing group, the list continues to
   include that core device.
 """
-list_core_devices(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_core_devices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_core_devices(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2(
+    "GET",
+    "/greengrass/v2/coreDevices";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_core_devices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/coreDevices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_deployments()
@@ -542,8 +918,23 @@ Default: `50`
 - `"targetArn"`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the target IoT thing or thing group.
 """
-list_deployments(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_deployments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_deployments(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2(
+    "GET",
+    "/greengrass/v2/deployments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_deployments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/deployments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_effective_deployments(core_device_thing_name)
@@ -564,8 +955,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
-list_effective_deployments(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_effective_deployments(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_effective_deployments(
+    coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "GET",
+    "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_effective_deployments(
+    coreDeviceThingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_installed_components(core_device_thing_name)
@@ -610,8 +1020,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that the core device installs as dependencies of other components.
 Default: `ROOT`
 """
-list_installed_components(coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_installed_components(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_installed_components(
+    coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "GET",
+    "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_installed_components(
+    coreDeviceThingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -624,8 +1053,26 @@ Retrieves the list of tags for an IoT Greengrass resource.
 - `resource_arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     resolve_component_candidates()
@@ -656,8 +1103,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"componentCandidates"`: The list of components to resolve.
 - `"platform"`: The platform to use to resolve compatible components.
 """
-resolve_component_candidates(; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-resolve_component_candidates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+resolve_component_candidates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "POST",
+        "/greengrass/v2/resolveComponentCandidates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function resolve_component_candidates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return greengrassv2(
+        "POST",
+        "/greengrass/v2/resolveComponentCandidates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -674,8 +1137,28 @@ operation updates the tag's value.
   information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
   in the *IoT Greengrass V2 Developer Guide*.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -689,8 +1172,28 @@ Removes a tag from an IoT Greengrass resource.
   of the resource to untag.
 - `tag_keys`: A list of keys for tags to remove from the resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    greengrassv2(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_connectivity_info(connectivity_info, thing_name)
@@ -709,5 +1212,30 @@ in the *IoT Greengrass Version 2 Developer Guide*.
 - `connectivity_info`: The connectivity information for the core device.
 - `thing_name`: The name of the core device. This is also the name of the IoT thing.
 """
-update_connectivity_info(ConnectivityInfo, thingName; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("PUT", "/greengrass/things/$(thingName)/connectivityInfo", Dict{String, Any}("ConnectivityInfo"=>ConnectivityInfo); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_connectivity_info(ConnectivityInfo, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = greengrassv2("PUT", "/greengrass/things/$(thingName)/connectivityInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectivityInfo"=>ConnectivityInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_connectivity_info(
+    ConnectivityInfo, thingName; aws_config::AbstractAWSConfig=current_aws_config()
+) = greengrassv2(
+    "PUT",
+    "/greengrass/things/$(thingName)/connectivityInfo",
+    Dict{String,Any}("ConnectivityInfo" => ConnectivityInfo);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_connectivity_info(
+    ConnectivityInfo,
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return greengrassv2(
+        "PUT",
+        "/greengrass/things/$(thingName)/connectivityInfo",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ConnectivityInfo" => ConnectivityInfo), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

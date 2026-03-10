@@ -21,8 +21,27 @@ query ID, information about the query ID submitted is listed under
 
 - `named_query_ids`: An array of query IDs.
 """
-batch_get_named_query(NamedQueryIds; aws_config::AbstractAWSConfig=current_aws_config()) = athena("BatchGetNamedQuery", Dict{String, Any}("NamedQueryIds"=>NamedQueryIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_named_query(NamedQueryIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("BatchGetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryIds"=>NamedQueryIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_named_query(NamedQueryIds; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "BatchGetNamedQuery",
+        Dict{String,Any}("NamedQueryIds" => NamedQueryIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_get_named_query(
+    NamedQueryIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "BatchGetNamedQuery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NamedQueryIds" => NamedQueryIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_prepared_statement(prepared_statement_names, work_group)
@@ -39,8 +58,38 @@ cannot be retrieved for the name specified, the statement is listed in
 - `prepared_statement_names`: A list of prepared statement names to return.
 - `work_group`: The name of the workgroup to which the prepared statements belong.
 """
-batch_get_prepared_statement(PreparedStatementNames, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("BatchGetPreparedStatement", Dict{String, Any}("PreparedStatementNames"=>PreparedStatementNames, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_prepared_statement(PreparedStatementNames, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("BatchGetPreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PreparedStatementNames"=>PreparedStatementNames, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_prepared_statement(
+    PreparedStatementNames, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "BatchGetPreparedStatement",
+    Dict{String,Any}(
+        "PreparedStatementNames" => PreparedStatementNames, "WorkGroup" => WorkGroup
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_prepared_statement(
+    PreparedStatementNames,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "BatchGetPreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PreparedStatementNames" => PreparedStatementNames,
+                    "WorkGroup" => WorkGroup,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_query_execution(query_execution_ids)
@@ -49,15 +98,37 @@ batch_get_prepared_statement(PreparedStatementNames, WorkGroup, params::Abstract
 Returns the details of a single query execution or a list of up to 50 query executions,
 which you provide as an array of query execution ID strings. Requires you to have access to
 the workgroup in which the queries ran. To get a list of query execution IDs, use
-<a>ListQueryExecutionsInput$WorkGroup</a>. Query executions differ from named (saved)
+<a>ListQueryExecutionsInput\$WorkGroup</a>. Query executions differ from named (saved)
 queries. Use <a>BatchGetNamedQueryInput</a> to get details about named queries.
 
 # Arguments
 
 - `query_execution_ids`: An array of query execution IDs.
 """
-batch_get_query_execution(QueryExecutionIds; aws_config::AbstractAWSConfig=current_aws_config()) = athena("BatchGetQueryExecution", Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_query_execution(QueryExecutionIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("BatchGetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_query_execution(
+    QueryExecutionIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "BatchGetQueryExecution",
+    Dict{String,Any}("QueryExecutionIds" => QueryExecutionIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_query_execution(
+    QueryExecutionIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "BatchGetQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionIds" => QueryExecutionIds), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_capacity_reservation(name)
@@ -72,8 +143,23 @@ and view it for historical reference.
 
 - `name`: The name of the capacity reservation to cancel.
 """
-cancel_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CancelCapacityReservation", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_capacity_reservation(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CancelCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "CancelCapacityReservation",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_capacity_reservation(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "CancelCapacityReservation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_capacity_reservation(name, target_dpus)
@@ -93,8 +179,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags for the capacity reservation.
 """
-create_capacity_reservation(Name, TargetDpus; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateCapacityReservation", Dict{String, Any}("Name"=>Name, "TargetDpus"=>TargetDpus); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_capacity_reservation(Name, TargetDpus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TargetDpus"=>TargetDpus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_capacity_reservation(
+    Name, TargetDpus; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "CreateCapacityReservation",
+    Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_capacity_reservation(
+    Name,
+    TargetDpus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "CreateCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_catalog(name, type)
@@ -144,8 +253,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  </li> </ul>
 - `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
-create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_catalog(Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "CreateDataCatalog",
+        Dict{String,Any}("Name" => Name, "Type" => Type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_data_catalog(
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "CreateDataCatalog",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_named_query(database, name, query_string)
@@ -177,8 +306,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The query description.
 - `"WorkGroup"`: The name of the workgroup in which the named query is being created.
 """
-create_named_query(Database, Name, QueryString; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateNamedQuery", Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_named_query(Database, Name, QueryString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_named_query(
+    Database, Name, QueryString; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "CreateNamedQuery",
+    Dict{String,Any}(
+        "Database" => Database,
+        "Name" => Name,
+        "QueryString" => QueryString,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_named_query(
+    Database,
+    Name,
+    QueryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "CreateNamedQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Database" => Database,
+                    "Name" => Name,
+                    "QueryString" => QueryString,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_notebook(name, work_group)
@@ -207,8 +372,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this
   token or the action will fail.
 """
-create_notebook(Name, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateNotebook", Dict{String, Any}("Name"=>Name, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_notebook(Name, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateNotebook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_notebook(Name, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "CreateNotebook",
+        Dict{String,Any}("Name" => Name, "WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_notebook(
+    Name,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "CreateNotebook",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "WorkGroup" => WorkGroup), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_prepared_statement(query_statement, statement_name, work_group)
@@ -228,8 +415,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the prepared statement.
 """
-create_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreatePreparedStatement", Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_prepared_statement(QueryStatement, StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = athena(
+    "CreatePreparedStatement",
+    Dict{String,Any}(
+        "QueryStatement" => QueryStatement,
+        "StatementName" => StatementName,
+        "WorkGroup" => WorkGroup,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "CreatePreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "QueryStatement" => QueryStatement,
+                    "StatementName" => StatementName,
+                    "WorkGroup" => WorkGroup,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_presigned_notebook_url(session_id)
@@ -243,8 +467,28 @@ refresh the authentication token. For information about granting programmatic ac
 
 - `session_id`: The session ID.
 """
-create_presigned_notebook_url(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreatePresignedNotebookUrl", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_presigned_notebook_url(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreatePresignedNotebookUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_presigned_notebook_url(
+    SessionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "CreatePresignedNotebookUrl",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_presigned_notebook_url(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "CreatePresignedNotebookUrl",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_work_group(name)
@@ -268,12 +512,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff)
   per query, if it is specified, and whether workgroup's settings (specified with
   `EnforceWorkGroupConfiguration`) in the `WorkGroupConfiguration` override client-side
-  settings. See <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+  settings. See <a>WorkGroupConfiguration\$EnforceWorkGroupConfiguration</a>.
 - `"Description"`: The workgroup description.
 - `"Tags"`: A list of comma separated tags to add to the workgroup that is created.
 """
-create_work_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateWorkGroup", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_work_group(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("CreateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_work_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "CreateWorkGroup",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_work_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "CreateWorkGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_capacity_reservation(name)
@@ -289,8 +547,23 @@ be referenced, including by its ARN. A deleted reservation cannot be called by
 
 - `name`: The name of the capacity reservation to delete.
 """
-delete_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteCapacityReservation", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_capacity_reservation(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "DeleteCapacityReservation",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_capacity_reservation(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "DeleteCapacityReservation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_catalog(name)
@@ -302,8 +575,22 @@ Deletes a data catalog.
 
 - `name`: The name of the data catalog to delete.
 """
-delete_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteDataCatalog", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_catalog(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "DeleteDataCatalog",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_catalog(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "DeleteDataCatalog",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_named_query(named_query_id)
@@ -315,8 +602,27 @@ Deletes the named query if you have access to the workgroup in which the query w
 
 - `named_query_id`: The unique ID of the query to delete.
 """
-delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_named_query(NamedQueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "DeleteNamedQuery",
+        Dict{String,Any}("NamedQueryId" => NamedQueryId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_named_query(
+    NamedQueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "DeleteNamedQuery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_notebook(notebook_id)
@@ -328,8 +634,26 @@ Deletes the specified notebook.
 
 - `notebook_id`: The ID of the notebook to delete.
 """
-delete_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteNotebook", Dict{String, Any}("NotebookId"=>NotebookId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_notebook(NotebookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteNotebook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookId"=>NotebookId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "DeleteNotebook",
+    Dict{String,Any}("NotebookId" => NotebookId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_notebook(
+    NotebookId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "DeleteNotebook",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_prepared_statement(statement_name, work_group)
@@ -342,8 +666,35 @@ Deletes the prepared statement with the specified name from the specified workgr
 - `statement_name`: The name of the prepared statement to delete.
 - `work_group`: The workgroup to which the statement to be deleted belongs.
 """
-delete_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeletePreparedStatement", Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_prepared_statement(StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeletePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_prepared_statement(
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "DeletePreparedStatement",
+    Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_prepared_statement(
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "DeletePreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StatementName" => StatementName, "WorkGroup" => WorkGroup
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_work_group(work_group)
@@ -362,8 +713,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if
   the workgroup contains any named queries, query executions, or notebooks.
 """
-delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_work_group(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("DeleteWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "DeleteWorkGroup",
+    Dict{String,Any}("WorkGroup" => WorkGroup);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_work_group(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "DeleteWorkGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_notebook(notebook_id)
@@ -375,8 +744,26 @@ Exports the specified notebook and its metadata.
 
 - `notebook_id`: The ID of the notebook to export.
 """
-export_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ExportNotebook", Dict{String, Any}("NotebookId"=>NotebookId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_notebook(NotebookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ExportNotebook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookId"=>NotebookId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "ExportNotebook",
+    Dict{String,Any}("NotebookId" => NotebookId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_notebook(
+    NotebookId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ExportNotebook",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_calculation_execution(calculation_execution_id)
@@ -388,8 +775,32 @@ Describes a previously submitted calculation execution.
 
 - `calculation_execution_id`: The calculation execution UUID.
 """
-get_calculation_execution(CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCalculationExecution", Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_calculation_execution(CalculationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCalculationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_calculation_execution(
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetCalculationExecution",
+    Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_calculation_execution(
+    CalculationExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetCalculationExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_calculation_execution_code(calculation_execution_id)
@@ -401,8 +812,32 @@ Retrieves the unencrypted code that was executed for the calculation.
 
 - `calculation_execution_id`: The calculation execution UUID.
 """
-get_calculation_execution_code(CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCalculationExecutionCode", Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_calculation_execution_code(CalculationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCalculationExecutionCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_calculation_execution_code(
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetCalculationExecutionCode",
+    Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_calculation_execution_code(
+    CalculationExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetCalculationExecutionCode",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_calculation_execution_status(calculation_execution_id)
@@ -414,8 +849,32 @@ Gets the status of a current calculation.
 
 - `calculation_execution_id`: The calculation execution UUID.
 """
-get_calculation_execution_status(CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCalculationExecutionStatus", Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_calculation_execution_status(CalculationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCalculationExecutionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_calculation_execution_status(
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetCalculationExecutionStatus",
+    Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_calculation_execution_status(
+    CalculationExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetCalculationExecutionStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_capacity_assignment_configuration(capacity_reservation_name)
@@ -428,8 +887,32 @@ Gets the capacity assignment configuration for a capacity reservation, if one ex
 - `capacity_reservation_name`: The name of the capacity reservation to retrieve the
   capacity assignment configuration for.
 """
-get_capacity_assignment_configuration(CapacityReservationName; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCapacityAssignmentConfiguration", Dict{String, Any}("CapacityReservationName"=>CapacityReservationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_capacity_assignment_configuration(CapacityReservationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCapacityAssignmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationName"=>CapacityReservationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_capacity_assignment_configuration(
+    CapacityReservationName; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetCapacityAssignmentConfiguration",
+    Dict{String,Any}("CapacityReservationName" => CapacityReservationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_capacity_assignment_configuration(
+    CapacityReservationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetCapacityAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CapacityReservationName" => CapacityReservationName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_capacity_reservation(name)
@@ -441,8 +924,22 @@ Returns information about the capacity reservation with the specified name.
 
 - `name`: The name of the capacity reservation.
 """
-get_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCapacityReservation", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_capacity_reservation(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "GetCapacityReservation",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_capacity_reservation(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "GetCapacityReservation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_catalog(name)
@@ -461,8 +958,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
   request.
 """
-get_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetDataCatalog", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_catalog(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "GetDataCatalog",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_catalog(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "GetDataCatalog",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_database(catalog_name, database_name)
@@ -482,8 +993,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
-get_database(CatalogName, DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetDatabase", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_database(CatalogName, DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_database(
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetDatabase",
+    Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_database(
+    CatalogName,
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogName" => CatalogName, "DatabaseName" => DatabaseName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_named_query(named_query_id)
@@ -497,8 +1035,26 @@ which the query was saved.
 - `named_query_id`: The unique ID of the query. Use <a>ListNamedQueries</a> to get query
   IDs.
 """
-get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_named_query(NamedQueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "GetNamedQuery",
+    Dict{String,Any}("NamedQueryId" => NamedQueryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_named_query(
+    NamedQueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetNamedQuery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_notebook_metadata(notebook_id)
@@ -510,8 +1066,27 @@ Retrieves notebook metadata for the specified notebook ID.
 
 - `notebook_id`: The ID of the notebook whose metadata is to be retrieved.
 """
-get_notebook_metadata(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetNotebookMetadata", Dict{String, Any}("NotebookId"=>NotebookId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_notebook_metadata(NotebookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetNotebookMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookId"=>NotebookId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_notebook_metadata(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "GetNotebookMetadata",
+        Dict{String,Any}("NotebookId" => NotebookId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_notebook_metadata(
+    NotebookId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetNotebookMetadata",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_prepared_statement(statement_name, work_group)
@@ -524,8 +1099,35 @@ Retrieves the prepared statement with the specified name from the specified work
 - `statement_name`: The name of the prepared statement to retrieve.
 - `work_group`: The workgroup to which the statement to be retrieved belongs.
 """
-get_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetPreparedStatement", Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_prepared_statement(StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetPreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_prepared_statement(
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetPreparedStatement",
+    Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_prepared_statement(
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetPreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StatementName" => StatementName, "WorkGroup" => WorkGroup
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_query_execution(query_execution_id)
@@ -539,8 +1141,29 @@ is saved with a unique ID.
 
 - `query_execution_id`: The unique ID of the query execution.
 """
-get_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_query_execution(QueryExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "GetQueryExecution",
+        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_query_execution(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_query_results(query_execution_id)
@@ -574,8 +1197,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the `NextToken` from the response object of the previous page call.
 """
-get_query_results(QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetQueryResults", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_query_results(QueryExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_query_results(QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "GetQueryResults",
+        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_query_results(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetQueryResults",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_query_runtime_statistics(query_execution_id)
@@ -583,7 +1227,7 @@ get_query_results(QueryExecutionId, params::AbstractDict{String}; aws_config::Ab
 
 Returns query execution runtime statistics related to a single execution of a query if you
 have access to the workgroup in which the query ran. Statistics from the `Timeline` section
-of the response object are available as soon as <a>QueryExecutionStatus$State</a> is in a
+of the response object are available as soon as <a>QueryExecutionStatus\$State</a> is in a
 SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like
 stage-level input and output row count and data size) are updated asynchronously and may
 not be available immediately after a query completes. The non-timeline statistics are also
@@ -593,8 +1237,30 @@ not included when a query has row-level filters defined in Lake Formation.
 
 - `query_execution_id`: The unique ID of the query execution.
 """
-get_query_runtime_statistics(QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetQueryRuntimeStatistics", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_query_runtime_statistics(QueryExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetQueryRuntimeStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_query_runtime_statistics(
+    QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetQueryRuntimeStatistics",
+    Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_query_runtime_statistics(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetQueryRuntimeStatistics",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_session(session_id)
@@ -607,8 +1273,26 @@ configuration.
 
 - `session_id`: The session ID.
 """
-get_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetSession", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_session(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "GetSession",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_session(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetSession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_session_status(session_id)
@@ -620,8 +1304,26 @@ Gets the current status of a session.
 
 - `session_id`: The session ID.
 """
-get_session_status(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetSessionStatus", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_session_status(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetSessionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_session_status(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "GetSessionStatus",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_session_status(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetSessionStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_table_metadata(catalog_name, database_name, table_name)
@@ -643,8 +1345,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
-get_table_metadata(CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_table_metadata(CatalogName, DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_table_metadata(
+    CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "GetTableMetadata",
+    Dict{String,Any}(
+        "CatalogName" => CatalogName,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_table_metadata(
+    CatalogName,
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetTableMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogName" => CatalogName,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_work_group(work_group)
@@ -656,8 +1392,26 @@ Returns information about the workgroup with the specified name.
 
 - `work_group`: The name of the workgroup.
 """
-get_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_work_group(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("GetWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "GetWorkGroup",
+    Dict{String,Any}("WorkGroup" => WorkGroup);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_work_group(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "GetWorkGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_notebook(name, type, work_group)
@@ -691,8 +1445,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in `ipynb` format.
 - `"Payload"`: The notebook content to be imported. The payload must be in `ipynb` format.
 """
-import_notebook(Name, Type, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ImportNotebook", Dict{String, Any}("Name"=>Name, "Type"=>Type, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_notebook(Name, Type, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ImportNotebook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_notebook(Name, Type, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "ImportNotebook",
+        Dict{String,Any}("Name" => Name, "Type" => Type, "WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function import_notebook(
+    Name,
+    Type,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ImportNotebook",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "Type" => Type, "WorkGroup" => WorkGroup),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_application_dpusizes()
@@ -709,8 +1488,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated.
 """
-list_application_dpusizes(; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListApplicationDPUSizes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_application_dpusizes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListApplicationDPUSizes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_application_dpusizes(; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "ListApplicationDPUSizes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_application_dpusizes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "ListApplicationDPUSizes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_calculation_executions(session_id)
@@ -751,8 +1541,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  `FAILED` - The calculation failed and is no longer running.
 """
-list_calculation_executions(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListCalculationExecutions", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_calculation_executions(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListCalculationExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_calculation_executions(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "ListCalculationExecutions",
+        Dict{String,Any}("SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_calculation_executions(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListCalculationExecutions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_capacity_reservations()
@@ -768,8 +1577,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated.
 """
-list_capacity_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_capacity_reservations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListCapacityReservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_capacity_reservations(; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_capacity_reservations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "ListCapacityReservations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_catalogs()
@@ -792,8 +1612,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
   request.
 """
-list_data_catalogs(; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_catalogs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_catalogs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena("ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_data_catalogs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_databases(catalog_name)
@@ -816,8 +1643,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
-list_databases(CatalogName; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListDatabases", Dict{String, Any}("CatalogName"=>CatalogName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_databases(CatalogName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_databases(CatalogName; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "ListDatabases",
+    Dict{String,Any}("CatalogName" => CatalogName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_databases(
+    CatalogName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListDatabases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CatalogName" => CatalogName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_engine_versions()
@@ -835,8 +1680,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the `NextToken` from the response object of the previous page call.
 """
-list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_engine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena("ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_engine_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "ListEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_executors(session_id)
@@ -872,8 +1724,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the `NextToken` from the response object of the previous page call.
 """
-list_executors(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListExecutors", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_executors(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListExecutors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_executors(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "ListExecutors",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_executors(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListExecutors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_named_queries()
@@ -894,8 +1764,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup from which the named queries are being returned.
   If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
-list_named_queries(; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_named_queries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_named_queries(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena("ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_named_queries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_notebook_metadata(work_group)
@@ -916,8 +1793,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated.
 """
-list_notebook_metadata(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListNotebookMetadata", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_notebook_metadata(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListNotebookMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_notebook_metadata(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "ListNotebookMetadata",
+        Dict{String,Any}("WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_notebook_metadata(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListNotebookMetadata",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_notebook_sessions(notebook_id)
@@ -940,8 +1836,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the `NextToken` from the response object of the previous page call.
 """
-list_notebook_sessions(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListNotebookSessions", Dict{String, Any}("NotebookId"=>NotebookId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_notebook_sessions(NotebookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListNotebookSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookId"=>NotebookId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_notebook_sessions(NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "ListNotebookSessions",
+        Dict{String,Any}("NotebookId" => NotebookId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_notebook_sessions(
+    NotebookId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListNotebookSessions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_prepared_statements(work_group)
@@ -962,8 +1877,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the `NextToken` from the response object of the previous page call.
 """
-list_prepared_statements(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListPreparedStatements", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_prepared_statements(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListPreparedStatements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_prepared_statements(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "ListPreparedStatements",
+        Dict{String,Any}("WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_prepared_statements(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListPreparedStatements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_query_executions()
@@ -986,8 +1920,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workgroup is not specified, a list of available query execution IDs for the queries in
   the primary workgroup is returned.
 """
-list_query_executions(; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_query_executions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListQueryExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_query_executions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena("ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_query_executions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "ListQueryExecutions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_sessions(work_group)
@@ -1027,8 +1971,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  `FAILED` - Due to a failure, the session and its resources are no longer running.
 """
-list_sessions(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListSessions", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_sessions(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sessions(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "ListSessions",
+    Dict{String,Any}("WorkGroup" => WorkGroup);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_sessions(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListSessions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_table_metadata(catalog_name, database_name)
@@ -1054,8 +2016,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
-list_table_metadata(CatalogName, DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_table_metadata(CatalogName, DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_table_metadata(
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "ListTableMetadata",
+    Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_table_metadata(
+    CatalogName,
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListTableMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogName" => CatalogName, "DatabaseName" => DatabaseName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1077,8 +2066,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results for this request, where the request lists the tags for the resource with the
   specified ARN.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_work_groups()
@@ -1095,8 +2103,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the `NextToken` from the response object of the previous page call.
 """
-list_work_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_work_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_work_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_work_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return athena(
+        "ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     put_capacity_assignment_configuration(capacity_assignments, capacity_reservation_name)
@@ -1112,8 +2127,41 @@ existing capacity assignment configuration.
 - `capacity_reservation_name`: The name of the capacity reservation to put a capacity
   assignment configuration for.
 """
-put_capacity_assignment_configuration(CapacityAssignments, CapacityReservationName; aws_config::AbstractAWSConfig=current_aws_config()) = athena("PutCapacityAssignmentConfiguration", Dict{String, Any}("CapacityAssignments"=>CapacityAssignments, "CapacityReservationName"=>CapacityReservationName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_capacity_assignment_configuration(CapacityAssignments, CapacityReservationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("PutCapacityAssignmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityAssignments"=>CapacityAssignments, "CapacityReservationName"=>CapacityReservationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_capacity_assignment_configuration(
+    CapacityAssignments,
+    CapacityReservationName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = athena(
+    "PutCapacityAssignmentConfiguration",
+    Dict{String,Any}(
+        "CapacityAssignments" => CapacityAssignments,
+        "CapacityReservationName" => CapacityReservationName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_capacity_assignment_configuration(
+    CapacityAssignments,
+    CapacityReservationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "PutCapacityAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityAssignments" => CapacityAssignments,
+                    "CapacityReservationName" => CapacityReservationName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_calculation_execution(session_id)
@@ -1123,10 +2171,10 @@ Submits calculations for execution within a session. You can supply the code to 
 inline code block within the request.
 
 !!! note
-    The request syntax requires the <a>StartCalculationExecutionRequest$CodeBlock</a>
-parameter or the <a>CalculationConfiguration$CodeBlock</a> parameter, but not both. Because
-<a>CalculationConfiguration$CodeBlock</a> is deprecated, use the
-<a>StartCalculationExecutionRequest$CodeBlock</a> parameter instead.
+    The request syntax requires the <a>StartCalculationExecutionRequest\$CodeBlock</a>
+parameter or the <a>CalculationConfiguration\$CodeBlock</a> parameter, but not both.
+Because <a>CalculationConfiguration\$CodeBlock</a> is deprecated, use the
+<a>StartCalculationExecutionRequest\$CodeBlock</a> parameter instead.
 
 # Arguments
 
@@ -1148,11 +2196,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this
   token or the action will fail.
 - `"CodeBlock"`: A string that contains the code of the calculation. Use this parameter
-  instead of <a>CalculationConfiguration$CodeBlock</a>, which is deprecated.
+  instead of <a>CalculationConfiguration\$CodeBlock</a>, which is deprecated.
 - `"Description"`: A description of the calculation.
 """
-start_calculation_execution(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StartCalculationExecution", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_calculation_execution(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StartCalculationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_calculation_execution(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "StartCalculationExecution",
+        Dict{String,Any}("SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_calculation_execution(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "StartCalculationExecution",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_query_execution(query_string)
@@ -1193,12 +2260,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the query execution. If the query runs in a workgroup, then workgroup's settings may
   override query settings. This affects the query results location. The workgroup settings
   override is specified in EnforceWorkGroupConfiguration (true/false) in the
-  WorkGroupConfiguration. See <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+  WorkGroupConfiguration. See <a>WorkGroupConfiguration\$EnforceWorkGroupConfiguration</a>.
 - `"ResultReuseConfiguration"`: Specifies the query result reuse behavior for the query.
 - `"WorkGroup"`: The name of the workgroup in which the query is being started.
 """
-start_query_execution(QueryString; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StartQueryExecution", Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_query_execution(QueryString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StartQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_query_execution(QueryString; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "StartQueryExecution",
+        Dict{String,Any}(
+            "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_query_execution(
+    QueryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "StartQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_session(engine_configuration, work_group)
@@ -1232,11 +2326,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notebook sessions in the Athena console and is not required for programmatic session
   access. The only valid notebook version is `Athena notebook version 1`. If you specify a
   value for `NotebookVersion`, you must also specify a value for `NotebookId`. See
-  <a>EngineConfiguration$AdditionalConfigs</a>.
+  <a>EngineConfiguration\$AdditionalConfigs</a>.
 - `"SessionIdleTimeoutInMinutes"`: The idle timeout in minutes for the session.
 """
-start_session(EngineConfiguration, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StartSession", Dict{String, Any}("EngineConfiguration"=>EngineConfiguration, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_session(EngineConfiguration, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StartSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineConfiguration"=>EngineConfiguration, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_session(
+    EngineConfiguration, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "StartSession",
+    Dict{String,Any}(
+        "EngineConfiguration" => EngineConfiguration, "WorkGroup" => WorkGroup
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_session(
+    EngineConfiguration,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "StartSession",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EngineConfiguration" => EngineConfiguration, "WorkGroup" => WorkGroup
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_calculation_execution(calculation_execution_id)
@@ -1256,8 +2379,32 @@ calculation is running.
 
 - `calculation_execution_id`: The calculation execution UUID.
 """
-stop_calculation_execution(CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StopCalculationExecution", Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_calculation_execution(CalculationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StopCalculationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalculationExecutionId"=>CalculationExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_calculation_execution(
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "StopCalculationExecution",
+    Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_calculation_execution(
+    CalculationExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "StopCalculationExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_query_execution(query_execution_id)
@@ -1270,8 +2417,29 @@ ran.
 
 - `query_execution_id`: The unique ID of the query execution to stop.
 """
-stop_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StopQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_query_execution(QueryExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("StopQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "StopQueryExecution",
+        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_query_execution(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "StopQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1293,8 +2461,32 @@ must be unique per resource. If you specify more than one tag, separate them by 
 - `tags`: A collection of one or more tags, separated by commas, to be added to an Athena
   resource.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = athena("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     terminate_session(session_id)
@@ -1309,8 +2501,26 @@ forcefully stopped, but may display as `FAILED` instead of `STOPPED`.
 
 - `session_id`: The session ID.
 """
-terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("TerminateSession", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-terminate_session(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("TerminateSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "TerminateSession",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function terminate_session(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "TerminateSession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1324,8 +2534,32 @@ Removes one or more tags from an Athena resource.
 - `tag_keys`: A comma-separated list of one or more tag keys whose tags are to be removed
   from the specified resource.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_capacity_reservation(name, target_dpus)
@@ -1339,8 +2573,31 @@ specified name.
 - `name`: The name of the capacity reservation.
 - `target_dpus`: The new number of requested data processing units.
 """
-update_capacity_reservation(Name, TargetDpus; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateCapacityReservation", Dict{String, Any}("Name"=>Name, "TargetDpus"=>TargetDpus); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_capacity_reservation(Name, TargetDpus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TargetDpus"=>TargetDpus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_capacity_reservation(
+    Name, TargetDpus; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "UpdateCapacityReservation",
+    Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_capacity_reservation(
+    Name,
+    TargetDpus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UpdateCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_data_catalog(name, type)
@@ -1381,8 +2638,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  <p> `function=*lambda_arn* `
  </li> </ul>
 """
-update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_data_catalog(Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config()) =
+    athena(
+        "UpdateDataCatalog",
+        Dict{String,Any}("Name" => Name, "Type" => Type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_data_catalog(
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UpdateDataCatalog",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_named_query(name, named_query_id, query_string)
@@ -1402,8 +2679,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The query description.
 """
-update_named_query(Name, NamedQueryId, QueryString; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateNamedQuery", Dict{String, Any}("Name"=>Name, "NamedQueryId"=>NamedQueryId, "QueryString"=>QueryString); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_named_query(Name, NamedQueryId, QueryString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NamedQueryId"=>NamedQueryId, "QueryString"=>QueryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_named_query(
+    Name, NamedQueryId, QueryString; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "UpdateNamedQuery",
+    Dict{String,Any}(
+        "Name" => Name, "NamedQueryId" => NamedQueryId, "QueryString" => QueryString
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_named_query(
+    Name,
+    NamedQueryId,
+    QueryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UpdateNamedQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "NamedQueryId" => NamedQueryId,
+                    "QueryString" => QueryString,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_notebook(notebook_id, payload, type)
@@ -1432,8 +2741,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionId"`: The active notebook session ID. Required if the notebook has an active
   session.
 """
-update_notebook(NotebookId, Payload, Type; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateNotebook", Dict{String, Any}("NotebookId"=>NotebookId, "Payload"=>Payload, "Type"=>Type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_notebook(NotebookId, Payload, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateNotebook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookId"=>NotebookId, "Payload"=>Payload, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_notebook(
+    NotebookId, Payload, Type; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "UpdateNotebook",
+    Dict{String,Any}("NotebookId" => NotebookId, "Payload" => Payload, "Type" => Type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_notebook(
+    NotebookId,
+    Payload,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UpdateNotebook",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NotebookId" => NotebookId, "Payload" => Payload, "Type" => Type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_notebook_metadata(name, notebook_id)
@@ -1459,8 +2796,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this
   token or the action will fail.
 """
-update_notebook_metadata(Name, NotebookId; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateNotebookMetadata", Dict{String, Any}("Name"=>Name, "NotebookId"=>NotebookId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_notebook_metadata(Name, NotebookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateNotebookMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NotebookId"=>NotebookId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_notebook_metadata(
+    Name, NotebookId; aws_config::AbstractAWSConfig=current_aws_config()
+) = athena(
+    "UpdateNotebookMetadata",
+    Dict{String,Any}("Name" => Name, "NotebookId" => NotebookId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_notebook_metadata(
+    Name,
+    NotebookId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UpdateNotebookMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "NotebookId" => NotebookId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_prepared_statement(query_statement, statement_name, work_group)
@@ -1480,8 +2840,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the prepared statement.
 """
-update_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdatePreparedStatement", Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_prepared_statement(QueryStatement, StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = athena(
+    "UpdatePreparedStatement",
+    Dict{String,Any}(
+        "QueryStatement" => QueryStatement,
+        "StatementName" => StatementName,
+        "WorkGroup" => WorkGroup,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UpdatePreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "QueryStatement" => QueryStatement,
+                    "StatementName" => StatementName,
+                    "WorkGroup" => WorkGroup,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_work_group(work_group)
@@ -1502,5 +2899,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The workgroup description.
 - `"State"`: The workgroup state that will be updated for the given workgroup.
 """
-update_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_work_group(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = athena("UpdateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()) = athena(
+    "UpdateWorkGroup",
+    Dict{String,Any}("WorkGroup" => WorkGroup);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_work_group(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return athena(
+        "UpdateWorkGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

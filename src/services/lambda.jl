@@ -37,8 +37,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: Only update the policy if the revision ID matches the ID specified. Use
   this option to avoid modifying a policy that has changed since you last read it.
 """
-add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_layer_version_permission(
+    Action,
+    LayerName,
+    Principal,
+    StatementId,
+    VersionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lambda(
+    "POST",
+    "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy",
+    Dict{String,Any}(
+        "Action" => Action, "Principal" => Principal, "StatementId" => StatementId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_layer_version_permission(
+    Action,
+    LayerName,
+    Principal,
+    StatementId,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Action" => Action,
+                    "Principal" => Principal,
+                    "StatementId" => StatementId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_permission(action, function_name, principal, statement_id)
@@ -49,7 +90,7 @@ organization permission to use a function. You can apply the policy at the funct
 or specify a qualifier to restrict access to a single version or alias. If you use a
 qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or
 alias to invoke the function. Note: Lambda does not support adding policies to version
-$LATEST.
+\$LATEST.
 
 To grant permission to another account, specify the account ID as the `Principal`. To grant
 permission to an organization defined in Organizations, specify the organization ID as the
@@ -109,8 +150,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Note that Lambda configures the comparison using the `StringLike` operator.
 """
-add_permission(Action, FunctionName, Principal, StatementId; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_permission(Action, FunctionName, Principal, StatementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_permission(
+    Action,
+    FunctionName,
+    Principal,
+    StatementId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lambda(
+    "POST",
+    "/2015-03-31/functions/$(FunctionName)/policy",
+    Dict{String,Any}(
+        "Action" => Action, "Principal" => Principal, "StatementId" => StatementId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_permission(
+    Action,
+    FunctionName,
+    Principal,
+    StatementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2015-03-31/functions/$(FunctionName)/policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Action" => Action,
+                    "Principal" => Principal,
+                    "StatementId" => StatementId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_alias(function_name, function_version, name)
@@ -146,8 +226,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoutingConfig"`: The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing)
   of the alias.
 """
-create_alias(FunctionName, FunctionVersion, Name; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_alias(FunctionName, FunctionVersion, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_alias(
+    FunctionName, FunctionVersion, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2015-03-31/functions/$(FunctionName)/aliases",
+    Dict{String,Any}("FunctionVersion" => FunctionVersion, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_alias(
+    FunctionName,
+    FunctionVersion,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2015-03-31/functions/$(FunctionName)/aliases",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FunctionVersion" => FunctionVersion, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_code_signing_config(allowed_publishers)
@@ -169,8 +277,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   validation checks fail.
 - `"Description"`: Descriptive name for this code signing configuration.
 """
-create_code_signing_config(AllowedPublishers; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}("AllowedPublishers"=>AllowedPublishers); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_code_signing_config(AllowedPublishers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedPublishers"=>AllowedPublishers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_code_signing_config(
+    AllowedPublishers; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2020-04-22/code-signing-configs/",
+    Dict{String,Any}("AllowedPublishers" => AllowedPublishers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_code_signing_config(
+    AllowedPublishers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2020-04-22/code-signing-configs/",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AllowedPublishers" => AllowedPublishers), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_event_source_mapping(function_name)
@@ -304,8 +436,30 @@ Default: True
   of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0
   seconds indicates no tumbling window.
 """
-create_event_source_mapping(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}("FunctionName"=>FunctionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_event_source_mapping(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionName"=>FunctionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_event_source_mapping(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2015-03-31/event-source-mappings/",
+    Dict{String,Any}("FunctionName" => FunctionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_event_source_mapping(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2015-03-31/event-source-mappings/",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FunctionName" => FunctionName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_function(code, function_name, role)
@@ -446,8 +600,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a VPC, it can access resources and the internet only through that VPC. For more
   information, see [Configuring a Lambda function to access resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
 """
-create_function(Code, FunctionName, Role; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_function(Code, FunctionName, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_function(
+    Code, FunctionName, Role; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2015-03-31/functions",
+    Dict{String,Any}("Code" => Code, "FunctionName" => FunctionName, "Role" => Role);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_function(
+    Code,
+    FunctionName,
+    Role,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2015-03-31/functions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Code" => Code, "FunctionName" => FunctionName, "Role" => Role
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_function_url_config(auth_type, function_name)
@@ -485,8 +669,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
 - `"Qualifier"`: The alias name.
 """
-create_function_url_config(AuthType, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2021-10-31/functions/$(FunctionName)/url", Dict{String, Any}("AuthType"=>AuthType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_function_url_config(AuthType, FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2021-10-31/functions/$(FunctionName)/url", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthType"=>AuthType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_function_url_config(
+    AuthType, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2021-10-31/functions/$(FunctionName)/url",
+    Dict{String,Any}("AuthType" => AuthType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_function_url_config(
+    AuthType,
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AuthType" => AuthType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_alias(function_name, name)
@@ -507,8 +714,27 @@ Deletes a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/c
   name, it is limited to 64 characters in length.
 - `name`: The name of the alias.
 """
-delete_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_alias(FunctionName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "DELETE",
+        "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_alias(
+    FunctionName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_code_signing_config(code_signing_config_arn)
@@ -522,8 +748,27 @@ if no function is using it.
 - `code_signing_config_arn`: The The Amazon Resource Name (ARN) of the code signing
   configuration.
 """
-delete_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_code_signing_config(
+    CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_code_signing_config(
+    CodeSigningConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_event_source_mapping(uuid)
@@ -539,8 +784,24 @@ completely deleted for several seconds.
 
 - `uuid`: The identifier of the event source mapping.
 """
-delete_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "DELETE",
+        "/2015-03-31/event-source-mappings/$(UUID)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_event_source_mapping(
+    UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "DELETE",
+        "/2015-03-31/event-source-mappings/$(UUID)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_function(function_name)
@@ -575,8 +836,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: Specify a version to delete. You can't delete a version that an alias
   references.
 """
-delete_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_function(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "DELETE",
+    "/2015-03-31/functions/$(FunctionName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_function(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2015-03-31/functions/$(FunctionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_function_code_signing_config(function_name)
@@ -596,8 +874,27 @@ Removes the code signing configuration from the function.
   The length constraint applies only to the full ARN. If you specify only the function
   name, it is limited to 64 characters in length.
 """
-delete_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_function_code_signing_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_function_code_signing_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2020-06-30/functions/$(FunctionName)/code-signing-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_function_code_signing_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2020-06-30/functions/$(FunctionName)/code-signing-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_function_concurrency(function_name)
@@ -617,8 +914,27 @@ Removes a concurrent execution limit from a function.
   The length constraint applies only to the full ARN. If you specify only the function
   name, it is limited to 64 characters in length.
 """
-delete_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_function_concurrency(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_function_concurrency(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2017-10-31/functions/$(FunctionName)/concurrency";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_function_concurrency(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2017-10-31/functions/$(FunctionName)/concurrency",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_function_event_invoke_config(function_name)
@@ -647,8 +963,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Qualifier"`: A version number or alias name.
 """
-delete_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_function_event_invoke_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_function_event_invoke_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_function_url_config(function_name)
@@ -675,8 +1010,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Qualifier"`: The alias name.
 """
-delete_function_url_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2021-10-31/functions/$(FunctionName)/url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_function_url_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2021-10-31/functions/$(FunctionName)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2021-10-31/functions/$(FunctionName)/url";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_layer_version(layer_name, version_number)
@@ -691,8 +1045,28 @@ functions, a copy of the version remains in Lambda until no functions refer to i
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
 - `version_number`: The version number.
 """
-delete_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_layer_version(LayerName, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_layer_version(
+    LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_layer_version(
+    LayerName,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_provisioned_concurrency_config(function_name, qualifier)
@@ -713,8 +1087,31 @@ Deletes the provisioned concurrency configuration for a function.
   name, it is limited to 64 characters in length.
 - `qualifier`: The version number or alias name.
 """
-delete_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_provisioned_concurrency_config(
+    FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
+    Dict{String,Any}("Qualifier" => Qualifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_provisioned_concurrency_config(
+    FunctionName,
+    Qualifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Qualifier" => Qualifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_account_settings()
@@ -723,8 +1120,23 @@ delete_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractD
 Retrieves details about your account's [limits](https://docs.aws.amazon.com/lambda/latest/dg/limits.html)
 and usage in an Amazon Web Services Region.
 """
-get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2016-08-19/account-settings/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2016-08-19/account-settings/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2016-08-19/account-settings/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2016-08-19/account-settings/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_alias(function_name, name)
@@ -745,8 +1157,26 @@ Returns details about a Lambda function [alias](https://docs.aws.amazon.com/lamb
   name, it is limited to 64 characters in length.
 - `name`: The name of the alias.
 """
-get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_alias(FunctionName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_alias(
+    FunctionName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_code_signing_config(code_signing_config_arn)
@@ -759,8 +1189,27 @@ Returns information about the specified code signing configuration.
 - `code_signing_config_arn`: The The Amazon Resource Name (ARN) of the code signing
   configuration.
 """
-get_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_code_signing_config(
+    CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_code_signing_config(
+    CodeSigningConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_event_source_mapping(uuid)
@@ -773,8 +1222,23 @@ the output of <a>ListEventSourceMappings</a>.
 
 - `uuid`: The identifier of the event source mapping.
 """
-get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2015-03-31/event-source-mappings/$(UUID)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_event_source_mapping(
+    UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/event-source-mappings/$(UUID)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_function(function_name)
@@ -804,8 +1268,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: Specify a version or alias to get details about a published version of the
   function.
 """
-get_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_function(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2015-03-31/functions/$(FunctionName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_function(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/functions/$(FunctionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_function_code_signing_config(function_name)
@@ -825,8 +1306,27 @@ Returns the code signing configuration for the specified function.
   The length constraint applies only to the full ARN. If you specify only the function
   name, it is limited to 64 characters in length.
 """
-get_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_function_code_signing_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_function_code_signing_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2020-06-30/functions/$(FunctionName)/code-signing-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_function_code_signing_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2020-06-30/functions/$(FunctionName)/code-signing-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_function_concurrency(function_name)
@@ -847,8 +1347,26 @@ concurrency limit for a function, use <a>PutFunctionConcurrency</a>.
   The length constraint applies only to the full ARN. If you specify only the function
   name, it is limited to 64 characters in length.
 """
-get_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_function_concurrency(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "GET",
+        "/2019-09-30/functions/$(FunctionName)/concurrency";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_function_concurrency(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2019-09-30/functions/$(FunctionName)/concurrency",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_function_configuration(function_name)
@@ -881,8 +1399,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: Specify a version or alias to get details about a published version of the
   function.
 """
-get_function_configuration(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_function_configuration(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_function_configuration(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2015-03-31/functions/$(FunctionName)/configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_function_configuration(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/functions/$(FunctionName)/configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_function_event_invoke_config(function_name)
@@ -911,8 +1448,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Qualifier"`: A version number or alias name.
 """
-get_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_function_event_invoke_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_function_event_invoke_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_function_recursion_config(function_name)
@@ -925,8 +1481,27 @@ configuration.
 
 - `function_name`: <p/>
 """
-get_function_recursion_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2024-08-31/functions/$(FunctionName)/recursion-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_function_recursion_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2024-08-31/functions/$(FunctionName)/recursion-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_function_recursion_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2024-08-31/functions/$(FunctionName)/recursion-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_function_recursion_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2024-08-31/functions/$(FunctionName)/recursion-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_function_url_config(function_name)
@@ -952,8 +1527,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Qualifier"`: The alias name.
 """
-get_function_url_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2021-10-31/functions/$(FunctionName)/url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_function_url_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2021-10-31/functions/$(FunctionName)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_function_url_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/url";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_layer_version(layer_name, version_number)
@@ -967,8 +1560,28 @@ with a link to download the layer archive that's valid for 10 minutes.
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
 - `version_number`: The version number.
 """
-get_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_layer_version(LayerName, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_layer_version(
+    LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_layer_version(
+    LayerName,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_layer_version_by_arn(arn)
@@ -981,8 +1594,24 @@ with a link to download the layer archive that's valid for 10 minutes.
 
 - `arn`: The ARN of the layer version.
 """
-get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_layer_version_by_arn(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2018-10-31/layers?find=LayerVersion",
+    Dict{String,Any}("Arn" => Arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_layer_version_by_arn(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2018-10-31/layers?find=LayerVersion",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_layer_version_policy(layer_name, version_number)
@@ -996,8 +1625,28 @@ For more information, see <a>AddLayerVersionPermission</a>.
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
 - `version_number`: The version number.
 """
-get_layer_version_policy(LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_layer_version_policy(LayerName, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_layer_version_policy(
+    LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_layer_version_policy(
+    LayerName,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_policy(function_name)
@@ -1025,8 +1674,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Qualifier"`: Specify a version or alias to get the policy for that resource.
 """
-get_policy(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_policy(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_policy(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2015-03-31/functions/$(FunctionName)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_policy(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/functions/$(FunctionName)/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_provisioned_concurrency_config(function_name, qualifier)
@@ -1047,8 +1713,31 @@ Retrieves the provisioned concurrency configuration for a function's alias or ve
   name, it is limited to 64 characters in length.
 - `qualifier`: The version number or alias name.
 """
-get_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_provisioned_concurrency_config(
+    FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
+    Dict{String,Any}("Qualifier" => Qualifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_provisioned_concurrency_config(
+    FunctionName,
+    Qualifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Qualifier" => Qualifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_runtime_management_config(function_name)
@@ -1075,12 +1764,31 @@ the runtime update mode and `null` is returned for the ARN. For more information
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Qualifier"`: Specify a version of the function. This can be `$LATEST` or a published
-  version number. If no value is specified, the configuration for the `$LATEST` version is
+- `"Qualifier"`: Specify a version of the function. This can be `\$LATEST` or a published
+  version number. If no value is specified, the configuration for the `\$LATEST` version is
   returned.
 """
-get_runtime_management_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2021-07-20/functions/$(FunctionName)/runtime-management-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_runtime_management_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2021-07-20/functions/$(FunctionName)/runtime-management-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_runtime_management_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2021-07-20/functions/$(FunctionName)/runtime-management-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_runtime_management_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     invoke(function_name)
@@ -1159,8 +1867,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Log-Type"`: Set to `Tail` to include the execution log in the response. Applies
   to synchronously invoked functions only.
 """
-invoke(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-invoke(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+invoke(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "POST",
+    "/2015-03-31/functions/$(FunctionName)/invocations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function invoke(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2015-03-31/functions/$(FunctionName)/invocations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     invoke_async(function_name, invoke_args)
@@ -1190,8 +1915,30 @@ turned on.
   name, it is limited to 64 characters in length.
 - `invoke_args`: The JSON that you want to provide to your Lambda function as input.
 """
-invoke_async(FunctionName, InvokeArgs; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}("InvokeArgs"=>InvokeArgs); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-invoke_async(FunctionName, InvokeArgs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+invoke_async(FunctionName, InvokeArgs; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "POST",
+        "/2014-11-13/functions/$(FunctionName)/invoke-async/",
+        Dict{String,Any}("InvokeArgs" => InvokeArgs);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function invoke_async(
+    FunctionName,
+    InvokeArgs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2014-11-13/functions/$(FunctionName)/invoke-async/",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InvokeArgs" => InvokeArgs), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     invoke_with_response_stream(function_name)
@@ -1235,8 +1982,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Log-Type"`: Set to `Tail` to include the execution log in the response. Applies
   to synchronously invoked functions only.
 """
-invoke_with_response_stream(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-invoke_with_response_stream(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+invoke_with_response_stream(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function invoke_with_response_stream(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_aliases(function_name)
@@ -1267,8 +2033,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Limit the number of aliases returned.
 """
-list_aliases(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_aliases(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_aliases(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2015-03-31/functions/$(FunctionName)/aliases";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_aliases(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/functions/$(FunctionName)/aliases",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_code_signing_configs()
@@ -1286,8 +2069,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Maximum number of items to return.
 """
-list_code_signing_configs(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_code_signing_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_code_signing_configs(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2020-04-22/code-signing-configs/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_code_signing_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2020-04-22/code-signing-configs/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_event_source_mappings()
@@ -1324,8 +2122,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListEventSourceMappings returns a maximum of 100 items in each response, even if you set
   the number higher.
 """
-list_event_source_mappings(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_event_source_mappings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_event_source_mappings(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2015-03-31/event-source-mappings/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_event_source_mappings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/event-source-mappings/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_function_event_invoke_configs(function_name)
@@ -1355,8 +2168,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: The maximum number of configurations to return.
 """
-list_function_event_invoke_configs(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_function_event_invoke_configs(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_function_event_invoke_configs(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_function_event_invoke_configs(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_function_url_configs(function_name)
@@ -1386,8 +2218,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListFunctionUrlConfigs` returns a maximum of 50 items in each response, even if you set
   the number higher.
 """
-list_function_url_configs(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2021-10-31/functions/$(FunctionName)/urls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_function_url_configs(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2021-10-31/functions/$(FunctionName)/urls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_function_url_configs(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2021-10-31/functions/$(FunctionName)/urls";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_function_url_configs(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/urls",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_functions()
@@ -1421,8 +2272,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListFunctions` returns a maximum of 50 items in each response, even if you set the
   number higher.
 """
-list_functions(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_functions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_functions(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2015-03-31/functions/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_functions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/functions/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_functions_by_code_signing_config(code_signing_config_arn)
@@ -1445,8 +2311,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Maximum number of items to return.
 """
-list_functions_by_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_functions_by_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_functions_by_code_signing_config(
+    CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_functions_by_code_signing_config(
+    CodeSigningConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_layer_versions(layer_name)
@@ -1475,8 +2360,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of versions to return.
 """
-list_layer_versions(LayerName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_layer_versions(LayerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_layer_versions(LayerName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2018-10-31/layers/$(LayerName)/versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_layer_versions(
+    LayerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2018-10-31/layers/$(LayerName)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_layers()
@@ -1500,8 +2402,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of layers to return.
 """
-list_layers(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_layers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2018-10-31/layers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_layers(; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET", "/2018-10-31/layers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_layers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2018-10-31/layers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_provisioned_concurrency_configs(function_name)
@@ -1529,8 +2443,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Specify a number to limit the number of configurations returned.
 """
-list_provisioned_concurrency_configs(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_provisioned_concurrency_configs(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_provisioned_concurrency_configs(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_provisioned_concurrency_configs(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags(arn)
@@ -1544,8 +2477,23 @@ can also view tags with <a>GetFunction</a>.
 - `arn`: The function's Amazon Resource Name (ARN). Note: Lambda does not support adding
   tags to aliases or versions.
 """
-list_tags(ARN; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags(ARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags(ARN; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "GET",
+    "/2017-03-31/tags/$(ARN)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags(
+    ARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2017-03-31/tags/$(ARN)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_versions_by_function(function_name)
@@ -1576,8 +2524,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListVersionsByFunction` returns a maximum of 50 items in each response, even if you set
   the number higher.
 """
-list_versions_by_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_versions_by_function(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_versions_by_function(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "GET",
+    "/2015-03-31/functions/$(FunctionName)/versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_versions_by_function(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2015-03-31/functions/$(FunctionName)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     publish_layer_version(content, layer_name)
@@ -1611,8 +2578,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `https://opensource.org/licenses/MIT`.
  - The full text of the license.
 """
-publish_layer_version(Content, LayerName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}("Content"=>Content); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-publish_layer_version(Content, LayerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+publish_layer_version(
+    Content, LayerName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2018-10-31/layers/$(LayerName)/versions",
+    Dict{String,Any}("Content" => Content);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function publish_layer_version(
+    Content,
+    LayerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2018-10-31/layers/$(LayerName)/versions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     publish_version(function_name)
@@ -1655,8 +2643,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified. Use this option to avoid publishing a version if the function configuration
   has changed since you last updated it.
 """
-publish_version(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-publish_version(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+publish_version(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "POST",
+    "/2015-03-31/functions/$(FunctionName)/versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function publish_version(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2015-03-31/functions/$(FunctionName)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_function_code_signing_config(code_signing_config_arn, function_name)
@@ -1680,8 +2685,35 @@ function.
   The length constraint applies only to the full ARN. If you specify only the function
   name, it is limited to 64 characters in length.
 """
-put_function_code_signing_config(CodeSigningConfigArn, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_function_code_signing_config(CodeSigningConfigArn, FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_function_code_signing_config(
+    CodeSigningConfigArn, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "PUT",
+    "/2020-06-30/functions/$(FunctionName)/code-signing-config",
+    Dict{String,Any}("CodeSigningConfigArn" => CodeSigningConfigArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_function_code_signing_config(
+    CodeSigningConfigArn,
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2020-06-30/functions/$(FunctionName)/code-signing-config",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CodeSigningConfigArn" => CodeSigningConfigArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_function_concurrency(function_name, reserved_concurrent_executions)
@@ -1714,8 +2746,39 @@ limit. For more information, see [Lambda function scaling](https://docs.aws.amaz
 - `reserved_concurrent_executions`: The number of simultaneous executions to reserve for
   the function.
 """
-put_function_concurrency(FunctionName, ReservedConcurrentExecutions; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_function_concurrency(FunctionName, ReservedConcurrentExecutions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_function_concurrency(
+    FunctionName,
+    ReservedConcurrentExecutions;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lambda(
+    "PUT",
+    "/2017-10-31/functions/$(FunctionName)/concurrency",
+    Dict{String,Any}("ReservedConcurrentExecutions" => ReservedConcurrentExecutions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_function_concurrency(
+    FunctionName,
+    ReservedConcurrentExecutions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2017-10-31/functions/$(FunctionName)/concurrency",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReservedConcurrentExecutions" => ReservedConcurrentExecutions
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_function_event_invoke_config(function_name)
@@ -1770,8 +2833,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an error.
 - `"Qualifier"`: A version number or alias name.
 """
-put_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_function_event_invoke_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "PUT",
+    "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_function_event_invoke_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_function_recursion_config(function_name, recursive_loop)
@@ -1821,8 +2903,31 @@ to `Terminate`, it stops your function being invoked and notifies you.
   patterns, see [Recursive patterns that cause run-away Lambda functions](https://serverlessland.com/content/service/lambda/guides/aws-lambda-operator-guide/recursive-runaway)
   in Serverless Land.
 """
-put_function_recursion_config(FunctionName, RecursiveLoop; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2024-08-31/functions/$(FunctionName)/recursion-config", Dict{String, Any}("RecursiveLoop"=>RecursiveLoop); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_function_recursion_config(FunctionName, RecursiveLoop, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2024-08-31/functions/$(FunctionName)/recursion-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecursiveLoop"=>RecursiveLoop), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_function_recursion_config(
+    FunctionName, RecursiveLoop; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "PUT",
+    "/2024-08-31/functions/$(FunctionName)/recursion-config",
+    Dict{String,Any}("RecursiveLoop" => RecursiveLoop);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_function_recursion_config(
+    FunctionName,
+    RecursiveLoop,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2024-08-31/functions/$(FunctionName)/recursion-config",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RecursiveLoop" => RecursiveLoop), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_provisioned_concurrency_config(function_name, provisioned_concurrent_executions, qualifier)
@@ -1845,8 +2950,45 @@ Adds a provisioned concurrency configuration to a function's alias or version.
   for the version or alias.
 - `qualifier`: The version number or alias name.
 """
-put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_provisioned_concurrency_config(
+    FunctionName,
+    ProvisionedConcurrentExecutions,
+    Qualifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lambda(
+    "PUT",
+    "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
+    Dict{String,Any}(
+        "ProvisionedConcurrentExecutions" => ProvisionedConcurrentExecutions,
+        "Qualifier" => Qualifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_provisioned_concurrency_config(
+    FunctionName,
+    ProvisionedConcurrentExecutions,
+    Qualifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ProvisionedConcurrentExecutions" => ProvisionedConcurrentExecutions,
+                    "Qualifier" => Qualifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_runtime_management_config(function_name, update_runtime_on)
@@ -1885,16 +3027,41 @@ see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-upda
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Qualifier"`: Specify a version of the function. This can be `$LATEST` or a published
-  version number. If no value is specified, the configuration for the `$LATEST` version is
+- `"Qualifier"`: Specify a version of the function. This can be `\$LATEST` or a published
+  version number. If no value is specified, the configuration for the `\$LATEST` version is
   returned.
 - `"RuntimeVersionArn"`: The ARN of the runtime version you want the function to use.
 
 !!! note
     This is only required if you're using the **Manual** runtime update mode.
 """
-put_runtime_management_config(FunctionName, UpdateRuntimeOn; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2021-07-20/functions/$(FunctionName)/runtime-management-config", Dict{String, Any}("UpdateRuntimeOn"=>UpdateRuntimeOn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_runtime_management_config(FunctionName, UpdateRuntimeOn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2021-07-20/functions/$(FunctionName)/runtime-management-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateRuntimeOn"=>UpdateRuntimeOn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_runtime_management_config(
+    FunctionName, UpdateRuntimeOn; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "PUT",
+    "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
+    Dict{String,Any}("UpdateRuntimeOn" => UpdateRuntimeOn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_runtime_management_config(
+    FunctionName,
+    UpdateRuntimeOn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("UpdateRuntimeOn" => UpdateRuntimeOn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_layer_version_permission(layer_name, statement_id, version_number)
@@ -1916,8 +3083,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: Only update the policy if the revision ID matches the ID specified. Use
   this option to avoid modifying a policy that has changed since you last read it.
 """
-remove_layer_version_permission(LayerName, StatementId, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_layer_version_permission(LayerName, StatementId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_layer_version_permission(
+    LayerName,
+    StatementId,
+    VersionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = lambda(
+    "DELETE",
+    "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_layer_version_permission(
+    LayerName,
+    StatementId,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_permission(function_name, statement_id)
@@ -1950,8 +3141,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified. Use this option to avoid modifying a policy that has changed since you last
   read it.
 """
-remove_permission(FunctionName, StatementId; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_permission(FunctionName, StatementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_permission(
+    FunctionName, StatementId; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "DELETE",
+    "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_permission(
+    FunctionName,
+    StatementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(arn, tags)
@@ -1964,8 +3175,27 @@ Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a func
 - `arn`: The function's Amazon Resource Name (ARN).
 - `tags`: A list of tags to apply to the function.
 """
-tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(ARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "POST",
+    "/2017-03-31/tags/$(ARN)",
+    Dict{String,Any}("Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    ARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2017-03-31/tags/$(ARN)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(arn, tag_keys)
@@ -1978,8 +3208,27 @@ Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a
 - `arn`: The function's Amazon Resource Name (ARN).
 - `tag_keys`: A list of tag keys to remove from the function.
 """
-untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(ARN, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = lambda(
+    "DELETE",
+    "/2017-03-31/tags/$(ARN)",
+    Dict{String,Any}("tagKeys" => tagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_resource(
+    ARN,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2017-03-31/tags/$(ARN)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_alias(function_name, name)
@@ -2011,8 +3260,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoutingConfig"`: The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing)
   of the alias.
 """
-update_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_alias(FunctionName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "PUT",
+        "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_alias(
+    FunctionName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_code_signing_config(code_signing_config_arn)
@@ -2034,8 +3302,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CodeSigningPolicies"`: The code signing policy.
 - `"Description"`: Descriptive name for this code signing configuration.
 """
-update_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_code_signing_config(
+    CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "PUT",
+    "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_code_signing_config(
+    CodeSigningConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_event_source_mapping(uuid)
@@ -2150,8 +3437,24 @@ Default: True
   of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0
   seconds indicates no tumbling window.
 """
-update_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "PUT",
+        "/2015-03-31/event-source-mappings/$(UUID)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_event_source_mapping(
+    UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "PUT",
+        "/2015-03-31/event-source-mappings/$(UUID)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_function_code(function_name)
@@ -2218,8 +3521,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK and CLI clients handle the encoding for you. Use only with a function defined with a
   .zip file archive deployment package.
 """
-update_function_code(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_function_code(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_function_code(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lambda(
+        "PUT",
+        "/2015-03-31/functions/$(FunctionName)/code";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_function_code(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2015-03-31/functions/$(FunctionName)/code",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_function_configuration(function_name)
@@ -2314,8 +3635,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a VPC, it can access resources and the internet only through that VPC. For more
   information, see [Configuring a Lambda function to access resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
 """
-update_function_configuration(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_function_configuration(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_function_configuration(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "PUT",
+    "/2015-03-31/functions/$(FunctionName)/configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_function_configuration(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2015-03-31/functions/$(FunctionName)/configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_function_event_invoke_config(function_name)
@@ -2357,8 +3697,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an error.
 - `"Qualifier"`: A version number or alias name.
 """
-update_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_function_event_invoke_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "POST",
+    "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_function_event_invoke_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_function_url_config(function_name)
@@ -2395,5 +3754,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
 - `"Qualifier"`: The alias name.
 """
-update_function_url_config(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2021-10-31/functions/$(FunctionName)/url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_function_url_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = lambda("PUT", "/2021-10-31/functions/$(FunctionName)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lambda(
+    "PUT",
+    "/2021-10-31/functions/$(FunctionName)/url";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

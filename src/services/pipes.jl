@@ -35,8 +35,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters, see [Target parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html)
   in the *Amazon EventBridge User Guide*.
 """
-create_pipe(Name, RoleArn, Source, Target; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/v1/pipes/$(Name)", Dict{String, Any}("RoleArn"=>RoleArn, "Source"=>Source, "Target"=>Target); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_pipe(Name, RoleArn, Source, Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/v1/pipes/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "Source"=>Source, "Target"=>Target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_pipe(
+    Name, RoleArn, Source, Target; aws_config::AbstractAWSConfig=current_aws_config()
+) = pipes(
+    "POST",
+    "/v1/pipes/$(Name)",
+    Dict{String,Any}("RoleArn" => RoleArn, "Source" => Source, "Target" => Target);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_pipe(
+    Name,
+    RoleArn,
+    Source,
+    Target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pipes(
+        "POST",
+        "/v1/pipes/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RoleArn" => RoleArn, "Source" => Source, "Target" => Target
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_pipe(name)
@@ -49,8 +80,23 @@ in the Amazon EventBridge User Guide.
 
 - `name`: The name of the pipe.
 """
-delete_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("DELETE", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_pipe(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("DELETE", "/v1/pipes/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes(
+    "DELETE",
+    "/v1/pipes/$(Name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_pipe(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pipes(
+        "DELETE",
+        "/v1/pipes/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_pipe(name)
@@ -63,8 +109,20 @@ in the Amazon EventBridge User Guide.
 
 - `name`: The name of the pipe.
 """
-describe_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("GET", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_pipe(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("GET", "/v1/pipes/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes(
+    "GET", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function describe_pipe(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pipes(
+        "GET",
+        "/v1/pipes/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_pipes()
@@ -91,8 +149,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourcePrefix"`: The prefix matching the pipe source.
 - `"TargetPrefix"`: The prefix matching the pipe target.
 """
-list_pipes(; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("GET", "/v1/pipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_pipes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("GET", "/v1/pipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_pipes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    pipes("GET", "/v1/pipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_pipes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pipes(
+        "GET", "/v1/pipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -104,8 +169,26 @@ Displays the tags associated with a pipe.
 
 - `resource_arn`: The ARN of the pipe for which you want to view tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    pipes(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pipes(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_pipe(name)
@@ -117,8 +200,23 @@ Start an existing pipe.
 
 - `name`: The name of the pipe.
 """
-start_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/v1/pipes/$(Name)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_pipe(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/v1/pipes/$(Name)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes(
+    "POST",
+    "/v1/pipes/$(Name)/start";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_pipe(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pipes(
+        "POST",
+        "/v1/pipes/$(Name)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_pipe(name)
@@ -130,8 +228,23 @@ Stop an existing pipe.
 
 - `name`: The name of the pipe.
 """
-stop_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/v1/pipes/$(Name)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_pipe(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/v1/pipes/$(Name)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config()) = pipes(
+    "POST",
+    "/v1/pipes/$(Name)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_pipe(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pipes(
+        "POST",
+        "/v1/pipes/$(Name)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -156,8 +269,27 @@ You can associate as many as 50 tags with a pipe.
 - `resource_arn`: The ARN of the pipe.
 - `tags`: The list of key-value pairs associated with the pipe.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = pipes(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pipes(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -170,8 +302,28 @@ Removes one or more tags from the specified pipes.
 - `resource_arn`: The ARN of the pipe.
 - `tag_keys`: The list of tag keys to remove from the pipe.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    pipes(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pipes(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_pipe(name, role_arn)
@@ -211,5 +363,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters, see [Target parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html)
   in the *Amazon EventBridge User Guide*.
 """
-update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("PUT", "/v1/pipes/$(Name)", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_pipe(Name, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pipes("PUT", "/v1/pipes/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = pipes(
+    "PUT",
+    "/v1/pipes/$(Name)",
+    Dict{String,Any}("RoleArn" => RoleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_pipe(
+    Name,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return pipes(
+        "PUT",
+        "/v1/pipes/$(Name)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

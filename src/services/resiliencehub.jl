@@ -20,8 +20,33 @@ application.
 - `entries`: Indicates the list of resource grouping recommendations you want to include in
   your application.
 """
-accept_resource_grouping_recommendations(appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/accept-resource-grouping-recommendations", Dict{String, Any}("appArn"=>appArn, "entries"=>entries); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_resource_grouping_recommendations(appArn, entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/accept-resource-grouping-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "entries"=>entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/accept-resource-grouping-recommendations",
+    Dict{String,Any}("appArn" => appArn, "entries" => entries);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/accept-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     add_draft_app_version_resource_mappings(app_arn, resource_mappings)
@@ -45,8 +70,37 @@ in the Resilience Hub User Guide.
   `RESOURCE`. We recommend using the mapping type `CFN_STACK` if the application is backed
   by a CloudFormation stack.
 """
-add_draft_app_version_resource_mappings(appArn, resourceMappings; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/add-draft-app-version-resource-mappings", Dict{String, Any}("appArn"=>appArn, "resourceMappings"=>resourceMappings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_draft_app_version_resource_mappings(appArn, resourceMappings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/add-draft-app-version-resource-mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "resourceMappings"=>resourceMappings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_draft_app_version_resource_mappings(
+    appArn, resourceMappings; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/add-draft-app-version-resource-mappings",
+    Dict{String,Any}("appArn" => appArn, "resourceMappings" => resourceMappings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_draft_app_version_resource_mappings(
+    appArn,
+    resourceMappings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/add-draft-app-version-resource-mappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appArn" => appArn, "resourceMappings" => resourceMappings
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_update_recommendation_status(app_arn, request_entries)
@@ -63,8 +117,35 @@ Enables you to include or exclude one or more operational recommendations.
 - `request_entries`: Defines the list of operational recommendations that need to be
   included or excluded.
 """
-batch_update_recommendation_status(appArn, requestEntries; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/batch-update-recommendation-status", Dict{String, Any}("appArn"=>appArn, "requestEntries"=>requestEntries); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_update_recommendation_status(appArn, requestEntries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/batch-update-recommendation-status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "requestEntries"=>requestEntries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_update_recommendation_status(
+    appArn, requestEntries; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/batch-update-recommendation-status",
+    Dict{String,Any}("appArn" => appArn, "requestEntries" => requestEntries);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_update_recommendation_status(
+    appArn,
+    requestEntries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/batch-update-recommendation-status",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "requestEntries" => requestEntries),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app(name)
@@ -110,8 +191,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key/value pair.
 """
-create_app(name; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-app", Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app(name; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub(
+    "POST",
+    "/create-app",
+    Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/create-app",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app_version_app_component(app_arn, name, type)
@@ -145,8 +248,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for other API requests.
 - `"id"`: Identifier of the Application Component.
 """
-create_app_version_app_component(appArn, name, type; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-app-version-app-component", Dict{String, Any}("appArn"=>appArn, "name"=>name, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app_version_app_component(appArn, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-app-version-app-component", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "name"=>name, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app_version_app_component(
+    appArn, name, type; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/create-app-version-app-component",
+    Dict{String,Any}(
+        "appArn" => appArn,
+        "name" => name,
+        "type" => type,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app_version_app_component(
+    appArn,
+    name,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/create-app-version-app-component",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appArn" => appArn,
+                    "name" => name,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_app_version_resource(app_arn, app_components, logical_resource_id, physical_resource_id, resource_type)
@@ -188,8 +329,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for other API requests.
 - `"resourceName"`: Name of the resource.
 """
-create_app_version_resource(appArn, appComponents, logicalResourceId, physicalResourceId, resourceType; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-app-version-resource", Dict{String, Any}("appArn"=>appArn, "appComponents"=>appComponents, "logicalResourceId"=>logicalResourceId, "physicalResourceId"=>physicalResourceId, "resourceType"=>resourceType, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_app_version_resource(appArn, appComponents, logicalResourceId, physicalResourceId, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-app-version-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appComponents"=>appComponents, "logicalResourceId"=>logicalResourceId, "physicalResourceId"=>physicalResourceId, "resourceType"=>resourceType, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app_version_resource(
+    appArn,
+    appComponents,
+    logicalResourceId,
+    physicalResourceId,
+    resourceType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = resiliencehub(
+    "POST",
+    "/create-app-version-resource",
+    Dict{String,Any}(
+        "appArn" => appArn,
+        "appComponents" => appComponents,
+        "logicalResourceId" => logicalResourceId,
+        "physicalResourceId" => physicalResourceId,
+        "resourceType" => resourceType,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_app_version_resource(
+    appArn,
+    appComponents,
+    logicalResourceId,
+    physicalResourceId,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/create-app-version-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appArn" => appArn,
+                    "appComponents" => appComponents,
+                    "logicalResourceId" => logicalResourceId,
+                    "physicalResourceId" => physicalResourceId,
+                    "resourceType" => resourceType,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_recommendation_template(assessment_arn, name)
@@ -226,8 +416,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key/value pair.
 """
-create_recommendation_template(assessmentArn, name; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-recommendation-template", Dict{String, Any}("assessmentArn"=>assessmentArn, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_recommendation_template(assessmentArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-recommendation-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_recommendation_template(
+    assessmentArn, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/create-recommendation-template",
+    Dict{String,Any}(
+        "assessmentArn" => assessmentArn,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_recommendation_template(
+    assessmentArn,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/create-recommendation-template",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assessmentArn" => assessmentArn,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_resiliency_policy(policy, policy_name, tier)
@@ -263,8 +488,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key/value pair.
 """
-create_resiliency_policy(policy, policyName, tier; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-resiliency-policy", Dict{String, Any}("policy"=>policy, "policyName"=>policyName, "tier"=>tier, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_resiliency_policy(policy, policyName, tier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/create-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "policyName"=>policyName, "tier"=>tier, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_resiliency_policy(
+    policy, policyName, tier; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/create-resiliency-policy",
+    Dict{String,Any}(
+        "policy" => policy,
+        "policyName" => policyName,
+        "tier" => tier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_resiliency_policy(
+    policy,
+    policyName,
+    tier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/create-resiliency-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policy" => policy,
+                    "policyName" => policyName,
+                    "tier" => tier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app(app_arn)
@@ -288,8 +551,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for other API requests.
 - `"forceDelete"`: A boolean option to force the deletion of an Resilience Hub application.
 """
-delete_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app", Dict{String, Any}("appArn"=>appArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub(
+    "POST",
+    "/delete-app",
+    Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_app(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/delete-app",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_assessment(assessment_arn)
@@ -313,8 +598,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sensitive string of up to 64 ASCII characters. You should not reuse the same client token
   for other API requests.
 """
-delete_app_assessment(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-assessment", Dict{String, Any}("assessmentArn"=>assessmentArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_assessment(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_assessment(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/delete-app-assessment",
+        Dict{String,Any}(
+            "assessmentArn" => assessmentArn, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_app_assessment(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/delete-app-assessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assessmentArn" => assessmentArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_input_source(app_arn)
@@ -345,8 +659,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"terraformSource"`: The imported Terraform s3 state ﬁle you want to remove from the
   Resilience Hub application.
 """
-delete_app_input_source(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-input-source", Dict{String, Any}("appArn"=>appArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_input_source(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-input-source", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_input_source(appArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/delete-app-input-source",
+        Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_app_input_source(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/delete-app-input-source",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_version_app_component(app_arn, id)
@@ -377,8 +714,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sensitive string of up to 64 ASCII characters. You should not reuse the same client token
   for other API requests.
 """
-delete_app_version_app_component(appArn, id; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-version-app-component", Dict{String, Any}("appArn"=>appArn, "id"=>id, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_version_app_component(appArn, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-version-app-component", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "id"=>id, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_version_app_component(
+    appArn, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/delete-app-version-app-component",
+    Dict{String,Any}("appArn" => appArn, "id" => id, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_app_version_app_component(
+    appArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/delete-app-version-app-component",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appArn" => appArn, "id" => id, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_app_version_resource(app_arn)
@@ -414,8 +780,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"physicalResourceId"`: Physical identifier of the resource.
 - `"resourceName"`: Name of the resource.
 """
-delete_app_version_resource(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-version-resource", Dict{String, Any}("appArn"=>appArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_app_version_resource(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-app-version-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app_version_resource(appArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/delete-app-version-resource",
+        Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_app_version_resource(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/delete-app-version-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_recommendation_template(recommendation_template_arn)
@@ -436,8 +825,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sensitive string of up to 64 ASCII characters. You should not reuse the same client token
   for other API requests.
 """
-delete_recommendation_template(recommendationTemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-recommendation-template", Dict{String, Any}("recommendationTemplateArn"=>recommendationTemplateArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_recommendation_template(recommendationTemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-recommendation-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recommendationTemplateArn"=>recommendationTemplateArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_recommendation_template(
+    recommendationTemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/delete-recommendation-template",
+    Dict{String,Any}(
+        "recommendationTemplateArn" => recommendationTemplateArn,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_recommendation_template(
+    recommendationTemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/delete-recommendation-template",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "recommendationTemplateArn" => recommendationTemplateArn,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resiliency_policy(policy_arn)
@@ -460,8 +881,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sensitive string of up to 64 ASCII characters. You should not reuse the same client token
   for other API requests.
 """
-delete_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-resiliency-policy", Dict{String, Any}("policyArn"=>policyArn, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resiliency_policy(policyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/delete-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyArn"=>policyArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/delete-resiliency-policy",
+        Dict{String,Any}("policyArn" => policyArn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resiliency_policy(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/delete-resiliency-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyArn" => policyArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app(app_arn)
@@ -476,8 +924,24 @@ Describes an Resilience Hub application.
   information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 """
-describe_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub(
+    "POST",
+    "/describe-app",
+    Dict{String,Any}("appArn" => appArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_app(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-app",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_assessment(assessment_arn)
@@ -492,8 +956,29 @@ Describes an assessment for an Resilience Hub application.
   information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 """
-describe_app_assessment(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-assessment", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_assessment(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_assessment(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/describe-app-assessment",
+        Dict{String,Any}("assessmentArn" => assessmentArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_app_assessment(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-app-assessment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_version(app_arn, app_version)
@@ -509,8 +994,35 @@ Describes the Resilience Hub application version.
   in the *Amazon Web Services General Reference* guide.
 - `app_version`: Resilience Hub application version.
 """
-describe_app_version(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_version(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_version(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/describe-app-version",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_app_version(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-app-version",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_version_app_component(app_arn, app_version, id)
@@ -527,8 +1039,38 @@ Describes an Application Component in the Resilience Hub application.
 - `app_version`: Resilience Hub application version.
 - `id`: Identifier of the Application Component.
 """
-describe_app_version_app_component(appArn, appVersion, id; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-app-component", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion, "id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_version_app_component(appArn, appVersion, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-app-component", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_version_app_component(
+    appArn, appVersion, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/describe-app-version-app-component",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion, "id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_app_version_app_component(
+    appArn,
+    appVersion,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-app-version-app-component",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appArn" => appArn, "appVersion" => appVersion, "id" => id
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_version_resource(app_arn, app_version)
@@ -561,8 +1103,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"physicalResourceId"`: Physical identifier of the resource.
 - `"resourceName"`: Name of the resource.
 """
-describe_app_version_resource(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-resource", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_version_resource(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_version_resource(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/describe-app-version-resource",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_app_version_resource(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-app-version-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_version_resources_resolution_status(app_arn, app_version)
@@ -585,8 +1154,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"resolutionId"`: The identifier for a specific resolution.
 """
-describe_app_version_resources_resolution_status(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-resources-resolution-status", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_version_resources_resolution_status(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-resources-resolution-status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_version_resources_resolution_status(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/describe-app-version-resources-resolution-status",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_app_version_resources_resolution_status(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-app-version-resources-resolution-status",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_app_version_template(app_arn, app_version)
@@ -602,8 +1198,35 @@ Describes details about an Resilience Hub application.
   in the *Amazon Web Services General Reference* guide.
 - `app_version`: The version of the application.
 """
-describe_app_version_template(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-template", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_app_version_template(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-app-version-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_app_version_template(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/describe-app-version-template",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_app_version_template(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-app-version-template",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_draft_app_version_resources_import_status(app_arn)
@@ -623,8 +1246,26 @@ calling `describeDraftAppVersionResourcesImportStatus` to obtain the status.
   information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 """
-describe_draft_app_version_resources_import_status(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-draft-app-version-resources-import-status", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_draft_app_version_resources_import_status(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-draft-app-version-resources-import-status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_draft_app_version_resources_import_status(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/describe-draft-app-version-resources-import-status",
+    Dict{String,Any}("appArn" => appArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_draft_app_version_resources_import_status(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-draft-app-version-resources-import-status",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_resiliency_policy(policy_arn)
@@ -641,8 +1282,29 @@ policy object includes creation time, data location constraints, the Amazon Reso
   For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 """
-describe_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-resiliency-policy", Dict{String, Any}("policyArn"=>policyArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_resiliency_policy(policyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyArn"=>policyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/describe-resiliency-policy",
+        Dict{String,Any}("policyArn" => policyArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_resiliency_policy(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resiliency-policy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("policyArn" => policyArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_resource_grouping_recommendation_task(app_arn)
@@ -664,8 +1326,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"groupingId"`: Indicates the identifier of the grouping recommendation task.
 """
-describe_resource_grouping_recommendation_task(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-resource-grouping-recommendation-task", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_resource_grouping_recommendation_task(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/describe-resource-grouping-recommendation-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/describe-resource-grouping-recommendation-task",
+    Dict{String,Any}("appArn" => appArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_resources_to_draft_app_version(app_arn)
@@ -692,8 +1372,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceArns"`: The Amazon Resource Names (ARNs) for the resources.
 - `"terraformSources"`:  A list of terraform file s3 URLs you need to import.
 """
-import_resources_to_draft_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/import-resources-to-draft-app-version", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_resources_to_draft_app_version(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/import-resources-to-draft-app-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_resources_to_draft_app_version(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/import-resources-to-draft-app-version",
+    Dict{String,Any}("appArn" => appArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_resources_to_draft_app_version(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/import-resources-to-draft-app-version",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_alarm_recommendations(assessment_arn)
@@ -717,8 +1415,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_alarm_recommendations(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-alarm-recommendations", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_alarm_recommendations(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-alarm-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_alarm_recommendations(
+    assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-alarm-recommendations",
+    Dict{String,Any}("assessmentArn" => assessmentArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_alarm_recommendations(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-alarm-recommendations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_assessment_compliance_drifts(assessment_arn)
@@ -740,8 +1460,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Indicates the maximum number of compliance drifts requested.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_app_assessment_compliance_drifts(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-assessment-compliance-drifts", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_assessment_compliance_drifts(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-assessment-compliance-drifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_assessment_compliance_drifts(
+    assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-assessment-compliance-drifts",
+    Dict{String,Any}("assessmentArn" => assessmentArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_assessment_compliance_drifts(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-assessment-compliance-drifts",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_assessment_resource_drifts(assessment_arn)
@@ -765,8 +1507,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response so that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_app_assessment_resource_drifts(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-assessment-resource-drifts", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_assessment_resource_drifts(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-assessment-resource-drifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_assessment_resource_drifts(
+    assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-assessment-resource-drifts",
+    Dict{String,Any}("assessmentArn" => assessmentArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_assessment_resource_drifts(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-assessment-resource-drifts",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_assessments()
@@ -795,8 +1559,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reverseOrder"`: The default is to sort by ascending **startTime**. To sort by
   descending **startTime**, set reverseOrder to `true`.
 """
-list_app_assessments(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-app-assessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_assessments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-app-assessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_assessments(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub(
+    "GET",
+    "/list-app-assessments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_assessments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-app-assessments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_component_compliances(assessment_arn)
@@ -820,8 +1599,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_app_component_compliances(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-component-compliances", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_component_compliances(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-component-compliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_component_compliances(
+    assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-component-compliances",
+    Dict{String,Any}("assessmentArn" => assessmentArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_component_compliances(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-component-compliances",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_component_recommendations(assessment_arn)
@@ -845,8 +1646,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_app_component_recommendations(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-component-recommendations", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_component_recommendations(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-component-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_component_recommendations(
+    assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-component-recommendations",
+    Dict{String,Any}("assessmentArn" => assessmentArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_component_recommendations(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-component-recommendations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_input_sources(app_arn, app_version)
@@ -871,8 +1694,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_app_input_sources(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-input-sources", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_input_sources(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-input-sources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_input_sources(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-input-sources",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_input_sources(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-input-sources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_version_app_components(app_arn, app_version)
@@ -896,8 +1746,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Hub application version.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_app_version_app_components(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-version-app-components", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_version_app_components(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-version-app-components", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_version_app_components(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-version-app-components",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_version_app_components(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-version-app-components",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_version_resource_mappings(app_arn, app_version)
@@ -924,8 +1801,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_app_version_resource_mappings(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-version-resource-mappings", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_version_resource_mappings(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-version-resource-mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_version_resource_mappings(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-version-resource-mappings",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_version_resource_mappings(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-version-resource-mappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_version_resources(app_arn, app_version)
@@ -951,8 +1855,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"resolutionId"`: The identifier for a specific resolution.
 """
-list_app_version_resources(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-version-resources", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_version_resources(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-version-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_version_resources(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-app-version-resources",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_app_version_resources(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-version-resources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_app_versions(app_arn)
@@ -978,8 +1909,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"startTime"`: Lower limit of the time range to filter the application versions.
 """
-list_app_versions(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-versions", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_app_versions(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-app-versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_app_versions(appArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/list-app-versions",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_app_versions(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/list-app-versions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_apps()
@@ -1017,8 +1965,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toLastAssessmentTime"`: Indicates the upper limit of the range that is used to filter
   the applications based on their last assessment times.
 """
-list_apps(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_apps(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_apps(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub(
+    "GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_apps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET", "/list-apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_recommendation_templates()
@@ -1045,8 +2001,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending **startTime**, set reverseOrder to `true`.
 - `"status"`: Status of the action.
 """
-list_recommendation_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-recommendation-templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_recommendation_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-recommendation-templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_recommendation_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "GET",
+        "/list-recommendation-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_recommendation_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-recommendation-templates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_resiliency_policies()
@@ -1064,8 +2036,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"policyName"`: The name of the policy
 """
-list_resiliency_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-resiliency-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_resiliency_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-resiliency-policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_resiliency_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "GET",
+        "/list-resiliency-policies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_resiliency_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resiliency-policies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_resource_grouping_recommendations()
@@ -1086,8 +2074,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Hub application.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_resource_grouping_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-resource-grouping-recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_resource_grouping_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-resource-grouping-recommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_resource_grouping_recommendations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "GET",
+    "/list-resource-grouping-recommendations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_resource_grouping_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resource-grouping-recommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_sop_recommendations(assessment_arn)
@@ -1112,8 +2117,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_sop_recommendations(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-sop-recommendations", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_sop_recommendations(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-sop-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sop_recommendations(
+    assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-sop-recommendations",
+    Dict{String,Any}("assessmentArn" => assessmentArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_sop_recommendations(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-sop-recommendations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_suggested_resiliency_policies()
@@ -1130,8 +2157,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_suggested_resiliency_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-suggested-resiliency-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_suggested_resiliency_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/list-suggested-resiliency-policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_suggested_resiliency_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "GET",
+        "/list-suggested-resiliency-policies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_suggested_resiliency_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-suggested-resiliency-policies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1144,8 +2187,26 @@ Lists the tags for your resources in your Resilience Hub applications.
 - `resource_arn`: The Amazon Resource Name (ARN) for a specific resource in your Resilience
   Hub application.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_test_recommendations(assessment_arn)
@@ -1169,8 +2230,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
-list_test_recommendations(assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-test-recommendations", Dict{String, Any}("assessmentArn"=>assessmentArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_test_recommendations(assessmentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-test-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_test_recommendations(
+    assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-test-recommendations",
+    Dict{String,Any}("assessmentArn" => assessmentArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_test_recommendations(
+    assessmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-test-recommendations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_unsupported_app_version_resources(app_arn, app_version)
@@ -1198,8 +2281,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"resolutionId"`: The identifier for a specific resolution.
 """
-list_unsupported_app_version_resources(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-unsupported-app-version-resources", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_unsupported_app_version_resources(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/list-unsupported-app-version-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_unsupported_app_version_resources(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/list-unsupported-app-version-resources",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_unsupported_app_version_resources(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/list-unsupported-app-version-resources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     publish_app_version(app_arn)
@@ -1220,8 +2330,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"versionName"`: Name of the application version.
 """
-publish_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/publish-app-version", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-publish_app_version(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/publish-app-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+publish_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/publish-app-version",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function publish_app_version(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/publish-app-version",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_draft_app_version_template(app_arn, app_template_body)
@@ -1388,8 +2515,35 @@ Key: `"failover-regions"`
 
  <p>Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"` </li> </ul>
 """
-put_draft_app_version_template(appArn, appTemplateBody; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/put-draft-app-version-template", Dict{String, Any}("appArn"=>appArn, "appTemplateBody"=>appTemplateBody); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_draft_app_version_template(appArn, appTemplateBody, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/put-draft-app-version-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appTemplateBody"=>appTemplateBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_draft_app_version_template(
+    appArn, appTemplateBody; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/put-draft-app-version-template",
+    Dict{String,Any}("appArn" => appArn, "appTemplateBody" => appTemplateBody);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_draft_app_version_template(
+    appArn,
+    appTemplateBody,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/put-draft-app-version-template",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appTemplateBody" => appTemplateBody),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reject_resource_grouping_recommendations(app_arn, entries)
@@ -1406,8 +2560,33 @@ Rejects resource grouping recommendations.
 - `entries`: Indicates the list of resource grouping recommendations you have selected to
   exclude from your application.
 """
-reject_resource_grouping_recommendations(appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/reject-resource-grouping-recommendations", Dict{String, Any}("appArn"=>appArn, "entries"=>entries); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reject_resource_grouping_recommendations(appArn, entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/reject-resource-grouping-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "entries"=>entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/reject-resource-grouping-recommendations",
+    Dict{String,Any}("appArn" => appArn, "entries" => entries);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reject_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/reject-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_draft_app_version_resource_mappings(app_arn)
@@ -1442,8 +2621,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"terraformSourceNames"`: The names of the Terraform sources you want to remove from the
   resource mappings.
 """
-remove_draft_app_version_resource_mappings(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/remove-draft-app-version-resource-mappings", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_draft_app_version_resource_mappings(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/remove-draft-app-version-resource-mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_draft_app_version_resource_mappings(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/remove-draft-app-version-resource-mappings",
+    Dict{String,Any}("appArn" => appArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_draft_app_version_resource_mappings(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/remove-draft-app-version-resource-mappings",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     resolve_app_version_resources(app_arn, app_version)
@@ -1459,8 +2656,35 @@ Resolves the resources for an application version.
   in the *Amazon Web Services General Reference* guide.
 - `app_version`: The version of the application.
 """
-resolve_app_version_resources(appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/resolve-app-version-resources", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-resolve_app_version_resources(appArn, appVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/resolve-app-version-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+resolve_app_version_resources(
+    appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/resolve-app-version-resources",
+    Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function resolve_app_version_resources(
+    appArn,
+    appVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/resolve-app-version-resources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_app_assessment(app_arn, app_version, assessment_name)
@@ -1487,8 +2711,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key/value pair.
 """
-start_app_assessment(appArn, appVersion, assessmentName; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/start-app-assessment", Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion, "assessmentName"=>assessmentName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_app_assessment(appArn, appVersion, assessmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/start-app-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion, "assessmentName"=>assessmentName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_app_assessment(
+    appArn, appVersion, assessmentName; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/start-app-assessment",
+    Dict{String,Any}(
+        "appArn" => appArn,
+        "appVersion" => appVersion,
+        "assessmentName" => assessmentName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_app_assessment(
+    appArn,
+    appVersion,
+    assessmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/start-app-assessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "appArn" => appArn,
+                    "appVersion" => appVersion,
+                    "assessmentName" => assessmentName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_resource_grouping_recommendation_task(app_arn)
@@ -1503,8 +2765,26 @@ Starts grouping recommendation task.
   information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 """
-start_resource_grouping_recommendation_task(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/start-resource-grouping-recommendation-task", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_resource_grouping_recommendation_task(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/start-resource-grouping-recommendation-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/start-resource-grouping-recommendation-task",
+    Dict{String,Any}("appArn" => appArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1517,8 +2797,28 @@ Applies one or more tags to a resource.
 - `resource_arn`: Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags to assign to the resource. Each tag consists of a key/value pair.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1531,8 +2831,28 @@ Removes one or more tags from a resource.
 - `resource_arn`: Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The keys of the tags you want to remove.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_app(app_arn)
@@ -1564,8 +2884,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 """
-update_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_app(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub(
+    "POST",
+    "/update-app",
+    Dict{String,Any}("appArn" => appArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_app(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/update-app",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_app_version(app_arn)
@@ -1601,8 +2937,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  <p>Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"`
 """
-update_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app-version", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_app_version(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/update-app-version",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_app_version(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/update-app-version",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_app_version_app_component(app_arn, id)
@@ -1633,8 +2986,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: Type of Application Component. For more information about the types of
   Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
 """
-update_app_version_app_component(appArn, id; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app-version-app-component", Dict{String, Any}("appArn"=>appArn, "id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_app_version_app_component(appArn, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app-version-app-component", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_app_version_app_component(
+    appArn, id; aws_config::AbstractAWSConfig=current_aws_config()
+) = resiliencehub(
+    "POST",
+    "/update-app-version-app-component",
+    Dict{String,Any}("appArn" => appArn, "id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_app_version_app_component(
+    appArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/update-app-version-app-component",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("appArn" => appArn, "id" => id), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_app_version_resource(app_arn)
@@ -1675,8 +3051,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceName"`: Name of the resource.
 - `"resourceType"`: Type of resource.
 """
-update_app_version_resource(appArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app-version-resource", Dict{String, Any}("appArn"=>appArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_app_version_resource(appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-app-version-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_app_version_resource(appArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/update-app-version-resource",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_app_version_resource(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/update-app-version-resource",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_resiliency_policy(policy_arn)
@@ -1711,5 +3104,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tier"`: The tier for this resiliency policy, ranging from the highest severity
   (`MissionCritical`) to lowest (`NonCritical`).
 """
-update_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-resiliency-policy", Dict{String, Any}("policyArn"=>policyArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_resiliency_policy(policyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resiliencehub("POST", "/update-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyArn"=>policyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    resiliencehub(
+        "POST",
+        "/update-resiliency-policy",
+        Dict{String,Any}("policyArn" => policyArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_resiliency_policy(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/update-resiliency-policy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("policyArn" => policyArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

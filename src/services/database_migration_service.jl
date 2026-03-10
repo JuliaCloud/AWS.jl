@@ -22,8 +22,33 @@ data type description.
 For DMS, you can tag a replication instance, an endpoint, or a replication task.
 - `tags`: One or more tags to be assigned to the resource.
 """
-add_tags_to_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("AddTagsToResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-add_tags_to_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_tags_to_resource(
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "AddTagsToResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function add_tags_to_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "AddTagsToResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     apply_pending_maintenance_action(apply_action, opt_in_type, replication_instance_arn)
@@ -46,8 +71,45 @@ Valid values: `os-upgrade`, `system-update`, `db-upgrade`
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the DMS resource that the
   pending maintenance action applies to.
 """
-apply_pending_maintenance_action(ApplyAction, OptInType, ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-apply_pending_maintenance_action(ApplyAction, OptInType, ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+apply_pending_maintenance_action(
+    ApplyAction,
+    OptInType,
+    ReplicationInstanceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "ApplyPendingMaintenanceAction",
+    Dict{String,Any}(
+        "ApplyAction" => ApplyAction,
+        "OptInType" => OptInType,
+        "ReplicationInstanceArn" => ReplicationInstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function apply_pending_maintenance_action(
+    ApplyAction,
+    OptInType,
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ApplyPendingMaintenanceAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyAction" => ApplyAction,
+                    "OptInType" => OptInType,
+                    "ReplicationInstanceArn" => ReplicationInstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_start_recommendations()
@@ -68,8 +130,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Data"`: Provides information about source databases to analyze. After this analysis,
   Fleet Advisor recommends target engines for each source database.
 """
-batch_start_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("BatchStartRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_start_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("BatchStartRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_start_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "BatchStartRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function batch_start_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "BatchStartRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     cancel_replication_task_assessment_run(replication_task_assessment_run_arn)
@@ -85,8 +159,34 @@ running. It also attempts to cancel any individual assessments that are currentl
 - `replication_task_assessment_run_arn`: Amazon Resource Name (ARN) of the premigration
   assessment run to be canceled.
 """
-cancel_replication_task_assessment_run(ReplicationTaskAssessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CancelReplicationTaskAssessmentRun", Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-cancel_replication_task_assessment_run(ReplicationTaskAssessmentRunArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CancelReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_replication_task_assessment_run(
+    ReplicationTaskAssessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "CancelReplicationTaskAssessmentRun",
+    Dict{String,Any}("ReplicationTaskAssessmentRunArn" => ReplicationTaskAssessmentRunArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function cancel_replication_task_assessment_run(
+    ReplicationTaskAssessmentRunArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CancelReplicationTaskAssessmentRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationTaskAssessmentRunArn" => ReplicationTaskAssessmentRunArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_provider(engine, settings)
@@ -111,8 +211,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A user-friendly description of the data provider.
 - `"Tags"`: One or more tags to be assigned to the data provider.
 """
-create_data_provider(Engine, Settings; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateDataProvider", Dict{String, Any}("Engine"=>Engine, "Settings"=>Settings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_provider(Engine, Settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateDataProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "Settings"=>Settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_provider(Engine, Settings; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "CreateDataProvider",
+        Dict{String,Any}("Engine" => Engine, "Settings" => Settings);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_data_provider(
+    Engine,
+    Settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateDataProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Engine" => Engine, "Settings" => Settings), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_endpoint(endpoint_identifier, endpoint_type, engine_name)
@@ -243,8 +365,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimestreamSettings"`: Settings in JSON format for the target Amazon Timestream endpoint.
 - `"Username"`: The user name to be used to log in to the endpoint database.
 """
-create_endpoint(EndpointIdentifier, EndpointType, EngineName; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateEndpoint", Dict{String, Any}("EndpointIdentifier"=>EndpointIdentifier, "EndpointType"=>EndpointType, "EngineName"=>EngineName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_endpoint(EndpointIdentifier, EndpointType, EngineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointIdentifier"=>EndpointIdentifier, "EndpointType"=>EndpointType, "EngineName"=>EngineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_endpoint(
+    EndpointIdentifier,
+    EndpointType,
+    EngineName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "CreateEndpoint",
+    Dict{String,Any}(
+        "EndpointIdentifier" => EndpointIdentifier,
+        "EndpointType" => EndpointType,
+        "EngineName" => EngineName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_endpoint(
+    EndpointIdentifier,
+    EndpointType,
+    EngineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointIdentifier" => EndpointIdentifier,
+                    "EndpointType" => EndpointType,
+                    "EngineName" => EngineName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_event_subscription(sns_topic_arn, subscription_name)
@@ -296,8 +455,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 Valid values: `replication-instance` | `replication-task`
 - `"Tags"`: One or more tags to be assigned to the event subscription.
 """
-create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_event_subscription(
+    SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "CreateEventSubscription",
+    Dict{String,Any}("SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_event_subscription(
+    SnsTopicArn,
+    SubscriptionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateEventSubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_fleet_advisor_collector(collector_name, s3_bucket_name, service_access_role_arn)
@@ -320,8 +506,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A summary description of your Fleet Advisor collector.
 """
-create_fleet_advisor_collector(CollectorName, S3BucketName, ServiceAccessRoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateFleetAdvisorCollector", Dict{String, Any}("CollectorName"=>CollectorName, "S3BucketName"=>S3BucketName, "ServiceAccessRoleArn"=>ServiceAccessRoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_fleet_advisor_collector(CollectorName, S3BucketName, ServiceAccessRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateFleetAdvisorCollector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectorName"=>CollectorName, "S3BucketName"=>S3BucketName, "ServiceAccessRoleArn"=>ServiceAccessRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_fleet_advisor_collector(
+    CollectorName,
+    S3BucketName,
+    ServiceAccessRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "CreateFleetAdvisorCollector",
+    Dict{String,Any}(
+        "CollectorName" => CollectorName,
+        "S3BucketName" => S3BucketName,
+        "ServiceAccessRoleArn" => ServiceAccessRoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_fleet_advisor_collector(
+    CollectorName,
+    S3BucketName,
+    ServiceAccessRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateFleetAdvisorCollector",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectorName" => CollectorName,
+                    "S3BucketName" => S3BucketName,
+                    "ServiceAccessRoleArn" => ServiceAccessRoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_instance_profile()
@@ -362,8 +585,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance profile. The VPC security group must work with the VPC containing the instance
   profile.
 """
-create_instance_profile(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateInstanceProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_instance_profile(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateInstanceProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_instance_profile(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "CreateInstanceProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function create_instance_profile(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "CreateInstanceProfile",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_migration_project(instance_profile_identifier, source_data_provider_descriptors, target_data_provider_descriptors)
@@ -398,8 +633,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify. For example, you can change an object name to lowercase or uppercase, add or
   remove a prefix or suffix, or rename objects.
 """
-create_migration_project(InstanceProfileIdentifier, SourceDataProviderDescriptors, TargetDataProviderDescriptors; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateMigrationProject", Dict{String, Any}("InstanceProfileIdentifier"=>InstanceProfileIdentifier, "SourceDataProviderDescriptors"=>SourceDataProviderDescriptors, "TargetDataProviderDescriptors"=>TargetDataProviderDescriptors); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_migration_project(InstanceProfileIdentifier, SourceDataProviderDescriptors, TargetDataProviderDescriptors, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateMigrationProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileIdentifier"=>InstanceProfileIdentifier, "SourceDataProviderDescriptors"=>SourceDataProviderDescriptors, "TargetDataProviderDescriptors"=>TargetDataProviderDescriptors), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_migration_project(
+    InstanceProfileIdentifier,
+    SourceDataProviderDescriptors,
+    TargetDataProviderDescriptors;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "CreateMigrationProject",
+    Dict{String,Any}(
+        "InstanceProfileIdentifier" => InstanceProfileIdentifier,
+        "SourceDataProviderDescriptors" => SourceDataProviderDescriptors,
+        "TargetDataProviderDescriptors" => TargetDataProviderDescriptors,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_migration_project(
+    InstanceProfileIdentifier,
+    SourceDataProviderDescriptors,
+    TargetDataProviderDescriptors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateMigrationProject",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceProfileIdentifier" => InstanceProfileIdentifier,
+                    "SourceDataProviderDescriptors" => SourceDataProviderDescriptors,
+                    "TargetDataProviderDescriptors" => TargetDataProviderDescriptors,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_replication_config(compute_config, replication_config_identifier, replication_type, source_endpoint_arn, table_mappings, target_endpoint_arn)
@@ -446,8 +718,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: One or more optional tags associated with resources used by the DMS Serverless
   replication. For more information, see [ Tagging resources in Database Migration Service](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tagging.html).
 """
-create_replication_config(ComputeConfig, ReplicationConfigIdentifier, ReplicationType, SourceEndpointArn, TableMappings, TargetEndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationConfig", Dict{String, Any}("ComputeConfig"=>ComputeConfig, "ReplicationConfigIdentifier"=>ReplicationConfigIdentifier, "ReplicationType"=>ReplicationType, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_replication_config(ComputeConfig, ReplicationConfigIdentifier, ReplicationType, SourceEndpointArn, TableMappings, TargetEndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComputeConfig"=>ComputeConfig, "ReplicationConfigIdentifier"=>ReplicationConfigIdentifier, "ReplicationType"=>ReplicationType, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_replication_config(
+    ComputeConfig,
+    ReplicationConfigIdentifier,
+    ReplicationType,
+    SourceEndpointArn,
+    TableMappings,
+    TargetEndpointArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "CreateReplicationConfig",
+    Dict{String,Any}(
+        "ComputeConfig" => ComputeConfig,
+        "ReplicationConfigIdentifier" => ReplicationConfigIdentifier,
+        "ReplicationType" => ReplicationType,
+        "SourceEndpointArn" => SourceEndpointArn,
+        "TableMappings" => TableMappings,
+        "TargetEndpointArn" => TargetEndpointArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_replication_config(
+    ComputeConfig,
+    ReplicationConfigIdentifier,
+    ReplicationType,
+    SourceEndpointArn,
+    TableMappings,
+    TargetEndpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateReplicationConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ComputeConfig" => ComputeConfig,
+                    "ReplicationConfigIdentifier" => ReplicationConfigIdentifier,
+                    "ReplicationType" => ReplicationType,
+                    "SourceEndpointArn" => SourceEndpointArn,
+                    "TableMappings" => TableMappings,
+                    "TargetEndpointArn" => TargetEndpointArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_replication_instance(replication_instance_class, replication_instance_identifier)
@@ -547,8 +868,41 @@ Constraints: Minimum 30-minute window.
   replication instance. The VPC security group must work with the VPC containing the
   replication instance.
 """
-create_replication_instance(ReplicationInstanceClass, ReplicationInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationInstance", Dict{String, Any}("ReplicationInstanceClass"=>ReplicationInstanceClass, "ReplicationInstanceIdentifier"=>ReplicationInstanceIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_replication_instance(ReplicationInstanceClass, ReplicationInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceClass"=>ReplicationInstanceClass, "ReplicationInstanceIdentifier"=>ReplicationInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_replication_instance(
+    ReplicationInstanceClass,
+    ReplicationInstanceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "CreateReplicationInstance",
+    Dict{String,Any}(
+        "ReplicationInstanceClass" => ReplicationInstanceClass,
+        "ReplicationInstanceIdentifier" => ReplicationInstanceIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_replication_instance(
+    ReplicationInstanceClass,
+    ReplicationInstanceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateReplicationInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationInstanceClass" => ReplicationInstanceClass,
+                    "ReplicationInstanceIdentifier" => ReplicationInstanceIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_replication_subnet_group(replication_subnet_group_description, replication_subnet_group_identifier, subnet_ids)
@@ -585,8 +939,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: One or more tags to be assigned to the subnet group.
 """
-create_replication_subnet_group(ReplicationSubnetGroupDescription, ReplicationSubnetGroupIdentifier, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupDescription"=>ReplicationSubnetGroupDescription, "ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_replication_subnet_group(ReplicationSubnetGroupDescription, ReplicationSubnetGroupIdentifier, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupDescription"=>ReplicationSubnetGroupDescription, "ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_replication_subnet_group(
+    ReplicationSubnetGroupDescription,
+    ReplicationSubnetGroupIdentifier,
+    SubnetIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "CreateReplicationSubnetGroup",
+    Dict{String,Any}(
+        "ReplicationSubnetGroupDescription" => ReplicationSubnetGroupDescription,
+        "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
+        "SubnetIds" => SubnetIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_replication_subnet_group(
+    ReplicationSubnetGroupDescription,
+    ReplicationSubnetGroupIdentifier,
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateReplicationSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationSubnetGroupDescription" =>
+                        ReplicationSubnetGroupDescription,
+                    "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
+                    "SubnetIds" => SubnetIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_replication_task(migration_type, replication_instance_arn, replication_task_identifier, source_endpoint_arn, table_mappings, target_endpoint_arn)
@@ -661,8 +1053,57 @@ Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
   certain source and target endpoints. For more information, see [Specifying Supplemental Data for Task Settings](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html)
   in the *Database Migration Service User Guide.*
 """
-create_replication_task(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationTask", Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_replication_task(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("CreateReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_replication_task(
+    MigrationType,
+    ReplicationInstanceArn,
+    ReplicationTaskIdentifier,
+    SourceEndpointArn,
+    TableMappings,
+    TargetEndpointArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "CreateReplicationTask",
+    Dict{String,Any}(
+        "MigrationType" => MigrationType,
+        "ReplicationInstanceArn" => ReplicationInstanceArn,
+        "ReplicationTaskIdentifier" => ReplicationTaskIdentifier,
+        "SourceEndpointArn" => SourceEndpointArn,
+        "TableMappings" => TableMappings,
+        "TargetEndpointArn" => TargetEndpointArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_replication_task(
+    MigrationType,
+    ReplicationInstanceArn,
+    ReplicationTaskIdentifier,
+    SourceEndpointArn,
+    TableMappings,
+    TargetEndpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateReplicationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationType" => MigrationType,
+                    "ReplicationInstanceArn" => ReplicationInstanceArn,
+                    "ReplicationTaskIdentifier" => ReplicationTaskIdentifier,
+                    "SourceEndpointArn" => SourceEndpointArn,
+                    "TableMappings" => TableMappings,
+                    "TargetEndpointArn" => TargetEndpointArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_certificate(certificate_arn)
@@ -674,8 +1115,27 @@ Deletes the specified certificate.
 
 - `certificate_arn`: The Amazon Resource Name (ARN) of the certificate.
 """
-delete_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_certificate(CertificateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DeleteCertificate",
+        Dict{String,Any}("CertificateArn" => CertificateArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_certificate(
+    CertificateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteCertificate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_connection(endpoint_arn, replication_instance_arn)
@@ -689,8 +1149,38 @@ Deletes the connection between a replication instance and an endpoint.
   endpoint.
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the replication instance.
 """
-delete_connection(EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteConnection", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_connection(EndpointArn, ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connection(
+    EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteConnection",
+    Dict{String,Any}(
+        "EndpointArn" => EndpointArn, "ReplicationInstanceArn" => ReplicationInstanceArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_connection(
+    EndpointArn,
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointArn" => EndpointArn,
+                    "ReplicationInstanceArn" => ReplicationInstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_provider(data_provider_identifier)
@@ -706,8 +1196,32 @@ before you can delete the data provider.
 
 - `data_provider_identifier`: The identifier of the data provider to delete.
 """
-delete_data_provider(DataProviderIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteDataProvider", Dict{String, Any}("DataProviderIdentifier"=>DataProviderIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_provider(DataProviderIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteDataProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataProviderIdentifier"=>DataProviderIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_provider(
+    DataProviderIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteDataProvider",
+    Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_provider(
+    DataProviderIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteDataProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_endpoint(endpoint_arn)
@@ -724,8 +1238,27 @@ endpoint. <p/>
 - `endpoint_arn`: The Amazon Resource Name (ARN) string that uniquely identifies the
   endpoint.
 """
-delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_endpoint(EndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DeleteEndpoint",
+        Dict{String,Any}("EndpointArn" => EndpointArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_endpoint(
+    EndpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteEndpoint",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_event_subscription(subscription_name)
@@ -737,8 +1270,30 @@ delete_endpoint(EndpointArn, params::AbstractDict{String}; aws_config::AbstractA
 
 - `subscription_name`: The name of the DMS event notification subscription to be deleted.
 """
-delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_subscription(
+    SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteEventSubscription",
+    Dict{String,Any}("SubscriptionName" => SubscriptionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_event_subscription(
+    SubscriptionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteEventSubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_fleet_advisor_collector(collector_referenced_id)
@@ -750,8 +1305,32 @@ Deletes the specified Fleet Advisor collector.
 
 - `collector_referenced_id`: The reference ID of the Fleet Advisor collector to delete.
 """
-delete_fleet_advisor_collector(CollectorReferencedId; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteFleetAdvisorCollector", Dict{String, Any}("CollectorReferencedId"=>CollectorReferencedId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_fleet_advisor_collector(CollectorReferencedId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteFleetAdvisorCollector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectorReferencedId"=>CollectorReferencedId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fleet_advisor_collector(
+    CollectorReferencedId; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteFleetAdvisorCollector",
+    Dict{String,Any}("CollectorReferencedId" => CollectorReferencedId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_fleet_advisor_collector(
+    CollectorReferencedId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteFleetAdvisorCollector",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CollectorReferencedId" => CollectorReferencedId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_fleet_advisor_databases(database_ids)
@@ -763,8 +1342,28 @@ Deletes the specified Fleet Advisor collector databases.
 
 - `database_ids`: The IDs of the Fleet Advisor collector databases to delete.
 """
-delete_fleet_advisor_databases(DatabaseIds; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteFleetAdvisorDatabases", Dict{String, Any}("DatabaseIds"=>DatabaseIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_fleet_advisor_databases(DatabaseIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteFleetAdvisorDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseIds"=>DatabaseIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fleet_advisor_databases(
+    DatabaseIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteFleetAdvisorDatabases",
+    Dict{String,Any}("DatabaseIds" => DatabaseIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_fleet_advisor_databases(
+    DatabaseIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteFleetAdvisorDatabases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseIds" => DatabaseIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_instance_profile(instance_profile_identifier)
@@ -780,8 +1379,32 @@ before you can delete the instance profile.
 
 - `instance_profile_identifier`: The identifier of the instance profile to delete.
 """
-delete_instance_profile(InstanceProfileIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteInstanceProfile", Dict{String, Any}("InstanceProfileIdentifier"=>InstanceProfileIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_instance_profile(InstanceProfileIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileIdentifier"=>InstanceProfileIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_instance_profile(
+    InstanceProfileIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteInstanceProfile",
+    Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_instance_profile(
+    InstanceProfileIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteInstanceProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_migration_project(migration_project_identifier)
@@ -797,8 +1420,34 @@ Deletes the specified migration project.
 - `migration_project_identifier`: The name or Amazon Resource Name (ARN) of the migration
   project to delete.
 """
-delete_migration_project(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteMigrationProject", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_migration_project(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteMigrationProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_migration_project(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteMigrationProject",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_migration_project(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteMigrationProject",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_replication_config(replication_config_arn)
@@ -813,8 +1462,32 @@ replication is in a non-RUNNING and non-STARTING state.
 
 - `replication_config_arn`: The replication config to delete.
 """
-delete_replication_config(ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationConfig", Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_replication_config(ReplicationConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_replication_config(
+    ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteReplicationConfig",
+    Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_replication_config(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteReplicationConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_replication_instance(replication_instance_arn)
@@ -831,8 +1504,32 @@ before you can delete it. <p/>
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the replication instance to
   be deleted.
 """
-delete_replication_instance(ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_replication_instance(ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_replication_instance(
+    ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteReplicationInstance",
+    Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_replication_instance(
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteReplicationInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_replication_subnet_group(replication_subnet_group_identifier)
@@ -844,8 +1541,36 @@ Deletes a subnet group.
 
 - `replication_subnet_group_identifier`: The subnet group name of the replication instance.
 """
-delete_replication_subnet_group(ReplicationSubnetGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_replication_subnet_group(ReplicationSubnetGroupIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_replication_subnet_group(
+    ReplicationSubnetGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteReplicationSubnetGroup",
+    Dict{String,Any}(
+        "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_replication_subnet_group(
+    ReplicationSubnetGroupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteReplicationSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_replication_task(replication_task_arn)
@@ -858,8 +1583,30 @@ Deletes the specified replication task.
 - `replication_task_arn`: The Amazon Resource Name (ARN) of the replication task to be
   deleted.
 """
-delete_replication_task(ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_replication_task(ReplicationTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_replication_task(
+    ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteReplicationTask",
+    Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_replication_task(
+    ReplicationTaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteReplicationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_replication_task_assessment_run(replication_task_assessment_run_arn)
@@ -876,8 +1623,34 @@ your Amazon S3 bucket.
 - `replication_task_assessment_run_arn`: Amazon Resource Name (ARN) of the premigration
   assessment run to be deleted.
 """
-delete_replication_task_assessment_run(ReplicationTaskAssessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationTaskAssessmentRun", Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_replication_task_assessment_run(ReplicationTaskAssessmentRunArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DeleteReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_replication_task_assessment_run(
+    ReplicationTaskAssessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DeleteReplicationTaskAssessmentRun",
+    Dict{String,Any}("ReplicationTaskAssessmentRunArn" => ReplicationTaskAssessmentRunArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_replication_task_assessment_run(
+    ReplicationTaskAssessmentRunArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteReplicationTaskAssessmentRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationTaskAssessmentRunArn" => ReplicationTaskAssessmentRunArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_account_attributes()
@@ -892,8 +1665,20 @@ account identifier to name each artifact used by DMS in the given region.
 
 This command does not take any parameters.
 """
-describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_account_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_account_attributes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeAccountAttributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_applicable_individual_assessments()
@@ -939,8 +1724,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetEngineName"`: Name of a database engine that the specified replication instance
   supports as a target.
 """
-describe_applicable_individual_assessments(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeApplicableIndividualAssessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_applicable_individual_assessments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeApplicableIndividualAssessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_applicable_individual_assessments(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeApplicableIndividualAssessments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_applicable_individual_assessments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeApplicableIndividualAssessments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_certificates()
@@ -963,8 +1763,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: 10
 """
-describe_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_certificates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeCertificates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_connections()
@@ -991,8 +1803,20 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_connections(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_connections(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_conversion_configuration(migration_project_identifier)
@@ -1005,8 +1829,34 @@ Returns configuration parameters for a schema conversion project.
 - `migration_project_identifier`: The name or Amazon Resource Name (ARN) for the schema
   conversion project to describe.
 """
-describe_conversion_configuration(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeConversionConfiguration", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_conversion_configuration(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeConversionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_conversion_configuration(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeConversionConfiguration",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_conversion_configuration(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeConversionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_data_providers()
@@ -1033,8 +1883,20 @@ Valid filter names: data-provider-identifier
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_data_providers(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeDataProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_data_providers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeDataProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_data_providers(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeDataProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_data_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeDataProviders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_endpoint_settings(engine_name)
@@ -1058,8 +1920,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
 """
-describe_endpoint_settings(EngineName; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEndpointSettings", Dict{String, Any}("EngineName"=>EngineName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_endpoint_settings(EngineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEndpointSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineName"=>EngineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_endpoint_settings(EngineName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeEndpointSettings",
+        Dict{String,Any}("EngineName" => EngineName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_endpoint_settings(
+    EngineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeEndpointSettings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EngineName" => EngineName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_endpoint_types()
@@ -1085,8 +1966,20 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_endpoint_types(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEndpointTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_endpoint_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEndpointTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_endpoint_types(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeEndpointTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_endpoint_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeEndpointTypes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_endpoints()
@@ -1112,8 +2005,17 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_engine_versions()
@@ -1132,8 +2034,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
 """
-describe_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_engine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_engine_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeEngineVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_event_categories()
@@ -1152,8 +2066,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Valid values: replication-instance | replication-task
 """
-describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_event_categories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEventCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_event_categories(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeEventCategories",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_event_subscriptions()
@@ -1184,8 +2110,20 @@ Default: 100
 Constraints: Minimum 20, maximum 100.
 - `"SubscriptionName"`: The name of the DMS event subscription to be described.
 """
-describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_event_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_event_subscriptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeEventSubscriptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_events()
@@ -1220,8 +2158,17 @@ Constraints: Minimum 20, maximum 100.
 Valid values: replication-instance | replication-task
 - `"StartTime"`: The start time for the events to be listed.
 """
-describe_events(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_events(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_events(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     describe_extension_pack_associations(migration_project_identifier)
@@ -1253,8 +2200,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_extension_pack_associations(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeExtensionPackAssociations", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_extension_pack_associations(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeExtensionPackAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_extension_pack_associations(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeExtensionPackAssociations",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_extension_pack_associations(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeExtensionPackAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleet_advisor_collectors()
@@ -1279,8 +2252,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call again using the returned token to retrieve the next page. Keep all other arguments
   unchanged.
 """
-describe_fleet_advisor_collectors(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorCollectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleet_advisor_collectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorCollectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleet_advisor_collectors(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeFleetAdvisorCollectors";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_fleet_advisor_collectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorCollectors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleet_advisor_databases()
@@ -1307,8 +2294,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call again using the returned token to retrieve the next page. Keep all other arguments
   unchanged.
 """
-describe_fleet_advisor_databases(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleet_advisor_databases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleet_advisor_databases(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeFleetAdvisorDatabases";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_fleet_advisor_databases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorDatabases",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleet_advisor_lsa_analysis()
@@ -1327,8 +2328,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call again using the returned token to retrieve the next page. Keep all other arguments
   unchanged.
 """
-describe_fleet_advisor_lsa_analysis(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorLsaAnalysis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleet_advisor_lsa_analysis(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorLsaAnalysis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleet_advisor_lsa_analysis(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeFleetAdvisorLsaAnalysis";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_fleet_advisor_lsa_analysis(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorLsaAnalysis",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleet_advisor_schema_object_summary()
@@ -1351,8 +2366,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call again using the returned token to retrieve the next page. Keep all other arguments
   unchanged.
 """
-describe_fleet_advisor_schema_object_summary(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorSchemaObjectSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleet_advisor_schema_object_summary(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorSchemaObjectSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleet_advisor_schema_object_summary(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeFleetAdvisorSchemaObjectSummary";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_fleet_advisor_schema_object_summary(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorSchemaObjectSummary",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_fleet_advisor_schemas()
@@ -1382,8 +2412,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call again using the returned token to retrieve the next page. Keep all other arguments
   unchanged.
 """
-describe_fleet_advisor_schemas(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_fleet_advisor_schemas(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeFleetAdvisorSchemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fleet_advisor_schemas(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeFleetAdvisorSchemas";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_fleet_advisor_schemas(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorSchemas",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_instance_profiles()
@@ -1408,8 +2452,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_instance_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeInstanceProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_instance_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeInstanceProfiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_metadata_model_assessments(migration_project_identifier)
@@ -1440,8 +2496,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_metadata_model_assessments(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelAssessments", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_metadata_model_assessments(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelAssessments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_metadata_model_assessments(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeMetadataModelAssessments",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_metadata_model_assessments(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelAssessments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_metadata_model_conversions(migration_project_identifier)
@@ -1470,8 +2552,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_metadata_model_conversions(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelConversions", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_metadata_model_conversions(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelConversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_metadata_model_conversions(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeMetadataModelConversions",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_metadata_model_conversions(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelConversions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_metadata_model_exports_as_script(migration_project_identifier)
@@ -1500,8 +2608,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_metadata_model_exports_as_script(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelExportsAsScript", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_metadata_model_exports_as_script(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelExportsAsScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_metadata_model_exports_as_script(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeMetadataModelExportsAsScript",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_metadata_model_exports_as_script(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelExportsAsScript",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_metadata_model_exports_to_target(migration_project_identifier)
@@ -1530,8 +2664,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_metadata_model_exports_to_target(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelExportsToTarget", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_metadata_model_exports_to_target(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelExportsToTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_metadata_model_exports_to_target(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeMetadataModelExportsToTarget",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_metadata_model_exports_to_target(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelExportsToTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_metadata_model_imports(migration_project_identifier)
@@ -1558,8 +2718,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   make the call again using the returned token and keeping all other arguments unchanged.
 - `"MaxRecords"`: A paginated list of metadata model imports.
 """
-describe_metadata_model_imports(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelImports", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_metadata_model_imports(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMetadataModelImports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_metadata_model_imports(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeMetadataModelImports",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_metadata_model_imports(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelImports",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_migration_projects()
@@ -1584,8 +2770,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
 """
-describe_migration_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMigrationProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_migration_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeMigrationProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_migration_projects(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeMigrationProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_migration_projects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeMigrationProjects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_orderable_replication_instances()
@@ -1609,8 +2807,23 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_orderable_replication_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeOrderableReplicationInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_orderable_replication_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeOrderableReplicationInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_orderable_replication_instances(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeOrderableReplicationInstances";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_orderable_replication_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeOrderableReplicationInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_pending_maintenance_actions()
@@ -1635,8 +2848,22 @@ Default: 100
 Constraints: Minimum 20, maximum 100.
 - `"ReplicationInstanceArn"`: The Amazon Resource Name (ARN) of the replication instance.
 """
-describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribePendingMaintenanceActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_pending_maintenance_actions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribePendingMaintenanceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribePendingMaintenanceActions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_pending_maintenance_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribePendingMaintenanceActions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_recommendation_limitations()
@@ -1661,8 +2888,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of `NextToken` is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
-describe_recommendation_limitations(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeRecommendationLimitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_recommendation_limitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeRecommendationLimitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_recommendation_limitations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeRecommendationLimitations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_recommendation_limitations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeRecommendationLimitations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_recommendations()
@@ -1687,8 +2928,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of `NextToken` is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
-describe_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_refresh_schemas_status(endpoint_arn)
@@ -1701,8 +2954,28 @@ Returns the status of the RefreshSchemas operation.
 - `endpoint_arn`: The Amazon Resource Name (ARN) string that uniquely identifies the
   endpoint.
 """
-describe_refresh_schemas_status(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeRefreshSchemasStatus", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_refresh_schemas_status(EndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeRefreshSchemasStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_refresh_schemas_status(
+    EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeRefreshSchemasStatus",
+    Dict{String,Any}("EndpointArn" => EndpointArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_refresh_schemas_status(
+    EndpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeRefreshSchemasStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_configs()
@@ -1723,8 +2996,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
 """
-describe_replication_configs(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_configs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeReplicationConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_replication_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationConfigs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_instance_task_logs(replication_instance_arn)
@@ -1751,8 +3036,32 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_replication_instance_task_logs(ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationInstanceTaskLogs", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_instance_task_logs(ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationInstanceTaskLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_instance_task_logs(
+    ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeReplicationInstanceTaskLogs",
+    Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_replication_instance_task_logs(
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeReplicationInstanceTaskLogs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_instances()
@@ -1779,8 +3088,22 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_replication_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeReplicationInstances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_replication_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_subnet_groups()
@@ -1806,8 +3129,22 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_replication_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_subnet_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeReplicationSubnetGroups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_replication_subnet_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationSubnetGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_table_statistics(replication_config_arn)
@@ -1832,8 +3169,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
 """
-describe_replication_table_statistics(ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTableStatistics", Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_table_statistics(ReplicationConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTableStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_table_statistics(
+    ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeReplicationTableStatistics",
+    Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_replication_table_statistics(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeReplicationTableStatistics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_task_assessment_results()
@@ -1863,8 +3224,23 @@ Constraints: Minimum 20, maximum 100.
   the task. When this input parameter is specified, the API returns only one result and
   ignore the values of the `MaxRecords` and `Marker` parameters.
 """
-describe_replication_task_assessment_results(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTaskAssessmentResults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_task_assessment_results(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTaskAssessmentResults", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_task_assessment_results(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeReplicationTaskAssessmentResults";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_replication_task_assessment_results(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationTaskAssessmentResults",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_task_assessment_runs()
@@ -1895,8 +3271,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
 """
-describe_replication_task_assessment_runs(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTaskAssessmentRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_task_assessment_runs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTaskAssessmentRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_task_assessment_runs(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeReplicationTaskAssessmentRuns";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_replication_task_assessment_runs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationTaskAssessmentRuns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_task_individual_assessments()
@@ -1923,8 +3314,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
 """
-describe_replication_task_individual_assessments(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTaskIndividualAssessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_task_individual_assessments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTaskIndividualAssessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_task_individual_assessments(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeReplicationTaskIndividualAssessments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_replication_task_individual_assessments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationTaskIndividualAssessments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replication_tasks()
@@ -1954,8 +3360,20 @@ Constraints: Minimum 20, maximum 100.
   this to reduce overhead when setting information is too large. To use this option, choose
   `true`; otherwise, choose `false` (the default).
 """
-describe_replication_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replication_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplicationTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replication_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeReplicationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_replication_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_replications()
@@ -1976,8 +3394,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
 """
-describe_replications(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_replications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeReplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_replications(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeReplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function describe_replications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_schemas(endpoint_arn)
@@ -2005,8 +3435,27 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_schemas(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeSchemas", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_schemas(EndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_schemas(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "DescribeSchemas",
+        Dict{String,Any}("EndpointArn" => EndpointArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_schemas(
+    EndpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeSchemas",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_table_statistics(replication_task_arn)
@@ -2044,8 +3493,30 @@ Default: 100
 
 Constraints: Minimum 20, maximum 500.
 """
-describe_table_statistics(ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeTableStatistics", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_table_statistics(ReplicationTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("DescribeTableStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_table_statistics(
+    ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "DescribeTableStatistics",
+    Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_table_statistics(
+    ReplicationTaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeTableStatistics",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     export_metadata_model_assessment(migration_project_identifier, selection_rules)
@@ -2066,8 +3537,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssessmentReportTypes"`: The file format of the assessment file.
 - `"FileName"`: The name of the assessment file to create in your Amazon S3 bucket.
 """
-export_metadata_model_assessment(MigrationProjectIdentifier, SelectionRules; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ExportMetadataModelAssessment", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-export_metadata_model_assessment(MigrationProjectIdentifier, SelectionRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ExportMetadataModelAssessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "ExportMetadataModelAssessment",
+    Dict{String,Any}(
+        "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+        "SelectionRules" => SelectionRules,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ExportMetadataModelAssessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_certificate(certificate_identifier)
@@ -2090,11 +3594,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SSL. Provide the name of a `.sso` file using the `fileb://` prefix. You can't provide the
   certificate inline.
 
-Example: `filebase64("${path.root}/rds-ca-2019-root.sso")`
+Example: `filebase64("\${path.root}/rds-ca-2019-root.sso")`
 - `"Tags"`: The tags associated with the certificate.
 """
-import_certificate(CertificateIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ImportCertificate", Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_certificate(CertificateIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_certificate(
+    CertificateIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ImportCertificate",
+    Dict{String,Any}("CertificateIdentifier" => CertificateIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_certificate(
+    CertificateIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ImportCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CertificateIdentifier" => CertificateIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource()
@@ -2116,8 +3644,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It also returns each tag's associated `ResourceArn` value, which is the ARN of the
   resource for which each listed tag is created.
 """
-list_tags_for_resource(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ListTagsForResource"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ListTagsForResource", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "ListTagsForResource"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_tags_for_resource(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "ListTagsForResource",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_conversion_configuration(conversion_configuration, migration_project_identifier)
@@ -2130,8 +3670,41 @@ Modifies the specified schema conversion configuration using the provided parame
 - `conversion_configuration`: The new conversion configuration.
 - `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
 """
-modify_conversion_configuration(ConversionConfiguration, MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyConversionConfiguration", Dict{String, Any}("ConversionConfiguration"=>ConversionConfiguration, "MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_conversion_configuration(ConversionConfiguration, MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyConversionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConversionConfiguration"=>ConversionConfiguration, "MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_conversion_configuration(
+    ConversionConfiguration,
+    MigrationProjectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "ModifyConversionConfiguration",
+    Dict{String,Any}(
+        "ConversionConfiguration" => ConversionConfiguration,
+        "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_conversion_configuration(
+    ConversionConfiguration,
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyConversionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConversionConfiguration" => ConversionConfiguration,
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_data_provider(data_provider_identifier)
@@ -2167,8 +3740,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   different names.
 - `"Settings"`: The settings in JSON format for a data provider.
 """
-modify_data_provider(DataProviderIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyDataProvider", Dict{String, Any}("DataProviderIdentifier"=>DataProviderIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_data_provider(DataProviderIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyDataProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataProviderIdentifier"=>DataProviderIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_data_provider(
+    DataProviderIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ModifyDataProvider",
+    Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_data_provider(
+    DataProviderIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyDataProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_endpoint(endpoint_arn)
@@ -2294,8 +3891,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimestreamSettings"`: Settings in JSON format for the target Amazon Timestream endpoint.
 - `"Username"`: The user name to be used to login to the endpoint database.
 """
-modify_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_endpoint(EndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "ModifyEndpoint",
+        Dict{String,Any}("EndpointArn" => EndpointArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function modify_endpoint(
+    EndpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyEndpoint",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_event_subscription(subscription_name)
@@ -2322,8 +3938,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Valid values: replication-instance | replication-task
 """
-modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_event_subscription(
+    SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ModifyEventSubscription",
+    Dict{String,Any}("SubscriptionName" => SubscriptionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_event_subscription(
+    SubscriptionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyEventSubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_instance_profile(instance_profile_identifier)
@@ -2370,8 +4008,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroups"`: Specifies the VPC security groups to be used with the instance
   profile. The VPC security group must work with the VPC containing the instance profile.
 """
-modify_instance_profile(InstanceProfileIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyInstanceProfile", Dict{String, Any}("InstanceProfileIdentifier"=>InstanceProfileIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_instance_profile(InstanceProfileIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileIdentifier"=>InstanceProfileIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_instance_profile(
+    InstanceProfileIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ModifyInstanceProfile",
+    Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_instance_profile(
+    InstanceProfileIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyInstanceProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_migration_project(migration_project_identifier)
@@ -2407,8 +4069,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify. For example, you can change an object name to lowercase or uppercase, add or
   remove a prefix or suffix, or rename objects.
 """
-modify_migration_project(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyMigrationProject", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_migration_project(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyMigrationProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_migration_project(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ModifyMigrationProject",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_migration_project(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyMigrationProject",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_replication_config(replication_config_arn)
@@ -2444,8 +4132,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetEndpointArn"`: The Amazon Resource Name (ARN) of the target endpoint for this DMS
   serverless replication configuration.
 """
-modify_replication_config(ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationConfig", Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_replication_config(ReplicationConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_replication_config(
+    ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ModifyReplicationConfig",
+    Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_replication_config(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyReplicationConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_replication_instance(replication_instance_arn)
@@ -2519,8 +4231,32 @@ Constraints: Must be at least 30 minutes
   replication instance. The VPC security group must work with the VPC containing the
   replication instance.
 """
-modify_replication_instance(ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_replication_instance(ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_replication_instance(
+    ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ModifyReplicationInstance",
+    Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_replication_instance(
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyReplicationInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_replication_subnet_group(replication_subnet_group_identifier, subnet_ids)
@@ -2540,8 +4276,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplicationSubnetGroupDescription"`: A description for the replication instance subnet
   group.
 """
-modify_replication_subnet_group(ReplicationSubnetGroupIdentifier, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_replication_subnet_group(ReplicationSubnetGroupIdentifier, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_replication_subnet_group(
+    ReplicationSubnetGroupIdentifier,
+    SubnetIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "ModifyReplicationSubnetGroup",
+    Dict{String,Any}(
+        "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
+        "SubnetIds" => SubnetIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_replication_subnet_group(
+    ReplicationSubnetGroupIdentifier,
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyReplicationSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
+                    "SubnetIds" => SubnetIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     modify_replication_task(replication_task_arn)
@@ -2608,8 +4377,30 @@ Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
   certain source and target endpoints. For more information, see [Specifying Supplemental Data for Task Settings](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html)
   in the *Database Migration Service User Guide.*
 """
-modify_replication_task(ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-modify_replication_task(ReplicationTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ModifyReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_replication_task(
+    ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ModifyReplicationTask",
+    Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function modify_replication_task(
+    ReplicationTaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyReplicationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     move_replication_task(replication_task_arn, target_replication_instance_arn)
@@ -2625,8 +4416,41 @@ be created with the same or later DMS version as the current replication instanc
 - `target_replication_instance_arn`: The ARN of the replication instance where you want to
   move the task to.
 """
-move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+move_replication_task(
+    ReplicationTaskArn,
+    TargetReplicationInstanceArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "MoveReplicationTask",
+    Dict{String,Any}(
+        "ReplicationTaskArn" => ReplicationTaskArn,
+        "TargetReplicationInstanceArn" => TargetReplicationInstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function move_replication_task(
+    ReplicationTaskArn,
+    TargetReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "MoveReplicationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationTaskArn" => ReplicationTaskArn,
+                    "TargetReplicationInstanceArn" => TargetReplicationInstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reboot_replication_instance(replication_instance_arn)
@@ -2651,8 +4475,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the failover. If the instance isn''t configured for Multi-AZ, then you can't specify
   `true`. ( `--force-planned-failover` and `--force-failover` can't both be set to `true`.)
 """
-reboot_replication_instance(ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RebootReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reboot_replication_instance(ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RebootReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reboot_replication_instance(
+    ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "RebootReplicationInstance",
+    Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reboot_replication_instance(
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "RebootReplicationInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     refresh_schemas(endpoint_arn, replication_instance_arn)
@@ -2668,8 +4516,38 @@ DescribeRefreshSchemasStatus operation.
   endpoint.
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the replication instance.
 """
-refresh_schemas(EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RefreshSchemas", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-refresh_schemas(EndpointArn, ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RefreshSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+refresh_schemas(
+    EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "RefreshSchemas",
+    Dict{String,Any}(
+        "EndpointArn" => EndpointArn, "ReplicationInstanceArn" => ReplicationInstanceArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function refresh_schemas(
+    EndpointArn,
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "RefreshSchemas",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointArn" => EndpointArn,
+                    "ReplicationInstanceArn" => ReplicationInstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reload_replication_tables(replication_config_arn, tables_to_reload)
@@ -2695,8 +4573,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   validate it if validation is enabled. Specify `validate-only` to re-validate the table.
   This option applies only when validation is enabled for the replication.
 """
-reload_replication_tables(ReplicationConfigArn, TablesToReload; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ReloadReplicationTables", Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn, "TablesToReload"=>TablesToReload); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reload_replication_tables(ReplicationConfigArn, TablesToReload, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ReloadReplicationTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn, "TablesToReload"=>TablesToReload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reload_replication_tables(
+    ReplicationConfigArn, TablesToReload; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ReloadReplicationTables",
+    Dict{String,Any}(
+        "ReplicationConfigArn" => ReplicationConfigArn,
+        "TablesToReload" => TablesToReload,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reload_replication_tables(
+    ReplicationConfigArn,
+    TablesToReload,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ReloadReplicationTables",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationConfigArn" => ReplicationConfigArn,
+                    "TablesToReload" => TablesToReload,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     reload_tables(replication_task_arn, tables_to_reload)
@@ -2724,8 +4633,38 @@ Valid values: data-reload, validate-only
 
 Default value is data-reload.
 """
-reload_tables(ReplicationTaskArn, TablesToReload; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ReloadTables", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TablesToReload"=>TablesToReload); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-reload_tables(ReplicationTaskArn, TablesToReload, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("ReloadTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TablesToReload"=>TablesToReload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reload_tables(
+    ReplicationTaskArn, TablesToReload; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "ReloadTables",
+    Dict{String,Any}(
+        "ReplicationTaskArn" => ReplicationTaskArn, "TablesToReload" => TablesToReload
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reload_tables(
+    ReplicationTaskArn,
+    TablesToReload,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ReloadTables",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationTaskArn" => ReplicationTaskArn,
+                    "TablesToReload" => TablesToReload,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     remove_tags_from_resource(resource_arn, tag_keys)
@@ -2741,8 +4680,33 @@ data type description.
   parameter is an Amazon Resource Name (ARN).
 - `tag_keys`: The tag key (name) of the tag to be removed.
 """
-remove_tags_from_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RemoveTagsFromResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-remove_tags_from_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_tags_from_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "RemoveTagsFromResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function remove_tags_from_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "RemoveTagsFromResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     run_fleet_advisor_lsa_analysis()
@@ -2750,8 +4714,20 @@ remove_tags_from_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aw
 
 Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
 """
-run_fleet_advisor_lsa_analysis(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RunFleetAdvisorLsaAnalysis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-run_fleet_advisor_lsa_analysis(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("RunFleetAdvisorLsaAnalysis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+run_fleet_advisor_lsa_analysis(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "RunFleetAdvisorLsaAnalysis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function run_fleet_advisor_lsa_analysis(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "RunFleetAdvisorLsaAnalysis",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_extension_pack_association(migration_project_identifier)
@@ -2765,8 +4741,34 @@ objects to the target database.
 
 - `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
 """
-start_extension_pack_association(MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartExtensionPackAssociation", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_extension_pack_association(MigrationProjectIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartExtensionPackAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_extension_pack_association(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "StartExtensionPackAssociation",
+    Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_extension_pack_association(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartExtensionPackAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_metadata_model_assessment(migration_project_identifier, selection_rules)
@@ -2782,8 +4784,41 @@ converted to the database engine of your target database instance.
 - `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
 - `selection_rules`: A value that specifies the database objects to assess.
 """
-start_metadata_model_assessment(MigrationProjectIdentifier, SelectionRules; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelAssessment", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_metadata_model_assessment(MigrationProjectIdentifier, SelectionRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelAssessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartMetadataModelAssessment",
+    Dict{String,Any}(
+        "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+        "SelectionRules" => SelectionRules,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelAssessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_metadata_model_conversion(migration_project_identifier, selection_rules)
@@ -2796,8 +4831,41 @@ Converts your source database objects to a format compatible with the target dat
 - `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
 - `selection_rules`: A value that specifies the database objects to convert.
 """
-start_metadata_model_conversion(MigrationProjectIdentifier, SelectionRules; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelConversion", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_metadata_model_conversion(MigrationProjectIdentifier, SelectionRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelConversion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_metadata_model_conversion(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartMetadataModelConversion",
+    Dict{String,Any}(
+        "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+        "SelectionRules" => SelectionRules,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_metadata_model_conversion(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelConversion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_metadata_model_export_as_script(migration_project_identifier, origin, selection_rules)
@@ -2818,8 +4886,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FileName"`: The name of the model file to create in the Amazon S3 bucket.
 """
-start_metadata_model_export_as_script(MigrationProjectIdentifier, Origin, SelectionRules; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelExportAsScript", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "Origin"=>Origin, "SelectionRules"=>SelectionRules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_metadata_model_export_as_script(MigrationProjectIdentifier, Origin, SelectionRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelExportAsScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "Origin"=>Origin, "SelectionRules"=>SelectionRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_metadata_model_export_as_script(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartMetadataModelExportAsScript",
+    Dict{String,Any}(
+        "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+        "Origin" => Origin,
+        "SelectionRules" => SelectionRules,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_metadata_model_export_as_script(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelExportAsScript",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "Origin" => Origin,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_metadata_model_export_to_target(migration_project_identifier, selection_rules)
@@ -2840,8 +4945,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   extension pack is an add-on module that emulates functions present in a source database
   that are required when converting objects to the target database.
 """
-start_metadata_model_export_to_target(MigrationProjectIdentifier, SelectionRules; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelExportToTarget", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_metadata_model_export_to_target(MigrationProjectIdentifier, SelectionRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelExportToTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "SelectionRules"=>SelectionRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_metadata_model_export_to_target(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartMetadataModelExportToTarget",
+    Dict{String,Any}(
+        "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+        "SelectionRules" => SelectionRules,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_metadata_model_export_to_target(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelExportToTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_metadata_model_import(migration_project_identifier, origin, selection_rules)
@@ -2865,8 +5003,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Refresh"`: If `true`, DMS loads metadata for the specified objects from the source
   database.
 """
-start_metadata_model_import(MigrationProjectIdentifier, Origin, SelectionRules; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelImport", Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "Origin"=>Origin, "SelectionRules"=>SelectionRules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_metadata_model_import(MigrationProjectIdentifier, Origin, SelectionRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartMetadataModelImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationProjectIdentifier"=>MigrationProjectIdentifier, "Origin"=>Origin, "SelectionRules"=>SelectionRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_metadata_model_import(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartMetadataModelImport",
+    Dict{String,Any}(
+        "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+        "Origin" => Origin,
+        "SelectionRules" => SelectionRules,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_metadata_model_import(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelImport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "Origin" => Origin,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_recommendations(database_id, settings)
@@ -2887,8 +5062,33 @@ You can create recommendations for multiple source databases using [BatchStartRe
   Fleet Advisor supports the following two options: production (Multi-AZ deployments) and
   Dev/Test (Single-AZ deployments).
 """
-start_recommendations(DatabaseId, Settings; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartRecommendations", Dict{String, Any}("DatabaseId"=>DatabaseId, "Settings"=>Settings); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_recommendations(DatabaseId, Settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseId"=>DatabaseId, "Settings"=>Settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_recommendations(
+    DatabaseId, Settings; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "StartRecommendations",
+    Dict{String,Any}("DatabaseId" => DatabaseId, "Settings" => Settings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_recommendations(
+    DatabaseId,
+    Settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseId" => DatabaseId, "Settings" => Settings),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_replication(replication_config_arn, start_replication_type)
@@ -2921,8 +5121,41 @@ The value can be in date, checkpoint, or LSN/SCN format.
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time.
 """
-start_replication(ReplicationConfigArn, StartReplicationType; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplication", Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn, "StartReplicationType"=>StartReplicationType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_replication(ReplicationConfigArn, StartReplicationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn, "StartReplicationType"=>StartReplicationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_replication(
+    ReplicationConfigArn,
+    StartReplicationType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartReplication",
+    Dict{String,Any}(
+        "ReplicationConfigArn" => ReplicationConfigArn,
+        "StartReplicationType" => StartReplicationType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_replication(
+    ReplicationConfigArn,
+    StartReplicationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationConfigArn" => ReplicationConfigArn,
+                    "StartReplicationType" => StartReplicationType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_replication_task(replication_task_arn, start_replication_task_type)
@@ -2987,8 +5220,41 @@ Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
 
 Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
 """
-start_replication_task(ReplicationTaskArn, StartReplicationTaskType; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "StartReplicationTaskType"=>StartReplicationTaskType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_replication_task(ReplicationTaskArn, StartReplicationTaskType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "StartReplicationTaskType"=>StartReplicationTaskType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_replication_task(
+    ReplicationTaskArn,
+    StartReplicationTaskType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartReplicationTask",
+    Dict{String,Any}(
+        "ReplicationTaskArn" => ReplicationTaskArn,
+        "StartReplicationTaskType" => StartReplicationTaskType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_replication_task(
+    ReplicationTaskArn,
+    StartReplicationTaskType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartReplicationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationTaskArn" => ReplicationTaskArn,
+                    "StartReplicationTaskType" => StartReplicationTaskType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_replication_task_assessment(replication_task_arn)
@@ -3009,8 +5275,30 @@ in the *Database Migration Service User Guide*.
 
 - `replication_task_arn`:  The Amazon Resource Name (ARN) of the replication task.
 """
-start_replication_task_assessment(ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplicationTaskAssessment", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_replication_task_assessment(ReplicationTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplicationTaskAssessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_replication_task_assessment(
+    ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "StartReplicationTaskAssessment",
+    Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_replication_task_assessment(
+    ReplicationTaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartReplicationTaskAssessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_replication_task_assessment_run(assessment_run_name, replication_task_arn, result_location_bucket, service_access_role_arn)
@@ -3075,8 +5363,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResultLocationFolder"`: Folder within an Amazon S3 bucket where you want DMS to store
   the results of this assessment run.
 """
-start_replication_task_assessment_run(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_replication_task_assessment_run(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_replication_task_assessment_run(
+    AssessmentRunName,
+    ReplicationTaskArn,
+    ResultLocationBucket,
+    ServiceAccessRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = database_migration_service(
+    "StartReplicationTaskAssessmentRun",
+    Dict{String,Any}(
+        "AssessmentRunName" => AssessmentRunName,
+        "ReplicationTaskArn" => ReplicationTaskArn,
+        "ResultLocationBucket" => ResultLocationBucket,
+        "ServiceAccessRoleArn" => ServiceAccessRoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_replication_task_assessment_run(
+    AssessmentRunName,
+    ReplicationTaskArn,
+    ResultLocationBucket,
+    ServiceAccessRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartReplicationTaskAssessmentRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssessmentRunName" => AssessmentRunName,
+                    "ReplicationTaskArn" => ReplicationTaskArn,
+                    "ResultLocationBucket" => ResultLocationBucket,
+                    "ServiceAccessRoleArn" => ServiceAccessRoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_replication(replication_config_arn)
@@ -3089,8 +5418,31 @@ Serverless replications. This command doesn't deprovision the stopped replicatio
 
 - `replication_config_arn`: The Amazon Resource Name of the replication to stop.
 """
-stop_replication(ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StopReplication", Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_replication(ReplicationConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StopReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfigArn"=>ReplicationConfigArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_replication(ReplicationConfigArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "StopReplication",
+        Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function stop_replication(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StopReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_replication_task(replication_task_arn)
@@ -3103,8 +5455,30 @@ Stops the replication task.
 - `replication_task_arn`: The Amazon Resource Name(ARN) of the replication task to be
   stopped.
 """
-stop_replication_task(ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StopReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_replication_task(ReplicationTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("StopReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_replication_task(
+    ReplicationTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "StopReplicationTask",
+    Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_replication_task(
+    ReplicationTaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StopReplicationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     test_connection(endpoint_arn, replication_instance_arn)
@@ -3118,8 +5492,38 @@ Tests the connection between the replication instance and the endpoint.
   endpoint.
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the replication instance.
 """
-test_connection(EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("TestConnection", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-test_connection(EndpointArn, ReplicationInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("TestConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+test_connection(
+    EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = database_migration_service(
+    "TestConnection",
+    Dict{String,Any}(
+        "EndpointArn" => EndpointArn, "ReplicationInstanceArn" => ReplicationInstanceArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function test_connection(
+    EndpointArn,
+    ReplicationInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "TestConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointArn" => EndpointArn,
+                    "ReplicationInstanceArn" => ReplicationInstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_subscriptions_to_event_bridge()
@@ -3147,5 +5551,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   false, this operation runs only when all your replication instances are from DMS version
   3.4.5 or higher.
 """
-update_subscriptions_to_event_bridge(; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("UpdateSubscriptionsToEventBridge"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_subscriptions_to_event_bridge(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = database_migration_service("UpdateSubscriptionsToEventBridge", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subscriptions_to_event_bridge(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    database_migration_service(
+        "UpdateSubscriptionsToEventBridge";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_subscriptions_to_event_bridge(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "UpdateSubscriptionsToEventBridge",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

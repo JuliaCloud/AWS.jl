@@ -30,8 +30,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and 99 percent of the total value of the Savings Plan. This parameter is only supported
   if the payment option is `Partial Upfront`.
 """
-create_savings_plan(commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_savings_plan(commitment, savingsPlanOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_savings_plan(
+    commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
+) = savingsplans(
+    "POST",
+    "/CreateSavingsPlan",
+    Dict{String,Any}(
+        "commitment" => commitment,
+        "savingsPlanOfferingId" => savingsPlanOfferingId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_savings_plan(
+    commitment,
+    savingsPlanOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return savingsplans(
+        "POST",
+        "/CreateSavingsPlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "commitment" => commitment,
+                    "savingsPlanOfferingId" => savingsPlanOfferingId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_queued_savings_plan(savings_plan_id)
@@ -43,8 +78,30 @@ Deletes the queued purchase for the specified Savings Plan.
 
 - `savings_plan_id`: The ID of the Savings Plan.
 """
-delete_queued_savings_plan(savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DeleteQueuedSavingsPlan", Dict{String, Any}("savingsPlanId"=>savingsPlanId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_queued_savings_plan(savingsPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DeleteQueuedSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("savingsPlanId"=>savingsPlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_queued_savings_plan(
+    savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
+) = savingsplans(
+    "POST",
+    "/DeleteQueuedSavingsPlan",
+    Dict{String,Any}("savingsPlanId" => savingsPlanId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_queued_savings_plan(
+    savingsPlanId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return savingsplans(
+        "POST",
+        "/DeleteQueuedSavingsPlan",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("savingsPlanId" => savingsPlanId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_savings_plan_rates(savings_plan_id)
@@ -65,8 +122,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results, make another call with the returned token value.
 - `"nextToken"`: The token for the next page of results.
 """
-describe_savings_plan_rates(savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}("savingsPlanId"=>savingsPlanId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_savings_plan_rates(savingsPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("savingsPlanId"=>savingsPlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_savings_plan_rates(
+    savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
+) = savingsplans(
+    "POST",
+    "/DescribeSavingsPlanRates",
+    Dict{String,Any}("savingsPlanId" => savingsPlanId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_savings_plan_rates(
+    savingsPlanId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return savingsplans(
+        "POST",
+        "/DescribeSavingsPlanRates",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("savingsPlanId" => savingsPlanId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_savings_plans()
@@ -86,8 +165,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"savingsPlanIds"`: The IDs of the Savings Plans.
 - `"states"`: The current states of the Savings Plans.
 """
-describe_savings_plans(; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_savings_plans(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_savings_plans(; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans(
+    "POST",
+    "/DescribeSavingsPlans";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_savings_plans(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return savingsplans(
+        "POST",
+        "/DescribeSavingsPlans",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_savings_plans_offering_rates()
@@ -112,8 +206,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodes"`: The services.
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
-describe_savings_plans_offering_rates(; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_savings_plans_offering_rates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_savings_plans_offering_rates(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+) = savingsplans(
+    "POST",
+    "/DescribeSavingsPlansOfferingRates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_savings_plans_offering_rates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return savingsplans(
+        "POST",
+        "/DescribeSavingsPlansOfferingRates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_savings_plans_offerings()
@@ -141,8 +252,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodes"`: The services.
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
-describe_savings_plans_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_savings_plans_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_savings_plans_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    savingsplans(
+        "POST",
+        "/DescribeSavingsPlansOfferings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_savings_plans_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return savingsplans(
+        "POST",
+        "/DescribeSavingsPlansOfferings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -154,8 +281,29 @@ Lists the tags for the specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    savingsplans(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return savingsplans(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     return_savings_plan(savings_plan_id)
@@ -174,8 +322,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-return_savings_plan(savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/ReturnSavingsPlan", Dict{String, Any}("savingsPlanId"=>savingsPlanId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-return_savings_plan(savingsPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/ReturnSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("savingsPlanId"=>savingsPlanId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+return_savings_plan(savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    savingsplans(
+        "POST",
+        "/ReturnSavingsPlan",
+        Dict{String,Any}(
+            "savingsPlanId" => savingsPlanId, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function return_savings_plan(
+    savingsPlanId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return savingsplans(
+        "POST",
+        "/ReturnSavingsPlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "savingsPlanId" => savingsPlanId, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -188,8 +365,34 @@ Adds the specified tags to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: One or more tags. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    savingsplans(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return savingsplans(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -202,5 +405,31 @@ Removes the specified tags from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = savingsplans("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    savingsplans(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return savingsplans(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

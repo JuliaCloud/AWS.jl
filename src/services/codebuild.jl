@@ -14,8 +14,22 @@ Deletes one or more builds.
 
 - `ids`: The IDs of the builds to delete.
 """
-batch_delete_builds(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchDeleteBuilds", Dict{String, Any}("ids"=>ids); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete_builds(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchDeleteBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_builds(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "BatchDeleteBuilds",
+    Dict{String,Any}("ids" => ids);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_delete_builds(
+    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "BatchDeleteBuilds",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_build_batches(ids)
@@ -27,8 +41,23 @@ Retrieves information about one or more batch builds.
 
 - `ids`: An array that contains the batch build identifiers to retrieve.
 """
-batch_get_build_batches(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuildBatches", Dict{String, Any}("ids"=>ids); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_build_batches(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuildBatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_build_batches(ids; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "BatchGetBuildBatches",
+        Dict{String,Any}("ids" => ids);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_get_build_batches(
+    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "BatchGetBuildBatches",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_builds(ids)
@@ -40,8 +69,22 @@ Gets information about one or more builds.
 
 - `ids`: The IDs of the builds.
 """
-batch_get_builds(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuilds", Dict{String, Any}("ids"=>ids); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_builds(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_builds(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "BatchGetBuilds",
+    Dict{String,Any}("ids" => ids);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_builds(
+    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "BatchGetBuilds",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_fleets(names)
@@ -53,8 +96,22 @@ Gets information about one or more compute fleets.
 
 - `names`: The names or ARNs of the compute fleets.
 """
-batch_get_fleets(names; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetFleets", Dict{String, Any}("names"=>names); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_fleets(names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_fleets(names; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "BatchGetFleets",
+    Dict{String,Any}("names" => names);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_fleets(
+    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "BatchGetFleets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_projects(names)
@@ -68,8 +125,22 @@ Gets information about one or more build projects.
   shared with your Amazon Web Services account, its ARN must be specified. You cannot
   specify a shared project using its name.
 """
-batch_get_projects(names; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}("names"=>names); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_projects(names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_projects(names; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "BatchGetProjects",
+    Dict{String,Any}("names" => names);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_projects(
+    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "BatchGetProjects",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_report_groups(report_group_arns)
@@ -82,8 +153,30 @@ batch_get_projects(names, params::AbstractDict{String}; aws_config::AbstractAWSC
 - `report_group_arns`:  An array of report group ARNs that identify the report groups to
   return.
 """
-batch_get_report_groups(reportGroupArns; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}("reportGroupArns"=>reportGroupArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_report_groups(reportGroupArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArns"=>reportGroupArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_report_groups(
+    reportGroupArns; aws_config::AbstractAWSConfig=current_aws_config()
+) = codebuild(
+    "BatchGetReportGroups",
+    Dict{String,Any}("reportGroupArns" => reportGroupArns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_report_groups(
+    reportGroupArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "BatchGetReportGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("reportGroupArns" => reportGroupArns), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_reports(report_arns)
@@ -95,8 +188,27 @@ batch_get_report_groups(reportGroupArns, params::AbstractDict{String}; aws_confi
 
 - `report_arns`:  An array of ARNs that identify the `Report` objects to return.
 """
-batch_get_reports(reportArns; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}("reportArns"=>reportArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_reports(reportArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArns"=>reportArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_reports(reportArns; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "BatchGetReports",
+        Dict{String,Any}("reportArns" => reportArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_get_reports(
+    reportArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "BatchGetReports",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportArns" => reportArns), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_fleet(base_capacity, compute_type, environment_type, name)
@@ -182,8 +294,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   build project tags.
 - `"vpcConfig"`:
 """
-create_fleet(baseCapacity, computeType, environmentType, name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateFleet", Dict{String, Any}("baseCapacity"=>baseCapacity, "computeType"=>computeType, "environmentType"=>environmentType, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_fleet(baseCapacity, computeType, environmentType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("baseCapacity"=>baseCapacity, "computeType"=>computeType, "environmentType"=>environmentType, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_fleet(
+    baseCapacity,
+    computeType,
+    environmentType,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = codebuild(
+    "CreateFleet",
+    Dict{String,Any}(
+        "baseCapacity" => baseCapacity,
+        "computeType" => computeType,
+        "environmentType" => environmentType,
+        "name" => name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_fleet(
+    baseCapacity,
+    computeType,
+    environmentType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "CreateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "baseCapacity" => baseCapacity,
+                    "computeType" => computeType,
+                    "environmentType" => environmentType,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_project(artifacts, environment, name, service_role, source)
@@ -269,8 +422,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       If you're using compute fleets during project creation, do not provide vpcConfig.
 """
-create_project(artifacts, environment, name, serviceRole, source; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateProject", Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_project(artifacts, environment, name, serviceRole, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_project(
+    artifacts,
+    environment,
+    name,
+    serviceRole,
+    source;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = codebuild(
+    "CreateProject",
+    Dict{String,Any}(
+        "artifacts" => artifacts,
+        "environment" => environment,
+        "name" => name,
+        "serviceRole" => serviceRole,
+        "source" => source,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_project(
+    artifacts,
+    environment,
+    name,
+    serviceRole,
+    source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "CreateProject",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "artifacts" => artifacts,
+                    "environment" => environment,
+                    "name" => name,
+                    "serviceRole" => serviceRole,
+                    "source" => source,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_report_group(export_config, name, type)
@@ -294,8 +492,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   These tags are available for use by Amazon Web Services services that support CodeBuild
   report group tags.
 """
-create_report_group(exportConfig, name, type; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_report_group(exportConfig, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_report_group(
+    exportConfig, name, type; aws_config::AbstractAWSConfig=current_aws_config()
+) = codebuild(
+    "CreateReportGroup",
+    Dict{String,Any}("exportConfig" => exportConfig, "name" => name, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_report_group(
+    exportConfig,
+    name,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "CreateReportGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "exportConfig" => exportConfig, "name" => name, "type" => type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_webhook(project_name)
@@ -347,8 +573,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Global or organization webhooks are only available for GitHub and Github Enterprise
   webhooks.
 """
-create_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "CreateWebhook",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_webhook(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "CreateWebhook",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_build_batch(id)
@@ -360,8 +604,22 @@ Deletes a batch build.
 
 - `id`: The identifier of the batch build to delete.
 """
-delete_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteBuildBatch", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_build_batch(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "DeleteBuildBatch",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_build_batch(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "DeleteBuildBatch",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_fleet(arn)
@@ -373,8 +631,22 @@ Deletes a compute fleet. When you delete a compute fleet, its builds are not del
 
 - `arn`: The ARN of the compute fleet.
 """
-delete_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteFleet", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_fleet(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "DeleteFleet",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_fleet(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "DeleteFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_project(name)
@@ -386,8 +658,22 @@ delete_fleet(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=cu
 
 - `name`: The name of the build project.
 """
-delete_project(name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteProject", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_project(name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "DeleteProject",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_project(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "DeleteProject",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_report(arn)
@@ -399,8 +685,22 @@ delete_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig
 
 - `arn`:  The ARN of the report to delete.
 """
-delete_report(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReport", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_report(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_report(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "DeleteReport",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_report(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "DeleteReport",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_report_group(arn)
@@ -424,8 +724,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to delete the reports. If you call `DeleteReportGroup` for a report group that contains
   one or more reports, an exception is thrown.
 """
-delete_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "DeleteReportGroup",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_report_group(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "DeleteReportGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_resource_policy(resource_arn)
@@ -437,8 +751,27 @@ delete_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSCo
 
 - `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 """
-delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_source_credentials(arn)
@@ -450,8 +783,23 @@ delete_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::Ab
 
 - `arn`:  The Amazon Resource Name (ARN) of the token.
 """
-delete_source_credentials(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteSourceCredentials", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_source_credentials(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_source_credentials(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "DeleteSourceCredentials",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_source_credentials(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "DeleteSourceCredentials",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_webhook(project_name)
@@ -465,8 +813,26 @@ change is pushed to the repository.
 
 - `project_name`: The name of the CodeBuild project.
 """
-delete_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "DeleteWebhook",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_webhook(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "DeleteWebhook",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_code_coverages(report_arn)
@@ -494,8 +860,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are covered. </dd> </dl>
 - `"sortOrder"`: Specifies if the results are sorted in ascending or descending order.
 """
-describe_code_coverages(reportArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_code_coverages(reportArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_code_coverages(reportArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "DescribeCodeCoverages",
+        Dict{String,Any}("reportArn" => reportArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_code_coverages(
+    reportArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "DescribeCodeCoverages",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportArn" => reportArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     describe_test_cases(report_arn)
@@ -522,8 +907,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list, keep calling this operation with each subsequent next token that is returned, until
   no more next tokens are returned.
 """
-describe_test_cases(reportArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-describe_test_cases(reportArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_test_cases(reportArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "DescribeTestCases",
+        Dict{String,Any}("reportArn" => reportArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_test_cases(
+    reportArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "DescribeTestCases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportArn" => reportArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_report_group_trend(report_group_arn, trend_field)
@@ -558,8 +962,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If this parameter is omitted, the most recent 100 reports are analyzed.
 """
-get_report_group_trend(reportGroupArn, trendField; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_report_group_trend(reportGroupArn, trendField, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_report_group_trend(
+    reportGroupArn, trendField; aws_config::AbstractAWSConfig=current_aws_config()
+) = codebuild(
+    "GetReportGroupTrend",
+    Dict{String,Any}("reportGroupArn" => reportGroupArn, "trendField" => trendField);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_report_group_trend(
+    reportGroupArn,
+    trendField,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "GetReportGroupTrend",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "reportGroupArn" => reportGroupArn, "trendField" => trendField
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_resource_policy(resource_arn)
@@ -571,8 +1002,27 @@ get_report_group_trend(reportGroupArn, trendField, params::AbstractDict{String};
 
 - `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 """
-get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "GetResourcePolicy",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_source_credentials(auth_type, server_type, token)
@@ -603,8 +1053,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"username"`:  The Bitbucket username when the `authType` is BASIC_AUTH. This parameter
   is not valid for other types of source providers or connections.
 """
-import_source_credentials(authType, serverType, token; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_source_credentials(authType, serverType, token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_source_credentials(
+    authType, serverType, token; aws_config::AbstractAWSConfig=current_aws_config()
+) = codebuild(
+    "ImportSourceCredentials",
+    Dict{String,Any}("authType" => authType, "serverType" => serverType, "token" => token);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_source_credentials(
+    authType,
+    serverType,
+    token,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "ImportSourceCredentials",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "authType" => authType, "serverType" => serverType, "token" => token
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     invalidate_project_cache(project_name)
@@ -616,8 +1094,27 @@ Resets the cache for a project.
 
 - `project_name`: The name of the CodeBuild build project that the cache is reset for.
 """
-invalidate_project_cache(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-invalidate_project_cache(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+invalidate_project_cache(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "InvalidateProjectCache",
+        Dict{String,Any}("projectName" => projectName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function invalidate_project_cache(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "InvalidateProjectCache",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_build_batches()
@@ -638,8 +1135,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ASCENDING`: List the batch build identifiers in ascending order by identifier.
    - `DESCENDING`: List the batch build identifiers in descending order by identifier.
 """
-list_build_batches(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_build_batches(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_build_batches(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_build_batches(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListBuildBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_build_batches_for_project()
@@ -661,8 +1165,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ASCENDING`: List the batch build identifiers in ascending order by identifier.
    - `DESCENDING`: List the batch build identifiers in descending order by identifier.
 """
-list_build_batches_for_project(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatchesForProject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_build_batches_for_project(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatchesForProject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_build_batches_for_project(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "ListBuildBatchesForProject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_build_batches_for_project(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListBuildBatchesForProject",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_builds()
@@ -683,8 +1199,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   build IDs in ascending order by build ID.
    - `DESCENDING`: List the build IDs in descending order by build ID.
 """
-list_builds(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_builds(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_builds(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_builds(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_builds_for_project(project_name)
@@ -715,8 +1238,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `DESCENDING`: List the build identifiers in descending order, by build number.
   If the project has more than 100 builds, setting the sort order will result in an error.
 """
-list_builds_for_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_builds_for_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_builds_for_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "ListBuildsForProject",
+        Dict{String,Any}("projectName" => projectName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_builds_for_project(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "ListBuildsForProject",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_curated_environment_images()
@@ -724,8 +1266,22 @@ list_builds_for_project(projectName, params::AbstractDict{String}; aws_config::A
 
 Gets information about Docker images that are managed by CodeBuild.
 """
-list_curated_environment_images(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListCuratedEnvironmentImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_curated_environment_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListCuratedEnvironmentImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_curated_environment_images(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "ListCuratedEnvironmentImages";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_curated_environment_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListCuratedEnvironmentImages",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_fleets()
@@ -757,8 +1313,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `DESCENDING`: List in descending order.
   Use `sortBy` to specify the criterion to be used to list compute fleet names.
 """
-list_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_fleets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_projects()
@@ -788,8 +1351,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `DESCENDING`: List in descending order.
   Use `sortBy` to specify the criterion to be used to list build project names.
 """
-list_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_projects(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_projects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_report_groups()
@@ -817,8 +1387,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`:  Used to specify the order to sort the list of returned report groups.
   Valid values are `ASCENDING` and `DESCENDING`.
 """
-list_report_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_report_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_report_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_reports()
@@ -845,8 +1422,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `DESCENDING`: return reports in the reverse chronological order based on their
   creation date.
 """
-list_reports(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_reports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reports(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_reports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_reports_for_report_group(report_group_arn)
@@ -876,8 +1460,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`:  Use to specify whether the results are returned in ascending or
   descending order.
 """
-list_reports_for_report_group(reportGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}("reportGroupArn"=>reportGroupArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_reports_for_report_group(reportGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reports_for_report_group(
+    reportGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = codebuild(
+    "ListReportsForReportGroup",
+    Dict{String,Any}("reportGroupArn" => reportGroupArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_reports_for_report_group(
+    reportGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "ListReportsForReportGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportGroupArn" => reportGroupArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_shared_projects()
@@ -907,8 +1511,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ASCENDING`: List in ascending order.
  - `DESCENDING`: List in descending order.
 """
-list_shared_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_shared_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_shared_projects(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_shared_projects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListSharedProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_shared_report_groups()
@@ -939,8 +1550,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ASCENDING`: List in ascending order.
  - `DESCENDING`: List in descending order.
 """
-list_shared_report_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_shared_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_shared_report_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_shared_report_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListSharedReportGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_source_credentials()
@@ -948,8 +1570,19 @@ list_shared_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSC
 
  Returns a list of `SourceCredentialsInfo` objects.
 """
-list_source_credentials(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_source_credentials(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSourceCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_source_credentials(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_source_credentials(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "ListSourceCredentials",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_resource_policy(policy, resource_arn)
@@ -965,8 +1598,33 @@ list_source_credentials(params::AbstractDict{String}; aws_config::AbstractAWSCon
 - `resource_arn`:  The ARN of the `Project` or `ReportGroup` resource you want to associate
   with a resource policy.
 """
-put_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_resource_policy(policy, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(
+    policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = codebuild(
+    "PutResourcePolicy",
+    Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_resource_policy(
+    policy,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     retry_build()
@@ -984,8 +1642,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request and is valid for five minutes. If you repeat the `RetryBuild` request with the
   same token, but change a parameter, CodeBuild returns a parameter mismatch error.
 """
-retry_build(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-retry_build(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+retry_build(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function retry_build(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "RetryBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     retry_build_batch()
@@ -1005,8 +1670,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a parameter mismatch error.
 - `"retryType"`: Specifies the type of retry to perform.
 """
-retry_build_batch(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-retry_build_batch(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuildBatch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+retry_build_batch(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild("RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function retry_build_batch(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "RetryBuildBatch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     start_build(project_name)
@@ -1150,8 +1822,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours), that overrides, for this build only, the latest setting already defined in the
   build project.
 """
-start_build(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuild", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_build(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_build(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "StartBuild",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_build(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "StartBuild",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_build_batch(project_name)
@@ -1276,8 +1966,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    <p>For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html)
   in the *CodeBuild User Guide*.
 """
-start_build_batch(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_build_batch(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_build_batch(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    codebuild(
+        "StartBuildBatch",
+        Dict{String,Any}("projectName" => projectName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_build_batch(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "StartBuildBatch",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_build(id)
@@ -1289,8 +1998,22 @@ Attempts to stop running a build.
 
 - `id`: The ID of the build.
 """
-stop_build(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuild", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_build(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_build(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "StopBuild",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_build(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "StopBuild",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_build_batch(id)
@@ -1302,8 +2025,22 @@ Stops a running batch build.
 
 - `id`: The identifier of the batch build to stop.
 """
-stop_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuildBatch", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_build_batch(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "StopBuildBatch",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_build_batch(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "StopBuildBatch",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_fleet(arn)
@@ -1390,8 +2127,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   build project tags.
 - `"vpcConfig"`:
 """
-update_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateFleet", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_fleet(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "UpdateFleet",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_fleet(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "UpdateFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_project(name)
@@ -1481,8 +2232,22 @@ To remove this limit, set this value to -1.
   completed.
 - `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
-update_project(name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProject", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_project(name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "UpdateProject",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_project(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "UpdateProject",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_project_visibility(project_arn, project_visibility)
@@ -1523,8 +2288,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceAccessRole"`: The ARN of the IAM role that enables CodeBuild to access the
   CloudWatch Logs and Amazon S3 artifacts for the project's builds.
 """
-update_project_visibility(projectArn, projectVisibility; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProjectVisibility", Dict{String, Any}("projectArn"=>projectArn, "projectVisibility"=>projectVisibility); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_project_visibility(projectArn, projectVisibility, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProjectVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn, "projectVisibility"=>projectVisibility), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_project_visibility(
+    projectArn, projectVisibility; aws_config::AbstractAWSConfig=current_aws_config()
+) = codebuild(
+    "UpdateProjectVisibility",
+    Dict{String,Any}("projectArn" => projectArn, "projectVisibility" => projectVisibility);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_project_visibility(
+    projectArn,
+    projectVisibility,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "UpdateProjectVisibility",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "projectArn" => projectArn, "projectVisibility" => projectVisibility
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_report_group(arn)
@@ -1548,8 +2340,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   These tags are available for use by Amazon Web Services services that support CodeBuild
   report group tags.
 """
-update_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "UpdateReportGroup",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_report_group(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codebuild(
+        "UpdateReportGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_webhook(project_name)
@@ -1582,5 +2388,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository's secret token should be updated. If you use Bitbucket for your repository,
   `rotateSecret` is ignored.
 """
-update_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild(
+    "UpdateWebhook",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_webhook(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codebuild(
+        "UpdateWebhook",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

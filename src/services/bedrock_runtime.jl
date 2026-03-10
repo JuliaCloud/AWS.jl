@@ -18,8 +18,39 @@ The action to apply a guardrail.
 - `guardrail_version`: The guardrail version used in the request to apply the guardrail.
 - `source`: The source of data used in the request to apply the guardrail.
 """
-apply_guardrail(content, guardrailIdentifier, guardrailVersion, source; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply", Dict{String, Any}("content"=>content, "source"=>source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-apply_guardrail(content, guardrailIdentifier, guardrailVersion, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content, "source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+apply_guardrail(
+    content,
+    guardrailIdentifier,
+    guardrailVersion,
+    source;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = bedrock_runtime(
+    "POST",
+    "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply",
+    Dict{String,Any}("content" => content, "source" => source);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function apply_guardrail(
+    content,
+    guardrailIdentifier,
+    guardrailVersion,
+    source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_runtime(
+        "POST",
+        "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("content" => content, "source" => source), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     converse(messages, model_id)
@@ -92,8 +123,30 @@ For information about the JSON Pointer syntax, see the [Internet Engineering Tas
       This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command
   R+, and Mistral Large models.
 """
-converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/converse", Dict{String, Any}("messages"=>messages); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-converse(messages, modelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/converse", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("messages"=>messages), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/converse",
+        Dict{String,Any}("messages" => messages);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function converse(
+    messages,
+    modelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/converse",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("messages" => messages), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     converse_stream(messages, model_id)
@@ -172,8 +225,30 @@ For information about the JSON Pointer syntax, see the [Internet Engineering Tas
 !!! note
     This field is only supported by Anthropic Claude 3 models.
 """
-converse_stream(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/converse-stream", Dict{String, Any}("messages"=>messages); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-converse_stream(messages, modelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/converse-stream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("messages"=>messages), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+converse_stream(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/converse-stream",
+        Dict{String,Any}("messages" => messages);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function converse_stream(
+    messages,
+    modelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/converse-stream",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("messages" => messages), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     invoke_model(body, model_id)
@@ -231,8 +306,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
   enabled, you can see the full Bedrock trace.
 """
-invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/invoke", Dict{String, Any}("body"=>body); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-invoke_model(body, modelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/invoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/invoke",
+        Dict{String,Any}("body" => body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function invoke_model(
+    body,
+    modelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/invoke",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     invoke_model_with_response_stream(body, model_id)
@@ -296,5 +391,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
   enabled, you can see the full Bedrock trace.
 """
-invoke_model_with_response_stream(body, modelId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/invoke-with-response-stream", Dict{String, Any}("body"=>body); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-invoke_model_with_response_stream(body, modelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_runtime("POST", "/model/$(modelId)/invoke-with-response-stream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+invoke_model_with_response_stream(
+    body, modelId; aws_config::AbstractAWSConfig=current_aws_config()
+) = bedrock_runtime(
+    "POST",
+    "/model/$(modelId)/invoke-with-response-stream",
+    Dict{String,Any}("body" => body);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function invoke_model_with_response_stream(
+    body,
+    modelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/invoke-with-response-stream",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

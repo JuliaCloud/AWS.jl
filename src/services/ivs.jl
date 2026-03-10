@@ -14,8 +14,24 @@ Performs <a>GetChannel</a> on multiple ARNs simultaneously.
 
 - `arns`: Array of ARNs, one per channel.
 """
-batch_get_channel(arns; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/BatchGetChannel", Dict{String, Any}("arns"=>arns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_channel(arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/BatchGetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_channel(arns; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/BatchGetChannel",
+    Dict{String,Any}("arns" => arns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_channel(
+    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/BatchGetChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_get_stream_key(arns)
@@ -27,8 +43,24 @@ Performs <a>GetStreamKey</a> on multiple ARNs simultaneously.
 
 - `arns`: Array of ARNs, one per stream key.
 """
-batch_get_stream_key(arns; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/BatchGetStreamKey", Dict{String, Any}("arns"=>arns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_get_stream_key(arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/BatchGetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_stream_key(arns; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/BatchGetStreamKey",
+    Dict{String,Any}("arns" => arns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_get_stream_key(
+    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/BatchGetStreamKey",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_start_viewer_session_revocation(viewer_sessions)
@@ -41,8 +73,30 @@ simultaneously.
 
 - `viewer_sessions`: Array of viewer sessions, one per channel-ARN and viewer-ID pair.
 """
-batch_start_viewer_session_revocation(viewerSessions; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/BatchStartViewerSessionRevocation", Dict{String, Any}("viewerSessions"=>viewerSessions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_start_viewer_session_revocation(viewerSessions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/BatchStartViewerSessionRevocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("viewerSessions"=>viewerSessions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_start_viewer_session_revocation(
+    viewerSessions; aws_config::AbstractAWSConfig=current_aws_config()
+) = ivs(
+    "POST",
+    "/BatchStartViewerSessionRevocation",
+    Dict{String,Any}("viewerSessions" => viewerSessions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_start_viewer_session_revocation(
+    viewerSessions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/BatchStartViewerSessionRevocation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("viewerSessions" => viewerSessions), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_channel()
@@ -79,8 +133,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately.* Default: `STANDARD`. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
 """
-create_channel(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreateChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_channel(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreateChannel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_channel(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs("POST", "/CreateChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_channel(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/CreateChannel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_playback_restriction_policy()
@@ -107,8 +172,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and requirements"; Amazon IVS has no service-specific constraints beyond what is
   documented there.
 """
-create_playback_restriction_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreatePlaybackRestrictionPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_playback_restriction_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreatePlaybackRestrictionPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_playback_restriction_policy(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs(
+        "POST",
+        "/CreatePlaybackRestrictionPolicy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_playback_restriction_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/CreatePlaybackRestrictionPolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_recording_configuration(destination_configuration)
@@ -150,8 +231,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recording of thumbnails for a live session and modify the interval at which thumbnails
   are generated for the live session.
 """
-create_recording_configuration(destinationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreateRecordingConfiguration", Dict{String, Any}("destinationConfiguration"=>destinationConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_recording_configuration(destinationConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreateRecordingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationConfiguration"=>destinationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_recording_configuration(
+    destinationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+) = ivs(
+    "POST",
+    "/CreateRecordingConfiguration",
+    Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_recording_configuration(
+    destinationConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/CreateRecordingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("destinationConfiguration" => destinationConfiguration),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_stream_key(channel_arn)
@@ -177,8 +284,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and requirements"; Amazon IVS has no service-specific constraints beyond what is
   documented there.
 """
-create_stream_key(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreateStreamKey", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_stream_key(channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/CreateStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_stream_key(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/CreateStreamKey",
+    Dict{String,Any}("channelArn" => channelArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_stream_key(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/CreateStreamKey",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_channel(arn)
@@ -195,8 +322,24 @@ DeleteChannel. (See [ Using EventBridge with Amazon IVS](https://docs.aws.amazon
 
 - `arn`: ARN of the channel to be deleted.
 """
-delete_channel(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeleteChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_channel(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeleteChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_channel(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/DeleteChannel",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_channel(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/DeleteChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_playback_key_pair(arn)
@@ -210,8 +353,24 @@ in the *Amazon IVS User Guide*.
 
 - `arn`: ARN of the key pair to be deleted.
 """
-delete_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeletePlaybackKeyPair", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_playback_key_pair(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeletePlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/DeletePlaybackKeyPair",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_playback_key_pair(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/DeletePlaybackKeyPair",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_playback_restriction_policy(arn)
@@ -223,8 +382,26 @@ Deletes the specified playback restriction policy.
 
 - `arn`: ARN of the playback restriction policy to be deleted.
 """
-delete_playback_restriction_policy(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeletePlaybackRestrictionPolicy", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_playback_restriction_policy(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeletePlaybackRestrictionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_playback_restriction_policy(
+    arn; aws_config::AbstractAWSConfig=current_aws_config()
+) = ivs(
+    "POST",
+    "/DeletePlaybackRestrictionPolicy",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_playback_restriction_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/DeletePlaybackRestrictionPolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_recording_configuration(arn)
@@ -241,8 +418,25 @@ recording configuration, first use <a>UpdateChannel</a> to set the
 
 - `arn`: ARN of the recording configuration to be deleted.
 """
-delete_recording_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeleteRecordingConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_recording_configuration(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeleteRecordingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_recording_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs(
+        "POST",
+        "/DeleteRecordingConfiguration",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_recording_configuration(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/DeleteRecordingConfiguration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_stream_key(arn)
@@ -254,8 +448,24 @@ Deletes the stream key for the specified ARN, so it can no longer be used to str
 
 - `arn`: ARN of the stream key to be deleted.
 """
-delete_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeleteStreamKey", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_stream_key(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/DeleteStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/DeleteStreamKey",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_stream_key(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/DeleteStreamKey",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_channel(arn)
@@ -268,8 +478,24 @@ Gets the channel configuration for the specified channel ARN. See also
 
 - `arn`: ARN of the channel for which the configuration is to be retrieved.
 """
-get_channel(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_channel(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_channel(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/GetChannel",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_channel(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/GetChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_playback_key_pair(arn)
@@ -284,8 +510,24 @@ in the *Amazon IVS User Guide*.
 
 - `arn`: ARN of the key pair to be returned.
 """
-get_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetPlaybackKeyPair", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_playback_key_pair(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/GetPlaybackKeyPair",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_playback_key_pair(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/GetPlaybackKeyPair",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_playback_restriction_policy(arn)
@@ -297,8 +539,25 @@ Gets the specified playback restriction policy.
 
 - `arn`: ARN of the playback restriction policy to be returned.
 """
-get_playback_restriction_policy(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetPlaybackRestrictionPolicy", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_playback_restriction_policy(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetPlaybackRestrictionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_playback_restriction_policy(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs(
+        "POST",
+        "/GetPlaybackRestrictionPolicy",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_playback_restriction_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/GetPlaybackRestrictionPolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_recording_configuration(arn)
@@ -310,8 +569,24 @@ Gets the recording configuration for the specified ARN.
 
 - `arn`: ARN of the recording configuration to be retrieved.
 """
-get_recording_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetRecordingConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_recording_configuration(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetRecordingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_recording_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/GetRecordingConfiguration",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_recording_configuration(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/GetRecordingConfiguration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_stream(channel_arn)
@@ -323,8 +598,28 @@ Gets information about the active (live) stream on a specified channel.
 
 - `channel_arn`: Channel ARN for stream to be accessed.
 """
-get_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetStream", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_stream(channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/GetStream",
+    Dict{String,Any}("channelArn" => channelArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_stream(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/GetStream",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_stream_key(arn)
@@ -336,8 +631,24 @@ Gets stream-key information for a specified ARN.
 
 - `arn`: ARN for the stream key to be retrieved.
 """
-get_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetStreamKey", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_stream_key(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/GetStreamKey",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_stream_key(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/GetStreamKey",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_stream_session(channel_arn)
@@ -357,8 +668,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channel. If no `streamId` is provided, this returns the most recent stream session for
   the channel, if it exists.
 """
-get_stream_session(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetStreamSession", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_stream_session(channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/GetStreamSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_stream_session(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/GetStreamSession",
+    Dict{String,Any}("channelArn" => channelArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_stream_session(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/GetStreamSession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     import_playback_key_pair(public_key_material)
@@ -384,8 +715,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and requirements"; Amazon IVS has no service-specific constraints beyond what is
   documented there.
 """
-import_playback_key_pair(publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-import_playback_key_pair(publicKeyMaterial, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_playback_key_pair(
+    publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
+) = ivs(
+    "POST",
+    "/ImportPlaybackKeyPair",
+    Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function import_playback_key_pair(
+    publicKeyMaterial,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/ImportPlaybackKeyPair",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_channels()
@@ -409,8 +764,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first channel to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_channels(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_channels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_channels(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs("POST", "/ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_channels(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/ListChannels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_playback_key_pairs()
@@ -428,8 +794,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first key pair to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_playback_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_playback_key_pairs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_playback_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/ListPlaybackKeyPairs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_playback_key_pairs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/ListPlaybackKeyPairs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_playback_restriction_policies()
@@ -445,8 +826,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first policy to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_playback_restriction_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListPlaybackRestrictionPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_playback_restriction_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListPlaybackRestrictionPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_playback_restriction_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs(
+        "POST",
+        "/ListPlaybackRestrictionPolicies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_playback_restriction_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/ListPlaybackRestrictionPolicies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_recording_configurations()
@@ -464,8 +861,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first recording configuration to retrieve. This is used for
   pagination; see the `nextToken` response field.
 """
-list_recording_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListRecordingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_recording_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListRecordingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_recording_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/ListRecordingConfigurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_recording_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/ListRecordingConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_stream_keys(channel_arn)
@@ -485,8 +897,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stream key to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_stream_keys(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_stream_keys(channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_stream_keys(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/ListStreamKeys",
+    Dict{String,Any}("channelArn" => channelArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_stream_keys(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/ListStreamKeys",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_stream_sessions(channel_arn)
@@ -507,8 +939,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_stream_sessions(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListStreamSessions", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_stream_sessions(channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListStreamSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_stream_sessions(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/ListStreamSessions",
+    Dict{String,Any}("channelArn" => channelArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_stream_sessions(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/ListStreamSessions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_streams()
@@ -526,8 +978,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_streams(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_streams(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/ListStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_streams(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs("POST", "/ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_streams(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/ListStreams",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -539,8 +1002,26 @@ Gets information about Amazon Web Services tags for the specified ARN.
 
 - `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_metadata(channel_arn, metadata)
@@ -558,8 +1039,34 @@ in the *Amazon IVS User Guide*.
   an active stream.
 - `metadata`: Metadata to insert into the stream. Maximum: 1 KB per request.
 """
-put_metadata(channelArn, metadata; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/PutMetadata", Dict{String, Any}("channelArn"=>channelArn, "metadata"=>metadata); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_metadata(channelArn, metadata, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/PutMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn, "metadata"=>metadata), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_metadata(channelArn, metadata; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs(
+        "POST",
+        "/PutMetadata",
+        Dict{String,Any}("channelArn" => channelArn, "metadata" => metadata);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function put_metadata(
+    channelArn,
+    metadata,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/PutMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("channelArn" => channelArn, "metadata" => metadata),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_viewer_session_revocation(channel_arn, viewer_id)
@@ -584,8 +1091,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   viewer session to revoke. All versions less than or equal to the specified version will
   be revoked. Default: 0.
 """
-start_viewer_session_revocation(channelArn, viewerId; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/StartViewerSessionRevocation", Dict{String, Any}("channelArn"=>channelArn, "viewerId"=>viewerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_viewer_session_revocation(channelArn, viewerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/StartViewerSessionRevocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn, "viewerId"=>viewerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_viewer_session_revocation(
+    channelArn, viewerId; aws_config::AbstractAWSConfig=current_aws_config()
+) = ivs(
+    "POST",
+    "/StartViewerSessionRevocation",
+    Dict{String,Any}("channelArn" => channelArn, "viewerId" => viewerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_viewer_session_revocation(
+    channelArn,
+    viewerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/StartViewerSessionRevocation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("channelArn" => channelArn, "viewerId" => viewerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_stream(channel_arn)
@@ -603,8 +1137,28 @@ attached to the channel.
 
 - `channel_arn`: ARN of the channel for which the stream is to be stopped.
 """
-stop_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/StopStream", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_stream(channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/StopStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/StopStream",
+    Dict{String,Any}("channelArn" => channelArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_stream(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/StopStream",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -622,8 +1176,27 @@ Adds or updates tags for the Amazon Web Services resource with the specified ARN
   and requirements"; Amazon IVS has no service-specific constraints beyond what is
   documented there.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -641,8 +1214,28 @@ Removes tags from the resource with the specified ARN.
   and requirements"; Amazon IVS has no service-specific constraints beyond what is
   documented there.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    ivs(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_channel(arn)
@@ -679,8 +1272,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately.* Default: `STANDARD`. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
 """
-update_channel(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_channel(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_channel(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs(
+    "POST",
+    "/UpdateChannel",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_channel(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/UpdateChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_playback_restriction_policy(arn)
@@ -706,5 +1315,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   site. Default: `false`.
 - `"name"`: Playback-restriction-policy name. The value does not need to be unique.
 """
-update_playback_restriction_policy(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/UpdatePlaybackRestrictionPolicy", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_playback_restriction_policy(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ivs("POST", "/UpdatePlaybackRestrictionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_playback_restriction_policy(
+    arn; aws_config::AbstractAWSConfig=current_aws_config()
+) = ivs(
+    "POST",
+    "/UpdatePlaybackRestrictionPolicy",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_playback_restriction_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs(
+        "POST",
+        "/UpdatePlaybackRestrictionPolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

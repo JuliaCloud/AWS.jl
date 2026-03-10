@@ -28,8 +28,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dataSourceSyncId"`: The identifier of the data source sync during which the documents
   were deleted.
 """
-batch_delete_document(applicationId, documents, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/documents/delete", Dict{String, Any}("documents"=>documents); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_delete_document(applicationId, documents, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/documents/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_document(
+    applicationId, documents, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/indices/$(indexId)/documents/delete",
+    Dict{String,Any}("documents" => documents);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_delete_document(
+    applicationId,
+    documents,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/indices/$(indexId)/documents/delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("documents" => documents), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     batch_put_document(application_id, documents, index_id)
@@ -59,8 +83,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access your
   S3 bucket.
 """
-batch_put_document(applicationId, documents, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/documents", Dict{String, Any}("documents"=>documents); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-batch_put_document(applicationId, documents, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/documents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_put_document(
+    applicationId, documents, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/indices/$(indexId)/documents",
+    Dict{String,Any}("documents" => documents);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_put_document(
+    applicationId,
+    documents,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/indices/$(indexId)/documents",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("documents" => documents), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     chat_sync(application_id)
@@ -103,8 +151,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The identifier of the user attached to the chat input.
 - `"userMessage"`: A end user message in a conversation.
 """
-chat_sync(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/conversations?sync", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-chat_sync(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/conversations?sync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+chat_sync(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/conversations?sync",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function chat_sync(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/conversations?sync",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_application(display_name)
@@ -151,8 +219,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and values can consist of Unicode letters, digits, white space, and any of the following
   symbols: _ . : / = + - @.
 """
-create_application(displayName; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications", Dict{String, Any}("displayName"=>displayName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_application(displayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(displayName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "POST",
+        "/applications",
+        Dict{String,Any}("displayName" => displayName, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_application(
+    displayName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "displayName" => displayName, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_data_source(application_id, configuration, display_name, index_id)
@@ -209,8 +304,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfiguration"`: Configuration information for an Amazon VPC (Virtual Private Cloud)
   to connect to your data source. For more information, see [Using Amazon VPC with Amazon Q Business connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connector-vpc.html).
 """
-create_data_source(applicationId, configuration, displayName, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/datasources", Dict{String, Any}("configuration"=>configuration, "displayName"=>displayName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_data_source(applicationId, configuration, displayName, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/datasources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration, "displayName"=>displayName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_source(
+    applicationId,
+    configuration,
+    displayName,
+    indexId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources",
+    Dict{String,Any}(
+        "configuration" => configuration,
+        "displayName" => displayName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_data_source(
+    applicationId,
+    configuration,
+    displayName,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration,
+                    "displayName" => displayName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_index(application_id, display_name)
@@ -246,8 +382,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The index type that's suitable for your needs. For more information on what's
   included in each type of index, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#index-tiers).
 """
-create_index(applicationId, displayName; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices", Dict{String, Any}("displayName"=>displayName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_index(applicationId, displayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_index(
+    applicationId, displayName; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/indices",
+    Dict{String,Any}("displayName" => displayName, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_index(
+    applicationId,
+    displayName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/indices",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "displayName" => displayName, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_plugin(application_id, auth_configuration, display_name, type)
@@ -275,8 +440,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys and values can consist of Unicode letters, digits, white space, and any of the
   following symbols: _ . : / = + - @.
 """
-create_plugin(applicationId, authConfiguration, displayName, type; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/plugins", Dict{String, Any}("authConfiguration"=>authConfiguration, "displayName"=>displayName, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_plugin(applicationId, authConfiguration, displayName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/plugins", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authConfiguration"=>authConfiguration, "displayName"=>displayName, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_plugin(
+    applicationId,
+    authConfiguration,
+    displayName,
+    type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/plugins",
+    Dict{String,Any}(
+        "authConfiguration" => authConfiguration,
+        "displayName" => displayName,
+        "type" => type,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_plugin(
+    applicationId,
+    authConfiguration,
+    displayName,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/plugins",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "authConfiguration" => authConfiguration,
+                    "displayName" => displayName,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_retriever(application_id, configuration, display_name, type)
@@ -303,8 +511,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also use tags to help control access to the retriever. Tag keys and values can consist of
   Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 """
-create_retriever(applicationId, configuration, displayName, type; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/retrievers", Dict{String, Any}("configuration"=>configuration, "displayName"=>displayName, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_retriever(applicationId, configuration, displayName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/retrievers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration, "displayName"=>displayName, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_retriever(
+    applicationId,
+    configuration,
+    displayName,
+    type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/retrievers",
+    Dict{String,Any}(
+        "configuration" => configuration,
+        "displayName" => displayName,
+        "type" => type,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_retriever(
+    applicationId,
+    configuration,
+    displayName,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/retrievers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration,
+                    "displayName" => displayName,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_user(application_id, user_id)
@@ -327,8 +578,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Business user mapping.
 - `"userAliases"`: The list of user aliases in the mapping.
 """
-create_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/users", Dict{String, Any}("userId"=>userId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_user(applicationId, userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userId"=>userId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "POST",
+        "/applications/$(applicationId)/users",
+        Dict{String,Any}("userId" => userId, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_user(
+    applicationId,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/users",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("userId" => userId, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_web_experience(application_id)
@@ -366,8 +643,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"welcomeMessage"`: The customized welcome message for end users of an Amazon Q Business
   web experience.
 """
-create_web_experience(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/experiences", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_web_experience(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/experiences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_web_experience(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "POST",
+        "/applications/$(applicationId)/experiences",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_web_experience(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/experiences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_application(application_id)
@@ -379,8 +677,26 @@ Deletes an Amazon Q Business application.
 
 - `application_id`: The identifier of the Amazon Q Business application.
 """
-delete_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_application(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_application(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_chat_controls_configuration(application_id)
@@ -393,8 +709,27 @@ Deletes chat controls configured for an existing Amazon Q Business application.
 - `application_id`: The identifier of the application the chat controls have been
   configured for.
 """
-delete_chat_controls_configuration(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/chatcontrols"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_chat_controls_configuration(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/chatcontrols", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_chat_controls_configuration(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "DELETE",
+    "/applications/$(applicationId)/chatcontrols";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_chat_controls_configuration(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/chatcontrols",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_conversation(application_id, conversation_id)
@@ -415,8 +750,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"userId"`: The identifier of the user who is deleting the conversation.
 """
-delete_conversation(applicationId, conversationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/conversations/$(conversationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_conversation(applicationId, conversationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/conversations/$(conversationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_conversation(
+    applicationId, conversationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "DELETE",
+    "/applications/$(applicationId)/conversations/$(conversationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_conversation(
+    applicationId,
+    conversationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/conversations/$(conversationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_data_source(application_id, data_source_id, index_id)
@@ -432,8 +787,29 @@ the `Status` field returned by a call to the `DescribeDataSource` API is set to 
 - `data_source_id`: The identifier of the data source connector that you want to delete.
 - `index_id`: The identifier of the index used with the data source connector.
 """
-delete_data_source(applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_data_source(applicationId, dataSourceId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_source(
+    applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "DELETE",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_data_source(
+    applicationId,
+    dataSourceId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_group(application_id, group_name, index_id)
@@ -469,8 +845,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Salesforce. Only "Sales and Marketing" should access documents in the Salesforce data
   source.
 """
-delete_group(applicationId, groupName, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_group(applicationId, groupName, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_group(
+    applicationId, groupName, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "DELETE",
+    "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_group(
+    applicationId,
+    groupName,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_index(application_id, index_id)
@@ -484,8 +881,27 @@ Deletes an Amazon Q Business index.
   Business index is linked to.
 - `index_id`: The identifier of the Amazon Q Business index.
 """
-delete_index(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/indices/$(indexId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_index(applicationId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/indices/$(indexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_index(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/indices/$(indexId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_index(
+    applicationId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/indices/$(indexId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_plugin(application_id, plugin_id)
@@ -498,8 +914,27 @@ Deletes an Amazon Q Business plugin.
 - `application_id`: The identifier the application attached to the Amazon Q Business plugin.
 - `plugin_id`: The identifier of the plugin being deleted.
 """
-delete_plugin(applicationId, pluginId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/plugins/$(pluginId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_plugin(applicationId, pluginId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/plugins/$(pluginId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_plugin(applicationId, pluginId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/plugins/$(pluginId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_plugin(
+    applicationId,
+    pluginId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/plugins/$(pluginId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_retriever(application_id, retriever_id)
@@ -512,8 +947,28 @@ Deletes the retriever used by an Amazon Q Business application.
 - `application_id`: The identifier of the Amazon Q Business application using the retriever.
 - `retriever_id`: The identifier of the retriever being deleted.
 """
-delete_retriever(applicationId, retrieverId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/retrievers/$(retrieverId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_retriever(applicationId, retrieverId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/retrievers/$(retrieverId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_retriever(
+    applicationId, retrieverId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "DELETE",
+    "/applications/$(applicationId)/retrievers/$(retrieverId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_retriever(
+    applicationId,
+    retrieverId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/retrievers/$(retrieverId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_user(application_id, user_id)
@@ -526,8 +981,27 @@ Deletes a user by email id.
 - `application_id`: The identifier of the application from which the user is being deleted.
 - `user_id`: The user email being deleted.
 """
-delete_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/users/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_user(applicationId, userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/users/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/users/$(userId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_user(
+    applicationId,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/users/$(userId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_web_experience(application_id, web_experience_id)
@@ -541,8 +1015,28 @@ Deletes an Amazon Q Business web experience.
   Amazon Q Business web experience.
 - `web_experience_id`: The identifier of the Amazon Q Business web experience being deleted.
 """
-delete_web_experience(applicationId, webExperienceId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/experiences/$(webExperienceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_web_experience(applicationId, webExperienceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/applications/$(applicationId)/experiences/$(webExperienceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_web_experience(
+    applicationId, webExperienceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "DELETE",
+    "/applications/$(applicationId)/experiences/$(webExperienceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_web_experience(
+    applicationId,
+    webExperienceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/experiences/$(webExperienceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_application(application_id)
@@ -554,8 +1048,26 @@ Gets information about an existing Amazon Q Business application.
 
 - `application_id`: The identifier of the Amazon Q Business application.
 """
-get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_application(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_application(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_chat_controls_configuration(application_id)
@@ -578,8 +1090,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve, Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of Amazon Q Business chat controls configured.
 """
-get_chat_controls_configuration(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/chatcontrols"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_chat_controls_configuration(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/chatcontrols", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_chat_controls_configuration(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/chatcontrols";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_chat_controls_configuration(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/chatcontrols",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_data_source(application_id, data_source_id, index_id)
@@ -593,8 +1124,29 @@ Gets information about an existing Amazon Q Business data source connector.
 - `data_source_id`: The identifier of the data source connector.
 - `index_id`: The identfier of the index used with the data source connector.
 """
-get_data_source(applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_data_source(applicationId, dataSourceId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_source(
+    applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_source(
+    applicationId,
+    dataSourceId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_group(application_id, group_name, index_id)
@@ -614,8 +1166,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"dataSourceId"`: The identifier of the data source the group is attached to.
 """
-get_group(applicationId, groupName, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_group(applicationId, groupName, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_group(
+    applicationId, groupName, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_group(
+    applicationId,
+    groupName,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_index(application_id, index_id)
@@ -629,8 +1202,27 @@ Gets information about an existing Amazon Q Business index.
   index.
 - `index_id`: The identifier of the Amazon Q Business index you want information on.
 """
-get_index(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_index(applicationId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_index(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices/$(indexId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_index(
+    applicationId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices/$(indexId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_plugin(application_id, plugin_id)
@@ -643,8 +1235,27 @@ Gets information about an existing Amazon Q Business plugin.
 - `application_id`: The identifier of the application which contains the plugin.
 - `plugin_id`: The identifier of the plugin.
 """
-get_plugin(applicationId, pluginId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/plugins/$(pluginId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_plugin(applicationId, pluginId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/plugins/$(pluginId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_plugin(applicationId, pluginId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)/plugins/$(pluginId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_plugin(
+    applicationId,
+    pluginId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/plugins/$(pluginId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_retriever(application_id, retriever_id)
@@ -657,8 +1268,28 @@ Gets information about an existing retriever used by an Amazon Q Business applic
 - `application_id`: The identifier of the Amazon Q Business application using the retriever.
 - `retriever_id`: The identifier of the retriever.
 """
-get_retriever(applicationId, retrieverId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/retrievers/$(retrieverId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_retriever(applicationId, retrieverId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/retrievers/$(retrieverId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_retriever(
+    applicationId, retrieverId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/retrievers/$(retrieverId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_retriever(
+    applicationId,
+    retrieverId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/retrievers/$(retrieverId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_user(application_id, user_id)
@@ -672,8 +1303,27 @@ source.
 - `application_id`: The identifier of the application connected to the user.
 - `user_id`: The user email address attached to the user.
 """
-get_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/users/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_user(applicationId, userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/users/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)/users/$(userId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_user(
+    applicationId,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/users/$(userId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_web_experience(application_id, web_experience_id)
@@ -687,8 +1337,28 @@ Gets information about an existing Amazon Q Business web experience.
   experience.
 - `web_experience_id`: The identifier of the Amazon Q Business web experience.
 """
-get_web_experience(applicationId, webExperienceId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/experiences/$(webExperienceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_web_experience(applicationId, webExperienceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/experiences/$(webExperienceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_web_experience(
+    applicationId, webExperienceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/experiences/$(webExperienceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_web_experience(
+    applicationId,
+    webExperienceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/experiences/$(webExperienceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_applications()
@@ -705,8 +1375,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve, Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of Amazon Q Business applications.
 """
-list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness(
+    "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/applications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_conversations(application_id)
@@ -729,8 +1411,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The identifier of the user involved in the Amazon Q Business web experience
   conversation.
 """
-list_conversations(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/conversations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_conversations(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/conversations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_conversations(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)/conversations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_conversations(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/conversations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_source_sync_jobs(application_id, data_source_id, index_id)
@@ -759,8 +1459,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncStatus"`: Only returns synchronization jobs with the `Status` field equal to the
   specified status.
 """
-list_data_source_sync_jobs(applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/syncjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_source_sync_jobs(applicationId, dataSourceId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/syncjobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_source_sync_jobs(
+    applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/syncjobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_source_sync_jobs(
+    applicationId,
+    dataSourceId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/syncjobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_data_sources(application_id, index_id)
@@ -783,8 +1504,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve, Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of Amazon Q Business data source connectors.
 """
-list_data_sources(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/datasources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_data_sources(applicationId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/datasources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_sources(
+    applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_sources(
+    applicationId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_documents(application_id, index_id)
@@ -807,8 +1548,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve, Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of documents.
 """
-list_documents(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/index/$(indexId)/documents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_documents(applicationId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/index/$(indexId)/documents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_documents(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)/index/$(indexId)/documents";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_documents(
+    applicationId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/index/$(indexId)/documents",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_groups(application_id, index_id, updated_earlier_than)
@@ -835,8 +1595,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of groups that are mapped to users.
 """
-list_groups(applicationId, indexId, updatedEarlierThan; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/groups", Dict{String, Any}("updatedEarlierThan"=>updatedEarlierThan); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_groups(applicationId, indexId, updatedEarlierThan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices/$(indexId)/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("updatedEarlierThan"=>updatedEarlierThan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_groups(
+    applicationId,
+    indexId,
+    updatedEarlierThan;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/indices/$(indexId)/groups",
+    Dict{String,Any}("updatedEarlierThan" => updatedEarlierThan);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_groups(
+    applicationId,
+    indexId,
+    updatedEarlierThan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices/$(indexId)/groups",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("updatedEarlierThan" => updatedEarlierThan), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_indices(application_id)
@@ -858,8 +1647,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve, Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of Amazon Q Business indices.
 """
-list_indices(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_indices(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/indices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_indices(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/indices";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_indices(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/indices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_messages(application_id, conversation_id)
@@ -882,8 +1688,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The identifier of the user involved in the Amazon Q Business web experience
   conversation.
 """
-list_messages(applicationId, conversationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/conversations/$(conversationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_messages(applicationId, conversationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/conversations/$(conversationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_messages(
+    applicationId, conversationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/conversations/$(conversationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_messages(
+    applicationId,
+    conversationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/conversations/$(conversationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_plugins(application_id)
@@ -904,8 +1730,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve, Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of plugins.
 """
-list_plugins(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_plugins(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/plugins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_plugins(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness(
+    "GET",
+    "/applications/$(applicationId)/plugins";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_plugins(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/plugins",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_retrievers(application_id)
@@ -926,8 +1769,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Business returns a next token as a pagination token to retrieve the next set of
   retrievers.
 """
-list_retrievers(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/retrievers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_retrievers(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/retrievers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_retrievers(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)/retrievers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_retrievers(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/retrievers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -941,8 +1802,26 @@ and data sources can have tags associated with them.
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Q Business application or
   data source to get a list of tags for.
 """
-list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/v1/tags/$(resourceARN)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/v1/tags/$(resourceARN)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/v1/tags/$(resourceARN)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/v1/tags/$(resourceARN)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_web_experiences(application_id)
@@ -964,8 +1843,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve, Amazon Q Business returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of Amazon Q Business conversations.
 """
-list_web_experiences(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/experiences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_web_experiences(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("GET", "/applications/$(applicationId)/experiences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_web_experiences(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "GET",
+        "/applications/$(applicationId)/experiences";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_web_experiences(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/experiences",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_feedback(application_id, conversation_id, message_id)
@@ -989,8 +1886,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message.
 - `"userId"`: The identifier of the user giving the feedback.
 """
-put_feedback(applicationId, conversationId, messageId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_feedback(applicationId, conversationId, messageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/feedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_feedback(
+    applicationId,
+    conversationId,
+    messageId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/feedback";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_feedback(
+    applicationId,
+    conversationId,
+    messageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/feedback",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_group(application_id, group_members, group_name, index_id, type)
@@ -1026,8 +1947,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   documents stored in the data sources Confluence and Salesforce. However, "Sales and
   Marketing" team only needs access to customer-related documents stored in Salesforce.
 """
-put_group(applicationId, groupMembers, groupName, indexId, type; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/indices/$(indexId)/groups", Dict{String, Any}("groupMembers"=>groupMembers, "groupName"=>groupName, "type"=>type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_group(applicationId, groupMembers, groupName, indexId, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/indices/$(indexId)/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupMembers"=>groupMembers, "groupName"=>groupName, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_group(
+    applicationId,
+    groupMembers,
+    groupName,
+    indexId,
+    type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = qbusiness(
+    "PUT",
+    "/applications/$(applicationId)/indices/$(indexId)/groups",
+    Dict{String,Any}(
+        "groupMembers" => groupMembers, "groupName" => groupName, "type" => type
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_group(
+    applicationId,
+    groupMembers,
+    groupName,
+    indexId,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/indices/$(indexId)/groups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "groupMembers" => groupMembers, "groupName" => groupName, "type" => type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_data_source_sync_job(application_id, data_source_id, index_id)
@@ -1043,8 +2003,29 @@ progress, Amazon Q Business returns a `ConflictException`.
 - `data_source_id`:  The identifier of the data source connector.
 - `index_id`: The identifier of the index used with the data source connector.
 """
-start_data_source_sync_job(applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/startsync"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_data_source_sync_job(applicationId, dataSourceId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/startsync", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_data_source_sync_job(
+    applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/startsync";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_data_source_sync_job(
+    applicationId,
+    dataSourceId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/startsync",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_data_source_sync_job(application_id, data_source_id, index_id)
@@ -1060,8 +2041,29 @@ Stops an Amazon Q Business data source connector synchronization job already in 
 - `index_id`: The identifier of the index used with the Amazon Q Business data source
   connector.
 """
-stop_data_source_sync_job(applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/stopsync"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_data_source_sync_job(applicationId, dataSourceId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/stopsync", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_data_source_sync_job(
+    applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "POST",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/stopsync";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_data_source_sync_job(
+    applicationId,
+    dataSourceId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/stopsync",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1077,8 +2079,28 @@ resource. If the tag already exists, the existing value is replaced with the new
 - `tags`: A list of tag keys to add to the Amazon Q Business application or data source. If
   a tag already exists, the existing value is replaced with the new value.
 """
-tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/v1/tags/$(resourceARN)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceARN, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("POST", "/v1/tags/$(resourceARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "POST",
+        "/v1/tags/$(resourceARN)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceARN,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/v1/tags/$(resourceARN)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1093,8 +2115,28 @@ Removes a tag from an Amazon Q Business application or a data source.
 - `tag_keys`: A list of tag keys to remove from the Amazon Q Business application or data
   source. If a tag key does not exist on the resource, it is ignored.
 """
-untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/v1/tags/$(resourceARN)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceARN, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("DELETE", "/v1/tags/$(resourceARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "DELETE",
+        "/v1/tags/$(resourceARN)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceARN,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/v1/tags/$(resourceARN)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_application(application_id)
@@ -1127,8 +2169,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: An Amazon Web Services Identity and Access Management (IAM) role that gives
   Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
 """
-update_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_application(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "PUT",
+        "/applications/$(applicationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_application(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_chat_controls_configuration(application_id)
@@ -1159,8 +2219,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"topicConfigurationsToDelete"`: The configured topic specific chat controls you want to
   delete.
 """
-update_chat_controls_configuration(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PATCH", "/applications/$(applicationId)/chatcontrols", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_chat_controls_configuration(applicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PATCH", "/applications/$(applicationId)/chatcontrols", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_chat_controls_configuration(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "PATCH",
+    "/applications/$(applicationId)/chatcontrols",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_chat_controls_configuration(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PATCH",
+        "/applications/$(applicationId)/chatcontrols",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_data_source(application_id, data_source_id, index_id)
@@ -1188,8 +2270,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncSchedule"`: The chosen update frequency for your data source.
 - `"vpcConfiguration"`:
 """
-update_data_source(applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_data_source(applicationId, dataSourceId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_source(
+    applicationId, dataSourceId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "PUT",
+    "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_data_source(
+    applicationId,
+    dataSourceId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_index(application_id, index_id)
@@ -1216,8 +2319,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, the company department name associated with each document. For more information,
   see [Understanding document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/doc-attributes-types.html#doc-attributes).
 """
-update_index(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/indices/$(indexId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_index(applicationId, indexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/indices/$(indexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_index(applicationId, indexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/indices/$(indexId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_index(
+    applicationId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/indices/$(indexId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_plugin(application_id, plugin_id)
@@ -1240,8 +2362,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverUrl"`: The source URL used for plugin configuration.
 - `"state"`: The status of the plugin.
 """
-update_plugin(applicationId, pluginId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/plugins/$(pluginId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_plugin(applicationId, pluginId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/plugins/$(pluginId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_plugin(applicationId, pluginId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/plugins/$(pluginId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_plugin(
+    applicationId,
+    pluginId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/plugins/$(pluginId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_retriever(application_id, retriever_id)
@@ -1263,8 +2404,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access the
   retriever and required resources.
 """
-update_retriever(applicationId, retrieverId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/retrievers/$(retrieverId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_retriever(applicationId, retrieverId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/retrievers/$(retrieverId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_retriever(
+    applicationId, retrieverId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "PUT",
+    "/applications/$(applicationId)/retrievers/$(retrieverId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_retriever(
+    applicationId,
+    retrieverId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/retrievers/$(retrieverId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_user(application_id, user_id)
@@ -1284,8 +2445,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userAliasesToDelete"`: The user aliases attached to the user id that are to be deleted.
 - `"userAliasesToUpdate"`: The user aliases attached to the user id that are to be updated.
 """
-update_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/users/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_user(applicationId, userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/users/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_user(applicationId, userId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/users/$(userId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_user(
+    applicationId,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/users/$(userId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_web_experience(application_id, web_experience_id)
@@ -1316,5 +2496,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"welcomeMessage"`: A customized welcome message for an end user in an Amazon Q Business
   web experience.
 """
-update_web_experience(applicationId, webExperienceId; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/experiences/$(webExperienceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_web_experience(applicationId, webExperienceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = qbusiness("PUT", "/applications/$(applicationId)/experiences/$(webExperienceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_web_experience(
+    applicationId, webExperienceId; aws_config::AbstractAWSConfig=current_aws_config()
+) = qbusiness(
+    "PUT",
+    "/applications/$(applicationId)/experiences/$(webExperienceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_web_experience(
+    applicationId,
+    webExperienceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/experiences/$(webExperienceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

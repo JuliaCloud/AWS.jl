@@ -24,8 +24,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 - `"eulaIds"`: The EULA ID.
 """
-accept_eulas(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/eula-acceptances", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-accept_eulas(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/eula-acceptances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_eulas(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/eula-acceptances",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function accept_eulas(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/eula-acceptances",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_launch_profile(ec2_subnet_ids, launch_profile_protocol_versions, name, stream_configuration, studio_component_ids, studio_id)
@@ -57,8 +79,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
-create_launch_profile(ec2SubnetIds, launchProfileProtocolVersions, name, streamConfiguration, studioComponentIds, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/launch-profiles", Dict{String, Any}("ec2SubnetIds"=>ec2SubnetIds, "launchProfileProtocolVersions"=>launchProfileProtocolVersions, "name"=>name, "streamConfiguration"=>streamConfiguration, "studioComponentIds"=>studioComponentIds, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_launch_profile(ec2SubnetIds, launchProfileProtocolVersions, name, streamConfiguration, studioComponentIds, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/launch-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ec2SubnetIds"=>ec2SubnetIds, "launchProfileProtocolVersions"=>launchProfileProtocolVersions, "name"=>name, "streamConfiguration"=>streamConfiguration, "studioComponentIds"=>studioComponentIds, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_launch_profile(
+    ec2SubnetIds,
+    launchProfileProtocolVersions,
+    name,
+    streamConfiguration,
+    studioComponentIds,
+    studioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/launch-profiles",
+    Dict{String,Any}(
+        "ec2SubnetIds" => ec2SubnetIds,
+        "launchProfileProtocolVersions" => launchProfileProtocolVersions,
+        "name" => name,
+        "streamConfiguration" => streamConfiguration,
+        "studioComponentIds" => studioComponentIds,
+        "X-Amz-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_launch_profile(
+    ec2SubnetIds,
+    launchProfileProtocolVersions,
+    name,
+    streamConfiguration,
+    studioComponentIds,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/launch-profiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ec2SubnetIds" => ec2SubnetIds,
+                    "launchProfileProtocolVersions" => launchProfileProtocolVersions,
+                    "name" => name,
+                    "streamConfiguration" => streamConfiguration,
+                    "studioComponentIds" => studioComponentIds,
+                    "X-Amz-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_streaming_image(ec2_image_id, name, studio_id)
@@ -84,8 +157,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
-create_streaming_image(ec2ImageId, name, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-images", Dict{String, Any}("ec2ImageId"=>ec2ImageId, "name"=>name, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_streaming_image(ec2ImageId, name, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-images", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ec2ImageId"=>ec2ImageId, "name"=>name, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_streaming_image(
+    ec2ImageId, name, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/streaming-images",
+    Dict{String,Any}(
+        "ec2ImageId" => ec2ImageId,
+        "name" => name,
+        "X-Amz-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_streaming_image(
+    ec2ImageId,
+    name,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-images",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ec2ImageId" => ec2ImageId,
+                    "name" => name,
+                    "X-Amz-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_streaming_session(launch_profile_id, studio_id)
@@ -117,8 +226,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
-create_streaming_session(launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions", Dict{String, Any}("launchProfileId"=>launchProfileId, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_streaming_session(launchProfileId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("launchProfileId"=>launchProfileId, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_streaming_session(
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/streaming-sessions",
+    Dict{String,Any}(
+        "launchProfileId" => launchProfileId, "X-Amz-Client-Token" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_streaming_session(
+    launchProfileId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "launchProfileId" => launchProfileId,
+                    "X-Amz-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_streaming_session_stream(session_id, studio_id)
@@ -144,8 +285,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 - `"expirationInSeconds"`: The expiration time in seconds.
 """
-create_streaming_session_stream(sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_streaming_session_stream(sessionId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_streaming_session_stream(
+    sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_streaming_session_stream(
+    sessionId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_studio(admin_role_arn, display_name, studio_name, user_role_arn)
@@ -198,8 +364,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
-create_studio(adminRoleArn, displayName, studioName, userRoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios", Dict{String, Any}("adminRoleArn"=>adminRoleArn, "displayName"=>displayName, "studioName"=>studioName, "userRoleArn"=>userRoleArn, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_studio(adminRoleArn, displayName, studioName, userRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminRoleArn"=>adminRoleArn, "displayName"=>displayName, "studioName"=>studioName, "userRoleArn"=>userRoleArn, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_studio(
+    adminRoleArn,
+    displayName,
+    studioName,
+    userRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = nimble(
+    "POST",
+    "/2020-08-01/studios",
+    Dict{String,Any}(
+        "adminRoleArn" => adminRoleArn,
+        "displayName" => displayName,
+        "studioName" => studioName,
+        "userRoleArn" => userRoleArn,
+        "X-Amz-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_studio(
+    adminRoleArn,
+    displayName,
+    studioName,
+    userRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "adminRoleArn" => adminRoleArn,
+                    "displayName" => displayName,
+                    "studioName" => studioName,
+                    "userRoleArn" => userRoleArn,
+                    "X-Amz-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_studio_component(name, studio_id, type)
@@ -237,8 +448,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
-create_studio_component(name, studioId, type; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/studio-components", Dict{String, Any}("name"=>name, "type"=>type, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_studio_component(name, studioId, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/studio-components", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_studio_component(
+    name, studioId, type; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/studio-components",
+    Dict{String,Any}(
+        "name" => name, "type" => type, "X-Amz-Client-Token" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_studio_component(
+    name,
+    studioId,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/studio-components",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name, "type" => type, "X-Amz-Client-Token" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_launch_profile(launch_profile_id, studio_id)
@@ -261,8 +504,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-delete_launch_profile(launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_launch_profile(launchProfileId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_launch_profile(
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "DELETE",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_launch_profile(
+    launchProfileId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_launch_profile_member(launch_profile_id, principal_id, studio_id)
@@ -286,8 +554,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-delete_launch_profile_member(launchProfileId, principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_launch_profile_member(launchProfileId, principalId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_launch_profile_member(
+    launchProfileId,
+    principalId,
+    studioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = nimble(
+    "DELETE",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_launch_profile_member(
+    launchProfileId,
+    principalId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_streaming_image(streaming_image_id, studio_id)
@@ -309,8 +606,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-delete_streaming_image(streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_streaming_image(streamingImageId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_streaming_image(
+    streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "DELETE",
+    "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_streaming_image(
+    streamingImageId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_streaming_session(session_id, studio_id)
@@ -338,8 +660,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-delete_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_streaming_session(sessionId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_streaming_session(
+    sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "DELETE",
+    "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_streaming_session(
+    sessionId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_studio(studio_id)
@@ -360,8 +707,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-delete_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_studio(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "DELETE",
+    "/2020-08-01/studios/$(studioId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_studio(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/studios/$(studioId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_studio_component(studio_component_id, studio_id)
@@ -383,8 +752,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-delete_studio_component(studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_studio_component(studioComponentId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_studio_component(
+    studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "DELETE",
+    "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_studio_component(
+    studioComponentId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_studio_member(principal_id, studio_id)
@@ -406,8 +800,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-delete_studio_member(principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/membership/$(principalId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_studio_member(principalId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/studios/$(studioId)/membership/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_studio_member(
+    principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "DELETE",
+    "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_studio_member(
+    principalId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_eula(eula_id)
@@ -419,8 +838,23 @@ Get EULA.
 
 - `eula_id`: The EULA ID.
 """
-get_eula(eulaId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/eulas/$(eulaId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_eula(eulaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/eulas/$(eulaId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_eula(eulaId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "GET",
+    "/2020-08-01/eulas/$(eulaId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_eula(
+    eulaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/eulas/$(eulaId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_launch_profile(launch_profile_id, studio_id)
@@ -434,8 +868,28 @@ Get a launch profile.
   streaming session.
 - `studio_id`: The studio ID.
 """
-get_launch_profile(launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_launch_profile(launchProfileId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_launch_profile(
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_launch_profile(
+    launchProfileId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_launch_profile_details(launch_profile_id, studio_id)
@@ -452,8 +906,28 @@ description of streaming images that can be used with this launch profile.
   streaming session.
 - `studio_id`: The studio ID.
 """
-get_launch_profile_details(launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_launch_profile_details(launchProfileId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_launch_profile_details(
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_launch_profile_details(
+    launchProfileId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_launch_profile_initialization(launch_profile_id, launch_profile_protocol_versions, launch_purpose, platform, studio_id)
@@ -471,8 +945,51 @@ Get a launch profile initialization.
 - `platform`: The platform where this Launch Profile will be used, either Windows or Linux.
 - `studio_id`: The studio ID.
 """
-get_launch_profile_initialization(launchProfileId, launchProfileProtocolVersions, launchPurpose, platform, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/init", Dict{String, Any}("launchProfileProtocolVersions"=>launchProfileProtocolVersions, "launchPurpose"=>launchPurpose, "platform"=>platform); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_launch_profile_initialization(launchProfileId, launchProfileProtocolVersions, launchPurpose, platform, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/init", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("launchProfileProtocolVersions"=>launchProfileProtocolVersions, "launchPurpose"=>launchPurpose, "platform"=>platform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_launch_profile_initialization(
+    launchProfileId,
+    launchProfileProtocolVersions,
+    launchPurpose,
+    platform,
+    studioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/init",
+    Dict{String,Any}(
+        "launchProfileProtocolVersions" => launchProfileProtocolVersions,
+        "launchPurpose" => launchPurpose,
+        "platform" => platform,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_launch_profile_initialization(
+    launchProfileId,
+    launchProfileProtocolVersions,
+    launchPurpose,
+    platform,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/init",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "launchProfileProtocolVersions" => launchProfileProtocolVersions,
+                    "launchPurpose" => launchPurpose,
+                    "platform" => platform,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_launch_profile_member(launch_profile_id, principal_id, studio_id)
@@ -487,8 +1004,32 @@ Get a user persona in launch profile membership.
 - `principal_id`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `studio_id`: The studio ID.
 """
-get_launch_profile_member(launchProfileId, principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_launch_profile_member(launchProfileId, principalId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_launch_profile_member(
+    launchProfileId,
+    principalId,
+    studioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_launch_profile_member(
+    launchProfileId,
+    principalId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_streaming_image(streaming_image_id, studio_id)
@@ -501,8 +1042,28 @@ Get streaming image.
 - `streaming_image_id`: The streaming image ID.
 - `studio_id`: The studio ID.
 """
-get_streaming_image(streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_streaming_image(streamingImageId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_streaming_image(
+    streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_streaming_image(
+    streamingImageId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_streaming_session(session_id, studio_id)
@@ -518,8 +1079,28 @@ session.
 - `session_id`: The streaming session ID.
 - `studio_id`: The studio ID.
 """
-get_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_streaming_session(sessionId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_streaming_session(
+    sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_streaming_session(
+    sessionId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_streaming_session_backup(backup_id, studio_id)
@@ -535,8 +1116,28 @@ session.
 - `backup_id`: The ID of the backup.
 - `studio_id`: The studio ID.
 """
-get_streaming_session_backup(backupId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-session-backups/$(backupId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_streaming_session_backup(backupId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-session-backups/$(backupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_streaming_session_backup(
+    backupId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/streaming-session-backups/$(backupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_streaming_session_backup(
+    backupId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-session-backups/$(backupId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_streaming_session_stream(session_id, stream_id, studio_id)
@@ -555,8 +1156,29 @@ contain a stream to be used with the DCV streaming client.
 - `stream_id`: The streaming session stream ID.
 - `studio_id`: The studio ID.
 """
-get_streaming_session_stream(sessionId, streamId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_streaming_session_stream(sessionId, streamId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_streaming_session_stream(
+    sessionId, streamId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_streaming_session_stream(
+    sessionId,
+    streamId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_studio(studio_id)
@@ -568,8 +1190,25 @@ Get a studio resource.
 
 - `studio_id`: The studio ID.
 """
-get_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_studio(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_studio(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_studio_component(studio_component_id, studio_id)
@@ -582,8 +1221,28 @@ Gets a studio component resource.
 - `studio_component_id`: The studio component ID.
 - `studio_id`: The studio ID.
 """
-get_studio_component(studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_studio_component(studioComponentId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_studio_component(
+    studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_studio_component(
+    studioComponentId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_studio_member(principal_id, studio_id)
@@ -596,8 +1255,28 @@ Get a user's membership in a studio.
 - `principal_id`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `studio_id`: The studio ID.
 """
-get_studio_member(principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/membership/$(principalId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_studio_member(principalId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/membership/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_studio_member(
+    principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/membership/$(principalId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_studio_member(
+    principalId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_eula_acceptances(studio_id)
@@ -617,8 +1296,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/eula-acceptances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_eula_acceptances(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/eula-acceptances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/eula-acceptances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_eula_acceptances(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/eula-acceptances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_eulas()
@@ -634,8 +1331,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_eulas(; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_eulas(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/eulas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_eulas(; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_eulas(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/eulas",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_launch_profile_members(launch_profile_id, studio_id)
@@ -657,8 +1366,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_launch_profile_members(launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_launch_profile_members(launchProfileId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_launch_profile_members(
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_launch_profile_members(
+    launchProfileId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_launch_profiles(studio_id)
@@ -680,8 +1409,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principalId"`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `"states"`: Filter this request to launch profiles in any of the given states.
 """
-list_launch_profiles(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_launch_profiles(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_launch_profiles(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/launch-profiles";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_launch_profiles(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/launch-profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_streaming_images(studio_id)
@@ -704,8 +1450,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"owner"`: Filter this request to streaming images with the given owner
 """
-list_streaming_images(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-images"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_streaming_images(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-images", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_streaming_images(studioId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-images";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_streaming_images(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-images",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_streaming_session_backups(studio_id)
@@ -725,8 +1489,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"ownedBy"`: The user ID of the user that owns the streaming session.
 """
-list_streaming_session_backups(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-session-backups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_streaming_session_backups(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-session-backups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_streaming_session_backups(
+    studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/streaming-session-backups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_streaming_session_backups(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-session-backups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_streaming_sessions(studio_id)
@@ -748,8 +1531,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ownedBy"`: Filters the request to streaming session owned by the given user
 - `"sessionIds"`: Filters the request to only the provided session IDs.
 """
-list_streaming_sessions(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_streaming_sessions(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_streaming_sessions(studioId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_streaming_sessions(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_studio_components(studio_id)
@@ -771,8 +1572,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: Filters the request to studio components that are in one of the given states.
 - `"types"`: Filters the request to studio components that are of one of the given types.
 """
-list_studio_components(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/studio-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_studio_components(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/studio-components", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_studio_components(studioId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/studio-components";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_studio_components(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/studio-components",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_studio_members(studio_id)
@@ -795,8 +1614,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_studio_members(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/membership"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_studio_members(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/membership", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_studio_members(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "GET",
+    "/2020-08-01/studios/$(studioId)/membership";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_studio_members(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios/$(studioId)/membership",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_studios()
@@ -812,8 +1648,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_studios(; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_studios(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/studios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_studios(; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "GET", "/2020-08-01/studios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_studios(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/studios",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -831,8 +1679,26 @@ this ARN yourself.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to list
   tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("GET", "/2020-08-01/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    nimble(
+        "GET",
+        "/2020-08-01/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "GET",
+        "/2020-08-01/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_launch_profile_members(identity_store_id, launch_profile_id, members, studio_id)
@@ -857,8 +1723,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-put_launch_profile_members(identityStoreId, launchProfileId, members, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership", Dict{String, Any}("identityStoreId"=>identityStoreId, "members"=>members, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_launch_profile_members(identityStoreId, launchProfileId, members, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "members"=>members, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_launch_profile_members(
+    identityStoreId,
+    launchProfileId,
+    members,
+    studioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership",
+    Dict{String,Any}(
+        "identityStoreId" => identityStoreId,
+        "members" => members,
+        "X-Amz-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_launch_profile_members(
+    identityStoreId,
+    launchProfileId,
+    members,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "identityStoreId" => identityStoreId,
+                    "members" => members,
+                    "X-Amz-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     put_studio_members(identity_store_id, members, studio_id)
@@ -881,8 +1788,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-put_studio_members(identityStoreId, members, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/membership", Dict{String, Any}("identityStoreId"=>identityStoreId, "members"=>members, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-put_studio_members(identityStoreId, members, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "members"=>members, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_studio_members(
+    identityStoreId, members, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/membership",
+    Dict{String,Any}(
+        "identityStoreId" => identityStoreId,
+        "members" => members,
+        "X-Amz-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_studio_members(
+    identityStoreId,
+    members,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/membership",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "identityStoreId" => identityStoreId,
+                    "members" => members,
+                    "X-Amz-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_streaming_session(session_id, studio_id)
@@ -907,8 +1850,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 - `"backupId"`: The ID of the backup.
 """
-start_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_streaming_session(sessionId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_streaming_session(
+    sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_streaming_session(
+    sessionId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     start_studio_ssoconfiguration_repair(studio_id)
@@ -939,8 +1907,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-start_studio_ssoconfiguration_repair(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PUT", "/2020-08-01/studios/$(studioId)/sso-configuration", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-start_studio_ssoconfiguration_repair(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PUT", "/2020-08-01/studios/$(studioId)/sso-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_studio_ssoconfiguration_repair(
+    studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "PUT",
+    "/2020-08-01/studios/$(studioId)/sso-configuration",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_studio_ssoconfiguration_repair(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "PUT",
+        "/2020-08-01/studios/$(studioId)/sso-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     stop_streaming_session(session_id, studio_id)
@@ -965,8 +1957,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumeRetentionMode"`: Adds additional instructions to a streaming session stop action
   to either retain the EBS volumes or delete the EBS volumes.
 """
-stop_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-stop_streaming_session(sessionId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_streaming_session(
+    sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "POST",
+    "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_streaming_session(
+    sessionId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn)
@@ -985,8 +2002,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
-tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("POST", "/2020-08-01/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "POST",
+    "/2020-08-01/tags/$(resourceArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1000,8 +2034,28 @@ Deletes the tags for a resource.
   tags.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("DELETE", "/2020-08-01/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    nimble(
+        "DELETE",
+        "/2020-08-01/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "DELETE",
+        "/2020-08-01/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_launch_profile(launch_profile_id, studio_id)
@@ -1031,8 +2085,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"studioComponentIds"`: Unique identifiers for a collection of studio components that can
   be used with this launch profile.
 """
-update_launch_profile(launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_launch_profile(launchProfileId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_launch_profile(
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "PATCH",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_launch_profile(
+    launchProfileId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "PATCH",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_launch_profile_member(launch_profile_id, persona, principal_id, studio_id)
@@ -1057,8 +2136,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
-update_launch_profile_member(launchProfileId, persona, principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", Dict{String, Any}("persona"=>persona, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_launch_profile_member(launchProfileId, persona, principalId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("persona"=>persona, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_launch_profile_member(
+    launchProfileId,
+    persona,
+    principalId,
+    studioId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = nimble(
+    "PATCH",
+    "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
+    Dict{String,Any}("persona" => persona, "X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_launch_profile_member(
+    launchProfileId,
+    persona,
+    principalId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "PATCH",
+        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "persona" => persona, "X-Amz-Client-Token" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_streaming_image(streaming_image_id, studio_id)
@@ -1082,8 +2196,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description.
 - `"name"`: The name for the streaming image.
 """
-update_streaming_image(streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_streaming_image(streamingImageId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_streaming_image(
+    streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "PATCH",
+    "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_streaming_image(
+    streamingImageId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "PATCH",
+        "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_studio(studio_id)
@@ -1111,8 +2250,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userRoleArn"`: The IAM role that Studio Users will assume when logging in to the Nimble
   Studio portal.
 """
-update_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_studio(studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble(
+    "PATCH",
+    "/2020-08-01/studios/$(studioId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_studio(
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "PATCH",
+        "/2020-08-01/studios/$(studioId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_studio_component(studio_component_id, studio_id)
@@ -1149,5 +2310,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subtype"`: The specific subtype of a studio component.
 - `"type"`: The type of the studio component.
 """
-update_studio_component(studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_studio_component(studioComponentId, studioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = nimble("PATCH", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_studio_component(
+    studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
+) = nimble(
+    "PATCH",
+    "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
+    Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_studio_component(
+    studioComponentId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return nimble(
+        "PATCH",
+        "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

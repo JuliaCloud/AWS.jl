@@ -59,8 +59,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrative tasks and also use the InfluxDB CLI to create an operator token. These
   attributes will be stored in a Secret created in Amazon Secrets Manager in your account.
 """
-create_db_instance(allocatedStorage, dbInstanceType, name, password, vpcSecurityGroupIds, vpcSubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("CreateDbInstance", Dict{String, Any}("allocatedStorage"=>allocatedStorage, "dbInstanceType"=>dbInstanceType, "name"=>name, "password"=>password, "vpcSecurityGroupIds"=>vpcSecurityGroupIds, "vpcSubnetIds"=>vpcSubnetIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_db_instance(allocatedStorage, dbInstanceType, name, password, vpcSecurityGroupIds, vpcSubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("CreateDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("allocatedStorage"=>allocatedStorage, "dbInstanceType"=>dbInstanceType, "name"=>name, "password"=>password, "vpcSecurityGroupIds"=>vpcSecurityGroupIds, "vpcSubnetIds"=>vpcSubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_db_instance(
+    allocatedStorage,
+    dbInstanceType,
+    name,
+    password,
+    vpcSecurityGroupIds,
+    vpcSubnetIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+) = timestream_influxdb(
+    "CreateDbInstance",
+    Dict{String,Any}(
+        "allocatedStorage" => allocatedStorage,
+        "dbInstanceType" => dbInstanceType,
+        "name" => name,
+        "password" => password,
+        "vpcSecurityGroupIds" => vpcSecurityGroupIds,
+        "vpcSubnetIds" => vpcSubnetIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_db_instance(
+    allocatedStorage,
+    dbInstanceType,
+    name,
+    password,
+    vpcSecurityGroupIds,
+    vpcSubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "CreateDbInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "allocatedStorage" => allocatedStorage,
+                    "dbInstanceType" => dbInstanceType,
+                    "name" => name,
+                    "password" => password,
+                    "vpcSecurityGroupIds" => vpcSecurityGroupIds,
+                    "vpcSubnetIds" => vpcSubnetIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     create_db_parameter_group(name)
@@ -81,8 +130,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: A list of the parameters that comprise the DB parameter group.
 - `"tags"`: A list of key-value pairs to associate with the DB parameter group.
 """
-create_db_parameter_group(name; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("CreateDbParameterGroup", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-create_db_parameter_group(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("CreateDbParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_db_parameter_group(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "CreateDbParameterGroup",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function create_db_parameter_group(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_influxdb(
+        "CreateDbParameterGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     delete_db_instance(identifier)
@@ -94,8 +158,27 @@ Deletes a Timestream for InfluxDB DB instance.
 
 - `identifier`: The id of the DB instance.
 """
-delete_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("DeleteDbInstance", Dict{String, Any}("identifier"=>identifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-delete_db_instance(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("DeleteDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifier"=>identifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "DeleteDbInstance",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_db_instance(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "DeleteDbInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_db_instance(identifier)
@@ -107,8 +190,27 @@ Returns a Timestream for InfluxDB DB instance.
 
 - `identifier`: The id of the DB instance.
 """
-get_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("GetDbInstance", Dict{String, Any}("identifier"=>identifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_db_instance(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("GetDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifier"=>identifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "GetDbInstance",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_db_instance(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "GetDbInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     get_db_parameter_group(identifier)
@@ -120,8 +222,27 @@ Returns a Timestream for InfluxDB DB parameter group.
 
 - `identifier`: The id of the DB parameter group.
 """
-get_db_parameter_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("GetDbParameterGroup", Dict{String, Any}("identifier"=>identifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-get_db_parameter_group(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("GetDbParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifier"=>identifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_db_parameter_group(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "GetDbParameterGroup",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_db_parameter_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "GetDbParameterGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_db_instances()
@@ -140,8 +261,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-list_db_instances(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_db_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("ListDbInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_db_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_db_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_influxdb(
+        "ListDbInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 
 """
     list_db_parameter_groups()
@@ -160,8 +290,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-list_db_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_db_parameter_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("ListDbParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_db_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function list_db_parameter_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_influxdb(
+        "ListDbParameterGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -173,8 +315,27 @@ A list of tags applied to the resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -188,8 +349,32 @@ Timestream for InfluxDB resources.
 - `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 - `tags`: A list of tags used to categorize and track resources.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -202,8 +387,32 @@ Removes the tag from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 - `tag_keys`: The keys used to identify the tags.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
 """
     update_db_instance(identifier)
@@ -228,5 +437,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to send to
   specified S3 bucket.
 """
-update_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("UpdateDbInstance", Dict{String, Any}("identifier"=>identifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-update_db_instance(identifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_influxdb("UpdateDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifier"=>identifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
+    timestream_influxdb(
+        "UpdateDbInstance",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_db_instance(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "UpdateDbInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
