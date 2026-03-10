@@ -48,7 +48,6 @@ using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
 const user_agent = Ref{String}()
-const aws_config = Ref{AbstractAWSConfig}()
 
 """
     FeatureSet
