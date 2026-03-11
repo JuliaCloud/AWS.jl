@@ -14,16 +14,16 @@ available in the Launch Wizard console to use the `Clone deployment` action on.
 # Arguments
 
 - `deployment_pattern_name`: The name of the deployment pattern supported by a given
-  workload. You can use the [ `ListWorkloadDeploymentPatterns` ](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html)
+  workload. You can use the [`ListWorkloadDeploymentPatterns`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html)
   operation to discover supported values for this parameter.
 - `name`: The name of the deployment.
 - `specifications`: The settings specified for the deployment. These settings define how to
-  deploy and configure your resources created by the deployment. For more information about
-  the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html).
+  deploy and configure your resources created by the deployment. For more information
+  about the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html).
   To retrieve the specifications required to create a deployment for other workloads, use
-  the [ `GetWorkloadDeploymentPattern` ](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html)
+  the [`GetWorkloadDeploymentPattern`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html)
   operation.
-- `workload_name`: The name of the workload. You can use the [ `ListWorkloads` ](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html)
+- `workload_name`: The name of the workload. You can use the [`ListWorkloads`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html)
   operation to discover supported values for this parameter.
 
 # Optional Parameters
@@ -56,6 +56,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     deploymentPatternName,
     name,
@@ -103,6 +104,7 @@ function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -138,6 +140,7 @@ function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -173,6 +176,7 @@ function get_workload(workloadName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workload(
     workloadName,
     params::AbstractDict{String};
@@ -216,6 +220,7 @@ function get_workload_deployment_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workload_deployment_pattern(
     deploymentPatternName,
     workloadName,
@@ -270,6 +275,7 @@ function list_deployment_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_events(
     deploymentId,
     params::AbstractDict{String};
@@ -296,11 +302,13 @@ Lists the deployments that have been created.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: Filters to scope the results. The following filters are supported: -
-  `WORKLOAD_NAME` - The name used in deployments.
-   - `DEPLOYMENT_STATUS` - `COMPLETED` | `CREATING` | `DELETE_IN_PROGRESS` |
-  `DELETE_INITIATING` | `DELETE_FAILED` | `DELETED` | `FAILED` | `IN_PROGRESS` |
-  `VALIDATING`
+- `"filters"`: Filters to scope the results. The following filters are supported:
+
+  - `WORKLOAD_NAME` - The name used in deployments.
+  - `DEPLOYMENT_STATUS` - `COMPLETED` | `CREATING` | `DELETE_IN_PROGRESS` |
+    `DELETE_INITIATING` | `DELETE_FAILED` | `DELETED` | `FAILED` | `IN_PROGRESS` |
+    `VALIDATING`
+
 - `"maxResults"`: The maximum number of items to return for this request. To get the next
   page of items, make another request with the token returned in the output.
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
@@ -311,6 +319,7 @@ function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -343,6 +352,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -388,6 +398,7 @@ function list_workload_deployment_patterns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workload_deployment_patterns(
     workloadName,
     params::AbstractDict{String};
@@ -425,6 +436,7 @@ function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workloads(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -457,6 +469,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -494,6 +507,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

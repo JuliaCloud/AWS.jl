@@ -15,16 +15,17 @@ Adds a policy statement object. To retrieve a list of existing policy statements
 
 - `action`: The action that the principal can use on the resource.
 
-For example, `entityresolution:GetIdMappingJob`, `entityresolution:GetMatchingJob`.
+  For example, `entityresolution:GetIdMappingJob`, `entityresolution:GetMatchingJob`.
 - `arn`: The Amazon Resource Name (ARN) of the resource that will be accessed by the
   principal.
 - `effect`: Determines whether the permissions specified in the policy are to be allowed
   (`Allow`) or denied (`Deny`).
 
   !!! important
-      If you set the value of the `effect` parameter to `Deny` for the `AddPolicyStatement`
-  operation, you must also set the value of the `effect` parameter in the `policy` to
-  `Deny` for the `PutPolicy` operation.
+      If you set the value of the `effect` parameter to `Deny` for the [`add_policy_statement`](@ref)
+      operation, you must also set the value of the `effect` parameter in the `policy` to
+      `Deny` for the [`put_policy`](@ref) operation.
+
 - `principal`: The Amazon Web Services service or Amazon Web Services account that can
   access the resource defined as ARN.
 - `statement_id`: A statement identifier that differentiates the statement from others in
@@ -52,6 +53,7 @@ function add_policy_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_policy_statement(
     action,
     arn,
@@ -106,6 +108,7 @@ function batch_delete_unique_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_unique_id(
     uniqueIds,
     workflowName,
@@ -173,6 +176,7 @@ function create_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -212,11 +216,11 @@ ID namespace, use the `UpdateIdNamespace` API.
 - `id_namespace_name`: The name of the ID namespace.
 - `type`: The type of ID namespace. There are two types: `SOURCE` and `TARGET`.
 
-  The `SOURCE` contains configurations for `sourceId` data that will be processed in an ID
-  mapping workflow.
+  The `SOURCE` contains configurations for `sourceId` data that will be processed in an
+  ID mapping workflow.
 
-  The `TARGET` contains a configuration of `targetId` to which all `sourceIds` will resolve
-  to.
+  The `TARGET` contains a configuration of `targetId` to which all `sourceIds` will
+  resolve to.
 
 # Optional Parameters
 
@@ -228,8 +232,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSourceConfig"`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to access the resources defined in this `IdNamespace` on your behalf as part of
-  the workflow run.
+  this role to access the resources defined in this `IdNamespace` on your behalf as part
+  of the workflow run.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_id_namespace(
@@ -243,6 +247,7 @@ function create_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_namespace(
     idNamespaceName,
     type,
@@ -317,6 +322,7 @@ function create_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -383,6 +389,7 @@ function create_schema_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schema_mapping(
     mappedInputFields,
     schemaName,
@@ -427,6 +434,7 @@ function delete_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_mapping_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -461,6 +469,7 @@ function delete_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -496,6 +505,7 @@ function delete_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_matching_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -532,6 +542,7 @@ function delete_policy_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_statement(
     arn,
     statementId,
@@ -570,6 +581,7 @@ function delete_schema_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema_mapping(
     schemaName,
     params::AbstractDict{String};
@@ -605,6 +617,7 @@ function get_id_mapping_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_mapping_job(
     jobId,
     workflowName,
@@ -640,6 +653,7 @@ function get_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_mapping_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -674,6 +688,7 @@ function get_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -704,9 +719,9 @@ Returns the corresponding Match ID of a customer record if the record has been p
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"applyNormalization"`: Normalizes the attributes defined in the schema in the input
-  data. For example, if an attribute has an `AttributeType` of `PHONE_NUMBER`, and the data
-  in the input table is in a format of 1234567890, Entity Resolution will normalize this
-  field in the output to (123)-456-7890.
+  data. For example, if an attribute has an `AttributeType` of `PHONE_NUMBER`, and the
+  data in the input table is in a format of 1234567890, Entity Resolution will normalize
+  this field in the output to (123)-456-7890.
 """
 function get_match_id(
     record, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -719,6 +734,7 @@ function get_match_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_match_id(
     record,
     workflowName,
@@ -755,6 +771,7 @@ function get_matching_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_matching_job(
     jobId,
     workflowName,
@@ -790,6 +807,7 @@ function get_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_matching_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -820,6 +838,7 @@ function get_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/policies/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -854,6 +873,7 @@ function get_provider_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_provider_service(
     providerName,
     providerServiceName,
@@ -887,6 +907,7 @@ function get_schema_mapping(schemaName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_mapping(
     schemaName,
     params::AbstractDict{String};
@@ -928,6 +949,7 @@ function list_id_mapping_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_id_mapping_jobs(
     workflowName,
     params::AbstractDict{String};
@@ -961,6 +983,7 @@ function list_id_mapping_workflows(; aws_config::AbstractAWSConfig=current_aws_c
         "GET", "/idmappingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_id_mapping_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -991,6 +1014,7 @@ function list_id_namespaces(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/idnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_id_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1054,7 @@ function list_matching_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_matching_jobs(
     workflowName,
     params::AbstractDict{String};
@@ -1063,6 +1088,7 @@ function list_matching_workflows(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/matchingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_matching_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1095,6 +1121,7 @@ function list_provider_services(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/providerservices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_provider_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1126,6 +1153,7 @@ function list_schema_mappings(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/schemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schema_mappings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1155,6 +1183,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1182,9 +1211,9 @@ Updates the resource-based policy.
 - `policy`: The resource-based policy.
 
   !!! important
-      If you set the value of the `effect` parameter in the `policy` to `Deny` for the
-  `PutPolicy` operation, you must also set the value of the `effect` parameter to `Deny`
-  for the `AddPolicyStatement` operation.
+      If you set the value of the `effect` parameter in the `policy` to `Deny` for the [`put_policy`](@ref)
+      operation, you must also set the value of the `effect` parameter to `Deny` for the [`add_policy_statement`](@ref)
+      operation.
 
 # Optional Parameters
 
@@ -1201,6 +1230,7 @@ function put_policy(arn, policy; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_policy(
     arn,
     policy,
@@ -1243,6 +1273,7 @@ function start_id_mapping_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_id_mapping_job(
     workflowName,
     params::AbstractDict{String};
@@ -1278,6 +1309,7 @@ function start_matching_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_matching_job(
     workflowName,
     params::AbstractDict{String};
@@ -1320,6 +1352,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1358,6 +1391,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1416,6 +1450,7 @@ function update_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -1461,8 +1496,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSourceConfig"`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to access the resources defined in this `IdNamespace` on your behalf as part of
-  a workflow run.
+  this role to access the resources defined in this `IdNamespace` on your behalf as part
+  of a workflow run.
 """
 function update_id_namespace(
     idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1474,6 +1509,7 @@ function update_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -1537,6 +1573,7 @@ function update_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -1574,7 +1611,7 @@ Updates a schema mapping.
 
 !!! note
     A schema is immutable if it is being used by a workflow. Therefore, you can't update a
-schema mapping if it's associated with a workflow.
+    schema mapping if it's associated with a workflow.
 
 # Arguments
 
@@ -1601,6 +1638,7 @@ function update_schema_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schema_mapping(
     mappedInputFields,
     schemaName,

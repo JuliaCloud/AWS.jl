@@ -32,6 +32,7 @@ function create_discoverer(SourceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_discoverer(
     SourceArn,
     params::AbstractDict{String};
@@ -73,6 +74,7 @@ function create_registry(registryName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registry(
     registryName,
     params::AbstractDict{String};
@@ -125,6 +127,7 @@ function create_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schema(
     Content,
     Type,
@@ -164,6 +167,7 @@ function delete_discoverer(discovererId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_discoverer(
     discovererId,
     params::AbstractDict{String};
@@ -196,6 +200,7 @@ function delete_registry(registryName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registry(
     registryName,
     params::AbstractDict{String};
@@ -227,6 +232,7 @@ function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "DELETE", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -260,6 +266,7 @@ function delete_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema(
     registryName,
     schemaName,
@@ -300,6 +307,7 @@ function delete_schema_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema_version(
     registryName,
     schemaName,
@@ -344,6 +352,7 @@ function describe_code_binding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_code_binding(
     language,
     registryName,
@@ -380,6 +389,7 @@ function describe_discoverer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_discoverer(
     discovererId,
     params::AbstractDict{String};
@@ -412,6 +422,7 @@ function describe_registry(registryName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registry(
     registryName,
     params::AbstractDict{String};
@@ -453,6 +464,7 @@ function describe_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_schema(
     registryName,
     schemaName,
@@ -471,7 +483,6 @@ end
 """
     export_schema(registry_name, schema_name, type)
     export_schema(registry_name, schema_name, type, params::Dict{String,<:Any})
-
 
 
 # Arguments
@@ -497,6 +508,7 @@ function export_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_schema(
     registryName,
     schemaName,
@@ -541,6 +553,7 @@ function get_code_binding_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_code_binding_source(
     language,
     registryName,
@@ -566,8 +579,8 @@ Get the discovered schema that was generated based on sampled events.
 # Arguments
 
 - `events`: An array of strings where each string is a JSON event. These are the events
-  that were used to generate the schema. The array includes a single type of event and has
-  a maximum size of 10 events.
+  that were used to generate the schema. The array includes a single type of event and
+  has a maximum size of 10 events.
 - `type`: The type of event.
 """
 function get_discovered_schema(
@@ -581,6 +594,7 @@ function get_discovered_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_discovered_schema(
     Events,
     Type,
@@ -615,6 +629,7 @@ function get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -647,6 +662,7 @@ function list_discoverers(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/discoverers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_discoverers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -683,6 +699,7 @@ function list_registries(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/registries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_registries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -725,6 +742,7 @@ function list_schema_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schema_versions(
     registryName,
     schemaName,
@@ -769,6 +787,7 @@ function list_schemas(registryName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schemas(
     registryName,
     params::AbstractDict{String};
@@ -803,6 +822,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -845,6 +865,7 @@ function put_code_binding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_code_binding(
     language,
     registryName,
@@ -887,6 +908,7 @@ function put_resource_policy(Policy; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -931,6 +953,7 @@ function search_schemas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_schemas(
     keywords,
     registryName,
@@ -966,6 +989,7 @@ function start_discoverer(discovererId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_discoverer(
     discovererId,
     params::AbstractDict{String};
@@ -998,6 +1022,7 @@ function stop_discoverer(discovererId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_discoverer(
     discovererId,
     params::AbstractDict{String};
@@ -1034,6 +1059,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -1071,6 +1097,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -1112,6 +1139,7 @@ function update_discoverer(discovererId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_discoverer(
     discovererId,
     params::AbstractDict{String};
@@ -1150,6 +1178,7 @@ function update_registry(registryName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_registry(
     registryName,
     params::AbstractDict{String};
@@ -1198,6 +1227,7 @@ function update_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schema(
     registryName,
     schemaName,

@@ -25,6 +25,7 @@ function claim_devices_by_claim_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function claim_devices_by_claim_code(
     claimCode,
     params::AbstractDict{String};
@@ -58,6 +59,7 @@ function describe_device(deviceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device(
     deviceId,
     params::AbstractDict{String};
@@ -80,8 +82,8 @@ Given a device ID, finalizes the claim request for the associated device.
 
 !!! note
     Claiming a device consists of initiating a claim, then publishing a device event,
- and finalizing the claim. For a device of type button, a device event can
- be published by simply clicking the device.
+     and finalizing the claim. For a device of type button, a device event can
+     be published by simply clicking the device.
 
 # Arguments
 
@@ -93,7 +95,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: A collection of key/value pairs defining the resource tags. For example, {
    "tags": {"key1": "value1", "key2": "value2"} }. For more information, see [AWS
- Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
+   Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-
+   strategies/).
 
 """
 function finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -104,6 +107,7 @@ function finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function finalize_device_claim(
     deviceId,
     params::AbstractDict{String};
@@ -136,6 +140,7 @@ function get_device_methods(deviceId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_methods(
     deviceId,
     params::AbstractDict{String};
@@ -158,8 +163,8 @@ Given a device ID, initiates a claim request for the associated device.
 
 !!! note
     Claiming a device consists of initiating a claim, then publishing a device event,
- and finalizing the claim. For a device of type button, a device event can
- be published by simply clicking the device.
+     and finalizing the claim. For a device of type button, a device event can
+     be published by simply clicking the device.
 
 # Arguments
 
@@ -173,6 +178,7 @@ function initiate_device_claim(deviceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_device_claim(
     deviceId,
     params::AbstractDict{String};
@@ -214,6 +220,7 @@ function invoke_device_method(deviceId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_device_method(
     deviceId,
     params::AbstractDict{String};
@@ -240,7 +247,7 @@ Using a device ID, returns a DeviceEventsResponse object containing an
 - `device_id`: The unique identifier of the device.
 - `from_time_stamp`: The start date for the device event query, in ISO8061 format. For
   example,
- 2018-03-28T15:45:12.880Z
+   2018-03-28T15:45:12.880Z
 - `to_time_stamp`: The end date for the device event query, in ISO8061 format. For example,
    2018-03-28T15:45:12.880Z
 
@@ -250,7 +257,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return per request. If not set, a
   default value of
- 100 is used.
+   100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_device_events(
@@ -264,6 +271,7 @@ function list_device_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_events(
     deviceId,
     fromTimeStamp,
@@ -301,7 +309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deviceType"`: The type of the device, such as "button".
 - `"maxResults"`: The maximum number of results to return per request. If not set, a
   default value of
- 100 is used.
+   100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -309,6 +317,7 @@ function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -337,6 +346,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -364,7 +374,8 @@ for the maximum number of tags allowed per
 - `resource-arn`: The ARN of the resource.
 - `tags`: A collection of key/value pairs defining the resource tags. For example, {
    "tags": {"key1": "value1", "key2": "value2"} }. For more information, see [AWS
- Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
+   Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-
+   strategies/).
 
 """
 function tag_resource(
@@ -378,6 +389,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -411,6 +423,7 @@ function unclaim_device(deviceId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unclaim_device(
     deviceId,
     params::AbstractDict{String};
@@ -448,6 +461,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -479,7 +493,7 @@ Using a Boolean value (true or false), this operation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"enabled"`: If true, the device is enabled. If false, the device is
- disabled.
+   disabled.
 """
 function update_device_state(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
@@ -489,6 +503,7 @@ function update_device_state(deviceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_state(
     deviceId,
     params::AbstractDict{String};

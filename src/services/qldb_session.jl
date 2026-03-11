@@ -12,14 +12,16 @@ Sends a command to an Amazon QLDB ledger.
 
 !!! note
     Instead of interacting directly with this API, we recommend using the QLDB driver or
-the QLDB shell to execute data transactions on a ledger. - If you are working with an AWS
-SDK, use the QLDB driver. The driver provides a high-level abstraction layer above this
-*QLDB Session* data plane and manages `SendCommand` API calls for you. For information and
-a list of supported programming languages, see [Getting started with the driver](https://docs.aws.amazon.com/qldb/latest/developerguide/getting-started-driver.html)
-in the *Amazon QLDB Developer Guide*.
- - If you are working with the AWS Command Line Interface (AWS CLI), use the QLDB shell.
-The shell is a command line interface that uses the QLDB driver to interact with a ledger.
-For information, see [Accessing Amazon QLDB using the QLDB shell](https://docs.aws.amazon.com/qldb/latest/developerguide/data-shell.html).
+    the QLDB shell to execute data transactions on a ledger.
+
+    - If you are working with an AWS SDK, use the QLDB driver. The driver provides a high-
+      level abstraction layer above this *QLDB Session* data plane and manages
+      `SendCommand` API calls for you. For information and a list of supported programming
+      languages, see [Getting started with the driver](https://docs.aws.amazon.com/qldb/latest/developerguide/getting-started-driver.html)
+      in the *Amazon QLDB Developer Guide*.
+    - If you are working with the AWS Command Line Interface (AWS CLI), use the QLDB shell.
+      The shell is a command line interface that uses the QLDB driver to interact with a
+      ledger. For information, see [Accessing Amazon QLDB using the QLDB shell](https://docs.aws.amazon.com/qldb/latest/developerguide/data-shell.html).
 
 # Optional Parameters
 
@@ -44,6 +46,7 @@ function send_command(; aws_config::AbstractAWSConfig=current_aws_config())
         "SendCommand"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function send_command(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

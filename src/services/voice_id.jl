@@ -30,6 +30,7 @@ function associate_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_fraudster(
     DomainId,
     FraudsterId,
@@ -67,7 +68,8 @@ watchlist that fraudsters can be a part of.
 
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data. Refer to [ Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
+  identifier, to be used by Voice ID for the server-side encryption of your data. Refer
+  to [Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
   for more details on how the KMS key is used.
 
 # Optional Parameters
@@ -96,6 +98,7 @@ function create_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     Name,
     ServerSideEncryptionConfiguration,
@@ -153,6 +156,7 @@ function create_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_watchlist(
     DomainId,
     Name,
@@ -193,6 +197,7 @@ function delete_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainId,
     params::AbstractDict{String};
@@ -230,6 +235,7 @@ function delete_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fraudster(
     DomainId,
     FraudsterId,
@@ -271,6 +277,7 @@ function delete_speaker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_speaker(
     DomainId,
     SpeakerId,
@@ -297,8 +304,7 @@ end
 
 Deletes the specified watchlist from Voice ID. This API throws an exception when there are
 fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters,
-and then delete the watchlist. Every domain has a default watchlist which cannot be
-deleted.
+and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
 
 # Arguments
 
@@ -315,6 +321,7 @@ function delete_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_watchlist(
     DomainId,
     WatchlistId,
@@ -353,6 +360,7 @@ function describe_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain(
     DomainId,
     params::AbstractDict{String};
@@ -389,6 +397,7 @@ function describe_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fraudster(
     DomainId,
     FraudsterId,
@@ -430,6 +439,7 @@ function describe_fraudster_registration_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fraudster_registration_job(
     DomainId,
     JobId,
@@ -469,6 +479,7 @@ function describe_speaker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_speaker(
     DomainId,
     SpeakerId,
@@ -510,6 +521,7 @@ function describe_speaker_enrollment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_speaker_enrollment_job(
     DomainId,
     JobId,
@@ -549,6 +561,7 @@ function describe_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_watchlist(
     DomainId,
     WatchlistId,
@@ -598,6 +611,7 @@ function disassociate_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_fraudster(
     DomainId,
     FraudsterId,
@@ -646,6 +660,7 @@ function evaluate_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function evaluate_session(
     DomainId,
     SessionNameOrId,
@@ -679,8 +694,8 @@ Lists all the domains in the Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -689,6 +704,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,8 +718,7 @@ end
     list_fraudster_registration_jobs(domain_id, params::Dict{String,<:Any})
 
 Lists all the fraudster registration jobs in the domain with the given `JobStatus`. If
-`JobStatus` is not provided, this lists all fraudster registration jobs in the given
-domain.
+`JobStatus` is not provided, this lists all fraudster registration jobs in the given domain.
 
 # Arguments
 
@@ -715,8 +730,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobStatus"`: Provides the status of your fraudster registration job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -732,6 +747,7 @@ function list_fraudster_registration_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fraudster_registration_jobs(
     DomainId,
     params::AbstractDict{String};
@@ -762,8 +778,8 @@ Lists all fraudsters in a specified watchlist or domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -779,6 +795,7 @@ function list_fraudsters(DomainId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fraudsters(
     DomainId,
     params::AbstractDict{String};
@@ -812,8 +829,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobStatus"`: Provides the status of your speaker enrollment Job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -829,6 +846,7 @@ function list_speaker_enrollment_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_speaker_enrollment_jobs(
     DomainId,
     params::AbstractDict{String};
@@ -859,8 +877,8 @@ Lists all speakers in a specified domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -874,6 +892,7 @@ function list_speakers(DomainId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_speakers(
     DomainId,
     params::AbstractDict{String};
@@ -910,6 +929,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -940,8 +960,8 @@ Lists all watchlists in a specified domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -955,6 +975,7 @@ function list_watchlists(DomainId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_watchlists(
     DomainId,
     params::AbstractDict{String};
@@ -995,6 +1016,7 @@ function opt_out_speaker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function opt_out_speaker(
     DomainId,
     SpeakerId,
@@ -1066,6 +1088,7 @@ function start_fraudster_registration_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_fraudster_registration_job(
     DataAccessRoleArn,
     DomainId,
@@ -1121,8 +1144,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"EnrollmentConfig"`: The enrollment config that contains details such as the action to
-  take when a speaker is already enrolled in Voice ID or when a speaker is identified as a
-  fraudster.
+  take when a speaker is already enrolled in Voice ID or when a speaker is identified as
+  a fraudster.
 - `"JobName"`: A name for your speaker enrollment job.
 """
 function start_speaker_enrollment_job(
@@ -1145,6 +1168,7 @@ function start_speaker_enrollment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_speaker_enrollment_job(
     DataAccessRoleArn,
     DomainId,
@@ -1192,6 +1216,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1234,6 +1259,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1267,11 +1293,11 @@ the domain.
 - `domain_id`: The identifier of the domain to be updated.
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data. Changing
-  the domain's associated KMS key immediately triggers an asynchronous process to remove
-  dependency on the old KMS key, such that the domain's data can only be accessed using the
-  new KMS key. The domain's `ServerSideEncryptionUpdateDetails` contains the details for
-  this process.
+  identifier, to be used by Voice ID for the server-side encryption of your data.
+  Changing the domain's associated KMS key immediately triggers an asynchronous process
+  to remove dependency on the old KMS key, such that the domain's data can only be
+  accessed using the new KMS key. The domain's `ServerSideEncryptionUpdateDetails`
+  contains the details for this process.
 
 # Optional Parameters
 
@@ -1296,6 +1322,7 @@ function update_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain(
     DomainId,
     Name,
@@ -1351,6 +1378,7 @@ function update_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_watchlist(
     DomainId,
     WatchlistId,

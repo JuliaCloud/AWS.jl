@@ -38,6 +38,7 @@ function create_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance(
     ClientRequestToken,
     Name,
@@ -66,9 +67,11 @@ end
     create_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
 Promotes an `AppInstanceUser` or `AppInstanceBot` to an `AppInstanceAdmin`. The promoted
-entity can perform the following actions.  - `ChannelModerator` actions across all channels
-in the `AppInstance`.
- - `DeleteChannelMessage` actions.
+entity can perform the following actions.
+
+- `ChannelModerator` actions across all channels in the `AppInstance`.
+- `DeleteChannelMessage` actions.
+
 Only an `AppInstanceUser` and `AppInstanceBot` can be promoted to an `AppInstanceAdmin`
 role.
 
@@ -88,6 +91,7 @@ function create_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_admin(
     AppInstanceAdminArn,
     appInstanceArn,
@@ -149,6 +153,7 @@ function create_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_bot(
     AppInstanceArn,
     ClientRequestToken,
@@ -219,6 +224,7 @@ function create_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_user(
     AppInstanceArn,
     AppInstanceUserId,
@@ -267,6 +273,7 @@ function delete_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -303,6 +310,7 @@ function delete_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -338,6 +346,7 @@ function delete_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_bot(
     appInstanceBotArn,
     params::AbstractDict{String};
@@ -372,6 +381,7 @@ function delete_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -407,6 +417,7 @@ function deregister_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,
@@ -442,6 +453,7 @@ function describe_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -477,6 +489,7 @@ function describe_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -512,6 +525,7 @@ function describe_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_bot(
     appInstanceBotArn,
     params::AbstractDict{String};
@@ -546,6 +560,7 @@ function describe_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -581,6 +596,7 @@ function describe_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,
@@ -616,6 +632,7 @@ function get_app_instance_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app_instance_retention_settings(
     appInstanceArn,
     params::AbstractDict{String};
@@ -658,6 +675,7 @@ function list_app_instance_admins(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_admins(
     appInstanceArn,
     params::AbstractDict{String};
@@ -701,6 +719,7 @@ function list_app_instance_bots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_bots(
     app_instance_arn,
     params::AbstractDict{String};
@@ -747,6 +766,7 @@ function list_app_instance_user_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_user_endpoints(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -790,6 +810,7 @@ function list_app_instance_users(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_users(
     app_instance_arn,
     params::AbstractDict{String};
@@ -827,6 +848,7 @@ function list_app_instances(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_app_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -858,6 +880,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -894,6 +917,7 @@ function put_app_instance_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn,
@@ -921,14 +945,14 @@ end
     put_app_instance_user_expiration_settings(app_instance_user_arn)
     put_app_instance_user_expiration_settings(app_instance_user_arn, params::Dict{String,<:Any})
 
-Sets the number of days before the `AppInstanceUser` is automatically deleted.</p>
+Sets the number of days before the `AppInstanceUser` is automatically deleted.
 
 !!! note
     A background process deletes expired `AppInstanceUsers` within 6 hours of expiration.
-Actual deletion times may vary.
+    Actual deletion times may vary.
 
- <p>Expired `AppInstanceUsers` that have not yet been deleted appear as active, and you can
-update their expiration settings. The system honors the new settings.
+    Expired `AppInstanceUsers` that have not yet been deleted appear as active, and you can
+    update their expiration settings. The system honors the new settings.
 
 # Arguments
 
@@ -951,6 +975,7 @@ function put_app_instance_user_expiration_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_app_instance_user_expiration_settings(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -979,11 +1004,13 @@ receive mobile push notifications for a user.
   register other endpoints.
 - `endpoint_attributes`: The attributes of an `Endpoint`.
 - `resource_arn`: The ARN of the resource to which the endpoint belongs.
-- `type`: The type of the `AppInstanceUserEndpoint`. Supported types: - `APNS`: The mobile
-  notification service for an Apple device.
-   - `APNS_SANDBOX`: The sandbox environment of the mobile notification service for an
-  Apple device.
-   - `GCM`: The mobile notification service for an Android device.
+- `type`: The type of the `AppInstanceUserEndpoint`. Supported types:
+
+  - `APNS`: The mobile notification service for an Apple device.
+  - `APNS_SANDBOX`: The sandbox environment of the mobile notification service for an
+    Apple device.
+  - `GCM`: The mobile notification service for an Android device.
+
   Populate the `ResourceArn` value of each type as `PinpointAppArn`.
 - `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
 
@@ -992,8 +1019,8 @@ receive mobile push notifications for a user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllowMessages"`: Boolean that controls whether the AppInstanceUserEndpoint is opted in
-  to receive messages. `ALL` indicates the endpoint receives all messages. `NONE` indicates
-  the endpoint receives no messages.
+  to receive messages. `ALL` indicates the endpoint receives all messages. `NONE`
+  indicates the endpoint receives no messages.
 - `"Name"`: The name of the `AppInstanceUserEndpoint`.
 """
 function register_app_instance_user_endpoint(
@@ -1017,6 +1044,7 @@ function register_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_app_instance_user_endpoint(
     ClientRequestToken,
     EndpointAttributes,
@@ -1066,6 +1094,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1109,6 +1138,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1153,6 +1183,7 @@ function update_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance(
     Metadata,
     Name,
@@ -1202,6 +1233,7 @@ function update_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance_bot(
     Metadata,
     Name,
@@ -1245,6 +1277,7 @@ function update_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance_user(
     Metadata,
     Name,
@@ -1296,6 +1329,7 @@ function update_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,

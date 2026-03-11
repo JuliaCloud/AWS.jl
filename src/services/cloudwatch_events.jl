@@ -23,6 +23,7 @@ function activate_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -52,6 +53,7 @@ function cancel_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -109,6 +111,7 @@ function create_api_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_api_destination(
     ConnectionArn,
     HttpMethod,
@@ -170,6 +173,7 @@ function create_archive(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_archive(
     ArchiveName,
     EventSourceArn,
@@ -229,6 +233,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     AuthParameters,
     AuthorizationType,
@@ -269,8 +274,8 @@ event bus which can be matched to a partner event source.
   Event bus names cannot contain the / character. You can't use the name `default` for a
   custom event bus, as this name is already used for your account's default event bus.
 
-  If this is a partner event bus, the name must exactly match the name of the partner event
-  source that this event bus is matched to.
+  If this is a partner event bus, the name must exactly match the name of the partner
+  event source that this event bus is matched to.
 
 # Optional Parameters
 
@@ -288,6 +293,7 @@ function create_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -320,9 +326,9 @@ them using Amazon Web Services Events rules and targets.
 
 Partner event source names follow this format:
 
- ` *partner_name*/*event_namespace*/*event_name* `
+`*partner_name*/*event_namespace*/*event_name*`
 
- *partner_name* is determined during partner registration and identifies the partner to
+*partner_name* is determined during partner registration and identifies the partner to
 Amazon Web Services customers. *event_namespace* is determined by the partner and is a way
 for the partner to categorize their events. *event_name* is determined by the partner, and
 should uniquely identify an event-generating resource within the partner system. The
@@ -334,7 +340,7 @@ decide whether to create an event bus to receive these events.
 - `account`: The Amazon Web Services account ID that is permitted to create a matching
   partner event bus for this partner event source.
 - `name`: The name of the partner event source. This name must be unique and must be in the
-  format ` *partner_name*/*event_namespace*/*event_name* `. The Amazon Web Services account
+  format `*partner_name*/*event_namespace*/*event_name*`. The Amazon Web Services account
   that wants to use this partner event source must create a partner event bus with a name
   that matches the name of the partner event source.
 """
@@ -348,6 +354,7 @@ function create_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partner_event_source(
     Account,
     Name,
@@ -390,6 +397,7 @@ function deactivate_event_source(Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -420,6 +428,7 @@ function deauthorize_connection(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deauthorize_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -449,6 +458,7 @@ function delete_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -478,6 +488,7 @@ function delete_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -511,6 +522,7 @@ function delete_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -541,6 +553,7 @@ function delete_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -560,7 +573,7 @@ This operation is used by SaaS partners to delete a partner event source. This o
 not used by Amazon Web Services customers.
 
 When you delete an event source, the status of the corresponding partner event bus in the
-Amazon Web Services customer account becomes DELETED. <p/>
+Amazon Web Services customer account becomes DELETED.
 
 # Arguments
 
@@ -578,6 +591,7 @@ function delete_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_partner_event_source(
     Account,
     Name,
@@ -627,9 +641,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 - `"Force"`: If this is a managed rule, created by an Amazon Web Services service on your
-  behalf, you must specify `Force` as `True` to delete the rule. This parameter is ignored
-  for rules that are not managed rules. You can check whether a rule is a managed rule by
-  using `DescribeRule` or `ListRules` and checking the `ManagedBy` field of the response.
+  behalf, you must specify `Force` as `True` to delete the rule. This parameter is
+  ignored for rules that are not managed rules. You can check whether a rule is a managed
+  rule by using `DescribeRule` or `ListRules` and checking the `ManagedBy` field of the
+  response.
 """
 function delete_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
@@ -639,6 +654,7 @@ function delete_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -668,6 +684,7 @@ function describe_api_destination(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -697,6 +714,7 @@ function describe_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -730,6 +748,7 @@ function describe_connection(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -750,8 +769,7 @@ Web Services accounts that are permitted to write events to your default event b
 associated policy. For custom event buses and partner event buses, it displays the name,
 ARN, policy, state, and creation time.
 
- To enable your account to receive events from other accounts on its default event bus, use
-[PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html).
+To enable your account to receive events from other accounts on its default event bus, use [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html).
 
 For more information about partner event buses, see [CreateEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateEventBus.html).
 
@@ -767,6 +785,7 @@ function describe_event_bus(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_bus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +812,7 @@ function describe_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -827,6 +847,7 @@ function describe_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_partner_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -863,6 +884,7 @@ function describe_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -906,6 +928,7 @@ function describe_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -946,6 +969,7 @@ function disable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -985,6 +1009,7 @@ function enable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1017,6 +1042,7 @@ function list_api_destinations(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListApiDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_api_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1051,6 +1077,7 @@ function list_archives(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,6 +1107,7 @@ function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1111,6 +1139,7 @@ function list_event_buses(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEventBuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_buses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1171,7 @@ function list_event_sources(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListEventSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1183,6 +1213,7 @@ function list_partner_event_source_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_partner_event_source_accounts(
     EventSourceName,
     params::AbstractDict{String};
@@ -1232,6 +1263,7 @@ function list_partner_event_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_partner_event_sources(
     NamePrefix,
     params::AbstractDict{String};
@@ -1270,6 +1302,7 @@ function list_replays(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListReplays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_replays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1308,6 +1341,7 @@ function list_rule_names_by_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_names_by_target(
     TargetArn,
     params::AbstractDict{String};
@@ -1348,6 +1382,7 @@ function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1377,6 +1412,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1419,6 +1455,7 @@ function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_by_rule(
     Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1450,6 +1487,7 @@ function put_events(Entries; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     Entries,
     params::AbstractDict{String};
@@ -1482,6 +1520,7 @@ function put_partner_events(Entries; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_partner_events(
     Entries,
     params::AbstractDict{String};
@@ -1534,15 +1573,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as the value for `Principal`, you grant permission to all the accounts in the named
   organization.
 
-The `Condition` is a JSON string which must contain `Type`, `Key`, and `Value` fields.
+  The `Condition` is a JSON string which must contain `Type`, `Key`, and `Value` fields.
 - `"EventBusName"`: The name of the event bus associated with the rule. If you omit this,
   the default event bus is used.
 - `"Policy"`: A JSON string that describes the permission policy statement. You can include
   a `Policy` parameter in the request instead of using the `StatementId`, `Action`,
   `Principal`, or `Condition` parameters.
 - `"Principal"`: The 12-digit Amazon Web Services account ID that you are permitting to put
-  events to your default event bus. Specify "*" to permit any account to put events to your
-  default event bus.
+  events to your default event bus. Specify "*" to permit any account to put events to
+  your default event bus.
 
   If you specify "*" without specifying `Condition`, avoid creating rules that may match
   undesirable events. To create more secure rules, make sure that the event pattern for
@@ -1557,6 +1596,7 @@ function put_permission(; aws_config::AbstractAWSConfig=current_aws_config())
         "PutPermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1594,11 +1634,11 @@ as well as on a schedule.
 When you initially create a rule, you can optionally assign one or more tags to the rule.
 Tags can help you organize and categorize your resources. You can also use them to scope
 user permissions, by granting a user permission to access or change only rules with certain
-tag values. To use the `PutRule` operation and assign tags, you must have both the
+tag values. To use the [`put_rule`](@ref) operation and assign tags, you must have both the
 `events:PutRule` and `events:TagResource` permissions.
 
-If you are updating an existing rule, any tags you specify in the `PutRule` operation are
-ignored. To update the tags of an existing rule, use [TagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_TagResource.html)
+If you are updating an existing rule, any tags you specify in the [`put_rule`](@ref)
+operation are ignored. To update the tags of an existing rule, use [TagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_TagResource.html)
 and [UntagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UntagResource.html).
 
 Most services in Amazon Web Services treat : or / as the same character in Amazon Resource
@@ -1635,10 +1675,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon EventBridge User Guide*.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role associated with the rule.
 
-  If you're setting an event bus in another account as the target and that account granted
-  permission to your account through an organization instead of directly by the account ID,
-  you must specify a `RoleArn` with proper permissions in the `Target` structure, instead
-  of here in this parameter.
+  If you're setting an event bus in another account as the target and that account
+  granted permission to your account through an organization instead of directly by the
+  account ID, you must specify a `RoleArn` with proper permissions in the `Target`
+  structure, instead of here in this parameter.
 - `"ScheduleExpression"`: The scheduling expression. For example, "cron(0 20 * * ? *)" or
   "rate(5 minutes)".
 - `"State"`: Indicates whether the rule is enabled or disabled.
@@ -1652,6 +1692,7 @@ function put_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1672,37 +1713,40 @@ already associated with the rule.
 
 Targets are the resources that are invoked when a rule is triggered.
 
-You can configure the following as targets for Events:</p> - [API destination](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html)
- - Amazon API Gateway REST API endpoints
- - API Gateway
- - Batch job queue
- - CloudWatch Logs group
- - CodeBuild project
- - CodePipeline
- - Amazon EC2 `CreateSnapshot` API call
- - Amazon EC2 `RebootInstances` API call
- - Amazon EC2 `StopInstances` API call
- - Amazon EC2 `TerminateInstances` API call
- - Amazon ECS tasks
- - Event bus in a different Amazon Web Services account or Region.
+You can configure the following as targets for Events:
+
+- [API destination](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html)
+- Amazon API Gateway REST API endpoints
+- API Gateway
+- Batch job queue
+- CloudWatch Logs group
+- CodeBuild project
+- CodePipeline
+- Amazon EC2 `CreateSnapshot` API call
+- Amazon EC2 `RebootInstances` API call
+- Amazon EC2 `StopInstances` API call
+- Amazon EC2 `TerminateInstances` API call
+- Amazon ECS tasks
+- Event bus in a different Amazon Web Services account or Region.
 
 You can use an event bus in the US East (N. Virginia) us-east-1, US West (Oregon) us-west-
 2, or Europe (Ireland) eu-west-1 Regions as a target for a rule.
- - Firehose delivery stream (Kinesis Data Firehose)
- - Inspector assessment template (Amazon Inspector)
- - Kinesis stream (Kinesis Data Stream)
- - Lambda function
- - Redshift clusters (Data API statement execution)
- - Amazon SNS topic
- - Amazon SQS queues (includes FIFO queues
- - SSM Automation
- - SSM OpsItem
- - SSM Run Command
- - Step Functions state machines
+- Firehose delivery stream (Kinesis Data Firehose)
+- Inspector assessment template (Amazon Inspector)
+- Kinesis stream (Kinesis Data Stream)
+- Lambda function
+- Redshift clusters (Data API statement execution)
+- Amazon SNS topic
+- Amazon SQS queues (includes FIFO queues
+- SSM Automation
+- SSM OpsItem
+- SSM Run Command
+- Step Functions state machines
+
 Creating rules with built-in targets is supported only in the Amazon Web Services
-Management Console. The built-in targets are `EC2 CreateSnapshot API call`, `EC2
-RebootInstances API call`, `EC2 StopInstances API call`, and `EC2 TerminateInstances API
-call`.
+Management Console. The built-in targets are `EC2 CreateSnapshot API call`,
+`EC2 RebootInstances API call`, `EC2 StopInstances API call`, and
+`EC2 TerminateInstances API call`.
 
 For some target types, `PutTargets` provides target-specific parameters. If the target is a
 Kinesis data stream, you can optionally specify which shard the event goes to by using the
@@ -1726,28 +1770,31 @@ is not charged. For more information, see [Amazon EventBridge Pricing](http://aw
 
 !!! note
     `Input`, `InputPath`, and `InputTransformer` are not available with `PutTarget` if the
-target is an event bus of a different Amazon Web Services account.If you are setting the
-event bus of another account as the target, and that account granted permission to your
-account through an organization instead of directly by the account ID, then you must
-specify a `RoleArn` with proper permissions in the `Target` structure. For more
-information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html)
+    target is an event bus of a different Amazon Web Services account.
+
+If you are setting the event bus of another account as the target, and that account granted
+permission to your account through an organization instead of directly by the account ID,
+then you must specify a `RoleArn` with proper permissions in the `Target` structure. For
+more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html)
 in the *Amazon EventBridge User Guide*.
 
 For more information about enabling cross-account events, see [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html).
 
- **Input**, **InputPath**, and **InputTransformer** are mutually exclusive and optional
-parameters of a target. When a rule is triggered due to a matched event: - If none of the
-following arguments are specified for a target, then the entire event is passed to the
-target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in
-which case nothing from the event is passed to the target).
- - If **Input** is specified in the form of valid JSON, then the matched event is
-overridden with this constant.
- - If **InputPath** is specified in the form of JSONPath (for example, `\$.detail`), then
-only the part of the event specified in the path is passed to the target (for example, only
-the detail part of the event is passed).
- - If **InputTransformer** is specified, then one or more specified JSONPaths are extracted
-from the event and used as values in a template that you specify as the input to the
-target.
+**Input**, **InputPath**, and **InputTransformer** are mutually exclusive and optional
+parameters of a target. When a rule is triggered due to a matched event:
+
+- If none of the following arguments are specified for a target, then the entire event is
+  passed to the target in JSON format (unless the target is Amazon EC2 Run Command or
+  Amazon ECS task, in which case nothing from the event is passed to the target).
+- If **Input** is specified in the form of valid JSON, then the matched event is overridden
+  with this constant.
+- If **InputPath** is specified in the form of JSONPath (for example, `\$.detail`), then
+  only the part of the event specified in the path is passed to the target (for example,
+  only the detail part of the event is passed).
+- If **InputTransformer** is specified, then one or more specified JSONPaths are extracted
+  from the event and used as values in a template that you specify as the input to the
+  target.
+
 When you specify `InputPath` or `InputTransformer`, you must use JSON dot notation, not
 bracket notation.
 
@@ -1755,7 +1802,7 @@ When you add targets to a rule and the associated rule triggers soon after, new 
 targets might not be immediately invoked. Allow a short period of time for changes to take
 effect.
 
- <p>This action can partially fail if too many requests are made at the same time. If that
+This action can partially fail if too many requests are made at the same time. If that
 happens, `FailedEntryCount` is non-zero in the response and each entry in `FailedEntries`
 provides the ID of the failed target and the error code.
 
@@ -1779,6 +1826,7 @@ function put_targets(Rule, Targets; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_targets(
     Rule,
     Targets,
@@ -1821,6 +1869,7 @@ function remove_permission(; aws_config::AbstractAWSConfig=current_aws_config())
         "RemovePermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function remove_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1867,6 +1916,7 @@ function remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_targets(
     Ids,
     Rule,
@@ -1934,6 +1984,7 @@ function start_replay(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replay(
     Destination,
     EventEndTime,
@@ -1995,6 +2046,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2030,13 +2082,16 @@ syntax in the event you want to match.
 
 - `event`: The event, in JSON format, to test against the event pattern. The JSON must
   follow the format specified in [Amazon Web Services Events](https://docs.aws.amazon.com/eventbridge/latest/userguide/aws-events.html),
-  and the following fields are mandatory: - `id`
-   - `account`
- - `source`
- - `time`
- - `region`
- - `resources`
- - `detail-type`
+  and the following fields are mandatory:
+
+  - `id`
+  - `account`
+  - `source`
+  - `time`
+  - `region`
+  - `resources`
+  - `detail-type`
+
 - `event_pattern`: The event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html)
   in the *Amazon EventBridge User Guide*.
 """
@@ -2050,6 +2105,7 @@ function test_event_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_event_pattern(
     Event,
     EventPattern,
@@ -2092,6 +2148,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2141,6 +2198,7 @@ function update_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2178,6 +2236,7 @@ function update_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -2219,6 +2278,7 @@ function update_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

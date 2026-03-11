@@ -16,11 +16,11 @@ returned in the response is when the set expires.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Arguments
 
@@ -29,8 +29,8 @@ support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsup
 
   In the `Attachment` object, use the `data` parameter to specify the contents of the
   attachment file. In the previous request syntax, the value for `data` appear as `blob`,
-  which is represented as a base64-encoded string. The value for `fileName` is the name of
-  the attachment, such as `troubleshoot-screenshot.png`.
+  which is represented as a base64-encoded string. The value for `fileName` is the name
+  of the attachment, such as `troubleshoot-screenshot.png`.
 
 # Optional Parameters
 
@@ -51,6 +51,7 @@ function add_attachments_to_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_attachments_to_set(
     attachments,
     params::AbstractDict{String};
@@ -77,11 +78,11 @@ The `communicationBody` value contains the text of the communication.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Arguments
 
@@ -92,7 +93,7 @@ support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsup
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"attachmentSetId"`: The ID of a set of one or more attachments for the communication to
-  add to the case. Create the set by calling <a>AddAttachmentsToSet</a>
+  add to the case. Create the set by calling [`add_attachments_to_set`](@ref)
 - `"caseId"`: The support case ID requested or returned in the call. The case ID is an
   alphanumeric string formatted as shown in this example: case-*12345678910-2013-
   c4c1d2bf33c5cf47*
@@ -109,6 +110,7 @@ function add_communication_to_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_communication_to_case(
     communicationBody,
     params::AbstractDict{String};
@@ -135,27 +137,28 @@ you create a case in the Amazon Web Services Support Center [Create Case](https:
 page.
 
 The Amazon Web Services Support API doesn't support requesting service limit increases. You
-can submit a service limit increase in the following ways: </p> - Submit a request from the
-Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create)
-page.
- - Use the Service Quotas [RequestServiceQuotaIncrease](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_RequestServiceQuotaIncrease.html)
-operation.
-A successful `CreateCase` request returns an Amazon Web Services Support case number. You
-can use the <a>DescribeCases</a> operation and specify the case number to get existing
-Amazon Web Services Support cases. After you create a case, use the
-<a>AddCommunicationToCase</a> operation to add additional communication or attachments to
-an existing case.
+can submit a service limit increase in the following ways:
 
- <p>The `caseId` is separate from the `displayId` that appears in the [Amazon Web Services Support Center](https://console.aws.amazon.com/support).
-Use the <a>DescribeCases</a> operation to get the `displayId`.
+- Submit a request from the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create)
+  page.
+- Use the Service Quotas [RequestServiceQuotaIncrease](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_RequestServiceQuotaIncrease.html)
+  operation.
+
+A successful `CreateCase` request returns an Amazon Web Services Support case number. You
+can use the [`describe_cases`](@ref) operation and specify the case number to get existing
+Amazon Web Services Support cases. After you create a case, use the [`add_communication_to_case`](@ref)
+operation to add additional communication or attachments to an existing case.
+
+The `caseId` is separate from the `displayId` that appears in the [Amazon Web Services Support Center](https://console.aws.amazon.com/support).
+Use the [`describe_cases`](@ref) operation to get the `displayId`.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Arguments
 
@@ -171,33 +174,34 @@ support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsup
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"attachmentSetId"`: The ID of a set of one or more attachments for the case. Create the
-  set by using the <a>AddAttachmentsToSet</a> operation.
-- `"categoryCode"`: The category of problem for the support case. You also use the
-  <a>DescribeServices</a> operation to get the category code for a service. Each Amazon Web
-  Services service defines its own set of category codes.
+  set by using the [`add_attachments_to_set`](@ref) operation.
+- `"categoryCode"`: The category of problem for the support case. You also use the [`describe_services`](@ref)
+  operation to get the category code for a service. Each Amazon Web Services service
+  defines its own set of category codes.
 - `"ccEmailAddresses"`: A list of email addresses that Amazon Web Services Support copies
   on case correspondence. Amazon Web Services Support identifies the account that creates
-  the case when you specify your Amazon Web Services credentials in an HTTP POST method or
-  use the [Amazon Web Services SDKs](http://aws.amazon.com/tools/).
+  the case when you specify your Amazon Web Services credentials in an HTTP POST method
+  or use the [Amazon Web Services SDKs](http://aws.amazon.com/tools/).
 - `"issueType"`: The type of issue for the case. You can specify `customer-service` or
   `technical`. If you don't specify a value, the default is `technical`.
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
   Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja")
   and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if
   you want support in that language.
-- `"serviceCode"`: The code for the Amazon Web Services service. You can use the
-  <a>DescribeServices</a> operation to get the possible `serviceCode` values.
+- `"serviceCode"`: The code for the Amazon Web Services service. You can use the [`describe_services`](@ref)
+  operation to get the possible `serviceCode` values.
 - `"severityCode"`: A value that indicates the urgency of the case. This value determines
   the response time according to your service level agreement with Amazon Web Services
-  Support. You can use the <a>DescribeSeverityLevels</a> operation to get the possible
-  values for `severityCode`.
+  Support. You can use the [`describe_severity_levels`](@ref) operation to get the
+  possible values for `severityCode`.
 
-  For more information, see <a>SeverityLevel</a> and [Choosing a Severity](https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity)
+  For more information, see [`severity_level`](@ref) and [Choosing a Severity](https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity)
   in the *Amazon Web Services Support User Guide*.
 
   !!! note
       The availability of severity levels depends on the support plan for the Amazon Web
-  Services account.
+      Services account.
+
 """
 function create_case(
     communicationBody, subject; aws_config::AbstractAWSConfig=current_aws_config()
@@ -209,6 +213,7 @@ function create_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_case(
     communicationBody,
     subject,
@@ -238,21 +243,21 @@ end
 Returns the attachment that has the specified ID. Attachments can include screenshots,
 error logs, or other files that describe your issue. Attachment IDs are generated by the
 case management system when you add an attachment to a case or case communication.
-Attachment IDs are returned in the <a>AttachmentDetails</a> objects that are returned by
-the <a>DescribeCommunications</a> operation.
+Attachment IDs are returned in the [`attachment_details`](@ref) objects that are returned
+by the [`describe_communications`](@ref) operation.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Arguments
 
-- `attachment_id`: The ID of the attachment to return. Attachment IDs are returned by the
-  <a>DescribeCommunications</a> operation.
+- `attachment_id`: The ID of the attachment to return. Attachment IDs are returned by the [`describe_communications`](@ref)
+  operation.
 """
 function describe_attachment(
     attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -264,6 +269,7 @@ function describe_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -288,20 +294,23 @@ Returns a list of cases that you specify by passing one or more case IDs. You ca
 the `includeResolvedCases` and `includeCommunications` parameters to specify how much
 information to return.
 
-The response returns the following in JSON format: - One or more [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html)
-data types.
- - One or more `nextToken` values, which specify where to paginate the returned records
-represented by the `CaseDetails` objects.
+The response returns the following in JSON format:
+
+- One or more [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html)
+  data types.
+- One or more `nextToken` values, which specify where to paginate the returned records
+  represented by the `CaseDetails` objects.
+
 Case data is available for 12 months after creation. If a case was created more than 12
 months ago, a request might return an error.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Optional Parameters
 
@@ -329,6 +338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_cases(; aws_config::AbstractAWSConfig=current_aws_config())
     return support("DescribeCases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_cases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -354,11 +364,11 @@ use `nextToken` to specify the resumption of pagination.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Arguments
 
@@ -385,6 +395,7 @@ function describe_communications(caseId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_communications(
     caseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -406,25 +417,25 @@ language availability. You can specify the `language` `categoryCode`, `issueType
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Arguments
 
-- `category_code`: The category of problem for the support case. You also use the
-  <a>DescribeServices</a> operation to get the category code for a service. Each Amazon Web
-  Services service defines its own set of category codes.
+- `category_code`: The category of problem for the support case. You also use the [`describe_services`](@ref)
+  operation to get the category code for a service. Each Amazon Web Services service
+  defines its own set of category codes.
 - `issue_type`: The type of issue for the case. You can specify `customer-service` or
   `technical`. If you don't specify a value, the default is `technical`.
 - `language`: The language in which Amazon Web Services Support handles the case. Amazon
   Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja")
   and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if
   you want support in that language.
-- `service_code`: The code for the Amazon Web Services service. You can use the
-  <a>DescribeServices</a> operation to get the possible `serviceCode` values.
+- `service_code`: The code for the Amazon Web Services service. You can use the [`describe_services`](@ref)
+  operation to get the possible `serviceCode` values.
 """
 function describe_create_case_options(
     categoryCode,
@@ -445,6 +456,7 @@ function describe_create_case_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_create_case_options(
     categoryCode,
     issueType,
@@ -477,23 +489,23 @@ end
     describe_services(params::Dict{String,<:Any})
 
 Returns the current list of Amazon Web Services services and a list of service categories
-for each service. You then use service names and categories in your <a>CreateCase</a>
+for each service. You then use service names and categories in your [`create_case`](@ref)
 requests. Each Amazon Web Services service has its own set of categories.
 
 The service codes and category codes correspond to the values that appear in the
 **Service** and **Category** lists on the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create)
 page. The values in those fields don't necessarily match the service codes and categories
-returned by the `DescribeServices` operation. Always use the service codes and categories
-that the `DescribeServices` operation returns, so that you have the most recent set of
-service and category codes.
+returned by the [`describe_services`](@ref) operation. Always use the service codes and
+categories that the [`describe_services`](@ref) operation returns, so that you have the
+most recent set of service and category codes.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Optional Parameters
 
@@ -511,6 +523,7 @@ function describe_services(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,16 +537,16 @@ end
     describe_severity_levels(params::Dict{String,<:Any})
 
 Returns the list of severity levels that you can assign to a support case. The severity
-level for a case is also a field in the <a>CaseDetails</a> data type that you include for a
-<a>CreateCase</a> request.
+level for a case is also a field in the [`case_details`](@ref) data type that you include
+for a [`create_case`](@ref) request.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Optional Parameters
 
@@ -549,6 +562,7 @@ function describe_severity_levels(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeSeverityLevels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_severity_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -570,21 +584,21 @@ Returns a list of supported languages for a specified `categoryCode`, `issueType
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Arguments
 
-- `category_code`: The category of problem for the support case. You also use the
-  <a>DescribeServices</a> operation to get the category code for a service. Each Amazon Web
-  Services service defines its own set of category codes.
+- `category_code`: The category of problem for the support case. You also use the [`describe_services`](@ref)
+  operation to get the category code for a service. Each Amazon Web Services service
+  defines its own set of category codes.
 - `issue_type`: The type of issue for the case. You can specify `customer-service` or
   `technical`.
-- `service_code`: The code for the Amazon Web Services service. You can use the
-  <a>DescribeServices</a> operation to get the possible `serviceCode` values.
+- `service_code`: The code for the Amazon Web Services service. You can use the [`describe_services`](@ref)
+  operation to get the possible `serviceCode` values.
 """
 function describe_supported_languages(
     categoryCode, issueType, serviceCode; aws_config::AbstractAWSConfig=current_aws_config()
@@ -600,6 +614,7 @@ function describe_supported_languages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_supported_languages(
     categoryCode,
     issueType,
@@ -630,19 +645,21 @@ end
     describe_trusted_advisor_check_refresh_statuses(check_ids, params::Dict{String,<:Any})
 
 Returns the refresh status of the Trusted Advisor checks that have the specified check IDs.
-You can get the check IDs by calling the <a>DescribeTrustedAdvisorChecks</a> operation.
+You can get the check IDs by calling the [`describe_trusted_advisor_checks`](@ref)
+operation.
 
 Some checks are refreshed automatically, and you can't return their refresh statuses by
-using the `DescribeTrustedAdvisorCheckRefreshStatuses` operation. If you call this
-operation for these checks, you might see an `InvalidParameterValue` error.
+using the [`describe_trusted_advisor_check_refresh_statuses`](@ref) operation. If you call
+this operation for these checks, you might see an `InvalidParameterValue` error.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+
 To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use
 the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
 endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint)
@@ -653,8 +670,9 @@ in the *Amazon Web Services Support User Guide*.
 - `check_ids`: The IDs of the Trusted Advisor checks to get the status.
 
   !!! note
-      If you specify the check ID of a check that is automatically refreshed, you might see
-  an `InvalidParameterValue` error.
+      If you specify the check ID of a check that is automatically refreshed, you might
+      see an `InvalidParameterValue` error.
+
 """
 function describe_trusted_advisor_check_refresh_statuses(
     checkIds; aws_config::AbstractAWSConfig=current_aws_config()
@@ -666,6 +684,7 @@ function describe_trusted_advisor_check_refresh_statuses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_check_refresh_statuses(
     checkIds,
     params::AbstractDict{String};
@@ -686,25 +705,30 @@ end
     describe_trusted_advisor_check_result(check_id, params::Dict{String,<:Any})
 
 Returns the results of the Trusted Advisor check that has the specified check ID. You can
-get the check IDs by calling the <a>DescribeTrustedAdvisorChecks</a> operation.
+get the check IDs by calling the [`describe_trusted_advisor_checks`](@ref) operation.
 
-The response contains a <a>TrustedAdvisorCheckResult</a> object, which contains these three
-objects: - <a>TrustedAdvisorCategorySpecificSummary</a>
- - <a>TrustedAdvisorResourceDetail</a>
- - <a>TrustedAdvisorResourcesSummary</a>
-In addition, the response contains these fields: - **status** - The alert status of the
-check can be `ok` (green), `warning` (yellow), `error` (red), or `not_available`.
- - **timestamp** - The time of the last refresh of the check.
- - **checkId** - The unique identifier for the check.
+The response contains a [`trusted_advisor_check_result`](@ref) object, which contains these
+three objects:
 
+- [`trusted_advisor_category_specific_summary`](@ref)
+- [`trusted_advisor_resource_detail`](@ref)
+- [`trusted_advisor_resources_summary`](@ref)
+
+In addition, the response contains these fields:
+
+- **status** - The alert status of the check can be `ok` (green), `warning` (yellow),
+  `error` (red), or `not_available`.
+- **timestamp** - The time of the last refresh of the check.
+- **checkId** - The unique identifier for the check.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+
 To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use
 the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
 endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint)
@@ -722,17 +746,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   appear in.
 
   The Amazon Web Services Support API currently supports the following languages for
-  Trusted Advisor: - Chinese, Simplified - `zh`
-   - Chinese, Traditional - `zh_TW`
-   - English - `en`
-   - French - `fr`
-   - German - `de`
-   - Indonesian - `id`
-   - Italian - `it`
-   - Japanese - `ja`
- - Korean - `ko`
- - Portuguese, Brazilian - `pt_BR`
- - Spanish - `es`
+  Trusted Advisor:
+
+  - Chinese, Simplified - `zh`
+  - Chinese, Traditional - `zh_TW`
+  - English - `en`
+  - French - `fr`
+  - German - `de`
+  - Indonesian - `id`
+  - Italian - `it`
+  - Japanese - `ja`
+  - Korean - `ko`
+  - Portuguese, Brazilian - `pt_BR`
+  - Spanish - `es`
+
 """
 function describe_trusted_advisor_check_result(
     checkId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -744,6 +771,7 @@ function describe_trusted_advisor_check_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_check_result(
     checkId,
     params::AbstractDict{String};
@@ -762,18 +790,19 @@ end
     describe_trusted_advisor_check_summaries(check_ids, params::Dict{String,<:Any})
 
 Returns the results for the Trusted Advisor check summaries for the check IDs that you
-specified. You can get the check IDs by calling the <a>DescribeTrustedAdvisorChecks</a>
+specified. You can get the check IDs by calling the [`describe_trusted_advisor_checks`](@ref)
 operation.
 
-The response contains an array of <a>TrustedAdvisorCheckSummary</a> objects.
+The response contains an array of [`trusted_advisor_check_summary`](@ref) objects.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+
 To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use
 the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
 endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint)
@@ -793,6 +822,7 @@ function describe_trusted_advisor_check_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_check_summaries(
     checkIds,
     params::AbstractDict{String};
@@ -815,18 +845,19 @@ end
 Returns information about all available Trusted Advisor checks, including the name, ID,
 category, description, and metadata. You must specify a language code.
 
-The response contains a <a>TrustedAdvisorCheckDescription</a> object for each check. You
-must set the Amazon Web Services Region to us-east-1.
+The response contains a [`trusted_advisor_check_description`](@ref) object for each check.
+You must set the Amazon Web Services Region to us-east-1.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
- - The names and descriptions for Trusted Advisor checks are subject to change. We
-recommend that you specify the check ID in your code to uniquely identify a check.
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    - The names and descriptions for Trusted Advisor checks are subject to change. We
+      recommend that you specify the check ID in your code to uniquely identify a check.
+
 To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use
 the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
 endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint)
@@ -837,17 +868,20 @@ in the *Amazon Web Services Support User Guide*.
 - `language`: The ISO 639-1 code for the language that you want your checks to appear in.
 
   The Amazon Web Services Support API currently supports the following languages for
-  Trusted Advisor: - Chinese, Simplified - `zh`
-   - Chinese, Traditional - `zh_TW`
-   - English - `en`
-   - French - `fr`
-   - German - `de`
-   - Indonesian - `id`
-   - Italian - `it`
-   - Japanese - `ja`
- - Korean - `ko`
- - Portuguese, Brazilian - `pt_BR`
- - Spanish - `es`
+  Trusted Advisor:
+
+  - Chinese, Simplified - `zh`
+  - Chinese, Traditional - `zh_TW`
+  - English - `en`
+  - French - `fr`
+  - German - `de`
+  - Indonesian - `id`
+  - Italian - `it`
+  - Japanese - `ja`
+  - Korean - `ko`
+  - Portuguese, Brazilian - `pt_BR`
+  - Spanish - `es`
+
 """
 function describe_trusted_advisor_checks(
     language; aws_config::AbstractAWSConfig=current_aws_config()
@@ -859,6 +893,7 @@ function describe_trusted_advisor_checks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_checks(
     language,
     params::AbstractDict{String};
@@ -879,20 +914,21 @@ end
     refresh_trusted_advisor_check(check_id, params::Dict{String,<:Any})
 
 Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
-check IDs by calling the <a>DescribeTrustedAdvisorChecks</a> operation.
+check IDs by calling the [`describe_trusted_advisor_checks`](@ref) operation.
 
-Some checks are refreshed automatically. If you call the `RefreshTrustedAdvisorCheck`
+Some checks are refreshed automatically. If you call the [`refresh_trusted_advisor_check`](@ref)
 operation to refresh them, you might see the `InvalidParameterValue` error.
 
-The response contains a <a>TrustedAdvisorCheckRefreshStatus</a> object.
+The response contains a [`trusted_advisor_check_refresh_status`](@ref) object.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+
 To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use
 the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
 endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint)
@@ -904,7 +940,8 @@ in the *Amazon Web Services Support User Guide*.
 
   !!! note
       Specifying the check ID of a check that is automatically refreshed causes an
-  `InvalidParameterValue` error.
+      `InvalidParameterValue` error.
+
 """
 function refresh_trusted_advisor_check(
     checkId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -916,6 +953,7 @@ function refresh_trusted_advisor_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function refresh_trusted_advisor_check(
     checkId,
     params::AbstractDict{String};
@@ -938,11 +976,11 @@ state of the case.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
-Amazon Web Services Support API.
- - If you call the Amazon Web Services Support API from an account that doesn't have a
-Business, Enterprise On-Ramp, or Enterprise Support plan, the
-`SubscriptionRequiredException` error message appears. For information about changing your
-support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+      Amazon Web Services Support API.
+    - If you call the Amazon Web Services Support API from an account that doesn't have a
+      Business, Enterprise On-Ramp, or Enterprise Support plan, the
+      `SubscriptionRequiredException` error message appears. For information about changing
+      your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
 
 # Optional Parameters
 
@@ -955,6 +993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function resolve_case(; aws_config::AbstractAWSConfig=current_aws_config())
     return support("ResolveCase"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function resolve_case(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

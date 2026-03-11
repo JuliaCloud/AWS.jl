@@ -19,7 +19,7 @@ new device id, its previous association will be removed.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 - `thing_name`: The name of the thing to which the entity is to be associated.
 
 # Optional Parameters
@@ -39,6 +39,7 @@ function associate_entity_to_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_entity_to_thing(
     entityId,
     thingName,
@@ -79,7 +80,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The namespace version in which the workflow is to be
   created.
 
-If no value is specified, the latest version is used by default.
+  If no value is specified, the latest version is used by default.
 """
 function create_flow_template(
     definition; aws_config::AbstractAWSConfig=current_aws_config()
@@ -91,6 +92,7 @@ function create_flow_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow_template(
     definition,
     params::AbstractDict{String};
@@ -163,6 +165,7 @@ function create_system_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_system_instance(
     definition,
     target,
@@ -201,7 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The namespace version in which the system is to be
   created.
 
-If no value is specified, the latest version is used by default.
+  If no value is specified, the latest version is used by default.
 """
 function create_system_template(
     definition; aws_config::AbstractAWSConfig=current_aws_config()
@@ -213,6 +216,7 @@ function create_system_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_system_template(
     definition,
     params::AbstractDict{String};
@@ -242,7 +246,7 @@ update or deploy. Existing deployments that contain the workflow will continue t
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
 function delete_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
@@ -252,6 +256,7 @@ function delete_flow_template(id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -276,6 +281,7 @@ function delete_namespace(; aws_config::AbstractAWSConfig=current_aws_config())
         "DeleteNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_namespace(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -304,6 +310,7 @@ function delete_system_instance(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteSystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -329,7 +336,7 @@ the system that is taken when it is deployed.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
 function delete_system_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
@@ -339,6 +346,7 @@ function delete_system_template(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_system_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -354,11 +362,11 @@ end
     deploy_system_instance()
     deploy_system_instance(params::Dict{String,<:Any})
 
- **Greengrass and Cloud Deployments**
+**Greengrass and Cloud Deployments**
 
 Deploys the system instance to the target specified in `CreateSystemInstance`.
 
- **Greengrass Deployments**
+**Greengrass Deployments**
 
 If the system or any workflows and entities have been updated before this action is called,
 then the deployment will create a new Amazon Simple Storage Service resource file and then
@@ -380,13 +388,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
 function deploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
         "DeploySystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function deploy_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -411,7 +420,7 @@ flows can't be deployed, but existing deployments will continue to run.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
 function deprecate_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
@@ -421,6 +430,7 @@ function deprecate_flow_template(id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprecate_flow_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -444,7 +454,7 @@ Deprecates the specified system.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
 function deprecate_system_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
@@ -454,6 +464,7 @@ function deprecate_system_template(id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprecate_system_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -483,6 +494,7 @@ function describe_namespace(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_namespace(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +526,7 @@ function dissociate_entity_from_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function dissociate_entity_from_thing(
     entityType,
     thingName,
@@ -539,15 +552,18 @@ end
     get_entities(ids, params::Dict{String,<:Any})
 
 Gets definitions of the specified entities. Uses the latest version of the user's namespace
-by default. This API returns the following TDM entities. - Properties
- - States
- - Events
- - Actions
- - Capabilities
- - Mappings
- - Devices
- - Device Models
- - Services
+by default. This API returns the following TDM entities.
+
+- Properties
+- States
+- Events
+- Actions
+- Capabilities
+- Mappings
+- Devices
+- Device Models
+- Services
+
 This action doesn't return definitions for systems, flows, and deployments.
 
 # Arguments
@@ -556,7 +572,7 @@ This action doesn't return definitions for systems, flows, and deployments.
 
   The IDs should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 
 # Optional Parameters
 
@@ -573,6 +589,7 @@ function get_entities(ids; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_entities(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -597,7 +614,7 @@ specified workflow.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
 
@@ -613,6 +630,7 @@ function get_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,7 +656,7 @@ deprecation. This action won't work for workflows that have been deleted.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
 
@@ -656,6 +674,7 @@ function get_flow_template_revisions(id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow_template_revisions(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -678,6 +697,7 @@ function get_namespace_deletion_status(; aws_config::AbstractAWSConfig=current_a
         "GetNamespaceDeletionStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_namespace_deletion_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,7 +722,7 @@ Gets a system instance.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
 function get_system_instance(id; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
@@ -712,6 +732,7 @@ function get_system_instance(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_system_instance(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,7 +756,7 @@ Gets a system.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
 
@@ -751,6 +772,7 @@ function get_system_template(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_system_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -776,7 +798,7 @@ occurred before its deprecation. This action won't work with systems that have b
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
 
@@ -796,6 +818,7 @@ function get_system_template_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_system_template_revisions(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -826,6 +849,7 @@ function get_upload_status(uploadId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upload_status(
     uploadId,
     params::AbstractDict{String};
@@ -869,6 +893,7 @@ function list_flow_execution_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_flow_execution_messages(
     flowExecutionId,
     params::AbstractDict{String};
@@ -914,6 +939,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -949,8 +975,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filters on entities that are used by the entity in the result set. For example, you can
   filter on the ID of a property that is used in a state.
 
-  Multiple filters function as OR criteria in the query. Multiple values passed inside the
-  filter function as AND criteria.
+  Multiple filters function as OR criteria in the query. Multiple values passed inside
+  the filter function as AND criteria.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
@@ -965,6 +991,7 @@ function search_entities(entityTypes; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_entities(
     entityTypes,
     params::AbstractDict{String};
@@ -1011,6 +1038,7 @@ function search_flow_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_flow_executions(
     systemInstanceId,
     params::AbstractDict{String};
@@ -1049,6 +1077,7 @@ function search_flow_templates(; aws_config::AbstractAWSConfig=current_aws_confi
         "SearchFlowTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_flow_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1073,8 +1102,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Optional filter to apply to the search. Valid filters are
   `SYSTEM_TEMPLATE_ID`, `STATUS`, and `GREENGRASS_GROUP_NAME`.
 
-  Multiple filters function as OR criteria in the query. Multiple values passed inside the
-  filter function as AND criteria.
+  Multiple filters function as OR criteria in the query. Multiple values passed inside
+  the filter function as AND criteria.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
@@ -1084,6 +1113,7 @@ function search_system_instances(; aws_config::AbstractAWSConfig=current_aws_con
         "SearchSystemInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_system_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1117,6 +1147,7 @@ function search_system_templates(; aws_config::AbstractAWSConfig=current_aws_con
         "SearchSystemTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_system_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1148,7 +1179,7 @@ This action searches for exact matches and doesn't perform partial text matching
 
   The IDs should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 
 # Optional Parameters
 
@@ -1168,6 +1199,7 @@ function search_things(entityId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_things(
     entityId,
     params::AbstractDict{String};
@@ -1202,6 +1234,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1239,6 +1272,7 @@ function undeploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_co
         "UndeploySystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function undeploy_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1263,8 +1297,8 @@ Removes a tag from the specified resource.
 - `tag_keys`: A list of tag key names to remove from the resource. You don't specify the
   value. Both the key and its associated value are removed.
 
-  This parameter to the API requires a JSON text string argument. For information on how to
-  format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
+  This parameter to the API requires a JSON text string argument. For information on how
+  to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
   in the *AWS CLI User Guide*.
 """
 function untag_resource(
@@ -1277,6 +1311,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1313,7 +1348,7 @@ copy. The workflow can contain only entities in the specified namespace.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
 
@@ -1334,6 +1369,7 @@ function update_flow_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow_template(
     definition,
     id,
@@ -1367,7 +1403,7 @@ redeployed.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
 
@@ -1376,7 +1412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The version of the user's namespace. Defaults to the
   latest version of the user's namespace.
 
-If no value is specified, the latest version is used by default.
+  If no value is specified, the latest version is used by default.
 """
 function update_system_template(
     definition, id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1388,6 +1424,7 @@ function update_system_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_system_template(
     definition,
     id,
@@ -1447,6 +1484,7 @@ function upload_entity_definitions(; aws_config::AbstractAWSConfig=current_aws_c
         "UploadEntityDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function upload_entity_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

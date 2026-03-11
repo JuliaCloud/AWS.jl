@@ -23,6 +23,7 @@ function describe_agreement(agreementId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_agreement(
     agreementId,
     params::AbstractDict{String};
@@ -45,14 +46,17 @@ end
 Obtains details about the terms in an agreement that you participated in as proposer or
 acceptor.
 
-The details include: - `TermType` – The type of term, such as `LegalTerm`, `RenewalTerm`,
-or `ConfigurableUpfrontPricingTerm`.
- - `TermID` – The ID of the particular term, which is common between offer and agreement.
- - `TermPayload` – The key information contained in the term, such as the EULA for
-`LegalTerm` or pricing and dimensions for various pricing terms, such as
-`ConfigurableUpfrontPricingTerm` or `UsageBasedPricingTerm`.
- - `Configuration` – The buyer/acceptor's selection at the time of agreement creation, such
-as the number of units purchased for a dimension or setting the `EnableAutoRenew` flag.
+The details include:
+
+- `TermType` – The type of term, such as `LegalTerm`, `RenewalTerm`, or
+  `ConfigurableUpfrontPricingTerm`.
+- `TermID` – The ID of the particular term, which is common between offer and agreement.
+- `TermPayload` – The key information contained in the term, such as the EULA for
+  `LegalTerm` or pricing and dimensions for various pricing terms, such as
+  `ConfigurableUpfrontPricingTerm` or `UsageBasedPricingTerm`.
+
+- `Configuration` – The buyer/acceptor's selection at the time of agreement creation, such
+  as the number of units purchased for a dimension or setting the `EnableAutoRenew` flag.
 
 # Arguments
 
@@ -75,6 +79,7 @@ function get_agreement_terms(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agreement_terms(
     agreementId,
     params::AbstractDict{String};
@@ -97,23 +102,24 @@ end
 Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The
 search returns a list of agreements with basic agreement information.
 
-The following filter combinations are supported: - `PartyType` as `Proposer` +
-`AgreementType` + `ResourceIdentifier`
- - `PartyType` as `Proposer` + `AgreementType` + `OfferId`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId`
- - `PartyType` as `Proposer` + `AgreementType` + `Status`
- - `PartyType` as `Proposer` + `AgreementType` + `ResourceIdentifier` + `Status`
- - `PartyType` as `Proposer` + `AgreementType` + `OfferId` + `Status`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `Status`
- - `PartyType` as `Proposer` + `AgreementType` + `ResourceType` + `Status`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceType` +
-`Status`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
-+ `Status`
- - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceType`
+The following filter combinations are supported:
+
+- `PartyType` as `Proposer` + `AgreementType` + `ResourceIdentifier`
+- `PartyType` as `Proposer` + `AgreementType` + `OfferId`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId`
+- `PartyType` as `Proposer` + `AgreementType` + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `ResourceIdentifier` + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `OfferId` + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `ResourceType` + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceType` +
+  `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
+  + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceType`
 
 # Optional Parameters
 
@@ -122,24 +128,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"catalog"`: The catalog in which the agreement was created.
 - `"filters"`: The filter name and value pair used to return a specific list of results.
 
-  The following filters are supported: - `ResourceIdentifier` – The unique identifier of
-  the resource.
-   - `ResourceType` – Type of the resource, which is the product (`AmiProduct`,
-  `ContainerProduct`, or `SaaSProduct`).
-   - `PartyType` – The party type (either `Acceptor` or `Proposer`) of the caller. For
-  agreements where the caller is the proposer, use the `Proposer` filter. For agreements
-  where the caller is the acceptor, use the `Acceptor` filter.
-   - `AcceptorAccountId` – The AWS account ID of the party accepting the agreement terms.
-   - `OfferId` – The unique identifier of the offer in which the terms are registered in
-  the agreement token.
-   - `Status` – The current status of the agreement. Values include `ACTIVE`, `ARCHIVED`,
-  `CANCELLED`, `EXPIRED`, `RENEWED`, `REPLACED`, and `TERMINATED`.
-   - `BeforeEndTime` – A date used to filter agreements with a date before the `endTime` of
-  an agreement.
-   - `AfterEndTime` – A date used to filter agreements with a date after the `endTime` of
-  an agreement.
-   - `AgreementType` – The type of agreement. Values include `PurchaseAgreement` or
-  `VendorInsightsAgreement`.
+  The following filters are supported:
+
+  - `ResourceIdentifier` – The unique identifier of the resource.
+  - `ResourceType` – Type of the resource, which is the product (`AmiProduct`,
+    `ContainerProduct`, or `SaaSProduct`).
+  - `PartyType` – The party type (either `Acceptor` or `Proposer`) of the caller. For
+    agreements where the caller is the proposer, use the `Proposer` filter. For
+    agreements where the caller is the acceptor, use the `Acceptor` filter.
+  - `AcceptorAccountId` – The AWS account ID of the party accepting the agreement terms.
+  - `OfferId` – The unique identifier of the offer in which the terms are registered in
+    the agreement token.
+  - `Status` – The current status of the agreement. Values include `ACTIVE`, `ARCHIVED`,
+    `CANCELLED`, `EXPIRED`, `RENEWED`, `REPLACED`, and `TERMINATED`.
+  - `BeforeEndTime` – A date used to filter agreements with a date before the `endTime`
+    of an agreement.
+  - `AfterEndTime` – A date used to filter agreements with a date after the `endTime` of
+    an agreement.
+  - `AgreementType` – The type of agreement. Values include `PurchaseAgreement` or
+    `VendorInsightsAgreement`.
+
 - `"maxResults"`: The maximum number of agreements to return in the response.
 - `"nextToken"`: A token to specify where to start pagination.
 - `"sort"`: An object that contains the `SortBy` and `SortOrder` attributes.
@@ -149,6 +157,7 @@ function search_agreements(; aws_config::AbstractAWSConfig=current_aws_config())
         "SearchAgreements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_agreements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

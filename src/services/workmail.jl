@@ -14,18 +14,23 @@ Adds a member (user or group) to the resource's set of delegates.
 
 - `entity_id`: The member (user or group) to associate to the resource.
 
-  The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*. -
-  Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-
-  1234
- - Email address: entity@domain.tld
- - Entity: entity
+  The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*.
+
+  - Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: entity@domain.tld
+  - Entity: entity
+
 - `organization_id`: The organization under which the resource exists.
 - `resource_id`: The resource for which members (users or groups) are associated.
 
   The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available: - Resource ID: r-0123456789a0123456789b0123456789
-   - Email address: resource@domain.tld
- - Resource name: resource
+  identity formats are available:
+
+  - Resource ID: r-0123456789a0123456789b0123456789
+  - Email address: resource@domain.tld
+  - Resource name: resource
+
 """
 function associate_delegate_to_resource(
     EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -41,6 +46,7 @@ function associate_delegate_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_delegate_to_resource(
     EntityId,
     OrganizationId,
@@ -77,17 +83,22 @@ Adds a member (user or group) to the group's set.
 - `group_id`: The group to which the member (user or group) is associated.
 
   The identifier can accept *GroupId*, *Groupname*, or *email*. The following identity
-  formats are available: - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: group@domain.tld
- - Group name: group
+  formats are available:
+
+  - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: group@domain.tld
+  - Group name: group
+
 - `member_id`: The member (user or group) to associate to the group.
 
-  The member ID can accept *UserID or GroupId*, *Username or Groupname*, or *email*. -
-  Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-
-  1234
- - Email address: member@domain.tld
- - Member name: member
+  The member ID can accept *UserID or GroupId*, *Username or Groupname*, or *email*.
+
+  - Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: member@domain.tld
+  - Member name: member
+
 - `organization_id`: The organization under which the group exists.
 """
 function associate_member_to_group(
@@ -102,6 +113,7 @@ function associate_member_to_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_group(
     GroupId,
     MemberId,
@@ -152,6 +164,7 @@ function assume_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -204,6 +217,7 @@ function cancel_mailbox_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mailbox_export_job(
     ClientToken,
     JobId,
@@ -253,6 +267,7 @@ function create_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alias(
     Alias,
     EntityId,
@@ -316,6 +331,7 @@ function create_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_availability_configuration(
     DomainName,
     OrganizationId,
@@ -344,7 +360,7 @@ end
     create_group(name, organization_id)
     create_group(name, organization_id, params::Dict{String,<:Any})
 
-Creates a group that can be used in WorkMail by calling the <a>RegisterToWorkMail</a>
+Creates a group that can be used in WorkMail by calling the [`register_to_work_mail`](@ref)
 operation.
 
 # Arguments
@@ -369,6 +385,7 @@ function create_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     Name,
     OrganizationId,
@@ -395,7 +412,7 @@ end
 
 Creates an impersonation role for the given WorkMail organization.
 
- *Idempotency* ensures that an API request completes no more than one time. With an
+*Idempotency* ensures that an API request completes no more than one time. With an
 idempotent request, if the original request completes successfully, any subsequent retries
 also complete successfully without performing any further actions.
 
@@ -430,6 +447,7 @@ function create_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_impersonation_role(
     Name,
     OrganizationId,
@@ -504,6 +522,7 @@ function create_mobile_device_access_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_mobile_device_access_rule(
     Effect,
     Name,
@@ -563,8 +582,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DirectoryId"`: The AWS Directory Service directory ID.
 - `"Domains"`: The email domains to associate with the organization.
 - `"EnableInteroperability"`: When `true`, allows organization interoperability between
-  WorkMail and Microsoft Exchange. If `true`, you must include a AD Connector directory ID
-  in the request.
+  WorkMail and Microsoft Exchange. If `true`, you must include a AD Connector directory
+  ID in the request.
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
 """
 function create_organization(Alias; aws_config::AbstractAWSConfig=current_aws_config())
@@ -575,6 +594,7 @@ function create_organization(Alias; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_organization(
     Alias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -625,6 +645,7 @@ function create_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource(
     Name,
     OrganizationId,
@@ -652,7 +673,7 @@ end
     create_user(display_name, name, organization_id)
     create_user(display_name, name, organization_id, params::Dict{String,<:Any})
 
-Creates a user who can be used in WorkMail by calling the <a>RegisterToWorkMail</a>
+Creates a user who can be used in WorkMail by calling the [`register_to_work_mail`](@ref)
 operation.
 
 # Arguments
@@ -673,8 +694,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Password"`: The password for the new user.
 - `"Role"`: The role of the new user.
 
-  You cannot pass *SYSTEM_USER* or *RESOURCE* role in a single request. When a user role is
-  not selected, the default role of *USER* is selected.
+  You cannot pass *SYSTEM_USER* or *RESOURCE* role in a single request. When a user role
+  is not selected, the default role of *USER* is selected.
 """
 function create_user(
     DisplayName, Name, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -688,6 +709,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     DisplayName,
     Name,
@@ -721,7 +743,7 @@ Deletes an access control rule for the specified WorkMail organization.
 
 !!! note
     Deleting already deleted and non-existing rules does not produce an error. In those
-cases, the service sends back an HTTP 200 response with an empty HTTP body.
+    cases, the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 
@@ -738,6 +760,7 @@ function delete_access_control_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_control_rule(
     Name,
     OrganizationId,
@@ -784,6 +807,7 @@ function delete_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alias(
     Alias,
     EntityId,
@@ -831,6 +855,7 @@ function delete_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_availability_configuration(
     DomainName,
     OrganizationId,
@@ -874,6 +899,7 @@ function delete_email_monitoring_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -900,9 +926,12 @@ Deletes a group from WorkMail.
 - `group_id`: The identifier of the group to be deleted.
 
   The identifier can be the *GroupId*, or *Groupname*. The following identity formats are
-  available: - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-
-  123456789-123456789-1234
- - Group name: group
+  available:
+
+  - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Group name: group
+
 - `organization_id`: The organization that contains the group.
 """
 function delete_group(
@@ -915,6 +944,7 @@ function delete_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupId,
     OrganizationId,
@@ -958,6 +988,7 @@ function delete_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -991,18 +1022,23 @@ Deletes permissions granted to a member (user or group).
 
 - `entity_id`: The identifier of the entity that owns the mailbox.
 
-  The identifier can be *UserId or Group Id*, *Username or Groupname*, or *email*. - Entity
-  ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: entity@domain.tld
- - Entity name: entity
+  The identifier can be *UserId or Group Id*, *Username or Groupname*, or *email*.
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Email address: entity@domain.tld
+  - Entity name: entity
+
 - `grantee_id`: The identifier of the entity for which to delete granted permissions.
 
   The identifier can be *UserId, ResourceID, or Group Id*, *Username or Groupname*, or
-  *email*. - Grantee ID: 12345678-1234-1234-1234-123456789012,r-
-  0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
-   - Email address: grantee@domain.tld
- - Grantee name: grantee
+  *email*.
+
+  - Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Email address: grantee@domain.tld
+  - Grantee name: grantee
+
 - `organization_id`: The identifier of the organization under which the member (user or
   group) exists.
 """
@@ -1020,6 +1056,7 @@ function delete_mailbox_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mailbox_permissions(
     EntityId,
     GranteeId,
@@ -1054,7 +1091,7 @@ device.
 
 !!! note
     Deleting already deleted and non-existing overrides does not produce an error. In those
-cases, the service sends back an HTTP 200 response with an empty HTTP body.
+    cases, the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 
@@ -1063,10 +1100,13 @@ cases, the service sends back an HTTP 200 response with an empty HTTP body.
 - `organization_id`: The WorkMail organization for which the access override will be
   deleted.
 - `user_id`: The WorkMail user for which you want to delete the override. Accepts the
-  following types of user identities: - User ID: `12345678-1234-1234-1234-123456789012` or
-  `S-1-1-12-1234567890-123456789-123456789-1234`
-   - Email address: `user@domain.tld`
- - User name: `user`
+  following types of user identities:
+
+  - User ID: `12345678-1234-1234-1234-123456789012` or
+    `S-1-1-12-1234567890-123456789-123456789-1234`
+  - Email address: `user@domain.tld`
+  - User name: `user`
+
 """
 function delete_mobile_device_access_override(
     DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1080,6 +1120,7 @@ function delete_mobile_device_access_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mobile_device_access_override(
     DeviceId,
     OrganizationId,
@@ -1113,7 +1154,7 @@ Deletes a mobile device access rule for the specified WorkMail organization.
 
 !!! note
     Deleting already deleted and non-existing rules does not produce an error. In those
-cases, the service sends back an HTTP 200 response with an empty HTTP body.
+    cases, the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 
@@ -1135,6 +1176,7 @@ function delete_mobile_device_access_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mobile_device_access_rule(
     MobileDeviceAccessRuleId,
     OrganizationId,
@@ -1195,6 +1237,7 @@ function delete_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_organization(
     DeleteDirectory,
     OrganizationId,
@@ -1231,9 +1274,12 @@ Deletes the specified resource.
   resource is deleted.
 - `resource_id`: The identifier of the resource to be deleted.
 
-  The identifier can accept *ResourceId*, or *Resourcename*. The following identity formats
-  are available: - Resource ID: r-0123456789a0123456789b0123456789
-   - Resource name: resource
+  The identifier can accept *ResourceId*, or *Resourcename*. The following identity
+  formats are available:
+
+  - Resource ID: r-0123456789a0123456789b0123456789
+  - Resource name: resource
+
 """
 function delete_resource(
     OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1245,6 +1291,7 @@ function delete_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource(
     OrganizationId,
     ResourceId,
@@ -1288,6 +1335,7 @@ function delete_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retention_policy(
     Id,
     OrganizationId,
@@ -1325,9 +1373,12 @@ days before they are permanently removed.
 - `user_id`: The identifier of the user to be deleted.
 
   The identifier can be the *UserId* or *Username*. The following identity formats are
-  available: - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-
-  123456789-123456789-1234
- - User name: user
+  available:
+
+  - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - User name: user
+
 """
 function delete_user(
     OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1339,6 +1390,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     OrganizationId,
     UserId,
@@ -1372,10 +1424,13 @@ are permanently removed. The functionality in the console is *Disable*.
 - `entity_id`: The identifier for the member to be updated.
 
   The identifier can be *UserId, ResourceId, or Group Id*, *Username, Resourcename, or
-  Groupname*, or *email*. - Entity ID: 12345678-1234-1234-1234-123456789012, r-
-  0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
-   - Email address: entity@domain.tld
- - Entity name: entity
+  Groupname*, or *email*.
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Email address: entity@domain.tld
+  - Entity name: entity
+
 - `organization_id`: The identifier for the organization under which the WorkMail entity
   exists.
 """
@@ -1389,6 +1444,7 @@ function deregister_from_work_mail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_from_work_mail(
     EntityId,
     OrganizationId,
@@ -1435,6 +1491,7 @@ function deregister_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_mail_domain(
     DomainName,
     OrganizationId,
@@ -1478,6 +1535,7 @@ function describe_email_monitoring_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -1514,6 +1572,7 @@ function describe_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity(
     Email,
     OrganizationId,
@@ -1545,10 +1604,13 @@ Returns the data available for the group.
 - `group_id`: The identifier for the group to be described.
 
   The identifier can accept *GroupId*, *Groupname*, or *email*. The following identity
-  formats are available: - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: group@domain.tld
- - Group name: group
+  formats are available:
+
+  - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: group@domain.tld
+  - Group name: group
+
 - `organization_id`: The identifier for the organization under which the group exists.
 """
 function describe_group(
@@ -1561,6 +1623,7 @@ function describe_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group(
     GroupId,
     OrganizationId,
@@ -1601,6 +1664,7 @@ function describe_inbound_dmarc_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inbound_dmarc_settings(
     OrganizationId,
     params::AbstractDict{String};
@@ -1637,6 +1701,7 @@ function describe_mailbox_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_mailbox_export_job(
     JobId,
     OrganizationId,
@@ -1677,6 +1742,7 @@ function describe_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization(
     OrganizationId,
     params::AbstractDict{String};
@@ -1705,9 +1771,12 @@ Returns the data available for the resource.
 - `resource_id`: The identifier of the resource to be described.
 
   The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available: - Resource ID: r-0123456789a0123456789b0123456789
-   - Email address: resource@domain.tld
- - Resource name: resource
+  identity formats are available:
+
+  - Resource ID: r-0123456789a0123456789b0123456789
+  - Email address: resource@domain.tld
+  - Resource name: resource
+
 """
 function describe_resource(
     OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1719,6 +1788,7 @@ function describe_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource(
     OrganizationId,
     ResourceId,
@@ -1753,11 +1823,14 @@ Provides information regarding the user.
 - `user_id`: The identifier for the user to be described.
 
   The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available: - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: user@domain.tld
- - User name: user
- <p/>
+  formats are available:
+
+  - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: user@domain.tld
+  - User name: user
+
+
 """
 function describe_user(
     OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1769,6 +1842,7 @@ function describe_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user(
     OrganizationId,
     UserId,
@@ -1800,19 +1874,24 @@ Removes a member from the resource's set of delegates.
 - `entity_id`: The identifier for the member (user, group) to be removed from the
   resource's delegates.
 
-  The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*. -
-  Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-
-  1234
- - Email address: entity@domain.tld
- - Entity: entity
+  The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*.
+
+  - Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: entity@domain.tld
+  - Entity: entity
+
 - `organization_id`: The identifier for the organization under which the resource exists.
 - `resource_id`: The identifier of the resource from which delegates' set members are
   removed.
 
   The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available: - Resource ID: r-0123456789a0123456789b0123456789
-   - Email address: resource@domain.tld
- - Resource name: resource
+  identity formats are available:
+
+  - Resource ID: r-0123456789a0123456789b0123456789
+  - Email address: resource@domain.tld
+  - Resource name: resource
+
 """
 function disassociate_delegate_from_resource(
     EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1828,6 +1907,7 @@ function disassociate_delegate_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_delegate_from_resource(
     EntityId,
     OrganizationId,
@@ -1864,17 +1944,22 @@ Removes a member from a group.
 - `group_id`: The identifier for the group from which members are removed.
 
   The identifier can accept *GroupId*, *Groupname*, or *email*. The following identity
-  formats are available: - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: group@domain.tld
- - Group name: group
+  formats are available:
+
+  - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: group@domain.tld
+  - Group name: group
+
 - `member_id`: The identifier for the member to be removed from the group.
 
-  The member ID can accept *UserID or GroupId*, *Username or Groupname*, or *email*. -
-  Member ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
-  123456789-1234
- - Email address: member@domain.tld
- - Member name: member
+  The member ID can accept *UserID or GroupId*, *Username or Groupname*, or *email*.
+
+  - Member ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: member@domain.tld
+  - Member name: member
+
 - `organization_id`: The identifier for the organization under which the group exists.
 """
 function disassociate_member_from_group(
@@ -1889,6 +1974,7 @@ function disassociate_member_from_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_group(
     GroupId,
     MemberId,
@@ -1949,6 +2035,7 @@ function get_access_control_effect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_control_effect(
     Action,
     IpAddress,
@@ -1994,6 +2081,7 @@ function get_default_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_default_retention_policy(
     OrganizationId,
     params::AbstractDict{String};
@@ -2033,6 +2121,7 @@ function get_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -2067,10 +2156,13 @@ Tests whether the given impersonation role can impersonate a target user.
 - `impersonation_role_id`: The impersonation role ID to test.
 - `organization_id`: The WorkMail organization where the impersonation role is defined.
 - `target_user`: The WorkMail organization user chosen to test the impersonation role. The
-  following identity formats are available: - User ID: `12345678-1234-1234-1234-
-  123456789012` or `S-1-1-12-1234567890-123456789-123456789-1234`
-   - Email address: `user@domain.tld`
- - User name: `user`
+  following identity formats are available:
+
+  - User ID: `12345678-1234-1234-1234-123456789012` or
+    `S-1-1-12-1234567890-123456789-123456789-1234`
+  - Email address: `user@domain.tld`
+  - User name: `user`
+
 """
 function get_impersonation_role_effect(
     ImpersonationRoleId,
@@ -2089,6 +2181,7 @@ function get_impersonation_role_effect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_impersonation_role_effect(
     ImpersonationRoleId,
     OrganizationId,
@@ -2136,6 +2229,7 @@ function get_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mail_domain(
     DomainName,
     OrganizationId,
@@ -2171,10 +2265,13 @@ Requests a user's mailbox details for a specified organization and user.
 - `user_id`: The identifier for the user whose mailbox details are being requested.
 
   The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available: - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
- - Email address: user@domain.tld
- - User name: user
+  formats are available:
+
+  - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: user@domain.tld
+  - User name: user
+
 """
 function get_mailbox_details(
     OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2186,6 +2283,7 @@ function get_mailbox_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mailbox_details(
     OrganizationId,
     UserId,
@@ -2237,6 +2335,7 @@ function get_mobile_device_access_effect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mobile_device_access_effect(
     OrganizationId,
     params::AbstractDict{String};
@@ -2265,10 +2364,13 @@ device.
   insensitive.
 - `organization_id`: The WorkMail organization to which you want to apply the override.
 - `user_id`: Identifies the WorkMail user for the override. Accepts the following types of
-  user identities:  - User ID: `12345678-1234-1234-1234-123456789012` or `S-1-1-12-
-  1234567890-123456789-123456789-1234`
-   - Email address: `user@domain.tld`
- - User name: `user`
+  user identities:
+
+  - User ID: `12345678-1234-1234-1234-123456789012` or
+    `S-1-1-12-1234567890-123456789-123456789-1234`
+  - Email address: `user@domain.tld`
+  - User name: `user`
+
 """
 function get_mobile_device_access_override(
     DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2282,6 +2384,7 @@ function get_mobile_device_access_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mobile_device_access_override(
     DeviceId,
     OrganizationId,
@@ -2327,6 +2430,7 @@ function list_access_control_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_control_rules(
     OrganizationId,
     params::AbstractDict{String};
@@ -2371,6 +2475,7 @@ function list_aliases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_aliases(
     EntityId,
     OrganizationId,
@@ -2422,6 +2527,7 @@ function list_availability_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_availability_configurations(
     OrganizationId,
     params::AbstractDict{String};
@@ -2449,10 +2555,13 @@ Returns an overview of the members of a group. Users and groups can be members o
   associated.
 
   The identifier can accept *GroupId*, *Groupname*, or *email*. The following identity
-  formats are available: - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: group@domain.tld
- - Group name: group
+  formats are available:
+
+  - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: group@domain.tld
+  - Group name: group
+
 - `organization_id`: The identifier for the organization under which the group exists.
 
 # Optional Parameters
@@ -2460,8 +2569,8 @@ Returns an overview of the members of a group. Users and groups can be members o
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return in a single call.
-- `"NextToken"`:  The token to use to retrieve the next page of results. The first call
-  does not contain any tokens.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 function list_group_members(
     GroupId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2473,6 +2582,7 @@ function list_group_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_members(
     GroupId,
     OrganizationId,
@@ -2521,6 +2631,7 @@ function list_groups(OrganizationId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups(
     OrganizationId,
     params::AbstractDict{String};
@@ -2546,11 +2657,13 @@ Returns all the groups to which an entity belongs.
 
 - `entity_id`: The identifier for the entity.
 
-  The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*. -
-  Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
-  123456789-1234
- - Email address: entity@domain.tld
- - Entity name: entity
+  The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*.
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: entity@domain.tld
+  - Entity name: entity
+
 - `organization_id`: The identifier for the organization under which the entity exists.
 
 # Optional Parameters
@@ -2572,6 +2685,7 @@ function list_groups_for_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups_for_entity(
     EntityId,
     OrganizationId,
@@ -2623,6 +2737,7 @@ function list_impersonation_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_impersonation_roles(
     OrganizationId,
     params::AbstractDict{String};
@@ -2666,6 +2781,7 @@ function list_mail_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mail_domains(
     OrganizationId,
     params::AbstractDict{String};
@@ -2709,6 +2825,7 @@ function list_mailbox_export_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mailbox_export_jobs(
     OrganizationId,
     params::AbstractDict{String};
@@ -2735,10 +2852,14 @@ Lists the mailbox permissions associated with a user, group, or resource mailbox
 - `entity_id`: The identifier of the user, or resource for which to list mailbox
   permissions.
 
-  The entity ID can accept *UserId or ResourceId*, *Username or Resourcename*, or *email*. -
-   Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789
-   - Email address: entity@domain.tld
- - Entity name: entity
+  The entity ID can accept *UserId or ResourceId*, *Username or Resourcename*, or
+  *email*.
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012, or r-
+    0123456789a0123456789b0123456789
+  - Email address: entity@domain.tld
+  - Entity name: entity
+
 - `organization_id`: The identifier of the organization under which the user, group, or
   resource exists.
 
@@ -2760,6 +2881,7 @@ function list_mailbox_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mailbox_permissions(
     EntityId,
     OrganizationId,
@@ -2803,10 +2925,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not require a token.
 - `"UserId"`: The WorkMail user under which you list the mobile device access overrides.
-  Accepts the following types of user identities: - User ID: `12345678-1234-1234-1234-
-  123456789012` or `S-1-1-12-1234567890-123456789-123456789-1234`
-   - Email address: `user@domain.tld`
- - User name: `user`
+  Accepts the following types of user identities:
+
+  - User ID: `12345678-1234-1234-1234-123456789012` or
+    `S-1-1-12-1234567890-123456789-123456789-1234`
+  - Email address: `user@domain.tld`
+  - User name: `user`
+
 """
 function list_mobile_device_access_overrides(
     OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2818,6 +2943,7 @@ function list_mobile_device_access_overrides(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mobile_device_access_overrides(
     OrganizationId,
     params::AbstractDict{String};
@@ -2853,6 +2979,7 @@ function list_mobile_device_access_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mobile_device_access_rules(
     OrganizationId,
     params::AbstractDict{String};
@@ -2887,6 +3014,7 @@ function list_organizations(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListOrganizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_organizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2909,9 +3037,11 @@ and answer requests on behalf of the resource.
 - `resource_id`: The identifier for the resource whose delegates are listed.
 
   The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available: - Resource ID: r-0123456789a0123456789b0123456789
-   - Email address: resource@domain.tld
- - Resource name: resource
+  identity formats are available:
+
+  - Resource ID: r-0123456789a0123456789b0123456789
+  - Email address: resource@domain.tld
+  - Resource name: resource
 
 # Optional Parameters
 
@@ -2931,6 +3061,7 @@ function list_resource_delegates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_delegates(
     OrganizationId,
     ResourceId,
@@ -2981,6 +3112,7 @@ function list_resources(OrganizationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resources(
     OrganizationId,
     params::AbstractDict{String};
@@ -3016,6 +3148,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -3059,6 +3192,7 @@ function list_users(OrganizationId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     OrganizationId,
     params::AbstractDict{String};
@@ -3124,6 +3258,7 @@ function put_access_control_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_access_control_rule(
     Description,
     Effect,
@@ -3180,6 +3315,7 @@ function put_email_monitoring_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_monitoring_configuration(
     LogGroupArn,
     OrganizationId,
@@ -3226,6 +3362,7 @@ function put_inbound_dmarc_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_inbound_dmarc_settings(
     Enforced,
     OrganizationId,
@@ -3260,26 +3397,32 @@ Sets permissions for a user, group, or resource. This replaces any pre-existing 
   permissions.
 
   The identifier can be *UserId, ResourceID, or Group Id*, *Username, Resourcename, or
-  Groupname*, or *email*. - Entity ID: 12345678-1234-1234-1234-123456789012, r-
-  0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
-   - Email address: entity@domain.tld
- - Entity name: entity
+  Groupname*, or *email*.
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Email address: entity@domain.tld
+  - Entity name: entity
+
 - `grantee_id`: The identifier of the user, group, or resource to which to grant the
   permissions.
 
   The identifier can be *UserId, ResourceID, or Group Id*, *Username, Resourcename, or
-  Groupname*, or *email*. - Grantee ID: 12345678-1234-1234-1234-123456789012, r-
-  0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
-   - Email address: grantee@domain.tld
- - Grantee name: grantee
+  Groupname*, or *email*.
+
+  - Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Email address: grantee@domain.tld
+  - Grantee name: grantee
+
 - `organization_id`: The identifier of the organization under which the user, group, or
   resource exists.
 - `permission_values`: The permissions granted to the grantee. SEND_AS allows the grantee
-  to send email as the owner of the mailbox (the grantee is not mentioned on these emails).
-  SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox
-  (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows
-  the grantee full access to the mailbox, irrespective of other folder-level permissions
-  set on the mailbox.
+  to send email as the owner of the mailbox (the grantee is not mentioned on these
+  emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the
+  mailbox (the grantee is not mentioned as the physical sender of these emails).
+  FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-
+  level permissions set on the mailbox.
 """
 function put_mailbox_permissions(
     EntityId,
@@ -3300,6 +3443,7 @@ function put_mailbox_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_mailbox_permissions(
     EntityId,
     GranteeId,
@@ -3341,10 +3485,12 @@ user, and device.
 - `effect`: The effect of the override, `ALLOW` or `DENY`.
 - `organization_id`: Identifies the WorkMail organization for which you create the override.
 - `user_id`: The WorkMail user for which you create the override. Accepts the following
-  types of user identities: - User ID: `12345678-1234-1234-1234-123456789012` or `S-1-1-12-
-  1234567890-123456789-123456789-1234`
-   - Email address: `user@domain.tld`
- - User name: `user`
+  types of user identities:
+
+  - User ID: `12345678-1234-1234-1234-123456789012` or
+    `S-1-1-12-1234567890-123456789-123456789-1234`
+  - Email address: `user@domain.tld`
+  - User name: `user`
 
 # Optional Parameters
 
@@ -3371,6 +3517,7 @@ function put_mobile_device_access_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_mobile_device_access_override(
     DeviceId,
     Effect,
@@ -3434,6 +3581,7 @@ function put_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_retention_policy(
     FolderConfigurations,
     Name,
@@ -3493,6 +3641,7 @@ function register_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_mail_domain(
     DomainName,
     OrganizationId,
@@ -3527,8 +3676,8 @@ resource is enabled and fails if the user, group, or resource is deleted. This o
 results in the accumulation of costs. For more information, see [Pricing](https://aws.amazon.com/workmail/pricing).
 The equivalent console functionality for this operation is *Enable*.
 
-Users can either be created by calling the <a>CreateUser</a> API operation or they can be
-synchronized from your directory. For more information, see <a>DeregisterFromWorkMail</a>.
+Users can either be created by calling the [`create_user`](@ref) API operation or they can
+be synchronized from your directory. For more information, see [`deregister_from_work_mail`](@ref).
 
 # Arguments
 
@@ -3536,10 +3685,12 @@ synchronized from your directory. For more information, see <a>DeregisterFromWor
 - `entity_id`: The identifier for the user, group, or resource to be updated.
 
   The identifier can accept *UserId, ResourceId, or GroupId*, or *Username, Resourcename,
-  or Groupname*. The following identity formats are available: - Entity ID: 12345678-1234-
-  1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-
-  123456789-123456789-1234
- - Entity name: entity
+  or Groupname*. The following identity formats are available:
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Entity name: entity
+
 - `organization_id`: The identifier for the organization under which the user, group, or
   resource exists.
 """
@@ -3555,6 +3706,7 @@ function register_to_work_mail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_to_work_mail(
     Email,
     EntityId,
@@ -3605,6 +3757,7 @@ function reset_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_password(
     OrganizationId,
     Password,
@@ -3644,12 +3797,14 @@ in the *WorkMail Administrator Guide*.
 - `client_token`: The idempotency token for the client request.
 - `entity_id`: The identifier of the user or resource associated with the mailbox.
 
-  The identifier can accept *UserId or ResourceId*, *Username or Resourcename*, or *email*.
-  The following identity formats are available: - Entity ID: 12345678-1234-1234-1234-
-  123456789012, r-0123456789a0123456789b0123456789 , or S-1-1-12-1234567890-123456789-
-  123456789-1234
- - Email address: entity@domain.tld
- - Entity name: entity
+  The identifier can accept *UserId or ResourceId*, *Username or Resourcename*, or
+  *email*. The following identity formats are available:
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 ,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Email address: entity@domain.tld
+  - Entity name: entity
+
 - `kms_key_arn`: The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
   (AWS KMS) key that encrypts the exported mailbox content.
 - `organization_id`: The identifier associated with the organization.
@@ -3689,6 +3844,7 @@ function start_mailbox_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mailbox_export_job(
     ClientToken,
     EntityId,
@@ -3741,6 +3897,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -3773,8 +3930,8 @@ either a `SourceArn` or `SourceAccount` header.
 
 !!! note
     The request must contain either one provider definition (`EwsProvider` or
-`LambdaProvider`) or the `DomainName` parameter. If the `DomainName` parameter is provided,
-the configuration stored under the `DomainName` will be tested.
+    `LambdaProvider`) or the `DomainName` parameter. If the `DomainName` parameter is
+    provided, the configuration stored under the `DomainName` will be tested.
 
 # Arguments
 
@@ -3800,6 +3957,7 @@ function test_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_availability_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -3836,6 +3994,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -3874,11 +4033,11 @@ domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EwsProvider"`: The EWS availability provider definition. The request must contain
-  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The previously
-  stored provider will be overridden by the one provided.
+  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The
+  previously stored provider will be overridden by the one provided.
 - `"LambdaProvider"`: The Lambda availability provider definition. The request must contain
-  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The previously
-  stored provider will be overridden by the one provided.
+  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The
+  previously stored provider will be overridden by the one provided.
 """
 function update_availability_configuration(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3890,6 +4049,7 @@ function update_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_availability_configuration(
     DomainName,
     OrganizationId,
@@ -3935,6 +4095,7 @@ function update_default_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_default_mail_domain(
     DomainName,
     OrganizationId,
@@ -3968,10 +4129,13 @@ Updates attibutes in a group.
 - `group_id`: The identifier for the group to be updated.
 
   The identifier can accept *GroupId*, *Groupname*, or *email*. The following identity
-  formats are available: - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: group@domain.tld
- - Group name: group
+  formats are available:
+
+  - Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: group@domain.tld
+  - Group name: group
+
 - `organization_id`: The identifier for the organization under which the group exists.
 
 # Optional Parameters
@@ -3991,6 +4155,7 @@ function update_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupId,
     OrganizationId,
@@ -4053,6 +4218,7 @@ function update_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_impersonation_role(
     ImpersonationRoleId,
     Name,
@@ -4096,10 +4262,13 @@ Updates a user's current mailbox quota for a specified organization and user.
 - `user_id`: The identifer for the user for whom to update the mailbox quota.
 
   The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available: - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
- - Email address: user@domain.tld
- - User name: user
+  formats are available:
+
+  - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: user@domain.tld
+  - User name: user
+
 """
 function update_mailbox_quota(
     MailboxQuota, OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4115,6 +4284,7 @@ function update_mailbox_quota(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mailbox_quota(
     MailboxQuota,
     OrganizationId,
@@ -4190,6 +4360,7 @@ function update_mobile_device_access_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mobile_device_access_rule(
     Effect,
     MobileDeviceAccessRuleId,
@@ -4231,11 +4402,13 @@ and the email provided in the input is promoted as the primary.
 - `entity_id`: The user, group, or resource to update.
 
   The identifier can accept *UseriD, ResourceId, or GroupId*, *Username, Resourcename, or
-  Groupname*, or *email*. The following identity formats are available: - Entity ID:
-  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-
-  1234567890-123456789-123456789-1234
-   - Email address: entity@domain.tld
- - Entity name: entity
+  Groupname*, or *email*. The following identity formats are available:
+
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
+    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Email address: entity@domain.tld
+  - Entity name: entity
+
 - `organization_id`: The organization that contains the user, group, or resource to update.
 """
 function update_primary_email_address(
@@ -4250,6 +4423,7 @@ function update_primary_email_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_primary_email_address(
     Email,
     EntityId,
@@ -4279,9 +4453,9 @@ end
     update_resource(organization_id, resource_id)
     update_resource(organization_id, resource_id, params::Dict{String,<:Any})
 
-Updates data for the resource. To have the latest information, it must be preceded by a
-<a>DescribeResource</a> call. The dataset in the request should be the one expected when
-performing another `DescribeResource` call.
+Updates data for the resource. To have the latest information, it must be preceded by a [`describe_resource`](@ref)
+call. The dataset in the request should be the one expected when performing another
+`DescribeResource` call.
 
 # Arguments
 
@@ -4290,9 +4464,11 @@ performing another `DescribeResource` call.
 - `resource_id`: The identifier of the resource to be updated.
 
   The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available: - Resource ID: r-0123456789a0123456789b0123456789
-   - Email address: resource@domain.tld
- - Resource name: resource
+  identity formats are available:
+
+  - Resource ID: r-0123456789a0123456789b0123456789
+  - Email address: resource@domain.tld
+  - Resource name: resource
 
 # Optional Parameters
 
@@ -4315,6 +4491,7 @@ function update_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource(
     OrganizationId,
     ResourceId,
@@ -4341,9 +4518,9 @@ end
     update_user(organization_id, user_id)
     update_user(organization_id, user_id, params::Dict{String,<:Any})
 
-Updates data for the user. To have the latest information, it must be preceded by a
-<a>DescribeUser</a> call. The dataset in the request should be the one expected when
-performing another `DescribeUser` call.
+Updates data for the user. To have the latest information, it must be preceded by a [`describe_user`](@ref)
+call. The dataset in the request should be the one expected when performing another
+`DescribeUser` call.
 
 # Arguments
 
@@ -4351,10 +4528,12 @@ performing another `DescribeUser` call.
 - `user_id`: The identifier for the user to be updated.
 
   The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available: - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-
-  1234567890-123456789-123456789-1234
- - Email address: user@domain.tld
- - User name: user
+  formats are available:
+
+  - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
+    123456789-1234
+  - Email address: user@domain.tld
+  - User name: user
 
 # Optional Parameters
 
@@ -4374,7 +4553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Office"`: Updates the user's office.
 - `"Role"`: Updates the user role.
 
-You cannot pass *SYSTEM_USER* or *RESOURCE*.
+  You cannot pass *SYSTEM_USER* or *RESOURCE*.
 - `"Street"`: Updates the user's street address.
 - `"Telephone"`: Updates the user's contact details.
 - `"ZipCode"`: Updates the user's zipcode.
@@ -4389,6 +4568,7 @@ function update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     OrganizationId,
     UserId,

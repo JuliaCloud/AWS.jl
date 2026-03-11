@@ -10,8 +10,8 @@ using AWS.UUIDs
 
 Accepts a pending certificate transfer. The default state of the certificate is INACTIVE.
 
-To check for pending certificate transfers, call <a>ListCertificates</a> to enumerate your
-certificates.
+To check for pending certificate transfers, call [`list_certificates`](@ref) to enumerate
+your certificates.
 
 Requires permission to access the [AcceptCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -37,6 +37,7 @@ function accept_certificate_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -69,7 +70,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This call is asynchronous. It might take several seconds for the detachment to
-  propagate.
+      propagate.
+
 - `"thingArn"`: The ARN of the thing to be added to the billing group.
 - `"thingName"`: The name of the thing to be added to the billing group.
 """
@@ -81,6 +83,7 @@ function add_thing_to_billing_group(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_thing_to_billing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -108,8 +111,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"overrideDynamicGroups"`: Override dynamic thing groups with static thing groups when 10-
   group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
-  groups are dynamic thing groups, adding a thing to a static group removes the thing from
-  the last dynamic group.
+  groups are dynamic thing groups, adding a thing to a static group removes the thing
+  from the last dynamic group.
 - `"thingArn"`: The ARN of the thing to add to a group.
 - `"thingGroupArn"`: The ARN of the group to which you are adding a thing.
 - `"thingGroupName"`: The name of the group to which you are adding a thing.
@@ -123,6 +126,7 @@ function add_thing_to_thing_group(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_thing_to_thing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -139,10 +143,12 @@ end
     associate_targets_with_job(job_id, targets)
     associate_targets_with_job(job_id, targets, params::Dict{String,<:Any})
 
-Associates a group with a continuous job. The following criteria must be met:  - The job
-must have been created with the `targetSelection` field set to "CONTINUOUS".
- - The job status must currently be "IN_PROGRESS".
- - The total number of targets associated with a job must not exceed 100.
+Associates a group with a continuous job. The following criteria must be met:
+
+- The job must have been created with the `targetSelection` field set to "CONTINUOUS".
+- The job status must currently be "IN_PROGRESS".
+- The total number of targets associated with a job must not exceed 100.
+
 Requires permission to access the [AssociateTargetsWithJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
@@ -162,11 +168,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
 
-   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
+  `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
-  information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
+      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+
 """
 function associate_targets_with_job(
     jobId, targets; aws_config::AbstractAWSConfig=current_aws_config()
@@ -179,6 +186,7 @@ function associate_targets_with_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_targets_with_job(
     jobId,
     targets,
@@ -220,6 +228,7 @@ function attach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_policy(
     policyName,
     target,
@@ -241,8 +250,8 @@ end
 
 Attaches the specified policy to the specified principal (certificate or other credential).
 
- **Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use <a>AttachPolicy</a> instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but
+we won't add enhancements. Use [`attach_policy`](@ref) instead.
 
 Requires permission to access the [AttachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -266,6 +275,7 @@ function attach_principal_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_principal_policy(
     policyName,
     x_amzn_iot_principal,
@@ -319,6 +329,7 @@ function attach_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_security_profile(
     securityProfileName,
     securityProfileTargetArn,
@@ -369,6 +380,7 @@ function attach_thing_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_thing_principal(
     thingName,
     x_amzn_principal,
@@ -416,6 +428,7 @@ function cancel_audit_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_audit_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -451,6 +464,7 @@ function cancel_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_audit_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -469,10 +483,10 @@ end
 
 Cancels a pending transfer for the specified certificate.
 
- **Note** Only the transfer source account can use this operation to cancel a transfer.
-(Transfer destinations can use <a>RejectCertificateTransfer</a> instead.) After transfer,
-IoT returns the certificate to the source account in the INACTIVE state. After the
-destination account has accepted the transfer, the transfer cannot be cancelled.
+**Note** Only the transfer source account can use this operation to cancel a transfer.
+(Transfer destinations can use [`reject_certificate_transfer`](@ref) instead.) After
+transfer, IoT returns the certificate to the source account in the INACTIVE state. After
+the destination account has accepted the transfer, the transfer cannot be cancelled.
 
 After a certificate transfer is cancelled, the status of the certificate changes from
 PENDING_TRANSFER to INACTIVE.
@@ -495,6 +509,7 @@ function cancel_certificate_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -513,14 +528,14 @@ end
     cancel_detect_mitigation_actions_task(task_id)
     cancel_detect_mitigation_actions_task(task_id, params::Dict{String,<:Any})
 
- Cancels a Device Defender ML Detect mitigation action.
+Cancels a Device Defender ML Detect mitigation action.
 
 Requires permission to access the [CancelDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
 
-- `task_id`:  The unique identifier of the task.
+- `task_id`: The unique identifier of the task.
 """
 function cancel_detect_mitigation_actions_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -532,6 +547,7 @@ function cancel_detect_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_detect_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -563,12 +579,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"comment"`: An optional comment string describing why the job was canceled.
 - `"force"`: (Optional) If `true` job executions with status "IN_PROGRESS" and "QUEUED" are
-  canceled, otherwise only job executions with status "QUEUED" are canceled. The default is
-  `false`.
+  canceled, otherwise only job executions with status "QUEUED" are canceled. The default
+  is `false`.
 
-  Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to
-  be unable to update the job execution status. Use caution and ensure that each device
-  executing a job which is canceled is able to recover to a valid state.
+  Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job
+  to be unable to update the job execution status. Use caution and ensure that each
+  device executing a job which is canceled is able to recover to a valid state.
 - `"reasonCode"`: (Optional)A reason code string that explains why the job was canceled.
 """
 function cancel_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -579,6 +595,7 @@ function cancel_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -610,23 +627,23 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"expectedVersion"`: (Optional) The expected current version of the job execution. Each
-  time you update the job execution, its version is incremented. If the version of the job
-  execution stored in Jobs does not match, the update is rejected with a VersionMismatch
-  error, and an ErrorResponse that contains the current job execution status data is
-  returned. (This makes it unnecessary to perform a separate DescribeJobExecution request
-  in order to obtain the job execution status data.)
+  time you update the job execution, its version is incremented. If the version of the
+  job execution stored in Jobs does not match, the update is rejected with a
+  VersionMismatch error, and an ErrorResponse that contains the current job execution
+  status data is returned. (This makes it unnecessary to perform a separate
+  DescribeJobExecution request in order to obtain the job execution status data.)
 - `"force"`: (Optional) If `true` the job execution will be canceled if it has status
-  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status
-  QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set
-  `force` to `true`, then an `InvalidStateTransitionException` will be thrown. The default
-  is `false`.
+  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has
+  status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do
+  not set `force` to `true`, then an `InvalidStateTransitionException` will be thrown.
+  The default is `false`.
 
   Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to
   update the job execution status. Use caution and ensure that the device is able to
   recover to a valid state.
 - `"statusDetails"`: A collection of name/value pairs that describe the status of the job
-  execution. If not specified, the statusDetails are unchanged. You can specify at most 10
-  name/value pairs.
+  execution. If not specified, the statusDetails are unchanged. You can specify at most
+  10 name/value pairs.
 """
 function cancel_job_execution(
     jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -638,6 +655,7 @@ function cancel_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job_execution(
     jobId,
     thingName,
@@ -670,6 +688,7 @@ function clear_default_authorizer(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function clear_default_authorizer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -709,6 +728,7 @@ function confirm_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_topic_rule_destination(
     confirmationToken,
     params::AbstractDict{String};
@@ -727,7 +747,7 @@ end
     create_audit_suppression(check_name, client_request_token, resource_identifier)
     create_audit_suppression(check_name, client_request_token, resource_identifier, params::Dict{String,<:Any})
 
- Creates a Device Defender audit suppression.
+Creates a Device Defender audit suppression.
 
 Requires permission to access the [CreateAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -735,8 +755,8 @@ action.
 # Arguments
 
 - `check_name`:
-- `client_request_token`:  Each audit supression must have a unique client request token.
-  If you try to create a new audit suppression with the same token as one that already
+- `client_request_token`: Each audit supression must have a unique client request token. If
+  you try to create a new audit suppression with the same token as one that already
   exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will
   automatically generate a unique client request.
 - `resource_identifier`:
@@ -745,9 +765,9 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The description of the audit suppression.
-- `"expirationDate"`:  The epoch timestamp in seconds at which this suppression expires.
-- `"suppressIndefinitely"`:  Indicates whether a suppression should exist indefinitely or
+- `"description"`: The description of the audit suppression.
+- `"expirationDate"`: The epoch timestamp in seconds at which this suppression expires.
+- `"suppressIndefinitely"`: Indicates whether a suppression should exist indefinitely or
   not.
 """
 function create_audit_suppression(
@@ -768,6 +788,7 @@ function create_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_audit_suppression(
     checkName,
     clientRequestToken,
@@ -814,22 +835,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"enableCachingForHttp"`: When `true`, the result from the authorizer’s Lambda function
   is cached for clients that use persistent HTTP connections. The results are cached for
-  the time specified by the Lambda function in `refreshAfterInSeconds`. This value does not
-  affect authorization of clients that use MQTT connections.
+  the time specified by the Lambda function in `refreshAfterInSeconds`. This value does
+  not affect authorization of clients that use MQTT connections.
 
-The default value is `false`.
+  The default value is `false`.
 - `"signingDisabled"`: Specifies whether IoT validates the token signature in an
   authorization request.
 - `"status"`: The status of the create authorizer request.
-- `"tags"`: Metadata which can be used to manage the custom authorizer.</p>
+- `"tags"`: Metadata which can be used to manage the custom authorizer.
 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-  For the CLI command-line parameter use format: &amp;&amp;tags
-  "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &amp;&amp;tags
+      "key1=value1&amp;key2=value2..."
 
- <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+
 - `"tokenKeyName"`: The name of the token key used to extract the token from the HTTP
   headers.
 - `"tokenSigningPublicKeys"`: The public keys used to verify the digital signature returned
@@ -848,6 +870,7 @@ function create_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_authorizer(
     authorizerFunctionArn,
     authorizerName,
@@ -899,6 +922,7 @@ function create_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -920,25 +944,25 @@ end
 Creates an X.509 certificate using the specified certificate signing request.
 
 Requires permission to access the [CreateCertificateFromCsr](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
-action. </p>
+action.
 
 !!! note
     The CSR must include a public key that is either an RSA key with a length of at least
-2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported
-certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
+    2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For
+    supported certificates, consult [Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
 
 !!! note
-    Reusing the same certificate signing request (CSR) results in a distinct
-certificate.You can create multiple certificates in a batch by creating a directory,
-copying multiple `.csr` files into that directory, and then specifying that directory on
-the command line. The following commands show how to create a batch of certificates given a
-batch of CSRs. In the following commands, we assume that a set of CSRs are located inside
-of the directory my-csr-directory:
+    Reusing the same certificate signing request (CSR) results in a distinct certificate.
+
+You can create multiple certificates in a batch by creating a directory, copying multiple
+`.csr` files into that directory, and then specifying that directory on the command line.
+The following commands show how to create a batch of certificates given a batch of CSRs. In
+the following commands, we assume that a set of CSRs are located inside of the directory my-
+csr-directory:
 
 On Linux and OS X, the command is:
 
- `\$ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-
-signing-request file://my-csr-directory/{}`
+`\$ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}`
 
 This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the
 `aws iot create-certificate-from-csr` Amazon Web Services CLI command to create a
@@ -947,20 +971,17 @@ certificate for the corresponding CSR.
 You can also run the `aws iot create-certificate-from-csr` part of the command in parallel
 to speed up the certificate creation process:
 
- `\$ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --
-certificate-signing-request file://my-csr-directory/{} `
+`\$ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}`
 
 On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory
 is:
 
- `&gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-
-signing-request file://my-csr-directory/\$_} `
+`&gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/\$_}`
 
 On a Windows command prompt, the command to create certificates for all CSRs in my-csr-
 directory is:
 
- <p> `&gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --
-certificate-signing-request file://@path" `
+`&gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"`
 
 # Arguments
 
@@ -983,6 +1004,7 @@ function create_certificate_from_csr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_certificate_from_csr(
     certificateSigningRequest,
     params::AbstractDict{String};
@@ -1016,10 +1038,10 @@ Requires permission to access the [CreateCertificateProvider](https://docs.aws.a
 action.
 
 !!! important
-    After you create a certificate provider, the behavior of [ `CreateCertificateFromCsr` API for fleet provisioning](https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr)
-will change and all API calls to `CreateCertificateFromCsr` will invoke the certificate
-provider to create the certificates. It can take up to a few minutes for this behavior to
-change after a certificate provider is created.
+    After you create a certificate provider, the behavior of [`CreateCertificateFromCsr` API for fleet provisioning](https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr)
+    will change and all API calls to `CreateCertificateFromCsr` will invoke the certificate
+    provider to create the certificates. It can take up to a few minutes for this behavior
+    to change after a certificate provider is created.
 
 # Arguments
 
@@ -1055,6 +1077,7 @@ function create_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_certificate_provider(
     accountDefaultForOperations,
     certificateProviderName,
@@ -1085,7 +1108,7 @@ end
     create_custom_metric(client_request_token, metric_name, metric_type)
     create_custom_metric(client_request_token, metric_name, metric_type, params::Dict{String,<:Any})
 
- Use this API to define a Custom Metric published by your devices to Device Defender.
+Use this API to define a Custom Metric published by your devices to Device Defender.
 
 Requires permission to access the [CreateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -1096,24 +1119,24 @@ action.
   you try to create a new custom metric that already exists with a different token, an
   exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
   generate a unique client request.
-- `metric_name`:  The name of the custom metric. This will be used in the metric report
+- `metric_name`: The name of the custom metric. This will be used in the metric report
   submitted from the device/thing. The name can't begin with `aws:`. You can't change the
   name after you define it.
-- `metric_type`:  The type of the custom metric.
+- `metric_type`: The type of the custom metric.
 
   !!! important
       The type `number` only takes a single metric value as an input, but when you submit
-  the metrics value in the DeviceMetrics report, you must pass it as an array with a single
-  value.
+      the metrics value in the DeviceMetrics report, you must pass it as an array with a
+      single value.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"displayName"`:  The friendly name in the console for the custom metric. This name
+- `"displayName"`: The friendly name in the console for the custom metric. This name
   doesn't have to be unique. Don't use this name as the metric identifier in the device
   metric report. You can update the friendly name after you define it.
-- `"tags"`:  Metadata that can be used to manage the custom metric.
+- `"tags"`: Metadata that can be used to manage the custom metric.
 """
 function create_custom_metric(
     clientRequestToken,
@@ -1131,6 +1154,7 @@ function create_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_metric(
     clientRequestToken,
     metricName,
@@ -1170,9 +1194,9 @@ action.
 # Arguments
 
 - `client_request_token`: Each dimension must have a unique client request token. If you
-  try to create a new dimension with the same token as a dimension that already exists, an
-  exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
-  generate a unique client request.
+  try to create a new dimension with the same token as a dimension that already exists,
+  an exception occurs. If you omit this value, Amazon Web Services SDKs will
+  automatically generate a unique client request.
 - `name`: A unique identifier for the dimension. Choose something that describes the type
   and value to make it easy to remember what it does.
 - `string_values`: Specifies the value or list of values for the dimension. For
@@ -1205,6 +1229,7 @@ function create_dimension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dimension(
     clientRequestToken,
     name,
@@ -1253,22 +1278,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authorizerConfig"`: An object that specifies the authorization service for a domain.
 - `"domainName"`: The name of the domain.
 - `"serverCertificateArns"`: The ARNs of the certificates that IoT passes to the device
-  during the TLS handshake. Currently you can specify only one certificate ARN. This value
-  is not required for Amazon Web Services-managed domains.
+  during the TLS handshake. Currently you can specify only one certificate ARN. This
+  value is not required for Amazon Web Services-managed domains.
 - `"serverCertificateConfig"`: The server certificate configuration.
 - `"serviceType"`: The type of service delivered by the endpoint.
 
   !!! note
-    Amazon Web Services IoT Core currently supports only the `DATA` service type.
-- `"tags"`: Metadata which can be used to manage the domain configuration.</p>
+      Amazon Web Services IoT Core currently supports only the `DATA` service type.
+
+- `"tags"`: Metadata which can be used to manage the domain configuration.
 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-  For the CLI command-line parameter use format: &amp;&amp;tags
-  "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &amp;&amp;tags
+      "key1=value1&amp;key2=value2..."
 
- <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+
 - `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
 - `"validationCertificateArn"`: The certificate used to validate the server certificate and
   prove domain name ownership. This certificate must be signed by a public certificate
@@ -1284,6 +1311,7 @@ function create_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -1321,13 +1349,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"indexName"`: The dynamic thing group index name.
 
-!!! note
-    Currently one index is supported: `AWS_Things`.
+  !!! note
+      Currently one index is supported: `AWS_Things`.
+
 - `"queryVersion"`: The dynamic thing group query version.
 
   !!! note
       Currently one query version is supported: "2017-09-30". If not specified, the query
-  version defaults to this value.
+      version defaults to this value.
+
 - `"tags"`: Metadata which can be used to manage the dynamic thing group.
 - `"thingGroupProperties"`: The dynamic thing group properties.
 """
@@ -1342,6 +1372,7 @@ function create_dynamic_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dynamic_thing_group(
     queryString,
     thingGroupName,
@@ -1409,6 +1440,7 @@ function create_fleet_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet_metric(
     aggregationField,
     aggregationType,
@@ -1460,12 +1492,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"abortConfig"`: Allows you to create the criteria to abort a job.
 - `"description"`: A short text description of the job.
 - `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
-  installed on the device when the job successfully completes. The package version must be
-  in either the Published or Deprecated state when the job deploys. For more information,
-  see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+  installed on the device when the job successfully completes. The package version must
+  be in either the Published or Deprecated state when the job deploys. For more
+  information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
 
-
-   **Note:**The following Length Constraints relates to a single ARN. Up to 25 package
+  **Note:**The following Length Constraints relates to a single ARN. Up to 25 package
   version ARNs are allowed.
 - `"document"`: The job document. Required if you don't specify a value for
   `documentSource`.
@@ -1474,13 +1505,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       `documentParameters` can only be used when creating jobs from Amazon Web Services
-  managed templates. This parameter can't be used with custom job templates or to create
-  jobs from them.
+      managed templates. This parameter can't be used with custom job templates or to
+      create jobs from them.
+
 - `"documentSource"`: An S3 link, or S3 object URL, to the job document. The link is an
   Amazon S3 object URL and is required if you don't specify a value for `document`.
 
-  For example, `--document-source https://s3.*region-code*.amazonaws.com/example-
-  firmware/device-firmware.1.0`
+  For example,
+  `--document-source https://s3.*region-code*.amazonaws.com/example-firmware/device-firmware.1.0`
 
   For more information, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 - `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
@@ -1491,11 +1523,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
 
-   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
+  `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
-  information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
+      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
 - `"schedulingConfig"`: The configuration that allows you to schedule a job for a future
   date and time in addition to specifying the end behavior for each job execution.
@@ -1507,13 +1540,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group, even after the job was completed by all things originally in the group.
 
   !!! note
-      We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing
-  group targets. By using continuous jobs, devices that join the group receive the job
-  execution even after the job has been created.
+      We recommend that you use continuous jobs instead of snapshot jobs for dynamic
+      thing group targets. By using continuous jobs, devices that join the group receive
+      the job execution even after the job has been created.
+
 - `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution
   of the job. The timer is started when the job execution status is set to `IN_PROGRESS`.
-  If the job execution status is not set to another terminal state before the time expires,
-  it will be automatically set to `TIMED_OUT`.
+  If the job execution status is not set to another terminal state before the time
+  expires, it will be automatically set to `TIMED_OUT`.
 """
 function create_job(jobId, targets; aws_config::AbstractAWSConfig=current_aws_config())
     return iot(
@@ -1524,6 +1558,7 @@ function create_job(jobId, targets; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     jobId,
     targets,
@@ -1560,19 +1595,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"abortConfig"`:
 - `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
-  installed on the device when the job successfully completes. The package version must be
-  in either the Published or Deprecated state when the job deploys. For more information,
-  see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+  installed on the device when the job successfully completes. The package version must
+  be in either the Published or Deprecated state when the job deploys. For more
+  information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
 
-   **Note:**The following Length Constraints relates to a single ARN. Up to 25 package
+  **Note:**The following Length Constraints relates to a single ARN. Up to 25 package
   version ARNs are allowed.
 - `"document"`: The job document. Required if you don't specify a value for
   `documentSource`.
 - `"documentSource"`: An S3 link, or S3 object URL, to the job document. The link is an
   Amazon S3 object URL and is required if you don't specify a value for `document`.
 
-  For example, `--document-source https://s3.*region-code*.amazonaws.com/example-
-  firmware/device-firmware.1.0`
+  For example,
+  `--document-source https://s3.*region-code*.amazonaws.com/example-firmware/device-firmware.1.0`
 
   For more information, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 - `"jobArn"`: The ARN of the job to use as the basis for the job template.
@@ -1595,6 +1630,7 @@ function create_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job_template(
     description,
     jobTemplateId,
@@ -1620,7 +1656,7 @@ Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued
 key. You can also call `CreateKeysAndCertificate` over MQTT from a device, for more
 information, see [Provisioning MQTT API](https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api).
 
- **Note** This is the only time IoT issues the private key for this certificate, so it is
+**Note** This is the only time IoT issues the private key for this certificate, so it is
 important to keep it in a secure location.
 
 Requires permission to access the [CreateKeysAndCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
@@ -1640,6 +1676,7 @@ function create_keys_and_certificate(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_keys_and_certificate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1688,6 +1725,7 @@ function create_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_mitigation_action(
     actionName,
     actionParams,
@@ -1746,9 +1784,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetSelection"`: Specifies whether the update will continue to run (CONTINUOUS), or
   will be complete after all the things specified as targets have completed the update
   (SNAPSHOT). If continuous, the update may also be run on a thing when a change is
-  detected in a target. For example, an update will run on a thing when the thing is added
-  to a target group, even after the update was completed by all things originally in the
-  group. Valid values: CONTINUOUS | SNAPSHOT.
+  detected in a target. For example, an update will run on a thing when the thing is
+  added to a target group, even after the update was completed by all things originally
+  in the group. Valid values: CONTINUOUS | SNAPSHOT.
 """
 function create_otaupdate(
     files, otaUpdateId, roleArn, targets; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1761,6 +1799,7 @@ function create_otaupdate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_otaupdate(
     files,
     otaUpdateId,
@@ -1805,8 +1844,8 @@ actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"description"`: A summary of the package being created. This can be used to outline the
   package's contents or purpose.
 - `"tags"`: Metadata that can be used to manage the package.
@@ -1820,6 +1859,7 @@ function create_package(packageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package(
     packageName,
     params::AbstractDict{String};
@@ -1859,10 +1899,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, the S3 file location, configuration options that are being sent to the
   device or fleet.
 
-The combined size of all the attributes on a package version is limited to 3KB.
+  The combined size of all the attributes on a package version is limited to 3KB.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"description"`: A summary of the package version being created. This can be used to
   outline the package's contents or purpose.
 - `"tags"`: Metadata that can be used to manage the package version.
@@ -1878,6 +1918,7 @@ function create_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package_version(
     packageName,
     versionName,
@@ -1917,15 +1958,16 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: Metadata which can be used to manage the policy.</p>
+- `"tags"`: Metadata which can be used to manage the policy.
 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-  For the CLI command-line parameter use format: &amp;&amp;tags
-  "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &amp;&amp;tags
+      "key1=value1&amp;key2=value2..."
 
- <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+
 """
 function create_policy(
     policyDocument, policyName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1938,6 +1980,7 @@ function create_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy(
     policyDocument,
     policyName,
@@ -1961,8 +2004,8 @@ end
 
 Creates a new version of the specified IoT policy. To update a policy, create a new policy
 version. A managed policy can have up to five versions. If the policy has five versions,
-you must use <a>DeletePolicyVersion</a> to delete an existing version before you create a
-new one.
+you must use [`delete_policy_version`](@ref) to delete an existing version before you
+create a new one.
 
 Optionally, you can set the new version as the policy's default version. The default
 version is the operative version (that is, the version that is in effect for the
@@ -1996,6 +2039,7 @@ function create_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy_version(
     policyDocument,
     policyName,
@@ -2036,6 +2080,7 @@ function create_provisioning_claim(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioning_claim(
     templateName,
     params::AbstractDict{String};
@@ -2073,17 +2118,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the provisioning template.
 - `"enabled"`: True to enable the provisioning template, otherwise false.
 - `"preProvisioningHook"`: Creates a pre-provisioning hook template. Only supports template
-  of type `FLEET_PROVISIONING`. For more information about provisioning template types, see
-  [type](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
-- `"tags"`: Metadata which can be used to manage the provisioning template.</p>
+  of type `FLEET_PROVISIONING`. For more information about provisioning template types,
+  see [type](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
+- `"tags"`: Metadata which can be used to manage the provisioning template.
 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-  For the CLI command-line parameter use format: &amp;&amp;tags
-  "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &amp;&amp;tags
+      "key1=value1&amp;key2=value2..."
 
- <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+
 - `"type"`: The type you define in a provisioning template. You can create a template with
   only one type. You can't change the template type after its creation. The default value
   is `FLEET_PROVISIONING`. For more information about provisioning template, see: [Provisioning template](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html).
@@ -2106,6 +2152,7 @@ function create_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioning_template(
     provisioningRoleArn,
     templateBody,
@@ -2163,6 +2210,7 @@ function create_provisioning_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioning_template_version(
     templateBody,
     templateName,
@@ -2204,15 +2252,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This value must be less than or equal to the maximum session duration of the IAM role
   that the role alias references.
-- `"tags"`: Metadata which can be used to manage the role alias.</p>
+- `"tags"`: Metadata which can be used to manage the role alias.
 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-  For the CLI command-line parameter use format: &amp;&amp;tags
-  "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &amp;&amp;tags
+      "key1=value1&amp;key2=value2..."
 
- <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+
 """
 function create_role_alias(
     roleAlias, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2225,6 +2274,7 @@ function create_role_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_role_alias(
     roleAlias,
     roleArn,
@@ -2255,18 +2305,18 @@ action.
   `BIWEEKLY` or `MONTHLY`. The start time of each audit is determined by the system.
 - `scheduled_audit_name`: The name you want to give to the scheduled audit. (Max. 128 chars)
 - `target_check_names`: Which checks are performed during the scheduled audit. Checks must
-  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list of
-  all checks, including those that are enabled or use `UpdateAccountAuditConfiguration` to
-  select which checks are enabled.)
+  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list
+  of all checks, including those that are enabled or use
+  `UpdateAccountAuditConfiguration` to select which checks are enabled.)
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"dayOfMonth"`: The day of the month on which the scheduled audit takes place. This can
-  be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set
-  to `MONTHLY`. If days 29 to 31 are specified, and the month doesn't have that many days,
-  the audit takes place on the `LAST` day of the month.
+  be "1" through "31" or "LAST". This field is required if the "frequency" parameter is
+  set to `MONTHLY`. If days 29 to 31 are specified, and the month doesn't have that many
+  days, the audit takes place on the `LAST` day of the month.
 - `"dayOfWeek"`: The day of the week on which the scheduled audit takes place, either
   `SUN`, `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if the
   `frequency` parameter is set to `WEEKLY` or `BIWEEKLY`.
@@ -2286,6 +2336,7 @@ function create_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scheduled_audit(
     frequency,
     scheduledAuditName,
@@ -2327,8 +2378,8 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalMetricsToRetain"`:  *Please use
-  <a>CreateSecurityProfileRequest\$additionalMetricsToRetainV2</a> instead.*
+- `"additionalMetricsToRetain"`: *Please use [`create_security_profile_request\$additional_metrics_to_retain_v2`](@ref)
+  instead.*
 
   A list of metrics whose data is retained (stored). By default, data is retained for any
   metric used in the profile's `behaviors`, but it is also retained for any metric
@@ -2355,6 +2406,7 @@ function create_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -2404,6 +2456,7 @@ function create_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stream(
     files,
     roleArn,
@@ -2434,7 +2487,9 @@ thing name but different configuration a `ResourceAlreadyExistsException` is thr
 
 !!! note
     This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html)
-for information about authorizing control plane actions.Requires permission to access the [CreateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+    for information about authorizing control plane actions.
+
+Requires permission to access the [CreateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
@@ -2451,7 +2506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributePayload"`: The attribute payload, which consists of up to three name/value
   pairs in a JSON document. For example:
 
- `{\\"attributes\\":{\\"string1\\":\\"string2\\"}}`
+  `{\\"attributes\\":{\\"string1\\":\\"string2\\"}}`
 - `"billingGroupName"`: The name of the billing group the thing will be added to.
 - `"thingTypeName"`: The name of the thing type associated with the new thing.
 """
@@ -2463,6 +2518,7 @@ function create_thing(thingName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_thing(
     thingName,
     params::AbstractDict{String};
@@ -2481,14 +2537,16 @@ end
     create_thing_group(thing_group_name)
     create_thing_group(thing_group_name, params::Dict{String,<:Any})
 
-Create a thing group.</p>
+Create a thing group.
 
 !!! note
     This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html)
-for information about authorizing control plane actions.
+    for information about authorizing control plane actions.
 
- <p>If the `ThingGroup` that you create has the exact same attributes as an existing
-`ThingGroup`, you will get a 200 success response.Requires permission to access the [CreateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+    If the `ThingGroup` that you create has the exact same attributes as an existing
+    `ThingGroup`, you will get a 200 success response.
+
+Requires permission to access the [CreateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
@@ -2513,6 +2571,7 @@ function create_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -2559,6 +2618,7 @@ function create_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -2592,14 +2652,16 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"x-amz-tagging"`: Metadata which can be used to manage the topic rule.</p>
+- `"x-amz-tagging"`: Metadata which can be used to manage the topic rule.
 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-  For the CLI command-line parameter use format: --tags "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: --tags
+      "key1=value1&amp;key2=value2..."
 
- <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+
 """
 function create_topic_rule(
     ruleName, topicRulePayload; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2612,6 +2674,7 @@ function create_topic_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_topic_rule(
     ruleName,
     topicRulePayload,
@@ -2655,6 +2718,7 @@ function create_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_topic_rule_destination(
     destinationConfiguration,
     params::AbstractDict{String};
@@ -2701,6 +2765,7 @@ function delete_account_audit_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2717,7 +2782,7 @@ end
     delete_audit_suppression(check_name, resource_identifier)
     delete_audit_suppression(check_name, resource_identifier, params::Dict{String,<:Any})
 
- Deletes a Device Defender audit suppression.
+Deletes a Device Defender audit suppression.
 
 Requires permission to access the [DeleteAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -2740,6 +2805,7 @@ function delete_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -2786,6 +2852,7 @@ function delete_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -2831,6 +2898,7 @@ function delete_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -2869,6 +2937,7 @@ function delete_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -2919,6 +2988,7 @@ function delete_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate(
     certificateId,
     params::AbstractDict{String};
@@ -2960,6 +3030,7 @@ function delete_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -2978,20 +3049,20 @@ end
     delete_custom_metric(metric_name)
     delete_custom_metric(metric_name, params::Dict{String,<:Any})
 
- Deletes a Device Defender detect custom metric.
+Deletes a Device Defender detect custom metric.
 
 Requires permission to access the [DeleteCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 !!! note
     Before you can delete a custom metric, you must first remove the custom metric from all
-security profiles it's a part of. The security profile associated with the custom metric
-can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html)
-API with `metricName` set to your custom metric name.
+    security profiles it's a part of. The security profile associated with the custom
+    metric can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html)
+    API with `metricName` set to your custom metric name.
 
 # Arguments
 
-- `metric_name`:  The name of the custom metric.
+- `metric_name`: The name of the custom metric.
 """
 function delete_custom_metric(
     metricName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3003,6 +3074,7 @@ function delete_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_metric(
     metricName,
     params::AbstractDict{String};
@@ -3038,6 +3110,7 @@ function delete_dimension(name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dimension(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3073,6 +3146,7 @@ function delete_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -3116,6 +3190,7 @@ function delete_dynamic_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dynamic_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -3158,6 +3233,7 @@ function delete_fleet_metric(metricName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet_metric(
     metricName,
     params::AbstractDict{String};
@@ -3194,38 +3270,41 @@ action.
 - `job_id`: The ID of the job to be deleted.
 
   After a job deletion is completed, you may reuse this jobId when you create a new job.
-  However, this is not recommended, and you must ensure that your devices are not using the
-  jobId to refer to the deleted job.
+  However, this is not recommended, and you must ensure that your devices are not using
+  the jobId to refer to the deleted job.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise,
-  you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an
-  exception will occur. The default is false.
+  you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or
+  an exception will occur. The default is false.
 
   !!! note
-      Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job
-  to be unable to access job information or update the job execution status. Use caution
-  and ensure that each device executing a job which is deleted is able to recover to a
-  valid state.
+      Deleting a job which is "IN_PROGRESS", will cause a device which is executing the
+      job to be unable to access job information or update the job execution status. Use
+      caution and ensure that each device executing a job which is deleted is able to
+      recover to a valid state.
+
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
 
-   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
+  `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
-  information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
+      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+
 """
 function delete_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot(
         "DELETE", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3252,8 +3331,8 @@ action.
 - `execution_number`: The ID of the job execution to be deleted. The `executionNumber`
   refers to the execution of a particular job on a particular device.
 
-  Note that once a job execution is deleted, the `executionNumber` may be reused by IoT, so
-  be sure you get and use the correct value here.
+  Note that once a job execution is deleted, the `executionNumber` may be reused by IoT,
+  so be sure you get and use the correct value here.
 - `job_id`: The ID of the job whose execution on a particular device will be deleted.
 - `thing_name`: The name of the thing whose job execution will be deleted.
 
@@ -3262,24 +3341,26 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: (Optional) When true, you can delete a job execution which is "IN_PROGRESS".
-  Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED",
-  "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is
-  false.
+  Otherwise, you can only delete a job execution which is in a terminal state
+  ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will
+  occur. The default is false.
 
   !!! note
       Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable
-  to access job information or update the job execution status. Use caution and ensure that
-  the device is able to recover to a valid state.
+      to access job information or update the job execution status. Use caution and
+      ensure that the device is able to recover to a valid state.
+
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
 
-   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
+  `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
-  information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
+      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+
 """
 function delete_job_execution(
     executionNumber, jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3291,6 +3372,7 @@ function delete_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job_execution(
     executionNumber,
     jobId,
@@ -3327,6 +3409,7 @@ function delete_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job_template(
     jobTemplateId,
     params::AbstractDict{String};
@@ -3364,6 +3447,7 @@ function delete_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -3410,6 +3494,7 @@ function delete_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_otaupdate(
     otaUpdateId,
     params::AbstractDict{String};
@@ -3430,7 +3515,7 @@ end
 
 Deletes a specific version from a software package.
 
- **Note:** All package versions must be deleted before deleting the software package.
+**Note:** All package versions must be deleted before deleting the software package.
 
 Requires permission to access the [DeletePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -3444,8 +3529,8 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_package(packageName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot(
@@ -3456,6 +3541,7 @@ function delete_package(packageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package(
     packageName,
     params::AbstractDict{String};
@@ -3478,7 +3564,7 @@ end
 
 Deletes a specific version from a software package.
 
- **Note:** If a package version is designated as default, you must remove the designation
+**Note:** If a package version is designated as default, you must remove the designation
 from the software package using the [`update_package`](@ref) action.
 
 # Arguments
@@ -3491,8 +3577,8 @@ from the software package using the [`update_package`](@ref) action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_package_version(
     packageName, versionName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3505,6 +3591,7 @@ function delete_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package_version(
     packageName,
     versionName,
@@ -3539,8 +3626,9 @@ When a policy is deleted using DeletePolicy, its default version is deleted with
 
 !!! note
     Because of the distributed nature of Amazon Web Services, it can take up to five
-minutes after a policy is detached before it's ready to be deleted.Requires permission to
-access the [DeletePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+    minutes after a policy is detached before it's ready to be deleted.
+
+Requires permission to access the [DeletePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
@@ -3555,6 +3643,7 @@ function delete_policy(policyName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     policyName,
     params::AbstractDict{String};
@@ -3574,9 +3663,9 @@ end
     delete_policy_version(policy_name, policy_version_id, params::Dict{String,<:Any})
 
 Deletes the specified version of the specified policy. You cannot delete the default
-version of a policy using this action. To delete the default version of a policy, use
-<a>DeletePolicy</a>. To find out which version of a policy is marked as the default
-version, use ListPolicyVersions.
+version of a policy using this action. To delete the default version of a policy, use [`delete_policy`](@ref).
+To find out which version of a policy is marked as the default version, use
+ListPolicyVersions.
 
 Requires permission to access the [DeletePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -3596,6 +3685,7 @@ function delete_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_version(
     policyName,
     policyVersionId,
@@ -3634,6 +3724,7 @@ function delete_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -3672,6 +3763,7 @@ function delete_provisioning_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_provisioning_template_version(
     templateName,
     versionId,
@@ -3704,6 +3796,7 @@ function delete_registration_code(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_code(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3737,6 +3830,7 @@ function delete_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -3774,6 +3868,7 @@ function delete_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -3819,6 +3914,7 @@ function delete_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -3854,6 +3950,7 @@ function delete_stream(streamId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stream(
     streamId,
     params::AbstractDict{String};
@@ -3898,6 +3995,7 @@ function delete_thing(thingName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing(
     thingName,
     params::AbstractDict{String};
@@ -3941,6 +4039,7 @@ function delete_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -3960,10 +4059,10 @@ end
     delete_thing_type(thing_type_name, params::Dict{String,<:Any})
 
 Deletes the specified thing type. You cannot delete a thing type if it has things
-associated with it. To delete a thing type, first mark it as deprecated by calling
-<a>DeprecateThingType</a>, then remove any associated things by calling <a>UpdateThing</a>
-to change the thing type on any associated thing, and finally use <a>DeleteThingType</a> to
-delete the thing type.
+associated with it. To delete a thing type, first mark it as deprecated by calling [`deprecate_thing_type`](@ref),
+then remove any associated things by calling [`update_thing`](@ref) to change the thing
+type on any associated thing, and finally use [`delete_thing_type`](@ref) to delete the
+thing type.
 
 Requires permission to access the [DeleteThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -3982,6 +4081,7 @@ function delete_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -4017,6 +4117,7 @@ function delete_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -4054,6 +4155,7 @@ function delete_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_topic_rule_destination(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4092,6 +4194,7 @@ function delete_v2_logging_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_v2_logging_level(
     targetName,
     targetType,
@@ -4143,6 +4246,7 @@ function deprecate_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprecate_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -4177,6 +4281,7 @@ function describe_account_audit_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4215,6 +4320,7 @@ function describe_audit_finding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_finding(
     findingId,
     params::AbstractDict{String};
@@ -4251,6 +4357,7 @@ function describe_audit_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4267,7 +4374,7 @@ end
     describe_audit_suppression(check_name, resource_identifier)
     describe_audit_suppression(check_name, resource_identifier, params::Dict{String,<:Any})
 
- Gets information about a Device Defender audit suppression.
+Gets information about a Device Defender audit suppression.
 
 # Arguments
 
@@ -4287,6 +4394,7 @@ function describe_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -4331,6 +4439,7 @@ function describe_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4366,6 +4475,7 @@ function describe_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -4403,6 +4513,7 @@ function describe_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -4440,6 +4551,7 @@ function describe_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -4478,6 +4590,7 @@ function describe_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate(
     certificateId,
     params::AbstractDict{String};
@@ -4515,6 +4628,7 @@ function describe_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -4533,14 +4647,14 @@ end
     describe_custom_metric(metric_name)
     describe_custom_metric(metric_name, params::Dict{String,<:Any})
 
- Gets information about a Device Defender detect custom metric.
+Gets information about a Device Defender detect custom metric.
 
 Requires permission to access the [DescribeCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
 
-- `metric_name`:  The name of the custom metric.
+- `metric_name`: The name of the custom metric.
 """
 function describe_custom_metric(
     metricName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4552,6 +4666,7 @@ function describe_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_metric(
     metricName,
     params::AbstractDict{String};
@@ -4580,6 +4695,7 @@ function describe_default_authorizer(; aws_config::AbstractAWSConfig=current_aws
         "GET", "/default-authorizer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_default_authorizer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4596,14 +4712,14 @@ end
     describe_detect_mitigation_actions_task(task_id)
     describe_detect_mitigation_actions_task(task_id, params::Dict{String,<:Any})
 
- Gets information about a Device Defender ML Detect mitigation action.
+Gets information about a Device Defender ML Detect mitigation action.
 
 Requires permission to access the [DescribeDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
 
-- `task_id`:  The unique identifier of the task.
+- `task_id`: The unique identifier of the task.
 """
 function describe_detect_mitigation_actions_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4615,6 +4731,7 @@ function describe_detect_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detect_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4645,6 +4762,7 @@ function describe_dimension(name; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/dimensions/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_dimension(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4680,6 +4798,7 @@ function describe_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -4703,25 +4822,33 @@ call.
 
 !!! note
     The first time `DescribeEndpoint` is called, an endpoint is created. All subsequent
-calls to `DescribeEndpoint` return the same endpoint.Requires permission to access the [DescribeEndpoint](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+    calls to `DescribeEndpoint` return the same endpoint.
+
+Requires permission to access the [DescribeEndpoint](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"endpointType"`: The endpoint type. Valid endpoint types include: - `iot:Data` - Returns
-  a VeriSign signed data endpoint.
-   - `iot:Data-ATS` - Returns an ATS signed data endpoint.
-   - `iot:CredentialProvider` - Returns an IoT credentials provider API endpoint.
-   - `iot:Jobs` - Returns an IoT device management Jobs API endpoint.
-  We strongly recommend that customers use the newer `iot:Data-ATS` endpoint type to avoid
-  issues related to the widespread distrust of Symantec certificate authorities. ATS Signed
-  Certificates are more secure and are trusted by most popular browsers.
+- `"endpointType"`: The endpoint type. Valid endpoint types include:
+
+  - `iot:Data` - Returns a VeriSign signed data endpoint.
+
+  - `iot:Data-ATS` - Returns an ATS signed data endpoint.
+
+  - `iot:CredentialProvider` - Returns an IoT credentials provider API endpoint.
+
+  - `iot:Jobs` - Returns an IoT device management Jobs API endpoint.
+
+  We strongly recommend that customers use the newer `iot:Data-ATS` endpoint type to
+  avoid issues related to the widespread distrust of Symantec certificate authorities.
+  ATS Signed Certificates are more secure and are trusted by most popular browsers.
 """
 function describe_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4747,6 +4874,7 @@ function describe_event_configurations(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4782,6 +4910,7 @@ function describe_fleet_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_metric(
     metricName,
     params::AbstractDict{String};
@@ -4817,6 +4946,7 @@ function describe_index(indexName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_index(
     indexName,
     params::AbstractDict{String};
@@ -4849,6 +4979,7 @@ function describe_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4892,6 +5023,7 @@ function describe_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_execution(
     jobId,
     thingName,
@@ -4927,6 +5059,7 @@ function describe_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_template(
     jobTemplateId,
     params::AbstractDict{String};
@@ -4968,6 +5101,7 @@ function describe_managed_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_managed_job_template(
     templateName,
     params::AbstractDict{String};
@@ -5005,6 +5139,7 @@ function describe_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -5042,6 +5177,7 @@ function describe_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -5080,6 +5216,7 @@ function describe_provisioning_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_provisioning_template_version(
     templateName,
     versionId,
@@ -5116,6 +5253,7 @@ function describe_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -5153,6 +5291,7 @@ function describe_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -5191,6 +5330,7 @@ function describe_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -5226,6 +5366,7 @@ function describe_stream(streamId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stream(
     streamId,
     params::AbstractDict{String};
@@ -5261,6 +5402,7 @@ function describe_thing(thingName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing(
     thingName,
     params::AbstractDict{String};
@@ -5298,6 +5440,7 @@ function describe_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -5335,6 +5478,7 @@ function describe_thing_registration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing_registration_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5370,6 +5514,7 @@ function describe_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -5392,8 +5537,9 @@ Detaches a policy from the specified target.
 
 !!! note
     Because of the distributed nature of Amazon Web Services, it can take up to five
-minutes after a policy is detached before it's ready to be deleted.Requires permission to
-access the [DetachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+    minutes after a policy is detached before it's ready to be deleted.
+
+Requires permission to access the [DetachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
@@ -5412,6 +5558,7 @@ function detach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_policy(
     policyName,
     target,
@@ -5433,8 +5580,8 @@ end
 
 Removes the specified policy from the specified certificate.
 
- **Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use <a>DetachPolicy</a> instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but
+we won't add enhancements. Use [`detach_policy`](@ref) instead.
 
 Requires permission to access the [DetachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -5461,6 +5608,7 @@ function detach_principal_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_principal_policy(
     policyName,
     x_amzn_iot_principal,
@@ -5513,6 +5661,7 @@ function detach_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_security_profile(
     securityProfileName,
     securityProfileTargetArn,
@@ -5544,15 +5693,17 @@ identities.
 
 !!! note
     This call is asynchronous. It might take several seconds for the detachment to
-propagate.Requires permission to access the [DetachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+    propagate.
+
+Requires permission to access the [DetachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
 
 - `thing_name`: The name of the thing.
 - `x-amzn-principal`: If the principal is a certificate, this value must be ARN of the
-  certificate. If the principal is an Amazon Cognito identity, this value must be the ID of
-  the Amazon Cognito identity.
+  certificate. If the principal is an Amazon Cognito identity, this value must be the ID
+  of the Amazon Cognito identity.
 """
 function detach_thing_principal(
     thingName, x_amzn_principal; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5567,6 +5718,7 @@ function detach_thing_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_thing_principal(
     thingName,
     x_amzn_principal,
@@ -5611,6 +5763,7 @@ function disable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -5646,6 +5799,7 @@ function enable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -5664,7 +5818,7 @@ end
     get_behavior_model_training_summaries()
     get_behavior_model_training_summaries(params::Dict{String,<:Any})
 
- Returns a Device Defender's ML Detect Security Profile training model's status.
+Returns a Device Defender's ML Detect Security Profile training model's status.
 
 Requires permission to access the [GetBehaviorModelTrainingSummaries](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -5673,9 +5827,9 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of results to return at one time. The default is 10.
-- `"nextToken"`:  The token for the next set of results.
-- `"securityProfileName"`:  The name of the security profile.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 10.
+- `"nextToken"`: The token for the next set of results.
+- `"securityProfileName"`: The name of the security profile.
 """
 function get_behavior_model_training_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -5687,6 +5841,7 @@ function get_behavior_model_training_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_behavior_model_training_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5740,6 +5895,7 @@ function get_buckets_aggregation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_buckets_aggregation(
     aggregationField,
     bucketsAggregationType,
@@ -5796,6 +5952,7 @@ function get_cardinality(queryString; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cardinality(
     queryString,
     params::AbstractDict{String};
@@ -5840,6 +5997,7 @@ function get_effective_policies(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_effective_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5866,6 +6024,7 @@ function get_indexing_configuration(; aws_config::AbstractAWSConfig=current_aws_
         "GET", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_indexing_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5899,6 +6058,7 @@ function get_job_document(jobId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_document(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5927,6 +6087,7 @@ function get_logging_options(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/loggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5960,6 +6121,7 @@ function get_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_otaupdate(
     otaUpdateId,
     params::AbstractDict{String};
@@ -5995,6 +6157,7 @@ function get_package(packageName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package(
     packageName,
     params::AbstractDict{String};
@@ -6026,6 +6189,7 @@ function get_package_configuration(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6062,6 +6226,7 @@ function get_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package_version(
     packageName,
     versionName,
@@ -6115,6 +6280,7 @@ function get_percentiles(queryString; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_percentiles(
     queryString,
     params::AbstractDict{String};
@@ -6153,6 +6319,7 @@ function get_policy(policyName; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     policyName,
     params::AbstractDict{String};
@@ -6191,6 +6358,7 @@ function get_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy_version(
     policyName,
     policyVersionId,
@@ -6224,6 +6392,7 @@ function get_registration_code(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/registrationcode"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_registration_code(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6269,6 +6438,7 @@ function get_statistics(queryString; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_statistics(
     queryString,
     params::AbstractDict{String};
@@ -6303,6 +6473,7 @@ function get_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/rules/$(ruleName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -6338,6 +6509,7 @@ function get_topic_rule_destination(arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_topic_rule_destination(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6364,6 +6536,7 @@ function get_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_v2_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6389,8 +6562,8 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"behaviorCriteriaType"`:  The criteria for a behavior.
-- `"listSuppressedAlerts"`:  A list of all suppressed alerts.
+- `"behaviorCriteriaType"`: The criteria for a behavior.
+- `"listSuppressedAlerts"`: A list of all suppressed alerts.
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"nextToken"`: The token for the next set of results.
 - `"securityProfileName"`: The name of the Device Defender security profile for which
@@ -6403,6 +6576,7 @@ function list_active_violations(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/active-violations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_active_violations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6427,8 +6601,9 @@ action.
 # Arguments
 
 - `target`: The group or principal for which the policies will be listed. Valid principals
-  are CertificateArn (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
-  (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId (*region*:*id*).
+  are CertificateArn (arn:aws:iot:*region*:*accountId*:cert/*certificateId*),
+  thingGroupArn (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId
+  (*region*:*id*).
 
 # Optional Parameters
 
@@ -6446,6 +6621,7 @@ function list_attached_policies(target; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attached_policies(
     target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6475,7 +6651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"checkName"`: A filter to limit results to the findings for the specified audit check.
 - `"endTime"`: A filter to limit results to those found before the specified time. You must
   specify either the startTime and endTime or the taskId, but not both.
-- `"listSuppressedFindings"`:  Boolean flag indicating whether only the suppressed findings
+- `"listSuppressedFindings"`: Boolean flag indicating whether only the suppressed findings
   or the unsuppressed findings should be listed. If this parameter isn't provided, the
   response will list both suppressed and unsuppressed findings.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
@@ -6491,6 +6667,7 @@ function list_audit_findings(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/audit/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_audit_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6538,6 +6715,7 @@ function list_audit_mitigation_actions_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_mitigation_actions_executions(
     findingId,
     taskId,
@@ -6599,6 +6777,7 @@ function list_audit_mitigation_actions_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_mitigation_actions_tasks(
     endTime,
     startTime,
@@ -6624,7 +6803,7 @@ end
     list_audit_suppressions()
     list_audit_suppressions(params::Dict{String,<:Any})
 
- Lists your Device Defender audit listings.
+Lists your Device Defender audit listings.
 
 Requires permission to access the [ListAuditSuppressions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -6633,11 +6812,11 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ascendingOrder"`:  Determines whether suppressions are listed in ascending order by
+- `"ascendingOrder"`: Determines whether suppressions are listed in ascending order by
   expiration date or not. If parameter isn't provided, `ascendingOrder=true`.
 - `"checkName"`:
-- `"maxResults"`:  The maximum number of results to return at one time. The default is 25.
-- `"nextToken"`:  The token for the next set of results.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+- `"nextToken"`: The token for the next set of results.
 - `"resourceIdentifier"`:
 """
 function list_audit_suppressions(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -6648,6 +6827,7 @@ function list_audit_suppressions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_suppressions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6698,6 +6878,7 @@ function list_audit_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_tasks(
     endTime,
     startTime,
@@ -6742,6 +6923,7 @@ function list_authorizers(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/authorizers/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_authorizers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6778,6 +6960,7 @@ function list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/billing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_billing_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6816,6 +6999,7 @@ function list_cacertificates(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/cacertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cacertificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6854,6 +7038,7 @@ function list_certificate_providers(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_certificate_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6892,6 +7077,7 @@ function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/certificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6937,6 +7123,7 @@ function list_certificates_by_ca(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_certificates_by_ca(
     caCertificateId,
     params::AbstractDict{String};
@@ -6955,7 +7142,7 @@ end
     list_custom_metrics()
     list_custom_metrics(params::Dict{String,<:Any})
 
- Lists your Device Defender detect custom metrics.
+Lists your Device Defender detect custom metrics.
 
 Requires permission to access the [ListCustomMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -6964,14 +7151,15 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of results to return at one time. The default is 25.
-- `"nextToken"`:  The token for the next set of results.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+- `"nextToken"`: The token for the next set of results.
 """
 function list_custom_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot(
         "GET", "/custom-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_custom_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6988,7 +7176,7 @@ end
     list_detect_mitigation_actions_executions()
     list_detect_mitigation_actions_executions(params::Dict{String,<:Any})
 
- Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
+Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
 
 Requires permission to access the [ListDetectMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -6997,15 +7185,15 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"endTime"`:  The end of the time period for which ML Detect mitigation actions
-  executions are returned.
-- `"maxResults"`:  The maximum number of results to return at one time. The default is 25.
-- `"nextToken"`:  The token for the next set of results.
-- `"startTime"`:  A filter to limit results to those found after the specified time. You
+- `"endTime"`: The end of the time period for which ML Detect mitigation actions executions
+  are returned.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+- `"nextToken"`: The token for the next set of results.
+- `"startTime"`: A filter to limit results to those found after the specified time. You
   must specify either the startTime and endTime or the taskId, but not both.
-- `"taskId"`:  The unique identifier of the task.
-- `"thingName"`:  The name of the thing whose mitigation actions are listed.
-- `"violationId"`:  The unique identifier of the violation.
+- `"taskId"`: The unique identifier of the task.
+- `"thingName"`: The name of the thing whose mitigation actions are listed.
+- `"violationId"`: The unique identifier of the violation.
 """
 function list_detect_mitigation_actions_executions(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -7017,6 +7205,7 @@ function list_detect_mitigation_actions_executions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_detect_mitigation_actions_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7033,24 +7222,24 @@ end
     list_detect_mitigation_actions_tasks(end_time, start_time)
     list_detect_mitigation_actions_tasks(end_time, start_time, params::Dict{String,<:Any})
 
- List of Device Defender ML Detect mitigation actions tasks.
+List of Device Defender ML Detect mitigation actions tasks.
 
 Requires permission to access the [ListDetectMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
 
-- `end_time`:  The end of the time period for which ML Detect mitigation actions tasks are
+- `end_time`: The end of the time period for which ML Detect mitigation actions tasks are
   returned.
-- `start_time`:  A filter to limit results to those found after the specified time. You
-  must specify either the startTime and endTime or the taskId, but not both.
+- `start_time`: A filter to limit results to those found after the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-- `"nextToken"`:  The token for the next set of results.
+- `"nextToken"`: The token for the next set of results.
 """
 function list_detect_mitigation_actions_tasks(
     endTime, startTime; aws_config::AbstractAWSConfig=current_aws_config()
@@ -7063,6 +7252,7 @@ function list_detect_mitigation_actions_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_detect_mitigation_actions_tasks(
     endTime,
     startTime,
@@ -7103,6 +7293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_dimensions(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/dimensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_dimensions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7137,6 +7328,7 @@ function list_domain_configurations(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7171,6 +7363,7 @@ function list_fleet_metrics(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/fleet-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fleet_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7203,6 +7396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_indices(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/indices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_indices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7242,6 +7436,7 @@ function list_job_executions_for_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_executions_for_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7278,11 +7473,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
 
-   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
+  `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
-  information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
+      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+
 - `"nextToken"`: The token to retrieve the next set of results.
 - `"status"`: An optional filter that lets you search for jobs that have the specified
   status.
@@ -7297,6 +7493,7 @@ function list_job_executions_for_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_executions_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -7332,6 +7529,7 @@ function list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/job-templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_job_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7363,11 +7561,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
 
-   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
+  `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
-  information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
+      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+
 - `"nextToken"`: The token to retrieve the next set of results.
 - `"status"`: An optional filter that lets you search for jobs that have the specified
   status.
@@ -7378,9 +7577,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group, even after the job was completed by all things originally in the group.
 
   !!! note
-      We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing
-  group targets. By using continuous jobs, devices that join the group receive the job
-  execution even after the job has been created.
+      We recommend that you use continuous jobs instead of snapshot jobs for dynamic
+      thing group targets. By using continuous jobs, devices that join the group receive
+      the job execution even after the job has been created.
+
 - `"thingGroupId"`: A filter that limits the returned jobs to those for the specified group.
 - `"thingGroupName"`: A filter that limits the returned jobs to those for the specified
   group.
@@ -7388,6 +7588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7420,6 +7621,7 @@ function list_managed_job_templates(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_job_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7475,6 +7677,7 @@ function list_metric_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metric_values(
     endTime,
     metricName,
@@ -7529,6 +7732,7 @@ function list_mitigation_actions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mitigation_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7561,6 +7765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_otaupdates(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/otaUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_otaupdates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7595,6 +7800,7 @@ function list_outgoing_certificates(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_outgoing_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7638,6 +7844,7 @@ function list_package_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_package_versions(
     packageName,
     params::AbstractDict{String};
@@ -7671,6 +7878,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7700,6 +7908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7714,8 +7923,8 @@ end
 
 Lists the principals associated with the specified policy.
 
- **Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use <a>ListTargetsForPolicy</a> instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but
+we won't add enhancements. Use [`list_targets_for_policy`](@ref) instead.
 
 Requires permission to access the [ListPolicyPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -7746,6 +7955,7 @@ function list_policy_principals(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_principals(
     x_amzn_iot_policy,
     params::AbstractDict{String};
@@ -7791,6 +8001,7 @@ function list_policy_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_versions(
     policyName,
     params::AbstractDict{String};
@@ -7812,8 +8023,8 @@ end
 Lists the policies attached to the specified principal. If you use an Cognito identity, the
 ID must be in [AmazonCognito Identity format](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax).
 
- **Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use <a>ListAttachedPolicies</a> instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but
+we won't add enhancements. Use [`list_attached_policies`](@ref) instead.
 
 Requires permission to access the [ListPrincipalPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -7846,6 +8057,7 @@ function list_principal_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_principal_policies(
     x_amzn_iot_principal,
     params::AbstractDict{String};
@@ -7905,6 +8117,7 @@ function list_principal_things(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_principal_things(
     x_amzn_principal,
     params::AbstractDict{String};
@@ -7957,6 +8170,7 @@ function list_provisioning_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioning_template_versions(
     templateName,
     params::AbstractDict{String};
@@ -7995,6 +8209,7 @@ function list_provisioning_templates(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioning_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8012,23 +8227,24 @@ end
     list_related_resources_for_audit_finding(finding_id, params::Dict{String,<:Any})
 
 The related resources of an Audit finding. The following resources can be returned from
-calling this API: - DEVICE_CERTIFICATE
- - CA_CERTIFICATE
- - IOT_POLICY
- - COGNITO_IDENTITY_POOL
- - CLIENT_ID
- - ACCOUNT_SETTINGS
- - ROLE_ALIAS
- - IAM_ROLE
- - ISSUER_CERTIFICATE
+calling this API:
 
+- DEVICE_CERTIFICATE
+- CA_CERTIFICATE
+- IOT_POLICY
+- COGNITO_IDENTITY_POOL
+- CLIENT_ID
+- ACCOUNT_SETTINGS
+- ROLE_ALIAS
+- IAM_ROLE
+- ISSUER_CERTIFICATE
 
 !!! note
     This API is similar to DescribeAuditFinding's [RelatedResources](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html)
-but provides pagination and is not limited to 10 resources. When calling [DescribeAuditFinding](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html)
-for the intermediate CA revoked for active device certificates check, RelatedResources will
-not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the
-certificates.
+    but provides pagination and is not limited to 10 resources. When calling [DescribeAuditFinding](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html)
+    for the intermediate CA revoked for active device certificates check, RelatedResources
+    will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to
+    list the certificates.
 
 # Arguments
 
@@ -8053,6 +8269,7 @@ function list_related_resources_for_audit_finding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_related_resources_for_audit_finding(
     findingId,
     params::AbstractDict{String};
@@ -8091,6 +8308,7 @@ function list_role_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/role-aliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_role_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8127,6 +8345,7 @@ function list_scheduled_audits(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scheduled_audits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8159,7 +8378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dimensionName"`: A filter to limit results to the security profiles that use the
   defined dimension. Cannot be used with `metricName`
 - `"maxResults"`: The maximum number of results to return at one time.
-- `"metricName"`:  The name of the custom metric. Cannot be used with `dimensionName`.
+- `"metricName"`: The name of the custom metric. Cannot be used with `dimensionName`.
 - `"nextToken"`: The token for the next set of results.
 """
 function list_security_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -8167,6 +8386,7 @@ function list_security_profiles(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/security-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_security_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8212,6 +8432,7 @@ function list_security_profiles_for_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_profiles_for_target(
     securityProfileTargetArn,
     params::AbstractDict{String};
@@ -8252,6 +8473,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/streams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8291,6 +8513,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -8337,6 +8560,7 @@ function list_targets_for_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_for_policy(
     policyName,
     params::AbstractDict{String};
@@ -8381,6 +8605,7 @@ function list_targets_for_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_for_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -8422,6 +8647,7 @@ function list_thing_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/thing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_thing_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8465,6 +8691,7 @@ function list_thing_groups_for_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_groups_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -8512,6 +8739,7 @@ function list_thing_principals(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_principals(
     thingName,
     params::AbstractDict{String};
@@ -8556,6 +8784,7 @@ function list_thing_registration_task_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_registration_task_reports(
     reportType,
     taskId,
@@ -8599,6 +8828,7 @@ function list_thing_registration_tasks(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_registration_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8634,6 +8864,7 @@ function list_thing_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/thing-types"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_thing_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8661,8 +8892,8 @@ action.
 
 !!! note
     You will not be charged for calling this API if an `Access denied` error is returned.
-You will also not be charged if no attributes or pagination token was provided in request
-and no pagination token and no results were returned.
+    You will also not be charged if no attributes or pagination token was provided in
+    request and no pagination token and no results were returned.
 
 # Optional Parameters
 
@@ -8677,12 +8908,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usePrefixAttributeValue"`: When `true`, the action returns the thing resources with
   attribute values that start with the `attributeValue` provided.
 
-  When `false`, or not present, the action returns only the thing resources with attribute
-  values that match the entire `attributeValue` provided.
+  When `false`, or not present, the action returns only the thing resources with
+  attribute values that match the entire `attributeValue` provided.
 """
 function list_things(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/things"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_things(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8722,6 +8954,7 @@ function list_things_in_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_things_in_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -8768,6 +9001,7 @@ function list_things_in_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_things_in_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -8804,6 +9038,7 @@ function list_topic_rule_destinations(; aws_config::AbstractAWSConfig=current_aw
         "GET", "/destinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_topic_rule_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8838,6 +9073,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_topic_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_topic_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8870,6 +9106,7 @@ function list_v2_logging_levels(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/v2LoggingLevel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_v2_logging_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8902,8 +9139,8 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"behaviorCriteriaType"`:  The criteria for a behavior.
-- `"listSuppressedAlerts"`:  A list of all suppressed alerts.
+- `"behaviorCriteriaType"`: The criteria for a behavior.
+- `"listSuppressedAlerts"`: A list of all suppressed alerts.
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"nextToken"`: The token for the next set of results.
 - `"securityProfileName"`: A filter to limit results to those alerts generated by the
@@ -8922,6 +9159,7 @@ function list_violation_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_violation_events(
     endTime,
     startTime,
@@ -8973,6 +9211,7 @@ function put_verification_state_on_violation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_verification_state_on_violation(
     verificationState,
     violationId,
@@ -9018,26 +9257,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (CA) will be registered. If the `verificationCertificate` field is not provided, set
   `certificateMode` to be `SNI_ONLY`. If the `verificationCertificate` field is provided,
   set `certificateMode` to be `DEFAULT`. When `certificateMode` is not provided, it
-  defaults to `DEFAULT`. All the device certificates that are registered using this CA will
-  be registered in the same certificate mode as the CA. For more information about
-  certificate mode for device certificates, see [ certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode).
+  defaults to `DEFAULT`. All the device certificates that are registered using this CA
+  will be registered in the same certificate mode as the CA. For more information about
+  certificate mode for device certificates, see [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode).
 - `"registrationConfig"`: Information about the registration configuration.
 - `"setAsActive"`: A boolean value that specifies if the CA certificate is set to active.
 
-Valid values: `ACTIVE | INACTIVE`
-- `"tags"`: Metadata which can be used to manage the CA certificate.</p>
+  Valid values: `ACTIVE | INACTIVE`
+- `"tags"`: Metadata which can be used to manage the CA certificate.
 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-  For the CLI command-line parameter use format: &amp;&amp;tags
-  "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &amp;&amp;tags
+      "key1=value1&amp;key2=value2..."
 
- <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+
 - `"verificationCertificate"`: The private key verification certificate. If
   `certificateMode` is `SNI_ONLY`, the `verificationCertificate` field must be empty. If
-  `certificateMode` is `DEFAULT` or not provided, the `verificationCertificate` field must
-  not be empty.
+  `certificateMode` is `DEFAULT` or not provided, the `verificationCertificate` field
+  must not be empty.
 """
 function register_cacertificate(
     caCertificate; aws_config::AbstractAWSConfig=current_aws_config()
@@ -9050,6 +9290,7 @@ function register_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_cacertificate(
     caCertificate,
     params::AbstractDict{String};
@@ -9090,7 +9331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registered.
 - `"setAsActive"`: A boolean value that specifies if the certificate is set to active.
 
-Valid values: `ACTIVE | INACTIVE`
+  Valid values: `ACTIVE | INACTIVE`
 - `"status"`: The status of the register certificate request. Valid values that you can use
   include `ACTIVE`, `INACTIVE`, and `REVOKED`.
 """
@@ -9105,6 +9346,7 @@ function register_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_certificate(
     certificatePem,
     params::AbstractDict{String};
@@ -9126,7 +9368,7 @@ end
     register_certificate_without_ca(certificate_pem, params::Dict{String,<:Any})
 
 Register a certificate that does not have a certificate authority (CA). For supported
-certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
+certificates, consult [Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
 
 # Arguments
 
@@ -9149,6 +9391,7 @@ function register_certificate_without_ca(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_certificate_without_ca(
     certificatePem,
     params::AbstractDict{String};
@@ -9170,7 +9413,7 @@ end
     register_thing(template_body, params::Dict{String,<:Any})
 
 Provisions a thing in the device registry. RegisterThing calls other IoT control plane
-APIs. These calls might exceed your account level [ IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot)
+APIs. These calls might exceed your account level [IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot)
 and cause throttle errors. Please contact [Amazon Web Services Customer Support](https://console.aws.amazon.com/support/home)
 to raise your throttling limits if necessary.
 
@@ -9198,6 +9441,7 @@ function register_thing(templateBody; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_thing(
     templateBody,
     params::AbstractDict{String};
@@ -9221,8 +9465,8 @@ end
 Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the
 certificate status changes from **PENDING_TRANSFER** to **INACTIVE**.
 
-To check for pending certificate transfers, call <a>ListCertificates</a> to enumerate your
-certificates.
+To check for pending certificate transfers, call [`list_certificates`](@ref) to enumerate
+your certificates.
 
 This operation can only be called by the transfer destination. After it is called, the
 certificate will be returned to the source's account in the INACTIVE state.
@@ -9251,6 +9495,7 @@ function reject_certificate_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -9276,7 +9521,7 @@ action.
 
 !!! note
     This call is asynchronous. It might take several seconds for the detachment to
-propagate.
+    propagate.
 
 # Optional Parameters
 
@@ -9297,6 +9542,7 @@ function remove_thing_from_billing_group(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_thing_from_billing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9339,6 +9585,7 @@ function remove_thing_from_thing_group(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_thing_from_thing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9378,6 +9625,7 @@ function replace_topic_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_topic_rule(
     ruleName,
     topicRulePayload,
@@ -9417,8 +9665,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"indexName"`: The search index name.
 - `"maxResults"`: The maximum number of results to return per page at one time. This
-  maximum number cannot exceed 100. The response might contain fewer results but will never
-  contain more. You can use [ `nextToken` ](https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken)
+  maximum number cannot exceed 100. The response might contain fewer results but will
+  never contain more. You can use [`nextToken`](https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken)
   to retrieve the next set of results until `nextToken` returns `NULL`.
 - `"nextToken"`: The token used to get the next set of results, or `null` if there are no
   additional results.
@@ -9433,6 +9681,7 @@ function search_index(queryString; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_index(
     queryString,
     params::AbstractDict{String};
@@ -9474,6 +9723,7 @@ function set_default_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -9516,6 +9766,7 @@ function set_default_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_policy_version(
     policyName,
     policyVersionId,
@@ -9557,6 +9808,7 @@ function set_logging_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_logging_options(
     loggingOptionsPayload,
     params::AbstractDict{String};
@@ -9602,6 +9854,7 @@ function set_v2_logging_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_v2_logging_level(
     logLevel,
     logTarget,
@@ -9645,6 +9898,7 @@ function set_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_conf
         "POST", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function set_v2_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9671,12 +9925,12 @@ action.
 - `audit_check_to_actions_mapping`: For an audit check, specifies which mitigation actions
   to apply. Those actions must be defined in your Amazon Web Services accounts.
 - `client_request_token`: Each audit mitigation task must have a unique client request
-  token. If you try to start a new task with the same token as a task that already exists,
-  an exception occurs. If you omit this value, a unique client request token is generated
-  automatically.
+  token. If you try to start a new task with the same token as a task that already
+  exists, an exception occurs. If you omit this value, a unique client request token is
+  generated automatically.
 - `target`: Specifies the audit findings to which the mitigation actions are applied. You
-  can apply them to a type of audit check, to all findings from an audit, or to a specific
-  set of findings.
+  can apply them to a type of audit check, to all findings from an audit, or to a
+  specific set of findings.
 - `task_id`: A unique identifier for the task. You can use this identifier to check the
   status of the task or to cancel it.
 """
@@ -9699,6 +9953,7 @@ function start_audit_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_audit_mitigation_actions_task(
     auditCheckToActionsMapping,
     clientRequestToken,
@@ -9730,28 +9985,28 @@ end
     start_detect_mitigation_actions_task(actions, client_request_token, target, task_id)
     start_detect_mitigation_actions_task(actions, client_request_token, target, task_id, params::Dict{String,<:Any})
 
- Starts a Device Defender ML Detect mitigation actions task.
+Starts a Device Defender ML Detect mitigation actions task.
 
 Requires permission to access the [StartDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
 
-- `actions`:  The actions to be performed when a device has unexpected behavior.
-- `client_request_token`:  Each mitigation action task must have a unique client request
-  token. If you try to create a new task with the same token as a task that already exists,
-  an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
-  generate a unique client request.
-- `target`:  Specifies the ML Detect findings to which the mitigation actions are applied.
-- `task_id`:  The unique identifier of the task.
+- `actions`: The actions to be performed when a device has unexpected behavior.
+- `client_request_token`: Each mitigation action task must have a unique client request
+  token. If you try to create a new task with the same token as a task that already
+  exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will
+  automatically generate a unique client request.
+- `target`: Specifies the ML Detect findings to which the mitigation actions are applied.
+- `task_id`: The unique identifier of the task.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"includeOnlyActiveViolations"`:  Specifies to list only active violations.
-- `"includeSuppressedAlerts"`:  Specifies to include suppressed alerts.
-- `"violationEventOccurrenceRange"`:  Specifies the time period of which violation events
+- `"includeOnlyActiveViolations"`: Specifies to list only active violations.
+- `"includeSuppressedAlerts"`: Specifies to include suppressed alerts.
+- `"violationEventOccurrenceRange"`: Specifies the time period of which violation events
   occurred between.
 """
 function start_detect_mitigation_actions_task(
@@ -9773,6 +10028,7 @@ function start_detect_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_detect_mitigation_actions_task(
     actions,
     clientRequestToken,
@@ -9827,6 +10083,7 @@ function start_on_demand_audit_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_on_demand_audit_task(
     targetCheckNames,
     params::AbstractDict{String};
@@ -9883,6 +10140,7 @@ function start_thing_registration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_thing_registration_task(
     inputFileBucket,
     inputFileKey,
@@ -9934,6 +10192,7 @@ function stop_thing_registration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_thing_registration_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9970,6 +10229,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -10030,6 +10290,7 @@ function test_authorization(authInfos; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_authorization(
     authInfos,
     params::AbstractDict{String};
@@ -10082,6 +10343,7 @@ function test_invoke_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_invoke_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -10139,6 +10401,7 @@ function transfer_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transfer_certificate(
     certificateId,
     targetAwsAccount,
@@ -10183,6 +10446,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -10225,8 +10489,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Some data collection might start immediately when certain checks are enabled. When a
   check is disabled, any data collected so far in relation to the check is deleted.
 
-  You cannot disable a check if it's used by any scheduled audit. You must first delete the
-  check from the scheduled audit or delete the scheduled audit itself.
+  You cannot disable a check if it's used by any scheduled audit. You must first delete
+  the check from the scheduled audit or delete the scheduled audit itself.
 
   On the first call to `UpdateAccountAuditConfiguration`, this parameter is required and
   must specify at least one enabled check.
@@ -10246,6 +10510,7 @@ function update_account_audit_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10262,7 +10527,7 @@ end
     update_audit_suppression(check_name, resource_identifier)
     update_audit_suppression(check_name, resource_identifier, params::Dict{String,<:Any})
 
- Updates a Device Defender audit suppression.
+Updates a Device Defender audit suppression.
 
 # Arguments
 
@@ -10273,10 +10538,10 @@ end
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The description of the audit suppression.
-- `"expirationDate"`:  The expiration date (epoch timestamp in seconds) that you want the
+- `"description"`: The description of the audit suppression.
+- `"expirationDate"`: The expiration date (epoch timestamp in seconds) that you want the
   suppression to adhere to.
-- `"suppressIndefinitely"`:  Indicates whether a suppression should exist indefinitely or
+- `"suppressIndefinitely"`: Indicates whether a suppression should exist indefinitely or
   not.
 """
 function update_audit_suppression(
@@ -10292,6 +10557,7 @@ function update_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -10350,6 +10616,7 @@ function update_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -10399,6 +10666,7 @@ function update_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_billing_group(
     billingGroupName,
     billingGroupProperties,
@@ -10441,7 +10709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values are: "ENABLE" or "DISABLE".
 - `"newStatus"`: The updated status of the CA certificate.
 
- **Note:** The status value REGISTER_INACTIVE is deprecated and should not be used.
+  **Note:** The status value REGISTER_INACTIVE is deprecated and should not be used.
 - `"registrationConfig"`: Information about the registration configuration.
 - `"removeAutoRegistration"`: If true, removes auto registration.
 """
@@ -10455,6 +10723,7 @@ function update_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -10491,11 +10760,11 @@ certificate that is not in the ACTIVE state to reconnect.
   contains the certificate ID.)
 - `new_status`: The new status.
 
-   **Note:** Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an
-  exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used
+  **Note:** Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in
+  an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used
   internally by IoT. They are not intended for developer use.
 
- **Note:** The status value REGISTER_INACTIVE is deprecated and should not be used.
+  **Note:** The status value REGISTER_INACTIVE is deprecated and should not be used.
 """
 function update_certificate(
     certificateId, newStatus; aws_config::AbstractAWSConfig=current_aws_config()
@@ -10508,6 +10777,7 @@ function update_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_certificate(
     certificateId,
     newStatus,
@@ -10557,6 +10827,7 @@ function update_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -10582,10 +10853,10 @@ action.
 
 # Arguments
 
-- `display_name`:  Field represents a friendly name in the console for the custom metric,
-  it doesn't have to be unique. Don't use this name as the metric identifier in the device
+- `display_name`: Field represents a friendly name in the console for the custom metric, it
+  doesn't have to be unique. Don't use this name as the metric identifier in the device
   metric report. Can be updated.
-- `metric_name`:  The name of the custom metric. Cannot be updated.
+- `metric_name`: The name of the custom metric. Cannot be updated.
 """
 function update_custom_metric(
     displayName, metricName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -10598,6 +10869,7 @@ function update_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_metric(
     displayName,
     metricName,
@@ -10644,6 +10916,7 @@ function update_dimension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dimension(
     name,
     stringValues,
@@ -10696,6 +10969,7 @@ function update_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -10731,14 +11005,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expectedVersion"`: The expected version of the dynamic thing group to update.
 - `"indexName"`: The dynamic thing group index to update.
 
-!!! note
-    Currently one index is supported: `AWS_Things`.
+  !!! note
+      Currently one index is supported: `AWS_Things`.
+
 - `"queryString"`: The dynamic thing group search query string to update.
 - `"queryVersion"`: The dynamic thing group query version to update.
 
   !!! note
       Currently one query version is supported: "2017-09-30". If not specified, the query
-  version defaults to this value.
+      version defaults to this value.
+
 """
 function update_dynamic_thing_group(
     thingGroupName, thingGroupProperties; aws_config::AbstractAWSConfig=current_aws_config()
@@ -10751,6 +11027,7 @@ function update_dynamic_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dynamic_thing_group(
     thingGroupName,
     thingGroupProperties,
@@ -10795,6 +11072,7 @@ function update_event_configurations(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10846,6 +11124,7 @@ function update_fleet_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet_metric(
     indexName,
     metricName,
@@ -10884,6 +11163,7 @@ function update_indexing_configuration(; aws_config::AbstractAWSConfig=current_a
         "POST", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_indexing_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10922,22 +11202,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
 
-   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
+  `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
-  information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
+      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
 - `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution
   of the job. The timer is started when the job execution status is set to `IN_PROGRESS`.
-  If the job execution status is not set to another terminal state before the time expires,
-  it will be automatically set to `TIMED_OUT`.
+  If the job execution status is not set to another terminal state before the time
+  expires, it will be automatically set to `TIMED_OUT`.
 """
 function update_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot(
         "PATCH", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10982,6 +11264,7 @@ function update_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -11015,17 +11298,17 @@ actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"defaultVersionName"`: The name of the default package version.
 
-   **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to
+  **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to
   `true` at the same time.
 - `"description"`: The package description.
 - `"unsetDefaultVersion"`: Indicates whether you want to remove the named default package
   version from the software package. Set as `true` to remove the default package version.
 
-   **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to
+  **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to
   `true` at the same time.
 """
 function update_package(packageName; aws_config::AbstractAWSConfig=current_aws_config())
@@ -11037,6 +11320,7 @@ function update_package(packageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package(
     packageName,
     params::AbstractDict{String};
@@ -11068,8 +11352,8 @@ actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"versionUpdateByJobsConfig"`: Configuration to manage job's package version reporting.
   This updates the thing's reserved named shadow that the job targets.
 """
@@ -11082,6 +11366,7 @@ function update_package_configuration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11121,12 +11406,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, the Amazon S3 file location, configuration options that are being sent to
   the device or fleet.
 
-   **Note:** Attributes can be updated only when the package version is in a draft state.
+  **Note:** Attributes can be updated only when the package version is in a draft state.
 
-The combined size of all the attributes on a package version is limited to 3KB.
+  The combined size of all the attributes on a package version is limited to 3KB.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"description"`: The package version description.
 """
 function update_package_version(
@@ -11140,6 +11425,7 @@ function update_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package_version(
     packageName,
     versionName,
@@ -11194,6 +11480,7 @@ function update_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -11239,6 +11526,7 @@ function update_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -11272,18 +11560,18 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"dayOfMonth"`: The day of the month on which the scheduled audit takes place. This can
-  be `1` through `31` or `LAST`. This field is required if the `frequency` parameter is set
-  to `MONTHLY`. If days 29-31 are specified, and the month does not have that many days,
-  the audit takes place on the "LAST" day of the month.
+  be `1` through `31` or `LAST`. This field is required if the `frequency` parameter is
+  set to `MONTHLY`. If days 29-31 are specified, and the month does not have that many
+  days, the audit takes place on the "LAST" day of the month.
 - `"dayOfWeek"`: The day of the week on which the scheduled audit takes place. This can be
-  one of `SUN`, `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if the
-  "frequency" parameter is set to `WEEKLY` or `BIWEEKLY`.
+  one of `SUN`, `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if
+  the "frequency" parameter is set to `WEEKLY` or `BIWEEKLY`.
 - `"frequency"`: How often the scheduled audit takes place, either `DAILY`, `WEEKLY`,
   `BIWEEKLY`, or `MONTHLY`. The start time of each audit is determined by the system.
 - `"targetCheckNames"`: Which checks are performed during the scheduled audit. Checks must
-  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list of
-  all checks, including those that are enabled or use `UpdateAccountAuditConfiguration` to
-  select which checks are enabled.)
+  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list
+  of all checks, including those that are enabled or use
+  `UpdateAccountAuditConfiguration` to select which checks are enabled.)
 """
 function update_scheduled_audit(
     scheduledAuditName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -11295,6 +11583,7 @@ function update_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -11326,24 +11615,25 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalMetricsToRetain"`:  *Please use
-  <a>UpdateSecurityProfileRequest\$additionalMetricsToRetainV2</a> instead.*
+- `"additionalMetricsToRetain"`: *Please use [`update_security_profile_request\$additional_metrics_to_retain_v2`](@ref)
+  instead.*
 
   A list of metrics whose data is retained (stored). By default, data is retained for any
   metric used in the profile's `behaviors`, but it is also retained for any metric
   specified here. Can be used with custom metrics; cannot be used with dimensions.
 - `"additionalMetricsToRetainV2"`: A list of metrics whose data is retained (stored). By
-  default, data is retained for any metric used in the profile's behaviors, but it is also
-  retained for any metric specified here. Can be used with custom metrics; cannot be used
-  with dimensions.
+  default, data is retained for any metric used in the profile's behaviors, but it is
+  also retained for any metric specified here. Can be used with custom metrics; cannot be
+  used with dimensions.
 - `"alertTargets"`: Where the alerts are sent. (Alerts are always sent to the console.)
 - `"behaviors"`: Specifies the behaviors that, when violated by a device (thing), cause an
   alert.
 - `"deleteAdditionalMetricsToRetain"`: If true, delete all `additionalMetricsToRetain`
-  defined for this security profile. If any `additionalMetricsToRetain` are defined in the
-  current invocation, an exception occurs.
+  defined for this security profile. If any `additionalMetricsToRetain` are defined in
+  the current invocation, an exception occurs.
 - `"deleteAlertTargets"`: If true, delete all `alertTargets` defined for this security
-  profile. If any `alertTargets` are defined in the current invocation, an exception occurs.
+  profile. If any `alertTargets` are defined in the current invocation, an exception
+  occurs.
 - `"deleteBehaviors"`: If true, delete all `behaviors` defined for this security profile.
   If any `behaviors` are defined in the current invocation, an exception occurs.
 - `"deleteMetricsExportConfig"`: Set the value as true to delete metrics export related
@@ -11364,6 +11654,7 @@ function update_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -11408,6 +11699,7 @@ function update_stream(streamId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stream(
     streamId,
     params::AbstractDict{String};
@@ -11445,9 +11737,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributePayload"`: A list of thing attributes, a JSON string containing name-value
   pairs. For example:
 
-   `{\\"attributes\\":{\\"name1\\":\\"value2\\"}}`
+  `{\\"attributes\\":{\\"name1\\":\\"value2\\"}}`
 
-This data is used to add new attributes or update existing attributes.
+  This data is used to add new attributes or update existing attributes.
 - `"expectedVersion"`: The expected version of the thing record in the registry. If the
   version of the record in the registry does not match the expected version specified in
   the request, the `UpdateThing` request is rejected with a `VersionConflictException`.
@@ -11463,6 +11755,7 @@ function update_thing(thingName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing(
     thingName,
     params::AbstractDict{String};
@@ -11509,6 +11802,7 @@ function update_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_group(
     thingGroupName,
     thingGroupProperties,
@@ -11545,8 +11839,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"overrideDynamicGroups"`: Override dynamic thing groups with static thing groups when 10-
   group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
-  groups are dynamic thing groups, adding a thing to a static group removes the thing from
-  the last dynamic group.
+  groups are dynamic thing groups, adding a thing to a static group removes the thing
+  from the last dynamic group.
 - `"thingGroupsToAdd"`: The groups to which the thing will be added.
 - `"thingGroupsToRemove"`: The groups from which the thing will be removed.
 - `"thingName"`: The thing whose group memberships will be updated.
@@ -11559,6 +11853,7 @@ function update_thing_groups_for_thing(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_groups_for_thing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11584,20 +11879,32 @@ action.
 # Arguments
 
 - `arn`: The ARN of the topic rule destination.
-- `status`: The status of the topic rule destination. Valid values are: <dl>
-  <dt>IN_PROGRESS</dt> <dd>A topic rule destination was created but has not been confirmed.
-  You can set `status` to `IN_PROGRESS` by calling `UpdateTopicRuleDestination`. Calling
+- `status`: The status of the topic rule destination. Valid values are:
+
+  ### IN_PROGRESS
+
+  A topic rule destination was created but has not been confirmed. You can set `status`
+  to `IN_PROGRESS` by calling `UpdateTopicRuleDestination`. Calling
   `UpdateTopicRuleDestination` causes a new confirmation challenge to be sent to your
-  confirmation endpoint. </dd> <dt>ENABLED</dt> <dd>Confirmation was completed, and traffic
-  to this destination is allowed. You can set `status` to `DISABLED` by calling
-  `UpdateTopicRuleDestination`. </dd> <dt>DISABLED</dt> <dd>Confirmation was completed, and
-  traffic to this destination is not allowed. You can set `status` to `ENABLED` by calling
-  `UpdateTopicRuleDestination`. </dd> <dt>ERROR</dt> <dd>Confirmation could not be
-  completed, for example if the confirmation timed out. You can call
-  `GetTopicRuleDestination` for details about the error. You can set `status` to
+  confirmation endpoint.
+
+  ### ENABLED
+
+  Confirmation was completed, and traffic to this destination is allowed. You can set
+  `status` to `DISABLED` by calling `UpdateTopicRuleDestination`.
+
+  ### DISABLED
+
+  Confirmation was completed, and traffic to this destination is not allowed. You can set
+  `status` to `ENABLED` by calling `UpdateTopicRuleDestination`.
+
+  ### ERROR
+
+  Confirmation could not be completed, for example if the confirmation timed out. You can
+  call `GetTopicRuleDestination` for details about the error. You can set `status` to
   `IN_PROGRESS` by calling `UpdateTopicRuleDestination`. Calling
   `UpdateTopicRuleDestination` causes a new confirmation challenge to be sent to your
-  confirmation endpoint. </dd> </dl>
+  confirmation endpoint.
 """
 function update_topic_rule_destination(
     arn, status; aws_config::AbstractAWSConfig=current_aws_config()
@@ -11610,6 +11917,7 @@ function update_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_topic_rule_destination(
     arn,
     status,
@@ -11652,6 +11960,7 @@ function validate_security_profile_behaviors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_security_profile_behaviors(
     behaviors,
     params::AbstractDict{String};

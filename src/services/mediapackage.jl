@@ -29,6 +29,7 @@ function configure_logs(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_logs(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -68,6 +69,7 @@ function create_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,6 +120,7 @@ function create_harvest_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_harvest_job(
     endTime,
     id,
@@ -181,11 +184,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   origination
 - `"startoverWindowSeconds"`: Maximum duration (seconds) of content to retain for startover
   playback.
-If not specified, startover playback will be disabled for the OriginEndpoint.
+  If not specified, startover playback will be disabled for the OriginEndpoint.
 - `"tags"`:
 - `"timeDelaySeconds"`: Amount of delay (seconds) to enforce on the playback of live
   content.
-If not specified, there will be no time delay in effect for the OriginEndpoint.
+  If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
@@ -200,6 +203,7 @@ function create_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_origin_endpoint(
     channelId,
     id,
@@ -234,6 +238,7 @@ function delete_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +269,7 @@ function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_origin_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +297,7 @@ function describe_channel(id; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -318,6 +325,7 @@ function describe_harvest_job(id; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/harvest_jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_harvest_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -348,6 +356,7 @@ function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_origin_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -378,6 +387,7 @@ function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -408,6 +418,7 @@ function list_harvest_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/harvest_jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_harvest_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -440,6 +451,7 @@ function list_origin_endpoints(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/origin_endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_origin_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -457,7 +469,6 @@ end
     list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
 
 
-
 # Arguments
 
 - `resource-arn`:
@@ -472,6 +483,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -505,6 +517,7 @@ function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rotate_channel_credentials(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -538,6 +551,7 @@ function rotate_ingest_endpoint_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rotate_ingest_endpoint_credentials(
     id,
     ingest_endpoint_id,
@@ -558,7 +572,6 @@ end
     tag_resource(resource-arn, tags, params::Dict{String,<:Any})
 
 
-
 # Arguments
 
 - `resource-arn`:
@@ -575,6 +588,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -595,7 +609,6 @@ end
     untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
 
 
-
 # Arguments
 
 - `resource-arn`:
@@ -612,6 +625,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -648,6 +662,7 @@ function update_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
         "PUT", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -692,7 +707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If not specified, startover playback will be disabled for the OriginEndpoint.
 - `"timeDelaySeconds"`: Amount of delay (in seconds) to enforce on the playback of live
   content.
-If not specified, there will be no time delay in effect for the OriginEndpoint.
+  If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
@@ -704,6 +719,7 @@ function update_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_origin_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

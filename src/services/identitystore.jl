@@ -31,6 +31,7 @@ function create_group(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -60,8 +61,8 @@ specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
 - `group_id`: The identifier for a group in the identity store.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `member_id`: An object that contains the identifier of a group member. Setting the
-  `UserID` field to the specific identifier for a user indicates that the user is a member
-  of the group.
+  `UserID` field to the specific identifier for a user indicates that the user is a
+  member of the group.
 """
 function create_group_membership(
     GroupId, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -77,6 +78,7 @@ function create_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_membership(
     GroupId,
     IdentityStoreId,
@@ -132,9 +134,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Title"`: A string containing the title of the user. Possible values are left
   unspecified. The value can vary based on your specific use case.
 - `"UserName"`: A unique string used to identify the user. The length limit is 128
-  characters. This value can consist of letters, accented characters, symbols, numbers, and
-  punctuation. This value is specified at the time the user is created and stored as an
-  attribute of the user object in the identity store. `Administrator` and
+  characters. This value can consist of letters, accented characters, symbols, numbers,
+  and punctuation. This value is specified at the time the user is created and stored as
+  an attribute of the user object in the identity store. `Administrator` and
   `AWSAdministrators` are reserved names and can't be used for users or groups.
 - `"UserType"`: A string indicating the type of user. Possible values are left unspecified.
   The value can vary based on your specific use case.
@@ -147,6 +149,7 @@ function create_user(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -185,6 +188,7 @@ function delete_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupId,
     IdentityStoreId,
@@ -230,6 +234,7 @@ function delete_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group_membership(
     IdentityStoreId,
     MembershipId,
@@ -273,6 +278,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     IdentityStoreId,
     UserId,
@@ -301,16 +307,16 @@ Retrieves the group metadata and attributes from `GroupId` in an identity store.
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
 - `group_id`: The identifier for a group in the identity store.
-- `identity_store_id`: The globally unique identifier for the identity store, such as `d-
-  1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated at
-  the time that a new identity store is created.
+- `identity_store_id`: The globally unique identifier for the identity store, such as
+  `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
+  generated string that contains numbers and lower case letters. This value is generated
+  at the time that a new identity store is created.
 """
 function describe_group(
     GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -322,6 +328,7 @@ function describe_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group(
     GroupId,
     IdentityStoreId,
@@ -352,8 +359,8 @@ Retrieves membership metadata and attributes from `MembershipId` in an identity 
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
@@ -372,6 +379,7 @@ function describe_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group_membership(
     IdentityStoreId,
     MembershipId,
@@ -402,15 +410,15 @@ Retrieves the user metadata and attributes from the `UserId` in an identity stor
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
-- `identity_store_id`: The globally unique identifier for the identity store, such as `d-
-  1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated at
-  the time that a new identity store is created.
+- `identity_store_id`: The globally unique identifier for the identity store, such as
+  `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
+  generated string that contains numbers and lower case letters. This value is generated
+  at the time that a new identity store is created.
 - `user_id`: The identifier for a user in the identity store.
 """
 function describe_user(
@@ -423,6 +431,7 @@ function describe_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user(
     IdentityStoreId,
     UserId,
@@ -451,15 +460,15 @@ Retrieves `GroupId` in an identity store.
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
-  identifier. This value can be an identifier from an external identity provider (IdP) that
-  is associated with the user, the group, or a unique attribute. For the unique attribute,
-  the only valid path is `displayName`.
+  identifier. This value can be an identifier from an external identity provider (IdP)
+  that is associated with the user, the group, or a unique attribute. For the unique
+  attribute, the only valid path is `displayName`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 """
 function get_group_id(
@@ -475,6 +484,7 @@ function get_group_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_id(
     AlternateIdentifier,
     IdentityStoreId,
@@ -506,16 +516,16 @@ Retrieves the `MembershipId` in an identity store.
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
 - `group_id`: The identifier for a group in the identity store.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `member_id`: An object that contains the identifier of a group member. Setting the
-  `UserID` field to the specific identifier for a user indicates that the user is a member
-  of the group.
+  `UserID` field to the specific identifier for a user indicates that the user is a
+  member of the group.
 """
 function get_group_membership_id(
     GroupId, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -531,6 +541,7 @@ function get_group_membership_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_membership_id(
     GroupId,
     IdentityStoreId,
@@ -564,15 +575,15 @@ Retrieves the `UserId` in an identity store.
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
-  identifier. This value can be an identifier from an external identity provider (IdP) that
-  is associated with the user, the group, or a unique attribute. For the unique attribute,
-  the only valid paths are `userName` and `emails.value`.
+  identifier. This value can be an identifier from an external identity provider (IdP)
+  that is associated with the user, the group, or a unique attribute. For the unique
+  attribute, the only valid paths are `userName` and `emails.value`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 """
 function get_user_id(
@@ -588,6 +599,7 @@ function get_user_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_id(
     AlternateIdentifier,
     IdentityStoreId,
@@ -620,8 +632,8 @@ all queried groups.
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
@@ -643,6 +655,7 @@ function is_member_in_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function is_member_in_groups(
     GroupIds,
     IdentityStoreId,
@@ -677,8 +690,8 @@ For the specified group in the specified identity store, returns the list of all
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
@@ -694,8 +707,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used for the `ListUsers`, `ListGroups` and
   `ListGroupMemberships` API operations. This value is generated by the identity store
   service. It is returned in the API response if the total results are more than the size
-  of one page. This token is also returned when it is used in the API request to search for
-  the next page.
+  of one page. This token is also returned when it is used in the API request to search
+  for the next page.
 """
 function list_group_memberships(
     GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -707,6 +720,7 @@ function list_group_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_memberships(
     GroupId,
     IdentityStoreId,
@@ -738,15 +752,15 @@ For the specified member in the specified identity store, returns the list of al
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `member_id`: An object that contains the identifier of a group member. Setting the
-  `UserID` field to the specific identifier for a user indicates that the user is a member
-  of the group.
+  `UserID` field to the specific identifier for a user indicates that the user is a
+  member of the group.
 
 # Optional Parameters
 
@@ -758,8 +772,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used for the `ListUsers`, `ListGroups`, and
   `ListGroupMemberships` API operations. This value is generated by the identity store
   service. It is returned in the API response if the total results are more than the size
-  of one page. This token is also returned when it is used in the API request to search for
-  the next page.
+  of one page. This token is also returned when it is used in the API request to search
+  for the next page.
 """
 function list_group_memberships_for_member(
     IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -771,6 +785,7 @@ function list_group_memberships_for_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_memberships_for_member(
     IdentityStoreId,
     MemberId,
@@ -803,15 +818,15 @@ the `GetGroupId` API action.
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
-- `identity_store_id`: The globally unique identifier for the identity store, such as `d-
-  1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated at
-  the time that a new identity store is created.
+- `identity_store_id`: The globally unique identifier for the identity store, such as
+  `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
+  generated string that contains numbers and lower case letters. This value is generated
+  at the time that a new identity store is created.
 
 # Optional Parameters
 
@@ -823,9 +838,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is used in the `ListUsers` and `ListGroups` requests to specify how many results to
   return in one page. The length limit is 50 characters.
 - `"NextToken"`: The pagination token used for the `ListUsers` and `ListGroups` API
-  operations. This value is generated by the identity store service. It is returned in the
-  API response if the total results are more than the size of one page. This token is also
-  returned when it is used in the API request to search for the next page.
+  operations. This value is generated by the identity store service. It is returned in
+  the API response if the total results are more than the size of one page. This token is
+  also returned when it is used in the API request to search for the next page.
 """
 function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return identitystore(
@@ -835,6 +850,7 @@ function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -862,15 +878,15 @@ Filtering for a `User` by the `UserName` attribute is deprecated. Instead, use t
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
-member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-in the *Organizations User Guide*.
+    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
+    in the *Organizations User Guide*.
 
 # Arguments
 
-- `identity_store_id`: The globally unique identifier for the identity store, such as `d-
-  1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated at
-  the time that a new identity store is created.
+- `identity_store_id`: The globally unique identifier for the identity store, such as
+  `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
+  generated string that contains numbers and lower case letters. This value is generated
+  at the time that a new identity store is created.
 
 # Optional Parameters
 
@@ -882,9 +898,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is used in the `ListUsers` and `ListGroups` requests to specify how many results to
   return in one page. The length limit is 50 characters.
 - `"NextToken"`: The pagination token used for the `ListUsers` and `ListGroups` API
-  operations. This value is generated by the identity store service. It is returned in the
-  API response if the total results are more than the size of one page. This token is also
-  returned when it is used in the API request to search for the next page.
+  operations. This value is generated by the identity store service. It is returned in
+  the API response if the total results are more than the size of one page. This token is
+  also returned when it is used in the API request to search for the next page.
 """
 function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return identitystore(
@@ -894,6 +910,7 @@ function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -939,6 +956,7 @@ function update_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupId,
     IdentityStoreId,
@@ -992,6 +1010,7 @@ function update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     IdentityStoreId,
     Operations,

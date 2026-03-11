@@ -34,6 +34,7 @@ function create_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_landing_zone(
     manifest,
     version,
@@ -78,6 +79,7 @@ function delete_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -104,7 +106,7 @@ end
 
 Disable an `EnabledBaseline` resource on the specified Target. This API starts an
 asynchronous operation to remove all resources deployed as part of the baseline enablement.
-The resource will vary depending on the enabled baseline. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+The resource will vary depending on the enabled baseline. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -122,6 +124,7 @@ function disable_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -149,7 +152,7 @@ end
 This API call turns off a control. It starts an asynchronous operation that deletes Amazon
 Web Services resources on the specified organizational unit and the accounts it contains.
 The resources will vary according to the control that you specify. For usage examples, see
-the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -172,6 +175,7 @@ function disable_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_control(
     controlIdentifier,
     targetIdentifier,
@@ -202,7 +206,7 @@ end
 
 Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to
 deploy resources specified by the `Baseline` to the specified Target. For usage examples,
-see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -237,6 +241,7 @@ function enable_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_baseline(
     baselineIdentifier,
     baselineVersion,
@@ -270,7 +275,7 @@ end
 This API call activates a control. It starts an asynchronous operation that creates Amazon
 Web Services resources on the specified organizational unit and the accounts it contains.
 The resources created will vary according to the control that you specify. For usage
-examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -301,6 +306,7 @@ function enable_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_control(
     controlIdentifier,
     targetIdentifier,
@@ -330,7 +336,7 @@ end
     get_baseline(baseline_identifier, params::Dict{String,<:Any})
 
 Retrieve details about an existing `Baseline` resource by specifying its identifier. For
-usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -347,6 +353,7 @@ function get_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_baseline(
     baselineIdentifier,
     params::AbstractDict{String};
@@ -371,7 +378,7 @@ end
 
 Returns the details of an asynchronous baseline operation, as initiated by any of these
 APIs: `EnableBaseline`, `DisableBaseline`, `UpdateEnabledBaseline`, `ResetEnabledBaseline`.
-A status message is displayed in case of operation failure. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+A status message is displayed in case of operation failure. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -389,6 +396,7 @@ function get_baseline_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_baseline_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -413,9 +421,9 @@ end
     get_control_operation(operation_identifier)
     get_control_operation(operation_identifier, params::Dict{String,<:Any})
 
-Returns the status of a particular `EnableControl` or `DisableControl` operation. Displays
-a message in case of error. Details for an operation are available for 90 days. For usage
-examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Returns the status of a particular `EnableControl` or [`disable_control`](@ref) operation.
+Displays a message in case of error. Details for an operation are available for 90 days.
+For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -433,6 +441,7 @@ function get_control_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_control_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -475,6 +484,7 @@ function get_enabled_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -499,7 +509,7 @@ end
     get_enabled_control(enabled_control_identifier)
     get_enabled_control(enabled_control_identifier, params::Dict{String,<:Any})
 
-Retrieves details about an enabled control. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Retrieves details about an enabled control. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -516,6 +526,7 @@ function get_enabled_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_enabled_control(
     enabledControlIdentifier,
     params::AbstractDict{String};
@@ -557,6 +568,7 @@ function get_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -599,6 +611,7 @@ function get_landing_zone_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_landing_zone_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -623,7 +636,7 @@ end
     list_baselines()
     list_baselines(params::Dict{String,<:Any})
 
-Returns a summary list of all available baselines. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+Returns a summary list of all available baselines. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Optional Parameters
 
@@ -637,6 +650,7 @@ function list_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -672,6 +686,7 @@ function list_control_operations(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_control_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -690,15 +705,15 @@ end
 
 Returns a list of summaries describing `EnabledBaseline` resources. You can filter the list
 by the corresponding `Baseline` or `Target` of the `EnabledBaseline` resources. For usage
-examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filter"`: A filter applied on the `ListEnabledBaseline` operation. Allowed filters are
-  `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied for either, or
-  both.
+- `"filter"`: A filter applied on the [`list_enabled_baseline`](@ref) operation. Allowed
+  filters are `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied
+  for either, or both.
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
@@ -710,6 +725,7 @@ function list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_enabled_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -727,7 +743,7 @@ end
     list_enabled_controls(params::Dict{String,<:Any})
 
 Lists the controls enabled by Amazon Web Services Control Tower on the specified
-organizational unit and the accounts it contains. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+organizational unit and the accounts it contains. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Optional Parameters
 
@@ -749,6 +765,7 @@ function list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_enabled_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -786,6 +803,7 @@ function list_landing_zone_operations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_landing_zone_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,6 +838,7 @@ function list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_landing_zones(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -836,11 +855,11 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns a list of tags associated with the resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Returns a list of tags associated with the resource. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
-- `resource_arn`:  The ARN of the resource.
+- `resource_arn`: The ARN of the resource.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -852,6 +871,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -871,7 +891,7 @@ end
     reset_enabled_baseline(enabled_baseline_identifier, params::Dict{String,<:Any})
 
 Re-enables an `EnabledBaseline` resource. For example, this API can re-apply the existing
-`Baseline` after a new member account is moved to the target OU. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+`Baseline` after a new member account is moved to the target OU. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -889,6 +909,7 @@ function reset_enabled_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -934,6 +955,7 @@ function reset_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -958,7 +980,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies tags to a resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Applies tags to a resource. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -974,6 +996,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -993,7 +1016,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Removes tags from a resource. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -1011,6 +1034,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1031,7 +1055,7 @@ end
     update_enabled_baseline(baseline_version, enabled_baseline_identifier, params::Dict{String,<:Any})
 
 Updates an `EnabledBaseline` resource's applied parameters or version. For usage examples,
-see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -1061,6 +1085,7 @@ function update_enabled_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_enabled_baseline(
     baselineVersion,
     enabledBaselineIdentifier,
@@ -1089,7 +1114,7 @@ end
     update_enabled_control(enabled_control_identifier, parameters)
     update_enabled_control(enabled_control_identifier, parameters, params::Dict{String,<:Any})
 
- Updates the configuration of an already enabled control.
+Updates the configuration of an already enabled control.
 
 If the enabled control shows an `EnablementStatus` of SUCCEEDED, supply parameters that are
 different from the currently configured parameters. Otherwise, Amazon Web Services Control
@@ -1101,11 +1126,11 @@ Tower updates the control to match any valid parameters that you supply.
 If the `DriftSummary` status for the control shows as DRIFTED, you cannot call this API.
 Instead, you can update the control by calling `DisableControl` and again calling
 `EnableControl`, or you can run an extending governance operation. For usage examples, see
-the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
-- `enabled_control_identifier`:  The ARN of the enabled control that will be updated.
+- `enabled_control_identifier`: The ARN of the enabled control that will be updated.
 - `parameters`: A key/value pair, where `Key` is of type `String` and `Value` is of type
   `Document`.
 """
@@ -1123,6 +1148,7 @@ function update_enabled_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_enabled_control(
     enabledControlIdentifier,
     parameters,
@@ -1182,6 +1208,7 @@ function update_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_landing_zone(
     landingZoneIdentifier,
     manifest,

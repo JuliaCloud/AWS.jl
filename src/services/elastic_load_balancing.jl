@@ -33,6 +33,7 @@ function add_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     LoadBalancerNames,
     Tags,
@@ -81,6 +82,7 @@ function apply_security_groups_to_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_security_groups_to_load_balancer(
     LoadBalancerName,
     SecurityGroups,
@@ -130,6 +132,7 @@ function attach_load_balancer_to_subnets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_load_balancer_to_subnets(
     LoadBalancerName,
     Subnets,
@@ -179,6 +182,7 @@ function configure_health_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_health_check(
     HealthCheck,
     LoadBalancerName,
@@ -208,7 +212,7 @@ end
 Generates a stickiness policy with sticky session lifetimes that follow that of an
 application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners.
 
-This policy is similar to the policy created by <a>CreateLBCookieStickinessPolicy</a>,
+This policy is similar to the policy created by [`create_lbcookie_stickiness_policy`](@ref),
 except that the lifetime of the special Elastic Load Balancing cookie, `AWSELB`, follows
 the lifetime of the application-generated cookie specified in the policy configuration. The
 load balancer only inserts a new stickiness cookie when the application response includes a
@@ -245,6 +249,7 @@ function create_app_cookie_stickiness_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_cookie_stickiness_policy(
     CookieName,
     LoadBalancerName,
@@ -318,6 +323,7 @@ function create_lbcookie_stickiness_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lbcookie_stickiness_policy(
     LoadBalancerName,
     PolicyName,
@@ -347,12 +353,11 @@ end
 Creates a Classic Load Balancer.
 
 You can add listeners, security groups, subnets, and tags when you create your load
-balancer, or you can add them later using <a>CreateLoadBalancerListeners</a>,
-<a>ApplySecurityGroupsToLoadBalancer</a>, <a>AttachLoadBalancerToSubnets</a>, and
-<a>AddTags</a>.
+balancer, or you can add them later using [`create_load_balancer_listeners`](@ref), [`apply_security_groups_to_load_balancer`](@ref),
+[`attach_load_balancer_to_subnets`](@ref), and [`add_tags`](@ref).
 
-To describe your current load balancers, see <a>DescribeLoadBalancers</a>. When you are
-finished with a load balancer, you can delete it using <a>DeleteLoadBalancer</a>.
+To describe your current load balancers, see [`describe_load_balancers`](@ref). When you
+are finished with a load balancer, you can delete it using [`delete_load_balancer`](@ref).
 
 You can create up to 20 load balancers per region per account. You can request an increase
 for the number of load balancers for your account. For more information, see [Limits for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html)
@@ -379,17 +384,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You must specify at least one Availability Zone.
 
-  You can add more Availability Zones after you create the load balancer using
-  <a>EnableAvailabilityZonesForLoadBalancer</a>.
+  You can add more Availability Zones after you create the load balancer using [`enable_availability_zones_for_load_balancer`](@ref).
 - `"Scheme"`: The type of a load balancer. Valid only for load balancers in a VPC.
 
   By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS
-  name that resolves to public IP addresses. For more information about Internet-facing and
-  Internal load balancers, see [Load Balancer Scheme](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme)
+  name that resolves to public IP addresses. For more information about Internet-facing
+  and Internal load balancers, see [Load Balancer Scheme](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme)
   in the *Elastic Load Balancing User Guide*.
 
-  Specify `internal` to create a load balancer with a DNS name that resolves to private IP
-  addresses.
+  Specify `internal` to create a load balancer with a DNS name that resolves to private
+  IP addresses.
 - `"SecurityGroups"`: The IDs of the security groups to assign to the load balancer.
 - `"Subnets"`: The IDs of the subnets in your VPC to attach to the load balancer. Specify
   one subnet per Availability Zone specified in `AvailabilityZones`.
@@ -408,6 +412,7 @@ function create_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer(
     Listeners,
     LoadBalancerName,
@@ -456,6 +461,7 @@ function create_load_balancer_listeners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer_listeners(
     Listeners,
     LoadBalancerName,
@@ -493,7 +499,7 @@ listener or the application server, depending on the policy type.
 - `policy_name`: The name of the load balancer policy to be created. This name must be
   unique within the set of policies for this load balancer.
 - `policy_type_name`: The name of the base policy type. To get the list of policy types,
-  use <a>DescribeLoadBalancerPolicyTypes</a>.
+  use [`describe_load_balancer_policy_types`](@ref).
 
 # Optional Parameters
 
@@ -518,6 +524,7 @@ function create_load_balancer_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer_policy(
     LoadBalancerName,
     PolicyName,
@@ -571,6 +578,7 @@ function delete_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer(
     LoadBalancerName,
     params::AbstractDict{String};
@@ -611,6 +619,7 @@ function delete_load_balancer_listeners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer_listeners(
     LoadBalancerName,
     LoadBalancerPorts,
@@ -658,6 +667,7 @@ function delete_load_balancer_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer_policy(
     LoadBalancerName,
     PolicyName,
@@ -687,8 +697,8 @@ end
 Deregisters the specified instances from the specified load balancer. After the instance is
 deregistered, it no longer receives traffic from the load balancer.
 
-You can use <a>DescribeLoadBalancers</a> to verify that the instance is deregistered from
-the load balancer.
+You can use [`describe_load_balancers`](@ref) to verify that the instance is deregistered
+from the load balancer.
 
 For more information, see [Register or De-Register EC2 Instances](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html)
 in the *Classic Load Balancers Guide*.
@@ -708,6 +718,7 @@ function deregister_instances_from_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_instances_from_load_balancer(
     Instances,
     LoadBalancerName,
@@ -752,6 +763,7 @@ function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +805,7 @@ function describe_instance_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_health(
     LoadBalancerName,
     params::AbstractDict{String};
@@ -830,6 +843,7 @@ function describe_load_balancer_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_attributes(
     LoadBalancerName,
     params::AbstractDict{String};
@@ -876,6 +890,7 @@ function describe_load_balancer_policies(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,10 +912,9 @@ The description of each type indicates how it can be used. For example, some pol
 be used only with layer 7 listeners, some policies can be used only with layer 4 listeners,
 and some policies can be used only with your EC2 instances.
 
-You can use <a>CreateLoadBalancerPolicy</a> to create a policy configuration for any of
-these policy types. Then, depending on the policy type, use either
-<a>SetLoadBalancerPoliciesOfListener</a> or <a>SetLoadBalancerPoliciesForBackendServer</a>
-to set the policy.
+You can use [`create_load_balancer_policy`](@ref) to create a policy configuration for any
+of these policy types. Then, depending on the policy type, use either [`set_load_balancer_policies_of_listener`](@ref)
+or [`set_load_balancer_policies_for_backend_server`](@ref) to set the policy.
 
 # Optional Parameters
 
@@ -918,6 +932,7 @@ function describe_load_balancer_policy_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_policy_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -951,6 +966,7 @@ function describe_load_balancers(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_load_balancers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -982,6 +998,7 @@ function describe_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tags(
     LoadBalancerNames,
     params::AbstractDict{String};
@@ -1024,6 +1041,7 @@ function detach_load_balancer_from_subnets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_load_balancer_from_subnets(
     LoadBalancerName,
     Subnets,
@@ -1053,7 +1071,7 @@ end
 Removes the specified Availability Zones from the set of Availability Zones for the
 specified load balancer in EC2-Classic or a default VPC.
 
-For load balancers in a non-default VPC, use <a>DetachLoadBalancerFromSubnets</a>.
+For load balancers in a non-default VPC, use [`detach_load_balancer_from_subnets`](@ref).
 
 There must be at least one Availability Zone registered with a load balancer at all times.
 After an Availability Zone is removed, all instances registered with the load balancer that
@@ -1080,6 +1098,7 @@ function disable_availability_zones_for_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_availability_zones_for_load_balancer(
     AvailabilityZones,
     LoadBalancerName,
@@ -1110,7 +1129,7 @@ end
 Adds the specified Availability Zones to the set of Availability Zones for the specified
 load balancer in EC2-Classic or a default VPC.
 
-For load balancers in a non-default VPC, use <a>AttachLoadBalancerToSubnets</a>.
+For load balancers in a non-default VPC, use [`attach_load_balancer_to_subnets`](@ref).
 
 The load balancer evenly distributes requests across all its registered Availability Zones
 that contain instances. For more information, see [Add or Remove Availability Zones](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-az.html)
@@ -1134,6 +1153,7 @@ function enable_availability_zones_for_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_availability_zones_for_load_balancer(
     AvailabilityZones,
     LoadBalancerName,
@@ -1168,10 +1188,12 @@ and `CrossZoneLoadBalancing` by either enabling or disabling them. Or, you can m
 load balancer attribute `ConnectionSettings` by specifying an idle connection timeout value
 for your load balancer.
 
-For more information, see the following in the *Classic Load Balancers Guide*: - [Cross-Zone Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html)
- - [Connection Draining](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html)
- - [Access Logs](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html)
- - [Idle Connection Timeout](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html)
+For more information, see the following in the *Classic Load Balancers Guide*:
+
+- [Cross-Zone Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html)
+- [Connection Draining](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html)
+- [Access Logs](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html)
+- [Idle Connection Timeout](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html)
 
 # Arguments
 
@@ -1193,6 +1215,7 @@ function modify_load_balancer_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_load_balancer_attributes(
     LoadBalancerAttributes,
     LoadBalancerName,
@@ -1229,8 +1252,7 @@ register the linked EC2-Classic instances with the load balancer in the VPC.
 
 Note that `RegisterInstanceWithLoadBalancer` completes when the request has been
 registered. Instance registration takes a little time to complete. To check the state of
-the registered instances, use <a>DescribeLoadBalancers</a> or
-<a>DescribeInstanceHealth</a>.
+the registered instances, use [`describe_load_balancers`](@ref) or [`describe_instance_health`](@ref).
 
 After the instance is registered, it starts receiving traffic and requests from the load
 balancer. Any instance that is not in one of the Availability Zones registered for the load
@@ -1238,8 +1260,7 @@ balancer is moved to the `OutOfService` state. If an Availability Zone is added 
 balancer later, any instances registered with the load balancer move to the `InService`
 state.
 
-To deregister instances from a load balancer, use
-<a>DeregisterInstancesFromLoadBalancer</a>.
+To deregister instances from a load balancer, use [`deregister_instances_from_load_balancer`](@ref).
 
 For more information, see [Register or De-Register EC2 Instances](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html)
 in the *Classic Load Balancers Guide*.
@@ -1259,6 +1280,7 @@ function register_instances_with_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_instances_with_load_balancer(
     Instances,
     LoadBalancerName,
@@ -1303,6 +1325,7 @@ function remove_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     LoadBalancerNames,
     Tags,
@@ -1357,6 +1380,7 @@ function set_load_balancer_listener_sslcertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_balancer_listener_sslcertificate(
     LoadBalancerName,
     LoadBalancerPort,
@@ -1394,8 +1418,8 @@ composed of multiple public key policies.
 Each time you use `SetLoadBalancerPoliciesForBackendServer` to enable the policies, use the
 `PolicyNames` parameter to list the policies that you want to enable.
 
-You can use <a>DescribeLoadBalancers</a> or <a>DescribeLoadBalancerPolicies</a> to verify
-that the policy is associated with the EC2 instance.
+You can use [`describe_load_balancers`](@ref) or [`describe_load_balancer_policies`](@ref)
+to verify that the policy is associated with the EC2 instance.
 
 For more information about enabling back-end instance authentication, see [Configure Back-end Instance Authentication](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-create-https-ssl-load-balancer.html#configure_backendauth_clt)
 in the *Classic Load Balancers Guide*. For more information about Proxy Protocol, see [Configure Proxy Protocol Support](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-proxy-protocol.html)
@@ -1425,6 +1449,7 @@ function set_load_balancer_policies_for_backend_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_balancer_policies_for_backend_server(
     InstancePort,
     LoadBalancerName,
@@ -1457,8 +1482,7 @@ end
 Replaces the current set of policies for the specified load balancer port with the
 specified set of policies.
 
-To enable back-end server authentication, use
-<a>SetLoadBalancerPoliciesForBackendServer</a>.
+To enable back-end server authentication, use [`set_load_balancer_policies_for_backend_server`](@ref).
 
 For more information about setting policies, see [Update the SSL Negotiation Configuration](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/ssl-config-update.html),
 [Duration-Based Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration),
@@ -1490,6 +1514,7 @@ function set_load_balancer_policies_of_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_balancer_policies_of_listener(
     LoadBalancerName,
     LoadBalancerPort,

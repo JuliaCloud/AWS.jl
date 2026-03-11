@@ -15,10 +15,11 @@ Creates an OpenSearch Ingestion pipeline. For more information, see [Creating Am
 - `max_units`: The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
 - `min_units`: The minimum pipeline capacity, in Ingestion Compute Units (ICUs).
 - `pipeline_configuration_body`: The pipeline configuration in YAML format. The command
-  accepts the pipeline configuration as a string or within a .yaml file. If you provide the
-  configuration as a string, each new line must be escaped with `\\n`.
+  accepts the pipeline configuration as a string or within a .yaml file. If you provide
+  the configuration as a string, each new line must be escaped with `\\n`.
 - `pipeline_name`: The name of the OpenSearch Ingestion pipeline to create. Pipeline names
-  are unique across the pipelines owned by an account within an Amazon Web Services Region.
+  are unique across the pipelines owned by an account within an Amazon Web Services
+  Region.
 
 # Optional Parameters
 
@@ -53,6 +54,7 @@ function create_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     MaxUnits,
     MinUnits,
@@ -99,6 +101,7 @@ function delete_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -131,6 +134,7 @@ function get_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -173,6 +177,7 @@ function get_pipeline_blueprint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_blueprint(
     BlueprintName,
     params::AbstractDict{String};
@@ -211,6 +216,7 @@ function get_pipeline_change_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_change_progress(
     PipelineName,
     params::AbstractDict{String};
@@ -239,6 +245,7 @@ function list_pipeline_blueprints(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipeline_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,9 +271,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListPipelines` operation returns a `nextToken`, you can
-  include the returned `nextToken` in subsequent `ListPipelines` operations, which returns
-  results in the next page.
+- `"nextToken"`: If your initial [`list_pipelines`](@ref) operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent [`list_pipelines`](@ref)
+  operations, which returns results in the next page.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -276,6 +283,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -308,6 +316,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -338,6 +347,7 @@ function start_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -370,6 +380,7 @@ function stop_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -404,6 +415,7 @@ function tag_resource(Tags, arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     arn,
@@ -441,6 +453,7 @@ function untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     TagKeys,
     arn,
@@ -479,8 +492,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxUnits"`: The maximum pipeline capacity, in Ingestion Compute Units (ICUs)
 - `"MinUnits"`: The minimum pipeline capacity, in Ingestion Compute Units (ICUs).
 - `"PipelineConfigurationBody"`: The pipeline configuration in YAML format. The command
-  accepts the pipeline configuration as a string or within a .yaml file. If you provide the
-  configuration as a string, each new line must be escaped with `\\n`.
+  accepts the pipeline configuration as a string or within a .yaml file. If you provide
+  the configuration as a string, each new line must be escaped with `\\n`.
 """
 function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -490,6 +503,7 @@ function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -514,8 +528,8 @@ For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https
 # Arguments
 
 - `pipeline_configuration_body`: The pipeline configuration in YAML format. The command
-  accepts the pipeline configuration as a string or within a .yaml file. If you provide the
-  configuration as a string, each new line must be escaped with `\\n`.
+  accepts the pipeline configuration as a string or within a .yaml file. If you provide
+  the configuration as a string, each new line must be escaped with `\\n`.
 """
 function validate_pipeline(
     PipelineConfigurationBody; aws_config::AbstractAWSConfig=current_aws_config()
@@ -528,6 +542,7 @@ function validate_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_pipeline(
     PipelineConfigurationBody,
     params::AbstractDict{String};

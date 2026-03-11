@@ -8,9 +8,9 @@ using AWS.UUIDs
     abort_document_version_upload(document_id, version_id)
     abort_document_version_upload(document_id, version_id, params::Dict{String,<:Any})
 
-Aborts the upload of the specified document version that was previously initiated by
-<a>InitiateDocumentVersionUpload</a>. The client should make this call only when it no
-longer intends to upload the document version, or fails to do so.
+Aborts the upload of the specified document version that was previously initiated by [`initiate_document_version_upload`](@ref).
+The client should make this call only when it no longer intends to upload the document
+version, or fails to do so.
 
 # Arguments
 
@@ -34,6 +34,7 @@ function abort_document_version_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_document_version_upload(
     DocumentId,
     VersionId,
@@ -74,6 +75,7 @@ function activate_user(UserId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -117,6 +119,7 @@ function add_resource_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_resource_permissions(
     Principals,
     ResourceId,
@@ -171,6 +174,7 @@ function create_comment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_comment(
     DocumentId,
     Text,
@@ -219,6 +223,7 @@ function create_custom_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_metadata(
     CustomMetadata,
     ResourceId,
@@ -263,6 +268,7 @@ function create_folder(ParentFolderId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_folder(
     ParentFolderId,
     params::AbstractDict{String};
@@ -308,6 +314,7 @@ function create_labels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_labels(
     Labels,
     ResourceId,
@@ -361,6 +368,7 @@ function create_notification_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notification_subscription(
     Endpoint,
     OrganizationId,
@@ -433,6 +441,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     GivenName,
     Password,
@@ -486,6 +495,7 @@ function deactivate_user(UserId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +537,7 @@ function delete_comment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_comment(
     CommentId,
     DocumentId,
@@ -575,6 +586,7 @@ function delete_custom_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_metadata(
     ResourceId,
     params::AbstractDict{String};
@@ -614,6 +626,7 @@ function delete_document(DocumentId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document(
     DocumentId,
     params::AbstractDict{String};
@@ -661,6 +674,7 @@ function delete_document_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document_version(
     DocumentId,
     VersionId,
@@ -708,6 +722,7 @@ function delete_folder(FolderId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_folder(
     FolderId,
     params::AbstractDict{String};
@@ -749,6 +764,7 @@ function delete_folder_contents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_folder_contents(
     FolderId,
     params::AbstractDict{String};
@@ -790,6 +806,7 @@ function delete_labels(ResourceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_labels(
     ResourceId,
     params::AbstractDict{String};
@@ -825,6 +842,7 @@ function delete_notification_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notification_subscription(
     OrganizationId,
     SubscriptionId,
@@ -848,7 +866,7 @@ Deletes the specified user from a Simple AD or Microsoft AD directory.
 
 !!! important
     Deleting a user immediately and permanently deletes all content in that user's folder
-structure. Site retention policies do NOT apply to this type of deletion.
+    structure. Site retention policies do NOT apply to this type of deletion.
 
 # Arguments
 
@@ -870,6 +888,7 @@ function delete_user(UserId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -900,8 +919,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes the activities performed before the specified timestamp.
 - `"includeIndirectActivities"`: Includes indirect activities. An indirect activity results
   from a direct activity performed on a parent resource. For example, sharing a parent
-  folder (the direct activity) shares all of the subfolders and documents within the parent
-  folder (the indirect activity).
+  folder (the direct activity) shares all of the subfolders and documents within the
+  parent folder (the indirect activity).
 - `"limit"`: The maximum number of items to return.
 - `"marker"`: The marker for the next set of results.
 - `"organizationId"`: The ID of the organization. This is a mandatory parameter when using
@@ -918,6 +937,7 @@ function describe_activities(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/api/v1/activities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_activities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -961,6 +981,7 @@ function describe_comments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_comments(
     DocumentId,
     VersionId,
@@ -1012,6 +1033,7 @@ function describe_document_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_versions(
     DocumentId,
     params::AbstractDict{String};
@@ -1065,6 +1087,7 @@ function describe_folder_contents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_folder_contents(
     FolderId,
     params::AbstractDict{String};
@@ -1110,6 +1133,7 @@ function describe_groups(searchQuery; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_groups(
     searchQuery,
     params::AbstractDict{String};
@@ -1154,6 +1178,7 @@ function describe_notification_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notification_subscriptions(
     OrganizationId,
     params::AbstractDict{String};
@@ -1199,6 +1224,7 @@ function describe_resource_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_permissions(
     ResourceId,
     params::AbstractDict{String};
@@ -1248,6 +1274,7 @@ function describe_root_folders(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_root_folders(
     Authentication,
     params::AbstractDict{String};
@@ -1295,15 +1322,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: The order for the results.
 - `"organizationId"`: The ID of the organization.
 - `"query"`: A query to filter users by user name. Remember the following about the
-  `Userids` and `Query` parameters: - If you don't use either parameter, the API returns a
-  paginated list of all users on the site.
-   - If you use both parameters, the API ignores the `Query` parameter.
-   - The `Userid` parameter only returns user names that match a corresponding user ID.
-   - The `Query` parameter runs a "prefix" search for users by the `GivenName`, `SurName`,
-  or `UserName` fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html)
-  API call. For example, querying on `Ma` returns Márcia Oliveira, María García, and Mateo
-  Jackson. If you use multiple characters, the API only returns data that matches all
-  characters. For example, querying on `Ma J` only returns Mateo Jackson.
+  `Userids` and `Query` parameters:
+
+  - If you don't use either parameter, the API returns a paginated list of all users on
+    the site.
+  - If you use both parameters, the API ignores the `Query` parameter.
+  - The `Userid` parameter only returns user names that match a corresponding user ID.
+  - The `Query` parameter runs a "prefix" search for users by the `GivenName`, `SurName`,
+    or `UserName` fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html)
+    API call. For example, querying on `Ma` returns Márcia Oliveira, María García, and
+    Mateo Jackson. If you use multiple characters, the API only returns data that matches
+    all characters. For example, querying on `Ma J` only returns Mateo Jackson.
+
 - `"sort"`: The sorting criteria.
 - `"userIds"`: The IDs of the users.
 """
@@ -1312,6 +1342,7 @@ function describe_users(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/api/v1/users"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1350,6 +1381,7 @@ function get_current_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_current_user(
     Authentication,
     params::AbstractDict{String};
@@ -1398,6 +1430,7 @@ function get_document(DocumentId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document(
     DocumentId,
     params::AbstractDict{String};
@@ -1446,6 +1479,7 @@ function get_document_path(DocumentId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document_path(
     DocumentId,
     params::AbstractDict{String};
@@ -1491,6 +1525,7 @@ function get_document_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document_version(
     DocumentId,
     VersionId,
@@ -1532,6 +1567,7 @@ function get_folder(FolderId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_folder(
     FolderId,
     params::AbstractDict{String};
@@ -1580,6 +1616,7 @@ function get_folder_path(FolderId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_folder_path(
     FolderId,
     params::AbstractDict{String};
@@ -1619,6 +1656,7 @@ function get_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/api/v1/resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1640,9 +1678,9 @@ Creates a new document object and version object.
 The client specifies the parent folder ID and name of the document to upload. The ID is
 optionally specified when creating a new version of an existing document. This is the first
 step to upload a document. Next, upload the document to the URL returned from the call, and
-then call <a>UpdateDocumentVersion</a>.
+then call [`update_document_version`](@ref).
 
-To cancel the document upload, call <a>AbortDocumentVersionUpload</a>.
+To cancel the document upload, call [`abort_document_version_upload`](@ref).
 
 # Optional Parameters
 
@@ -1666,6 +1704,7 @@ function initiate_document_version_upload(;
         "POST", "/api/v1/documents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function initiate_document_version_upload(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1705,6 +1744,7 @@ function remove_all_resource_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_all_resource_permissions(
     ResourceId,
     params::AbstractDict{String};
@@ -1748,6 +1788,7 @@ function remove_resource_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_resource_permission(
     PrincipalId,
     ResourceId,
@@ -1790,6 +1831,7 @@ function restore_document_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_document_versions(
     DocumentId,
     params::AbstractDict{String};
@@ -1835,6 +1877,7 @@ function search_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/api/v1/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1877,6 +1920,7 @@ function update_document(DocumentId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document(
     DocumentId,
     params::AbstractDict{String};
@@ -1898,8 +1942,7 @@ end
 Changes the status of the document version to ACTIVE.
 
 Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a
-document upload, after the client uploads the document to an S3-presigned URL returned by
-<a>InitiateDocumentVersionUpload</a>.
+document upload, after the client uploads the document to an S3-presigned URL returned by [`initiate_document_version_upload`](@ref).
 
 # Arguments
 
@@ -1924,6 +1967,7 @@ function update_document_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document_version(
     DocumentId,
     VersionId,
@@ -1969,6 +2013,7 @@ function update_folder(FolderId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_folder(
     FolderId,
     params::AbstractDict{String};
@@ -2017,6 +2062,7 @@ function update_user(UserId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

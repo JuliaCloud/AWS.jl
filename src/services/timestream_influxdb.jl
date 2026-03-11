@@ -19,9 +19,9 @@ Creates a new Timestream for InfluxDB DB instance.
   Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix
   included in the endpoint. DB instance names must be unique per customer and per region.
 - `password`: The password of the initial admin user created in InfluxDB. This password
-  will allow you to access the InfluxDB UI to perform various administrative tasks and also
-  use the InfluxDB CLI to create an operator token. These attributes will be stored in a
-  Secret created in AWS SecretManager in your account.
+  will allow you to access the InfluxDB UI to perform various administrative tasks and
+  also use the InfluxDB CLI to create an operator token. These attributes will be stored
+  in a Secret created in AWS SecretManager in your account.
 - `vpc_security_group_ids`: A list of VPC security group IDs to associate with the DB
   instance.
 - `vpc_subnet_ids`: A list of VPC subnet IDs to associate with the DB instance. Provide at
@@ -33,8 +33,8 @@ Creates a new Timestream for InfluxDB DB instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"bucket"`: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a
-  bucket. A bucket combines the concept of a database and a retention period (the duration
-  of time that each data point persists). A bucket belongs to an organization.
+  bucket. A bucket combines the concept of a database and a retention period (the
+  duration of time that each data point persists). A bucket belongs to an organization.
 - `"dbParameterGroupIdentifier"`: The id of the DB parameter group to assign to your DB
   instance. DB parameter groups specify how the database is configured. For example, DB
   parameter groups can specify the limit for query concurrency.
@@ -42,9 +42,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data.
 
   You can choose between 3 different types of provisioned Influx IOPS included storage
-  according to your workloads requirements: - Influx IO Included 3000 IOPS
-   - Influx IO Included 12000 IOPS
- - Influx IO Included 16000 IOPS
+  according to your workloads requirements:
+
+  - Influx IO Included 3000 IOPS
+  - Influx IO Included 12000 IOPS
+  - Influx IO Included 16000 IOPS
+
 - `"deploymentType"`: Specifies whether the DB instance will be deployed as a standalone
   instance or with a Multi-AZ standby for high availability.
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to a
@@ -54,8 +57,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"publiclyAccessible"`: Configures the DB instance with a public IP to facilitate access.
 - `"tags"`: A list of key-value pairs to associate with the DB instance.
 - `"username"`: The username of the initial admin user created in InfluxDB. Must start with
-  a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-
-  user1. This username will allow you to access the InfluxDB UI to perform various
+  a letter and can't end with a hyphen or contain two consecutive hyphens. For example,
+  my-user1. This username will allow you to access the InfluxDB UI to perform various
   administrative tasks and also use the InfluxDB CLI to create an operator token. These
   attributes will be stored in a Secret created in Amazon Secrets Manager in your account.
 """
@@ -82,6 +85,7 @@ function create_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_db_instance(
     allocatedStorage,
     dbInstanceType,
@@ -140,6 +144,7 @@ function create_db_parameter_group(name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_db_parameter_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -169,6 +174,7 @@ function delete_db_instance(identifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_db_instance(
     identifier,
     params::AbstractDict{String};
@@ -202,6 +208,7 @@ function get_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_db_instance(
     identifier,
     params::AbstractDict{String};
@@ -237,6 +244,7 @@ function get_db_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_db_parameter_group(
     identifier,
     params::AbstractDict{String};
@@ -264,8 +272,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of items to return in the output. If the total number
   of items available is more than the value specified, a NextToken is provided in the
-  output. To resume pagination, provide the NextToken value as argument of a subsequent API
-  invocation.
+  output. To resume pagination, provide the NextToken value as argument of a subsequent
+  API invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
@@ -274,6 +282,7 @@ function list_db_instances(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_db_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -294,8 +303,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of items to return in the output. If the total number
   of items available is more than the value specified, a NextToken is provided in the
-  output. To resume pagination, provide the NextToken value as argument of a subsequent API
-  invocation.
+  output. To resume pagination, provide the NextToken value as argument of a subsequent
+  API invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
@@ -304,6 +313,7 @@ function list_db_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_co
         "ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_db_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -335,6 +345,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -370,6 +381,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -411,6 +423,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -462,6 +475,7 @@ function update_db_instance(identifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_db_instance(
     identifier,
     params::AbstractDict{String};

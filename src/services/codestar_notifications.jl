@@ -19,12 +19,12 @@ for Slack) where you want to receive them.
   CloudWatch. `FULL` will include any supplemental information provided by AWS CodeStar
   Notifications and/or the service for the resource for which the notification is created.
 - `event_type_ids`: A list of event types associated with this notification rule. For a
-  list of allowed events, see <a>EventTypeSummary</a>.
+  list of allowed events, see [`event_type_summary`](@ref).
 - `name`: The name for the notification rule. Notification rule names must be unique in
   your Amazon Web Services account.
 - `resource`: The Amazon Resource Name (ARN) of the resource to associate with the
-  notification rule. Supported resources include pipelines in CodePipeline, repositories in
-  CodeCommit, and build projects in CodeBuild.
+  notification rule. Supported resources include pipelines in CodePipeline, repositories
+  in CodeCommit, and build projects in CodeBuild.
 - `targets`: A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service
   topics and Chatbot clients to associate with the notification rule.
 
@@ -34,12 +34,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a
-  request with the same parameters is received and a token is included, the request returns
-  information about the initial request that used that token.
+  request with the same parameters is received and a token is included, the request
+  returns information about the initial request that used that token.
 
   !!! note
       The Amazon Web Services SDKs prepopulate client request tokens. If you are using an
-  Amazon Web Services SDK, an idempotency token is created for you.
+      Amazon Web Services SDK, an idempotency token is created for you.
+
 - `"Status"`: The status of the notification rule. The default value is `ENABLED`. If the
   status is set to `DISABLED`, notifications aren't sent for the notification rule.
 - `"Tags"`: A list of tags to apply to this notification rule. Key names cannot start with
@@ -68,6 +69,7 @@ function create_notification_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notification_rule(
     DetailType,
     EventTypeIds,
@@ -118,6 +120,7 @@ function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notification_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -146,8 +149,9 @@ Deletes a specified target for notifications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceUnsubscribeAll"`: A Boolean value that can be used to delete all associations with
-  this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between
-  that target and every notification rule in your Amazon Web Services account are deleted.
+  this Chatbot topic. The default value is FALSE. If set to TRUE, all associations
+  between that target and every notification rule in your Amazon Web Services account are
+  deleted.
 """
 function delete_target(TargetAddress; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
@@ -158,6 +162,7 @@ function delete_target(TargetAddress; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_target(
     TargetAddress,
     params::AbstractDict{String};
@@ -193,6 +198,7 @@ function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notification_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -226,6 +232,7 @@ function list_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -249,11 +256,12 @@ Returns a list of the notification rules for an Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: The filters to use to return information by service or resource type. For
-  valid values, see <a>ListNotificationRulesFilter</a>.
+  valid values, see [`list_notification_rules_filter`](@ref).
 
   !!! note
       A filter with the same name can appear more than once when used with OR statements.
-  Filters with different names should be applied with AND statements.
+      Filters with different names should be applied with AND statements.
+
 - `"MaxResults"`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
@@ -267,6 +275,7 @@ function list_notification_rules(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notification_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -298,6 +307,7 @@ function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -325,7 +335,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       A filter with the same name can appear more than once when used with OR statements.
-  Filters with different names should be applied with AND statements.
+      Filters with different names should be applied with AND statements.
+
 - `"MaxResults"`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
@@ -336,6 +347,7 @@ function list_targets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -378,6 +390,7 @@ function subscribe(Arn, Target; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function subscribe(
     Arn,
     Target,
@@ -416,6 +429,7 @@ function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Arn,
     Tags,
@@ -455,6 +469,7 @@ function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unsubscribe(
     Arn,
     TargetAddress,
@@ -499,6 +514,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -522,8 +538,7 @@ Updates a notification rule for a resource. You can change the events that trigg
 notification rule, the status of the rule, and the targets that receive the notifications.
 
 !!! note
-    To add or remove tags for a notification rule, you must use <a>TagResource</a> and
-<a>UntagResource</a>.
+    To add or remove tags for a notification rule, you must use [`tag_resource`](@ref) and [`untag_resource`](@ref).
 
 # Arguments
 
@@ -555,6 +570,7 @@ function update_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

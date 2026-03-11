@@ -43,6 +43,7 @@ function delete_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_session(
     botAliasId,
     botId,
@@ -94,6 +95,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     botAliasId,
     botId,
@@ -133,8 +135,11 @@ operation to enable your application to set the state of the bot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ResponseContentType"`: The message that Amazon Lex V2 returns in the response can be
-  either text or speech depending on the value of this parameter.  - If the value is
-  `text/plain; charset=utf-8`, Amazon Lex V2 returns text in the response.
+  either text or speech depending on the value of this parameter.
+
+  - If the value is `text/plain; charset=utf-8`, Amazon Lex V2 returns text in the
+    response.
+
 - `"messages"`: A list of messages to send to the user. Messages are sent in the order that
   they are defined in the list.
 - `"requestAttributes"`: Request-specific information passed between Amazon Lex V2 and the
@@ -159,6 +164,7 @@ function put_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_session(
     botAliasId,
     botId,
@@ -192,13 +198,16 @@ response card to display.
 
 If the optional post-fulfillment response is specified, the messages are returned as
 follows. For more information, see [PostFulfillmentStatusSpecification](https://docs.aws.amazon.com/lexv2/latest/dg/API_PostFulfillmentStatusSpecification.html).
+
+
 - **Success message** - Returned if the Lambda function completes successfully and the
-intent state is fulfilled or ready fulfillment if the message is present.
- - **Failed message** - The failed message is returned if the Lambda function throws an
-exception or if the Lambda function returns a failed intent state without a message.
- - **Timeout message** - If you don't configure a timeout message and a timeout, and the
-Lambda function doesn't return within 30 seconds, the timeout message is returned. If you
-configure a timeout, the timeout message is returned when the period times out.
+  intent state is fulfilled or ready fulfillment if the message is present.
+- **Failed message** - The failed message is returned if the Lambda function throws an
+  exception or if the Lambda function returns a failed intent state without a message.
+- **Timeout message** - If you don't configure a timeout message and a timeout, and the
+  Lambda function doesn't return within 30 seconds, the timeout message is returned. If you
+  configure a timeout, the timeout message is returned when the period times out.
+
 For more information, see [Completion message](https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-complete.html).
 
 # Arguments
@@ -236,6 +245,7 @@ function recognize_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function recognize_text(
     botAliasId,
     botId,
@@ -263,41 +273,51 @@ send text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2 interpre
 input using the machine learning model built for the bot.
 
 The following request fields must be compressed with gzip and then base64 encoded before
-you send them to Amazon Lex V2. </p> - requestAttributes
- - sessionState
+you send them to Amazon Lex V2.
+
+- requestAttributes
+- sessionState
+
 The following response fields are compressed using gzip and then base64 encoded by Amazon
-Lex V2. Before you can use these fields, you must decode and decompress them.  -
-inputTranscript
- - interpretations
- - messages
- - requestAttributes
- - sessionState
+Lex V2. Before you can use these fields, you must decode and decompress them.
+
+- inputTranscript
+- interpretations
+- messages
+- requestAttributes
+- sessionState
+
 The example contains a Java application that compresses and encodes a Java object to send
 to Amazon Lex V2, and a second that decodes and decompresses a response from Amazon Lex V2.
 
- <p>If the optional post-fulfillment response is specified, the messages are returned as
+If the optional post-fulfillment response is specified, the messages are returned as
 follows. For more information, see [PostFulfillmentStatusSpecification](https://docs.aws.amazon.com/lexv2/latest/dg/API_PostFulfillmentStatusSpecification.html).
+
+
 - **Success message** - Returned if the Lambda function completes successfully and the
-intent state is fulfilled or ready fulfillment if the message is present.
- - **Failed message** - The failed message is returned if the Lambda function throws an
-exception or if the Lambda function returns a failed intent state without a message.
- - **Timeout message** - If you don't configure a timeout message and a timeout, and the
-Lambda function doesn't return within 30 seconds, the timeout message is returned. If you
-configure a timeout, the timeout message is returned when the period times out.
+  intent state is fulfilled or ready fulfillment if the message is present.
+- **Failed message** - The failed message is returned if the Lambda function throws an
+  exception or if the Lambda function returns a failed intent state without a message.
+- **Timeout message** - If you don't configure a timeout message and a timeout, and the
+  Lambda function doesn't return within 30 seconds, the timeout message is returned. If you
+  configure a timeout, the timeout message is returned when the period times out.
+
 For more information, see [Completion message](https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-complete.html).
 
 # Arguments
 
 - `content-_type`: Indicates the format for audio input or that the content is text. The
-  header must start with one of the following prefixes: - PCM format, audio data must be in
-  little-endian byte order. <ul> <li>audio/l16; rate=16000; channels=1
-   - audio/x-l16; sample-rate=16000; channel-count=1
-   - audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-
-  endian=false
-   </li> <li>Opus format - audio/x-cbr-opus-with-preamble;preamble-size=0;bit-
-  rate=256000;frame-size-milliseconds=4
-   </li> <li>Text format - text/plain; charset=utf-8
- </li> </ul>
+  header must start with one of the following prefixes:
+
+  - PCM format, audio data must be in little-endian byte order.   - audio/l16;
+    rate=16000; channels=1
+    - audio/x-l16; sample-rate=16000; channel-count=1
+    - audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-
+      endian=false
+  - Opus format   - audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-
+    size-milliseconds=4
+  - Text format   - text/plain; charset=utf-8
+
 - `bot_alias_id`: The alias identifier in use for the bot that should receive the request.
 - `bot_id`: The identifier of the bot that should receive the request.
 - `locale_id`: The locale where the session is in use.
@@ -308,20 +328,22 @@ For more information, see [Completion message](https://docs.aws.amazon.com/lexv2
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Response-Content-Type"`: The message that Amazon Lex V2 returns in the response can be
-  either text or speech based on the `responseContentType` value. - If the value is
-  `text/plain;charset=utf-8`, Amazon Lex V2 returns text in the response.
-   - If the value begins with `audio/`, Amazon Lex V2 returns speech in the response.
-  Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you
-  specified in the `responseContentType` parameter. For example, if you specify
-  `audio/mpeg` as the value, Amazon Lex V2 returns speech in the MPEG format.
-   - If the value is `audio/pcm`, the speech returned is `audio/pcm` at 16 KHz in 16-bit,
-  little-endian format.
-   - The following are the accepted values: <ul> <li>audio/mpeg
-   - audio/ogg
-   - audio/pcm (16 KHz)
-   - audio/* (defaults to mpeg)
- - text/plain; charset=utf-8
- </li> </ul>
+  either text or speech based on the `responseContentType` value.
+
+  - If the value is `text/plain;charset=utf-8`, Amazon Lex V2 returns text in the
+    response.
+  - If the value begins with `audio/`, Amazon Lex V2 returns speech in the response.
+    Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that
+    you specified in the `responseContentType` parameter. For example, if you specify
+    `audio/mpeg` as the value, Amazon Lex V2 returns speech in the MPEG format.
+  - If the value is `audio/pcm`, the speech returned is `audio/pcm` at 16 KHz in 16-bit,
+    little-endian format.
+  - The following are the accepted values:   - audio/mpeg
+    - audio/ogg
+    - audio/pcm (16 KHz)
+    - audio/* (defaults to mpeg)
+    - text/plain; charset=utf-8
+
 - `"inputStream"`: User input in PCM or Opus audio format or text format as described in
   the `requestContentType` parameter.
 - `"x-amz-lex-request-attributes"`: Request-specific information passed between the client
@@ -334,8 +356,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before sending to Amazon Lex V2.
 - `"x-amz-lex-session-state"`: Sets the state of the session with the user. You can use
   this to set the current intent, attributes, context, and dialog action. Use the dialog
-  action to determine the next step that Amazon Lex V2 should use in the conversation with
-  the user.
+  action to determine the next step that Amazon Lex V2 should use in the conversation
+  with the user.
 
   The `sessionState` field must be compressed using gzip and then base64 encoded before
   sending to Amazon Lex V2.
@@ -356,6 +378,7 @@ function recognize_utterance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function recognize_utterance(
     Content_Type,
     botAliasId,

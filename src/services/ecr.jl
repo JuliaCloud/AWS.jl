@@ -15,8 +15,8 @@ been uploaded before. If it has been uploaded, then the image layer is skipped.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -44,6 +44,7 @@ function batch_check_layer_availability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_check_layer_availability(
     layerDigests,
     repositoryName,
@@ -103,6 +104,7 @@ function batch_delete_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_image(
     imageIds,
     repositoryName,
@@ -164,6 +166,7 @@ function batch_get_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_image(
     imageIds,
     repositoryName,
@@ -206,6 +209,7 @@ function batch_get_repository_scanning_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_repository_scanning_configuration(
     repositoryNames,
     params::AbstractDict{String};
@@ -236,14 +240,14 @@ layer to verify that the upload has completed.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
 - `layer_digests`: The `sha256` digest of the image layer.
 - `repository_name`: The name of the repository to associate with the image layer.
-- `upload_id`: The upload ID from a previous <a>InitiateLayerUpload</a> operation to
+- `upload_id`: The upload ID from a previous [`initiate_layer_upload`](@ref) operation to
   associate with the image layer.
 
 # Optional Parameters
@@ -270,6 +274,7 @@ function complete_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_layer_upload(
     layerDigests,
     repositoryName,
@@ -310,13 +315,15 @@ in the *Amazon Elastic Container Registry User Guide*.
   source registry.
 - `upstream_registry_url`: The registry URL of the upstream public registry to use as the
   source for the pull through cache rule. The following is the syntax to use for each
-  supported upstream registry. - Amazon ECR Public (`ecr-public`) - `public.ecr.aws`
-   - Docker Hub (`docker-hub`) - `registry-1.docker.io`
-   - Quay (`quay`) - `quay.io`
-   - Kubernetes (`k8s`) - `registry.k8s.io`
-   - GitHub Container Registry (`github-container-registry`) - `ghcr.io`
-   - Microsoft Azure Container Registry (`azure-container-registry`) -
-  `&lt;custom&gt;.azurecr.io`
+  supported upstream registry.
+
+  - Amazon ECR Public (`ecr-public`) - `public.ecr.aws`
+  - Docker Hub (`docker-hub`) - `registry-1.docker.io`
+  - Quay (`quay`) - `quay.io`
+  - Kubernetes (`k8s`) - `registry.k8s.io`
+  - GitHub Container Registry (`github-container-registry`) - `ghcr.io`
+  - Microsoft Azure Container Registry (`azure-container-registry`) -
+    `&lt;custom&gt;.azurecr.io`
 
 # Optional Parameters
 
@@ -344,6 +351,7 @@ function create_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pull_through_cache_rule(
     ecrRepositoryPrefix,
     upstreamRegistryUrl,
@@ -377,8 +385,8 @@ in the *Amazon Elastic Container Registry User Guide*.
 # Arguments
 
 - `repository_name`: The name to use for the repository. The repository name may be
-  specified on its own (such as `nginx-web-app`) or it can be prepended with a namespace to
-  group the repository into a category (such as `project-a/nginx-web-app`).
+  specified on its own (such as `nginx-web-app`) or it can be prepended with a namespace
+  to group the repository into a category (such as `project-a/nginx-web-app`).
 
   The repository name must start with a letter and can only contain lowercase letters,
   numbers, hyphens, underscores, and forward slashes.
@@ -390,12 +398,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encryptionConfiguration"`: The encryption configuration for the repository. This
   determines how the contents of your repository are encrypted at rest.
 - `"imageScanningConfiguration"`: The image scanning configuration for the repository. This
-  determines whether images are scanned for known vulnerabilities after being pushed to the
-  repository.
+  determines whether images are scanned for known vulnerabilities after being pushed to
+  the repository.
 - `"imageTagMutability"`: The tag mutability setting for the repository. If this parameter
-  is omitted, the default setting of `MUTABLE` will be used which will allow image tags to
-  be overwritten. If `IMMUTABLE` is specified, all image tags within the repository will be
-  immutable which will prevent them from being overwritten.
+  is omitted, the default setting of `MUTABLE` will be used which will allow image tags
+  to be overwritten. If `IMMUTABLE` is specified, all image tags within the repository
+  will be immutable which will prevent them from being overwritten.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry to create
   the repository. If you do not specify a registry, the default registry is assumed.
 - `"tags"`: The metadata that you apply to the repository to help you categorize and
@@ -413,6 +421,7 @@ function create_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -440,8 +449,8 @@ in the *Amazon Elastic Container Registry User Guide*.
 # Arguments
 
 - `applied_for`: A list of enumerable strings representing the Amazon ECR repository
-  creation scenarios that this template will apply towards. The two supported scenarios are
-  `PULL_THROUGH_CACHE` and `REPLICATION`
+  creation scenarios that this template will apply towards. The two supported scenarios
+  are `PULL_THROUGH_CACHE` and `REPLICATION`
 - `prefix`: The repository namespace prefix to associate with the template. All
   repositories created using this namespace prefix will have the settings defined in this
   template applied. For example, a prefix of `prod` would apply to all repositories
@@ -452,10 +461,10 @@ in the *Amazon Elastic Container Registry User Guide*.
   creation template, you can use `ROOT` as the prefix.
 
   !!! important
-      There is always an assumed `/` applied to the end of the prefix. If you specify `ecr-
-  public` as the prefix, Amazon ECR treats that as `ecr-public/`. When using a pull through
-  cache rule, the repository prefix you specify during rule creation is what you should
-  specify as your repository creation template prefix as well.
+      There is always an assumed `/` applied to the end of the prefix. If you specify
+      `ecr-public` as the prefix, Amazon ECR treats that as `ecr-public/`. When using a
+      pull through cache rule, the repository prefix you specify during rule creation is
+      what you should specify as your repository creation template prefix as well.
 
 # Optional Parameters
 
@@ -469,18 +478,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encryptionConfiguration"`: The encryption configuration to use for repositories created
   using the template.
 - `"imageTagMutability"`: The tag mutability setting for the repository. If this parameter
-  is omitted, the default setting of `MUTABLE` will be used which will allow image tags to
-  be overwritten. If `IMMUTABLE` is specified, all image tags within the repository will be
-  immutable which will prevent them from being overwritten.
+  is omitted, the default setting of `MUTABLE` will be used which will allow image tags
+  to be overwritten. If `IMMUTABLE` is specified, all image tags within the repository
+  will be immutable which will prevent them from being overwritten.
 - `"lifecyclePolicy"`: The lifecycle policy to use for repositories created using the
   template.
 - `"repositoryPolicy"`: The repository policy to apply to repositories created using the
   template. A repository policy is a permissions policy associated with a repository to
   control access permissions.
 - `"resourceTags"`: The metadata to apply to the repository to help you categorize and
-  organize. Each tag consists of a key and an optional value, both of which you define. Tag
-  keys can have a maximum character length of 128 characters, and tag values can have a
-  maximum length of 256 characters.
+  organize. Each tag consists of a key and an optional value, both of which you define.
+  Tag keys can have a maximum character length of 128 characters, and tag values can have
+  a maximum length of 256 characters.
 """
 function create_repository_creation_template(
     appliedFor, prefix; aws_config::AbstractAWSConfig=current_aws_config()
@@ -492,6 +501,7 @@ function create_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository_creation_template(
     appliedFor,
     prefix,
@@ -540,6 +550,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -584,6 +595,7 @@ function delete_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pull_through_cache_rule(
     ecrRepositoryPrefix,
     params::AbstractDict{String};
@@ -614,6 +626,7 @@ function delete_registry_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -644,8 +657,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"force"`: If true, deleting the repository force deletes the contents of the repository.
   If false, the repository must be empty before attempting to delete it.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
-  contains the repository to delete. If you do not specify a registry, the default registry
-  is assumed.
+  contains the repository to delete. If you do not specify a registry, the default
+  registry is assumed.
 """
 function delete_repository(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -657,6 +670,7 @@ function delete_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -693,6 +707,7 @@ function delete_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_creation_template(
     prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +748,7 @@ function delete_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -776,6 +792,7 @@ function describe_image_replication_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_replication_status(
     imageId,
     repositoryName,
@@ -813,17 +830,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of image scan results returned by
   `DescribeImageScanFindings` in paginated output. When this parameter is used,
-  `DescribeImageScanFindings` only returns `maxResults` results in a single page along with
-  a `nextToken` response element. The remaining results of the initial request can be seen
-  by sending another `DescribeImageScanFindings` request with the returned `nextToken`
-  value. This value can be between 1 and 1000. If this parameter is not used, then
-  `DescribeImageScanFindings` returns up to 100 results and a `nextToken` value, if
+  `DescribeImageScanFindings` only returns `maxResults` results in a single page along
+  with a `nextToken` response element. The remaining results of the initial request can
+  be seen by sending another `DescribeImageScanFindings` request with the returned
+  `nextToken` value. This value can be between 1 and 1000. If this parameter is not used,
+  then `DescribeImageScanFindings` returns up to 100 results and a `nextToken` value, if
   applicable.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated
-  `DescribeImageScanFindings` request where `maxResults` was used and the results exceeded
-  the value of that parameter. Pagination continues from the end of the previous results
-  that returned the `nextToken` value. This value is null when there are no more results to
-  return.
+  `DescribeImageScanFindings` request where `maxResults` was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the `nextToken` value. This value is null when there are no more
+  results to return.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository in which to describe the image scan findings for. If you do not
   specify a registry, the default registry is assumed.
@@ -838,6 +855,7 @@ function describe_image_scan_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_scan_findings(
     imageId,
     repositoryName,
@@ -866,9 +884,9 @@ Returns metadata about the images in a repository.
 
 !!! note
     Beginning with Docker version 1.9, the Docker client compresses image layers before
-pushing them to a V2 Docker registry. The output of the `docker images` command shows the
-uncompressed image size, so it may return a larger image size than the image sizes returned
-by <a>DescribeImages</a>.
+    pushing them to a V2 Docker registry. The output of the `docker images` command shows
+    the uncompressed image size, so it may return a larger image size than the image sizes
+    returned by [`describe_images`](@ref).
 
 # Arguments
 
@@ -881,17 +899,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: The filter key and value with which to filter your `DescribeImages` results.
 - `"imageIds"`: The list of image IDs for the requested repository.
 - `"maxResults"`: The maximum number of repository results returned by `DescribeImages` in
-  paginated output. When this parameter is used, `DescribeImages` only returns `maxResults`
-  results in a single page along with a `nextToken` response element. The remaining results
-  of the initial request can be seen by sending another `DescribeImages` request with the
-  returned `nextToken` value. This value can be between 1 and 1000. If this parameter is
-  not used, then `DescribeImages` returns up to 100 results and a `nextToken` value, if
-  applicable. This option cannot be used when you specify images with `imageIds`.
+  paginated output. When this parameter is used, `DescribeImages` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `DescribeImages` request with the returned `nextToken` value. This value can be between
+  1 and 1000. If this parameter is not used, then `DescribeImages` returns up to 100
+  results and a `nextToken` value, if applicable. This option cannot be used when you
+  specify images with `imageIds`.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated `DescribeImages`
-  request where `maxResults` was used and the results exceeded the value of that parameter.
-  Pagination continues from the end of the previous results that returned the `nextToken`
-  value. This value is `null` when there are no more results to return. This option cannot
-  be used when you specify images with `imageIds`.
+  request where `maxResults` was used and the results exceeded the value of that
+  parameter. Pagination continues from the end of the previous results that returned the
+  `nextToken` value. This value is `null` when there are no more results to return. This
+  option cannot be used when you specify images with `imageIds`.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository in which to describe images. If you do not specify a registry,
   the default registry is assumed.
@@ -904,6 +923,7 @@ function describe_images(repositoryName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_images(
     repositoryName,
     params::AbstractDict{String};
@@ -933,21 +953,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   through cache rules to return. If no repository prefix value is specified, all pull
   through cache rules are returned.
 - `"maxResults"`: The maximum number of pull through cache rules returned by
-  `DescribePullThroughCacheRulesRequest` in paginated output. When this parameter is used,
-  `DescribePullThroughCacheRulesRequest` only returns `maxResults` results in a single page
-  along with a `nextToken` response element. The remaining results of the initial request
-  can be seen by sending another `DescribePullThroughCacheRulesRequest` request with the
-  returned `nextToken` value. This value can be between 1 and 1000. If this parameter is
-  not used, then `DescribePullThroughCacheRulesRequest` returns up to 100 results and a
-  `nextToken` value, if applicable.
+  `DescribePullThroughCacheRulesRequest` in paginated output. When this parameter is
+  used, `DescribePullThroughCacheRulesRequest` only returns `maxResults` results in a
+  single page along with a `nextToken` response element. The remaining results of the
+  initial request can be seen by sending another `DescribePullThroughCacheRulesRequest`
+  request with the returned `nextToken` value. This value can be between 1 and 1000. If
+  this parameter is not used, then `DescribePullThroughCacheRulesRequest` returns up to
+  100 results and a `nextToken` value, if applicable.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated
   `DescribePullThroughCacheRulesRequest` request where `maxResults` was used and the
   results exceeded the value of that parameter. Pagination continues from the end of the
   previous results that returned the `nextToken` value. This value is null when there are
   no more results to return.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry to return
-  the pull through cache rules for. If you do not specify a registry, the default registry
-  is assumed.
+  the pull through cache rules for. If you do not specify a registry, the default
+  registry is assumed.
 """
 function describe_pull_through_cache_rules(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -958,6 +978,7 @@ function describe_pull_through_cache_rules(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pull_through_cache_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -974,11 +995,12 @@ end
     describe_registry(params::Dict{String,<:Any})
 
 Describes the settings for a registry. The replication configuration for a repository can
-be created or updated with the <a>PutReplicationConfiguration</a> API action.
+be created or updated with the [`put_replication_configuration`](@ref) API action.
 """
 function describe_registry(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr("DescribeRegistry"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_registry(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1000,23 +1022,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of repository results returned by
   `DescribeRepositories` in paginated output. When this parameter is used,
   `DescribeRepositories` only returns `maxResults` results in a single page along with a
-  `nextToken` response element. The remaining results of the initial request can be seen by
-  sending another `DescribeRepositories` request with the returned `nextToken` value. This
-  value can be between 1 and 1000. If this parameter is not used, then
-  `DescribeRepositories` returns up to 100 results and a `nextToken` value, if applicable.
-  This option cannot be used when you specify repositories with `repositoryNames`.
+  `nextToken` response element. The remaining results of the initial request can be seen
+  by sending another `DescribeRepositories` request with the returned `nextToken` value.
+  This value can be between 1 and 1000. If this parameter is not used, then
+  `DescribeRepositories` returns up to 100 results and a `nextToken` value, if
+  applicable. This option cannot be used when you specify repositories with
+  `repositoryNames`.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated
   `DescribeRepositories` request where `maxResults` was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
   returned the `nextToken` value. This value is `null` when there are no more results to
-  return. This option cannot be used when you specify repositories with `repositoryNames`.
+  return. This option cannot be used when you specify repositories with
+  `repositoryNames`.
 
   !!! note
       This token should be treated as an opaque identifier that is only used to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
-  contains the repositories to be described. If you do not specify a registry, the default
-  registry is assumed.
+  contains the repositories to be described. If you do not specify a registry, the
+  default registry is assumed.
 - `"repositoryNames"`: A list of repositories to describe. If this parameter is omitted,
   then all repositories in a registry are described.
 """
@@ -1025,6 +1050,7 @@ function describe_repositories(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1049,26 +1075,27 @@ template.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of repository results returned by
-  `DescribeRepositoryCreationTemplatesRequest` in paginated output. When this parameter is
-  used, `DescribeRepositoryCreationTemplatesRequest` only returns `maxResults` results in a
-  single page along with a `nextToken` response element. The remaining results of the
-  initial request can be seen by sending another
-  `DescribeRepositoryCreationTemplatesRequest` request with the returned `nextToken` value.
-  This value can be between 1 and 1000. If this parameter is not used, then
-  `DescribeRepositoryCreationTemplatesRequest` returns up to 100 results and a `nextToken`
-  value, if applicable.
+  `DescribeRepositoryCreationTemplatesRequest` in paginated output. When this parameter
+  is used, `DescribeRepositoryCreationTemplatesRequest` only returns `maxResults` results
+  in a single page along with a `nextToken` response element. The remaining results of
+  the initial request can be seen by sending another
+  `DescribeRepositoryCreationTemplatesRequest` request with the returned `nextToken`
+  value. This value can be between 1 and 1000. If this parameter is not used, then
+  `DescribeRepositoryCreationTemplatesRequest` returns up to 100 results and a
+  `nextToken` value, if applicable.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated
-  `DescribeRepositoryCreationTemplates` request where `maxResults` was used and the results
-  exceeded the value of that parameter. Pagination continues from the end of the previous
-  results that returned the `nextToken` value. This value is `null` when there are no more
-  results to return.
+  `DescribeRepositoryCreationTemplates` request where `maxResults` was used and the
+  results exceeded the value of that parameter. Pagination continues from the end of the
+  previous results that returned the `nextToken` value. This value is `null` when there
+  are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is only used to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 - `"prefixes"`: The repository namespace prefixes associated with the repository creation
-  templates to describe. If this value is not specified, all repository creation templates
-  are returned.
+  templates to describe. If this value is not specified, all repository creation
+  templates are returned.
 """
 function describe_repository_creation_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1079,6 +1106,7 @@ function describe_repository_creation_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_repository_creation_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1108,6 +1136,7 @@ function get_account_setting(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_setting(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1128,8 +1157,8 @@ credentials and can be used to access any Amazon ECR registry that your IAM prin
 access to. The authorization token is valid for 12 hours.
 
 The `authorizationToken` returned is a base64 encoded string that can be decoded and used
-in a `docker login` command to authenticate to a registry. The CLI offers an `get-login-
-password` command that simplifies the login process. For more information, see [Registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth)
+in a `docker login` command to authenticate to a registry. The CLI offers an
+`get-login-password` command that simplifies the login process. For more information, see [Registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth)
 in the *Amazon Elastic Container Registry User Guide*.
 
 # Optional Parameters
@@ -1137,14 +1166,15 @@ in the *Amazon Elastic Container Registry User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"registryIds"`: A list of Amazon Web Services account IDs that are associated with the
-  registries for which to get AuthorizationData objects. If you do not specify a registry,
-  the default registry is assumed.
+  registries for which to get AuthorizationData objects. If you do not specify a
+  registry, the default registry is assumed.
 """
 function get_authorization_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "GetAuthorizationToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_authorization_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1168,8 +1198,8 @@ is not already cached.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -1195,6 +1225,7 @@ function get_download_url_for_layer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_download_url_for_layer(
     layerDigest,
     repositoryName,
@@ -1245,6 +1276,7 @@ function get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -1307,6 +1339,7 @@ function get_lifecycle_policy_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy_preview(
     repositoryName,
     params::AbstractDict{String};
@@ -1331,6 +1364,7 @@ Retrieves the permissions policy for a registry.
 function get_registry_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr("GetRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1354,6 +1388,7 @@ function get_registry_scanning_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_registry_scanning_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1393,6 +1428,7 @@ function get_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -1420,8 +1456,8 @@ determined by the BatchCheckLayerAvailability API action.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -1445,6 +1481,7 @@ function initiate_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_layer_upload(
     repositoryName,
     params::AbstractDict{String};
@@ -1468,9 +1505,9 @@ Lists all the image IDs for the specified repository.
 
 You can filter images based on whether or not they are tagged by using the `tagStatus`
 filter and specifying either `TAGGED`, `UNTAGGED` or `ANY`. For example, you can filter
-your results to return only `UNTAGGED` images and then pipe that result to a
-<a>BatchDeleteImage</a> operation to delete them. Or, you can filter your results to return
-only `TAGGED` images to list all of the tags in your repository.
+your results to return only `UNTAGGED` images and then pipe that result to a [`batch_delete_image`](@ref)
+operation to delete them. Or, you can filter your results to return only `TAGGED` images to
+list all of the tags in your repository.
 
 # Arguments
 
@@ -1482,19 +1519,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filter"`: The filter key and value with which to filter your `ListImages` results.
 - `"maxResults"`: The maximum number of image results returned by `ListImages` in paginated
-  output. When this parameter is used, `ListImages` only returns `maxResults` results in a
-  single page along with a `nextToken` response element. The remaining results of the
+  output. When this parameter is used, `ListImages` only returns `maxResults` results in
+  a single page along with a `nextToken` response element. The remaining results of the
   initial request can be seen by sending another `ListImages` request with the returned
   `nextToken` value. This value can be between 1 and 1000. If this parameter is not used,
   then `ListImages` returns up to 100 results and a `nextToken` value, if applicable.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated `ListImages`
-  request where `maxResults` was used and the results exceeded the value of that parameter.
-  Pagination continues from the end of the previous results that returned the `nextToken`
-  value. This value is `null` when there are no more results to return.
+  request where `maxResults` was used and the results exceeded the value of that
+  parameter. Pagination continues from the end of the previous results that returned the
+  `nextToken` value. This value is `null` when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is only used to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository in which to list images. If you do not specify a registry, the
   default registry is assumed.
@@ -1507,6 +1545,7 @@ function list_images(repositoryName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_images(
     repositoryName,
     params::AbstractDict{String};
@@ -1543,6 +1582,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1581,6 +1621,7 @@ function put_account_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_setting(
     name,
     value,
@@ -1608,8 +1649,8 @@ called once to create or update the image manifest and the tags associated with 
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -1625,10 +1666,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   manifest that does not contain the `mediaType` field, you must specify the
   `imageManifestMediaType` in the request.
 - `"imageTag"`: The tag to associate with the image. This parameter is required for images
-  that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
+  that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI)
+  formats.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
-  contains the repository in which to put the image. If you do not specify a registry, the
-  default registry is assumed.
+  contains the repository in which to put the image. If you do not specify a registry,
+  the default registry is assumed.
 """
 function put_image(
     imageManifest, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1642,6 +1684,7 @@ function put_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image(
     imageManifest,
     repositoryName,
@@ -1672,9 +1715,9 @@ end
 
 !!! important
     The `PutImageScanningConfiguration` API is being deprecated, in favor of specifying the
-image scanning configuration at the registry level. For more information, see
-<a>PutRegistryScanningConfiguration</a>.Updates the image scanning configuration for the
-specified repository.
+    image scanning configuration at the registry level. For more information, see [`put_registry_scanning_configuration`](@ref).
+
+Updates the image scanning configuration for the specified repository.
 
 # Arguments
 
@@ -1707,6 +1750,7 @@ function put_image_scanning_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_scanning_configuration(
     imageScanningConfiguration,
     repositoryName,
@@ -1766,6 +1810,7 @@ function put_image_tag_mutability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_tag_mutability(
     imageTagMutability,
     repositoryName,
@@ -1821,6 +1866,7 @@ function put_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lifecycle_policy(
     lifecyclePolicyText,
     repositoryName,
@@ -1868,6 +1914,7 @@ function put_registry_policy(policyText; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registry_policy(
     policyText,
     params::AbstractDict{String};
@@ -1900,11 +1947,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When a registry scanning configuration is not defined, by default the `BASIC` scan type
   is used. When basic scanning is used, you may specify filters to determine which
   individual repositories, or all repositories, are scanned when new images are pushed to
-  those repositories. Alternatively, you can do manual scans of images with basic scanning.
+  those repositories. Alternatively, you can do manual scans of images with basic
+  scanning.
 
   When the `ENHANCED` scan type is set, Amazon Inspector provides automated vulnerability
-  scanning. You may choose between continuous scanning or scan on push and you may specify
-  filters to determine which individual repositories, or all repositories, are scanned.
+  scanning. You may choose between continuous scanning or scan on push and you may
+  specify filters to determine which individual repositories, or all repositories, are
+  scanned.
 """
 function put_registry_scanning_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1915,6 +1964,7 @@ function put_registry_scanning_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registry_scanning_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1931,7 +1981,7 @@ end
     put_replication_configuration(replication_configuration, params::Dict{String,<:Any})
 
 Creates or updates the replication configuration for a registry. The existing replication
-configuration for a repository can be retrieved with the <a>DescribeRegistry</a> API
+configuration for a repository can be retrieved with the [`describe_registry`](@ref) API
 action. The first time the PutReplicationConfiguration API is called, a service-linked IAM
 role is created in your account for the replication process. For more information, see [Using service-linked roles for Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/using-service-linked-roles.html)
 in the *Amazon Elastic Container Registry User Guide*. For more information on the custom
@@ -1939,8 +1989,8 @@ role for replication, see [Creating an IAM role for replication](https://docs.aw
 
 !!! note
     When configuring cross-account replication, the destination account must grant the
-source account permission to replicate. This permission is controlled using a registry
-permissions policy. For more information, see <a>PutRegistryPolicy</a>.
+    source account permission to replicate. This permission is controlled using a registry
+    permissions policy. For more information, see [`put_registry_policy`](@ref).
 
 # Arguments
 
@@ -1957,6 +2007,7 @@ function put_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_replication_configuration(
     replicationConfiguration,
     params::AbstractDict{String};
@@ -1996,9 +2047,8 @@ in the *Amazon Elastic Container Registry User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: If the policy you are attempting to set on a repository policy would prevent
-  you from setting another policy in the future, you must force the
-  <a>SetRepositoryPolicy</a> operation. This is intended to prevent accidental repository
-  lock outs.
+  you from setting another policy in the future, you must force the [`set_repository_policy`](@ref)
+  operation. This is intended to prevent accidental repository lock outs.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is
   assumed.
@@ -2013,6 +2063,7 @@ function set_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_repository_policy(
     policyText,
     repositoryName,
@@ -2054,8 +2105,8 @@ in the *Amazon Elastic Container Registry User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
-  contains the repository in which to start an image scan request. If you do not specify a
-  registry, the default registry is assumed.
+  contains the repository in which to start an image scan request. If you do not specify
+  a registry, the default registry is assumed.
 """
 function start_image_scan(
     imageId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2067,6 +2118,7 @@ function start_image_scan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_image_scan(
     imageId,
     repositoryName,
@@ -2118,6 +2170,7 @@ function start_lifecycle_policy_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_lifecycle_policy_preview(
     repositoryName,
     params::AbstractDict{String};
@@ -2145,8 +2198,8 @@ not changed if they are not specified in the request parameters.
 - `resource_arn`: The Amazon Resource Name (ARN) of the the resource to which to add tags.
   Currently, the only supported resource is an Amazon ECR repository.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys
-  can have a maximum character length of 128 characters, and tag values can have a maximum
-  length of 256 characters.
+  can have a maximum character length of 128 characters, and tag values can have a
+  maximum length of 256 characters.
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
@@ -2156,6 +2209,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2198,6 +2252,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2251,6 +2306,7 @@ function update_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_through_cache_rule(
     credentialArn,
     ecrRepositoryPrefix,
@@ -2283,10 +2339,10 @@ Updates an existing repository creation template.
 # Arguments
 
 - `prefix`: The repository namespace prefix that matches an existing repository creation
-  template in the registry. All repositories created using this namespace prefix will have
-  the settings defined in this template applied. For example, a prefix of `prod` would
-  apply to all repositories beginning with `prod/`. This includes a repository named
-  `prod/team1` as well as a repository named `prod/repository1`.
+  template in the registry. All repositories created using this namespace prefix will
+  have the settings defined in this template applied. For example, a prefix of `prod`
+  would apply to all repositories beginning with `prod/`. This includes a repository
+  named `prod/team1` as well as a repository named `prod/repository1`.
 
   To apply a template to all repositories in your registry that don't have an associated
   creation template, you can use `ROOT` as the prefix.
@@ -2311,12 +2367,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"lifecyclePolicy"`: Updates the lifecycle policy associated with the specified
   repository creation template.
 - `"repositoryPolicy"`: Updates the repository policy created using the template. A
-  repository policy is a permissions policy associated with a repository to control access
-  permissions.
+  repository policy is a permissions policy associated with a repository to control
+  access permissions.
 - `"resourceTags"`: The metadata to apply to the repository to help you categorize and
-  organize. Each tag consists of a key and an optional value, both of which you define. Tag
-  keys can have a maximum character length of 128 characters, and tag values can have a
-  maximum length of 256 characters.
+  organize. Each tag consists of a key and an optional value, both of which you define.
+  Tag keys can have a maximum character length of 128 characters, and tag values can have
+  a maximum length of 256 characters.
 """
 function update_repository_creation_template(
     prefix; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2328,6 +2384,7 @@ function update_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_creation_template(
     prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2351,8 +2408,8 @@ called once per each new image layer part.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -2362,7 +2419,7 @@ tag, and push images.
 - `part_last_byte`: The position of the last byte of the layer part within the overall
   image layer.
 - `repository_name`: The name of the repository to which you are uploading layer parts.
-- `upload_id`: The upload ID from a previous <a>InitiateLayerUpload</a> operation to
+- `upload_id`: The upload ID from a previous [`initiate_layer_upload`](@ref) operation to
   associate with the layer part upload.
 
 # Optional Parameters
@@ -2370,8 +2427,8 @@ tag, and push images.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry to which
-  you are uploading layer parts. If you do not specify a registry, the default registry is
-  assumed.
+  you are uploading layer parts. If you do not specify a registry, the default registry
+  is assumed.
 """
 function upload_layer_part(
     layerPartBlob,
@@ -2394,6 +2451,7 @@ function upload_layer_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_layer_part(
     layerPartBlob,
     partFirstByte,
@@ -2454,6 +2512,7 @@ function validate_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_pull_through_cache_rule(
     ecrRepositoryPrefix,
     params::AbstractDict{String};

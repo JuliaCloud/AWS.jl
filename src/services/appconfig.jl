@@ -23,8 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the application.
 - `"Tags"`: Metadata to assign to the application. Tags help organize and categorize your
-  AppConfig resources. Each tag consists of a key and an optional value, both of which you
-  define.
+  AppConfig resources. Each tag consists of a key and an optional value, both of which
+  you define.
 """
 function create_application(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
@@ -35,6 +35,7 @@ function create_application(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -52,40 +53,47 @@ end
     create_configuration_profile(application_id, location_uri, name, params::Dict{String,<:Any})
 
 Creates a configuration profile, which is information that enables AppConfig to access the
-configuration source. Valid configuration sources include the following: - Configuration
-data in YAML, JSON, and other formats stored in the AppConfig hosted configuration store
- - Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3)
-bucket
- - Pipelines stored in CodePipeline
- - Secrets stored in Secrets Manager
- - Standard and secure string parameters stored in Amazon Web Services Systems Manager
-Parameter Store
- - Configuration data in SSM documents stored in the Systems Manager document store
-A configuration profile includes the following information: - The URI location of the
-configuration data.
- - The Identity and Access Management (IAM) role that provides access to the configuration
-data.
- - A validator for the configuration data. Available validators include either a JSON
-Schema or an Amazon Web Services Lambda function.
+configuration source. Valid configuration sources include the following:
+
+- Configuration data in YAML, JSON, and other formats stored in the AppConfig hosted
+  configuration store
+- Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3)
+  bucket
+- Pipelines stored in CodePipeline
+- Secrets stored in Secrets Manager
+- Standard and secure string parameters stored in Amazon Web Services Systems Manager
+  Parameter Store
+- Configuration data in SSM documents stored in the Systems Manager document store
+
+A configuration profile includes the following information:
+
+- The URI location of the configuration data.
+- The Identity and Access Management (IAM) role that provides access to the configuration
+  data.
+- A validator for the configuration data. Available validators include either a JSON Schema
+  or an Amazon Web Services Lambda function.
+
 For more information, see [Create a Configuration and a Configuration Profile](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile.html)
 in the *AppConfig User Guide*.
 
 # Arguments
 
 - `application_id`: The application ID.
-- `location_uri`: A URI to locate the configuration. You can specify the following: - For
-  the AppConfig hosted configuration store and for feature flags, specify `hosted`.
-   - For an Amazon Web Services Systems Manager Parameter Store parameter, specify either
-  the parameter name in the format `ssm-parameter://&lt;parameter name&gt;` or the ARN.
-   - For an Amazon Web Services CodePipeline pipeline, specify the URI in the following
-  format: `codepipeline`://&lt;pipeline name&gt;.
-   - For an Secrets Manager secret, specify the URI in the following format:
-  `secretsmanager`://&lt;secret name&gt;.
-   - For an Amazon S3 object, specify the URI in the following format:
-  `s3://&lt;bucket&gt;/&lt;objectKey&gt; `. Here is an example: `s3://my-bucket/my-app/us-
-  east-1/my-config.json`
-   - For an SSM document, specify either the document name in the format `ssm-
-  document://&lt;document name&gt;` or the Amazon Resource Name (ARN).
+- `location_uri`: A URI to locate the configuration. You can specify the following:
+
+  - For the AppConfig hosted configuration store and for feature flags, specify `hosted`.
+  - For an Amazon Web Services Systems Manager Parameter Store parameter, specify either
+    the parameter name in the format `ssm-parameter://&lt;parameter name&gt;` or the ARN.
+  - For an Amazon Web Services CodePipeline pipeline, specify the URI in the following
+    format: `codepipeline`://&lt;pipeline name&gt;.
+  - For an Secrets Manager secret, specify the URI in the following format:
+    `secretsmanager`://&lt;secret name&gt;.
+  - For an Amazon S3 object, specify the URI in the following format:
+    `s3://&lt;bucket&gt;/&lt;objectKey&gt;`. Here is an example:
+    `s3://my-bucket/my-app/us-east-1/my-config.json`
+  - For an SSM document, specify either the document name in the format
+    `ssm-document://&lt;document name&gt;` or the Amazon Resource Name (ARN).
+
 - `name`: A name for the configuration profile.
 
 # Optional Parameters
@@ -96,16 +104,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyIdentifier"`: The identifier for an Key Management Service key to encrypt new
   configuration data versions in the AppConfig hosted configuration store. This attribute
   is only used for `hosted` configuration types. The identifier can be an KMS key ID,
-  alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed
-  in other configuration stores, see the documentation for how to specify an KMS key for
-  that particular service.
+  alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data
+  managed in other configuration stores, see the documentation for how to specify an KMS
+  key for that particular service.
 - `"RetrievalRoleArn"`: The ARN of an IAM role with permission to access the configuration
   at the specified `LocationUri`.
 
   !!! important
       A retrieval role ARN is not required for configurations stored in the AppConfig
-  hosted configuration store. It is required for all other sources that store your
-  configuration.
+      hosted configuration store. It is required for all other sources that store your
+      configuration.
+
 - `"Tags"`: Metadata to assign to the configuration profile. Tags help organize and
   categorize your AppConfig resources. Each tag consists of a key and an optional value,
   both of which you define.
@@ -115,9 +124,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribute configurations to an application. When calling this API, enter one of the
   following values for `Type`:
 
- `AWS.AppConfig.FeatureFlags`
+  `AWS.AppConfig.FeatureFlags`
 
- `AWS.Freeform`
+  `AWS.Freeform`
 - `"Validators"`: A list of methods for validating the configuration.
 """
 function create_configuration_profile(
@@ -131,6 +140,7 @@ function create_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_profile(
     ApplicationId,
     LocationUri,
@@ -183,28 +193,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrowthType"`: The algorithm used to define how percentage grows over time. AppConfig
   supports the following growth types:
 
-   **Linear**: For this type, AppConfig processes the deployment by dividing the total
+  **Linear**: For this type, AppConfig processes the deployment by dividing the total
   number of targets by the value specified for `Step percentage`. For example, a linear
-  deployment that uses a `Step percentage` of 10 deploys the configuration to 10 percent of
-  the hosts. After those deployments are complete, the system deploys the configuration to
-  the next 10 percent. This continues until 100% of the targets have successfully received
-  the configuration.
+  deployment that uses a `Step percentage` of 10 deploys the configuration to 10 percent
+  of the hosts. After those deployments are complete, the system deploys the
+  configuration to the next 10 percent. This continues until 100% of the targets have
+  successfully received the configuration.
 
-   **Exponential**: For this type, AppConfig processes the deployment exponentially using
-  the following formula: `G*(2^N)`. In this formula, `G` is the growth factor specified by
-  the user and `N` is the number of steps until the configuration is deployed to all
-  targets. For example, if you specify a growth factor of 2, then the system rolls out the
-  configuration as follows:
+  **Exponential**: For this type, AppConfig processes the deployment exponentially using
+  the following formula: `G*(2^N)`. In this formula, `G` is the growth factor specified
+  by the user and `N` is the number of steps until the configuration is deployed to all
+  targets. For example, if you specify a growth factor of 2, then the system rolls out
+  the configuration as follows:
 
-   `2*(2^0)`
+  `2*(2^0)`
 
-   `2*(2^1)`
+  `2*(2^1)`
 
-   `2*(2^2)`
+  `2*(2^2)`
 
-  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the
-  targets, 8% of the targets, and continues until the configuration has been deployed to
-  all targets.
+  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of
+  the targets, 8% of the targets, and continues until the configuration has been deployed
+  to all targets.
 - `"ReplicateTo"`: Save the deployment strategy to a Systems Manager (SSM) document.
 - `"Tags"`: Metadata to assign to the deployment strategy. Tags help organize and
   categorize your AppConfig resources. Each tag consists of a key and an optional value,
@@ -228,6 +238,7 @@ function create_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment_strategy(
     DeploymentDurationInMinutes,
     GrowthFactor,
@@ -278,8 +289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the environment.
 - `"Monitors"`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `"Tags"`: Metadata to assign to the environment. Tags help organize and categorize your
-  AppConfig resources. Each tag consists of a key and an optional value, both of which you
-  define.
+  AppConfig resources. Each tag consists of a key and an optional value, both of which
+  you define.
 """
 function create_environment(
     ApplicationId, Name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -292,6 +303,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     ApplicationId,
     Name,
@@ -320,12 +332,15 @@ provided by AppConfig. For an AppConfig extension that uses Lambda, you must cre
 Lambda function to perform any computation and processing defined in the extension. If you
 plan to create custom versions of the Amazon Web Services authored notification extensions,
 you only need to specify an Amazon Resource Name (ARN) in the `Uri` field for the new
-extension version. - For a custom EventBridge notification extension, enter the ARN of the
-EventBridge default events in the `Uri` field.
- - For a custom Amazon SNS notification extension, enter the ARN of an Amazon SNS topic in
-the `Uri` field.
- - For a custom Amazon SQS notification extension, enter the ARN of an Amazon SQS message
-queue in the `Uri` field.
+extension version.
+
+- For a custom EventBridge notification extension, enter the ARN of the EventBridge default
+  events in the `Uri` field.
+- For a custom Amazon SNS notification extension, enter the ARN of an Amazon SNS topic in
+  the `Uri` field.
+- For a custom Amazon SQS notification extension, enter the ARN of an Amazon SQS message
+  queue in the `Uri` field.
+
 For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html)
 in the *AppConfig User Guide*.
 
@@ -360,6 +375,7 @@ function create_extension(Actions, Name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_extension(
     Actions,
     Name,
@@ -429,6 +445,7 @@ function create_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_extension_association(
     ExtensionIdentifier,
     ResourceIdentifier,
@@ -470,7 +487,8 @@ in the *AppConfig User Guide*.
 
   !!! note
       AppConfig accepts any type of data, including text formats like JSON or TOML, or
-  binary formats like protocol buffers or compressed data.
+      binary formats like protocol buffers or compressed data.
+
 - `content-_type`: A standard MIME type describing the format of the configuration content.
   For more information, see [Content-Type](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
 
@@ -480,9 +498,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the configuration.
 - `"Latest-Version-Number"`: An optional locking token used to prevent race conditions from
-  overwriting configuration updates when creating a new version. To ensure your data is not
-  overwritten when creating multiple hosted configuration versions in rapid succession,
-  specify the version number of the latest hosted configuration version.
+  overwriting configuration updates when creating a new version. To ensure your data is
+  not overwritten when creating multiple hosted configuration versions in rapid
+  succession, specify the version number of the latest hosted configuration version.
 - `"VersionLabel"`: An optional, user-defined label for the AppConfig hosted configuration
   version. This value must contain at least one non-numeric character. For example,
   "v2.2.0".
@@ -505,6 +523,7 @@ function create_hosted_configuration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -551,6 +570,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -589,15 +609,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your application has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
   or for the configuration profile during the specified interval.
 
-  This parameter supports the following values: - `BYPASS`: Instructs AppConfig to bypass
-  the deletion protection check and delete a configuration profile even if deletion
-  protection would have otherwise prevented it.
-   - `APPLY`: Instructs the deletion protection check to run, even if deletion protection
-  is disabled at the account level. `APPLY` also forces the deletion protection check to
-  run against resources created in the past hour, which are normally excluded from deletion
-  protection checks.
-   - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
-  deletion protection value specified in the `UpdateAccountSettings` API.
+  This parameter supports the following values:
+
+  - `BYPASS`: Instructs AppConfig to bypass the deletion protection check and delete a
+    configuration profile even if deletion protection would have otherwise prevented it.
+  - `APPLY`: Instructs the deletion protection check to run, even if deletion protection
+    is disabled at the account level. `APPLY` also forces the deletion protection check
+    to run against resources created in the past hour, which are normally excluded from
+    deletion protection checks.
+  - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
+    deletion protection value specified in the `UpdateAccountSettings` API.
+
 """
 function delete_configuration_profile(
     ApplicationId,
@@ -611,6 +633,7 @@ function delete_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_profile(
     ApplicationId,
     ConfigurationProfileId,
@@ -646,6 +669,7 @@ function delete_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment_strategy(
     DeploymentStrategyId,
     params::AbstractDict{String};
@@ -683,15 +707,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
   or in the environment during the specified interval.
 
-  This parameter supports the following values: - `BYPASS`: Instructs AppConfig to bypass
-  the deletion protection check and delete a configuration profile even if deletion
-  protection would have otherwise prevented it.
-   - `APPLY`: Instructs the deletion protection check to run, even if deletion protection
-  is disabled at the account level. `APPLY` also forces the deletion protection check to
-  run against resources created in the past hour, which are normally excluded from deletion
-  protection checks.
-   - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
-  deletion protection value specified in the `UpdateAccountSettings` API.
+  This parameter supports the following values:
+
+  - `BYPASS`: Instructs AppConfig to bypass the deletion protection check and delete a
+    configuration profile even if deletion protection would have otherwise prevented it.
+  - `APPLY`: Instructs the deletion protection check to run, even if deletion protection
+    is disabled at the account level. `APPLY` also forces the deletion protection check
+    to run against resources created in the past hour, which are normally excluded from
+    deletion protection checks.
+  - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
+    deletion protection value specified in the `UpdateAccountSettings` API.
+
 """
 function delete_environment(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -703,6 +729,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     ApplicationId,
     EnvironmentId,
@@ -747,6 +774,7 @@ function delete_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_extension(
     ExtensionIdentifier,
     params::AbstractDict{String};
@@ -782,6 +810,7 @@ function delete_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_extension_association(
     ExtensionAssociationId,
     params::AbstractDict{String};
@@ -821,6 +850,7 @@ function delete_hosted_configuration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -848,6 +878,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -874,6 +905,7 @@ function get_application(ApplicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -895,11 +927,12 @@ end
 (Deprecated) Retrieves the latest deployed configuration.
 
 !!! important
-    Note the following important information. - This API action is deprecated. Calls to
-receive configuration data should use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html)
-and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
-APIs instead.
- - <a>GetConfiguration</a> is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
+    Note the following important information.
+
+    - This API action is deprecated. Calls to receive configuration data should use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html)
+      and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
+      APIs instead.
+    - [`get_configuration`](@ref) is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
 
 # Arguments
 
@@ -910,31 +943,33 @@ APIs instead.
 - `environment`: The environment to get. Specify either the environment name or the
   environment ID.
 - `client_id`: The clientId parameter in the following command is a unique, user-specified
-  ID to identify the client for the configuration. This ID enables AppConfig to deploy the
-  configuration in intervals, as defined in the deployment strategy.
+  ID to identify the client for the configuration. This ID enables AppConfig to deploy
+  the configuration in intervals, as defined in the deployment strategy.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"client_configuration_version"`: The configuration version returned in the most recent
-  <a>GetConfiguration</a> response.</p>
+- `"client_configuration_version"`: The configuration version returned in the most recent [`get_configuration`](@ref)
+  response.
 
   !!! important
       AppConfig uses the value of the `ClientConfigurationVersion` parameter to identify
-  the configuration version on your clients. If you don’t send `ClientConfigurationVersion`
-  with each call to <a>GetConfiguration</a>, your clients receive the current
-  configuration. You are charged each time your clients receive a configuration.
+      the configuration version on your clients. If you don’t send
+      `ClientConfigurationVersion` with each call to [`get_configuration`](@ref), your
+      clients receive the current configuration. You are charged each time your clients
+      receive a configuration.
 
-   <p>To avoid excess charges, we recommend you use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html)
-  and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html)
-  APIs, which track the client configuration version on your behalf. If you choose to
-  continue using <a>GetConfiguration</a>, we recommend that you include the
-  `ClientConfigurationVersion` value with every call to <a>GetConfiguration</a>. The value
-  to use for `ClientConfigurationVersion` comes from the `ConfigurationVersion` attribute
-  returned by <a>GetConfiguration</a> when there is new or updated data, and should be
-  saved for subsequent calls to <a>GetConfiguration</a>.For more information about working
-  with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html)
+      To avoid excess charges, we recommend you use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html)
+      and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html)
+      APIs, which track the client configuration version on your behalf. If you choose to
+      continue using [`get_configuration`](@ref), we recommend that you include the
+      `ClientConfigurationVersion` value with every call to [`get_configuration`](@ref).
+      The value to use for `ClientConfigurationVersion` comes from the
+      `ConfigurationVersion` attribute returned by [`get_configuration`](@ref) when there
+      is new or updated data, and should be saved for subsequent calls to [`get_configuration`](@ref).
+
+  For more information about working with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html)
   in the *AppConfig User Guide*.
 """
 function get_configuration(
@@ -952,6 +987,7 @@ function get_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration(
     Application,
     Configuration,
@@ -995,6 +1031,7 @@ function get_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_profile(
     ApplicationId,
     ConfigurationProfileId,
@@ -1035,6 +1072,7 @@ function get_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     ApplicationId,
     DeploymentNumber,
@@ -1075,6 +1113,7 @@ function get_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_strategy(
     DeploymentStrategyId,
     params::AbstractDict{String};
@@ -1114,6 +1153,7 @@ function get_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     ApplicationId,
     EnvironmentId,
@@ -1157,6 +1197,7 @@ function get_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_extension(
     ExtensionIdentifier,
     params::AbstractDict{String};
@@ -1193,6 +1234,7 @@ function get_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_extension_association(
     ExtensionAssociationId,
     params::AbstractDict{String};
@@ -1232,6 +1274,7 @@ function get_hosted_configuration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -1259,7 +1302,8 @@ Lists all applications in your Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"next_token"`: A token to start the list. Next token is a pagination token generated by
   AppConfig to describe what page the previous List call ended on. For the first List
   request, the nextToken should not be set. On subsequent calls, the nextToken parameter
@@ -1271,6 +1315,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1298,7 +1343,8 @@ Lists the configuration profiles for an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 - `"type"`: A filter based on the type of configurations that the configuration profile
   contains. A configuration can be a feature flag or a freeform configuration.
@@ -1313,6 +1359,7 @@ function list_configuration_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_profiles(
     ApplicationId,
     params::AbstractDict{String};
@@ -1338,7 +1385,8 @@ Lists deployment strategies.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_deployment_strategies(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1349,6 +1397,7 @@ function list_deployment_strategies(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_strategies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1380,8 +1429,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are items that have not yet been returned, the response will include a non-null
   `NextToken` that you can provide in a subsequent call to get the next set of results.
 - `"next_token"`: The token returned by a prior call to this operation indicating the next
-  set of results to be returned. If not specified, the operation will return the first set
-  of results.
+  set of results to be returned. If not specified, the operation will return the first
+  set of results.
 """
 function list_deployments(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1393,6 +1442,7 @@ function list_deployments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployments(
     ApplicationId,
     EnvironmentId,
@@ -1423,7 +1473,8 @@ Lists the environments for an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_environments(
@@ -1436,6 +1487,7 @@ function list_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environments(
     ApplicationId,
     params::AbstractDict{String};
@@ -1467,7 +1519,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"extension_version_number"`: The version number for the extension defined in the
   association.
 - `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results
   or pass null to get the first set of results.
 - `"resource_identifier"`: The ARN of an application, configuration profile, or environment.
@@ -1480,6 +1533,7 @@ function list_extension_associations(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_extension_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1505,7 +1559,8 @@ in the *AppConfig User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"name"`: The extension name.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
@@ -1514,6 +1569,7 @@ function list_extensions(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/extensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_extensions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1538,12 +1594,13 @@ Lists configurations stored in the AppConfig hosted configuration store by versi
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 - `"version_label"`: An optional filter that can be used to specify the version label of an
-  AppConfig hosted configuration version. This parameter supports filtering by prefix using
-  a wildcard, for example "v2*". If you don't specify an asterisk at the end of the value,
-  only an exact match is returned.
+  AppConfig hosted configuration version. This parameter supports filtering by prefix
+  using a wildcard, for example "v2*". If you don't specify an asterisk at the end of the
+  value, only an exact match is returned.
 """
 function list_hosted_configuration_versions(
     ApplicationId,
@@ -1557,6 +1614,7 @@ function list_hosted_configuration_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hosted_configuration_versions(
     ApplicationId,
     ConfigurationProfileId,
@@ -1592,6 +1650,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1617,8 +1676,8 @@ Starts a deployment.
 - `application_id`: The application ID.
 - `configuration_profile_id`: The configuration profile ID.
 - `configuration_version`: The configuration version to deploy. If deploying an AppConfig
-  hosted configuration version, you can specify either the version number or version label.
-  For all other configurations, you must specify the version number.
+  hosted configuration version, you can specify either the version number or version
+  label. For all other configurations, you must specify the version number.
 - `deployment_strategy_id`: The deployment strategy ID.
 - `environment_id`: The environment ID.
 
@@ -1632,8 +1691,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyIdentifier"`: The KMS key identifier (key ID, key alias, or key ARN). AppConfig
   uses this ID to encrypt the configuration data using a customer managed key.
 - `"Tags"`: Metadata to assign to the deployment. Tags help organize and categorize your
-  AppConfig resources. Each tag consists of a key and an optional value, both of which you
-  define.
+  AppConfig resources. Each tag consists of a key and an optional value, both of which
+  you define.
 """
 function start_deployment(
     ApplicationId,
@@ -1655,6 +1714,7 @@ function start_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_deployment(
     ApplicationId,
     ConfigurationProfileId,
@@ -1709,6 +1769,7 @@ function stop_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_deployment(
     ApplicationId,
     DeploymentNumber,
@@ -1747,6 +1808,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1784,6 +1846,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1821,6 +1884,7 @@ function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_con
         "PATCH", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1856,6 +1920,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -1889,9 +1954,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyIdentifier"`: The identifier for a Key Management Service key to encrypt new
   configuration data versions in the AppConfig hosted configuration store. This attribute
   is only used for `hosted` configuration types. The identifier can be an KMS key ID,
-  alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed
-  in other configuration stores, see the documentation for how to specify an KMS key for
-  that particular service.
+  alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data
+  managed in other configuration stores, see the documentation for how to specify an KMS
+  key for that particular service.
 - `"Name"`: The name of the configuration profile.
 - `"RetrievalRoleArn"`: The ARN of an IAM role with permission to access the configuration
   at the specified `LocationUri`.
@@ -1909,6 +1974,7 @@ function update_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_profile(
     ApplicationId,
     ConfigurationProfileId,
@@ -1947,28 +2013,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrowthType"`: The algorithm used to define how percentage grows over time. AppConfig
   supports the following growth types:
 
-   **Linear**: For this type, AppConfig processes the deployment by increments of the
+  **Linear**: For this type, AppConfig processes the deployment by increments of the
   growth factor evenly distributed over the deployment time. For example, a linear
-  deployment that uses a growth factor of 20 initially makes the configuration available to
-  20 percent of the targets. After 1/5th of the deployment time has passed, the system
-  updates the percentage to 40 percent. This continues until 100% of the targets are set to
-  receive the deployed configuration.
+  deployment that uses a growth factor of 20 initially makes the configuration available
+  to 20 percent of the targets. After 1/5th of the deployment time has passed, the system
+  updates the percentage to 40 percent. This continues until 100% of the targets are set
+  to receive the deployed configuration.
 
-   **Exponential**: For this type, AppConfig processes the deployment exponentially using
-  the following formula: `G*(2^N)`. In this formula, `G` is the growth factor specified by
-  the user and `N` is the number of steps until the configuration is deployed to all
-  targets. For example, if you specify a growth factor of 2, then the system rolls out the
-  configuration as follows:
+  **Exponential**: For this type, AppConfig processes the deployment exponentially using
+  the following formula: `G*(2^N)`. In this formula, `G` is the growth factor specified
+  by the user and `N` is the number of steps until the configuration is deployed to all
+  targets. For example, if you specify a growth factor of 2, then the system rolls out
+  the configuration as follows:
 
-   `2*(2^0)`
+  `2*(2^0)`
 
-   `2*(2^1)`
+  `2*(2^1)`
 
-   `2*(2^2)`
+  `2*(2^2)`
 
-  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the
-  targets, 8% of the targets, and continues until the configuration has been deployed to
-  all targets.
+  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of
+  the targets, 8% of the targets, and continues until the configuration has been deployed
+  to all targets.
 """
 function update_deployment_strategy(
     DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1980,6 +2046,7 @@ function update_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deployment_strategy(
     DeploymentStrategyId,
     params::AbstractDict{String};
@@ -2023,6 +2090,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     ApplicationId,
     EnvironmentId,
@@ -2069,6 +2137,7 @@ function update_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_extension(
     ExtensionIdentifier,
     params::AbstractDict{String};
@@ -2110,6 +2179,7 @@ function update_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_extension_association(
     ExtensionAssociationId,
     params::AbstractDict{String};
@@ -2150,6 +2220,7 @@ function validate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_configuration(
     ApplicationId,
     ConfigurationProfileId,

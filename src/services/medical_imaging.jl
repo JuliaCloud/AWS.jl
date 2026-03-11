@@ -20,8 +20,8 @@ Copy an image set.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`: Setting this flag will force the `CopyImageSet` operation, even if Patient,
-  Study, or Series level metadata are mismatched across the `sourceImageSet` and
+- `"force"`: Setting this flag will force the [`copy_image_set`](@ref) operation, even if
+  Patient, Study, or Series level metadata are mismatched across the `sourceImageSet` and
   `destinationImageSet`.
 """
 function copy_image_set(
@@ -38,6 +38,7 @@ function copy_image_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_image_set(
     copyImageSetInformation,
     datastoreId,
@@ -88,6 +89,7 @@ function create_datastore(clientToken; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_datastore(
     clientToken,
     params::AbstractDict{String};
@@ -125,6 +127,7 @@ function delete_datastore(datastoreId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_datastore(
     datastoreId,
     params::AbstractDict{String};
@@ -160,6 +163,7 @@ function delete_image_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image_set(
     datastoreId,
     imageSetId,
@@ -193,6 +197,7 @@ function get_datastore(datastoreId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_datastore(
     datastoreId,
     params::AbstractDict{String};
@@ -215,10 +220,10 @@ Get the import job properties to learn more about the job or job progress.
 
 !!! note
     The `jobStatus` refers to the execution of the import job. Therefore, an import job can
-return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the
-import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review the
-output manifests written to S3, as they provide details on the success or failure of
-individual P10 object imports.
+    return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the
+    import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review
+    the output manifests written to S3, as they provide details on the success or failure
+    of individual P10 object imports.
 
 # Arguments
 
@@ -235,6 +240,7 @@ function get_dicomimport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dicomimport_job(
     datastoreId,
     jobId,
@@ -276,6 +282,7 @@ function get_image_frame(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_frame(
     datastoreId,
     imageFrameInformation,
@@ -325,6 +332,7 @@ function get_image_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_set(
     datastoreId,
     imageSetId,
@@ -367,6 +375,7 @@ function get_image_set_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_set_metadata(
     datastoreId,
     imageSetId,
@@ -402,6 +411,7 @@ function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -439,6 +449,7 @@ function list_dicomimport_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dicomimport_jobs(
     datastoreId,
     params::AbstractDict{String};
@@ -482,6 +493,7 @@ function list_image_set_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_set_versions(
     datastoreId,
     imageSetId,
@@ -518,6 +530,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -536,15 +549,15 @@ end
     search_image_sets(datastore_id)
     search_image_sets(datastore_id, params::Dict{String,<:Any})
 
-Search image sets based on defined input attributes.</p>
+Search image sets based on defined input attributes.
 
 !!! note
     `SearchImageSets` accepts a single search query parameter and returns a paginated
-response of all image sets that have the matching criteria. All date range queries must be
-input as `(lowerBound, upperBound)`.
+    response of all image sets that have the matching criteria. All date range queries must
+    be input as `(lowerBound, upperBound)`.
 
- <p>By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending
-order from newest to oldest.
+    By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending
+    order from newest to oldest.
 
 # Arguments
 
@@ -569,6 +582,7 @@ function search_image_sets(datastoreId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_image_sets(
     datastoreId,
     params::AbstractDict{String};
@@ -630,6 +644,7 @@ function start_dicomimport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dicomimport_job(
     clientToken,
     dataAccessRoleArn,
@@ -680,6 +695,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -718,6 +734,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -750,10 +767,13 @@ Update image set metadata attributes.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`: Setting this flag will force the `UpdateImageSetMetadata` operation for the
-  following attributes: - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`,
-  `Tag.SOPInstanceUID`, and `Tag.StudyID`
-   - Adding, removing, or updating private tags for an individual SOP Instance
+- `"force"`: Setting this flag will force the [`update_image_set_metadata`](@ref) operation
+  for the following attributes:
+
+  - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`, `Tag.SOPInstanceUID`, and
+    `Tag.StudyID`
+  - Adding, removing, or updating private tags for an individual SOP Instance
+
 """
 function update_image_set_metadata(
     datastoreId,
@@ -773,6 +793,7 @@ function update_image_set_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_image_set_metadata(
     datastoreId,
     imageSetId,

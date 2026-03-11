@@ -21,19 +21,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FormatVersion"`: The format version that you want the response to be in.
 
-Valid values are: `aws_v1`
+  Valid values are: `aws_v1`
 - `"MaxResults"`: The maximum number of results that you want returned in the response.
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
 - `"ServiceCode"`: The code for the service whose information you want to retrieve, such as
-  `AmazonEC2`. You can use the `ServiceCode` to filter the results in a `GetProducts` call.
-  To retrieve a list of all services, leave this blank.
+  `AmazonEC2`. You can use the `ServiceCode` to filter the results in a `GetProducts`
+  call. To retrieve a list of all services, leave this blank.
 """
 function describe_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return pricing(
         "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -75,6 +76,7 @@ function get_attribute_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attribute_values(
     AttributeName,
     ServiceCode,
@@ -101,9 +103,9 @@ end
     get_price_list_file_url(file_format, price_list_arn)
     get_price_list_file_url(file_format, price_list_arn, params::Dict{String,<:Any})
 
- * **This feature is in preview release and is subject to change. Your use of Amazon Web
+***This feature is in preview release and is subject to change. Your use of Amazon Web
 Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/)
-(Section 1.10).** *
+(Section 1.10).***
 
 This returns the URL that you can retrieve your Price List file from. This URL is based on
 the `PriceListArn` and `FileFormat` that you retrieve from the [ListPriceLists](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html)
@@ -128,6 +130,7 @@ function get_price_list_file_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_price_list_file_url(
     FileFormat,
     PriceListArn,
@@ -168,7 +171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match all filters are returned.
 - `"FormatVersion"`: The format version that you want the response to be in.
 
-Valid values are: `aws_v1`
+  Valid values are: `aws_v1`
 - `"MaxResults"`: The maximum number of results to return in the response.
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
@@ -181,6 +184,7 @@ function get_products(ServiceCode; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_products(
     ServiceCode,
     params::AbstractDict{String};
@@ -200,9 +204,9 @@ end
     list_price_lists(currency_code, effective_date, service_code)
     list_price_lists(currency_code, effective_date, service_code, params::Dict{String,<:Any})
 
- * **This feature is in preview release and is subject to change. Your use of Amazon Web
+***This feature is in preview release and is subject to change. Your use of Amazon Web
 Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/)
-(Section 1.10).** *
+(Section 1.10).***
 
 This returns a list of Price List references that the requester if authorized to view,
 given a `ServiceCode`, `CurrencyCode`, and an `EffectiveDate`. Use without a `RegionCode`
@@ -218,9 +222,9 @@ API.
   List files are denominated in.
 - `effective_date`: The date that the Price List file prices are effective from.
 - `service_code`: The service code or the Savings Plan service code for the attributes that
-  you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists,
-  use `AmazonEC2`. For a full list of service codes containing On-Demand and Reserved
-  Instance (RI) pricing, use the [DescribeServices](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_DescribeServices.html#awscostmanagement-pricing_DescribeServices-request-FormatVersion)
+  you want to retrieve. For example, to get the list of applicable Amazon EC2 price
+  lists, use `AmazonEC2`. For a full list of service codes containing On-Demand and
+  Reserved Instance (RI) pricing, use the [DescribeServices](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_DescribeServices.html#awscostmanagement-pricing_DescribeServices-request-FormatVersion)
   API.
 
   To retrieve the Reserved Instance and Compute Savings Plan price lists, use
@@ -237,9 +241,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
 - `"RegionCode"`: This is used to filter the Price List by Amazon Web Services Region. For
-  example, to get the price list only for the `US East (N. Virginia)` Region, use `us-east-
-  1`. If nothing is specified, you retrieve price lists for all applicable Regions. The
-  available `RegionCode` list can be retrieved from [GetAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html)
+  example, to get the price list only for the `US East (N. Virginia)` Region, use
+  `us-east-1`. If nothing is specified, you retrieve price lists for all applicable
+  Regions. The available `RegionCode` list can be retrieved from [GetAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html)
   API.
 """
 function list_price_lists(
@@ -259,6 +263,7 @@ function list_price_lists(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_price_lists(
     CurrencyCode,
     EffectiveDate,

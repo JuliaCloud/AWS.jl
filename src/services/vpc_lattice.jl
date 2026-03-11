@@ -11,7 +11,7 @@ using AWS.UUIDs
 Updates the listener rules in a batch. You can use this operation to change the priority of
 listener rules. This can be useful when bulk updating or swapping rule priority.
 
- **Required permissions:** `vpc-lattice:UpdateRule`
+**Required permissions:** `vpc-lattice:UpdateRule`
 
 For more information, see [How Amazon VPC Lattice works with IAM](https://docs.aws.amazon.com/vpc-lattice/latest/ug/security_iam_service-with-iam.html)
 in the *Amazon VPC Lattice User Guide*.
@@ -36,6 +36,7 @@ function batch_update_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_rule(
     listenerIdentifier,
     rules,
@@ -66,8 +67,8 @@ in the *Amazon VPC Lattice User Guide*.
 # Arguments
 
 - `destination_arn`: The Amazon Resource Name (ARN) of the destination. The supported
-  destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and
-  Amazon S3 buckets.
+  destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams,
+  and Amazon S3 buckets.
 - `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
   service.
 
@@ -76,9 +77,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the access log subscription.
 """
 function create_access_log_subscription(
@@ -96,6 +97,7 @@ function create_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_log_subscription(
     destinationArn,
     resourceIdentifier,
@@ -145,9 +147,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"port"`: The listener port. You can specify a value from 1 to 65535. For HTTP, the
   default is 80. For HTTPS, the default is 443.
 - `"tags"`: The tags for the listener.
@@ -172,6 +174,7 @@ function create_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_listener(
     defaultAction,
     name,
@@ -226,9 +229,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the rule.
 """
 function create_rule(
@@ -254,6 +257,7 @@ function create_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule(
     action,
     listenerIdentifier,
@@ -305,15 +309,17 @@ in the *Amazon VPC Lattice User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `"authType"`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"customDomainName"`: The custom domain name of the service.
 - `"tags"`: The tags for the service.
 """
@@ -326,6 +332,7 @@ function create_service(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -364,14 +371,16 @@ in the *Amazon VPC Lattice User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `"authType"`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the service network.
 """
 function create_service_network(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -383,6 +392,7 @@ function create_service_network(name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_network(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -430,9 +440,9 @@ and the association owner account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the association.
 """
 function create_service_network_service_association(
@@ -452,6 +462,7 @@ function create_service_network_service_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_network_service_association(
     serviceIdentifier,
     serviceNetworkIdentifier,
@@ -509,9 +520,9 @@ association and recreate it without security groups.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"securityGroupIds"`: The IDs of the security groups. Security groups aren't added by
   default. You can add a security group to apply network level controls to control which
   resources in a VPC are allowed to access the service network and its services. For more
@@ -536,6 +547,7 @@ function create_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_network_vpc_association(
     serviceNetworkIdentifier,
     vpcIdentifier,
@@ -583,9 +595,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"config"`: The target group configuration.
 - `"tags"`: The tags for the target group.
 """
@@ -598,6 +610,7 @@ function create_target_group(name, type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_target_group(
     name,
     type,
@@ -642,6 +655,7 @@ function delete_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_log_subscription(
     accessLogSubscriptionIdentifier,
     params::AbstractDict{String};
@@ -679,6 +693,7 @@ function delete_auth_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_auth_policy(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -716,6 +731,7 @@ function delete_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_listener(
     listenerIdentifier,
     serviceIdentifier,
@@ -751,6 +767,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -796,6 +813,7 @@ function delete_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -836,6 +854,7 @@ function delete_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -874,6 +893,7 @@ function delete_service_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_network(
     serviceNetworkIdentifier,
     params::AbstractDict{String};
@@ -911,6 +931,7 @@ function delete_service_network_service_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier,
     params::AbstractDict{String};
@@ -948,6 +969,7 @@ function delete_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier,
     params::AbstractDict{String};
@@ -983,6 +1005,7 @@ function delete_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_target_group(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -1019,6 +1042,7 @@ function deregister_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_targets(
     targetGroupIdentifier,
     targets,
@@ -1055,6 +1079,7 @@ function get_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_log_subscription(
     accessLogSubscriptionIdentifier,
     params::AbstractDict{String};
@@ -1090,6 +1115,7 @@ function get_auth_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_auth_policy(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -1127,6 +1153,7 @@ function get_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_listener(
     listenerIdentifier,
     serviceIdentifier,
@@ -1163,6 +1190,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1204,6 +1232,7 @@ function get_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -1238,6 +1267,7 @@ function get_service(serviceIdentifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -1272,6 +1302,7 @@ function get_service_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_network(
     serviceNetworkIdentifier,
     params::AbstractDict{String};
@@ -1309,6 +1340,7 @@ function get_service_network_service_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier,
     params::AbstractDict{String};
@@ -1345,6 +1377,7 @@ function get_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier,
     params::AbstractDict{String};
@@ -1379,6 +1412,7 @@ function get_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_target_group(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -1422,6 +1456,7 @@ function list_access_log_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_log_subscriptions(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -1467,6 +1502,7 @@ function list_listeners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_listeners(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -1511,6 +1547,7 @@ function list_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rules(
     listenerIdentifier,
     serviceIdentifier,
@@ -1559,6 +1596,7 @@ function list_service_network_service_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_network_service_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1598,6 +1636,7 @@ function list_service_network_vpc_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_network_vpc_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1629,6 +1668,7 @@ function list_service_networks(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/servicenetworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_service_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1659,6 +1699,7 @@ function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1687,6 +1728,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1722,6 +1764,7 @@ function list_target_groups(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/targetgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_target_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1763,6 +1806,7 @@ function list_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -1805,6 +1849,7 @@ function put_auth_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_auth_policy(
     policy,
     resourceIdentifier,
@@ -1846,6 +1891,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     policy,
     resourceArn,
@@ -1884,6 +1930,7 @@ function register_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_targets(
     targetGroupIdentifier,
     targets,
@@ -1919,6 +1966,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1956,6 +2004,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1996,6 +2045,7 @@ function update_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_log_subscription(
     accessLogSubscriptionIdentifier,
     destinationArn,
@@ -2039,6 +2089,7 @@ function update_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_listener(
     defaultAction,
     listenerIdentifier,
@@ -2092,6 +2143,7 @@ function update_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -2122,10 +2174,12 @@ Updates the specified service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `"authType"`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 """
 function update_service(
@@ -2138,6 +2192,7 @@ function update_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -2160,10 +2215,12 @@ Updates the specified service network.
 
 # Arguments
 
-- `auth_type`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `auth_type`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 """
 function update_service_network(
@@ -2177,6 +2234,7 @@ function update_service_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_network(
     authType,
     serviceNetworkIdentifier,
@@ -2223,6 +2281,7 @@ function update_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_network_vpc_association(
     securityGroupIds,
     serviceNetworkVpcAssociationIdentifier,
@@ -2264,6 +2323,7 @@ function update_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_target_group(
     healthCheck,
     targetGroupIdentifier,

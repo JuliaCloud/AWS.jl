@@ -18,6 +18,7 @@ function get_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetPreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -50,6 +51,7 @@ function get_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendation(
     recommendationId,
     params::AbstractDict{String};
@@ -89,6 +91,7 @@ function list_enrollment_statuses(; aws_config::AbstractAWSConfig=current_aws_co
         "ListEnrollmentStatuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_enrollment_statuses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,7 +112,7 @@ savings across different types of recommendations.
 
 !!! note
     The following filters are not supported for this API: `recommendationIds`,
-`resourceArns`, and `resourceIds`.
+    `resourceArns`, and `resourceIds`.
 
 # Arguments
 
@@ -135,6 +138,7 @@ function list_recommendation_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendation_summaries(
     groupBy,
     params::AbstractDict{String};
@@ -170,6 +174,7 @@ function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config
         "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,6 +221,7 @@ function update_enrollment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_enrollment_status(
     status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -248,6 +254,7 @@ function update_preferences(; aws_config::AbstractAWSConfig=current_aws_config()
         "UpdatePreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

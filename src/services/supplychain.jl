@@ -39,6 +39,7 @@ function create_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bill_of_materials_import_job(
     instanceId,
     s3uri,
@@ -81,6 +82,7 @@ function get_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bill_of_materials_import_job(
     instanceId,
     jobId,
@@ -108,7 +110,7 @@ GMT everyday. The updated transactional data is available in data lake after ing
 # Arguments
 
 - `data`: The data payload of the event. For more information on the data schema to use,
-  see [Data entities supported in AWS Supply Chain ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
 - `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
   sharing or partitioning.
 - `event_type`: The data event type.
@@ -141,6 +143,7 @@ function send_data_integration_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_integration_event(
     data,
     eventGroupId,

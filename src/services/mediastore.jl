@@ -36,6 +36,7 @@ function create_container(ContainerName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_container(
     ContainerName,
     params::AbstractDict{String};
@@ -71,6 +72,7 @@ function delete_container(ContainerName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_container(
     ContainerName,
     params::AbstractDict{String};
@@ -106,6 +108,7 @@ function delete_container_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_container_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -146,6 +149,7 @@ function delete_cors_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cors_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -182,6 +186,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -219,6 +224,7 @@ function delete_metric_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metric_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -243,7 +249,7 @@ retrieve the endpoint of a container. An endpoint is a value assigned by the ser
 new container is created. A container's endpoint does not change after it has been
 assigned. The `DescribeContainer` request returns a single `Container` object based on
 `ContainerName`. To return all `Container` objects that are associated with a specified AWS
-account, use <a>ListContainers</a>.
+account, use [`list_containers`](@ref).
 
 # Optional Parameters
 
@@ -256,6 +262,7 @@ function describe_container(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeContainer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_container(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -285,6 +292,7 @@ function get_container_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -322,6 +330,7 @@ function get_cors_policy(ContainerName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cors_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -358,6 +367,7 @@ function get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -393,6 +403,7 @@ function get_metric_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -420,7 +431,7 @@ case, the response includes a token. To get the next set of containers, send the
 again, this time with the `NextToken` parameter (with the returned token as its value). The
 next set of responses appears, with a token if there are still more containers to receive.
 
-See also <a>DescribeContainer</a>, which gets the properties of one container.
+See also [`describe_container`](@ref), which gets the properties of one container.
 
 # Optional Parameters
 
@@ -437,6 +448,7 @@ function list_containers(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListContainers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_containers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -465,6 +477,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     Resource,
     params::AbstractDict{String};
@@ -494,8 +507,11 @@ enter `PutContainerPolicy` twice, the second command modifies the existing polic
 # Arguments
 
 - `container_name`: The name of the container.
-- `policy`: The contents of the policy, which includes the following:  - One `Version` tag
-   - One `Statement` tag that contains the standard tags for the policy.
+- `policy`: The contents of the policy, which includes the following:
+
+  - One `Version` tag
+  - One `Statement` tag that contains the standard tags for the policy.
+
 """
 function put_container_policy(
     ContainerName, Policy; aws_config::AbstractAWSConfig=current_aws_config()
@@ -507,6 +523,7 @@ function put_container_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_container_policy(
     ContainerName,
     Policy,
@@ -559,6 +576,7 @@ function put_cors_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_cors_policy(
     ContainerName,
     CorsPolicy,
@@ -609,6 +627,7 @@ function put_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lifecycle_policy(
     ContainerName,
     LifecyclePolicy,
@@ -646,13 +665,17 @@ the new policy to take effect.
   policy, you must indicate whether you want MediaStore to send container-level metrics.
   You can also include up to five rules to define groups of objects that you want
   MediaStore to send object-level metrics for. If you include rules in the policy,
-  construct each rule with both of the following: - An object group that defines which
-  objects to include in the group. The definition can be a path or a file name, but it
-  can't have more than 900 characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore),
-  = (equal), : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and *
-  (asterisk). Wildcards (*) are acceptable.
-   - An object group name that allows you to refer to the object group. The name can't have
-  more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore).
+  construct each rule with both of the following:
+
+  - An object group that defines which objects to include in the group. The definition
+    can be a path or a file name, but it can't have more than 900 characters. Valid
+    characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), -
+    (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are
+    acceptable.
+  - An object group name that allows you to refer to the object group. The name can't
+    have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _
+    (underscore).
+
 """
 function put_metric_policy(
     ContainerName, MetricPolicy; aws_config::AbstractAWSConfig=current_aws_config()
@@ -664,6 +687,7 @@ function put_metric_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_policy(
     ContainerName,
     MetricPolicy,
@@ -708,6 +732,7 @@ function start_access_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_access_logging(
     ContainerName,
     params::AbstractDict{String};
@@ -745,6 +770,7 @@ function stop_access_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_access_logging(
     ContainerName,
     params::AbstractDict{String};
@@ -788,6 +814,7 @@ function tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Resource,
     Tags,
@@ -830,6 +857,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     Resource,
     TagKeys,

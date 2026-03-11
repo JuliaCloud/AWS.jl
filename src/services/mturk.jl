@@ -8,24 +8,24 @@ using AWS.UUIDs
     accept_qualification_request(qualification_request_id)
     accept_qualification_request(qualification_request_id, params::Dict{String,<:Any})
 
- The `AcceptQualificationRequest` operation approves a Worker's request for a
+The [`accept_qualification_request`](@ref) operation approves a Worker's request for a
 Qualification.
 
- Only the owner of the Qualification type can grant a Qualification request for that type.
+Only the owner of the Qualification type can grant a Qualification request for that type.
 
- A successful request for the `AcceptQualificationRequest` operation returns with no errors
-and an empty body.
+A successful request for the [`accept_qualification_request`](@ref) operation returns with
+no errors and an empty body.
 
 # Arguments
 
-- `qualification_request_id`: The ID of the Qualification request, as returned by the
-  `GetQualificationRequests` operation.
+- `qualification_request_id`: The ID of the Qualification request, as returned by the [`get_qualification_requests`](@ref)
+  operation.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"IntegerValue"`:  The value of the Qualification. You can omit this value if you are
+- `"IntegerValue"`: The value of the Qualification. You can omit this value if you are
   using the presence or absence of the Qualification as the basis for a HIT requirement.
 """
 function accept_qualification_request(
@@ -38,6 +38,7 @@ function accept_qualification_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
@@ -61,33 +62,35 @@ end
     approve_assignment(assignment_id)
     approve_assignment(assignment_id, params::Dict{String,<:Any})
 
- The `ApproveAssignment` operation approves the results of a completed assignment.
+The [`approve_assignment`](@ref) operation approves the results of a completed assignment.
 
- Approving an assignment initiates two payments from the Requester's Amazon.com account
-</p> - The Worker who submitted the results is paid the reward specified in the HIT.
- - Amazon Mechanical Turk fees are debited.
- If the Requester's account does not have adequate funds for these payments, the call to
+Approving an assignment initiates two payments from the Requester's Amazon.com account
+
+- The Worker who submitted the results is paid the reward specified in the HIT.
+- Amazon Mechanical Turk fees are debited.
+
+If the Requester's account does not have adequate funds for these payments, the call to
 ApproveAssignment returns an exception, and the approval is not processed. You can include
 an optional feedback message with the approval, which the Worker can see in the Status
 section of the web site.
 
- <p> You can also call this operation for assignments that were previous rejected and
-approve them by explicitly overriding the previous rejection. This only works on rejected
+You can also call this operation for assignments that were previous rejected and approve
+them by explicitly overriding the previous rejection. This only works on rejected
 assignments that were submitted within the previous 30 days and only if the assignment's
 related HIT has not been deleted.
 
 # Arguments
 
-- `assignment_id`:  The ID of the assignment. The assignment must correspond to a HIT
+- `assignment_id`: The ID of the assignment. The assignment must correspond to a HIT
   created by the Requester.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"OverrideRejection"`:  A flag indicating that an assignment should be approved even if
-  it was previously rejected. Defaults to `False`.
-- `"RequesterFeedback"`:  A message for the Worker, which the Worker can see in the Status
+- `"OverrideRejection"`: A flag indicating that an assignment should be approved even if it
+  was previously rejected. Defaults to `False`.
+- `"RequesterFeedback"`: A message for the Worker, which the Worker can see in the Status
   section of the web site.
 """
 function approve_assignment(
@@ -100,6 +103,7 @@ function approve_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function approve_assignment(
     AssignmentId,
     params::AbstractDict{String};
@@ -119,34 +123,34 @@ end
     associate_qualification_with_worker(qualification_type_id, worker_id)
     associate_qualification_with_worker(qualification_type_id, worker_id, params::Dict{String,<:Any})
 
- The `AssociateQualificationWithWorker` operation gives a Worker a Qualification.
+The [`associate_qualification_with_worker`](@ref) operation gives a Worker a Qualification.
 `AssociateQualificationWithWorker` does not require that the Worker submit a Qualification
 request. It gives the Qualification directly to the Worker.
 
- You can only assign a Qualification of a Qualification type that you created (using the
-`CreateQualificationType` operation).
+You can only assign a Qualification of a Qualification type that you created (using the [`create_qualification_type`](@ref)
+operation).
 
 !!! note
     Note: `AssociateQualificationWithWorker` does not affect any pending Qualification
-requests for the Qualification by the Worker. If you assign a Qualification to a Worker,
-then later grant a Qualification request made by the Worker, the granting of the request
-may modify the Qualification score. To resolve a pending Qualification request without
-affecting the Qualification the Worker already has, reject the request with the
-`RejectQualificationRequest` operation.
+    requests for the Qualification by the Worker. If you assign a Qualification to a
+    Worker, then later grant a Qualification request made by the Worker, the granting of
+    the request may modify the Qualification score. To resolve a pending Qualification
+    request without affecting the Qualification the Worker already has, reject the request
+    with the [`reject_qualification_request`](@ref) operation.
 
 # Arguments
 
 - `qualification_type_id`: The ID of the Qualification type to use for the assigned
   Qualification.
-- `worker_id`:  The ID of the Worker to whom the Qualification is being assigned. Worker
-  IDs are included with submitted HIT assignments and Qualification requests.
+- `worker_id`: The ID of the Worker to whom the Qualification is being assigned. Worker IDs
+  are included with submitted HIT assignments and Qualification requests.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IntegerValue"`: The value of the Qualification to assign.
-- `"SendNotification"`:  Specifies whether to send a notification email message to the
+- `"SendNotification"`: Specifies whether to send a notification email message to the
   Worker saying that the qualification was assigned to the Worker. Note: this is true by
   default.
 """
@@ -162,6 +166,7 @@ function associate_qualification_with_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_qualification_with_worker(
     QualificationTypeId,
     WorkerId,
@@ -188,19 +193,19 @@ end
     create_additional_assignments_for_hit(hitid, number_of_additional_assignments)
     create_additional_assignments_for_hit(hitid, number_of_additional_assignments, params::Dict{String,<:Any})
 
- The `CreateAdditionalAssignmentsForHIT` operation increases the maximum number of
-assignments of an existing HIT.
+The [`create_additional_assignments_for_hit`](@ref) operation increases the maximum number
+of assignments of an existing HIT.
 
- To extend the maximum number of assignments, specify the number of additional assignments.
+To extend the maximum number of assignments, specify the number of additional assignments.
 
 !!! note
     - HITs created with fewer than 10 assignments cannot be extended to have 10 or more
-assignments. Attempting to add assignments in a way that brings the total number of
-assignments for a HIT from fewer than 10 assignments to 10 or more assignments will result
-in an `AWS.MechanicalTurk.InvalidMaximumAssignmentsIncrease` exception.
- - HITs that were created before July 22, 2015 cannot be extended. Attempting to extend
-HITs that were created before July 22, 2015 will result in an
-`AWS.MechanicalTurk.HITTooOldForExtension` exception.
+      assignments. Attempting to add assignments in a way that brings the total number of
+      assignments for a HIT from fewer than 10 assignments to 10 or more assignments will
+      result in an `AWS.MechanicalTurk.InvalidMaximumAssignmentsIncrease` exception.
+    - HITs that were created before July 22, 2015 cannot be extended. Attempting to extend
+      HITs that were created before July 22, 2015 will result in an
+      `AWS.MechanicalTurk.HITTooOldForExtension` exception.
 
 # Arguments
 
@@ -212,12 +217,12 @@ HITs that were created before July 22, 2015 will result in an
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"UniqueRequestToken"`:  A unique identifier for this request, which allows you to retry
-  the call on error without extending the HIT multiple times. This is useful in cases such
-  as network timeouts where it is unclear whether or not the call succeeded on the server.
-  If the extend HIT already exists in the system from a previous call using the same
-  `UniqueRequestToken`, subsequent calls will return an error with a message containing the
-  request ID.
+- `"UniqueRequestToken"`: A unique identifier for this request, which allows you to retry
+  the call on error without extending the HIT multiple times. This is useful in cases
+  such as network timeouts where it is unclear whether or not the call succeeded on the
+  server. If the extend HIT already exists in the system from a previous call using the
+  same `UniqueRequestToken`, subsequent calls will return an error with a message
+  containing the request ID.
 """
 function create_additional_assignments_for_hit(
     HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=current_aws_config()
@@ -232,6 +237,7 @@ function create_additional_assignments_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_additional_assignments_for_hit(
     HITId,
     NumberOfAdditionalAssignments,
@@ -259,17 +265,17 @@ end
     create_hit(assignment_duration_in_seconds, description, lifetime_in_seconds, reward, title)
     create_hit(assignment_duration_in_seconds, description, lifetime_in_seconds, reward, title, params::Dict{String,<:Any})
 
-The `CreateHIT` operation creates a new Human Intelligence Task (HIT). The new HIT is made
-available for Workers to find and accept on the Amazon Mechanical Turk website.
+The [`create_hit`](@ref) operation creates a new Human Intelligence Task (HIT). The new HIT
+is made available for Workers to find and accept on the Amazon Mechanical Turk website.
 
- This operation allows you to specify a new HIT by passing in values for the properties of
+This operation allows you to specify a new HIT by passing in values for the properties of
 the HIT, such as its title, reward amount and number of assignments. When you pass these
 values to `CreateHIT`, a new HIT is created for you, with a new `HITTypeID`. The HITTypeID
 can be used to create additional HITs in the future without needing to specify common
 parameters such as the title, description and reward amount each time.
 
- An alternative way to create HITs is to first generate a HITTypeID using the
-`CreateHITType` operation and then call the `CreateHITWithHITType` operation. This is the
+An alternative way to create HITs is to first generate a HITTypeID using the [`create_hittype`](@ref)
+operation and then call the [`create_hitwith_hittype`](@ref) operation. This is the
 recommended best practice for Requesters who are creating large numbers of HITs.
 
 CreateHIT also supports several ways to provide question data: by providing a value for the
@@ -278,27 +284,27 @@ CreateHIT also supports several ways to provide question data: by providing a va
 
 !!! note
     If a HIT is created with 10 or more maximum assignments, there is an additional fee.
-For more information, see [Amazon Mechanical Turk Pricing](https://requester.mturk.com/pricing).
+    For more information, see [Amazon Mechanical Turk Pricing](https://requester.mturk.com/pricing).
 
 # Arguments
 
-- `assignment_duration_in_seconds`:  The amount of time, in seconds, that a Worker has to
-  complete the HIT after accepting it. If a Worker does not complete the assignment within
-  the specified duration, the assignment is considered abandoned. If the HIT is still
-  active (that is, its lifetime has not elapsed), the assignment becomes available for
-  other users to find and accept.
-- `description`:  A general description of the HIT. A description includes detailed
+- `assignment_duration_in_seconds`: The amount of time, in seconds, that a Worker has to
+  complete the HIT after accepting it. If a Worker does not complete the assignment
+  within the specified duration, the assignment is considered abandoned. If the HIT is
+  still active (that is, its lifetime has not elapsed), the assignment becomes available
+  for other users to find and accept.
+- `description`: A general description of the HIT. A description includes detailed
   information about the kind of task the HIT contains. On the Amazon Mechanical Turk web
-  site, the HIT description appears in the expanded view of search results, and in the HIT
-  and assignment screens. A good description gives the user enough information to evaluate
-  the HIT before accepting it.
-- `lifetime_in_seconds`:  An amount of time, in seconds, after which the HIT is no longer
+  site, the HIT description appears in the expanded view of search results, and in the
+  HIT and assignment screens. A good description gives the user enough information to
+  evaluate the HIT before accepting it.
+- `lifetime_in_seconds`: An amount of time, in seconds, after which the HIT is no longer
   available for users to accept. After the lifetime of the HIT elapses, the HIT no longer
   appears in HIT searches, even if not all of the assignments for the HIT have been
   accepted.
-- `reward`:  The amount of money the Requester will pay a Worker for successfully
-  completing the HIT.
-- `title`:  The title of the HIT. A title should be short and descriptive about the kind of
+- `reward`: The amount of money the Requester will pay a Worker for successfully completing
+  the HIT.
+- `title`: The title of the HIT. A title should be short and descriptive about the kind of
   task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in
   search results, and everywhere the HIT is mentioned.
 
@@ -306,59 +312,60 @@ For more information, see [Amazon Mechanical Turk Pricing](https://requester.mtu
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AssignmentReviewPolicy"`:  The Assignment-level Review Policy applies to the
-  assignments under the HIT. You can specify for Mechanical Turk to take various actions
-  based on the policy.
-- `"AutoApprovalDelayInSeconds"`:  The number of seconds after an assignment for the HIT
-  has been submitted, after which the assignment is considered Approved automatically
-  unless the Requester explicitly rejects it.
-- `"HITLayoutId"`:  The HITLayoutId allows you to use a pre-existing HIT design with
+- `"AssignmentReviewPolicy"`: The Assignment-level Review Policy applies to the assignments
+  under the HIT. You can specify for Mechanical Turk to take various actions based on the
+  policy.
+- `"AutoApprovalDelayInSeconds"`: The number of seconds after an assignment for the HIT has
+  been submitted, after which the assignment is considered Approved automatically unless
+  the Requester explicitly rejects it.
+- `"HITLayoutId"`: The HITLayoutId allows you to use a pre-existing HIT design with
   placeholder values and create an additional HIT by providing those values as
   HITLayoutParameters.
 
- Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
-- `"HITLayoutParameters"`:  If the HITLayoutId is provided, any placeholder values must be
+  Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
+- `"HITLayoutParameters"`: If the HITLayoutId is provided, any placeholder values must be
   filled in with values using the HITLayoutParameter structure. For more information, see
   HITLayout.
-- `"HITReviewPolicy"`:  The HIT-level Review Policy applies to the HIT. You can specify for
+- `"HITReviewPolicy"`: The HIT-level Review Policy applies to the HIT. You can specify for
   Mechanical Turk to take various actions based on the policy.
-- `"Keywords"`:  One or more words or phrases that describe the HIT, separated by commas.
+- `"Keywords"`: One or more words or phrases that describe the HIT, separated by commas.
   These words are used in searches to find HITs.
-- `"MaxAssignments"`:  The number of times the HIT can be accepted and completed before the
+- `"MaxAssignments"`: The number of times the HIT can be accepted and completed before the
   HIT becomes unavailable.
-- `"QualificationRequirements"`:  Conditions that a Worker's Qualifications must meet in
-  order to accept the HIT. A HIT can have between zero and ten Qualification requirements.
-  All requirements must be met in order for a Worker to accept the HIT. Additionally, other
-  actions can be restricted using the `ActionsGuarded` field on each
+- `"QualificationRequirements"`: Conditions that a Worker's Qualifications must meet in
+  order to accept the HIT. A HIT can have between zero and ten Qualification
+  requirements. All requirements must be met in order for a Worker to accept the HIT.
+  Additionally, other actions can be restricted using the `ActionsGuarded` field on each
   `QualificationRequirement` structure.
-- `"Question"`:  The data the person completing the HIT uses to produce the results.
+- `"Question"`: The data the person completing the HIT uses to produce the results.
 
-   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure,
+  Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure,
   or an HTMLQuestion data structure. The XML question data must not be larger than 64
   kilobytes (65,535 bytes) in size, including whitespace.
 
-Either a Question parameter or a HITLayoutId parameter must be provided.
-- `"RequesterAnnotation"`:  An arbitrary data field. The RequesterAnnotation parameter lets
+  Either a Question parameter or a HITLayoutId parameter must be provided.
+- `"RequesterAnnotation"`: An arbitrary data field. The RequesterAnnotation parameter lets
   your application attach arbitrary data to the HIT for tracking purposes. For example,
   this parameter could be an identifier internal to the Requester's application that
   corresponds with the HIT.
 
-   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created
-  the HIT. It is not shown to the Worker, or any other Requester.
+  The RequesterAnnotation parameter for a HIT is only visible to the Requester who
+  created the HIT. It is not shown to the Worker, or any other Requester.
 
-   The RequesterAnnotation parameter may be different for each HIT you submit. It does not
+  The RequesterAnnotation parameter may be different for each HIT you submit. It does not
   affect how your HITs are grouped.
-- `"UniqueRequestToken"`:  A unique identifier for this request which allows you to retry
+- `"UniqueRequestToken"`: A unique identifier for this request which allows you to retry
   the call on error without creating duplicate HITs. This is useful in cases such as
-  network timeouts where it is unclear whether or not the call succeeded on the server. If
-  the HIT already exists in the system from a previous call using the same
+  network timeouts where it is unclear whether or not the call succeeded on the server.
+  If the HIT already exists in the system from a previous call using the same
   UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists
   error with a message containing the HITId.
 
   !!! note
       Note: It is your responsibility to ensure uniqueness of the token. The unique token
-  expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the
-  24 hour limit could create duplicate HITs.
+      expires after 24 hours. Subsequent calls using the same UniqueRequestToken made
+      after the 24 hour limit could create duplicate HITs.
+
 """
 function create_hit(
     AssignmentDurationInSeconds,
@@ -381,6 +388,7 @@ function create_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hit(
     AssignmentDurationInSeconds,
     Description,
@@ -414,26 +422,26 @@ end
     create_hittype(assignment_duration_in_seconds, description, reward, title)
     create_hittype(assignment_duration_in_seconds, description, reward, title, params::Dict{String,<:Any})
 
- The `CreateHITType` operation creates a new HIT type. This operation allows you to define
-a standard set of HIT properties to use when creating HITs. If you register a HIT type with
-values that match an existing HIT type, the HIT type ID of the existing type will be
-returned.
+The [`create_hittype`](@ref) operation creates a new HIT type. This operation allows you to
+define a standard set of HIT properties to use when creating HITs. If you register a HIT
+type with values that match an existing HIT type, the HIT type ID of the existing type will
+be returned.
 
 # Arguments
 
-- `assignment_duration_in_seconds`:  The amount of time, in seconds, that a Worker has to
-  complete the HIT after accepting it. If a Worker does not complete the assignment within
-  the specified duration, the assignment is considered abandoned. If the HIT is still
-  active (that is, its lifetime has not elapsed), the assignment becomes available for
-  other users to find and accept.
-- `description`:  A general description of the HIT. A description includes detailed
+- `assignment_duration_in_seconds`: The amount of time, in seconds, that a Worker has to
+  complete the HIT after accepting it. If a Worker does not complete the assignment
+  within the specified duration, the assignment is considered abandoned. If the HIT is
+  still active (that is, its lifetime has not elapsed), the assignment becomes available
+  for other users to find and accept.
+- `description`: A general description of the HIT. A description includes detailed
   information about the kind of task the HIT contains. On the Amazon Mechanical Turk web
-  site, the HIT description appears in the expanded view of search results, and in the HIT
-  and assignment screens. A good description gives the user enough information to evaluate
-  the HIT before accepting it.
-- `reward`:  The amount of money the Requester will pay a Worker for successfully
-  completing the HIT.
-- `title`:  The title of the HIT. A title should be short and descriptive about the kind of
+  site, the HIT description appears in the expanded view of search results, and in the
+  HIT and assignment screens. A good description gives the user enough information to
+  evaluate the HIT before accepting it.
+- `reward`: The amount of money the Requester will pay a Worker for successfully completing
+  the HIT.
+- `title`: The title of the HIT. A title should be short and descriptive about the kind of
   task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in
   search results, and everywhere the HIT is mentioned.
 
@@ -441,15 +449,15 @@ returned.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AutoApprovalDelayInSeconds"`:  The number of seconds after an assignment for the HIT
-  has been submitted, after which the assignment is considered Approved automatically
-  unless the Requester explicitly rejects it.
-- `"Keywords"`:  One or more words or phrases that describe the HIT, separated by commas.
+- `"AutoApprovalDelayInSeconds"`: The number of seconds after an assignment for the HIT has
+  been submitted, after which the assignment is considered Approved automatically unless
+  the Requester explicitly rejects it.
+- `"Keywords"`: One or more words or phrases that describe the HIT, separated by commas.
   These words are used in searches to find HITs.
-- `"QualificationRequirements"`:  Conditions that a Worker's Qualifications must meet in
-  order to accept the HIT. A HIT can have between zero and ten Qualification requirements.
-  All requirements must be met in order for a Worker to accept the HIT. Additionally, other
-  actions can be restricted using the `ActionsGuarded` field on each
+- `"QualificationRequirements"`: Conditions that a Worker's Qualifications must meet in
+  order to accept the HIT. A HIT can have between zero and ten Qualification
+  requirements. All requirements must be met in order for a Worker to accept the HIT.
+  Additionally, other actions can be restricted using the `ActionsGuarded` field on each
   `QualificationRequirement` structure.
 """
 function create_hittype(
@@ -471,6 +479,7 @@ function create_hittype(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hittype(
     AssignmentDurationInSeconds,
     Description,
@@ -502,11 +511,11 @@ end
     create_hitwith_hittype(hittype_id, lifetime_in_seconds)
     create_hitwith_hittype(hittype_id, lifetime_in_seconds, params::Dict{String,<:Any})
 
- The `CreateHITWithHITType` operation creates a new Human Intelligence Task (HIT) using an
-existing HITTypeID generated by the `CreateHITType` operation.
+The [`create_hitwith_hittype`](@ref) operation creates a new Human Intelligence Task (HIT)
+using an existing HITTypeID generated by the [`create_hittype`](@ref) operation.
 
- This is an alternative way to create HITs from the `CreateHIT` operation. This is the
-recommended best practice for Requesters who are creating large numbers of HITs.
+This is an alternative way to create HITs from the [`create_hit`](@ref) operation. This is
+the recommended best practice for Requesters who are creating large numbers of HITs.
 
 CreateHITWithHITType also supports several ways to provide question data: by providing a
 value for the `Question` parameter that fully specifies the contents of the HIT, or by
@@ -514,12 +523,12 @@ providing a `HitLayoutId` and associated `HitLayoutParameters`.
 
 !!! note
     If a HIT is created with 10 or more maximum assignments, there is an additional fee.
-For more information, see [Amazon Mechanical Turk Pricing](https://requester.mturk.com/pricing).
+    For more information, see [Amazon Mechanical Turk Pricing](https://requester.mturk.com/pricing).
 
 # Arguments
 
 - `hittype_id`: The HIT type ID you want to create this HIT with.
-- `lifetime_in_seconds`:  An amount of time, in seconds, after which the HIT is no longer
+- `lifetime_in_seconds`: An amount of time, in seconds, after which the HIT is no longer
   available for users to accept. After the lifetime of the HIT elapses, the HIT no longer
   appears in HIT searches, even if not all of the assignments for the HIT have been
   accepted.
@@ -528,49 +537,50 @@ For more information, see [Amazon Mechanical Turk Pricing](https://requester.mtu
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AssignmentReviewPolicy"`:  The Assignment-level Review Policy applies to the
-  assignments under the HIT. You can specify for Mechanical Turk to take various actions
-  based on the policy.
-- `"HITLayoutId"`:  The HITLayoutId allows you to use a pre-existing HIT design with
+- `"AssignmentReviewPolicy"`: The Assignment-level Review Policy applies to the assignments
+  under the HIT. You can specify for Mechanical Turk to take various actions based on the
+  policy.
+- `"HITLayoutId"`: The HITLayoutId allows you to use a pre-existing HIT design with
   placeholder values and create an additional HIT by providing those values as
   HITLayoutParameters.
 
- Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
-- `"HITLayoutParameters"`:  If the HITLayoutId is provided, any placeholder values must be
+  Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
+- `"HITLayoutParameters"`: If the HITLayoutId is provided, any placeholder values must be
   filled in with values using the HITLayoutParameter structure. For more information, see
   HITLayout.
-- `"HITReviewPolicy"`:  The HIT-level Review Policy applies to the HIT. You can specify for
+- `"HITReviewPolicy"`: The HIT-level Review Policy applies to the HIT. You can specify for
   Mechanical Turk to take various actions based on the policy.
-- `"MaxAssignments"`:  The number of times the HIT can be accepted and completed before the
+- `"MaxAssignments"`: The number of times the HIT can be accepted and completed before the
   HIT becomes unavailable.
-- `"Question"`:  The data the person completing the HIT uses to produce the results.
+- `"Question"`: The data the person completing the HIT uses to produce the results.
 
-   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure,
+  Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure,
   or an HTMLQuestion data structure. The XML question data must not be larger than 64
   kilobytes (65,535 bytes) in size, including whitespace.
 
-Either a Question parameter or a HITLayoutId parameter must be provided.
-- `"RequesterAnnotation"`:  An arbitrary data field. The RequesterAnnotation parameter lets
+  Either a Question parameter or a HITLayoutId parameter must be provided.
+- `"RequesterAnnotation"`: An arbitrary data field. The RequesterAnnotation parameter lets
   your application attach arbitrary data to the HIT for tracking purposes. For example,
   this parameter could be an identifier internal to the Requester's application that
   corresponds with the HIT.
 
-   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created
-  the HIT. It is not shown to the Worker, or any other Requester.
+  The RequesterAnnotation parameter for a HIT is only visible to the Requester who
+  created the HIT. It is not shown to the Worker, or any other Requester.
 
-   The RequesterAnnotation parameter may be different for each HIT you submit. It does not
+  The RequesterAnnotation parameter may be different for each HIT you submit. It does not
   affect how your HITs are grouped.
-- `"UniqueRequestToken"`:  A unique identifier for this request which allows you to retry
+- `"UniqueRequestToken"`: A unique identifier for this request which allows you to retry
   the call on error without creating duplicate HITs. This is useful in cases such as
-  network timeouts where it is unclear whether or not the call succeeded on the server. If
-  the HIT already exists in the system from a previous call using the same
+  network timeouts where it is unclear whether or not the call succeeded on the server.
+  If the HIT already exists in the system from a previous call using the same
   UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists
   error with a message containing the HITId.
 
   !!! note
       Note: It is your responsibility to ensure uniqueness of the token. The unique token
-  expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the
-  24 hour limit could create duplicate HITs.
+      expires after 24 hours. Subsequent calls using the same UniqueRequestToken made
+      after the 24 hour limit could create duplicate HITs.
+
 """
 function create_hitwith_hittype(
     HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=current_aws_config()
@@ -584,6 +594,7 @@ function create_hitwith_hittype(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hitwith_hittype(
     HITTypeId,
     LifetimeInSeconds,
@@ -610,20 +621,20 @@ end
     create_qualification_type(description, name, qualification_type_status)
     create_qualification_type(description, name, qualification_type_status, params::Dict{String,<:Any})
 
- The `CreateQualificationType` operation creates a new Qualification type, which is
-represented by a `QualificationType` data structure.
+The [`create_qualification_type`](@ref) operation creates a new Qualification type, which
+is represented by a `QualificationType` data structure.
 
 # Arguments
 
 - `description`: A long description for the Qualification type. On the Amazon Mechanical
   Turk website, the long description is displayed when a Worker examines a Qualification
   type.
-- `name`:  The name you give to the Qualification type. The type name is used to represent
-  the Qualification to Workers, and to find the type using a Qualification type search. It
-  must be unique across all of your Qualification types.
+- `name`: The name you give to the Qualification type. The type name is used to represent
+  the Qualification to Workers, and to find the type using a Qualification type search.
+  It must be unique across all of your Qualification types.
 - `qualification_type_status`: The initial status of the Qualification type.
 
-Constraints: Valid values are: Active | Inactive
+  Constraints: Valid values are: Active | Inactive
 
 # Optional Parameters
 
@@ -634,15 +645,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Constraints: Must not be longer than 65535 bytes.
 
-Constraints: None. If not specified, you must process Qualification requests manually.
+  Constraints: None. If not specified, you must process Qualification requests manually.
 - `"AutoGranted"`: Specifies whether requests for the Qualification type are granted
   immediately, without prompting the Worker with a Qualification test.
 
-Constraints: If the Test parameter is specified, this parameter cannot be true.
+  Constraints: If the Test parameter is specified, this parameter cannot be true.
 - `"AutoGrantedValue"`: The Qualification value to use for automatically granted
   Qualifications. This parameter is used only if the AutoGranted parameter is true.
 - `"Keywords"`: One or more words or phrases that describe the Qualification type,
-  separated by commas. The keywords of a type make the type easier to find during a search.
+  separated by commas. The keywords of a type make the type easier to find during a
+  search.
 - `"RetryDelayInSeconds"`: The number of seconds that a Worker must wait after requesting a
   Qualification of the Qualification type before the worker can retry the Qualification
   request.
@@ -653,12 +665,12 @@ Constraints: If the Test parameter is specified, this parameter cannot be true.
   has been created with retries enabled. If you want to disable retries, you must delete
   existing retry-enabled Qualification type and then create a new Qualification type with
   retries disabled.
-- `"Test"`:  The questions for the Qualification test a Worker must answer correctly to
+- `"Test"`: The questions for the Qualification test a Worker must answer correctly to
   obtain a Qualification of this type. If this parameter is specified,
   `TestDurationInSeconds` must also be specified.
 
-  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure.
-  This parameter cannot be specified if AutoGranted is true.
+  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data
+  structure. This parameter cannot be specified if AutoGranted is true.
 
   Constraints: None. If not specified, the Worker may request the Qualification without
   answering any questions.
@@ -682,6 +694,7 @@ function create_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_qualification_type(
     Description,
     Name,
@@ -711,9 +724,9 @@ end
     create_worker_block(reason, worker_id)
     create_worker_block(reason, worker_id, params::Dict{String,<:Any})
 
-The `CreateWorkerBlock` operation allows you to prevent a Worker from working on your HITs.
-For example, you can block a Worker who is producing poor quality work. You can block up to
-100,000 Workers.
+The [`create_worker_block`](@ref) operation allows you to prevent a Worker from working on
+your HITs. For example, you can block a Worker who is producing poor quality work. You can
+block up to 100,000 Workers.
 
 # Arguments
 
@@ -731,6 +744,7 @@ function create_worker_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_worker_block(
     Reason,
     WorkerId,
@@ -753,10 +767,10 @@ end
     delete_hit(hitid)
     delete_hit(hitid, params::Dict{String,<:Any})
 
- The `DeleteHIT` operation is used to delete HIT that is no longer needed. Only the
+The [`delete_hit`](@ref) operation is used to delete HIT that is no longer needed. Only the
 Requester who created the HIT can delete it.
 
- You can only dispose of HITs that are in the `Reviewable` state, with all of their
+You can only dispose of HITs that are in the `Reviewable` state, with all of their
 submitted assignments already either approved or rejected. If you call the DeleteHIT
 operation on a HIT that is not in the `Reviewable` state (for example, that has not
 expired, or still has active assignments), or on a HIT that is Reviewable but without all
@@ -765,10 +779,10 @@ error.
 
 !!! note
     - HITs are automatically disposed of after 120 days.
- - After you dispose of a HIT, you can no longer approve the HIT's rejected assignments.
- - Disposed HITs are not returned in results for the ListHITs operation.
- - Disposing HITs can improve the performance of operations such as ListReviewableHITs and
-ListHITs.
+    - After you dispose of a HIT, you can no longer approve the HIT's rejected assignments.
+    - Disposed HITs are not returned in results for the ListHITs operation.
+    - Disposing HITs can improve the performance of operations such as ListReviewableHITs
+      and ListHITs.
 
 # Arguments
 
@@ -782,6 +796,7 @@ function delete_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -797,7 +812,7 @@ end
     delete_qualification_type(qualification_type_id)
     delete_qualification_type(qualification_type_id, params::Dict{String,<:Any})
 
- The `DeleteQualificationType` deletes a Qualification type and deletes any HIT types that
+The `DeleteQualificationType` deletes a Qualification type and deletes any HIT types that
 are associated with the Qualification type.
 
 This operation does not revoke Qualifications already assigned to Workers because the
@@ -807,9 +822,9 @@ Qualification type, you can no longer use it to create HITs or HIT types.
 
 !!! note
     DeleteQualificationType must wait for all the HITs that use the deleted Qualification
-type to be deleted before completing. It may take up to 48 hours before
-DeleteQualificationType completes and the unique name of the Qualification type is
-available for reuse with CreateQualificationType.
+    type to be deleted before completing. It may take up to 48 hours before
+    DeleteQualificationType completes and the unique name of the Qualification type is
+    available for reuse with CreateQualificationType.
 
 # Arguments
 
@@ -825,6 +840,7 @@ function delete_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -848,11 +864,11 @@ end
     delete_worker_block(worker_id)
     delete_worker_block(worker_id, params::Dict{String,<:Any})
 
-The `DeleteWorkerBlock` operation allows you to reinstate a blocked Worker to work on your
-HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the
-Worker ID to use this operation. If the Worker ID is missing or invalid, this operation
-fails and returns the message “WorkerId is invalid.” If the specified Worker is not
-blocked, this operation returns successfully.
+The [`delete_worker_block`](@ref) operation allows you to reinstate a blocked Worker to
+work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation.
+You need the Worker ID to use this operation. If the Worker ID is missing or invalid, this
+operation fails and returns the message “WorkerId is invalid.” If the specified Worker is
+not blocked, this operation returns successfully.
 
 # Arguments
 
@@ -873,6 +889,7 @@ function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_worker_block(
     WorkerId,
     params::AbstractDict{String};
@@ -892,10 +909,10 @@ end
     disassociate_qualification_from_worker(qualification_type_id, worker_id)
     disassociate_qualification_from_worker(qualification_type_id, worker_id, params::Dict{String,<:Any})
 
- The `DisassociateQualificationFromWorker` revokes a previously granted Qualification from
-a user.
+The `DisassociateQualificationFromWorker` revokes a previously granted Qualification from a
+user.
 
- You can provide a text message explaining why the Qualification was revoked. The user who
+You can provide a text message explaining why the Qualification was revoked. The user who
 had the Qualification can see this message.
 
 # Arguments
@@ -923,6 +940,7 @@ function disassociate_qualification_from_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_qualification_from_worker(
     QualificationTypeId,
     WorkerId,
@@ -949,17 +967,18 @@ end
     get_account_balance()
     get_account_balance(params::Dict{String,<:Any})
 
-The `GetAccountBalance` operation retrieves the Prepaid HITs balance in your Amazon
-Mechanical Turk account if you are a Prepaid Requester. Alternatively, this operation will
-retrieve the remaining available AWS Billing usage if you have enabled AWS Billing. Note:
-If you have enabled AWS Billing and still have a remaining Prepaid HITs balance, this
-balance can be viewed on the My Account page in the Requester console.
+The [`get_account_balance`](@ref) operation retrieves the Prepaid HITs balance in your
+Amazon Mechanical Turk account if you are a Prepaid Requester. Alternatively, this
+operation will retrieve the remaining available AWS Billing usage if you have enabled AWS
+Billing. Note: If you have enabled AWS Billing and still have a remaining Prepaid HITs
+balance, this balance can be viewed on the My Account page in the Requester console.
 """
 function get_account_balance(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "GetAccountBalance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_balance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -972,7 +991,7 @@ end
     get_assignment(assignment_id)
     get_assignment(assignment_id, params::Dict{String,<:Any})
 
- The `GetAssignment` operation retrieves the details of the specified Assignment.
+The [`get_assignment`](@ref) operation retrieves the details of the specified Assignment.
 
 # Arguments
 
@@ -986,6 +1005,7 @@ function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assignment(
     AssignmentId,
     params::AbstractDict{String};
@@ -1005,14 +1025,14 @@ end
     get_file_upload_url(assignment_id, question_identifier)
     get_file_upload_url(assignment_id, question_identifier, params::Dict{String,<:Any})
 
- The `GetFileUploadURL` operation generates and returns a temporary URL. You use the
-temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer
-question for a HIT. The temporary URL is generated the instant the GetFileUploadURL
-operation is called, and is valid for 60 seconds. You can get a temporary file upload URL
-any time until the HIT is disposed. After the HIT is disposed, any uploaded files are
-deleted, and cannot be retrieved. Pending Deprecation on December 12, 2017. The Answer
-Specification structure will no longer support the `FileUploadAnswer` element to be used
-for the QuestionForm data structure. Instead, we recommend that Requesters who want to
+The [`get_file_upload_url`](@ref) operation generates and returns a temporary URL. You use
+the temporary URL to retrieve a file uploaded by a Worker as an answer to a
+FileUploadAnswer question for a HIT. The temporary URL is generated the instant the
+GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary
+file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded
+files are deleted, and cannot be retrieved. Pending Deprecation on December 12, 2017. The
+Answer Specification structure will no longer support the `FileUploadAnswer` element to be
+used for the QuestionForm data structure. Instead, we recommend that Requesters who want to
 create HITs asking Workers to upload files to use Amazon S3.
 
 # Arguments
@@ -1034,6 +1054,7 @@ function get_file_upload_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_file_upload_url(
     AssignmentId,
     QuestionIdentifier,
@@ -1061,7 +1082,7 @@ end
     get_hit(hitid)
     get_hit(hitid, params::Dict{String,<:Any})
 
- The `GetHIT` operation retrieves the details of the specified HIT.
+The [`get_hit`](@ref) operation retrieves the details of the specified HIT.
 
 # Arguments
 
@@ -1075,6 +1096,7 @@ function get_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1090,11 +1112,11 @@ end
     get_qualification_score(qualification_type_id, worker_id)
     get_qualification_score(qualification_type_id, worker_id, params::Dict{String,<:Any})
 
- The `GetQualificationScore` operation returns the value of a Worker's Qualification for a
-given Qualification type.
+The [`get_qualification_score`](@ref) operation returns the value of a Worker's
+Qualification for a given Qualification type.
 
- To get a Worker's Qualification, you must know the Worker's ID. The Worker's ID is
-included in the assignment data returned by the `ListAssignmentsForHIT` operation.
+To get a Worker's Qualification, you must know the Worker's ID. The Worker's ID is included
+in the assignment data returned by the [`list_assignments_for_hit`](@ref) operation.
 
 Only the owner of a Qualification type can query the value of a Worker's Qualification of
 that type.
@@ -1116,6 +1138,7 @@ function get_qualification_score(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qualification_score(
     QualificationTypeId,
     WorkerId,
@@ -1142,7 +1165,7 @@ end
     get_qualification_type(qualification_type_id)
     get_qualification_type(qualification_type_id, params::Dict{String,<:Any})
 
- The `GetQualificationType`operation retrieves information about a Qualification type using
+The `GetQualificationType`operation retrieves information about a Qualification type using
 its ID.
 
 # Arguments
@@ -1159,6 +1182,7 @@ function get_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1182,22 +1206,22 @@ end
     list_assignments_for_hit(hitid)
     list_assignments_for_hit(hitid, params::Dict{String,<:Any})
 
- The `ListAssignmentsForHIT` operation retrieves completed assignments for a HIT. You can
-use this operation to retrieve the results for a HIT.
+The [`list_assignments_for_hit`](@ref) operation retrieves completed assignments for a HIT.
+You can use this operation to retrieve the results for a HIT.
 
- You can get assignments for a HIT at any time, even if the HIT is not yet Reviewable. If a
+You can get assignments for a HIT at any time, even if the HIT is not yet Reviewable. If a
 HIT requested multiple assignments, and has received some results but has not yet become
 Reviewable, you can still retrieve the partial results with this operation.
 
- Use the AssignmentStatus parameter to control which set of assignments for a HIT are
+Use the AssignmentStatus parameter to control which set of assignments for a HIT are
 returned. The ListAssignmentsForHIT operation can return submitted assignments awaiting
 approval, or it can return assignments that have already been approved or rejected. You can
 set AssignmentStatus=Approved,Rejected to get assignments that have already been approved
 and rejected together in one result set.
 
- Only the Requester who created the HIT can retrieve the assignments for that HIT.
+Only the Requester who created the HIT can retrieve the assignments for that HIT.
 
- Results are sorted and divided into numbered pages and the operation returns a single page
+Results are sorted and divided into numbered pages and the operation returns a single page
 of results. You can use the parameters of the operation to control sorting and pagination.
 
 # Arguments
@@ -1221,6 +1245,7 @@ function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assignments_for_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1236,19 +1261,19 @@ end
     list_bonus_payments()
     list_bonus_payments(params::Dict{String,<:Any})
 
- The `ListBonusPayments` operation retrieves the amounts of bonuses you have paid to
-Workers for a given HIT or assignment.
+The [`list_bonus_payments`](@ref) operation retrieves the amounts of bonuses you have paid
+to Workers for a given HIT or assignment.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AssignmentId"`: The ID of the assignment associated with the bonus payments to
-  retrieve. If specified, only bonus payments for the given assignment are returned. Either
-  the HITId parameter or the AssignmentId parameter must be specified
+  retrieve. If specified, only bonus payments for the given assignment are returned.
+  Either the HITId parameter or the AssignmentId parameter must be specified
 - `"HITId"`: The ID of the HIT associated with the bonus payments to retrieve. If not
-  specified, all bonus payments for all assignments for the given HIT are returned. Either
-  the HITId parameter or the AssignmentId parameter must be specified
+  specified, all bonus payments for all assignments for the given HIT are returned.
+  Either the HITId parameter or the AssignmentId parameter must be specified
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
@@ -1257,6 +1282,7 @@ function list_bonus_payments(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListBonusPayments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bonus_payments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1269,9 +1295,9 @@ end
     list_hits()
     list_hits(params::Dict{String,<:Any})
 
- The `ListHITs` operation returns all of a Requester's HITs. The operation returns HITs of
-any status, except for HITs that have been deleted of with the DeleteHIT operation or that
-have been auto-deleted.
+The [`list_hits`](@ref) operation returns all of a Requester's HITs. The operation returns
+HITs of any status, except for HITs that have been deleted of with the DeleteHIT operation
+or that have been auto-deleted.
 
 # Optional Parameters
 
@@ -1283,6 +1309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_hits(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1293,20 +1320,20 @@ end
     list_hits_for_qualification_type(qualification_type_id)
     list_hits_for_qualification_type(qualification_type_id, params::Dict{String,<:Any})
 
- The `ListHITsForQualificationType` operation returns the HITs that use the given
-Qualification type for a Qualification requirement. The operation returns HITs of any
-status, except for HITs that have been deleted with the `DeleteHIT` operation or that have
-been auto-deleted.
+The [`list_hits_for_qualification_type`](@ref) operation returns the HITs that use the
+given Qualification type for a Qualification requirement. The operation returns HITs of any
+status, except for HITs that have been deleted with the [`delete_hit`](@ref) operation or
+that have been auto-deleted.
 
 # Arguments
 
-- `qualification_type_id`:  The ID of the Qualification type to use when querying HITs.
+- `qualification_type_id`: The ID of the Qualification type to use when querying HITs.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  Limit the number of results returned.
+- `"MaxResults"`: Limit the number of results returned.
 - `"NextToken"`: Pagination Token
 """
 function list_hits_for_qualification_type(
@@ -1319,6 +1346,7 @@ function list_hits_for_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hits_for_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1342,15 +1370,16 @@ end
     list_qualification_requests()
     list_qualification_requests(params::Dict{String,<:Any})
 
- The `ListQualificationRequests` operation retrieves requests for Qualifications of a
-particular Qualification type. The owner of the Qualification type calls this operation to
-poll for pending requests, and accepts them using the AcceptQualification operation.
+The [`list_qualification_requests`](@ref) operation retrieves requests for Qualifications
+of a particular Qualification type. The owner of the Qualification type calls this
+operation to poll for pending requests, and accepts them using the AcceptQualification
+operation.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  The maximum number of results to return in a single call.
+- `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`:
 - `"QualificationTypeId"`: The ID of the QualificationType.
 """
@@ -1359,6 +1388,7 @@ function list_qualification_requests(; aws_config::AbstractAWSConfig=current_aws
         "ListQualificationRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_qualification_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1374,27 +1404,27 @@ end
     list_qualification_types(must_be_requestable)
     list_qualification_types(must_be_requestable, params::Dict{String,<:Any})
 
- The `ListQualificationTypes` operation returns a list of Qualification types, filtered by
-an optional search term.
+The [`list_qualification_types`](@ref) operation returns a list of Qualification types,
+filtered by an optional search term.
 
 # Arguments
 
 - `must_be_requestable`: Specifies that only Qualification types that a user can request
-  through the Amazon Mechanical Turk web site, such as by taking a Qualification test, are
-  returned as results of the search. Some Qualification types, such as those assigned
+  through the Amazon Mechanical Turk web site, such as by taking a Qualification test,
+  are returned as results of the search. Some Qualification types, such as those assigned
   automatically by the system, cannot be requested directly by users. If false, all
-  Qualification types, including those managed by the system, are considered. Valid values
-  are True | False.
+  Qualification types, including those managed by the system, are considered. Valid
+  values are True | False.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  The maximum number of results to return in a single call.
-- `"MustBeOwnedByCaller"`:  Specifies that only Qualification types that the Requester
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"MustBeOwnedByCaller"`: Specifies that only Qualification types that the Requester
   created are returned. If false, the operation returns all Qualification types.
 - `"NextToken"`:
-- `"Query"`:  A text query against all of the searchable attributes of Qualification types.
+- `"Query"`: A text query against all of the searchable attributes of Qualification types.
 """
 function list_qualification_types(
     MustBeRequestable; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1406,6 +1436,7 @@ function list_qualification_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_qualification_types(
     MustBeRequestable,
     params::AbstractDict{String};
@@ -1427,8 +1458,8 @@ end
     list_review_policy_results_for_hit(hitid)
     list_review_policy_results_for_hit(hitid, params::Dict{String,<:Any})
 
- The `ListReviewPolicyResultsForHIT` operation retrieves the computed results and the
-actions taken in the course of executing your Review Policies for a given HIT. For
+The [`list_review_policy_results_for_hit`](@ref) operation retrieves the computed results
+and the actions taken in the course of executing your Review Policies for a given HIT. For
 information about how to specify Review Policies when you call CreateHIT, see Review
 Policies. The ListReviewPolicyResultsForHIT operation can return results for both
 Assignment-level and HIT-level review results.
@@ -1443,12 +1474,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Limit the number of results returned.
 - `"NextToken"`: Pagination token
-- `"PolicyLevels"`:  The Policy Level(s) to retrieve review results for - HIT or
-  Assignment. If omitted, the default behavior is to retrieve all data for both policy
-  levels. For a list of all the described policies, see Review Policies.
-- `"RetrieveActions"`:  Specify if the operation should retrieve a list of the actions
-  taken executing the Review Policies and their outcomes.
-- `"RetrieveResults"`:  Specify if the operation should retrieve a list of the results
+- `"PolicyLevels"`: The Policy Level(s) to retrieve review results for - HIT or Assignment.
+  If omitted, the default behavior is to retrieve all data for both policy levels. For a
+  list of all the described policies, see Review Policies.
+- `"RetrieveActions"`: Specify if the operation should retrieve a list of the actions taken
+  executing the Review Policies and their outcomes.
+- `"RetrieveResults"`: Specify if the operation should retrieve a list of the results
   computed by the Review Policies.
 """
 function list_review_policy_results_for_hit(
@@ -1461,6 +1492,7 @@ function list_review_policy_results_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_review_policy_results_for_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1476,24 +1508,25 @@ end
     list_reviewable_hits()
     list_reviewable_hits(params::Dict{String,<:Any})
 
- The `ListReviewableHITs` operation retrieves the HITs with Status equal to Reviewable or
-Status equal to Reviewing that belong to the Requester calling the operation.
+The [`list_reviewable_hits`](@ref) operation retrieves the HITs with Status equal to
+Reviewable or Status equal to Reviewing that belong to the Requester calling the operation.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"HITTypeId"`:  The ID of the HIT type of the HITs to consider for the query. If not
+- `"HITTypeId"`: The ID of the HIT type of the HITs to consider for the query. If not
   specified, all HITs for the Reviewer are considered
-- `"MaxResults"`:  Limit the number of results returned.
+- `"MaxResults"`: Limit the number of results returned.
 - `"NextToken"`: Pagination Token
-- `"Status"`:  Can be either `Reviewable` or `Reviewing`. Reviewable is the default value.
+- `"Status"`: Can be either `Reviewable` or `Reviewing`. Reviewable is the default value.
 """
 function list_reviewable_hits(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListReviewableHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reviewable_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1506,8 +1539,8 @@ end
     list_worker_blocks()
     list_worker_blocks(params::Dict{String,<:Any})
 
-The `ListWorkersBlocks` operation retrieves a list of Workers who are blocked from working
-on your HITs.
+The [`list_workers_blocks`](@ref) operation retrieves a list of Workers who are blocked
+from working on your HITs.
 
 # Optional Parameters
 
@@ -1519,6 +1552,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_worker_blocks(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListWorkerBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_worker_blocks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1531,8 +1565,8 @@ end
     list_workers_with_qualification_type(qualification_type_id)
     list_workers_with_qualification_type(qualification_type_id, params::Dict{String,<:Any})
 
- The `ListWorkersWithQualificationType` operation returns all of the Workers that have been
-associated with a given Qualification type.
+The [`list_workers_with_qualification_type`](@ref) operation returns all of the Workers
+that have been associated with a given Qualification type.
 
 # Arguments
 
@@ -1542,9 +1576,9 @@ associated with a given Qualification type.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  Limit the number of results returned.
+- `"MaxResults"`: Limit the number of results returned.
 - `"NextToken"`: Pagination Token
-- `"Status"`:  The status of the Qualifications to return. Can be `Granted | Revoked`.
+- `"Status"`: The status of the Qualifications to return. Can be `Granted | Revoked`.
 """
 function list_workers_with_qualification_type(
     QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1556,6 +1590,7 @@ function list_workers_with_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workers_with_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1579,10 +1614,11 @@ end
     notify_workers(message_text, subject, worker_ids)
     notify_workers(message_text, subject, worker_ids, params::Dict{String,<:Any})
 
- The `NotifyWorkers` operation sends an email to one or more Workers that you specify with
-the Worker ID. You can specify up to 100 Worker IDs to send the same message with a single
-call to the NotifyWorkers operation. The NotifyWorkers operation will send a notification
-email to a Worker only if you have previously approved or rejected work from the Worker.
+The [`notify_workers`](@ref) operation sends an email to one or more Workers that you
+specify with the Worker ID. You can specify up to 100 Worker IDs to send the same message
+with a single call to the NotifyWorkers operation. The NotifyWorkers operation will send a
+notification email to a Worker only if you have previously approved or rejected work from
+the Worker.
 
 # Arguments
 
@@ -1604,6 +1640,7 @@ function notify_workers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_workers(
     MessageText,
     Subject,
@@ -1633,20 +1670,20 @@ end
     reject_assignment(assignment_id, requester_feedback)
     reject_assignment(assignment_id, requester_feedback, params::Dict{String,<:Any})
 
- The `RejectAssignment` operation rejects the results of a completed assignment.
+The [`reject_assignment`](@ref) operation rejects the results of a completed assignment.
 
- You can include an optional feedback message with the rejection, which the Worker can see
+You can include an optional feedback message with the rejection, which the Worker can see
 in the Status section of the web site. When you include a feedback message with the
 rejection, it helps the Worker understand why the assignment was rejected, and can improve
 the quality of the results the Worker submits in the future.
 
- Only the Requester who created the HIT can reject an assignment for the HIT.
+Only the Requester who created the HIT can reject an assignment for the HIT.
 
 # Arguments
 
-- `assignment_id`:  The ID of the assignment. The assignment must correspond to a HIT
+- `assignment_id`: The ID of the assignment. The assignment must correspond to a HIT
   created by the Requester.
-- `requester_feedback`:  A message for the Worker, which the Worker can see in the Status
+- `requester_feedback`: A message for the Worker, which the Worker can see in the Status
   section of the web site.
 """
 function reject_assignment(
@@ -1661,6 +1698,7 @@ function reject_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_assignment(
     AssignmentId,
     RequesterFeedback,
@@ -1687,15 +1725,16 @@ end
     reject_qualification_request(qualification_request_id)
     reject_qualification_request(qualification_request_id, params::Dict{String,<:Any})
 
- The `RejectQualificationRequest` operation rejects a user's request for a Qualification.
+The [`reject_qualification_request`](@ref) operation rejects a user's request for a
+Qualification.
 
- You can provide a text message explaining why the request was rejected. The Worker who
-made the request can see this message.
+You can provide a text message explaining why the request was rejected. The Worker who made
+the request can see this message.
 
 # Arguments
 
-- `qualification_request_id`:  The ID of the Qualification request, as returned by the
-  `ListQualificationRequests` operation.
+- `qualification_request_id`: The ID of the Qualification request, as returned by the [`list_qualification_requests`](@ref)
+  operation.
 
 # Optional Parameters
 
@@ -1714,6 +1753,7 @@ function reject_qualification_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
@@ -1737,8 +1777,8 @@ end
     send_bonus(assignment_id, bonus_amount, reason, worker_id)
     send_bonus(assignment_id, bonus_amount, reason, worker_id, params::Dict{String,<:Any})
 
- The `SendBonus` operation issues a payment of money from your account to a Worker. This
-payment happens separately from the reward you pay to the Worker when you approve the
+The [`send_bonus`](@ref) operation issues a payment of money from your account to a Worker.
+This payment happens separately from the reward you pay to the Worker when you approve the
 Worker's assignment. The SendBonus operation requires the Worker's ID and the assignment ID
 as parameters to initiate payment of the bonus. You must include a message that explains
 the reason for the bonus payment, as the Worker may not be expecting the payment. Amazon
@@ -1749,9 +1789,9 @@ the fees.
 # Arguments
 
 - `assignment_id`: The ID of the assignment for which this bonus is paid.
-- `bonus_amount`:  The Bonus amount is a US Dollar amount specified using a string (for
-  example, "5" represents \$5.00 USD and "101.42" represents \$101.42 USD). Do not include
-  currency symbols or currency codes.
+- `bonus_amount`: The Bonus amount is a US Dollar amount specified using a string (for
+  example, "5" represents \$5.00 USD and "101.42" represents \$101.42 USD). Do not
+  include currency symbols or currency codes.
 - `reason`: A message that explains the reason for the bonus payment. The Worker receiving
   the bonus can see this message.
 - `worker_id`: The ID of the Worker being paid the bonus.
@@ -1762,8 +1802,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"UniqueRequestToken"`: A unique identifier for this request, which allows you to retry
   the call on error without granting multiple bonuses. This is useful in cases such as
-  network timeouts where it is unclear whether or not the call succeeded on the server. If
-  the bonus already exists in the system from a previous call using the same
+  network timeouts where it is unclear whether or not the call succeeded on the server.
+  If the bonus already exists in the system from a previous call using the same
   UniqueRequestToken, subsequent calls will return an error with a message containing the
   request ID.
 """
@@ -1786,6 +1826,7 @@ function send_bonus(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_bonus(
     AssignmentId,
     BonusAmount,
@@ -1817,18 +1858,18 @@ end
     send_test_event_notification(notification, test_event_type)
     send_test_event_notification(notification, test_event_type, params::Dict{String,<:Any})
 
- The `SendTestEventNotification` operation causes Amazon Mechanical Turk to send a
-notification message as if a HIT event occurred, according to the provided notification
+The [`send_test_event_notification`](@ref) operation causes Amazon Mechanical Turk to send
+a notification message as if a HIT event occurred, according to the provided notification
 specification. This allows you to test notifications without setting up notifications for a
 real HIT type and trying to trigger them using the website. When you call this operation,
 the service attempts to send the test notification immediately.
 
 # Arguments
 
-- `notification`:  The notification specification to test. This value is identical to the
+- `notification`: The notification specification to test. This value is identical to the
   value you would provide to the UpdateNotificationSettings operation when you establish
   the notification specification for a HIT type.
-- `test_event_type`:  The event to simulate to test the notification specification. This
+- `test_event_type`: The event to simulate to test the notification specification. This
   event is included in the test message even if the notification specification does not
   include the event type. The notification specification does not filter out the test
   event.
@@ -1843,6 +1884,7 @@ function send_test_event_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_test_event_notification(
     Notification,
     TestEventType,
@@ -1869,13 +1911,13 @@ end
     update_expiration_for_hit(expire_at, hitid)
     update_expiration_for_hit(expire_at, hitid, params::Dict{String,<:Any})
 
- The `UpdateExpirationForHIT` operation allows you update the expiration time of a HIT. If
-you update it to a time in the past, the HIT will be immediately expired.
+The [`update_expiration_for_hit`](@ref) operation allows you update the expiration time of
+a HIT. If you update it to a time in the past, the HIT will be immediately expired.
 
 # Arguments
 
-- `expire_at`:  The date and time at which you want the HIT to expire
-- `hitid`:  The HIT to update.
+- `expire_at`: The date and time at which you want the HIT to expire
+- `hitid`: The HIT to update.
 """
 function update_expiration_for_hit(
     ExpireAt, HITId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1887,6 +1929,7 @@ function update_expiration_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_expiration_for_hit(
     ExpireAt,
     HITId,
@@ -1909,21 +1952,23 @@ end
     update_hitreview_status(hitid)
     update_hitreview_status(hitid, params::Dict{String,<:Any})
 
- The `UpdateHITReviewStatus` operation updates the status of a HIT. If the status is
-Reviewable, this operation can update the status to Reviewing, or it can revert a Reviewing
-HIT back to the Reviewable status.
+The [`update_hitreview_status`](@ref) operation updates the status of a HIT. If the status
+is Reviewable, this operation can update the status to Reviewing, or it can revert a
+Reviewing HIT back to the Reviewable status.
 
 # Arguments
 
-- `hitid`:  The ID of the HIT to update.
+- `hitid`: The ID of the HIT to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Revert"`:  Specifies how to update the HIT status. Default is `False`.  - Setting this
-  to false will only transition a HIT from `Reviewable` to `Reviewing`
-   - Setting this to true will only transition a HIT from `Reviewing` to `Reviewable`
+- `"Revert"`: Specifies how to update the HIT status. Default is `False`.
+
+  - Setting this to false will only transition a HIT from `Reviewable` to `Reviewing`
+  - Setting this to true will only transition a HIT from `Reviewing` to `Reviewable`
+
 """
 function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
@@ -1933,6 +1978,7 @@ function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hitreview_status(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1948,10 +1994,10 @@ end
     update_hittype_of_hit(hitid, hittype_id)
     update_hittype_of_hit(hitid, hittype_id, params::Dict{String,<:Any})
 
- The `UpdateHITTypeOfHIT` operation allows you to change the HITType properties of a HIT.
-This operation disassociates the HIT from its old HITType properties and associates it with
-the new HITType properties. The HIT takes on the properties of the new HITType in place of
-the old ones.
+The [`update_hittype_of_hit`](@ref) operation allows you to change the HITType properties
+of a HIT. This operation disassociates the HIT from its old HITType properties and
+associates it with the new HITType properties. The HIT takes on the properties of the new
+HITType in place of the old ones.
 
 # Arguments
 
@@ -1968,6 +2014,7 @@ function update_hittype_of_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hittype_of_hit(
     HITId,
     HITTypeId,
@@ -1990,10 +2037,10 @@ end
     update_notification_settings(hittype_id)
     update_notification_settings(hittype_id, params::Dict{String,<:Any})
 
- The `UpdateNotificationSettings` operation creates, updates, disables or re-enables
-notifications for a HIT type. If you call the UpdateNotificationSettings operation for a
-HIT type that already has a notification specification, the operation replaces the old
-specification with a new one. You can call the UpdateNotificationSettings operation to
+The [`update_notification_settings`](@ref) operation creates, updates, disables or re-
+enables notifications for a HIT type. If you call the UpdateNotificationSettings operation
+for a HIT type that already has a notification specification, the operation replaces the
+old specification with a new one. You can call the UpdateNotificationSettings operation to
 enable or disable notifications for the HIT type, without having to modify the notification
 specification itself by providing updates to the Active status without specifying a new
 notification specification. To change the Active status of a HIT type's notifications, the
@@ -2002,16 +2049,16 @@ same call to `UpdateNotificationSettings`.
 
 # Arguments
 
-- `hittype_id`:  The ID of the HIT type whose notification specification is being updated.
+- `hittype_id`: The ID of the HIT type whose notification specification is being updated.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Active"`:  Specifies whether notifications are sent for HITs of this HIT type,
-  according to the notification specification. You must specify either the Notification
-  parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
-- `"Notification"`:  The notification specification for the HIT type.
+- `"Active"`: Specifies whether notifications are sent for HITs of this HIT type, according
+  to the notification specification. You must specify either the Notification parameter
+  or the Active parameter for the call to UpdateNotificationSettings to succeed.
+- `"Notification"`: The notification specification for the HIT type.
 """
 function update_notification_settings(
     HITTypeId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2023,6 +2070,7 @@ function update_notification_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification_settings(
     HITTypeId,
     params::AbstractDict{String};
@@ -2042,35 +2090,34 @@ end
     update_qualification_type(qualification_type_id)
     update_qualification_type(qualification_type_id, params::Dict{String,<:Any})
 
- The `UpdateQualificationType` operation modifies the attributes of an existing
+The [`update_qualification_type`](@ref) operation modifies the attributes of an existing
 Qualification type, which is represented by a QualificationType data structure. Only the
 owner of a Qualification type can modify its attributes.
 
- Most attributes of a Qualification type can be changed after the type has been created.
+Most attributes of a Qualification type can be changed after the type has been created.
 However, the Name and Keywords fields cannot be modified. The RetryDelayInSeconds parameter
 can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds
 cannot be used to disable retries.
 
- You can use this operation to update the test for a Qualification type. The test is
-updated based on the values specified for the Test, TestDurationInSeconds and AnswerKey
-parameters. All three parameters specify the updated test. If you are updating the test for
-a type, you must specify the Test and TestDurationInSeconds parameters. The AnswerKey
-parameter is optional; omitting it specifies that the updated test does not have an answer
-key.
+You can use this operation to update the test for a Qualification type. The test is updated
+based on the values specified for the Test, TestDurationInSeconds and AnswerKey parameters.
+All three parameters specify the updated test. If you are updating the test for a type, you
+must specify the Test and TestDurationInSeconds parameters. The AnswerKey parameter is
+optional; omitting it specifies that the updated test does not have an answer key.
 
- If you omit the Test parameter, the test for the Qualification type is unchanged. There is
+If you omit the Test parameter, the test for the Qualification type is unchanged. There is
 no way to remove a test from a Qualification type that has one. If the type already has a
 test, you cannot update it to be AutoGranted. If the Qualification type does not have a
 test and one is provided by an update, the type will henceforth have a test.
 
- If you want to update the test duration or answer key for an existing test without
-changing the questions, you must specify a Test parameter with the original questions,
-along with the updated values.
+If you want to update the test duration or answer key for an existing test without changing
+the questions, you must specify a Test parameter with the original questions, along with
+the updated values.
 
- If you provide an updated Test but no AnswerKey, the new test will not have an answer key.
+If you provide an updated Test but no AnswerKey, the new test will not have an answer key.
 Requests for such Qualifications must be granted manually.
 
- You can also update the AutoGranted and AutoGrantedValue attributes of the Qualification
+You can also update the AutoGranted and AutoGrantedValue attributes of the Qualification
 type.
 
 # Arguments
@@ -2086,24 +2133,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoGranted"`: Specifies whether requests for the Qualification type are granted
   immediately, without prompting the Worker with a Qualification test.
 
-Constraints: If the Test parameter is specified, this parameter cannot be true.
+  Constraints: If the Test parameter is specified, this parameter cannot be true.
 - `"AutoGrantedValue"`: The Qualification value to use for automatically granted
   Qualifications. This parameter is used only if the AutoGranted parameter is true.
 - `"Description"`: The new description of the Qualification type.
 - `"QualificationTypeStatus"`: The new status of the Qualification type - Active | Inactive
 - `"RetryDelayInSeconds"`: The amount of time, in seconds, that Workers must wait after
-  requesting a Qualification of the specified Qualification type before they can retry the
-  Qualification request. It is not possible to disable retries for a Qualification type
-  after it has been created with retries enabled. If you want to disable retries, you must
-  dispose of the existing retry-enabled Qualification type using DisposeQualificationType
-  and then create a new Qualification type with retries disabled using
-  CreateQualificationType.
+  requesting a Qualification of the specified Qualification type before they can retry
+  the Qualification request. It is not possible to disable retries for a Qualification
+  type after it has been created with retries enabled. If you want to disable retries,
+  you must dispose of the existing retry-enabled Qualification type using
+  DisposeQualificationType and then create a new Qualification type with retries disabled
+  using CreateQualificationType.
 - `"Test"`: The questions for the Qualification test a Worker must answer correctly to
   obtain a Qualification of this type. If this parameter is specified,
   `TestDurationInSeconds` must also be specified.
 
-  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure.
-  This parameter cannot be specified if AutoGranted is true.
+  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data
+  structure. This parameter cannot be specified if AutoGranted is true.
 
   Constraints: None. If not specified, the Worker may request the Qualification without
   answering any questions.
@@ -2120,6 +2167,7 @@ function update_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};

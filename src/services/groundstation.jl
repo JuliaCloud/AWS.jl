@@ -22,6 +22,7 @@ function cancel_contact(contactId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_contact(
     contactId,
     params::AbstractDict{String};
@@ -64,6 +65,7 @@ function create_config(configData, name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_config(
     configData,
     name,
@@ -125,6 +127,7 @@ function create_dataflow_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataflow_endpoint_group(
     endpointDetails,
     params::AbstractDict{String};
@@ -161,7 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"enabled"`: Whether to set the ephemeris status to `ENABLED` after validation.
 
-Setting this to false will set the ephemeris status to `DISABLED` after validation.
+  Setting this to false will set the ephemeris status to `DISABLED` after validation.
 - `"ephemeris"`: Ephemeris data.
 - `"expirationTime"`: An overall expiration time for the ephemeris in UTC, after which it
   will become `EXPIRED`.
@@ -172,7 +175,7 @@ Setting this to false will set the ephemeris status to `DISABLED` after validati
   The default for customer-provided ephemeris priority is 1, and higher numbers take
   precedence.
 
-Priority must be 1 or greater
+  Priority must be 1 or greater
 - `"tags"`: Tags assigned to an ephemeris.
 """
 function create_ephemeris(
@@ -186,6 +189,7 @@ function create_ephemeris(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ephemeris(
     name,
     satelliteId,
@@ -213,7 +217,7 @@ end
 
 Creates a mission profile.
 
- `dataflowEdges` is a list of lists of strings. Each lower level list of strings has two
+`dataflowEdges` is a list of lists of strings. Each lower level list of strings has two
 elements: a *from* ARN and a *to* ARN.
 
 # Arguments
@@ -258,6 +262,7 @@ function create_mission_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_mission_profile(
     dataflowEdges,
     minimumViableContactDurationSeconds,
@@ -308,6 +313,7 @@ function delete_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_config(
     configId,
     configType,
@@ -343,6 +349,7 @@ function delete_dataflow_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataflow_endpoint_group(
     dataflowEndpointGroupId,
     params::AbstractDict{String};
@@ -375,6 +382,7 @@ function delete_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ephemeris(
     ephemerisId,
     params::AbstractDict{String};
@@ -409,6 +417,7 @@ function delete_mission_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mission_profile(
     missionProfileId,
     params::AbstractDict{String};
@@ -441,6 +450,7 @@ function describe_contact(contactId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_contact(
     contactId,
     params::AbstractDict{String};
@@ -473,6 +483,7 @@ function describe_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ephemeris(
     ephemerisId,
     params::AbstractDict{String};
@@ -494,8 +505,9 @@ end
 
 
 !!! note
-    For use by AWS Ground Station Agent and shouldn't be called directly.Gets the latest
-configuration information for a registered agent.
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Gets the latest configuration information for a registered agent.
 
 # Arguments
 
@@ -511,6 +523,7 @@ function get_agent_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_configuration(
     agentId,
     params::AbstractDict{String};
@@ -548,6 +561,7 @@ function get_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_config(
     configId,
     configType,
@@ -583,6 +597,7 @@ function get_dataflow_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dataflow_endpoint_group(
     dataflowEndpointGroupId,
     params::AbstractDict{String};
@@ -617,6 +632,7 @@ function get_minute_usage(month, year; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_minute_usage(
     month,
     year,
@@ -654,6 +670,7 @@ function get_mission_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mission_profile(
     missionProfileId,
     params::AbstractDict{String};
@@ -686,6 +703,7 @@ function get_satellite(satelliteId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_satellite(
     satelliteId,
     params::AbstractDict{String};
@@ -719,6 +737,7 @@ function list_configs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -766,6 +785,7 @@ function list_contacts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_contacts(
     endTime,
     startTime,
@@ -814,6 +834,7 @@ function list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dataflow_endpoint_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -861,6 +882,7 @@ function list_ephemerides(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ephemerides(
     endTime,
     satelliteId,
@@ -907,6 +929,7 @@ function list_ground_stations(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/groundstation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_ground_stations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -938,6 +961,7 @@ function list_mission_profiles(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/missionprofile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mission_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -969,6 +993,7 @@ function list_satellites(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/satellite"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_satellites(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -997,6 +1022,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1018,8 +1044,9 @@ end
 
 
 !!! note
-    For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new
-agent with AWS Ground Station.
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Registers a new agent with AWS Ground Station.
 
 # Arguments
 
@@ -1037,6 +1064,7 @@ function register_agent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_agent(
     agentDetails,
     discoveryData,
@@ -1102,6 +1130,7 @@ function reserve_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reserve_contact(
     endTime,
     groundStation,
@@ -1152,6 +1181,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1189,6 +1219,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1211,8 +1242,9 @@ end
 
 
 !!! note
-    For use by AWS Ground Station Agent and shouldn't be called directly.Update the status
-of the agent.
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Update the status of the agent.
 
 # Arguments
 
@@ -1240,6 +1272,7 @@ function update_agent_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent_status(
     agentId,
     aggregateStatus,
@@ -1298,6 +1331,7 @@ function update_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_config(
     configData,
     configId,
@@ -1343,7 +1377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default for customer-provided ephemeris priority is 1, and higher numbers take
   precedence.
 
-Priority must be 1 or greater
+  Priority must be 1 or greater
 """
 function update_ephemeris(
     enabled, ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1356,6 +1390,7 @@ function update_ephemeris(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ephemeris(
     enabled,
     ephemerisId,
@@ -1412,6 +1447,7 @@ function update_mission_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mission_profile(
     missionProfileId,
     params::AbstractDict{String};

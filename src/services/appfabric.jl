@@ -32,6 +32,7 @@ function batch_get_user_access_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_user_access_tasks(
     appBundleIdentifier,
     taskIdList,
@@ -90,6 +91,7 @@ function connect_app_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function connect_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
@@ -116,18 +118,21 @@ application.
 
 - `app`: The name of the application.
 
-  Valid values are: - `SLACK`
-   - `ASANA`
-   - `JIRA`
-   - `M365`
-   - `M365AUDITLOGS`
-   - `ZOOM`
- - `ZENDESK`
- - `OKTA`
- - `GOOGLE`
- - `DROPBOX`
- - `SMARTSHEET`
- - `CISCO`
+  Valid values are:
+
+  - `SLACK`
+  - `ASANA`
+  - `JIRA`
+  - `M365`
+  - `M365AUDITLOGS`
+  - `ZOOM`
+  - `ZENDESK`
+  - `OKTA`
+  - `GOOGLE`
+  - `DROPBOX`
+  - `SMARTSHEET`
+  - `CISCO`
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `auth_type`: The authorization type for the app authorization.
@@ -150,7 +155,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -178,6 +184,7 @@ function create_app_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_authorization(
     app,
     appBundleIdentifier,
@@ -224,7 +231,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -242,6 +250,7 @@ function create_app_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_bundle(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -266,18 +275,21 @@ Creates a data ingestion for an application.
 
 - `app`: The name of the application.
 
-  Valid values are: - `SLACK`
-   - `ASANA`
-   - `JIRA`
-   - `M365`
-   - `M365AUDITLOGS`
-   - `ZOOM`
- - `ZENDESK`
- - `OKTA`
- - `GOOGLE`
- - `DROPBOX`
- - `SMARTSHEET`
- - `CISCO`
+  Valid values are:
+
+  - `SLACK`
+  - `ASANA`
+  - `JIRA`
+  - `M365`
+  - `M365AUDITLOGS`
+  - `ZOOM`
+  - `ZENDESK`
+  - `OKTA`
+  - `GOOGLE`
+  - `DROPBOX`
+  - `SMARTSHEET`
+  - `CISCO`
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_type`: The ingestion type.
@@ -293,7 +305,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -319,6 +332,7 @@ function create_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ingestion(
     app,
     appBundleIdentifier,
@@ -373,7 +387,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -398,6 +413,7 @@ function create_ingestion_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ingestion_destination(
     appBundleIdentifier,
     destinationConfiguration,
@@ -451,6 +467,7 @@ function delete_app_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
@@ -488,6 +505,7 @@ function delete_app_bundle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_bundle(
     appBundleIdentifier,
     params::AbstractDict{String};
@@ -528,6 +546,7 @@ function delete_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
@@ -576,6 +595,7 @@ function delete_ingestion_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ingestion_destination(
     appBundleIdentifier,
     ingestionDestinationIdentifier,
@@ -617,6 +637,7 @@ function get_app_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
@@ -653,6 +674,7 @@ function get_app_bundle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app_bundle(
     appBundleIdentifier,
     params::AbstractDict{String};
@@ -692,6 +714,7 @@ function get_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
@@ -735,6 +758,7 @@ function get_ingestion_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ingestion_destination(
     appBundleIdentifier,
     ingestionDestinationIdentifier,
@@ -774,8 +798,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an *HTTP 400 InvalidToken error*.
 """
 function list_app_authorizations(
     appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -787,6 +811,7 @@ function list_app_authorizations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_authorizations(
     appBundleIdentifier,
     params::AbstractDict{String};
@@ -819,14 +844,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an *HTTP 400 InvalidToken error*.
 """
 function list_app_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
     return appfabric(
         "GET", "/appbundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_app_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -860,8 +886,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an *HTTP 400 InvalidToken error*.
 """
 function list_ingestion_destinations(
     appBundleIdentifier,
@@ -875,6 +901,7 @@ function list_ingestion_destinations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ingestion_destinations(
     appBundleIdentifier,
     ingestionIdentifier,
@@ -913,8 +940,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an *HTTP 400 InvalidToken error*.
 """
 function list_ingestions(
     appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -926,6 +953,7 @@ function list_ingestions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ingestions(
     appBundleIdentifier,
     params::AbstractDict{String};
@@ -961,6 +989,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1000,6 +1029,7 @@ function start_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
@@ -1041,6 +1071,7 @@ function start_user_access_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_user_access_tasks(
     appBundleIdentifier,
     email,
@@ -1089,6 +1120,7 @@ function stop_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
@@ -1124,6 +1156,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1162,6 +1195,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1201,9 +1235,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"credential"`: Contains credentials for the application, such as an API key or OAuth2
   client ID and secret.
 
-  Specify credentials that match the authorization type of the app authorization to update.
-  For example, if the authorization type of the app authorization is OAuth2 (`oauth2`),
-  then you should provide only the OAuth2 credentials.
+  Specify credentials that match the authorization type of the app authorization to
+  update. For example, if the authorization type of the app authorization is OAuth2
+  (`oauth2`), then you should provide only the OAuth2 credentials.
 - `"tenant"`: Contains information about an application tenant, such as the application
   display name and identifier.
 """
@@ -1219,6 +1253,7 @@ function update_app_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
@@ -1266,6 +1301,7 @@ function update_ingestion_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ingestion_destination(
     appBundleIdentifier,
     destinationConfiguration,

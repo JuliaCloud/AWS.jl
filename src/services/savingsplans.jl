@@ -45,6 +45,7 @@ function create_savings_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_savings_plan(
     commitment,
     savingsPlanOfferingId,
@@ -91,6 +92,7 @@ function delete_queued_savings_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queued_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
@@ -137,6 +139,7 @@ function describe_savings_plan_rates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plan_rates(
     savingsPlanId,
     params::AbstractDict{String};
@@ -179,6 +182,7 @@ function describe_savings_plans(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,6 +228,7 @@ function describe_savings_plans_offering_rates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plans_offering_rates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -272,6 +277,7 @@ function describe_savings_plans_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plans_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +311,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -351,6 +358,7 @@ function return_savings_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function return_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
@@ -393,6 +401,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -436,6 +445,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

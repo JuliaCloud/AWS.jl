@@ -16,9 +16,12 @@ Copies a snapshot of an elastic cluster.
 - `target_snapshot_name`: The identifier of the new elastic cluster snapshot to create from
   the source cluster snapshot. This parameter is not case sensitive.
 
-  Constraints: - Must contain from 1 to 63 letters, numbers, or hyphens.
-   - The first character must be a letter.
-   - Cannot end with a hyphen or contain two consecutive hyphens.
+  Constraints:
+
+  - Must contain from 1 to 63 letters, numbers, or hyphens.
+  - The first character must be a letter.
+  - Cannot end with a hyphen or contain two consecutive hyphens.
+
   Example: `elastic-cluster-snapshot-5`
 
 # Optional Parameters
@@ -29,21 +32,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target elastic cluster snapshot. The default is `false`.
 - `"kmsKeyId"`: The Amazon Web Services KMS key ID for an encrypted elastic cluster
   snapshot. The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon
-  Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon
-  Web Services KMS encryption key.
+  Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the
+  Amazon Web Services KMS encryption key.
 
-  If you copy an encrypted elastic cluster snapshot from your Amazon Web Services account,
-  you can specify a value for `KmsKeyId` to encrypt the copy with a new Amazon Web
-  ServicesS KMS encryption key. If you don't specify a value for `KmsKeyId`, then the copy
-  of the elastic cluster snapshot is encrypted with the same `AWS` KMS key as the source
-  elastic cluster snapshot.
+  If you copy an encrypted elastic cluster snapshot from your Amazon Web Services
+  account, you can specify a value for `KmsKeyId` to encrypt the copy with a new Amazon
+  Web ServicesS KMS encryption key. If you don't specify a value for `KmsKeyId`, then the
+  copy of the elastic cluster snapshot is encrypted with the same `AWS` KMS key as the
+  source elastic cluster snapshot.
 
-  To copy an encrypted elastic cluster snapshot to another Amazon Web Services region, set
-  `KmsKeyId` to the Amazon Web Services KMS key ID that you want to use to encrypt the copy
-  of the elastic cluster snapshot in the destination region. Amazon Web Services KMS
-  encryption keys are specific to the Amazon Web Services region that they are created in,
-  and you can't use encryption keys from one Amazon Web Services region in another Amazon
-  Web Services region.
+  To copy an encrypted elastic cluster snapshot to another Amazon Web Services region,
+  set `KmsKeyId` to the Amazon Web Services KMS key ID that you want to use to encrypt
+  the copy of the elastic cluster snapshot in the destination region. Amazon Web Services
+  KMS encryption keys are specific to the Amazon Web Services region that they are
+  created in, and you can't use encryption keys from one Amazon Web Services region in
+  another Amazon Web Services region.
 
   If you copy an unencrypted elastic cluster snapshot and specify a value for the
   `KmsKeyId` parameter, an error is returned.
@@ -60,6 +63,7 @@ function copy_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_cluster_snapshot(
     snapshotArn,
     targetSnapshotName,
@@ -89,23 +93,32 @@ Creates a new Amazon DocumentDB elastic cluster and returns its cluster structur
 
 - `admin_user_name`: The name of the Amazon DocumentDB elastic clusters administrator.
 
-   *Constraints*: - Must be from 1 to 63 letters or numbers.
-   - The first character must be a letter.
- - Cannot be a reserved word.
+  *Constraints*:
+
+  - Must be from 1 to 63 letters or numbers.
+  - The first character must be a letter.
+  - Cannot be a reserved word.
+
 - `admin_user_password`: The password for the Amazon DocumentDB elastic clusters
   administrator. The password can contain any printable ASCII characters.
 
-   *Constraints*: - Must contain from 8 to 100 characters.
-   - Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).
+  *Constraints*:
+
+  - Must contain from 8 to 100 characters.
+  - Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).
+
 - `auth_type`: The authentication type used to determine where to fetch the password used
   for accessing the elastic cluster. Valid types are `PLAIN_TEXT` or `SECRET_ARN`.
 - `cluster_name`: The name of the new elastic cluster. This parameter is stored as a
   lowercase string.
 
-   *Constraints*: - Must contain from 1 to 63 letters, numbers, or hyphens.
-   - The first character must be a letter.
-   - Cannot end with a hyphen or contain two consecutive hyphens.
- *Example*: `my-cluster`
+  *Constraints*:
+
+  - Must contain from 1 to 63 letters, numbers, or hyphens.
+  - The first character must be a letter.
+  - Cannot end with a hyphen or contain two consecutive hyphens.
+
+  *Example*: `my-cluster`
 - `shard_capacity`: The number of vCPUs assigned to each elastic cluster shard. Maximum is
   64. Allowed values are 2, 4, 8, 16, 32, 64.
 - `shard_count`: The number of shards assigned to the elastic cluster. Maximum is 32.
@@ -122,22 +135,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you are creating a cluster using the same Amazon account that owns this KMS encryption
   key, you can use the KMS key alias instead of the ARN as the KMS encryption key.
 
-  If an encryption key is not specified, Amazon DocumentDB uses the default encryption key
-  that KMS creates for your account. Your account has a different default encryption key
-  for each Amazon Region.
+  If an encryption key is not specified, Amazon DocumentDB uses the default encryption
+  key that KMS creates for your account. Your account has a different default encryption
+  key for each Amazon Region.
 - `"preferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled, as determined by the `backupRetentionPeriod`.
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).
 
-   *Format*: `ddd:hh24:mi-ddd:hh24:mi`
+  *Format*: `ddd:hh24:mi-ddd:hh24:mi`
 
-   *Default*: a 30-minute window selected at random from an 8-hour block of time for each
+  *Default*: a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Web Services Region, occurring on a random day of the week.
 
-   *Valid days*: Mon, Tue, Wed, Thu, Fri, Sat, Sun
+  *Valid days*: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
- *Constraints*: Minimum 30-minute window.
+  *Constraints*: Minimum 30-minute window.
 - `"shardInstanceCount"`: The number of replica instances applying to all shards in the
   elastic cluster. A `shardInstanceCount` value of 1 means there is one writer instance,
   and any additional instances are replicas that can be used for reads and to improve
@@ -172,6 +185,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     adminUserName,
     adminUserPassword,
@@ -234,6 +248,7 @@ function create_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_snapshot(
     clusterArn,
     snapshotName,
@@ -275,6 +290,7 @@ function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -309,6 +325,7 @@ function delete_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_snapshot(
     snapshotArn,
     params::AbstractDict{String};
@@ -341,6 +358,7 @@ function get_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -375,6 +393,7 @@ function get_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster_snapshot(
     snapshotArn,
     params::AbstractDict{String};
@@ -406,18 +425,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the response includes only records beyond this token, up to the value
   specified by `max-results`.
 
-If there is no more data in the responce, the `nextToken` will not be returned.
+  If there is no more data in the responce, the `nextToken` will not be returned.
 - `"snapshotType"`: The type of cluster snapshots to be returned. You can specify one of
-  the following values: - `automated` - Return all cluster snapshots that Amazon DocumentDB
-  has automatically created for your Amazon Web Services account.
-   - `manual` - Return all cluster snapshots that you have manually created for your Amazon
-  Web Services account.
+  the following values:
+
+  - `automated` - Return all cluster snapshots that Amazon DocumentDB has automatically
+    created for your Amazon Web Services account.
+  - `manual` - Return all cluster snapshots that you have manually created for your
+    Amazon Web Services account.
+
 """
 function list_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "GET", "/cluster-snapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -446,13 +469,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the response includes only records beyond this token, up to the value
   specified by `max-results`.
 
-If there is no more data in the responce, the `nextToken` will not be returned.
+  If there is no more data in the responce, the `nextToken` will not be returned.
 """
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -481,6 +505,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -517,9 +542,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you are creating a cluster using the same Amazon account that owns this KMS encryption
   key, you can use the KMS key alias instead of the ARN as the KMS encryption key.
 
-  If an encryption key is not specified here, Amazon DocumentDB uses the default encryption
-  key that KMS creates for your account. Your account has a different default encryption
-  key for each Amazon Region.
+  If an encryption key is not specified here, Amazon DocumentDB uses the default
+  encryption key that KMS creates for your account. Your account has a different default
+  encryption key for each Amazon Region.
 - `"shardCapacity"`: The capacity of each shard in the new restored elastic cluster.
 - `"shardInstanceCount"`: The number of replica instances applying to all shards in the
   elastic cluster. A `shardInstanceCount` value of 1 means there is one writer instance,
@@ -527,8 +552,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   availability.
 - `"subnetIds"`: The Amazon EC2 subnet IDs for the elastic cluster.
 - `"tags"`: A list of the tag names to be assigned to the restored elastic cluster, in the
-  form of an array of key-value pairs in which the key is the tag name and the value is the
-  key value.
+  form of an array of key-value pairs in which the key is the tag name and the value is
+  the key value.
 - `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the elastic
   cluster.
 """
@@ -543,6 +568,7 @@ function restore_cluster_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_cluster_from_snapshot(
     clusterName,
     snapshotArn,
@@ -578,6 +604,7 @@ function start_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -611,6 +638,7 @@ function stop_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -645,6 +673,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -682,6 +711,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -713,10 +743,10 @@ API version, and setting up a backup window and maintenance window
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"adminUserPassword"`: The password associated with the elastic cluster administrator.
-  This password can contain any printable ASCII character except forward slash (/), double
-  quote ("), or the "at" symbol (@).
+  This password can contain any printable ASCII character except forward slash (/),
+  double quote ("), or the "at" symbol (@).
 
- *Constraints*: Must contain from 8 to 100 characters.
+  *Constraints*: Must contain from 8 to 100 characters.
 - `"authType"`: The authentication type used to determine where to fetch the password used
   for accessing the elastic cluster. Valid types are `PLAIN_TEXT` or `SECRET_ARN`.
 - `"backupRetentionPeriod"`: The number of days for which automatic snapshots are retained.
@@ -726,14 +756,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).
 
-   *Format*: `ddd:hh24:mi-ddd:hh24:mi`
+  *Format*: `ddd:hh24:mi-ddd:hh24:mi`
 
-   *Default*: a 30-minute window selected at random from an 8-hour block of time for each
+  *Default*: a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Web Services Region, occurring on a random day of the week.
 
-   *Valid days*: Mon, Tue, Wed, Thu, Fri, Sat, Sun
+  *Valid days*: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
- *Constraints*: Minimum 30-minute window.
+  *Constraints*: Minimum 30-minute window.
 - `"shardCapacity"`: The number of vCPUs assigned to each elastic cluster shard. Maximum is
   64. Allowed values are 2, 4, 8, 16, 32, 64.
 - `"shardCount"`: The number of shards assigned to the elastic cluster. Maximum is 32.
@@ -754,6 +784,7 @@ function update_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     clusterArn,
     params::AbstractDict{String};

@@ -13,23 +13,24 @@ this total can include no more than one composite alarm. For example, you could 
 metric alarms and one composite alarms with one operation, but you can't delete two
 composite alarms with one operation.
 
- If you specify an incorrect alarm name or make any other error in the operation, no alarms
+If you specify an incorrect alarm name or make any other error in the operation, no alarms
 are deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html)
-operation after using `DeleteAlarms`.</p>
+operation after using `DeleteAlarms`.
 
 !!! note
     It is possible to create a loop or cycle of composite alarms, where composite alarm A
-depends on composite alarm B, and composite alarm B also depends on composite alarm A. In
-this scenario, you can't delete any composite alarm that is part of the cycle because there
-is always still a composite alarm that depends on that alarm that you want to delete.
+    depends on composite alarm B, and composite alarm B also depends on composite alarm A.
+    In this scenario, you can't delete any composite alarm that is part of the cycle
+    because there is always still a composite alarm that depends on that alarm that you
+    want to delete.
 
-To get out of such a situation, you must break the cycle by changing the rule of one of the
-composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
-change to make to break a cycle is to change the `AlarmRule` of one of the alarms to
-`false`.
+    To get out of such a situation, you must break the cycle by changing the rule of one of
+    the composite alarms in the cycle to remove a dependency that creates the cycle. The
+    simplest change to make to break a cycle is to change the `AlarmRule` of one of the
+    alarms to `false`.
 
- <p>Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in
-the evaluation path.
+    Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in
+    the evaluation path.
 
 # Arguments
 
@@ -43,6 +44,7 @@ function delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alarms(
     AlarmNames,
     params::AbstractDict{String};
@@ -62,8 +64,8 @@ end
     delete_anomaly_detector()
     delete_anomaly_detector(params::Dict{String,<:Any})
 
- Deletes the specified anomaly detection model from your account. For more information
-about how to delete an anomaly detection model, see [Deleting an anomaly detection model](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Anomaly_Detection_Alarm.html#Delete_Anomaly_Detection_Model)
+Deletes the specified anomaly detection model from your account. For more information about
+how to delete an anomaly detection model, see [Deleting an anomaly detection model](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Anomaly_Detection_Alarm.html#Delete_Anomaly_Detection_Model)
 in the *CloudWatch User Guide*.
 
 # Optional Parameters
@@ -75,23 +77,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MetricMathAnomalyDetector"`: The metric math anomaly detector to be deleted.
 
   When using `MetricMathAnomalyDetector`, you cannot include following parameters in the
-  same operation: - `Dimensions`,
-   - `MetricName`
-   - `Namespace`
-   - `Stat`
-   - the `SingleMetricAnomalyDetector` parameters of `DeleteAnomalyDetectorInput`
+  same operation:
+
+  - `Dimensions`,
+  - `MetricName`
+  - `Namespace`
+  - `Stat`
+  - the `SingleMetricAnomalyDetector` parameters of `DeleteAnomalyDetectorInput`
+
   Instead, specify the metric math anomaly detector attributes as part of the
   `MetricMathAnomalyDetector` property.
 - `"MetricName"`: The metric name associated with the anomaly detection model to delete.
 - `"Namespace"`: The namespace associated with the anomaly detection model to delete.
 - `"SingleMetricAnomalyDetector"`: A single metric anomaly detector to be deleted.
 
-  When using `SingleMetricAnomalyDetector`, you cannot include the following parameters in
-  the same operation: - `Dimensions`,
-   - `MetricName`
-   - `Namespace`
-   - `Stat`
-   - the `MetricMathAnomalyDetector` parameters of `DeleteAnomalyDetectorInput`
+  When using `SingleMetricAnomalyDetector`, you cannot include the following parameters
+  in the same operation:
+
+  - `Dimensions`,
+  - `MetricName`
+  - `Namespace`
+  - `Stat`
+  - the `MetricMathAnomalyDetector` parameters of `DeleteAnomalyDetectorInput`
+
   Instead, specify the single metric anomaly detector attributes as part of the
   `SingleMetricAnomalyDetector` property.
 - `"Stat"`: The statistic associated with the anomaly detection model to delete.
@@ -101,6 +109,7 @@ function delete_anomaly_detector(; aws_config::AbstractAWSConfig=current_aws_con
         "DeleteAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_anomaly_detector(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -133,6 +142,7 @@ function delete_dashboards(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dashboards(
     DashboardNames,
     params::AbstractDict{String};
@@ -170,6 +180,7 @@ function delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_insight_rules(
     RuleNames,
     params::AbstractDict{String};
@@ -203,6 +214,7 @@ function delete_metric_stream(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metric_stream(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +264,7 @@ function describe_alarm_history(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeAlarmHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_alarm_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -280,28 +293,28 @@ narrower scope.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ActionPrefix"`: Use this parameter to filter the results of the operation to only those
-  alarms that use a certain alarm action. For example, you could specify the ARN of an SNS
-  topic to find all alarms that send notifications to that topic.
+  alarms that use a certain alarm action. For example, you could specify the ARN of an
+  SNS topic to find all alarms that send notifications to that topic.
 - `"AlarmNamePrefix"`: An alarm name prefix. If you specify this parameter, you receive
   information about all alarms that have names that start with this prefix.
 
-If this parameter is specified, you cannot specify `AlarmNames`.
+  If this parameter is specified, you cannot specify `AlarmNames`.
 - `"AlarmNames"`: The names of the alarms to retrieve information about.
 - `"AlarmTypes"`: Use this parameter to specify whether you want the operation to return
   metric alarms or composite alarms. If you omit this parameter, only metric alarms are
   returned, even if composite alarms exist in the account.
 
-  For example, if you omit this parameter or specify `MetricAlarms`, the operation returns
-  only a list of metric alarms. It does not return any composite alarms, even if composite
-  alarms exist in the account.
+  For example, if you omit this parameter or specify `MetricAlarms`, the operation
+  returns only a list of metric alarms. It does not return any composite alarms, even if
+  composite alarms exist in the account.
 
-  If you specify `CompositeAlarms`, the operation returns only a list of composite alarms,
-  and does not return any metric alarms.
+  If you specify `CompositeAlarms`, the operation returns only a list of composite
+  alarms, and does not return any metric alarms.
 - `"ChildrenOfAlarmName"`: If you use this parameter and specify the name of a composite
   alarm, the operation returns information about the "children" alarms of the alarm you
   specify. These are the metric alarms and composite alarms referenced in the `AlarmRule`
-  field of the composite alarm that you specify in `ChildrenOfAlarmName`. Information about
-  the composite alarm that you name in `ChildrenOfAlarmName` is not returned.
+  field of the composite alarm that you specify in `ChildrenOfAlarmName`. Information
+  about the composite alarm that you name in `ChildrenOfAlarmName` is not returned.
 
   If you specify `ChildrenOfAlarmName`, you cannot specify any other parameters in the
   request except for `MaxRecords` and `NextToken`. If you do so, you receive a validation
@@ -309,16 +322,16 @@ If this parameter is specified, you cannot specify `AlarmNames`.
 
   !!! note
       Only the `Alarm Name`, `ARN`, `StateValue` (OK/ALARM/INSUFFICIENT_DATA), and
-  `StateUpdatedTimestamp` information are returned by this operation when you use this
-  parameter. To get complete information about these alarms, perform another
-  `DescribeAlarms` operation and specify the parent alarm names in the `AlarmNames`
-  parameter.
+      `StateUpdatedTimestamp` information are returned by this operation when you use
+      this parameter. To get complete information about these alarms, perform another [`describe_alarms`](@ref)
+      operation and specify the parent alarm names in the `AlarmNames` parameter.
+
 - `"MaxRecords"`: The maximum number of alarm descriptions to retrieve.
 - `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
 - `"ParentsOfAlarmName"`: If you use this parameter and specify the name of a metric or
-  composite alarm, the operation returns information about the "parent" alarms of the alarm
-  you specify. These are the composite alarms that have `AlarmRule` parameters that
+  composite alarm, the operation returns information about the "parent" alarms of the
+  alarm you specify. These are the composite alarms that have `AlarmRule` parameters that
   reference the alarm named in `ParentsOfAlarmName`. Information about the alarm that you
   specify in `ParentsOfAlarmName` is not returned.
 
@@ -328,9 +341,9 @@ If this parameter is specified, you cannot specify `AlarmNames`.
 
   !!! note
       Only the Alarm Name and ARN are returned by this operation when you use this
-  parameter. To get complete information about these alarms, perform another
-  `DescribeAlarms` operation and specify the parent alarm names in the `AlarmNames`
-  parameter.
+      parameter. To get complete information about these alarms, perform another [`describe_alarms`](@ref)
+      operation and specify the parent alarm names in the `AlarmNames` parameter.
+
 - `"StateValue"`: Specify this parameter to receive information only about alarms that are
   currently in the state that you specify.
 """
@@ -339,6 +352,7 @@ function describe_alarms(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_alarms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -386,6 +400,7 @@ function describe_alarms_for_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_alarms_for_metric(
     MetricName,
     Namespace,
@@ -424,12 +439,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AnomalyDetectorTypes"`: The anomaly detector types to request when using
   `DescribeAnomalyDetectorsInput`. If empty, defaults to `SINGLE_METRIC`.
 - `"Dimensions"`: Limits the results to only the anomaly detection models that are
-  associated with the specified metric dimensions. If there are multiple metrics that have
-  these dimensions and have anomaly detection models associated, they're all returned.
+  associated with the specified metric dimensions. If there are multiple metrics that
+  have these dimensions and have anomaly detection models associated, they're all
+  returned.
 - `"MaxResults"`: The maximum number of results to return in one operation. The maximum
   value that you can specify is 100.
 
-  To retrieve the remaining results, make another call with the returned `NextToken` value.
+  To retrieve the remaining results, make another call with the returned `NextToken`
+  value.
 - `"MetricName"`: Limits the results to only the anomaly detection models that are
   associated with the specified metric name. If there are multiple metrics with this name
   in different namespaces that have anomaly detection models, they're all returned.
@@ -443,6 +460,7 @@ function describe_anomaly_detectors(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_anomaly_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -476,6 +494,7 @@ function describe_insight_rules(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeInsightRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_insight_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -508,6 +527,7 @@ function disable_alarm_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_alarm_actions(
     AlarmNames,
     params::AbstractDict{String};
@@ -545,6 +565,7 @@ function disable_insight_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_insight_rules(
     RuleNames,
     params::AbstractDict{String};
@@ -580,6 +601,7 @@ function enable_alarm_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_alarm_actions(
     AlarmNames,
     params::AbstractDict{String};
@@ -615,6 +637,7 @@ function enable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_insight_rules(
     RuleNames,
     params::AbstractDict{String};
@@ -652,6 +675,7 @@ function get_dashboard(DashboardName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dashboard(
     DashboardName,
     params::AbstractDict{String};
@@ -675,24 +699,25 @@ This operation returns the time series data collected by a Contributor Insights 
 data includes the identity and number of contributors to the log group.
 
 You can also optionally return one or more statistics about each data point in the time
-series. These statistics can include the following:</p> - `UniqueContributors` -- the
-number of unique contributors for each data point.
- - `MaxContributorValue` -- the value of the top contributor for each data point. The
-identity of the contributor might change for each data point in the graph.
+series. These statistics can include the following:
 
- <p>If this rule aggregates by COUNT, the top contributor for each data point is the
+- `UniqueContributors` -- the number of unique contributors for each data point.
+- `MaxContributorValue` -- the value of the top contributor for each data point. The
+  identity of the contributor might change for each data point in the graph.
+
+If this rule aggregates by COUNT, the top contributor for each data point is the
 contributor with the most occurrences in that period. If the rule aggregates by SUM, the
 top contributor is the contributor with the highest sum in the log field specified by the
 rule's `Value`, during that period.
- - `SampleCount` -- the number of data points matched by the rule.
- - `Sum` -- the sum of the values from all contributors during the time period represented
-by that data point.
- - `Minimum` -- the minimum value from a single observation during the time period
-represented by that data point.
- - `Maximum` -- the maximum value from a single observation during the time period
-represented by that data point.
- - `Average` -- the average value from all contributors during the time period represented
-by that data point.
+- `SampleCount` -- the number of data points matched by the rule.
+- `Sum` -- the sum of the values from all contributors during the time period represented
+  by that data point.
+- `Minimum` -- the minimum value from a single observation during the time period
+  represented by that data point.
+- `Maximum` -- the maximum value from a single observation during the time period
+  represented by that data point.
+- `Average` -- the average value from all contributors during the time period represented
+  by that data point.
 
 # Arguments
 
@@ -702,7 +727,8 @@ by that data point.
   `InsightRuleMetricDatapoint` results.
 - `rule_name`: The name of the rule that you want to see data from.
 - `start_time`: The start time of the data to use in the report. When used in a raw HTTP
-  Query API, it is formatted as `yyyy-MM-dd'T'HH:mm:ss`. For example, `2019-07-01T23:59:59`.
+  Query API, it is formatted as `yyyy-MM-dd'T'HH:mm:ss`. For example,
+  `2019-07-01T23:59:59`.
 
 # Optional Parameters
 
@@ -711,24 +737,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxContributorCount"`: The maximum number of contributors to include in the report. The
   range is 1 to 100. If you omit this, the default of 10 is used.
 - `"Metrics"`: Specifies which metrics to use for aggregation of contributor values for the
-  report. You can specify one or more of the following metrics:</p> - `UniqueContributors` -
-  - the number of unique contributors for each data point.
-   - `MaxContributorValue` -- the value of the top contributor for each data point. The
-  identity of the contributor might change for each data point in the graph.
+  report. You can specify one or more of the following metrics:
 
-   <p>If this rule aggregates by COUNT, the top contributor for each data point is the
-  contributor with the most occurrences in that period. If the rule aggregates by SUM, the
-  top contributor is the contributor with the highest sum in the log field specified by the
-  rule's `Value`, during that period.
-   - `SampleCount` -- the number of data points matched by the rule.
-   - `Sum` -- the sum of the values from all contributors during the time period
-  represented by that data point.
-   - `Minimum` -- the minimum value from a single observation during the time period
-  represented by that data point.
-   - `Maximum` -- the maximum value from a single observation during the time period
-  represented by that data point.
-   - `Average` -- the average value from all contributors during the time period
-  represented by that data point.
+  - `UniqueContributors` -- the number of unique contributors for each data point.
+  - `MaxContributorValue` -- the value of the top contributor for each data point. The
+    identity of the contributor might change for each data point in the graph.
+
+  If this rule aggregates by COUNT, the top contributor for each data point is the
+  contributor with the most occurrences in that period. If the rule aggregates by SUM,
+  the top contributor is the contributor with the highest sum in the log field specified
+  by the rule's `Value`, during that period.
+  - `SampleCount` -- the number of data points matched by the rule.
+  - `Sum` -- the sum of the values from all contributors during the time period
+    represented by that data point.
+  - `Minimum` -- the minimum value from a single observation during the time period
+    represented by that data point.
+  - `Maximum` -- the maximum value from a single observation during the time period
+    represented by that data point.
+  - `Average` -- the average value from all contributors during the time period
+    represented by that data point.
+
 - `"OrderBy"`: Determines what statistic to use to rank the contributors. Valid values are
   `Sum` and `Maximum`.
 """
@@ -747,6 +775,7 @@ function get_insight_rule_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insight_rule_report(
     EndTime,
     Period,
@@ -781,30 +810,32 @@ end
 You can use the `GetMetricData` API to retrieve CloudWatch metric values. The operation can
 also include a CloudWatch Metrics Insights query, and one or more metric math functions.
 
-A `GetMetricData` operation that does not include a query can retrieve as many as 500
-different metrics in a single request, with a total of as many as 100,800 data points. You
-can also optionally perform metric math expressions on the values of the returned
+A [`get_metric_data`](@ref) operation that does not include a query can retrieve as many as
+500 different metrics in a single request, with a total of as many as 100,800 data points.
+You can also optionally perform metric math expressions on the values of the returned
 statistics, to create new time series that represent new insights into your data. For
 example, using Lambda metrics, you could divide the Errors metric by the Invocations metric
 to get an error rate time series. For more information about metric math expressions, see [Metric Math Syntax and Functions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax)
 in the *Amazon CloudWatch User Guide*.
 
-If you include a Metrics Insights query, each `GetMetricData` operation can include only
-one query. But the same `GetMetricData` operation can also retrieve other metrics. Metrics
-Insights queries can query only the most recent three hours of metric data. For more
-information about Metrics Insights, see [Query your metrics with CloudWatch Metrics Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/query_with_cloudwatch-metrics-insights.html).
+If you include a Metrics Insights query, each [`get_metric_data`](@ref) operation can
+include only one query. But the same [`get_metric_data`](@ref) operation can also retrieve
+other metrics. Metrics Insights queries can query only the most recent three hours of
+metric data. For more information about Metrics Insights, see [Query your metrics with CloudWatch Metrics Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/query_with_cloudwatch-metrics-insights.html).
 
 Calls to the `GetMetricData` API have a different pricing structure than calls to
 `GetMetricStatistics`. For more information about pricing, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
 
-Amazon CloudWatch retains metric data as follows:</p> - Data points with a period of less
-than 60 seconds are available for 3 hours. These data points are high-resolution metrics
-and are available only for custom metrics that have been defined with a `StorageResolution`
-of 1.
- - Data points with a period of 60 seconds (1-minute) are available for 15 days.
- - Data points with a period of 300 seconds (5-minute) are available for 63 days.
- - Data points with a period of 3600 seconds (1 hour) are available for 455 days (15
-months).
+Amazon CloudWatch retains metric data as follows:
+
+- Data points with a period of less than 60 seconds are available for 3 hours. These data
+  points are high-resolution metrics and are available only for custom metrics that have
+  been defined with a `StorageResolution` of 1.
+- Data points with a period of 60 seconds (1-minute) are available for 15 days.
+- Data points with a period of 300 seconds (5-minute) are available for 63 days.
+- Data points with a period of 3600 seconds (1 hour) are available for 455 days (15
+  months).
+
 Data points that are initially published with a shorter period are aggregated together for
 long-term storage. For example, if you collect data using a period of 1 minute, the data
 remains available for 15 days with 1-minute resolution. After 15 days, this data is still
@@ -817,10 +848,10 @@ CloudWatch. If you specify a unit, the operation returns only data that was coll
 that unit specified. If you specify a unit that does not match the data collected, the
 results of the operation are null. CloudWatch does not perform unit conversions.
 
- **Using Metrics Insights queries with metric math**
+**Using Metrics Insights queries with metric math**
 
- <p>You can't mix a Metric Insights query and metric math syntax in the same expression,
-but you can reference results from a Metrics Insights query within other Metric math
+You can't mix a Metric Insights query and metric math syntax in the same expression, but
+you can reference results from a Metrics Insights query within other Metric math
 expressions. A Metrics Insights query without a **GROUP BY** clause returns a single time-
 series (TS), and can be used as input for a metric math expression that expects a single
 time series. A Metrics Insights query with a **GROUP BY** clause returns an array of time-
@@ -835,8 +866,9 @@ series (TS[]), and can be used as input for a metric math expression that expect
 
   For better performance, specify `StartTime` and `EndTime` values that align with the
   value of the metric's `Period` and sync up with the beginning and end of an hour. For
-  example, if the `Period` of a metric is 5 minutes, specifying 12:05 or 12:30 as `EndTime`
-  can get a faster response from CloudWatch than setting 12:07 or 12:29 as the `EndTime`.
+  example, if the `Period` of a metric is 5 minutes, specifying 12:05 or 12:30 as
+  `EndTime` can get a faster response from CloudWatch than setting 12:07 or 12:29 as the
+  `EndTime`.
 - `metric_data_queries`: The metric queries to be returned. A single `GetMetricData` call
   can include as many as 500 `MetricDataQuery` structures. Each of these structures can
   specify either a metric to retrieve, a Metrics Insights query, or a math expression to
@@ -846,25 +878,28 @@ series (TS[]), and can be used as input for a metric math expression that expect
   The value specified is inclusive; results include data points with the specified time
   stamp.
 
-  CloudWatch rounds the specified time stamp as follows:</p> - Start time less than 15 days
-  ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to
-  12:32:00.
-   - Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock
-  interval. For example, 12:32:34 is rounded down to 12:30:00.
-   - Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval.
-  For example, 12:32:34 is rounded down to 12:00:00.
+  CloudWatch rounds the specified time stamp as follows:
+
+  - Start time less than 15 days ago - Round down to the nearest whole minute. For
+    example, 12:32:34 is rounded down to 12:32:00.
+  - Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock
+    interval. For example, 12:32:34 is rounded down to 12:30:00.
+  - Start time greater than 63 days ago - Round down to the nearest 1-hour clock
+    interval. For example, 12:32:34 is rounded down to 12:00:00.
+
   If you set `Period` to 5, 10, or 30, the start time of your request is rounded down to
   the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute.
   For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second
-  period, the start time of your request is rounded down and you receive data from 01:05:10
-  to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a
-  period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
+  period, the start time of your request is rounded down and you receive data from
+  01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of
+  data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and
+  15:07:15.
 
-   <p>For better performance, specify `StartTime` and `EndTime` values that align with the
+  For better performance, specify `StartTime` and `EndTime` values that align with the
   value of the metric's `Period` and sync up with the beginning and end of an hour. For
   example, if the `Period` of a metric is 5 minutes, specifying 12:05 or 12:30 as
-  `StartTime` can get a faster response from CloudWatch than setting 12:07 or 12:29 as the
-  `StartTime`.
+  `StartTime` can get a faster response from CloudWatch than setting 12:07 or 12:29 as
+  the `StartTime`.
 
 # Optional Parameters
 
@@ -875,14 +910,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your time zone.
 - `"MaxDatapoints"`: The maximum number of data points the request should return before
   paginating. If you omit this, the default of 100,800 is used.
-- `"NextToken"`: Include this value, if it was returned by the previous `GetMetricData`
+- `"NextToken"`: Include this value, if it was returned by the previous [`get_metric_data`](@ref)
   operation, to get the next set of data points.
 - `"ScanBy"`: The order in which data points should be returned. `TimestampDescending`
   returns the newest data first and paginates when the `MaxDatapoints` limit is reached.
-  `TimestampAscending` returns the oldest data first and paginates when the `MaxDatapoints`
-  limit is reached.
+  `TimestampAscending` returns the oldest data first and paginates when the
+  `MaxDatapoints` limit is reached.
 
-If you omit this parameter, the default of `TimestampDescending` is used.
+  If you omit this parameter, the default of `TimestampDescending` is used.
 """
 function get_metric_data(
     EndTime,
@@ -901,6 +936,7 @@ function get_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_data(
     EndTime,
     MetricDataQueries,
@@ -945,19 +981,24 @@ values aggregated by CloudWatch is larger than the number of data points returne
 
 CloudWatch needs raw data points to calculate percentile statistics. If you publish data
 using a statistic set instead, you can only retrieve percentile statistics for this data if
-one of the following conditions is true:</p> - The SampleCount value of the statistic set
-is 1.
- - The Min and the Max values of the statistic set are equal.
+one of the following conditions is true:
+
+- The SampleCount value of the statistic set is 1.
+- The Min and the Max values of the statistic set are equal.
+
 Percentile statistics are not available for metrics when any of the metric values are
 negative numbers.
 
-Amazon CloudWatch retains metric data as follows: - Data points with a period of less than
-60 seconds are available for 3 hours. These data points are high-resolution metrics and are
-available only for custom metrics that have been defined with a `StorageResolution` of 1.
- - Data points with a period of 60 seconds (1-minute) are available for 15 days.
- - Data points with a period of 300 seconds (5-minute) are available for 63 days.
- - Data points with a period of 3600 seconds (1 hour) are available for 455 days (15
-months).
+Amazon CloudWatch retains metric data as follows:
+
+- Data points with a period of less than 60 seconds are available for 3 hours. These data
+  points are high-resolution metrics and are available only for custom metrics that have
+  been defined with a `StorageResolution` of 1.
+- Data points with a period of 60 seconds (1-minute) are available for 15 days.
+- Data points with a period of 300 seconds (5-minute) are available for 63 days.
+- Data points with a period of 3600 seconds (1 hour) are available for 455 days (15
+  months).
+
 Data points that are initially published with a shorter period are aggregated together for
 long-term storage. For example, if you collect data using a period of 1 minute, the data
 remains available for 15 days with 1-minute resolution. After 15 days, this data is still
@@ -966,8 +1007,8 @@ days, the data is further aggregated and is available with a resolution of 1 hou
 
 CloudWatch started retaining 5-minute and 1-hour metric data as of July 9, 2016.
 
- <p>For information about metrics and dimensions supported by Amazon Web Services services,
-see the [Amazon CloudWatch Metrics and Dimensions Reference](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html)
+For information about metrics and dimensions supported by Amazon Web Services services, see
+the [Amazon CloudWatch Metrics and Dimensions Reference](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html)
 in the *Amazon CloudWatch User Guide*.
 
 # Arguments
@@ -981,16 +1022,19 @@ in the *Amazon CloudWatch User Guide*.
 - `namespace`: The namespace of the metric, with or without spaces.
 - `period`: The granularity, in seconds, of the returned data points. For metrics with
   regular resolution, a period can be as short as one minute (60 seconds) and must be a
-  multiple of 60. For high-resolution metrics that are collected at intervals of less than
-  one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution
-  metrics are those metrics stored by a `PutMetricData` call that includes a
+  multiple of 60. For high-resolution metrics that are collected at intervals of less
+  than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-
+  resolution metrics are those metrics stored by a `PutMetricData` call that includes a
   `StorageResolution` of 1 second.
 
-  If the `StartTime` parameter specifies a time stamp that is greater than 3 hours ago, you
-  must specify the period as follows or no data points in that time range is returned: -
-  Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).
-   - Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).
-   - Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
+  If the `StartTime` parameter specifies a time stamp that is greater than 3 hours ago,
+  you must specify the period as follows or no data points in that time range is
+  returned:
+
+  - Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).
+  - Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).
+  - Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
+
 - `start_time`: The time stamp that determines the first data point to return. Start times
   are evaluated relative to the time that CloudWatch receives the request.
 
@@ -998,19 +1042,22 @@ in the *Amazon CloudWatch User Guide*.
   stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example,
   2016-10-03T23:00:00Z).
 
-  CloudWatch rounds the specified time stamp as follows: - Start time less than 15 days ago
-  - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to
-  12:32:00.
-   - Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock
-  interval. For example, 12:32:34 is rounded down to 12:30:00.
-   - Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval.
-  For example, 12:32:34 is rounded down to 12:00:00.
+  CloudWatch rounds the specified time stamp as follows:
+
+  - Start time less than 15 days ago - Round down to the nearest whole minute. For
+    example, 12:32:34 is rounded down to 12:32:00.
+  - Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock
+    interval. For example, 12:32:34 is rounded down to 12:30:00.
+  - Start time greater than 63 days ago - Round down to the nearest 1-hour clock
+    interval. For example, 12:32:34 is rounded down to 12:00:00.
+
   If you set `Period` to 5, 10, or 30, the start time of your request is rounded down to
   the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute.
   For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second
-  period, the start time of your request is rounded down and you receive data from 01:05:10
-  to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a
-  period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
+  period, the start time of your request is rounded down and you receive data from
+  01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of
+  data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and
+  15:07:15.
 
 # Optional Parameters
 
@@ -1021,8 +1068,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dimensions as a separate metric. If a specific combination of dimensions was not
   published, you can't retrieve statistics for it. You must specify the same dimensions
   that were used when the metrics were created. For an example, see [Dimension Combinations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#dimension-combinations)
-  in the *Amazon CloudWatch User Guide*. For more information about specifying dimensions,
-  see [Publishing Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html)
+  in the *Amazon CloudWatch User Guide*. For more information about specifying
+  dimensions, see [Publishing Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html)
   in the *Amazon CloudWatch User Guide*.
 - `"ExtendedStatistics"`: The percentile statistics. Specify values between p0.0 and p100.
   When calling `GetMetricStatistics`, you must specify either `Statistics` or
@@ -1059,6 +1106,7 @@ function get_metric_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_statistics(
     EndTime,
     MetricName,
@@ -1106,6 +1154,7 @@ function get_metric_stream(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_stream(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1130,8 +1179,10 @@ The graph you retrieve can include all CloudWatch metric graph features, includi
 math and horizontal and vertical annotations.
 
 There is a limit of 20 transactions per second for this API. Each `GetMetricWidgetImage`
-action has the following limits: - As many as 100 metrics in the graph.
- - Up to 100 KB uncompressed payload.
+action has the following limits:
+
+- As many as 100 metrics in the graph.
+- Up to 100 KB uncompressed payload.
 
 # Arguments
 
@@ -1155,30 +1206,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content-type set to `text/xml`. The image data is in a `MetricWidgetImage` field. For
   example:
 
-   ` &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;`
+  `&lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;`
 
-   ` &lt;GetMetricWidgetImageResult&gt;`
+  `&lt;GetMetricWidgetImageResult&gt;`
 
-   ` &lt;MetricWidgetImage&gt;`
+  `&lt;MetricWidgetImage&gt;`
 
-   ` iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...`
+  `iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...`
 
-   ` &lt;/MetricWidgetImage&gt;`
+  `&lt;/MetricWidgetImage&gt;`
 
-   ` &lt;/GetMetricWidgetImageResult&gt;`
+  `&lt;/GetMetricWidgetImageResult&gt;`
 
-   ` &lt;ResponseMetadata&gt;`
+  `&lt;ResponseMetadata&gt;`
 
-   ` &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;`
+  `&lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;`
 
-   ` &lt;/ResponseMetadata&gt;`
+  `&lt;/ResponseMetadata&gt;`
 
-   `&lt;/GetMetricWidgetImageResponse&gt;`
+  `&lt;/GetMetricWidgetImageResponse&gt;`
 
   The `image/png` setting is intended only for custom HTTP requests. For most use cases,
   and all actions using an Amazon Web Services SDK, you should use `png`. If you specify
-  `image/png`, the HTTP response has a content-type set to `image/png`, and the body of the
-  response is a PNG image.
+  `image/png`, the HTTP response has a content-type set to `image/png`, and the body of
+  the response is a PNG image.
 """
 function get_metric_widget_image(
     MetricWidget; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1190,6 +1241,7 @@ function get_metric_widget_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_widget_image(
     MetricWidget,
     params::AbstractDict{String};
@@ -1213,7 +1265,7 @@ Returns a list of the dashboards for your account. If you include `DashboardName
 only those dashboards with names starting with the prefix are listed. Otherwise, all
 dashboards in your account are listed.
 
- `ListDashboards` returns up to 1000 results on one page. If there are more than 1000
+`ListDashboards` returns up to 1000 results on one page. If there are more than 1000
 dashboards, you can call `ListDashboards` again and include the value you received for
 `NextToken` in the first call, to receive the next 1000 results.
 
@@ -1232,6 +1284,7 @@ function list_dashboards(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDashboards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_dashboards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1244,21 +1297,21 @@ end
     list_managed_insight_rules(resource_arn)
     list_managed_insight_rules(resource_arn, params::Dict{String,<:Any})
 
- Returns a list that contains the number of managed Contributor Insights rules in your
+Returns a list that contains the number of managed Contributor Insights rules in your
 account.
 
 # Arguments
 
-- `resource_arn`:  The ARN of an Amazon Web Services resource that has managed Contributor
+- `resource_arn`: The ARN of an Amazon Web Services resource that has managed Contributor
   Insights rules.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  The maximum number of results to return in one operation. If you omit
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
   this parameter, the default number is used. The default number is `100`.
-- `"NextToken"`:  Include this value to get the next set of rules if the value was returned
+- `"NextToken"`: Include this value to get the next set of rules if the value was returned
   by the previous operation.
 """
 function list_managed_insight_rules(
@@ -1271,6 +1324,7 @@ function list_managed_insight_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_insight_rules(
     ResourceARN,
     params::AbstractDict{String};
@@ -1305,6 +1359,7 @@ function list_metric_streams(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListMetricStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_metric_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1332,7 +1387,7 @@ If you are using CloudWatch cross-account observability, you can use this operat
 monitoring account and view metrics from the linked source accounts. For more information,
 see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
 
- `ListMetrics` doesn't return information about metrics if those metrics haven't reported
+`ListMetrics` doesn't return information about metrics if those metrics haven't reported
 data in the past two weeks. To retrieve those metrics, use [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html)
 or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html).
 
@@ -1345,7 +1400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeLinkedAccounts"`: If you are using this operation in a monitoring account,
   specify `true` to include metrics from source accounts in the returned data.
 
-The default is `false`.
+  The default is `false`.
 - `"MetricName"`: The name of the metric to filter against. Only the metrics with names
   that match exactly will be returned.
 - `"Namespace"`: The metric namespace to filter against. Only the namespace that matches
@@ -1353,11 +1408,11 @@ The default is `false`.
 - `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
 - `"OwningAccount"`: When you use this operation in a monitoring account, use this field to
-  return metrics only from one source account. To do so, specify that source account ID in
-  this field, and also specify `true` for `IncludeLinkedAccounts`.
+  return metrics only from one source account. To do so, specify that source account ID
+  in this field, and also specify `true` for `IncludeLinkedAccounts`.
 - `"RecentlyActive"`: To filter the results to show only metrics that have had data points
-  published in the past three hours, specify this parameter with a value of `PT3H`. This is
-  the only valid value for this parameter.
+  published in the past three hours, specify this parameter with a value of `PT3H`. This
+  is the only valid value for this parameter.
 
   The results that are returned are an approximation of the value you specify. There is a
   low probability that the returned results include metrics with last published data as
@@ -1366,6 +1421,7 @@ The default is `false`.
 function list_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch("ListMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1385,13 +1441,13 @@ Insights rules support tagging.
 
 - `resource_arn`: The ARN of the CloudWatch resource that you want to view tags for.
 
-  The ARN format of an alarm is `arn:aws:cloudwatch:*Region*:*account-id*:alarm:*alarm-
-  name* `
+  The ARN format of an alarm is
+  `arn:aws:cloudwatch:*Region*:*account-id*:alarm:*alarm-name*`
 
-  The ARN format of a Contributor Insights rule is `arn:aws:cloudwatch:*Region*:*account-
-  id*:insight-rule/*insight-rule-name* `
+  The ARN format of a Contributor Insights rule is
+  `arn:aws:cloudwatch:*Region*:*account-id*:insight-rule/*insight-rule-name*`
 
-  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
+  For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
 """
 function list_tags_for_resource(
@@ -1404,6 +1460,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1440,31 +1497,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model is to be trained, including time ranges to exclude when training and updating the
   model. You can specify as many as 10 time ranges.
 
-The configuration can also include the time zone to use for the metric.
+  The configuration can also include the time zone to use for the metric.
 - `"Dimensions"`: The metric dimensions to create the anomaly detection model for.
 - `"MetricCharacteristics"`: Use this object to include parameters to provide information
-  about your metric to CloudWatch to help it build more accurate anomaly detection models.
-  Currently, it includes the `PeriodicSpikes` parameter.
+  about your metric to CloudWatch to help it build more accurate anomaly detection
+  models. Currently, it includes the `PeriodicSpikes` parameter.
 - `"MetricMathAnomalyDetector"`: The metric math anomaly detector to be created.
 
   When using `MetricMathAnomalyDetector`, you cannot include the following parameters in
-  the same operation: - `Dimensions`
-   - `MetricName`
-   - `Namespace`
-   - `Stat`
-   - the `SingleMetricAnomalyDetector` parameters of `PutAnomalyDetectorInput`
+  the same operation:
+
+  - `Dimensions`
+  - `MetricName`
+  - `Namespace`
+  - `Stat`
+  - the `SingleMetricAnomalyDetector` parameters of `PutAnomalyDetectorInput`
+
   Instead, specify the metric math anomaly detector attributes as part of the property
   `MetricMathAnomalyDetector`.
 - `"MetricName"`: The name of the metric to create the anomaly detection model for.
 - `"Namespace"`: The namespace of the metric to create the anomaly detection model for.
 - `"SingleMetricAnomalyDetector"`: A single metric anomaly detector to be created.
 
-  When using `SingleMetricAnomalyDetector`, you cannot include the following parameters in
-  the same operation: - `Dimensions`
-   - `MetricName`
-   - `Namespace`
-   - `Stat`
-   - the `MetricMathAnomalyDetector` parameters of `PutAnomalyDetectorInput`
+  When using `SingleMetricAnomalyDetector`, you cannot include the following parameters
+  in the same operation:
+
+  - `Dimensions`
+  - `MetricName`
+  - `Namespace`
+  - `Stat`
+  - the `MetricMathAnomalyDetector` parameters of `PutAnomalyDetectorInput`
+
   Instead, specify the single metric anomaly detector attributes as part of the property
   `SingleMetricAnomalyDetector`.
 - `"Stat"`: The statistic to use for the metric and the anomaly detection model.
@@ -1474,6 +1537,7 @@ function put_anomaly_detector(; aws_config::AbstractAWSConfig=current_aws_config
         "PutAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_anomaly_detector(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1501,25 +1565,29 @@ also create a composite alarm and set up alerts only for the composite alarm. Fo
 you could create a composite alarm that goes into ALARM state only when more than one of
 the underlying metric alarms are in ALARM state.
 
-Composite alarms can take the following actions:</p> - Notify Amazon SNS topics.
- - Invoke Lambda functions.
- - Create OpsItems in Systems Manager Ops Center.
- - Create incidents in Systems Manager Incident Manager.
+Composite alarms can take the following actions:
 
+- Notify Amazon SNS topics.
+- Invoke Lambda functions.
+- Create OpsItems in Systems Manager Ops Center.
+- Create incidents in Systems Manager Incident Manager.
 
 !!! note
     It is possible to create a loop or cycle of composite alarms, where composite alarm A
-depends on composite alarm B, and composite alarm B also depends on composite alarm A. In
-this scenario, you can't delete any composite alarm that is part of the cycle because there
-is always still a composite alarm that depends on that alarm that you want to delete.
+    depends on composite alarm B, and composite alarm B also depends on composite alarm A.
+    In this scenario, you can't delete any composite alarm that is part of the cycle
+    because there is always still a composite alarm that depends on that alarm that you
+    want to delete.
 
-To get out of such a situation, you must break the cycle by changing the rule of one of the
-composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
-change to make to break a cycle is to change the `AlarmRule` of one of the alarms to
-`false`.
+    To get out of such a situation, you must break the cycle by changing the rule of one of
+    the composite alarms in the cycle to remove a dependency that creates the cycle. The
+    simplest change to make to break a cycle is to change the `AlarmRule` of one of the
+    alarms to `false`.
 
-Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the
-evaluation path.When this operation creates an alarm, the alarm state is immediately set to
+    Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in
+    the evaluation path.
+
+When this operation creates an alarm, the alarm state is immediately set to
 `INSUFFICIENT_DATA`. The alarm is then evaluated and its state is set appropriately. Any
 actions associated with the new state are then executed. For a composite alarm, this
 initial time after creation is the only time that the alarm can be in `INSUFFICIENT_DATA`
@@ -1532,52 +1600,57 @@ To use this operation, you must be signed on with the `cloudwatch:PutCompositeAl
 permission that is scoped to `*`. You can't create a composite alarms if your
 `cloudwatch:PutCompositeAlarm` permission has a narrower scope.
 
- <p>If you are an IAM user, you must have `iam:CreateServiceLinkedRole` to create a
-composite alarm that has Systems Manager OpsItem actions.
+If you are an IAM user, you must have `iam:CreateServiceLinkedRole` to create a composite
+alarm that has Systems Manager OpsItem actions.
 
 # Arguments
 
 - `alarm_name`: The name for the composite alarm. This name must be unique within the
   Region.
 - `alarm_rule`: An expression that specifies which other alarms are to be evaluated to
-  determine this composite alarm's state. For each alarm that you reference, you designate
-  a function that specifies whether that alarm needs to be in ALARM state, OK state, or
-  INSUFFICIENT_DATA state. You can use operators (AND, OR and NOT) to combine multiple
-  functions in a single expression. You can use parenthesis to logically group the
-  functions in your expression.
+  determine this composite alarm's state. For each alarm that you reference, you
+  designate a function that specifies whether that alarm needs to be in ALARM state, OK
+  state, or INSUFFICIENT_DATA state. You can use operators (AND, OR and NOT) to combine
+  multiple functions in a single expression. You can use parenthesis to logically group
+  the functions in your expression.
 
   You can use either alarm names or ARNs to reference the other alarms that are to be
   evaluated.
 
-  Functions can include the following:</p> - `ALARM("*alarm-name* or *alarm-ARN*")` is TRUE
-  if the named alarm is in ALARM state.
-   - `OK("*alarm-name* or *alarm-ARN*")` is TRUE if the named alarm is in OK state.
-   - `INSUFFICIENT_DATA("*alarm-name* or *alarm-ARN*")` is TRUE if the named alarm is in
-  INSUFFICIENT_DATA state.
-   - `TRUE` always evaluates to TRUE.
-   - `FALSE` always evaluates to FALSE.
+  Functions can include the following:
+
+  - `ALARM("*alarm-name* or *alarm-ARN*")` is TRUE if the named alarm is in ALARM state.
+  - `OK("*alarm-name* or *alarm-ARN*")` is TRUE if the named alarm is in OK state.
+  - `INSUFFICIENT_DATA("*alarm-name* or *alarm-ARN*")` is TRUE if the named alarm is in
+    INSUFFICIENT_DATA state.
+  - `TRUE` always evaluates to TRUE.
+  - `FALSE` always evaluates to FALSE.
+
   TRUE and FALSE are useful for testing a complex `AlarmRule` structure, and for testing
   your alarm actions.
 
-  Alarm names specified in `AlarmRule` can be surrounded with double-quotes ("), but do not
-  have to be.
+  Alarm names specified in `AlarmRule` can be surrounded with double-quotes ("), but do
+  not have to be.
 
-   <p>The following are some examples of `AlarmRule`: - `ALARM(CPUUtilizationTooHigh) AND
-  ALARM(DiskReadOpsTooHigh)` specifies that the composite alarm goes into ALARM state only
-  if both CPUUtilizationTooHigh and DiskReadOpsTooHigh alarms are in ALARM state.
-   - `ALARM(CPUUtilizationTooHigh) AND NOT ALARM(DeploymentInProgress)` specifies that the
-  alarm goes to ALARM state if CPUUtilizationTooHigh is in ALARM state and
-  DeploymentInProgress is not in ALARM state. This example reduces alarm noise during a
-  known deployment window.
-   - `(ALARM(CPUUtilizationTooHigh) OR ALARM(DiskReadOpsTooHigh)) AND
-  OK(NetworkOutTooHigh)` goes into ALARM state if CPUUtilizationTooHigh OR
-  DiskReadOpsTooHigh is in ALARM state, and if NetworkOutTooHigh is in OK state. This
-  provides another example of using a composite alarm to prevent noise. This rule ensures
-  that you are not notified with an alarm action on high CPU or disk usage if a known
-  network problem is also occurring.
-  The `AlarmRule` can specify as many as 100 "children" alarms. The `AlarmRule` expression
-  can have as many as 500 elements. Elements are child alarms, TRUE or FALSE statements,
-  and parentheses.
+  The following are some examples of `AlarmRule`:
+
+  - `ALARM(CPUUtilizationTooHigh) AND ALARM(DiskReadOpsTooHigh)` specifies that the
+    composite alarm goes into ALARM state only if both CPUUtilizationTooHigh and
+    DiskReadOpsTooHigh alarms are in ALARM state.
+  - `ALARM(CPUUtilizationTooHigh) AND NOT ALARM(DeploymentInProgress)` specifies that the
+    alarm goes to ALARM state if CPUUtilizationTooHigh is in ALARM state and
+    DeploymentInProgress is not in ALARM state. This example reduces alarm noise during a
+    known deployment window.
+  - `(ALARM(CPUUtilizationTooHigh) OR ALARM(DiskReadOpsTooHigh)) AND OK(NetworkOutTooHigh)`
+    goes into ALARM state if CPUUtilizationTooHigh OR DiskReadOpsTooHigh is in ALARM
+    state, and if NetworkOutTooHigh is in OK state. This provides another example of
+    using a composite alarm to prevent noise. This rule ensures that you are not notified
+    with an alarm action on high CPU or disk usage if a known network problem is also
+    occurring.
+
+  The `AlarmRule` can specify as many as 100 "children" alarms. The `AlarmRule`
+  expression can have as many as 500 elements. Elements are child alarms, TRUE or FALSE
+  statements, and parentheses.
 
 # Optional Parameters
 
@@ -1585,39 +1658,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ActionsEnabled"`: Indicates whether actions should be executed during any changes to
   the alarm state of the composite alarm. The default is `TRUE`.
-- `"ActionsSuppressor"`:  Actions will be suppressed if the suppressor alarm is in the
+- `"ActionsSuppressor"`: Actions will be suppressed if the suppressor alarm is in the
   `ALARM` state. `ActionsSuppressor` can be an AlarmName or an Amazon Resource Name (ARN)
   from an existing alarm.
-- `"ActionsSuppressorExtensionPeriod"`:  The maximum time in seconds that the composite
+- `"ActionsSuppressorExtensionPeriod"`: The maximum time in seconds that the composite
   alarm waits after suppressor alarm goes out of the `ALARM` state. After this time, the
   composite alarm performs its actions.
 
   !!! important
       `ExtensionPeriod` is required only when `ActionsSuppressor` is specified.
-- `"ActionsSuppressorWaitPeriod"`:  The maximum time in seconds that the composite alarm
+
+- `"ActionsSuppressorWaitPeriod"`: The maximum time in seconds that the composite alarm
   waits for the suppressor alarm to go into the `ALARM` state. After this time, the
   composite alarm performs its actions.
 
-!!! important
-    `WaitPeriod` is required only when `ActionsSuppressor` is specified.
+  !!! important
+      `WaitPeriod` is required only when `ActionsSuppressor` is specified.
+
 - `"AlarmActions"`: The actions to execute when this alarm transitions to the `ALARM` state
   from any other state. Each action is specified as an Amazon Resource Name (ARN).
 
   Valid Values: ]
 
-   **Amazon SNS actions:**
+  **Amazon SNS actions:**
 
-   `arn:aws:sns:*region*:*account-id*:*sns-topic-name* `
+  `arn:aws:sns:*region*:*account-id*:*sns-topic-name*`
 
-   **Lambda actions:** </p> - Invoke the latest version of a Lambda function:
-  `arn:aws:lambda:*region*:*account-id*:function:*function-name* `
-   - Invoke a specific version of a Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*version-number* `
-   - Invoke a function by using an alias Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*alias-name* `
-   **Systems Manager actions:**
+  **Lambda actions:**
 
- <p> `arn:aws:ssm:*region*:*account-id*:opsitem:*severity* `
+  - Invoke the latest version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*`
+  - Invoke a specific version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*version-number*`
+  - Invoke a function by using an alias Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*alias-name*`
+
+  **Systems Manager actions:**
+
+  `arn:aws:ssm:*region*:*account-id*:opsitem:*severity*`
 - `"AlarmDescription"`: The description for the composite alarm.
 - `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
   `INSUFFICIENT_DATA` state from any other state. Each action is specified as an Amazon
@@ -1625,41 +1703,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid Values: ]
 
-   **Amazon SNS actions:**
+  **Amazon SNS actions:**
 
-   `arn:aws:sns:*region*:*account-id*:*sns-topic-name* `
+  `arn:aws:sns:*region*:*account-id*:*sns-topic-name*`
 
-   **Lambda actions:**  - Invoke the latest version of a Lambda function:
-  `arn:aws:lambda:*region*:*account-id*:function:*function-name* `
-   - Invoke a specific version of a Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*version-number* `
-   - Invoke a function by using an alias Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*alias-name* `
+  **Lambda actions:**
+
+  - Invoke the latest version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*`
+  - Invoke a specific version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*version-number*`
+  - Invoke a function by using an alias Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*alias-name*`
+
 - `"OKActions"`: The actions to execute when this alarm transitions to an `OK` state from
   any other state. Each action is specified as an Amazon Resource Name (ARN).
 
   Valid Values: ]
 
-   **Amazon SNS actions:**
+  **Amazon SNS actions:**
 
-   `arn:aws:sns:*region*:*account-id*:*sns-topic-name* `
+  `arn:aws:sns:*region*:*account-id*:*sns-topic-name*`
 
-   **Lambda actions:**  - Invoke the latest version of a Lambda function:
-  `arn:aws:lambda:*region*:*account-id*:function:*function-name* `
-   - Invoke a specific version of a Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*version-number* `
-   - Invoke a function by using an alias Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*alias-name* `
+  **Lambda actions:**
+
+  - Invoke the latest version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*`
+  - Invoke a specific version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*version-number*`
+  - Invoke a function by using an alias Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*alias-name*`
+
 - `"Tags"`: A list of key-value pairs to associate with the alarm. You can associate as
   many as 50 tags with an alarm. To be able to associate tags with the alarm when you
   create the alarm, you must have the `cloudwatch:TagResource` permission.
 
-  Tags can help you organize and categorize your resources. You can also use them to scope
-  user permissions by granting a user permission to access or change only resources with
-  certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to
+  scope user permissions by granting a user permission to access or change only resources
+  with certain tag values.
 
-  If you are using this operation to update an existing alarm, any tags you specify in this
-  parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
+  If you are using this operation to update an existing alarm, any tags you specify in
+  this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
   or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
 """
 function put_composite_alarm(
@@ -1672,6 +1756,7 @@ function put_composite_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_composite_alarm(
     AlarmName,
     AlarmRule,
@@ -1721,8 +1806,8 @@ of the `DashboardBody` script or the CloudFormation template used to create the 
   For more information about the syntax, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html).
 - `dashboard_name`: The name of the dashboard. If a dashboard with this name already
   exists, this call modifies that dashboard, replacing its current contents. Otherwise, a
-  new dashboard is created. The maximum length is 255, and valid characters are A-Z, a-z, 0-
-  9, "-", and "_". This parameter is required.
+  new dashboard is created. The maximum length is 255, and valid characters are A-Z, a-z,
+  0-9, "-", and "_". This parameter is required.
 """
 function put_dashboard(
     DashboardBody, DashboardName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1736,6 +1821,7 @@ function put_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dashboard(
     DashboardBody,
     DashboardName,
@@ -1783,15 +1869,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs to associate with the Contributor Insights rule. You
   can associate as many as 50 tags with a rule.
 
-  Tags can help you organize and categorize your resources. You can also use them to scope
-  user permissions, by granting a user permission to access or change only the resources
-  that have certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to
+  scope user permissions, by granting a user permission to access or change only the
+  resources that have certain tag values.
 
   To be able to associate tags with a rule, you must have the `cloudwatch:TagResource`
   permission in addition to the `cloudwatch:PutInsightRule` permission.
 
-  If you are using this operation to update an existing Contributor Insights rule, any tags
-  you specify in this parameter are ignored. To change the tags of an existing rule, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html).
+  If you are using this operation to update an existing Contributor Insights rule, any
+  tags you specify in this parameter are ignored. To change the tags of an existing rule,
+  use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html).
 """
 function put_insight_rule(
     RuleDefinition, RuleName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1803,6 +1890,7 @@ function put_insight_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_insight_rule(
     RuleDefinition,
     RuleName,
@@ -1829,7 +1917,7 @@ end
     put_managed_insight_rules(managed_rules)
     put_managed_insight_rules(managed_rules, params::Dict{String,<:Any})
 
- Creates a managed Contributor Insights rule for a specified Amazon Web Services resource.
+Creates a managed Contributor Insights rule for a specified Amazon Web Services resource.
 When you enable a managed rule, you create a Contributor Insights rule that collects data
 from Amazon Web Services services. You cannot edit these rules with `PutInsightRule`. The
 rules can be enabled, disabled, and deleted using `EnableInsightRules`,
@@ -1839,7 +1927,7 @@ currently disabled, a subsequent call to this API will re-enable it. Use
 
 # Arguments
 
-- `managed_rules`:  A list of `ManagedRules` to enable.
+- `managed_rules`: A list of `ManagedRules` to enable.
 """
 function put_managed_insight_rules(
     ManagedRules; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1851,6 +1939,7 @@ function put_managed_insight_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_managed_insight_rules(
     ManagedRules,
     params::AbstractDict{String};
@@ -1883,10 +1972,12 @@ actions associated with the new state are then executed.
 When you update an existing alarm, its state is left unchanged, but the update completely
 overwrites the previous configuration of the alarm.
 
-If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:</p>
+If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:
+
 - The `iam:CreateServiceLinkedRole` permission for all alarms with EC2 actions
- - The `iam:CreateServiceLinkedRole` permissions to create an alarm with Systems Manager
-OpsItem or response plan actions.
+- The `iam:CreateServiceLinkedRole` permissions to create an alarm with Systems Manager
+  OpsItem or response plan actions.
+
 The first time you create an alarm in the Amazon Web Services Management Console, the CLI,
 or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role
 for you. The service-linked roles are called `AWSServiceRoleForCloudWatchEvents` and
@@ -1894,27 +1985,28 @@ for you. The service-linked roles are called `AWSServiceRoleForCloudWatchEvents`
 
 Each `PutMetricAlarm` action has a maximum uncompressed payload of 120 KB.
 
- **Cross-account alarms**
+**Cross-account alarms**
 
- <p>You can set an alarm on metrics in the current account, or in another account. To
-create a cross-account alarm that watches a metric in a different account, you must have
-completed the following pre-requisites: - The account where the metrics are located (the
-*sharing account*) must already have a sharing role named **CloudWatch-
-CrossAccountSharingRole**. If it does not already have this role, you must create it using
-the instructions in **Set up a sharing account** in [ Cross-account cross-Region CloudWatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Cross-Account-Cross-Region.html#enable-cross-account-cross-Region).
-The policy for that role must grant access to the ID of the account where you are creating
-the alarm.
- - The account where you are creating the alarm (the *monitoring account*) must already
-have a service-linked role named **AWSServiceRoleForCloudWatchCrossAccount** to allow
-CloudWatch to assume the sharing role in the sharing account. If it does not, you must
-create it following the directions in **Set up a monitoring account** in [ Cross-account cross-Region CloudWatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Cross-Account-Cross-Region.html#enable-cross-account-cross-Region).
+You can set an alarm on metrics in the current account, or in another account. To create a
+cross-account alarm that watches a metric in a different account, you must have completed
+the following pre-requisites:
+
+- The account where the metrics are located (the *sharing account*) must already have a
+  sharing role named **CloudWatch-CrossAccountSharingRole**. If it does not already have
+  this role, you must create it using the instructions in **Set up a sharing account** in [Cross-account cross-Region CloudWatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Cross-Account-Cross-Region.html#enable-cross-account-cross-Region).
+  The policy for that role must grant access to the ID of the account where you are
+  creating the alarm.
+- The account where you are creating the alarm (the *monitoring account*) must already have
+  a service-linked role named **AWSServiceRoleForCloudWatchCrossAccount** to allow
+  CloudWatch to assume the sharing role in the sharing account. If it does not, you must
+  create it following the directions in **Set up a monitoring account** in [Cross-account cross-Region CloudWatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Cross-Account-Cross-Region.html#enable-cross-account-cross-Region).
 
 # Arguments
 
 - `alarm_name`: The name for the alarm. This name must be unique within the Region.
 
-The name must contain only UTF-8 characters, and can't contain ASCII control characters
-- `comparison_operator`:  The arithmetic operation to use when comparing the specified
+  The name must contain only UTF-8 characters, and can't contain ASCII control characters
+- `comparison_operator`: The arithmetic operation to use when comparing the specified
   statistic and threshold. The specified statistic value is used as the first operand.
 
   The values `LessThanLowerOrGreaterThanUpperThreshold`, `LessThanLowerThreshold`, and
@@ -1924,8 +2016,8 @@ The name must contain only UTF-8 characters, and can't contain ASCII control cha
   points be breaching to trigger the alarm, this value specifies that number. If you are
   setting an "M out of N" alarm, this value is the N.
 
-  An alarm's total current evaluation period can be no longer than one day, so this number
-  multiplied by `Period` cannot be more than 86,400 seconds.
+  An alarm's total current evaluation period can be no longer than one day, so this
+  number multiplied by `Period` cannot be more than 86,400 seconds.
 
 # Optional Parameters
 
@@ -1937,93 +2029,121 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid
   values:
 
-   **EC2 actions:**  - `arn:aws:automate:*region*:ec2:stop`
-   - `arn:aws:automate:*region*:ec2:terminate`
-   - `arn:aws:automate:*region*:ec2:reboot`
-   - `arn:aws:automate:*region*:ec2:recover`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Stop/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Terminate/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Reboot/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Recover/1.0`
-   **Autoscaling action:**  - `arn:aws:autoscaling:*region*:*account-
-  id*:scalingPolicy:*policy-id*:autoScalingGroupName/*group-friendly-
-  name*:policyName/*policy-friendly-name* `
-   **Lambda actions:**  - Invoke the latest version of a Lambda function:
-  `arn:aws:lambda:*region*:*account-id*:function:*function-name* `
-   - Invoke a specific version of a Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*version-number* `
-   - Invoke a function by using an alias Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*alias-name* `
-   **SNS notification action:**  - `arn:aws:sns:*region*:*account-id*:*sns-topic-name* `
-   **SSM integration actions:**  - `arn:aws:ssm:*region*:*account-
-  id*:opsitem:*severity*#CATEGORY=*category-name* `
-   - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name* `
+  **EC2 actions:**
+
+  - `arn:aws:automate:*region*:ec2:stop`
+  - `arn:aws:automate:*region*:ec2:terminate`
+  - `arn:aws:automate:*region*:ec2:reboot`
+  - `arn:aws:automate:*region*:ec2:recover`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Stop/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Terminate/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Reboot/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Recover/1.0`
+
+  **Autoscaling action:**
+
+  - `arn:aws:autoscaling:*region*:*account-id*:scalingPolicy:*policy-id*:autoScalingGroupName/*group-friendly-name*:policyName/*policy-friendly-name*`
+
+  **Lambda actions:**
+
+  - Invoke the latest version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*`
+  - Invoke a specific version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*version-number*`
+  - Invoke a function by using an alias Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*alias-name*`
+
+  **SNS notification action:**
+
+  - `arn:aws:sns:*region*:*account-id*:*sns-topic-name*`
+
+  **SSM integration actions:**
+
+  - `arn:aws:ssm:*region*:*account-id*:opsitem:*severity*#CATEGORY=*category-name*`
+  - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name*`
+
 - `"AlarmDescription"`: The description for the alarm.
 - `"DatapointsToAlarm"`: The number of data points that must be breaching to trigger the
   alarm. This is used only if you are setting an "M out of N" alarm. In that case, this
   value is the M. For more information, see [Evaluating an Alarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarm-evaluation)
   in the *Amazon CloudWatch User Guide*.
 - `"Dimensions"`: The dimensions for the metric specified in `MetricName`.
-- `"EvaluateLowSampleCountPercentile"`:  Used only for alarms based on percentiles. If you
-  specify `ignore`, the alarm state does not change during periods with too few data points
-  to be statistically significant. If you specify `evaluate` or omit this parameter, the
-  alarm is always evaluated and possibly changes state no matter how many data points are
-  available. For more information, see [Percentile-Based CloudWatch Alarms and Low Data Samples](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#percentiles-with-low-samples).
+- `"EvaluateLowSampleCountPercentile"`: Used only for alarms based on percentiles. If you
+  specify `ignore`, the alarm state does not change during periods with too few data
+  points to be statistically significant. If you specify `evaluate` or omit this
+  parameter, the alarm is always evaluated and possibly changes state no matter how many
+  data points are available. For more information, see [Percentile-Based CloudWatch Alarms and Low Data Samples](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#percentiles-with-low-samples).
 
-Valid Values: `evaluate | ignore`
+  Valid Values: `evaluate | ignore`
 - `"ExtendedStatistic"`: The extended statistic for the metric specified in `MetricName`.
   When you call `PutMetricAlarm` and specify a `MetricName`, you must specify either
   `Statistic` or `ExtendedStatistic` but not both.
 
-  If you specify `ExtendedStatistic`, the following are valid values: - `p90`
-   - `tm90`
-   - `tc90`
-   - `ts90`
-   - `wm90`
-   - `IQM`
-   - `PR(*n*:*m*)` where n and m are values of the metric
-   - `TC(*X*%:*X*%)` where X is between 10 and 90 inclusive.
-   - `TM(*X*%:*X*%)` where X is between 10 and 90 inclusive.
-   - `TS(*X*%:*X*%)` where X is between 10 and 90 inclusive.
-   - `WM(*X*%:*X*%)` where X is between 10 and 90 inclusive.
+  If you specify `ExtendedStatistic`, the following are valid values:
+
+  - `p90`
+  - `tm90`
+  - `tc90`
+  - `ts90`
+  - `wm90`
+  - `IQM`
+  - `PR(*n*:*m*)` where n and m are values of the metric
+  - `TC(*X*%:*X*%)` where X is between 10 and 90 inclusive.
+  - `TM(*X*%:*X*%)` where X is between 10 and 90 inclusive.
+  - `TS(*X*%:*X*%)` where X is between 10 and 90 inclusive.
+  - `WM(*X*%:*X*%)` where X is between 10 and 90 inclusive.
+
   For more information about these extended statistics, see [CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html).
 - `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
   `INSUFFICIENT_DATA` state from any other state. Each action is specified as an Amazon
   Resource Name (ARN). Valid values:
 
-   **EC2 actions:**  - `arn:aws:automate:*region*:ec2:stop`
-   - `arn:aws:automate:*region*:ec2:terminate`
-   - `arn:aws:automate:*region*:ec2:reboot`
-   - `arn:aws:automate:*region*:ec2:recover`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Stop/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Terminate/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Reboot/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Recover/1.0`
-   **Autoscaling action:**  - `arn:aws:autoscaling:*region*:*account-
-  id*:scalingPolicy:*policy-id*:autoScalingGroupName/*group-friendly-
-  name*:policyName/*policy-friendly-name* `
-   **Lambda actions:**  - Invoke the latest version of a Lambda function:
-  `arn:aws:lambda:*region*:*account-id*:function:*function-name* `
-   - Invoke a specific version of a Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*version-number* `
-   - Invoke a function by using an alias Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*alias-name* `
-   **SNS notification action:**  - `arn:aws:sns:*region*:*account-id*:*sns-topic-name* `
-   **SSM integration actions:**  - `arn:aws:ssm:*region*:*account-
-  id*:opsitem:*severity*#CATEGORY=*category-name* `
-   - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name* `
-- `"MetricName"`: The name for the metric associated with the alarm. For each
-  `PutMetricAlarm` operation, you must specify either `MetricName` or a `Metrics` array.
+  **EC2 actions:**
+
+  - `arn:aws:automate:*region*:ec2:stop`
+  - `arn:aws:automate:*region*:ec2:terminate`
+  - `arn:aws:automate:*region*:ec2:reboot`
+  - `arn:aws:automate:*region*:ec2:recover`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Stop/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Terminate/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Reboot/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Recover/1.0`
+
+  **Autoscaling action:**
+
+  - `arn:aws:autoscaling:*region*:*account-id*:scalingPolicy:*policy-id*:autoScalingGroupName/*group-friendly-name*:policyName/*policy-friendly-name*`
+
+  **Lambda actions:**
+
+  - Invoke the latest version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*`
+  - Invoke a specific version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*version-number*`
+  - Invoke a function by using an alias Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*alias-name*`
+
+  **SNS notification action:**
+
+  - `arn:aws:sns:*region*:*account-id*:*sns-topic-name*`
+
+  **SSM integration actions:**
+
+  - `arn:aws:ssm:*region*:*account-id*:opsitem:*severity*#CATEGORY=*category-name*`
+  - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name*`
+
+- `"MetricName"`: The name for the metric associated with the alarm. For each [`put_metric_alarm`](@ref)
+  operation, you must specify either `MetricName` or a `Metrics` array.
 
   If you are creating an alarm based on a math expression, you cannot specify this
   parameter, or any of the `Namespace`, `Dimensions`, `Period`, `Unit`, `Statistic`, or
   `ExtendedStatistic` parameters. Instead, you specify all this information in the
   `Metrics` array.
 - `"Metrics"`: An array of `MetricDataQuery` structures that enable you to create an alarm
-  based on the result of a metric math expression. For each `PutMetricAlarm` operation, you
-  must specify either `MetricName` or a `Metrics` array.
+  based on the result of a metric math expression. For each [`put_metric_alarm`](@ref)
+  operation, you must specify either `MetricName` or a `Metrics` array.
 
-  Each item in the `Metrics` array either retrieves a metric or performs a math expression.
+  Each item in the `Metrics` array either retrieves a metric or performs a math
+  expression.
 
   One item in the `Metrics` array is the expression that the alarm watches. You designate
   this expression by setting `ReturnData` to true for this object in the array. For more
@@ -2035,35 +2155,48 @@ Valid Values: `evaluate | ignore`
   in your math expression as part of the `Metrics` array.
 - `"Namespace"`: The namespace for the metric associated specified in `MetricName`.
 - `"OKActions"`: The actions to execute when this alarm transitions to an `OK` state from
-  any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:
+  any other state. Each action is specified as an Amazon Resource Name (ARN). Valid
+  values:
 
-   **EC2 actions:**  - `arn:aws:automate:*region*:ec2:stop`
-   - `arn:aws:automate:*region*:ec2:terminate`
-   - `arn:aws:automate:*region*:ec2:reboot`
-   - `arn:aws:automate:*region*:ec2:recover`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Stop/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Terminate/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Reboot/1.0`
-   - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Recover/1.0`
-   **Autoscaling action:**  - `arn:aws:autoscaling:*region*:*account-
-  id*:scalingPolicy:*policy-id*:autoScalingGroupName/*group-friendly-
-  name*:policyName/*policy-friendly-name* `
-   **Lambda actions:**  - Invoke the latest version of a Lambda function:
-  `arn:aws:lambda:*region*:*account-id*:function:*function-name* `
-   - Invoke a specific version of a Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*version-number* `
-   - Invoke a function by using an alias Lambda function: `arn:aws:lambda:*region*:*account-
-  id*:function:*function-name*:*alias-name* `
-   **SNS notification action:**  - `arn:aws:sns:*region*:*account-id*:*sns-topic-name* `
-   **SSM integration actions:**  - `arn:aws:ssm:*region*:*account-
-  id*:opsitem:*severity*#CATEGORY=*category-name* `
-   - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name* `
+  **EC2 actions:**
+
+  - `arn:aws:automate:*region*:ec2:stop`
+  - `arn:aws:automate:*region*:ec2:terminate`
+  - `arn:aws:automate:*region*:ec2:reboot`
+  - `arn:aws:automate:*region*:ec2:recover`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Stop/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Terminate/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Reboot/1.0`
+  - `arn:aws:swf:*region*:*account-id*:action/actions/AWS_EC2.InstanceId.Recover/1.0`
+
+  **Autoscaling action:**
+
+  - `arn:aws:autoscaling:*region*:*account-id*:scalingPolicy:*policy-id*:autoScalingGroupName/*group-friendly-name*:policyName/*policy-friendly-name*`
+
+  **Lambda actions:**
+
+  - Invoke the latest version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*`
+  - Invoke a specific version of a Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*version-number*`
+  - Invoke a function by using an alias Lambda function:
+    `arn:aws:lambda:*region*:*account-id*:function:*function-name*:*alias-name*`
+
+  **SNS notification action:**
+
+  - `arn:aws:sns:*region*:*account-id*:*sns-topic-name*`
+
+  **SSM integration actions:**
+
+  - `arn:aws:ssm:*region*:*account-id*:opsitem:*severity*#CATEGORY=*category-name*`
+  - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name*`
+
 - `"Period"`: The length, in seconds, used each time the metric specified in `MetricName`
   is evaluated. Valid values are 10, 30, and any multiple of 60.
 
-   `Period` is required for alarms based on static thresholds. If you are creating an alarm
-  based on a metric math expression, you specify the period for each metric within the
-  objects in the `Metrics` array.
+  `Period` is required for alarms based on static thresholds. If you are creating an
+  alarm based on a metric math expression, you specify the period for each metric within
+  the objects in the `Metrics` array.
 
   Be sure to specify 10 or 30 only for metrics that are stored by a `PutMetricData` call
   with a `StorageResolution` of 1. If you specify a period of 10 or 30 for a metric that
@@ -2071,8 +2204,8 @@ Valid Values: `evaluate | ignore`
   period rate that you specify. In this case, it does not receive data for the attempts
   that do not correspond to a one-minute data resolution, and the alarm might often lapse
   into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-
-  resolution alarm, which has a higher charge than other alarms. For more information about
-  pricing, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
+  resolution alarm, which has a higher charge than other alarms. For more information
+  about pricing, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
 
   An alarm's total current evaluation period can be no longer than one day, so `Period`
   multiplied by `EvaluationPeriods` cannot be more than 86,400 seconds.
@@ -2084,48 +2217,50 @@ Valid Values: `evaluate | ignore`
   many as 50 tags with an alarm. To be able to associate tags with the alarm when you
   create the alarm, you must have the `cloudwatch:TagResource` permission.
 
-  Tags can help you organize and categorize your resources. You can also use them to scope
-  user permissions by granting a user permission to access or change only resources with
-  certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to
+  scope user permissions by granting a user permission to access or change only resources
+  with certain tag values.
 
-  If you are using this operation to update an existing alarm, any tags you specify in this
-  parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
+  If you are using this operation to update an existing alarm, any tags you specify in
+  this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
   or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
 - `"Threshold"`: The value against which the specified statistic is compared.
 
-  This parameter is required for alarms based on static thresholds, but should not be used
-  for alarms based on anomaly detection models.
+  This parameter is required for alarms based on static thresholds, but should not be
+  used for alarms based on anomaly detection models.
 - `"ThresholdMetricId"`: If this is an alarm based on an anomaly detection model, make this
   value match the ID of the `ANOMALY_DETECTION_BAND` function.
 
   For an example of how to use this parameter, see the **Anomaly Detection Model Alarm**
   example on this page.
 
-If your alarm uses this parameter, it cannot have Auto Scaling actions.
-- `"TreatMissingData"`:  Sets how this alarm is to handle missing data points. If
+  If your alarm uses this parameter, it cannot have Auto Scaling actions.
+- `"TreatMissingData"`: Sets how this alarm is to handle missing data points. If
   `TreatMissingData` is omitted, the default behavior of `missing` is used. For more
   information, see [Configuring How CloudWatch Alarms Treats Missing Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data).
 
   Valid Values: `breaching | notBreaching | ignore | missing`
 
   !!! note
-      Alarms that evaluate metrics in the `AWS/DynamoDB` namespace always `ignore` missing
-  data even if you choose a different option for `TreatMissingData`. When an `AWS/DynamoDB`
-  metric has missing data, alarms that evaluate that metric remain in their current state.
+      Alarms that evaluate metrics in the `AWS/DynamoDB` namespace always `ignore`
+      missing data even if you choose a different option for `TreatMissingData`. When an
+      `AWS/DynamoDB` metric has missing data, alarms that evaluate that metric remain in
+      their current state.
+
 - `"Unit"`: The unit of measure for the statistic. For example, the units for the Amazon
   EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an
-  instance receives on all network interfaces. You can also specify a unit when you create
-  a custom metric. Units help provide conceptual meaning to your data. Metric data points
-  that specify a unit of measure, such as Percent, are aggregated separately. If you are
-  creating an alarm based on a metric math expression, you can specify the unit for each
-  metric (if needed) within the objects in the `Metrics` array.
+  instance receives on all network interfaces. You can also specify a unit when you
+  create a custom metric. Units help provide conceptual meaning to your data. Metric data
+  points that specify a unit of measure, such as Percent, are aggregated separately. If
+  you are creating an alarm based on a metric math expression, you can specify the unit
+  for each metric (if needed) within the objects in the `Metrics` array.
 
-  If you don't specify `Unit`, CloudWatch retrieves all unit types that have been published
-  for the metric and attempts to evaluate the alarm. Usually, metrics are published with
-  only one unit, so the alarm works as intended.
+  If you don't specify `Unit`, CloudWatch retrieves all unit types that have been
+  published for the metric and attempts to evaluate the alarm. Usually, metrics are
+  published with only one unit, so the alarm works as intended.
 
-  However, if the metric is published with multiple types of units and you don't specify a
-  unit, the alarm's behavior is not defined and it behaves unpredictably.
+  However, if the metric is published with multiple types of units and you don't specify
+  a unit, the alarm's behavior is not defined and it behaves unpredictably.
 
   We recommend omitting `Unit` so that you don't inadvertently specify an incorrect unit
   that is not published for this metric. Doing so causes the alarm to be stuck in the
@@ -2148,6 +2283,7 @@ function put_metric_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_alarm(
     AlarmName,
     ComparisonOperator,
@@ -2214,9 +2350,11 @@ or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/API
 
 CloudWatch needs raw data points to calculate percentile statistics. If you publish data
 using a statistic set instead, you can only retrieve percentile statistics for this data if
-one of the following conditions is true: - The `SampleCount` value of the statistic set is
-1 and `Min`, `Max`, and `Sum` are all equal.
- - The `Min` and `Max` are equal, and `Sum` is equal to `Min` multiplied by `SampleCount`.
+one of the following conditions is true:
+
+- The `SampleCount` value of the statistic set is 1 and `Min`, `Max`, and `Sum` are all
+  equal.
+- The `Min` and `Max` are equal, and `Sum` is equal to `Min` multiplied by `SampleCount`.
 
 # Arguments
 
@@ -2225,8 +2363,8 @@ one of the following conditions is true: - The `SampleCount` value of the statis
 - `namespace`: The namespace for the metric data. You can use ASCII characters for the
   namespace, except for control characters which are not supported.
 
-  To avoid conflicts with Amazon Web Services service namespaces, you should not specify a
-  namespace that begins with `AWS/`
+  To avoid conflicts with Amazon Web Services service namespaces, you should not specify
+  a namespace that begins with `AWS/`
 """
 function put_metric_data(
     MetricData, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2238,6 +2376,7 @@ function put_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_data(
     MetricData,
     Namespace,
@@ -2266,50 +2405,54 @@ Creates or updates a metric stream. Metric streams can automatically stream Clou
 metrics to Amazon Web Services destinations, including Amazon S3, and to many third-party
 solutions.
 
-For more information, see [ Using Metric Streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Metric-Streams.html).
+For more information, see [Using Metric Streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Metric-Streams.html).
 
 To create a metric stream, you must be signed in to an account that has the `iam:PassRole`
 permission and either the `CloudWatchFullAccess` policy or the `cloudwatch:PutMetricStream`
 permission.
 
-When you create or update a metric stream, you choose one of the following:</p> - Stream
-metrics from all metric namespaces in the account.
- - Stream metrics from all metric namespaces in the account, except for the namespaces that
-you list in `ExcludeFilters`.
- - Stream metrics from only the metric namespaces that you list in `IncludeFilters`.
+When you create or update a metric stream, you choose one of the following:
+
+- Stream metrics from all metric namespaces in the account.
+- Stream metrics from all metric namespaces in the account, except for the namespaces that
+  you list in `ExcludeFilters`.
+- Stream metrics from only the metric namespaces that you list in `IncludeFilters`.
+
 By default, a metric stream always sends the `MAX`, `MIN`, `SUM`, and `SAMPLECOUNT`
 statistics for each metric that is streamed. You can use the `StatisticsConfigurations`
 parameter to have the metric stream send additional statistics in the stream. Streaming
 additional statistics incurs additional costs. For more information, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
 
-
 When you use `PutMetricStream` to create a new metric stream, the stream is created in the
 `running` state. If you use it to update an existing stream, the state of the stream is not
 changed.
 
- <p>If you are using CloudWatch cross-account observability and you create a metric stream
-in a monitoring account, you can choose whether to include metrics from source accounts in
-the stream. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+If you are using CloudWatch cross-account observability and you create a metric stream in a
+monitoring account, you can choose whether to include metrics from source accounts in the
+stream. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
 
 # Arguments
 
 - `firehose_arn`: The ARN of the Amazon Kinesis Data Firehose delivery stream to use for
-  this metric stream. This Amazon Kinesis Data Firehose delivery stream must already exist
-  and must be in the same account as the metric stream.
+  this metric stream. This Amazon Kinesis Data Firehose delivery stream must already
+  exist and must be in the same account as the metric stream.
 - `name`: If you are creating a new metric stream, this is the name for the new stream. The
-  name must be different than the names of other metric streams in this account and Region.
+  name must be different than the names of other metric streams in this account and
+  Region.
 
   If you are updating a metric stream, specify the name of that stream here.
 
-Valid characters are A-Z, a-z, 0-9, "-" and "_".
+  Valid characters are A-Z, a-z, 0-9, "-" and "_".
 - `output_format`: The output format for the stream. Valid values are `json`,
   `opentelemetry1.0`, and `opentelemetry0.7`. For more information about metric stream
-  output formats, see [ Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
+  output formats, see [Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
 - `role_arn`: The ARN of an IAM role that this metric stream will use to access Amazon
-  Kinesis Data Firehose resources. This IAM role must already exist and must be in the same
-  account as the metric stream. This IAM role must include the following permissions: -
-  firehose:PutRecord
- - firehose:PutRecordBatch
+  Kinesis Data Firehose resources. This IAM role must already exist and must be in the
+  same account as the metric stream. This IAM role must include the following
+  permissions:
+
+  - firehose:PutRecord
+  - firehose:PutRecordBatch
 
 # Optional Parameters
 
@@ -2318,11 +2461,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExcludeFilters"`: If you specify this parameter, the stream sends metrics from all
   metric namespaces except for the namespaces that you specify here.
 
-You cannot include `ExcludeFilters` and `IncludeFilters` in the same operation.
+  You cannot include `ExcludeFilters` and `IncludeFilters` in the same operation.
 - `"IncludeFilters"`: If you specify this parameter, the stream sends only the metrics from
   the metric namespaces that you specify here.
 
-You cannot include `IncludeFilters` and `ExcludeFilters` in the same operation.
+  You cannot include `IncludeFilters` and `ExcludeFilters` in the same operation.
 - `"IncludeLinkedAccountsMetrics"`: If you are creating a metric stream in a monitoring
   account, specify `true` to include metrics from source accounts in the metric stream.
 - `"StatisticsConfigurations"`: By default, a metric stream always sends the `MAX`, `MIN`,
@@ -2330,18 +2473,18 @@ You cannot include `IncludeFilters` and `ExcludeFilters` in the same operation.
   parameter to have the metric stream also send additional statistics in the stream. This
   array can have up to 100 members.
 
-  For each entry in this array, you specify one or more metrics and the list of additional
-  statistics to stream for those metrics. The additional statistics that you can stream
-  depend on the stream's `OutputFormat`. If the `OutputFormat` is `json`, you can stream
-  any additional statistic that is supported by CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html).
+  For each entry in this array, you specify one or more metrics and the list of
+  additional statistics to stream for those metrics. The additional statistics that you
+  can stream depend on the stream's `OutputFormat`. If the `OutputFormat` is `json`, you
+  can stream any additional statistic that is supported by CloudWatch, listed in [CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html).
   If the `OutputFormat` is `opentelemetry1.0` or `opentelemetry0.7`, you can stream
   percentile statistics such as p95, p99.9, and so on.
 - `"Tags"`: A list of key-value pairs to associate with the metric stream. You can
   associate as many as 50 tags with a metric stream.
 
-  Tags can help you organize and categorize your resources. You can also use them to scope
-  user permissions by granting a user permission to access or change only resources with
-  certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to
+  scope user permissions by granting a user permission to access or change only resources
+  with certain tag values.
 
   You can use this parameter only when you are creating a new metric stream. If you are
   using this operation to update an existing metric stream, any tags you specify in this
@@ -2367,6 +2510,7 @@ function put_metric_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_stream(
     FirehoseArn,
     Name,
@@ -2446,6 +2590,7 @@ function set_alarm_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_alarm_state(
     AlarmName,
     StateReason,
@@ -2481,8 +2626,8 @@ Starts the streaming of metrics for one or more of your metric streams.
 
 - `names`: The array of the names of metric streams to start streaming.
 
-  This is an "all or nothing" operation. If you do not have permission to access all of the
-  metric streams that you list here, then none of the streams that you list in the
+  This is an "all or nothing" operation. If you do not have permission to access all of
+  the metric streams that you list here, then none of the streams that you list in the
   operation will start streaming.
 """
 function start_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2493,6 +2638,7 @@ function start_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metric_streams(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2514,8 +2660,8 @@ Stops the streaming of metrics for one or more of your metric streams.
 
 - `names`: The array of the names of metric streams to stop streaming.
 
-  This is an "all or nothing" operation. If you do not have permission to access all of the
-  metric streams that you list here, then none of the streams that you list in the
+  This is an "all or nothing" operation. If you do not have permission to access all of
+  the metric streams that you list here, then none of the streams that you list in the
   operation will stop streaming.
 """
 function stop_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2526,6 +2672,7 @@ function stop_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_metric_streams(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2562,13 +2709,13 @@ You can associate as many as 50 tags with a CloudWatch resource.
 
 - `resource_arn`: The ARN of the CloudWatch resource that you're adding tags to.
 
-  The ARN format of an alarm is `arn:aws:cloudwatch:*Region*:*account-id*:alarm:*alarm-
-  name* `
+  The ARN format of an alarm is
+  `arn:aws:cloudwatch:*Region*:*account-id*:alarm:*alarm-name*`
 
-  The ARN format of a Contributor Insights rule is `arn:aws:cloudwatch:*Region*:*account-
-  id*:insight-rule/*insight-rule-name* `
+  The ARN format of a Contributor Insights rule is
+  `arn:aws:cloudwatch:*Region*:*account-id*:insight-rule/*insight-rule-name*`
 
-  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
+  For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
 - `tags`: The list of key-value pairs to associate with the alarm.
 """
@@ -2580,6 +2727,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2610,13 +2758,13 @@ Removes one or more tags from the specified resource.
 
 - `resource_arn`: The ARN of the CloudWatch resource that you're removing tags from.
 
-  The ARN format of an alarm is `arn:aws:cloudwatch:*Region*:*account-id*:alarm:*alarm-
-  name* `
+  The ARN format of an alarm is
+  `arn:aws:cloudwatch:*Region*:*account-id*:alarm:*alarm-name*`
 
-  The ARN format of a Contributor Insights rule is `arn:aws:cloudwatch:*Region*:*account-
-  id*:insight-rule/*insight-rule-name* `
+  The ARN format of a Contributor Insights rule is
+  `arn:aws:cloudwatch:*Region*:*account-id*:insight-rule/*insight-rule-name*`
 
-  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
+  For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
@@ -2630,6 +2778,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,

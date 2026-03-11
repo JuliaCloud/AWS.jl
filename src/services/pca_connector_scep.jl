@@ -28,10 +28,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
   action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if
-  you call `CreateChallenge` multiple times with the same client token within five minutes,
-  Connector for SCEP recognizes that you are requesting only one challenge and will only
-  respond with one. If you change the client token for each call, Connector for SCEP
-  recognizes that you are requesting multiple challenge passwords.
+  you call `CreateChallenge` multiple times with the same client token within five
+  minutes, Connector for SCEP recognizes that you are requesting only one challenge and
+  will only respond with one. If you change the client token for each call, Connector for
+  SCEP recognizes that you are requesting multiple challenge passwords.
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_challenge(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
@@ -43,6 +43,7 @@ function create_challenge(ConnectorArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_challenge(
     ConnectorArn,
     params::AbstractDict{String};
@@ -91,20 +92,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
   action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if
-  you call `CreateChallenge` multiple times with the same client token within five minutes,
-  Connector for SCEP recognizes that you are requesting only one challenge and will only
-  respond with one. If you change the client token for each call, Connector for SCEP
-  recognizes that you are requesting multiple challenge passwords.
+  you call `CreateChallenge` multiple times with the same client token within five
+  minutes, Connector for SCEP recognizes that you are requesting only one challenge and
+  will only respond with one. If you change the client token for each call, Connector for
+  SCEP recognizes that you are requesting multiple challenge passwords.
 - `"MobileDeviceManagement"`: If you don't supply a value, by default Connector for SCEP
   creates a connector for general-purpose use. A general-purpose connector is designed to
-  work with clients or endpoints that support the SCEP protocol, except Connector for SCEP
-  for Microsoft Intune. With connectors for general-purpose use, you manage SCEP challenge
-  passwords using Connector for SCEP. For information about considerations and limitations
-  with using Connector for SCEP, see [Considerations and Limitations](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlc4scep-considerations-limitations.html).
+  work with clients or endpoints that support the SCEP protocol, except Connector for
+  SCEP for Microsoft Intune. With connectors for general-purpose use, you manage SCEP
+  challenge passwords using Connector for SCEP. For information about considerations and
+  limitations with using Connector for SCEP, see [Considerations and Limitations](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlc4scep-considerations-limitations.html).
 
   If you provide an `IntuneConfiguration`, Connector for SCEP creates a connector for use
-  with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune. For
-  more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
+  with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune.
+  For more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_connector(
@@ -121,6 +122,7 @@ function create_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -162,6 +164,7 @@ function delete_challenge(ChallengeArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_challenge(
     ChallengeArn,
     params::AbstractDict{String};
@@ -195,6 +198,7 @@ function delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -229,6 +233,7 @@ function get_challenge_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_challenge_metadata(
     ChallengeArn,
     params::AbstractDict{String};
@@ -263,6 +268,7 @@ function get_challenge_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_challenge_password(
     ChallengeArn,
     params::AbstractDict{String};
@@ -297,6 +303,7 @@ function get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -327,8 +334,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Connector for SCEP to return
   for this request. If more objects are available, in the response, Connector for SCEP
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
   requested, Connector for SCEP returns a `NextToken` value in the response. To retrieve
@@ -346,6 +353,7 @@ function list_challenge_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_challenge_metadata(
     ConnectorArn,
     params::AbstractDict{String};
@@ -374,8 +382,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Connector for SCEP to return
   for this request. If more objects are available, in the response, Connector for SCEP
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
   requested, Connector for SCEP returns a `NextToken` value in the response. To retrieve
@@ -387,6 +395,7 @@ function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -419,6 +428,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -453,6 +463,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -491,6 +502,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,

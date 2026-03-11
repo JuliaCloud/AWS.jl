@@ -34,6 +34,7 @@ function list_realtime_contact_analysis_segments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_realtime_contact_analysis_segments(
     ContactId,
     InstanceId,

@@ -50,6 +50,7 @@ function create_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_capture_pipeline(
     SinkArn,
     SinkType,
@@ -95,7 +96,8 @@ Creates a media concatenation pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
-  API request idempotent. Use a unique token for each media concatenation pipeline request.
+  API request idempotent. Use a unique token for each media concatenation pipeline
+  request.
 - `"Tags"`: The tags associated with the media concatenation pipeline.
 """
 function create_media_concatenation_pipeline(
@@ -111,6 +113,7 @@ function create_media_concatenation_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_concatenation_pipeline(
     Sinks,
     Sources,
@@ -178,6 +181,7 @@ function create_media_insights_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_insights_pipeline(
     MediaInsightsPipelineConfigurationArn,
     params::AbstractDict{String};
@@ -248,6 +252,7 @@ function create_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_insights_pipeline_configuration(
     Elements,
     MediaInsightsPipelineConfigurationName,
@@ -307,6 +312,7 @@ function create_media_live_connector_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_live_connector_pipeline(
     Sinks,
     Sources,
@@ -336,24 +342,24 @@ end
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration)
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration, params::Dict{String,<:Any})
 
-Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.</p>
+Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.
 
 !!! note
     If a meeting uses an opt-in Region as its [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion),
-the KVS stream must be in that same Region. For example, if a meeting uses the `af-south-1`
-Region, the KVS stream must also be in `af-south-1`. However, if the meeting uses a Region
-that AWS turns on by default, the KVS stream can be in any available Region, including an
-opt-in Region. For example, if the meeting uses `ca-central-1`, the KVS stream can be in
-`eu-west-2`, `us-east-1`, `af-south-1`, or any other Region that the Amazon Chime SDK
-supports.
+    the KVS stream must be in that same Region. For example, if a meeting uses the
+    `af-south-1` Region, the KVS stream must also be in `af-south-1`. However, if the
+    meeting uses a Region that AWS turns on by default, the KVS stream can be in any
+    available Region, including an opt-in Region. For example, if the meeting uses
+    `ca-central-1`, the KVS stream can be in `eu-west-2`, `us-east-1`, `af-south-1`, or any
+    other Region that the Amazon Chime SDK supports.
 
-To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html)
-API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion)
-parameter from the response.
+    To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html)
+    API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion)
+    parameter from the response.
 
- <p>For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html)
-in the *Amazon Chime SDK Developer Guide*, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html),
-in the *AWS Account Management Reference Guide*.
+    For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html)
+    in the *Amazon Chime SDK Developer Guide*, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html),
+    in the *AWS Account Management Reference Guide*.
 
 # Arguments
 
@@ -382,6 +388,7 @@ function create_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_pipeline_kinesis_video_stream_pool(
     PoolName,
     StreamConfiguration,
@@ -438,6 +445,7 @@ function create_media_stream_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_stream_pipeline(
     Sinks,
     Sources,
@@ -483,6 +491,7 @@ function delete_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -518,6 +527,7 @@ function delete_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_insights_pipeline_configuration(
     identifier,
     params::AbstractDict{String};
@@ -552,6 +562,7 @@ function delete_media_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -587,6 +598,7 @@ function delete_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};
@@ -621,6 +633,7 @@ function get_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -656,6 +669,7 @@ function get_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_insights_pipeline_configuration(
     identifier,
     params::AbstractDict{String};
@@ -690,6 +704,7 @@ function get_media_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -725,6 +740,7 @@ function get_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};
@@ -761,6 +777,7 @@ function get_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_speaker_search_task(
     identifier,
     speakerSearchTaskId,
@@ -798,6 +815,7 @@ function get_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_tone_analysis_task(
     identifier,
     voiceToneAnalysisTaskId,
@@ -835,6 +853,7 @@ function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_capture_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -870,6 +889,7 @@ function list_media_insights_pipeline_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_insights_pipeline_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -905,6 +925,7 @@ function list_media_pipeline_kinesis_video_stream_pools(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_pipeline_kinesis_video_stream_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -939,6 +960,7 @@ function list_media_pipelines(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -971,6 +993,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -991,9 +1014,9 @@ Starts a speaker search task.
 
 !!! important
     Before starting any speaker search tasks, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
 
 # Arguments
 
@@ -1025,6 +1048,7 @@ function start_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_speaker_search_task(
     VoiceProfileDomainArn,
     identifier,
@@ -1058,9 +1082,9 @@ in the *Amazon Chime SDK Developer Guide*.
 
 !!! important
     Before starting any voice tone analysis tasks, you must provide all notices and obtain
-all consents from the speaker as required under applicable privacy and biometrics laws, and
-as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    all consents from the speaker as required under applicable privacy and biometrics laws,
+    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/)
+    for the Amazon Chime SDK.
 
 # Arguments
 
@@ -1090,6 +1114,7 @@ function start_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_voice_tone_analysis_task(
     LanguageCode,
     identifier,
@@ -1135,6 +1160,7 @@ function stop_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_speaker_search_task(
     identifier,
     speakerSearchTaskId,
@@ -1172,6 +1198,7 @@ function stop_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_voice_tone_analysis_task(
     identifier,
     voiceToneAnalysisTaskId,
@@ -1209,6 +1236,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1252,6 +1280,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1311,6 +1340,7 @@ function update_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_insights_pipeline_configuration(
     Elements,
     ResourceAccessRoleArn,
@@ -1358,6 +1388,7 @@ function update_media_insights_pipeline_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_insights_pipeline_status(
     UpdateStatus,
     identifier,
@@ -1402,6 +1433,7 @@ function update_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};

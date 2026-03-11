@@ -30,7 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionKey"`:
 - `"Tags"`: Tags to be associated with this resource. A tag is a key-value pair that adds
   metadata to a resource. Each tag key for the resource must be unique. For more
-  information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
+  information, see [Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 """
 function create_parallel_data(
     ClientToken,
@@ -49,6 +49,7 @@ function create_parallel_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_parallel_data(
     ClientToken,
     Name,
@@ -92,6 +93,7 @@ function delete_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parallel_data(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -121,6 +123,7 @@ function delete_terminology(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_terminology(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -141,8 +144,8 @@ ID, status, source and target languages, input/output S3 buckets, and so on.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Translate generated for the job. The
-  <a>StartTextTranslationJob</a> operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Translate generated for the job. The [`start_text_translation_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_text_translation_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -154,6 +157,7 @@ function describe_text_translation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_text_translation_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -183,6 +187,7 @@ function get_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parallel_data(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -210,12 +215,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"TerminologyDataFormat"`: The data format of the custom terminology being retrieved.
 
-  If you don't specify this parameter, Amazon Translate returns a file with the same format
-  as the file that was imported to create the terminology.
+  If you don't specify this parameter, Amazon Translate returns a file with the same
+  format as the file that was imported to create the terminology.
 
-  If you specify this parameter when you retrieve a multi-directional terminology resource,
-  you must specify the same format as the input file that was imported to create it.
-  Otherwise, Amazon Translate throws an error.
+  If you specify this parameter when you retrieve a multi-directional terminology
+  resource, you must specify the same format as the input file that was imported to
+  create it. Otherwise, Amazon Translate throws an error.
 """
 function get_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
@@ -225,6 +230,7 @@ function get_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_terminology(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -266,7 +272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionKey"`: The encryption key for the custom terminology being imported.
 - `"Tags"`: Tags to be associated with this resource. A tag is a key-value pair that adds
   metadata to a resource. Each tag key for the resource must be unique. For more
-  information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
+  information, see [Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 """
 function import_terminology(
     MergeStrategy, Name, TerminologyData; aws_config::AbstractAWSConfig=current_aws_config()
@@ -282,6 +288,7 @@ function import_terminology(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_terminology(
     MergeStrategy,
     Name,
@@ -320,14 +327,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayLanguageCode"`: The language code for the language to use to display the
   language names in the response. The language code is `en` by default.
 - `"MaxResults"`: The maximum number of results to return in each response.
-- `"NextToken"`: Include the NextToken value to fetch the next group of supported
-  languages.
+- `"NextToken"`: Include the NextToken value to fetch the next group of supported languages.
 """
 function list_languages(; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "ListLanguages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_languages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,6 +362,7 @@ function list_parallel_data(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListParallelData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_parallel_data(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -368,7 +376,7 @@ end
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists all tags associated with a given Amazon Translate resource. For more information, see
-[ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
+[Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 
 # Arguments
 
@@ -385,6 +393,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -419,6 +428,7 @@ function list_terminologies(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListTerminologies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_terminologies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -438,7 +448,8 @@ Gets a list of the batch translation jobs that you have submitted.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filter"`: The parameters that specify which batch translation jobs to retrieve. Filters
-  include job name, job status, and submission time. You can only set one filter at a time.
+  include job name, job status, and submission time. You can only set one filter at a
+  time.
 - `"MaxResults"`: The maximum number of results to return in each page. The default value
   is 100.
 - `"NextToken"`: The token to request the next page of results.
@@ -448,6 +459,7 @@ function list_text_translation_jobs(; aws_config::AbstractAWSConfig=current_aws_
         "ListTextTranslationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_text_translation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -469,9 +481,9 @@ documents with different source languages (specify `auto` as the source language
 specify one or more target languages. Batch translation translates each input document into
 each of the target languages. For more information, see [Asynchronous batch processing](https://docs.aws.amazon.com/translate/latest/dg/async.html).
 
-Batch translation jobs can be described with the <a>DescribeTextTranslationJob</a>
-operation, listed with the <a>ListTextTranslationJobs</a> operation, and stopped with the
-<a>StopTextTranslationJob</a> operation.
+Batch translation jobs can be described with the [`describe_text_translation_job`](@ref)
+operation, listed with the [`list_text_translation_jobs`](@ref) operation, and stopped with
+the [`stop_text_translation_job`](@ref) operation.
 
 # Arguments
 
@@ -479,15 +491,15 @@ operation, listed with the <a>ListTextTranslationJobs</a> operation, and stopped
   using the Amazon Translate SDK.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of an AWS Identity Access and
   Management (IAM) role that grants Amazon Translate read access to your input data. For
-  more information, see [Identity and access management ](https://docs.aws.amazon.com/translate/latest/dg/identity-and-access-management.html).
+  more information, see [Identity and access management](https://docs.aws.amazon.com/translate/latest/dg/identity-and-access-management.html).
 - `input_data_config`: Specifies the format and location of the input documents for the
   translation job.
 - `output_data_config`: Specifies the S3 folder to which your job output will be saved.
 - `source_language_code`: The language code of the input language. Specify the language if
-  all input documents share the same language. If you don't know the language of the source
-  files, or your input documents contains different source languages, select `auto`. Amazon
-  Translate auto detects the source language for each input document. For a list of
-  supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
+  all input documents share the same language. If you don't know the language of the
+  source files, or your input documents contains different source languages, select
+  `auto`. Amazon Translate auto detects the source language for each input document. For
+  a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
 - `target_language_codes`: The target languages of the translation job. Enter up to 10
   language codes. Each input file is translated into each target language.
 
@@ -500,26 +512,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobName"`: The name of the batch translation job to be performed.
 - `"ParallelDataNames"`: The name of a parallel data resource to add to the translation
   job. This resource consists of examples that show how you want segments of text to be
-  translated. If you specify multiple target languages for the job, the parallel data file
-  must include translations for all the target languages.
+  translated. If you specify multiple target languages for the job, the parallel data
+  file must include translations for all the target languages.
 
   When you add parallel data to a translation job, you create an *Active Custom
   Translation* job.
 
-  This parameter accepts only one parallel data resource.</p>
+  This parameter accepts only one parallel data resource.
 
   !!! note
-      Active Custom Translation jobs are priced at a higher rate than other jobs that don't
-  use parallel data. For more information, see [Amazon Translate pricing](http://aws.amazon.com/translate/pricing/).For
-  a list of available parallel data resources, use the <a>ListParallelData</a> operation.
+      Active Custom Translation jobs are priced at a higher rate than other jobs that
+      don't use parallel data. For more information, see [Amazon Translate pricing](http://aws.amazon.com/translate/pricing/).
 
-   <p>For more information, see [ Customizing your translations with parallel data](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-parallel-data.html).
+  For a list of available parallel data resources, use the [`list_parallel_data`](@ref)
+  operation.
+
+  For more information, see [Customizing your translations with parallel data](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-parallel-data.html).
 - `"Settings"`: Settings to configure your translation output. You can configure the
-  following options: - Brevity: not supported.
-   - Formality: sets the formality level of the output text.
-   - Profanity: masks profane words and phrases in your translation output.
+  following options:
+
+  - Brevity: not supported.
+  - Formality: sets the formality level of the output text.
+  - Profanity: masks profane words and phrases in your translation output.
+
 - `"TerminologyNames"`: The name of a custom terminology resource to add to the translation
-  job. This resource lists examples source terms and the desired translation for each term.
+  job. This resource lists examples source terms and the desired translation for each
+  term.
 
   This parameter accepts only one custom terminology resource.
 
@@ -527,7 +545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   terminology for each requested target language that has an entry for the source term in
   the terminology file.
 
-  For a list of available custom terminology resources, use the <a>ListTerminologies</a>
+  For a list of available custom terminology resources, use the [`list_terminologies`](@ref)
   operation.
 
   For more information, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
@@ -555,6 +573,7 @@ function start_text_translation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_text_translation_job(
     ClientToken,
     DataAccessRoleArn,
@@ -596,9 +615,9 @@ If the job's state is `IN_PROGRESS`, the job will be marked for termination and 
 the `STOP_REQUESTED` state. If the job completes before it can be stopped, it is put into
 the `COMPLETED` state. Otherwise, the job is put into the `STOPPED` state.
 
-Asynchronous batch translation jobs are started with the <a>StartTextTranslationJob</a>
-operation. You can use the <a>DescribeTextTranslationJob</a> or
-<a>ListTextTranslationJobs</a> operations to get a batch translation job's `JobId`.
+Asynchronous batch translation jobs are started with the [`start_text_translation_job`](@ref)
+operation. You can use the [`describe_text_translation_job`](@ref) or [`list_text_translation_jobs`](@ref)
+operations to get a batch translation job's `JobId`.
 
 # Arguments
 
@@ -614,6 +633,7 @@ function stop_text_translation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_text_translation_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -630,7 +650,7 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Associates a specific tag with a resource. A tag is a key-value pair that adds as a
-metadata to a resource. For more information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
+metadata to a resource. For more information, see [Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 
 # Arguments
 
@@ -647,6 +667,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -677,8 +698,8 @@ synchronous operation supports text, HTML, or Word documents as the input docume
 any supported language to English. Therefore, specify either the source language code or
 the target language code as “en” (English).
 
- If you set the `Formality` parameter, the request will fail if the target language does
-not support formality. For a list of target languages that support formality, see [Setting formality](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html).
+If you set the `Formality` parameter, the request will fail if the target language does not
+support formality. For a list of target languages that support formality, see [Setting formality](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html).
 
 # Arguments
 
@@ -693,9 +714,10 @@ not support formality. For a list of target languages that support formality, se
   to determine the source language.
 
   !!! note
-      If you specify `auto`, you must send the `TranslateDocument` request in a region that
-  supports Amazon Comprehend. Otherwise, the request returns an error indicating that
-  autodetect is not supported.
+      If you specify `auto`, you must send the `TranslateDocument` request in a region
+      that supports Amazon Comprehend. Otherwise, the request returns an error indicating
+      that autodetect is not supported.
+
 - `target_language_code`: The language code requested for the translated document. For a
   list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
 
@@ -704,15 +726,18 @@ not support formality. For a list of target languages that support formality, se
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Settings"`: Settings to configure your translation output. You can configure the
-  following options: - Brevity: not supported.
-   - Formality: sets the formality level of the output text.
-   - Profanity: masks profane words and phrases in your translation output.
-- `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
-  This file provides source terms and the desired translation for each term. A terminology
-  list can contain a maximum of 256 terms. You can use one custom terminology resource in
-  your translation request.
+  following options:
 
-  Use the <a>ListTerminologies</a> operation to get the available terminology lists.
+  - Brevity: not supported.
+  - Formality: sets the formality level of the output text.
+  - Profanity: masks profane words and phrases in your translation output.
+
+- `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
+  This file provides source terms and the desired translation for each term. A
+  terminology list can contain a maximum of 256 terms. You can use one custom terminology
+  resource in your translation request.
+
+  Use the [`list_terminologies`](@ref) operation to get the available terminology lists.
 
   For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 """
@@ -733,6 +758,7 @@ function translate_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function translate_document(
     Document,
     SourceLanguageCode,
@@ -777,8 +803,9 @@ available languages and language codes, see [Supported languages](https://docs.a
 
   !!! note
       If you specify `auto`, you must send the `TranslateText` request in a region that
-  supports Amazon Comprehend. Otherwise, the request returns an error indicating that
-  autodetect is not supported.
+      supports Amazon Comprehend. Otherwise, the request returns an error indicating that
+      autodetect is not supported.
+
 - `target_language_code`: The language code requested for the language of the target text.
   For a list of language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
 - `text`: The text to translate. The text string can be a maximum of 10,000 bytes long.
@@ -789,16 +816,18 @@ available languages and language codes, see [Supported languages](https://docs.a
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Settings"`: Settings to configure your translation output. You can configure the
-  following options: - Brevity: reduces the length of the translated output for most
-  translations.
-   - Formality: sets the formality level of the output text.
-   - Profanity: masks profane words and phrases in your translation output.
-- `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
-  This file provides source terms and the desired translation for each term. A terminology
-  list can contain a maximum of 256 terms. You can use one custom terminology resource in
-  your translation request.
+  following options:
 
-  Use the <a>ListTerminologies</a> operation to get the available terminology lists.
+  - Brevity: reduces the length of the translated output for most translations.
+  - Formality: sets the formality level of the output text.
+  - Profanity: masks profane words and phrases in your translation output.
+
+- `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
+  This file provides source terms and the desired translation for each term. A
+  terminology list can contain a maximum of 256 terms. You can use one custom terminology
+  resource in your translation request.
+
+  Use the [`list_terminologies`](@ref) operation to get the available terminology lists.
 
   For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 """
@@ -819,6 +848,7 @@ function translate_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function translate_text(
     SourceLanguageCode,
     TargetLanguageCode,
@@ -849,11 +879,11 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a specific tag associated with an Amazon Translate resource. For more information,
-see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
+see [Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 
 # Arguments
 
-- `resource_arn`:  The Amazon Resource Name (ARN) of the given Amazon Translate resource
+- `resource_arn`: The Amazon Resource Name (ARN) of the given Amazon Translate resource
   from which you want to remove the tags.
 - `tag_keys`: The initial part of a key-value pair that forms a tag being removed from a
   given resource. Keys must be unique and cannot be duplicated for a particular resource.
@@ -868,6 +898,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -926,6 +957,7 @@ function update_parallel_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_parallel_data(
     ClientToken,
     Name,

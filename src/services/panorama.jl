@@ -43,6 +43,7 @@ function create_application_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_instance(
     DefaultRuntimeContextDevice,
     ManifestPayload,
@@ -95,6 +96,7 @@ function create_job_for_devices(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job_for_devices(
     DeviceIds,
     JobType,
@@ -159,6 +161,7 @@ function create_node_from_template_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_node_from_template_job(
     NodeName,
     OutputPackageName,
@@ -214,6 +217,7 @@ function create_package(PackageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package(
     PackageName,
     params::AbstractDict{String};
@@ -269,6 +273,7 @@ function create_package_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package_import_job(
     ClientToken,
     InputConfig,
@@ -315,6 +320,7 @@ function delete_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device(
     DeviceId,
     params::AbstractDict{String};
@@ -337,7 +343,7 @@ Deletes a package.
 
 !!! note
     To delete a package, you need permission to call `s3:DeleteObject` in addition to
-permissions for the AWS Panorama API.
+    permissions for the AWS Panorama API.
 
 # Arguments
 
@@ -358,6 +364,7 @@ function delete_package(PackageId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package(
     PackageId,
     params::AbstractDict{String};
@@ -405,6 +412,7 @@ function deregister_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_package_version(
     PackageId,
     PackageVersion,
@@ -441,6 +449,7 @@ function describe_application_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_instance(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -475,6 +484,7 @@ function describe_application_instance_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_instance_details(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -507,6 +517,7 @@ function describe_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device(
     DeviceId,
     params::AbstractDict{String};
@@ -536,6 +547,7 @@ function describe_device_job(JobId; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_device_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -569,6 +581,7 @@ function describe_node(NodeId; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_node(
     NodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -601,6 +614,7 @@ function describe_node_from_template_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_node_from_template_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -631,6 +645,7 @@ function describe_package(PackageId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_package(
     PackageId,
     params::AbstractDict{String};
@@ -665,6 +680,7 @@ function describe_package_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_package_import_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -705,6 +721,7 @@ function describe_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_package_version(
     PackageId,
     PackageVersion,
@@ -749,6 +766,7 @@ function list_application_instance_dependencies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_instance_dependencies(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -791,6 +809,7 @@ function list_application_instance_node_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_instance_node_instances(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -830,6 +849,7 @@ function list_application_instances(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -866,6 +886,7 @@ function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -892,6 +913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_devices_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_devices_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -923,6 +945,7 @@ function list_node_from_template_jobs(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_node_from_template_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -957,6 +980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama("GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -988,6 +1012,7 @@ function list_package_import_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_package_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1019,6 +1044,7 @@ function list_packages(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1047,6 +1073,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1092,6 +1119,7 @@ function provision_device(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_device(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1136,6 +1164,7 @@ function register_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_package_version(
     PackageId,
     PackageVersion,
@@ -1172,6 +1201,7 @@ function remove_application_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_application_instance(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -1208,6 +1238,7 @@ function signal_application_instance_node_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function signal_application_instance_node_instances(
     ApplicationInstanceId,
     NodeSignals,
@@ -1245,6 +1276,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1282,6 +1314,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1323,6 +1356,7 @@ function update_device_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_metadata(
     DeviceId,
     params::AbstractDict{String};

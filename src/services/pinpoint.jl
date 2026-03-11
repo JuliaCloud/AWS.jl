@@ -25,6 +25,7 @@ function create_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app(
     CreateApplicationRequest,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function create_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_campaign(
     WriteCampaignRequest,
     application_id,
@@ -100,8 +102,8 @@ Creates a message template for messages that are sent through the email channel.
 
 - `email_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 """
 function create_email_template(
@@ -115,6 +117,7 @@ function create_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_email_template(
     EmailTemplateRequest,
     template_name,
@@ -159,6 +162,7 @@ function create_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_export_job(
     ExportJobRequest,
     application_id,
@@ -201,6 +205,7 @@ function create_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_import_job(
     ImportJobRequest,
     application_id,
@@ -230,8 +235,8 @@ Creates a new message template for messages using the in-app message channel.
 
 - `in_app_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 """
 function create_in_app_template(
@@ -245,6 +250,7 @@ function create_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_in_app_template(
     InAppTemplateRequest,
     template_name,
@@ -289,6 +295,7 @@ function create_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_journey(
     WriteJourneyRequest,
     application_id,
@@ -320,8 +327,8 @@ Creates a message template for messages that are sent through a push notificatio
 
 - `push_notification_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 """
 function create_push_template(
@@ -339,6 +346,7 @@ function create_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_push_template(
     PushNotificationTemplateRequest,
     template_name,
@@ -385,6 +393,7 @@ function create_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recommender_configuration(
     CreateRecommenderConfiguration,
     params::AbstractDict{String};
@@ -431,6 +440,7 @@ function create_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_segment(
     WriteSegmentRequest,
     application_id,
@@ -462,8 +472,8 @@ Creates a message template for messages that are sent through the SMS channel.
 
 - `smstemplate_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 """
 function create_sms_template(
@@ -477,6 +487,7 @@ function create_sms_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sms_template(
     SMSTemplateRequest,
     template_name,
@@ -506,8 +517,8 @@ Creates a message template for messages that are sent through the voice channel.
 
 - `voice_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 """
 function create_voice_template(
@@ -521,6 +532,7 @@ function create_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_template(
     VoiceTemplateRequest,
     template_name,
@@ -564,6 +576,7 @@ function delete_adm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_adm_channel(
     application_id,
     params::AbstractDict{String};
@@ -600,6 +613,7 @@ function delete_apns_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_channel(
     application_id,
     params::AbstractDict{String};
@@ -636,6 +650,7 @@ function delete_apns_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -672,6 +687,7 @@ function delete_apns_voip_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_voip_channel(
     application_id,
     params::AbstractDict{String};
@@ -708,6 +724,7 @@ function delete_apns_voip_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_voip_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -741,6 +758,7 @@ function delete_app(application_id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     application_id,
     params::AbstractDict{String};
@@ -777,6 +795,7 @@ function delete_baidu_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_baidu_channel(
     application_id,
     params::AbstractDict{String};
@@ -813,6 +832,7 @@ function delete_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_campaign(
     application_id,
     campaign_id,
@@ -850,6 +870,7 @@ function delete_email_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_channel(
     application_id,
     params::AbstractDict{String};
@@ -873,8 +894,8 @@ Deletes a message template for messages that were sent through the email channel
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -882,20 +903,23 @@ Deletes a message template for messages that were sent through the email channel
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function delete_email_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -907,6 +931,7 @@ function delete_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_template(
     template_name,
     params::AbstractDict{String};
@@ -944,6 +969,7 @@ function delete_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     application_id,
     endpoint_id,
@@ -980,6 +1006,7 @@ function delete_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_stream(
     application_id,
     params::AbstractDict{String};
@@ -1016,6 +1043,7 @@ function delete_gcm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gcm_channel(
     application_id,
     params::AbstractDict{String};
@@ -1039,8 +1067,8 @@ Deletes a message template for messages sent using the in-app message channel.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -1048,20 +1076,23 @@ Deletes a message template for messages sent using the in-app message channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function delete_in_app_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1073,6 +1104,7 @@ function delete_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_in_app_template(
     template_name,
     params::AbstractDict{String};
@@ -1109,6 +1141,7 @@ function delete_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_journey(
     application_id,
     journey_id,
@@ -1133,8 +1166,8 @@ Deletes a message template for messages that were sent through a push notificati
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -1142,20 +1175,23 @@ Deletes a message template for messages that were sent through a push notificati
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function delete_push_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1167,6 +1203,7 @@ function delete_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_push_template(
     template_name,
     params::AbstractDict{String};
@@ -1202,6 +1239,7 @@ function delete_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recommender_configuration(
     recommender_id,
     params::AbstractDict{String};
@@ -1238,6 +1276,7 @@ function delete_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_segment(
     application_id,
     segment_id,
@@ -1275,6 +1314,7 @@ function delete_sms_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sms_channel(
     application_id,
     params::AbstractDict{String};
@@ -1298,8 +1338,8 @@ Deletes a message template for messages that were sent through the SMS channel.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -1307,20 +1347,23 @@ Deletes a message template for messages that were sent through the SMS channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function delete_sms_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1332,6 +1375,7 @@ function delete_sms_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sms_template(
     template_name,
     params::AbstractDict{String};
@@ -1368,6 +1412,7 @@ function delete_user_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_endpoints(
     application_id,
     user_id,
@@ -1405,6 +1450,7 @@ function delete_voice_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_channel(
     application_id,
     params::AbstractDict{String};
@@ -1428,8 +1474,8 @@ Deletes a message template for messages that were sent through the voice channel
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -1437,20 +1483,23 @@ Deletes a message template for messages that were sent through the voice channel
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function delete_voice_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1462,6 +1511,7 @@ function delete_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_template(
     template_name,
     params::AbstractDict{String};
@@ -1495,6 +1545,7 @@ function get_adm_channel(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_adm_channel(
     application_id,
     params::AbstractDict{String};
@@ -1530,6 +1581,7 @@ function get_apns_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_channel(
     application_id,
     params::AbstractDict{String};
@@ -1566,6 +1618,7 @@ function get_apns_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -1602,6 +1655,7 @@ function get_apns_voip_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_voip_channel(
     application_id,
     params::AbstractDict{String};
@@ -1638,6 +1692,7 @@ function get_apns_voip_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_voip_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -1671,6 +1726,7 @@ function get_app(application_id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app(
     application_id,
     params::AbstractDict{String};
@@ -1697,10 +1753,10 @@ application.
 - `application-id`: The unique identifier for the application. This identifier is displayed
   as the **Project ID** on the Amazon Pinpoint console.
 - `kpi-name`: The name of the metric, also referred to as a *key performance indicator
-  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
-  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
-  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists
+  of two or more terms, which are comprised of lowercase alphanumeric characters,
+  separated by a hyphen. Examples are email-open-rate and successful-delivery-rate. For a
+  list of valid values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
 
@@ -1711,14 +1767,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
   UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
   date range that filters the query results. This value should be in extended ISO 8601
   format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
-  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
-  day.
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the
+  current day.
 """
 function get_application_date_range_kpi(
     application_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1730,6 +1788,7 @@ function get_application_date_range_kpi(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_date_range_kpi(
     application_id,
     kpi_name,
@@ -1766,6 +1825,7 @@ function get_application_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_settings(
     application_id,
     params::AbstractDict{String};
@@ -1792,7 +1852,8 @@ Pinpoint account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -1801,6 +1862,7 @@ function get_apps(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1830,6 +1892,7 @@ function get_baidu_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_baidu_channel(
     application_id,
     params::AbstractDict{String};
@@ -1866,6 +1929,7 @@ function get_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign(
     application_id,
     campaign_id,
@@ -1898,7 +1962,8 @@ Retrieves information about all the activities for a campaign.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -1912,6 +1977,7 @@ function get_campaign_activities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_activities(
     application_id,
     campaign_id,
@@ -1939,10 +2005,10 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to a 
   as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
 - `kpi-name`: The name of the metric, also referred to as a *key performance indicator
-  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
-  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
-  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists
+  of two or more terms, which are comprised of lowercase alphanumeric characters,
+  separated by a hyphen. Examples are email-open-rate and successful-delivery-rate. For a
+  list of valid values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
 
@@ -1953,14 +2019,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
   UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
   date range that filters the query results. This value should be in extended ISO 8601
   format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
-  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
-  day.
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the
+  current day.
 """
 function get_campaign_date_range_kpi(
     application_id,
@@ -1975,6 +2043,7 @@ function get_campaign_date_range_kpi(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_date_range_kpi(
     application_id,
     campaign_id,
@@ -2015,6 +2084,7 @@ function get_campaign_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_version(
     application_id,
     campaign_id,
@@ -2049,7 +2119,8 @@ of a campaign.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -2063,6 +2134,7 @@ function get_campaign_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_versions(
     application_id,
     campaign_id,
@@ -2095,7 +2167,8 @@ campaigns that are associated with an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -2107,6 +2180,7 @@ function get_campaigns(application_id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaigns(
     application_id,
     params::AbstractDict{String};
@@ -2140,6 +2214,7 @@ function get_channels(application_id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channels(
     application_id,
     params::AbstractDict{String};
@@ -2175,6 +2250,7 @@ function get_email_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_channel(
     application_id,
     params::AbstractDict{String};
@@ -2199,8 +2275,8 @@ the email channel.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -2208,20 +2284,23 @@ the email channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function get_email_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2233,6 +2312,7 @@ function get_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_template(
     template_name,
     params::AbstractDict{String};
@@ -2271,6 +2351,7 @@ function get_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_endpoint(
     application_id,
     endpoint_id,
@@ -2307,6 +2388,7 @@ function get_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_stream(
     application_id,
     params::AbstractDict{String};
@@ -2344,6 +2426,7 @@ function get_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export_job(
     application_id,
     job_id,
@@ -2376,7 +2459,8 @@ application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -2388,6 +2472,7 @@ function get_export_jobs(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export_jobs(
     application_id,
     params::AbstractDict{String};
@@ -2421,6 +2506,7 @@ function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gcm_channel(
     application_id,
     params::AbstractDict{String};
@@ -2458,6 +2544,7 @@ function get_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_job(
     application_id,
     job_id,
@@ -2490,7 +2577,8 @@ application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -2502,6 +2590,7 @@ function get_import_jobs(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_jobs(
     application_id,
     params::AbstractDict{String};
@@ -2538,6 +2627,7 @@ function get_in_app_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_in_app_messages(
     application_id,
     endpoint_id,
@@ -2563,8 +2653,8 @@ app channel.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -2572,20 +2662,23 @@ app channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function get_in_app_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2597,6 +2690,7 @@ function get_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_in_app_template(
     template_name,
     params::AbstractDict{String};
@@ -2633,6 +2727,7 @@ function get_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey(
     application_id,
     journey_id,
@@ -2661,10 +2756,10 @@ journey.
   as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
 - `kpi-name`: The name of the metric, also referred to as a *key performance indicator
-  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
-  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
-  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists
+  of two or more terms, which are comprised of lowercase alphanumeric characters,
+  separated by a hyphen. Examples are email-open-rate and successful-delivery-rate. For a
+  list of valid values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
 
@@ -2675,14 +2770,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
   UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
   date range that filters the query results. This value should be in extended ISO 8601
   format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
-  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
-  day.
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the
+  current day.
 """
 function get_journey_date_range_kpi(
     application_id, journey_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2694,6 +2791,7 @@ function get_journey_date_range_kpi(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_date_range_kpi(
     application_id,
     journey_id,
@@ -2732,7 +2830,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response. This parameter is not supported for application, campaign, and
   journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 """
 function get_journey_execution_activity_metrics(
     application_id,
@@ -2747,6 +2846,7 @@ function get_journey_execution_activity_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_execution_activity_metrics(
     application_id,
     journey_activity_id,
@@ -2784,7 +2884,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response. This parameter is not supported for application, campaign, and
   journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 """
 function get_journey_execution_metrics(
     application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2796,6 +2897,7 @@ function get_journey_execution_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_execution_metrics(
     application_id,
     journey_id,
@@ -2834,7 +2936,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response. This parameter is not supported for application, campaign, and
   journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 """
 function get_journey_run_execution_activity_metrics(
     application_id,
@@ -2850,6 +2953,7 @@ function get_journey_run_execution_activity_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_run_execution_activity_metrics(
     application_id,
     journey_activity_id,
@@ -2889,7 +2993,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response. This parameter is not supported for application, campaign, and
   journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 """
 function get_journey_run_execution_metrics(
     application_id, journey_id, run_id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2901,6 +3006,7 @@ function get_journey_run_execution_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_run_execution_metrics(
     application_id,
     journey_id,
@@ -2934,7 +3040,8 @@ Provides information about the runs of a journey.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -2948,6 +3055,7 @@ function get_journey_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_runs(
     application_id,
     journey_id,
@@ -2973,8 +3081,8 @@ a push notification channel.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -2982,20 +3090,23 @@ a push notification channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function get_push_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3007,6 +3118,7 @@ function get_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_push_template(
     template_name,
     params::AbstractDict{String};
@@ -3042,6 +3154,7 @@ function get_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommender_configuration(
     recommender_id,
     params::AbstractDict{String};
@@ -3068,7 +3181,8 @@ with your Amazon Pinpoint account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -3079,6 +3193,7 @@ function get_recommender_configurations(;
         "GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_recommender_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3114,6 +3229,7 @@ function get_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment(
     application_id,
     segment_id,
@@ -3146,7 +3262,8 @@ Retrieves information about the status and settings of the export jobs for a seg
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -3160,6 +3277,7 @@ function get_segment_export_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_export_jobs(
     application_id,
     segment_id,
@@ -3192,7 +3310,8 @@ Retrieves information about the status and settings of the import jobs for a seg
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -3206,6 +3325,7 @@ function get_segment_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_import_jobs(
     application_id,
     segment_id,
@@ -3245,6 +3365,7 @@ function get_segment_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_version(
     application_id,
     segment_id,
@@ -3279,7 +3400,8 @@ versions of a specific segment that's associated with an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -3293,6 +3415,7 @@ function get_segment_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_versions(
     application_id,
     segment_id,
@@ -3325,7 +3448,8 @@ segments that are associated with an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -3337,6 +3461,7 @@ function get_segments(application_id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segments(
     application_id,
     params::AbstractDict{String};
@@ -3370,6 +3495,7 @@ function get_sms_channel(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sms_channel(
     application_id,
     params::AbstractDict{String};
@@ -3394,8 +3520,8 @@ the SMS channel.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -3403,20 +3529,23 @@ the SMS channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function get_sms_template(template_name; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
@@ -3426,6 +3555,7 @@ function get_sms_template(template_name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sms_template(
     template_name,
     params::AbstractDict{String};
@@ -3462,6 +3592,7 @@ function get_user_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_endpoints(
     application_id,
     user_id,
@@ -3498,6 +3629,7 @@ function get_voice_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_channel(
     application_id,
     params::AbstractDict{String};
@@ -3522,8 +3654,8 @@ the voice channel.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -3531,20 +3663,23 @@ the voice channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function get_voice_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3556,6 +3691,7 @@ function get_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_template(
     template_name,
     params::AbstractDict{String};
@@ -3587,7 +3723,8 @@ journeys that are associated with an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
@@ -3599,6 +3736,7 @@ function list_journeys(application_id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_journeys(
     application_id,
     params::AbstractDict{String};
@@ -3634,6 +3772,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -3657,8 +3796,8 @@ Retrieves information about all the versions of a specific message template.
 # Arguments
 
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 - `template-type`: The type of channel that the message template is designed for. Valid
   values are: EMAIL, PUSH, SMS, and VOICE.
@@ -3668,9 +3807,11 @@ Retrieves information about all the versions of a specific message template.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 """
 function list_template_versions(
     template_name, template_type; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3682,6 +3823,7 @@ function list_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_versions(
     template_name,
     template_type,
@@ -3709,21 +3851,24 @@ Pinpoint account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+  response. This parameter is not supported for application, campaign, and journey
+  metrics.
 - `"prefix"`: The substring to match in the names of the message templates to include in
   the results. If you specify this value, Amazon Pinpoint returns only those templates
   whose names begin with the value that you specify.
 - `"template-type"`: The type of message template to include in the results. Valid values
-  are: EMAIL, PUSH, SMS, and VOICE. To include all types of templates in the results, don't
-  include this parameter in your request.
+  are: EMAIL, PUSH, SMS, and VOICE. To include all types of templates in the results,
+  don't include this parameter in your request.
 """
 function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3757,6 +3902,7 @@ function phone_number_validate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function phone_number_validate(
     NumberValidateRequest,
     params::AbstractDict{String};
@@ -3801,6 +3947,7 @@ function put_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_event_stream(
     WriteEventStream,
     application_id,
@@ -3844,6 +3991,7 @@ function put_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     EventsRequest,
     application_id,
@@ -3874,14 +4022,17 @@ changed values for these attributes.
 - `update_attributes_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
   as the **Project ID** on the Amazon Pinpoint console.
-- `attribute-type`: The type of attribute or attributes to remove. Valid values are: -
-  endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date
-  when an associated user opted in or out of receiving communications from you through a
-  specific type of channel.
-   - endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint
-  for endpoints, such as the number of app sessions or the number of items left in a cart.
-   - endpoint-user-attributes - Custom attributes that describe users, such as first name,
-  last name, and age.
+- `attribute-type`: The type of attribute or attributes to remove. Valid values are:
+
+  - endpoint-custom-attributes - Custom attributes that describe endpoints, such as the
+    date when an associated user opted in or out of receiving communications from you
+    through a specific type of channel.
+  - endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint
+    for endpoints, such as the number of app sessions or the number of items left in a
+    cart.
+  - endpoint-user-attributes - Custom attributes that describe users, such as first name,
+    last name, and age.
+
 """
 function remove_attributes(
     UpdateAttributesRequest,
@@ -3897,6 +4048,7 @@ function remove_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_attributes(
     UpdateAttributesRequest,
     application_id,
@@ -3942,6 +4094,7 @@ function send_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_messages(
     MessageRequest,
     application_id,
@@ -3985,6 +4138,7 @@ function send_otpmessage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_otpmessage(
     SendOTPMessageRequestParameters,
     application_id,
@@ -4033,6 +4187,7 @@ function send_users_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_users_messages(
     SendUsersMessageRequest,
     application_id,
@@ -4077,6 +4232,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     TagsModel,
     resource_arn,
@@ -4105,8 +4261,8 @@ or segment.
 
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The key of the tag to remove from the resource. To remove multiple tags,
-  append the tagKeys parameter and argument for each additional tag to remove, separated by
-  an ampersand (&amp;).
+  append the tagKeys parameter and argument for each additional tag to remove, separated
+  by an ampersand (&amp;).
 """
 function untag_resource(
     resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4119,6 +4275,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -4158,6 +4315,7 @@ function update_adm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_adm_channel(
     ADMChannelRequest,
     application_id,
@@ -4201,6 +4359,7 @@ function update_apns_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_channel(
     APNSChannelRequest,
     application_id,
@@ -4246,6 +4405,7 @@ function update_apns_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_sandbox_channel(
     APNSSandboxChannelRequest,
     application_id,
@@ -4293,6 +4453,7 @@ function update_apns_voip_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_voip_channel(
     APNSVoipChannelRequest,
     application_id,
@@ -4340,6 +4501,7 @@ function update_apns_voip_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_voip_sandbox_channel(
     APNSVoipSandboxChannelRequest,
     application_id,
@@ -4390,6 +4552,7 @@ function update_application_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_settings(
     WriteApplicationSettingsRequest,
     application_id,
@@ -4437,6 +4600,7 @@ function update_baidu_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_baidu_channel(
     BaiduChannelRequest,
     application_id,
@@ -4485,6 +4649,7 @@ function update_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_campaign(
     WriteCampaignRequest,
     application_id,
@@ -4531,6 +4696,7 @@ function update_email_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_email_channel(
     EmailChannelRequest,
     application_id,
@@ -4562,8 +4728,8 @@ Updates an existing message template for messages that are sent through the emai
 
 - `email_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -4571,28 +4737,31 @@ Updates an existing message template for messages that are sent through the emai
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
-  message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template.
+  message template. Valid values are: true, save the updates as a new version; and,
+  false, save the updates to (overwrite) the latest existing version of the template.
 
   If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
-  (overwrites) the latest existing version of the template. If you specify a value of true
-  for this parameter, don't specify a value for the version parameter. Otherwise, an error
-  will occur.
+  (overwrites) the latest existing version of the template. If you specify a value of
+  true for this parameter, don't specify a value for the version parameter. Otherwise, an
+  error will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function update_email_template(
     EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4605,6 +4774,7 @@ function update_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_email_template(
     EmailTemplateRequest,
     template_name,
@@ -4657,6 +4827,7 @@ function update_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint(
     EndpointRequest,
     application_id,
@@ -4704,6 +4875,7 @@ function update_endpoints_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoints_batch(
     EndpointBatchRequest,
     application_id,
@@ -4749,6 +4921,7 @@ function update_gcm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gcm_channel(
     GCMChannelRequest,
     application_id,
@@ -4778,8 +4951,8 @@ Updates an existing message template for messages sent through the in-app messag
 
 - `in_app_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -4787,28 +4960,31 @@ Updates an existing message template for messages sent through the in-app messag
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
-  message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template.
+  message template. Valid values are: true, save the updates as a new version; and,
+  false, save the updates to (overwrite) the latest existing version of the template.
 
   If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
-  (overwrites) the latest existing version of the template. If you specify a value of true
-  for this parameter, don't specify a value for the version parameter. Otherwise, an error
-  will occur.
+  (overwrites) the latest existing version of the template. If you specify a value of
+  true for this parameter, don't specify a value for the version parameter. Otherwise, an
+  error will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function update_in_app_template(
     InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4821,6 +4997,7 @@ function update_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_in_app_template(
     InAppTemplateRequest,
     template_name,
@@ -4869,6 +5046,7 @@ function update_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_journey(
     WriteJourneyRequest,
     application_id,
@@ -4918,6 +5096,7 @@ function update_journey_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_journey_state(
     JourneyStateRequest,
     application_id,
@@ -4951,8 +5130,8 @@ channel.
 
 - `push_notification_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -4960,28 +5139,31 @@ channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
-  message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template.
+  message template. Valid values are: true, save the updates as a new version; and,
+  false, save the updates to (overwrite) the latest existing version of the template.
 
   If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
-  (overwrites) the latest existing version of the template. If you specify a value of true
-  for this parameter, don't specify a value for the version parameter. Otherwise, an error
-  will occur.
+  (overwrites) the latest existing version of the template. If you specify a value of
+  true for this parameter, don't specify a value for the version parameter. Otherwise, an
+  error will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function update_push_template(
     PushNotificationTemplateRequest,
@@ -4998,6 +5180,7 @@ function update_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_push_template(
     PushNotificationTemplateRequest,
     template_name,
@@ -5048,6 +5231,7 @@ function update_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recommender_configuration(
     UpdateRecommenderConfiguration,
     recommender_id,
@@ -5099,6 +5283,7 @@ function update_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_segment(
     WriteSegmentRequest,
     application_id,
@@ -5145,6 +5330,7 @@ function update_sms_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sms_channel(
     SMSChannelRequest,
     application_id,
@@ -5174,8 +5360,8 @@ Updates an existing message template for messages that are sent through the SMS 
 
 - `smstemplate_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -5183,28 +5369,31 @@ Updates an existing message template for messages that are sent through the SMS 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
-  message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template.
+  message template. Valid values are: true, save the updates as a new version; and,
+  false, save the updates to (overwrite) the latest existing version of the template.
 
   If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
-  (overwrites) the latest existing version of the template. If you specify a value of true
-  for this parameter, don't specify a value for the version parameter. Otherwise, an error
-  will occur.
+  (overwrites) the latest existing version of the template. If you specify a value of
+  true for this parameter, don't specify a value for the version parameter. Otherwise, an
+  error will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function update_sms_template(
     SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5217,6 +5406,7 @@ function update_sms_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sms_template(
     SMSTemplateRequest,
     template_name,
@@ -5246,8 +5436,8 @@ Changes the status of a specific version of a message template to *active*.
 
 - `template_active_version_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 - `template-type`: The type of channel that the message template is designed for. Valid
   values are: EMAIL, PUSH, SMS, and VOICE.
@@ -5266,6 +5456,7 @@ function update_template_active_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template_active_version(
     TemplateActiveVersionRequest,
     template_name,
@@ -5314,6 +5505,7 @@ function update_voice_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_channel(
     VoiceChannelRequest,
     application_id,
@@ -5345,8 +5537,8 @@ Updates an existing message template for messages that are sent through the voic
 
 - `voice_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
-  alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  alphanumeric character and can contain a maximum of 128 characters. The characters can
+  be alphanumeric characters, underscores (_), or hyphens (-). Template names are case
   sensitive.
 
 # Optional Parameters
@@ -5354,28 +5546,31 @@ Updates an existing message template for messages that are sent through the voic
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
-  message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template.
+  message template. Valid values are: true, save the updates as a new version; and,
+  false, save the updates to (overwrite) the latest existing version of the template.
 
   If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
-  (overwrites) the latest existing version of the template. If you specify a value of true
-  for this parameter, don't specify a value for the version parameter. Otherwise, an error
-  will occur.
+  (overwrites) the latest existing version of the template. If you specify a value of
+  true for this parameter, don't specify a value for the version parameter. Otherwise, an
+  error will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
-  retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the <link  linkend="templates-template-name-template-
-  type-versions">Template Versions</link> resource.
+  retrieve information about, or delete. To retrieve identifiers and other information
+  for all the versions of a template, use the <link  linkend="templates-template-name-
+  template-type-versions">Template Versions</link> resource.
 
   If specified, this value must match the identifier for an existing template version. If
   specified for an update operation, this value must match the identifier for the latest
   existing version of the template. This restriction helps ensure that race conditions
   don't occur.
 
-  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
-  For a get operation, retrieves information about the active version of the template.
-   - For an update operation, saves the updates to (overwrites) the latest existing version
-  of the template, if the create-new-version parameter isn't used or is set to false.
-   - For a delete operation, deletes the template, including all versions of the template.
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following:
+
+  - For a get operation, retrieves information about the active version of the template.
+  - For an update operation, saves the updates to (overwrites) the latest existing
+    version of the template, if the create-new-version parameter isn't used or is set to
+    false.
+  - For a delete operation, deletes the template, including all versions of the template.
+
 """
 function update_voice_template(
     VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5388,6 +5583,7 @@ function update_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_template(
     VoiceTemplateRequest,
     template_name,
@@ -5435,6 +5631,7 @@ function verify_otpmessage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_otpmessage(
     VerifyOTPMessageRequestParameters,
     application_id,

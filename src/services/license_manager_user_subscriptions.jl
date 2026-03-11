@@ -12,9 +12,9 @@ Associates the user to an EC2 instance to utilize user-based subscriptions.
 
 !!! note
     Your estimated bill for charges on the number of users and related costs will take 48
-hours to appear for billing periods that haven't closed (marked as **Pending** billing
-status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html)
-in the *Amazon Web Services Billing User Guide*.
+    hours to appear for billing periods that haven't closed (marked as **Pending** billing
+    status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html)
+    in the *Amazon Web Services Billing User Guide*.
 
 # Arguments
 
@@ -46,6 +46,7 @@ function associate_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_user(
     IdentityProvider,
     InstanceId,
@@ -94,6 +95,7 @@ function deregister_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_identity_provider(
     IdentityProvider,
     Product,
@@ -153,6 +155,7 @@ function disassociate_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_user(
     IdentityProvider,
     InstanceId,
@@ -200,6 +203,7 @@ function list_identity_providers(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -235,6 +239,7 @@ function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -278,6 +283,7 @@ function list_product_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_product_subscriptions(
     IdentityProvider,
     Product,
@@ -334,6 +340,7 @@ function list_user_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_associations(
     IdentityProvider,
     InstanceId,
@@ -386,6 +393,7 @@ function register_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_identity_provider(
     IdentityProvider,
     Product,
@@ -417,9 +425,9 @@ Starts a product subscription for a user with the specified identity provider.
 
 !!! note
     Your estimated bill for charges on the number of users and related costs will take 48
-hours to appear for billing periods that haven't closed (marked as **Pending** billing
-status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html)
-in the *Amazon Web Services Billing User Guide*.
+    hours to appear for billing periods that haven't closed (marked as **Pending** billing
+    status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html)
+    in the *Amazon Web Services Billing User Guide*.
 
 # Arguments
 
@@ -448,6 +456,7 @@ function start_product_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_product_subscription(
     IdentityProvider,
     Product,
@@ -507,6 +516,7 @@ function stop_product_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_product_subscription(
     IdentityProvider,
     Product,
@@ -544,10 +554,13 @@ Updates additional product configuration settings for the registered identity pr
 - `identity_provider`:
 - `product`: The name of the user-based subscription product.
 - `update_settings`: Updates the registered identity provider’s product related
-  configuration settings. You can update any combination of settings in a single operation
-  such as the: - Subnets which you want to add to provision VPC endpoints.
-   - Subnets which you want to remove the VPC endpoints from.
-   - Security group ID which permits traffic to the VPC endpoints.
+  configuration settings. You can update any combination of settings in a single
+  operation such as the:
+
+  - Subnets which you want to add to provision VPC endpoints.
+  - Subnets which you want to remove the VPC endpoints from.
+  - Security group ID which permits traffic to the VPC endpoints.
+
 """
 function update_identity_provider_settings(
     IdentityProvider,
@@ -567,6 +580,7 @@ function update_identity_provider_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_provider_settings(
     IdentityProvider,
     Product,

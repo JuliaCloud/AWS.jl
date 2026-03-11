@@ -29,6 +29,7 @@ function batch_put_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_metrics(
     MetricData,
     TrialComponentName,

@@ -18,6 +18,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -56,6 +57,7 @@ function get_report(reportId, termToken; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_report(
     reportId,
     termToken,
@@ -102,6 +104,7 @@ function get_report_metadata(reportId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_report_metadata(
     reportId,
     params::AbstractDict{String};
@@ -143,6 +146,7 @@ function get_term_for_report(reportId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_term_for_report(
     reportId,
     params::AbstractDict{String};
@@ -177,6 +181,7 @@ function list_reports(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -209,6 +214,7 @@ function put_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

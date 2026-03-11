@@ -35,6 +35,7 @@ function create_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -95,6 +96,7 @@ function create_control_panel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_control_panel(
     ClusterArn,
     ControlPanelName,
@@ -163,6 +165,7 @@ function create_routing_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_routing_control(
     ClusterArn,
     RoutingControlName,
@@ -229,6 +232,7 @@ function create_safety_rule(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_safety_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -261,6 +265,7 @@ function delete_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     ClusterArn,
     params::AbstractDict{String};
@@ -295,6 +300,7 @@ function delete_control_panel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_control_panel(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -330,6 +336,7 @@ function delete_routing_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_routing_control(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -364,6 +371,7 @@ function delete_safety_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_safety_rule(
     SafetyRuleArn,
     params::AbstractDict{String};
@@ -397,6 +405,7 @@ function describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster(
     ClusterArn,
     params::AbstractDict{String};
@@ -431,6 +440,7 @@ function describe_control_panel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_control_panel(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -470,6 +480,7 @@ function describe_routing_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_routing_control(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -504,6 +515,7 @@ function describe_safety_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_safety_rule(
     SafetyRuleArn,
     params::AbstractDict{String};
@@ -538,6 +550,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -580,6 +593,7 @@ function list_associated_route53_health_checks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_route53_health_checks(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -612,6 +626,7 @@ function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/cluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -639,6 +654,7 @@ function list_control_panels(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/controlpanels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_control_panels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -681,6 +697,7 @@ function list_routing_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_routing_controls(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -723,6 +740,7 @@ function list_safety_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_safety_rules(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -757,6 +775,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -791,6 +810,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -828,6 +848,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -868,6 +889,7 @@ function update_control_panel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_control_panel(
     ControlPanelArn,
     ControlPanelName,
@@ -921,6 +943,7 @@ function update_routing_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_routing_control(
     RoutingControlArn,
     RoutingControlName,
@@ -965,6 +988,7 @@ function update_safety_rule(; aws_config::AbstractAWSConfig=current_aws_config()
         "PUT", "/safetyrule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_safety_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

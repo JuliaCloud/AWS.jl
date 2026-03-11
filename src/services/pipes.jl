@@ -46,6 +46,7 @@ function create_pipe(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipe(
     Name,
     RoleArn,
@@ -90,6 +91,7 @@ function delete_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipe(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,6 +120,7 @@ function describe_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_pipe(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,14 +153,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an HTTP 400 InvalidToken error.
 - `"SourcePrefix"`: The prefix matching the pipe source.
 - `"TargetPrefix"`: The prefix matching the pipe target.
 """
 function list_pipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes("GET", "/v1/pipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_pipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,6 +190,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -218,6 +223,7 @@ function start_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipe(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -248,6 +254,7 @@ function stop_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pipe(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -292,6 +299,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -329,6 +337,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -357,7 +366,7 @@ fields in these objects atomically as one and overrides existing values. This is
 and means that if you don't specify an optional field in one of these `Parameters` objects,
 EventBridge sets that field to its system-default value during the update.
 
-For more information about pipes, see [ Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html)
+For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html)
 in the Amazon EventBridge User Guide.
 
 # Arguments
@@ -391,6 +400,7 @@ function update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipe(
     Name,
     RoleArn,

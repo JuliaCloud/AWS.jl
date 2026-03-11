@@ -38,6 +38,7 @@ function associate_member_to_farm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_farm(
     farmId,
     identityStoreId,
@@ -102,6 +103,7 @@ function associate_member_to_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_fleet(
     farmId,
     fleetId,
@@ -169,6 +171,7 @@ function associate_member_to_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_job(
     farmId,
     identityStoreId,
@@ -235,6 +238,7 @@ function associate_member_to_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_queue(
     farmId,
     identityStoreId,
@@ -286,6 +290,7 @@ function assume_fleet_role_for_read(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_fleet_role_for_read(
     farmId,
     fleetId,
@@ -323,6 +328,7 @@ function assume_fleet_role_for_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_fleet_role_for_worker(
     farmId,
     fleetId,
@@ -361,6 +367,7 @@ function assume_queue_role_for_read(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_queue_role_for_read(
     farmId,
     queueId,
@@ -397,6 +404,7 @@ function assume_queue_role_for_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_queue_role_for_user(
     farmId,
     queueId,
@@ -436,6 +444,7 @@ function assume_queue_role_for_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_queue_role_for_worker(
     farmId,
     fleetId,
@@ -483,6 +492,7 @@ function batch_get_job_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_job_entity(
     farmId,
     fleetId,
@@ -531,6 +541,7 @@ function copy_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_job_template(
     farmId,
     jobId,
@@ -565,8 +576,9 @@ Creates a budget to set spending thresholds for your rendering activity.
 - `display_name`: The display name of the budget.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID to include in this budget.
 - `schedule`: The schedule to associate with this budget.
 - `usage_tracking_resource`: The queue ID provided to this budget to track usage.
@@ -580,8 +592,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the budget.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 """
 function create_budget(
     actions,
@@ -607,6 +620,7 @@ function create_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_budget(
     actions,
     approximateDollarLimit,
@@ -653,8 +667,8 @@ for large projects.
 - `display_name`: The display name of the farm.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
 
 # Optional Parameters
 
@@ -665,8 +679,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the farm.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"kmsKeyArn"`: The ARN of the KMS key to use on the farm.
 - `"tags"`: The tags to add to your farm. Each tag consists of a tag key and a tag value.
   Tag keys and values are both required, but tag values can be empty strings.
@@ -682,6 +697,7 @@ function create_farm(displayName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_farm(
     displayName,
     params::AbstractDict{String};
@@ -719,8 +735,9 @@ managed by Deadline Cloud.
 - `display_name`: The display name of the fleet.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the fleet.
 - `max_worker_count`: The maximum number of workers for the fleet.
 - `role_arn`: The IAM role ARN for the role that the fleet's workers will use.
@@ -734,8 +751,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the fleet.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"minWorkerCount"`: The minimum number of workers for the fleet.
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
@@ -762,6 +780,7 @@ function create_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     configuration,
     displayName,
@@ -847,6 +866,7 @@ function create_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     farmId,
     priority,
@@ -914,6 +934,7 @@ function create_license_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_license_endpoint(
     securityGroupIds,
     subnetIds,
@@ -955,8 +976,9 @@ steps that make up the job, and then download the job's results.
   Cloud console.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `identity_center_instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance that authenticates monitor users.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to
@@ -993,6 +1015,7 @@ function create_monitor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_monitor(
     displayName,
     identityCenterInstanceArn,
@@ -1034,8 +1057,9 @@ specify where to pull resources and indicate where to output completed jobs.
 - `display_name`: The display name of the queue.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the queue.
 
 # Optional Parameters
@@ -1050,8 +1074,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the queue.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"jobAttachmentSettings"`: The job attachment settings for the queue. These are the
   Amazon S3 bucket name and the Amazon S3 prefix.
 - `"jobRunAsUser"`: The jobs in the queue run as the specified POSIX user.
@@ -1074,6 +1099,7 @@ function create_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue(
     displayName,
     farmId,
@@ -1141,6 +1167,7 @@ function create_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue_environment(
     farmId,
     priority,
@@ -1193,6 +1220,7 @@ function create_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue_fleet_association(
     farmId,
     fleetId,
@@ -1225,8 +1253,9 @@ of resources used on a farm.
 - `display_name`: The display name of the storage profile.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the storage profile.
 - `os_family`: The type of operating system (OS) for the storage profile.
 
@@ -1253,6 +1282,7 @@ function create_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_storage_profile(
     displayName,
     farmId,
@@ -1310,6 +1340,7 @@ function create_worker(farmId, fleetId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_worker(
     farmId,
     fleetId,
@@ -1348,6 +1379,7 @@ function delete_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_budget(
     budgetId,
     farmId,
@@ -1381,6 +1413,7 @@ function delete_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_farm(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1420,6 +1453,7 @@ function delete_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     farmId,
     fleetId,
@@ -1459,6 +1493,7 @@ function delete_license_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_license_endpoint(
     licenseEndpointId,
     params::AbstractDict{String};
@@ -1495,6 +1530,7 @@ function delete_metered_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metered_product(
     licenseEndpointId,
     productId,
@@ -1519,8 +1555,8 @@ attach farms to the monitor.
 
 # Arguments
 
-- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the
-  `CreateMonitor` operation, and is included in the response to the `GetMonitor` operation.
+- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the [`create_monitor`](@ref)
+  operation, and is included in the response to the [`get_monitor`](@ref) operation.
 """
 function delete_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
@@ -1530,6 +1566,7 @@ function delete_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_monitor(
     monitorId,
     params::AbstractDict{String};
@@ -1552,7 +1589,7 @@ Deletes a queue.
 
 !!! important
     You can't recover the jobs in a queue if you delete the queue. Deleting the queue also
-deletes the jobs in that queue.
+    deletes the jobs in that queue.
 
 # Arguments
 
@@ -1567,6 +1604,7 @@ function delete_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue(
     farmId,
     queueId,
@@ -1604,6 +1642,7 @@ function delete_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue_environment(
     farmId,
     queueEnvironmentId,
@@ -1642,6 +1681,7 @@ function delete_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue_fleet_association(
     farmId,
     fleetId,
@@ -1679,6 +1719,7 @@ function delete_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_storage_profile(
     farmId,
     storageProfileId,
@@ -1716,6 +1757,7 @@ function delete_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_worker(
     farmId,
     fleetId,
@@ -1753,6 +1795,7 @@ function disassociate_member_from_farm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_farm(
     farmId,
     principalId,
@@ -1790,6 +1833,7 @@ function disassociate_member_from_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_fleet(
     farmId,
     fleetId,
@@ -1829,6 +1873,7 @@ function disassociate_member_from_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_job(
     farmId,
     jobId,
@@ -1868,6 +1913,7 @@ function disassociate_member_from_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_queue(
     farmId,
     principalId,
@@ -1903,6 +1949,7 @@ function get_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_budget(
     budgetId,
     farmId,
@@ -1936,6 +1983,7 @@ function get_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_farm(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1967,6 +2015,7 @@ function get_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_fleet(
     farmId,
     fleetId,
@@ -2002,6 +2051,7 @@ function get_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job(
     farmId,
     jobId,
@@ -2038,6 +2088,7 @@ function get_license_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_license_endpoint(
     licenseEndpointId,
     params::AbstractDict{String};
@@ -2060,8 +2111,8 @@ Gets information about the specified monitor.
 
 # Arguments
 
-- `monitor_id`: The unique identifier for the monitor. This ID is returned by the
-  `CreateMonitor` operation.
+- `monitor_id`: The unique identifier for the monitor. This ID is returned by the [`create_monitor`](@ref)
+  operation.
 """
 function get_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
@@ -2071,6 +2122,7 @@ function get_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_monitor(
     monitorId,
     params::AbstractDict{String};
@@ -2104,6 +2156,7 @@ function get_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue(
     farmId,
     queueId,
@@ -2141,6 +2194,7 @@ function get_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue_environment(
     farmId,
     queueEnvironmentId,
@@ -2179,6 +2233,7 @@ function get_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue_fleet_association(
     farmId,
     fleetId,
@@ -2218,6 +2273,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     farmId,
     jobId,
@@ -2262,6 +2318,7 @@ function get_session_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session_action(
     farmId,
     jobId,
@@ -2283,17 +2340,17 @@ end
     get_sessions_statistics_aggregation(aggregation_id, farm_id)
     get_sessions_statistics_aggregation(aggregation_id, farm_id, params::Dict{String,<:Any})
 
-Gets a set of statistics for queues or farms. Before you can call the
-`GetSessionStatisticsAggregation` operation, you must first call the
-`StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after
-you call the `StartSessionsStatisticsAggregation` operation.
+Gets a set of statistics for queues or farms. Before you can call the [`get_session_statistics_aggregation`](@ref)
+operation, you must first call the [`start_sessions_statistics_aggregation`](@ref)
+operation. Statistics are available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
+operation.
 
 # Arguments
 
-- `aggregation_id`: The identifier returned by the `StartSessionsStatisticsAggregation`
+- `aggregation_id`: The identifier returned by the [`start_sessions_statistics_aggregation`](@ref)
   operation that identifies the aggregated statistics.
 - `farm_id`: The identifier of the farm to include in the statistics. This should be the
-  same as the farm ID used in the call to the `StartSessionsStatisticsAggregation`
+  same as the farm ID used in the call to the [`start_sessions_statistics_aggregation`](@ref)
   operation.
 
 # Optional Parameters
@@ -2316,6 +2373,7 @@ function get_sessions_statistics_aggregation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sessions_statistics_aggregation(
     aggregationId,
     farmId,
@@ -2356,6 +2414,7 @@ function get_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_step(
     farmId,
     jobId,
@@ -2394,6 +2453,7 @@ function get_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_storage_profile(
     farmId,
     storageProfileId,
@@ -2431,6 +2491,7 @@ function get_storage_profile_for_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_storage_profile_for_queue(
     farmId,
     queueId,
@@ -2476,6 +2537,7 @@ function get_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_task(
     farmId,
     jobId,
@@ -2516,6 +2578,7 @@ function get_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_worker(
     farmId,
     fleetId,
@@ -2557,6 +2620,7 @@ function list_available_metered_products(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_metered_products(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2597,6 +2661,7 @@ function list_budgets(farmId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_budgets(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2636,6 +2701,7 @@ function list_farm_members(farmId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_farm_members(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2669,6 +2735,7 @@ function list_farms(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2023-10-12/farms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_farms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2711,6 +2778,7 @@ function list_fleet_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fleet_members(
     farmId,
     fleetId,
@@ -2743,8 +2811,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The display names of a list of fleets.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
   `NextToken` to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
@@ -2760,6 +2829,7 @@ function list_fleets(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fleets(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2803,6 +2873,7 @@ function list_job_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_members(
     farmId,
     jobId,
@@ -2848,6 +2919,7 @@ function list_jobs(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_jobs(
     farmId,
     queueId,
@@ -2886,6 +2958,7 @@ function list_license_endpoints(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_license_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2927,6 +3000,7 @@ function list_metered_products(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metered_products(
     licenseEndpointId,
     params::AbstractDict{String};
@@ -2964,6 +3038,7 @@ function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3006,6 +3081,7 @@ function list_queue_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queue_environments(
     farmId,
     queueId,
@@ -3052,6 +3128,7 @@ function list_queue_fleet_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queue_fleet_associations(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3094,6 +3171,7 @@ function list_queue_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queue_members(
     farmId,
     queueId,
@@ -3128,9 +3206,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
   beginning.
 - `"principalId"`: The principal IDs to include in the list of queues.
-- `"status"`: The status of the queues listed. - `ACTIVE`–The queues are active.
-   - `SCHEDULING`–The queues are scheduling.
-   - `SCHEDULING_BLOCKED`–The queue scheduling is blocked for these queues.
+- `"status"`: The status of the queues listed.
+
+  - `ACTIVE`–The queues are active.
+  - `SCHEDULING`–The queues are scheduling.
+  - `SCHEDULING_BLOCKED`–The queue scheduling is blocked for these queues.
+
 """
 function list_queues(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
@@ -3140,6 +3221,7 @@ function list_queues(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queues(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3185,6 +3267,7 @@ function list_session_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_session_actions(
     farmId,
     jobId,
@@ -3232,6 +3315,7 @@ function list_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sessions(
     farmId,
     jobId,
@@ -3279,6 +3363,7 @@ function list_sessions_for_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sessions_for_worker(
     farmId,
     fleetId,
@@ -3327,6 +3412,7 @@ function list_step_consumers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_step_consumers(
     farmId,
     jobId,
@@ -3376,6 +3462,7 @@ function list_step_dependencies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_step_dependencies(
     farmId,
     jobId,
@@ -3424,6 +3511,7 @@ function list_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_steps(
     farmId,
     jobId,
@@ -3467,6 +3555,7 @@ function list_storage_profiles(farmId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_storage_profiles(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3509,6 +3598,7 @@ function list_storage_profiles_for_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_storage_profiles_for_queue(
     farmId,
     queueId,
@@ -3544,6 +3634,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -3590,6 +3681,7 @@ function list_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tasks(
     farmId,
     jobId,
@@ -3635,6 +3727,7 @@ function list_workers(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workers(
     farmId,
     fleetId,
@@ -3671,6 +3764,7 @@ function put_metered_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metered_product(
     licenseEndpointId,
     productId,
@@ -3719,6 +3813,7 @@ function search_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_jobs(
     farmId,
     itemOffset,
@@ -3775,6 +3870,7 @@ function search_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_steps(
     farmId,
     itemOffset,
@@ -3831,6 +3927,7 @@ function search_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_tasks(
     farmId,
     itemOffset,
@@ -3886,6 +3983,7 @@ function search_workers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_workers(
     farmId,
     fleetIds,
@@ -3913,11 +4011,11 @@ end
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics, params::Dict{String,<:Any})
 
 Starts an asynchronous request for getting aggregated statistics about queues and farms.
-Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only
-have one running aggregation for your Deadline Cloud farm. Call the
-`GetSessionsStatisticsAggregation` operation and check the `status` field to see if an
-aggregation is running. Statistics are available for 1 hour after you call the
-`StartSessionsStatisticsAggregation` operation.
+Get the statistics using the [`get_sessions_statistics_aggregation`](@ref) operation. You
+can only have one running aggregation for your Deadline Cloud farm. Call the [`get_sessions_statistics_aggregation`](@ref)
+operation and check the `status` field to see if an aggregation is running. Statistics are
+available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
+operation.
 
 # Arguments
 
@@ -3959,6 +4057,7 @@ function start_sessions_statistics_aggregation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_sessions_statistics_aggregation(
     endTime,
     farmId,
@@ -4015,6 +4114,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -4051,6 +4151,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -4091,17 +4192,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the budget to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the budget to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"schedule"`: The schedule to update.
-- `"status"`: Updates the status of the budget. - `ACTIVE`–The budget is being evaluated.
-   - `INACTIVE`–The budget is inactive. This can include Expired, Canceled, or deleted
-  Deleted statuses.
+- `"status"`: Updates the status of the budget.
+
+  - `ACTIVE`–The budget is being evaluated.
+  - `INACTIVE`–The budget is inactive. This can include Expired, Canceled, or deleted
+    Deleted statuses.
+
 """
 function update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
@@ -4112,6 +4218,7 @@ function update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_budget(
     budgetId,
     farmId,
@@ -4148,13 +4255,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the farm to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the farm to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 """
 function update_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
@@ -4164,6 +4273,7 @@ function update_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_farm(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4197,13 +4307,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the fleet to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the fleet to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"maxWorkerCount"`: The maximum number of workers in the fleet.
 - `"minWorkerCount"`: The minimum number of workers in the fleet.
 - `"roleArn"`: The IAM role ARN that the fleet's workers assume while running jobs.
@@ -4217,6 +4329,7 @@ function update_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet(
     farmId,
     fleetId,
@@ -4247,7 +4360,7 @@ archived.
 
 !!! important
     An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
-recovered.
+    recovered.
 
 # Arguments
 
@@ -4265,8 +4378,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the job to `ARCHIVED`, the job can't be scheduled or archived.
 
   !!! important
-      An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
-  recovered.
+      An archived jobs and its steps and tasks are deleted after 120 days. The job can't
+      be recovered.
+
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
   marked as `FAILED`.
 - `"maxRetriesPerTask"`: The maximum number of retries for a job.
@@ -4284,6 +4398,7 @@ function update_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job(
     farmId,
     jobId,
@@ -4322,8 +4437,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The new value to use for the monitor's display name.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
 - `"subdomain"`: The new value of the subdomain to use when forming the monitor URL.
 """
@@ -4335,6 +4451,7 @@ function update_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_monitor(
     monitorId,
     params::AbstractDict{String};
@@ -4372,13 +4489,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the queue to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the queue to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"jobAttachmentSettings"`: The job attachment settings to update for the queue.
 - `"jobRunAsUser"`: Update the jobs in the queue to run as a specified POSIX user.
 - `"requiredFileSystemLocationNamesToAdd"`: The required file system location names to add
@@ -4396,6 +4515,7 @@ function update_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_queue(
     farmId,
     queueId,
@@ -4448,6 +4568,7 @@ function update_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_queue_environment(
     farmId,
     queueEnvironmentId,
@@ -4492,6 +4613,7 @@ function update_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_queue_fleet_association(
     farmId,
     fleetId,
@@ -4549,6 +4671,7 @@ function update_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_session(
     farmId,
     jobId,
@@ -4616,6 +4739,7 @@ function update_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_step(
     farmId,
     jobId,
@@ -4663,8 +4787,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The display name of the storage profile to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"fileSystemLocationsToAdd"`: The file system location names to add.
 - `"fileSystemLocationsToRemove"`: The file system location names to remove.
 - `"osFamily"`: The OS system to update.
@@ -4680,6 +4805,7 @@ function update_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_storage_profile(
     farmId,
     storageProfileId,
@@ -4740,6 +4866,7 @@ function update_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task(
     farmId,
     jobId,
@@ -4798,6 +4925,7 @@ function update_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_worker(
     farmId,
     fleetId,
@@ -4843,6 +4971,7 @@ function update_worker_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_worker_schedule(
     farmId,
     fleetId,

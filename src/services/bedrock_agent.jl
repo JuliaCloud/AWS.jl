@@ -47,6 +47,7 @@ function associate_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -77,24 +78,24 @@ end
     create_agent(agent_name, params::Dict{String,<:Any})
 
 Creates an agent that orchestrates interactions between foundation models, data sources,
-software applications, user conversations, and APIs to carry out tasks to help customers. -
-Specify the following fields for security purposes. <ul> <li> `agentResourceRoleArn` – The
-Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an
-agent.
- - (Optional) `customerEncryptionKeyArn` – The Amazon Resource Name (ARN) of a KMS key to
-encrypt the creation of the agent.
- - (Optional) `idleSessionTTLinSeconds` – Specify the number of seconds for which the agent
-should maintain session information. After this time expires, the subsequent `InvokeAgent`
-request begins a new session.
- </li> <li>To enable your agent to retain conversational context across multiple sessions,
-include a `memoryConfiguration` object. For more information, see [Configure memory](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-configure-memory.html).
-</li> <li>To override the default prompt behavior for agent orchestration and to use
-advanced prompts, include a `promptOverrideConfiguration` object. For more information, see
-[Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
-</li> <li>If your agent fails to be created, the response returns a list of
-`failureReasons` alongside a list of `recommendedActions` for you to troubleshoot. </li>
-<li>The agent instructions will not be honored if your agent has only one knowledge base,
-uses default prompts, has no action group, and user input is disabled. </li> </ul>
+software applications, user conversations, and APIs to carry out tasks to help customers.
+
+- Specify the following fields for security purposes.   - `agentResourceRoleArn` – The
+  Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an
+  agent.
+  - (Optional) `customerEncryptionKeyArn` – The Amazon Resource Name (ARN) of a KMS key to
+    encrypt the creation of the agent.
+  - (Optional) `idleSessionTTLinSeconds` – Specify the number of seconds for which the
+    agent should maintain session information. After this time expires, the subsequent
+    `InvokeAgent` request begins a new session.
+- To enable your agent to retain conversational context across multiple sessions, include a
+  `memoryConfiguration` object. For more information, see [Configure memory](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-configure-memory.html).
+- To override the default prompt behavior for agent orchestration and to use advanced
+  prompts, include a `promptOverrideConfiguration` object. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
+- If your agent fails to be created, the response returns a list of `failureReasons`
+  alongside a list of `recommendedActions` for you to troubleshoot.
+- The agent instructions will not be honored if your agent has only one knowledge base,
+  uses default prompts, has no action group, and user input is disabled.
 
 # Arguments
 
@@ -107,8 +108,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"agentResourceRoleArn"`: The Amazon Resource Name (ARN) of the IAM role with permissions
   to invoke API operations on the agent.
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key with which to
   encrypt the agent.
 - `"description"`: A description of the agent.
@@ -120,11 +121,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about a user's conversation with the agent.
 
   A user interaction remains active for the amount of time specified. If no conversation
-  occurs during this time, the session expires and Amazon Bedrock deletes any data provided
-  before the timeout.
+  occurs during this time, the session expires and Amazon Bedrock deletes any data
+  provided before the timeout.
 - `"instruction"`: Instructions that tell the agent what it should do and how it should
   interact with users.
-- `"memoryConfiguration"`:  Contains the details of the memory configured for the agent.
+- `"memoryConfiguration"`: Contains the details of the memory configured for the agent.
 - `"promptOverrideConfiguration"`: Contains configurations to override prompts in different
   parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
 - `"tags"`: Any tags that you want to attach to the agent.
@@ -138,6 +139,7 @@ function create_agent(agentName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent(
     agentName,
     params::AbstractDict{String};
@@ -199,11 +201,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invoke or not when sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
   request.
 - `"apiSchema"`: Contains either details about the S3 object containing the OpenAPI schema
-  for the action group or the JSON or YAML-formatted payload defining the schema. For more
-  information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
+  for the action group or the JSON or YAML-formatted payload defining the schema. For
+  more information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the action group.
 - `"functionSchema"`: Contains details about the function schema for the action group or
   the JSON or YAML-formatted payload defining the schema.
@@ -237,6 +239,7 @@ function create_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent_action_group(
     actionGroupName,
     agentId,
@@ -277,8 +280,8 @@ Creates an alias of an agent that can be used to deploy the agent.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the alias of the agent.
 - `"routingConfiguration"`: Contains details about the routing configuration of the alias.
 - `"tags"`: Any tags that you want to attach to the alias of the agent.
@@ -296,6 +299,7 @@ function create_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent_alias(
     agentAliasName,
     agentId,
@@ -326,7 +330,8 @@ end
 Creates a data source connector for a knowledge base.
 
 !!! important
-    You can't change the `chunkingConfiguration` after you create the data source connector.
+    You can't change the `chunkingConfiguration` after you create the data source
+    connector.
 
 # Arguments
 
@@ -340,17 +345,21 @@ Creates a data source connector for a knowledge base.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"dataDeletionPolicy"`: The data deletion policy for the data source.
 
-  You can set the data deletion policy to: - DELETE: Deletes all data from your data source
-  that’s converted into vector embeddings upon deletion of a knowledge base or data source
-  resource. Note that the **vector store itself is not deleted**, only the data. This flag
-  is ignored if an Amazon Web Services account is deleted.
-   - RETAIN: Retains all data from your data source that’s converted into vector embeddings
-  upon deletion of a knowledge base or data source resource. Note that the **vector store
-  itself is not deleted** if you delete a knowledge base or data source resource.
+  You can set the data deletion policy to:
+
+  - DELETE: Deletes all data from your data source that’s converted into vector
+    embeddings upon deletion of a knowledge base or data source resource. Note that the
+    **vector store itself is not deleted**, only the data. This flag is ignored if an
+    Amazon Web Services account is deleted.
+  - RETAIN: Retains all data from your data source that’s converted into vector
+    embeddings upon deletion of a knowledge base or data source resource. Note that the
+    **vector store itself is not deleted** if you delete a knowledge base or data source
+    resource.
+
 - `"description"`: A description of the data source.
 - `"serverSideEncryptionConfiguration"`: Contains details about the server-side encryption
   for the data source.
@@ -375,6 +384,7 @@ function create_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source(
     dataSourceConfiguration,
     knowledgeBaseId,
@@ -424,8 +434,8 @@ in the Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
   the flow.
 - `"definition"`: A definition of the nodes and connections between nodes in the flow.
@@ -447,6 +457,7 @@ function create_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow(
     executionRoleArn,
     name,
@@ -490,8 +501,8 @@ in the Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description for the alias.
 - `"tags"`: Any tags that you want to attach to the alias of the flow. For more
   information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
@@ -514,6 +525,7 @@ function create_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow_alias(
     flowIdentifier,
     name,
@@ -556,8 +568,8 @@ in the Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the version of the flow.
 """
 function create_flow_version(
@@ -571,6 +583,7 @@ function create_flow_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow_version(
     flowIdentifier,
     params::AbstractDict{String};
@@ -597,22 +610,22 @@ configure a supported vector store. For more information, see [Set up your data 
 
 !!! note
     If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon
-OpenSearch Service, use the console. For more information, see [Create a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create).
+    OpenSearch Service, use the console. For more information, see [Create a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create).
+
 - Provide the `name` and an optional `description`.
- - Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in
-the `roleArn` field.
- - Provide the embedding model to use in the `embeddingModelArn` field in the
-`knowledgeBaseConfiguration` object.
- - Provide the configuration for your vector store in the `storageConfiguration` object.
-<ul> <li>For an Amazon OpenSearch Service database, use the
-`opensearchServerlessConfiguration` object. For more information, see [Create a vector store in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
- - For an Amazon Aurora database, use the `RdsConfiguration` object. For more information,
-see [Create a vector store in Amazon Aurora](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html).
- - For a Pinecone database, use the `pineconeConfiguration` object. For more information,
-see [Create a vector store in Pinecone](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html).
- - For a Redis Enterprise Cloud database, use the `redisEnterpriseCloudConfiguration`
-object. For more information, see [Create a vector store in Redis Enterprise Cloud](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-redis.html).
- </li> </ul>
+- Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the
+  `roleArn` field.
+- Provide the embedding model to use in the `embeddingModelArn` field in the
+  `knowledgeBaseConfiguration` object.
+- Provide the configuration for your vector store in the `storageConfiguration` object.   -
+  For an Amazon OpenSearch Service database, use the `opensearchServerlessConfiguration`
+  object. For more information, see [Create a vector store in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
+  - For an Amazon Aurora database, use the `RdsConfiguration` object. For more information,
+    see [Create a vector store in Amazon Aurora](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html).
+  - For a Pinecone database, use the `pineconeConfiguration` object. For more information,
+    see [Create a vector store in Pinecone](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html).
+  - For a Redis Enterprise Cloud database, use the `redisEnterpriseCloudConfiguration`
+    object. For more information, see [Create a vector store in Redis Enterprise Cloud](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-redis.html).
 
 # Arguments
 
@@ -629,8 +642,8 @@ object. For more information, see [Create a vector store in Redis Enterprise Clo
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the knowledge base.
 - `"tags"`: Specify the key-value pairs for the tags that you want to attach to your
   knowledge base in this object.
@@ -656,6 +669,7 @@ function create_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_knowledge_base(
     knowledgeBaseConfiguration,
     name,
@@ -704,8 +718,8 @@ in the Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
   the prompt.
 - `"defaultVariant"`: The name of the default variant for the prompt. This value must match
@@ -724,6 +738,7 @@ function create_prompt(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_prompt(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -760,8 +775,8 @@ in the Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description for the version of the prompt.
 - `"tags"`: Any tags that you want to attach to the version of the prompt. For more
   information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
@@ -777,6 +792,7 @@ function create_prompt_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_prompt_version(
     promptIdentifier,
     params::AbstractDict{String};
@@ -808,8 +824,8 @@ Deletes an agent.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
-  the resource is in use. If you set it to `true`, the resource will be deleted even if the
-  resource is in use.
+  the resource is in use. If you set it to `true`, the resource will be deleted even if
+  the resource is in use.
 """
 function delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
@@ -819,6 +835,7 @@ function delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent(
     agentId,
     params::AbstractDict{String};
@@ -850,8 +867,8 @@ Deletes an action group in an agent.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
-  the resource is in use. If you set it to `true`, the resource will be deleted even if the
-  resource is in use.
+  the resource is in use. If you set it to `true`, the resource will be deleted even if
+  the resource is in use.
 """
 function delete_agent_action_group(
     actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -863,6 +880,7 @@ function delete_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent_action_group(
     actionGroupId,
     agentId,
@@ -900,6 +918,7 @@ function delete_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent_alias(
     agentAliasId,
     agentId,
@@ -931,8 +950,8 @@ Deletes a version of an agent.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
-  the resource is in use. If you set it to `true`, the resource will be deleted even if the
-  resource is in use.
+  the resource is in use. If you set it to `true`, the resource will be deleted even if
+  the resource is in use.
 """
 function delete_agent_version(
     agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -944,6 +963,7 @@ function delete_agent_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent_version(
     agentId,
     agentVersion,
@@ -981,6 +1001,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     dataSourceId,
     knowledgeBaseId,
@@ -1011,8 +1032,8 @@ Deletes a flow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
-  the resource is in use. If you set it to `true`, the resource will be deleted even if the
-  resource is in use.
+  the resource is in use. If you set it to `true`, the resource will be deleted even if
+  the resource is in use.
 """
 function delete_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
@@ -1022,6 +1043,7 @@ function delete_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow(
     flowIdentifier,
     params::AbstractDict{String};
@@ -1057,6 +1079,7 @@ function delete_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow_alias(
     aliasIdentifier,
     flowIdentifier,
@@ -1088,8 +1111,8 @@ Deletes a version of a flow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
-  the resource is in use. If you set it to `true`, the resource will be deleted even if the
-  resource is in use.
+  the resource is in use. If you set it to `true`, the resource will be deleted even if
+  the resource is in use.
 """
 function delete_flow_version(
     flowIdentifier, flowVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1101,6 +1124,7 @@ function delete_flow_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow_version(
     flowIdentifier,
     flowVersion,
@@ -1138,6 +1162,7 @@ function delete_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1180,6 +1205,7 @@ function delete_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_prompt(
     promptIdentifier,
     params::AbstractDict{String};
@@ -1220,6 +1246,7 @@ function disassociate_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -1251,6 +1278,7 @@ function get_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_agent(
     agentId,
     params::AbstractDict{String};
@@ -1287,6 +1315,7 @@ function get_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_action_group(
     actionGroupId,
     agentId,
@@ -1325,6 +1354,7 @@ function get_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_alias(
     agentAliasId,
     agentId,
@@ -1367,6 +1397,7 @@ function get_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -1404,6 +1435,7 @@ function get_agent_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_version(
     agentId,
     agentVersion,
@@ -1441,6 +1473,7 @@ function get_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     dataSourceId,
     knowledgeBaseId,
@@ -1475,6 +1508,7 @@ function get_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow(
     flowIdentifier,
     params::AbstractDict{String};
@@ -1511,6 +1545,7 @@ function get_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow_alias(
     aliasIdentifier,
     flowIdentifier,
@@ -1548,6 +1583,7 @@ function get_flow_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow_version(
     flowIdentifier,
     flowVersion,
@@ -1589,6 +1625,7 @@ function get_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ingestion_job(
     dataSourceId,
     ingestionJobId,
@@ -1626,6 +1663,7 @@ function get_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1659,7 +1697,8 @@ in the Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"promptVersion"`: The version of the prompt about which you want to retrieve
-  information. Omit this field to return information about the working draft of the prompt.
+  information. Omit this field to return information about the working draft of the
+  prompt.
 """
 function get_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
@@ -1669,6 +1708,7 @@ function get_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_prompt(
     promptIdentifier,
     params::AbstractDict{String};
@@ -1715,6 +1755,7 @@ function list_agent_action_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_action_groups(
     agentId,
     agentVersion,
@@ -1759,6 +1800,7 @@ function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_aliases(
     agentId,
     params::AbstractDict{String};
@@ -1807,6 +1849,7 @@ function list_agent_knowledge_bases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_knowledge_bases(
     agentId,
     agentVersion,
@@ -1851,6 +1894,7 @@ function list_agent_versions(agentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_versions(
     agentId,
     params::AbstractDict{String};
@@ -1887,6 +1931,7 @@ function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1927,6 +1972,7 @@ function list_data_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1972,6 +2018,7 @@ function list_flow_aliases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_flow_aliases(
     flowIdentifier,
     params::AbstractDict{String};
@@ -2018,6 +2065,7 @@ function list_flow_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_flow_versions(
     flowIdentifier,
     params::AbstractDict{String};
@@ -2055,6 +2103,7 @@ function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/flows/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_flows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2099,6 +2148,7 @@ function list_ingestion_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ingestion_jobs(
     dataSourceId,
     knowledgeBaseId,
@@ -2136,6 +2186,7 @@ function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_knowledge_bases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2175,6 +2226,7 @@ function list_prompts(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prompts/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_prompts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2203,6 +2255,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2235,6 +2288,7 @@ function prepare_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function prepare_agent(
     agentId,
     params::AbstractDict{String};
@@ -2269,6 +2323,7 @@ function prepare_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function prepare_flow(
     flowIdentifier,
     params::AbstractDict{String};
@@ -2300,8 +2355,8 @@ Begins an ingestion job, in which a data source is added to a knowledge base.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the ingestion job.
 """
 function start_ingestion_job(
@@ -2315,6 +2370,7 @@ function start_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_ingestion_job(
     dataSourceId,
     knowledgeBaseId,
@@ -2354,6 +2410,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2391,6 +2448,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2434,8 +2492,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about a user's conversation with the agent.
 
   A user interaction remains active for the amount of time specified. If no conversation
-  occurs during this time, the session expires and Amazon Bedrock deletes any data provided
-  before the timeout.
+  occurs during this time, the session expires and Amazon Bedrock deletes any data
+  provided before the timeout.
 - `"instruction"`: Specifies new instructions that tell the agent what it should do and how
   it should interact with users.
 - `"memoryConfiguration"`: Specifies the new memory configuration for the agent.
@@ -2461,6 +2519,7 @@ function update_agent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent(
     agentId,
     agentName,
@@ -2512,8 +2571,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invoke or not when sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
   request.
 - `"apiSchema"`: Contains either details about the S3 object containing the OpenAPI schema
-  for the action group or the JSON or YAML-formatted payload defining the schema. For more
-  information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
+  for the action group or the JSON or YAML-formatted payload defining the schema. For
+  more information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
 - `"description"`: Specifies a new name for the action group.
 - `"functionSchema"`: Contains details about the function schema for the action group or
   the JSON or YAML-formatted payload defining the schema.
@@ -2542,6 +2601,7 @@ function update_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent_action_group(
     actionGroupId,
     actionGroupName,
@@ -2596,6 +2656,7 @@ function update_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent_alias(
     agentAliasId,
     agentAliasName,
@@ -2652,6 +2713,7 @@ function update_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -2676,7 +2738,7 @@ Updates the configurations for a data source connector.
 
 !!! important
     You can't change the `chunkingConfiguration` after you create the data source
-connector. Specify the existing `chunkingConfiguration`.
+    connector. Specify the existing `chunkingConfiguration`.
 
 # Arguments
 
@@ -2715,6 +2777,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     dataSourceConfiguration,
     dataSourceId,
@@ -2781,6 +2844,7 @@ function update_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow(
     executionRoleArn,
     flowIdentifier,
@@ -2839,6 +2903,7 @@ function update_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow_alias(
     aliasIdentifier,
     flowIdentifier,
@@ -2872,9 +2937,12 @@ Updates the configuration of a knowledge base with the fields that you specify. 
 fields will be overwritten, you must include the same values for fields that you want to
 keep the same.
 
-You can change the following fields: - `name`
- - `description`
- - `roleArn`
+You can change the following fields:
+
+- `name`
+- `description`
+- `roleArn`
+
 You can't change the `knowledgeBaseConfiguration` or `storageConfiguration` fields, so you
 must specify the same configurations as when you created the knowledge base. You can send a
 [GetKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetKnowledgeBase.html)
@@ -2920,6 +2988,7 @@ function update_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_knowledge_base(
     knowledgeBaseConfiguration,
     knowledgeBaseId,
@@ -2986,6 +3055,7 @@ function update_prompt(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_prompt(
     name,
     promptIdentifier,

@@ -20,7 +20,7 @@ client ID to the provider.
   provider resource.
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect
   (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider
-  ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
+  ARNs by using the [`list_open_idconnect_providers`](@ref) operation.
 """
 function add_client_idto_open_idconnect_provider(
     ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -34,6 +34,7 @@ function add_client_idto_open_idconnect_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_client_idto_open_idconnect_provider(
     ClientID,
     OpenIDConnectProviderArn,
@@ -71,7 +72,9 @@ or you can stop your instance and then restart it.
 
 !!! note
     The caller of this operation must be granted the `PassRole` permission on the IAM role
-by a permissions policy. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+    by a permissions policy.
+
+For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 in the *IAM User Guide*. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)
 in the *IAM User Guide*.
 
@@ -100,6 +103,7 @@ function add_role_to_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_role_to_instance_profile(
     InstanceProfileName,
     RoleName,
@@ -151,6 +155,7 @@ function add_user_to_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_user_to_group(
     GroupName,
     UserName,
@@ -178,7 +183,7 @@ end
 Attaches the specified managed policy to the specified IAM group.
 
 You use this operation to attach a managed policy to a group. To embed an inline policy in
-a group, use [ `PutGroupPolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutGroupPolicy.html).
+a group, use [`PutGroupPolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutGroupPolicy.html).
 
 As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html)
 in the *IAM User Guide*.
@@ -208,6 +213,7 @@ function attach_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_group_policy(
     GroupName,
     PolicyArn,
@@ -233,19 +239,19 @@ end
     attach_role_policy(policy_arn, role_name, params::Dict{String,<:Any})
 
 Attaches the specified managed policy to the specified IAM role. When you attach a managed
-policy to a role, the managed policy becomes part of the role's permission (access)
-policy.</p>
+policy to a role, the managed policy becomes part of the role's permission (access) policy.
 
 !!! note
     You cannot use a managed policy as the role's trust policy. The role's trust policy is
-created at the same time as the role, using [ `CreateRole` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html).
-You can update a role's trust policy using [ `UpdateAssumerolePolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html).Use
-this operation to attach a *managed* policy to a role. To embed an inline policy in a role,
-use [ `PutRolePolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html).
+    created at the same time as the role, using [`CreateRole`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html).
+    You can update a role's trust policy using [`UpdateAssumerolePolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html).
+
+Use this operation to attach a *managed* policy to a role. To embed an inline policy in a
+role, use [`PutRolePolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html).
 For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
- <p>As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html)
+As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -270,6 +276,7 @@ function attach_role_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_role_policy(
     PolicyArn,
     RoleName,
@@ -297,7 +304,7 @@ end
 Attaches the specified managed policy to the specified user.
 
 You use this operation to attach a *managed* policy to a user. To embed an inline policy in
-a user, use [ `PutUserPolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html).
+a user, use [`PutUserPolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html).
 
 As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html)
 in the *IAM User Guide*.
@@ -327,6 +334,7 @@ function attach_user_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_user_policy(
     PolicyArn,
     UserName,
@@ -356,9 +364,9 @@ performed using the CLI, the Amazon Web Services API, or the **My Security Crede
 page in the Amazon Web Services Management Console. The Amazon Web Services account root
 user password is not affected by this operation.
 
-Use <a>UpdateLoginProfile</a> to use the CLI, the Amazon Web Services API, or the **Users**
-page in the IAM console to change the password for any IAM user. For more information about
-modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
+Use [`update_login_profile`](@ref) to use the CLI, the Amazon Web Services API, or the
+**Users** page in the IAM console to change the password for any IAM user. For more
+information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -370,9 +378,10 @@ in the *IAM User Guide*.
   parameter is a string of characters. That string can include almost any printable ASCII
   character from the space (`\\u0020`) through the end of the ASCII character range
   (`\\u00FF`). You can also include the tab (`\\u0009`), line feed (`\\u000A`), and
-  carriage return (`\\u000D`) characters. Any of these characters are valid in a password.
-  However, many tools, such as the Amazon Web Services Management Console, might restrict
-  the ability to type certain characters because they have special meaning within that tool.
+  carriage return (`\\u000D`) characters. Any of these characters are valid in a
+  password. However, many tools, such as the Amazon Web Services Management Console,
+  might restrict the ability to type certain characters because they have special meaning
+  within that tool.
 - `old_password`: The IAM user's current password.
 """
 function change_password(
@@ -385,6 +394,7 @@ function change_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_password(
     NewPassword,
     OldPassword,
@@ -411,7 +421,7 @@ end
     create_access_key()
     create_access_key(params::Dict{String,<:Any})
 
- Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services
+Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services
 access key ID for the specified user. The default status for new keys is `Active`.
 
 If you do not specify a user name, IAM determines the user name implicitly based on the
@@ -420,14 +430,14 @@ under the Amazon Web Services account. Consequently, you can use this operation 
 Amazon Web Services account root user credentials. This is true even if the Amazon Web
 Services account has no associated users.
 
- For information about quotas on the number of keys you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
+For information about quotas on the number of keys you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
 in the *IAM User Guide*.
 
 !!! important
     To ensure the security of your Amazon Web Services account, the secret access key is
-accessible only during key and user creation. You must save the key (for example, in a text
-file) if you want to be able to access it again. If a secret key is lost, you can delete
-the access keys for the associated user and then create new keys.
+    accessible only during key and user creation. You must save the key (for example, in a
+    text file) if you want to be able to access it again. If a secret key is lost, you can
+    delete the access keys for the associated user and then create new keys.
 
 # Optional Parameters
 
@@ -442,6 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_access_key(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("CreateAccessKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_access_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -476,6 +487,7 @@ function create_account_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account_alias(
     AccountAlias,
     params::AbstractDict{String};
@@ -497,31 +509,31 @@ end
 
 Creates a new group.
 
- For information about the number of groups you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
+For information about the number of groups you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
 in the *IAM User Guide*.
 
 # Arguments
 
 - `group_name`: The name of the group to create. Do not include the path in this value.
 
-  IAM user, group, role, and policy names must be unique within the account. Names are not
-  distinguished by case. For example, you cannot create resources named both "MyResource"
-  and "myresource".
+  IAM user, group, role, and policy names must be unique within the account. Names are
+  not distinguished by case. For example, you cannot create resources named both
+  "MyResource" and "myresource".
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Path"`:  The path to the group. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
+- `"Path"`: The path to the group. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
   in the *IAM User Guide*.
 
   This parameter is optional. If it is not included, it defaults to a slash (/).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 """
 function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -531,6 +543,7 @@ function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     GroupName,
     params::AbstractDict{String};
@@ -550,11 +563,11 @@ end
     create_instance_profile(instance_profile_name)
     create_instance_profile(instance_profile_name, params::Dict{String,<:Any})
 
- Creates a new instance profile. For information about instance profiles, see [Using roles for applications on Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html)
+Creates a new instance profile. For information about instance profiles, see [Using roles for applications on Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html)
 in the *IAM User Guide*, and [Instance profiles](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#ec2-instance-profile)
 in the *Amazon EC2 User Guide*.
 
- For information about the number of instance profiles you can create, see [IAM object quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
+For information about the number of instance profiles you can create, see [IAM object quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -569,16 +582,16 @@ in the *IAM User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Path"`:  The path to the instance profile. For more information about paths, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
+- `"Path"`: The path to the instance profile. For more information about paths, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
   in the *IAM User Guide*.
 
   This parameter is optional. If it is not included, it defaults to a slash (/).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"Tags"`: A list of tags that you want to attach to the newly created IAM instance
   profile. Each tag consists of a key name and an associated value. For more information
   about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
@@ -586,7 +599,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 """
 function create_instance_profile(
     InstanceProfileName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -598,6 +612,7 @@ function create_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_profile(
     InstanceProfileName,
     params::AbstractDict{String};
@@ -625,7 +640,7 @@ Creates a password for the specified IAM user. A password allows an IAM user to 
 Amazon Web Services services through the Amazon Web Services Management Console.
 
 You can use the CLI, the Amazon Web Services API, or the **Users** page in the IAM console
-to create a password for any IAM user. Use <a>ChangePassword</a> to update your own
+to create a password for any IAM user. Use [`change_password`](@ref) to update your own
 existing password in the **My Security Credentials** page in the Amazon Web Services
 Management Console.
 
@@ -640,9 +655,10 @@ in the *IAM User Guide*.
   parameter is a string of characters. That string can include almost any printable ASCII
   character from the space (`\\u0020`) through the end of the ASCII character range
   (`\\u00FF`). You can also include the tab (`\\u0009`), line feed (`\\u000A`), and
-  carriage return (`\\u000D`) characters. Any of these characters are valid in a password.
-  However, many tools, such as the Amazon Web Services Management Console, might restrict
-  the ability to type certain characters because they have special meaning within that tool.
+  carriage return (`\\u000D`) characters. Any of these characters are valid in a
+  password. However, many tools, such as the Amazon Web Services Management Console,
+  might restrict the ability to type certain characters because they have special meaning
+  within that tool.
 - `user_name`: The name of the IAM user to create a password for. The user must already
   exist.
 
@@ -667,6 +683,7 @@ function create_login_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_login_profile(
     Password,
     UserName,
@@ -703,34 +720,36 @@ already built-in to Amazon Web Services and are available for your use. Instead,
 move directly to creating new roles using your identity provider. To learn more, see [Creating a role for web identity or OpenID connect federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_oidc.html)
 in the *IAM User Guide*.
 
-When you create the IAM OIDC provider, you specify the following: - The URL of the OIDC
-identity provider (IdP) to trust
- - A list of client IDs (also known as audiences) that identify the application or
-applications allowed to authenticate using the OIDC provider
- - A list of tags that are attached to the specified IAM OIDC provider
- - A list of thumbprints of one or more server certificates that the IdP uses
+When you create the IAM OIDC provider, you specify the following:
+
+- The URL of the OIDC identity provider (IdP) to trust
+- A list of client IDs (also known as audiences) that identify the application or
+  applications allowed to authenticate using the OIDC provider
+- A list of tags that are attached to the specified IAM OIDC provider
+- A list of thumbprints of one or more server certificates that the IdP uses
+
 You get all of this information from the OIDC IdP you want to use to access Amazon Web
 Services.
 
 !!! note
     Amazon Web Services secures communication with OIDC identity providers (IdPs) using our
-library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS)
-endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed by
-one of these trusted CAs, only then we secure communication using the thumbprints set in
-the IdP's configuration.
+    library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set
+    (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not
+    signed by one of these trusted CAs, only then we secure communication using the
+    thumbprints set in the IdP's configuration.
 
 !!! note
     The trust for the OIDC provider is derived from the IAM provider that this operation
-creates. Therefore, it is best to limit access to the <a>CreateOpenIDConnectProvider</a>
-operation to highly privileged users.
+    creates. Therefore, it is best to limit access to the [`create_open_idconnect_provider`](@ref)
+    operation to highly privileged users.
 
 # Arguments
 
 - `url`: The URL of the identity provider. The URL must begin with `https://` and should
   correspond to the `iss` claim in the provider's OpenID Connect ID tokens. Per the OIDC
   standard, path components are allowed but query parameters are not. Typically the URL
-  consists of only a hostname, like `https://server.example.org` or `https://example.com`.
-  The URL should not contain a port number.
+  consists of only a hostname, like `https://server.example.org` or
+  `https://example.com`. The URL should not contain a port number.
 
   You cannot register the same provider multiple times in a single Amazon Web Services
   account. If you try to submit a URL that has already been used for an OpenID Connect
@@ -742,14 +761,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientIDList"`: Provides a list of client IDs, also known as audiences. When a mobile
   or web app registers with an OpenID Connect provider, they establish a value that
-  identifies the application. This is the value that's sent as the `client_id` parameter on
-  OAuth requests.
+  identifies the application. This is the value that's sent as the `client_id` parameter
+  on OAuth requests.
 
-  You can register multiple client IDs with the same provider. For example, you might have
-  multiple applications that use the same OIDC provider. You cannot register more than 100
-  client IDs with a single IAM OIDC provider.
+  You can register multiple client IDs with the same provider. For example, you might
+  have multiple applications that use the same OIDC provider. You cannot register more
+  than 100 client IDs with a single IAM OIDC provider.
 
-  There is no defined format for a client ID. The `CreateOpenIDConnectProviderRequest`
+  There is no defined format for a client ID. The [`create_open_idconnect_provider_request`](@ref)
   operation accepts client IDs up to 255 characters long.
 - `"Tags"`: A list of tags that you want to attach to the new IAM OpenID Connect (OIDC)
   provider. Each tag consists of a key name and an associated value. For more information
@@ -758,11 +777,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 - `"ThumbprintList"`: A list of server certificate thumbprints for the OpenID Connect
   (OIDC) identity provider's server certificates. Typically this list includes only one
-  entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets
-  you maintain multiple thumbprints if the identity provider is rotating certificates.
+  entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This
+  lets you maintain multiple thumbprints if the identity provider is rotating
+  certificates.
 
   This parameter is optional. If it is not included, IAM will retrieve and use the top
   intermediate certificate authority (CA) thumbprint of the OpenID Connect identity
@@ -790,6 +811,7 @@ function create_open_idconnect_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_open_idconnect_provider(
     Url, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -826,25 +848,28 @@ in the *IAM User Guide*.
   formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation
   always converts a YAML policy to JSON format before submitting it to IAM.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
   To learn more about JSON policy grammar, see [Grammar of the IAM JSON policy language](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_grammar.html)
   in the *IAM User Guide*.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `policy_name`: The friendly name of the policy.
 
-  IAM user, group, role, and policy names must be unique within the account. Names are not
-  distinguished by case. For example, you cannot create resources named both "MyResource"
-  and "myresource".
+  IAM user, group, role, and policy names must be unique within the account. Names are
+  not distinguished by case. For example, you cannot create resources named both
+  "MyResource" and "myresource".
 
 # Optional Parameters
 
@@ -855,7 +880,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Typically used to store information about the permissions defined in the policy. For
   example, "Grants access to production DynamoDB tables."
 
-The policy description is immutable. After a value is assigned, it cannot be changed.
+  The policy description is immutable. After a value is assigned, it cannot be changed.
 - `"Path"`: The path for the policy.
 
   For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
@@ -864,13 +889,14 @@ The policy description is immutable. After a value is assigned, it cannot be cha
   This parameter is optional. If it is not included, it defaults to a slash (/).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 
-!!! note
-    You cannot use an asterisk (*) in the path name.
+  !!! note
+      You cannot use an asterisk (*) in the path name.
+
 - `"Tags"`: A list of tags that you want to attach to the new IAM customer managed policy.
   Each tag consists of a key name and an associated value. For more information about
   tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
@@ -878,7 +904,8 @@ The policy description is immutable. After a value is assigned, it cannot be cha
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 """
 function create_policy(
     PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -890,6 +917,7 @@ function create_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy(
     PolicyDocument,
     PolicyName,
@@ -918,7 +946,7 @@ end
 
 Creates a new version of the specified managed policy. To update a managed policy, you
 create a new policy version. A managed policy can have up to five versions. If the policy
-has five versions, you must delete an existing version using <a>DeletePolicyVersion</a>
+has five versions, you must delete an existing version using [`delete_policy_version`](@ref)
 before you create a new version.
 
 Optionally, you can set the new version as the policy's default version. The default
@@ -942,17 +970,19 @@ in the *IAM User Guide*.
   formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation
   always converts a YAML policy to JSON format before submitting it to IAM.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
 
 # Optional Parameters
 
@@ -960,9 +990,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SetAsDefault"`: Specifies whether to set this version as the policy's default version.
 
-  When this parameter is `true`, the new policy version becomes the operative version. That
-  is, it becomes the version that is in effect for the IAM users, groups, and roles that
-  the policy is attached to.
+  When this parameter is `true`, the new policy version becomes the operative version.
+  That is, it becomes the version that is in effect for the IAM users, groups, and roles
+  that the policy is attached to.
 
   For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html)
   in the *IAM User Guide*.
@@ -977,6 +1007,7 @@ function create_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy_version(
     PolicyArn,
     PolicyDocument,
@@ -1005,7 +1036,7 @@ end
 
 Creates a new role for your Amazon Web Services account.
 
- For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 in the *IAM User Guide*. For information about quotas for role names and the number of
 roles you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
 in the *IAM User Guide*.
@@ -1015,24 +1046,27 @@ in the *IAM User Guide*.
 - `assume_role_policy_document`: The trust relationship policy document that grants an
   entity permission to assume the role.
 
-  In IAM, you must provide a JSON policy that has been converted to a string. However, for
-  CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML
-  format. CloudFormation always converts a YAML policy to JSON format before submitting it
-  to IAM.
+  In IAM, you must provide a JSON policy that has been converted to a string. However,
+  for CloudFormation templates formatted in YAML, you can provide the policy in JSON or
+  YAML format. CloudFormation always converts a YAML policy to JSON format before
+  submitting it to IAM.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
- Upon success, the response includes the same trust policy in JSON format.
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
+  Upon success, the response includes the same trust policy in JSON format.
 - `role_name`: The name of the role to create.
 
-  IAM user, group, role, and policy names must be unique within the account. Names are not
-  distinguished by case. For example, you cannot create resources named both "MyResource"
-  and "myresource".
+  IAM user, group, role, and policy names must be unique within the account. Names are
+  not distinguished by case. For example, you cannot create resources named both
+  "MyResource" and "myresource".
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -1044,28 +1078,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the role.
 - `"MaxSessionDuration"`: The maximum session duration (in seconds) that you want to set
-  for the specified role. If you do not specify a value for this setting, the default value
-  of one hour is applied. This setting can have a value from 1 hour to 12 hours.
+  for the specified role. If you do not specify a value for this setting, the default
+  value of one hour is applied. This setting can have a value from 1 hour to 12 hours.
 
   Anyone who assumes the role from the CLI or API can use the `DurationSeconds` API
   parameter or the `duration-seconds` CLI parameter to request a longer session. The
-  `MaxSessionDuration` setting determines the maximum duration that can be requested using
-  the `DurationSeconds` parameter. If users don't specify a value for the `DurationSeconds`
-  parameter, their security credentials are valid for one hour by default. This applies
-  when you use the `AssumeRole*` API operations or the `assume-role*` CLI operations but
-  does not apply when you use those operations to create a console URL. For more
-  information, see [Using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
+  `MaxSessionDuration` setting determines the maximum duration that can be requested
+  using the `DurationSeconds` parameter. If users don't specify a value for the
+  `DurationSeconds` parameter, their security credentials are valid for one hour by
+  default. This applies when you use the `AssumeRole*` API operations or the
+  `assume-role*` CLI operations but does not apply when you use those operations to
+  create a console URL. For more information, see [Using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
   in the *IAM User Guide*.
-- `"Path"`:  The path to the role. For more information about paths, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
+- `"Path"`: The path to the role. For more information about paths, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
   in the *IAM User Guide*.
 
   This parameter is optional. If it is not included, it defaults to a slash (/).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"PermissionsBoundary"`: The ARN of the managed policy that is used to set the
   permissions boundary for the role.
 
@@ -1075,7 +1109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
   in the *IAM User Guide*.
 
-  For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
+  For more information about policy types, see [Policy types](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
   in the *IAM User Guide*.
 - `"Tags"`: A list of tags that you want to attach to the new role. Each tag consists of a
   key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
@@ -1083,7 +1117,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 """
 function create_role(
     AssumeRolePolicyDocument, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1097,6 +1132,7 @@ function create_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_role(
     AssumeRolePolicyDocument,
     RoleName,
@@ -1140,6 +1176,7 @@ that is used as your organization's IdP.
 
 !!! note
     This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+
 For more information, see [Enabling SAML 2.0 federated users to access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html)
 and [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html)
 in the *IAM User Guide*.
@@ -1153,8 +1190,8 @@ in the *IAM User Guide*.
   spaces. You can also include any of the following characters: _+=,.@-
 - `samlmetadata_document`: An XML document generated by an identity provider (IdP) that
   supports SAML 2.0. The document includes the issuer's name, expiration information, and
-  keys that can be used to validate the SAML authentication response (assertions) that are
-  received from the IdP. You must generate the metadata document using the identity
+  keys that can be used to validate the SAML authentication response (assertions) that
+  are received from the IdP. You must generate the metadata document using the identity
   management software that is used as your organization's IdP.
 
   For more information, see [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html)
@@ -1165,12 +1202,14 @@ in the *IAM User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Tags"`: A list of tags that you want to attach to the new IAM SAML provider. Each tag
-  consists of a key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+  consists of a key name and an associated value. For more information about tagging, see
+  [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
   in the *IAM User Guide*.
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 """
 function create_samlprovider(
     Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1182,6 +1221,7 @@ function create_samlprovider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_samlprovider(
     Name,
     SAMLMetadataDocument,
@@ -1225,21 +1265,21 @@ Web Services service that depends on this role.
   this role is attached. You use a string similar to a URL but without the http:// in
   front. For example: `elasticbeanstalk.amazonaws.com`.
 
-  Service principals are unique and case-sensitive. To find the exact service principal for
-  your service-linked role, see [Amazon Web Services services that work with IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html)
-  in the *IAM User Guide*. Look for the services that have **Yes **in the **Service-Linked
-  Role** column. Choose the **Yes** link to view the service-linked role documentation for
-  that service.
+  Service principals are unique and case-sensitive. To find the exact service principal
+  for your service-linked role, see [Amazon Web Services services that work with IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html)
+  in the *IAM User Guide*. Look for the services that have **Yes**in the **Service-Linked
+  Role** column. Choose the **Yes** link to view the service-linked role documentation
+  for that service.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CustomSuffix"`: <p/>A string that you provide, which is combined with the service-
-  provided prefix to form the complete role name. If you make multiple requests for the
-  same service, then you must supply a different `CustomSuffix` for each request. Otherwise
-  the request fails with a duplicate role name error. For example, you could add `-1` or `-
-  debug` to the suffix.
+- `"CustomSuffix"`: A string that you provide, which is combined with the service-provided
+  prefix to form the complete role name. If you make multiple requests for the same
+  service, then you must supply a different `CustomSuffix` for each request. Otherwise
+  the request fails with a duplicate role name error. For example, you could add `-1` or
+  `-debug` to the suffix.
 
   Some services do not support the `CustomSuffix` parameter. If you provide an optional
   suffix and the operation fails, try the operation again without the suffix.
@@ -1255,6 +1295,7 @@ function create_service_linked_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_linked_role(
     AWSServiceName,
     params::AbstractDict{String};
@@ -1284,8 +1325,7 @@ service per user.
 You can create service-specific credentials for CodeCommit and Amazon Keyspaces (for Apache
 Cassandra).
 
-You can reset the password to a new service-generated value by calling
-<a>ResetServiceSpecificCredential</a>.
+You can reset the password to a new service-generated value by calling [`reset_service_specific_credential`](@ref).
 
 For more information about service-specific credentials, see [Using IAM with CodeCommit: Git credentials, SSH keys, and Amazon Web Services access keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html)
 in the *IAM User Guide*.
@@ -1296,8 +1336,8 @@ in the *IAM User Guide*.
   the credentials. The service you specify here is the only service that can be accessed
   using these credentials.
 - `user_name`: The name of the IAM user that is to be associated with the credentials. The
-  new service-specific credentials have the same permissions as the associated user except
-  that they can be used only to access the specified service.
+  new service-specific credentials have the same permissions as the associated user
+  except that they can be used only to access the specified service.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -1313,6 +1353,7 @@ function create_service_specific_credential(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_specific_credential(
     ServiceName,
     UserName,
@@ -1339,31 +1380,31 @@ end
 
 Creates a new IAM user for your Amazon Web Services account.
 
- For information about quotas for the number of IAM users you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
+For information about quotas for the number of IAM users you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
 in the *IAM User Guide*.
 
 # Arguments
 
 - `user_name`: The name of the user to create.
 
-  IAM user, group, role, and policy names must be unique within the account. Names are not
-  distinguished by case. For example, you cannot create resources named both "MyResource"
-  and "myresource".
+  IAM user, group, role, and policy names must be unique within the account. Names are
+  not distinguished by case. For example, you cannot create resources named both
+  "MyResource" and "myresource".
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Path"`:  The path for the user name. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
+- `"Path"`: The path for the user name. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
   in the *IAM User Guide*.
 
   This parameter is optional. If it is not included, it defaults to a slash (/).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"PermissionsBoundary"`: The ARN of the managed policy that is used to set the
   permissions boundary for the user.
 
@@ -1373,7 +1414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
   in the *IAM User Guide*.
 
-  For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
+  For more information about policy types, see [Policy types](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
   in the *IAM User Guide*.
 - `"Tags"`: A list of tags that you want to attach to the new user. Each tag consists of a
   key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
@@ -1381,7 +1422,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 """
 function create_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -1391,6 +1433,7 @@ function create_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     UserName,
     params::AbstractDict{String};
@@ -1411,8 +1454,8 @@ end
     create_virtual_mfadevice(virtual_mfadevice_name, params::Dict{String,<:Any})
 
 Creates a new virtual MFA device for the Amazon Web Services account. After creating the
-virtual MFA, use <a>EnableMFADevice</a> to attach the MFA device to an IAM user. For more
-information about creating and working with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html)
+virtual MFA, use [`enable_mfadevice`](@ref) to attach the MFA device to an IAM user. For
+more information about creating and working with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html)
 in the *IAM User Guide*.
 
 For information about the maximum number of MFA devices you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
@@ -1420,10 +1463,10 @@ in the *IAM User Guide*.
 
 !!! important
     The seed information contained in the QR code and the Base32 string should be treated
-like any other secret access information. In other words, protect the seed information as
-you would your Amazon Web Services access keys or your passwords. After you provision your
-virtual device, you should ensure that the information is destroyed following secure
-procedures.
+    like any other secret access information. In other words, protect the seed information
+    as you would your Amazon Web Services access keys or your passwords. After you
+    provision your virtual device, you should ensure that the information is destroyed
+    following secure procedures.
 
 # Arguments
 
@@ -1438,16 +1481,16 @@ procedures.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Path"`:  The path for the virtual MFA device. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
+- `"Path"`: The path for the virtual MFA device. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
   in the *IAM User Guide*.
 
   This parameter is optional. If it is not included, it defaults to a slash (/).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"Tags"`: A list of tags that you want to attach to the new IAM virtual MFA device. Each
   tag consists of a key name and an associated value. For more information about tagging,
   see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
@@ -1455,7 +1498,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 """
 function create_virtual_mfadevice(
     VirtualMFADeviceName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1467,6 +1511,7 @@ function create_virtual_mfadevice(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_virtual_mfadevice(
     VirtualMFADeviceName,
     params::AbstractDict{String};
@@ -1520,6 +1565,7 @@ function deactivate_mfadevice(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_mfadevice(
     SerialNumber,
     UserName,
@@ -1578,6 +1624,7 @@ function delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_key(
     AccessKeyId,
     params::AbstractDict{String};
@@ -1597,7 +1644,7 @@ end
     delete_account_alias(account_alias)
     delete_account_alias(account_alias, params::Dict{String,<:Any})
 
- Deletes the specified Amazon Web Services account alias. For information about using an
+Deletes the specified Amazon Web Services account alias. For information about using an
 Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html)
 in the *Amazon Web Services Sign-In User Guide*.
 
@@ -1619,6 +1666,7 @@ function delete_account_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_alias(
     AccountAlias,
     params::AbstractDict{String};
@@ -1649,6 +1697,7 @@ function delete_account_password_policy(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_password_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1683,6 +1732,7 @@ function delete_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupName,
     params::AbstractDict{String};
@@ -1705,7 +1755,7 @@ end
 Deletes the specified inline policy that is embedded in the specified IAM group.
 
 A group can also have managed policies attached to it. To detach a managed policy from a
-group, use <a>DetachGroupPolicy</a>. For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+group, use [`detach_group_policy`](@ref). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -1732,6 +1782,7 @@ function delete_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group_policy(
     GroupName,
     PolicyName,
@@ -1761,9 +1812,10 @@ role.
 
 !!! important
     Make sure that you do not have any Amazon EC2 instances running with the instance
-profile you are about to delete. Deleting a role or instance profile that is associated
-with a running instance will break any applications running on the instance.For more
-information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)
+    profile you are about to delete. Deleting a role or instance profile that is associated
+    with a running instance will break any applications running on the instance.
+
+For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -1784,6 +1836,7 @@ function delete_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_profile(
     InstanceProfileName,
     params::AbstractDict{String};
@@ -1810,15 +1863,15 @@ end
 Deletes the password for the specified IAM user, For more information, see [Managing passwords for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_admin-change-user.html).
 
 You can use the CLI, the Amazon Web Services API, or the **Users** page in the IAM console
-to delete a password for any IAM user. You can use <a>ChangePassword</a> to update, but not
-delete, your own password in the **My Security Credentials** page in the Amazon Web
+to delete a password for any IAM user. You can use [`change_password`](@ref) to update, but
+not delete, your own password in the **My Security Credentials** page in the Amazon Web
 Services Management Console.
 
 !!! important
     Deleting a user's password does not prevent a user from accessing Amazon Web Services
-through the command line interface or the API. To prevent all user access, you must also
-either make any access keys inactive or delete them. For more information about making keys
-inactive or deleting them, see <a>UpdateAccessKey</a> and <a>DeleteAccessKey</a>.
+    through the command line interface or the API. To prevent all user access, you must
+    also either make any access keys inactive or delete them. For more information about
+    making keys inactive or deleting them, see [`update_access_key`](@ref) and [`delete_access_key`](@ref).
 
 # Arguments
 
@@ -1836,6 +1889,7 @@ function delete_login_profile(UserName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_login_profile(
     UserName,
     params::AbstractDict{String};
@@ -1868,7 +1922,7 @@ for a provider that does not exist.
 
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect
   provider resource object to delete. You can get a list of OpenID Connect provider
-  resource ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
+  resource ARNs by using the [`list_open_idconnect_providers`](@ref) operation.
 """
 function delete_open_idconnect_provider(
     OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1880,6 +1934,7 @@ function delete_open_idconnect_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_open_idconnect_provider(
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
@@ -1907,17 +1962,18 @@ Deletes the specified managed policy.
 
 Before you can delete a managed policy, you must first detach the policy from all users,
 groups, and roles that it is attached to. In addition, you must delete all the policy's
-versions. The following steps describe the process for deleting a managed policy: - Detach
-the policy from all users, groups, and roles that the policy is attached to, using
-<a>DetachUserPolicy</a>, <a>DetachGroupPolicy</a>, or <a>DetachRolePolicy</a>. To list all
-the users, groups, and roles that a policy is attached to, use
-<a>ListEntitiesForPolicy</a>.
- - Delete all versions of the policy using <a>DeletePolicyVersion</a>. To list the policy's
-versions, use <a>ListPolicyVersions</a>. You cannot use <a>DeletePolicyVersion</a> to
-delete the version that is marked as the default version. You delete the policy's default
-version in the next step of the process.
- - Delete the policy (this automatically deletes the policy's default version) using this
-operation.
+versions. The following steps describe the process for deleting a managed policy:
+
+- Detach the policy from all users, groups, and roles that the policy is attached to, using
+  [`detach_user_policy`](@ref), [`detach_group_policy`](@ref), or [`detach_role_policy`](@ref).
+  To list all the users, groups, and roles that a policy is attached to, use [`list_entities_for_policy`](@ref).
+- Delete all versions of the policy using [`delete_policy_version`](@ref). To list the
+  policy's versions, use [`list_policy_versions`](@ref). You cannot use [`delete_policy_version`](@ref)
+  to delete the version that is marked as the default version. You delete the policy's
+  default version in the next step of the process.
+- Delete the policy (this automatically deletes the policy's default version) using this
+  operation.
+
 For information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
@@ -1936,6 +1992,7 @@ function delete_policy(PolicyArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     PolicyArn,
     params::AbstractDict{String};
@@ -1958,8 +2015,8 @@ end
 Deletes the specified version from the specified managed policy.
 
 You cannot delete the default version from a policy using this operation. To delete the
-default version from a policy, use <a>DeletePolicy</a>. To find out which version of a
-policy is marked as the default version, use <a>ListPolicyVersions</a>.
+default version from a policy, use [`delete_policy`](@ref). To find out which version of a
+policy is marked as the default version, use [`list_policy_versions`](@ref).
 
 For information about versions for managed policies, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html)
 in the *IAM User Guide*.
@@ -1990,6 +2047,7 @@ function delete_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_version(
     PolicyArn,
     VersionId,
@@ -2017,18 +2075,17 @@ end
 Deletes the specified role. Unlike the Amazon Web Services Management Console, when you
 delete a role programmatically, you must delete the items attached to the role manually, or
 the deletion fails. For more information, see [Deleting an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_delete.html#roles-managingrole-deleting-cli).
-Before attempting to delete a role, remove the following attached items:  - Inline policies
-(<a>DeleteRolePolicy</a>)
- - Attached managed policies (<a>DetachRolePolicy</a>)
- - Instance profile (<a>RemoveRoleFromInstanceProfile</a>)
- - Optional – Delete instance profile after detaching from role for resource clean up
-(<a>DeleteInstanceProfile</a>)
+Before attempting to delete a role, remove the following attached items:
 
+- Inline policies ([`delete_role_policy`](@ref))
+- Attached managed policies ([`detach_role_policy`](@ref))
+- Instance profile ([`remove_role_from_instance_profile`](@ref))
+- Optional – Delete instance profile after detaching from role for resource clean up ([`delete_instance_profile`](@ref))
 
 !!! important
     Make sure that you do not have any Amazon EC2 instances running with the role you are
-about to delete. Deleting a role or instance profile that is associated with a running
-instance will break any applications running on the instance.
+    about to delete. Deleting a role or instance profile that is associated with a running
+    instance will break any applications running on the instance.
 
 # Arguments
 
@@ -2046,6 +2103,7 @@ function delete_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_role(
     RoleName,
     params::AbstractDict{String};
@@ -2071,8 +2129,8 @@ You cannot set the boundary for a service-linked role.
 
 !!! important
     Deleting the permissions boundary for a role might increase its permissions. For
-example, it might allow anyone who assumes the role to perform all the actions granted in
-its permissions policies.
+    example, it might allow anyone who assumes the role to perform all the actions granted
+    in its permissions policies.
 
 # Arguments
 
@@ -2089,6 +2147,7 @@ function delete_role_permissions_boundary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_role_permissions_boundary(
     RoleName,
     params::AbstractDict{String};
@@ -2111,7 +2170,7 @@ end
 Deletes the specified inline policy that is embedded in the specified IAM role.
 
 A role can also have managed policies attached to it. To detach a managed policy from a
-role, use <a>DetachRolePolicy</a>. For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+role, use [`detach_role_policy`](@ref). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -2138,6 +2197,7 @@ function delete_role_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_role_policy(
     PolicyName,
     RoleName,
@@ -2185,6 +2245,7 @@ function delete_samlprovider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_samlprovider(
     SAMLProviderArn,
     params::AbstractDict{String};
@@ -2214,12 +2275,12 @@ that can use the server certificates that you manage with IAM.
 
 !!! important
     If you are using a server certificate with Elastic Load Balancing, deleting the
-certificate could have implications for your application. If Elastic Load Balancing doesn't
-detect the deletion of bound certificates, it may continue to use the certificates. This
-could cause Elastic Load Balancing to stop accepting traffic. We recommend that you remove
-the reference to the certificate from Elastic Load Balancing before using this command to
-delete the certificate. For more information, see [DeleteLoadBalancerListeners](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html)
-in the *Elastic Load Balancing API Reference*.
+    certificate could have implications for your application. If Elastic Load Balancing
+    doesn't detect the deletion of bound certificates, it may continue to use the
+    certificates. This could cause Elastic Load Balancing to stop accepting traffic. We
+    recommend that you remove the reference to the certificate from Elastic Load Balancing
+    before using this command to delete the certificate. For more information, see [DeleteLoadBalancerListeners](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html)
+    in the *Elastic Load Balancing API Reference*.
 
 # Arguments
 
@@ -2239,6 +2300,7 @@ function delete_server_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_server_certificate(
     ServerCertificateName,
     params::AbstractDict{String};
@@ -2270,13 +2332,13 @@ role and an earlier deletion task is not complete, then the `DeletionTaskId` of 
 request is returned.
 
 If you submit a deletion request for a service-linked role whose linked service is still
-accessing a resource, then the deletion task fails. If it fails, the
-<a>GetServiceLinkedRoleDeletionStatus</a> operation returns the reason for the failure,
-usually including the resources that must be deleted. To delete the service-linked role,
-you must first remove those resources from the linked service and then submit the deletion
-request again. Resources are specific to the service that is linked to the role. For more
-information about removing resources from a service, see the [Amazon Web Services documentation](http://docs.aws.amazon.com/)
-for your service.
+accessing a resource, then the deletion task fails. If it fails, the [`get_service_linked_role_deletion_status`](@ref)
+operation returns the reason for the failure, usually including the resources that must be
+deleted. To delete the service-linked role, you must first remove those resources from the
+linked service and then submit the deletion request again. Resources are specific to the
+service that is linked to the role. For more information about removing resources from a
+service, see the [Amazon Web Services documentation](http://docs.aws.amazon.com/) for your
+service.
 
 For more information about service-linked roles, see [Roles terms and concepts: Amazon Web Services service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role)
 in the *IAM User Guide*.
@@ -2295,6 +2357,7 @@ function delete_service_linked_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_linked_role(
     RoleName,
     params::AbstractDict{String};
@@ -2319,7 +2382,7 @@ Deletes the specified service-specific credential.
 # Arguments
 
 - `service_specific_credential_id`: The unique identifier of the service-specific
-  credential. You can get this value by calling <a>ListServiceSpecificCredentials</a>.
+  credential. You can get this value by calling [`list_service_specific_credentials`](@ref).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters that can consist of any upper or lowercased letter or digit.
@@ -2329,8 +2392,8 @@ Deletes the specified service-specific credential.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"UserName"`: The name of the IAM user associated with the service-specific credential.
-  If this value is not specified, then the operation assumes the user whose credentials are
-  used to call the operation.
+  If this value is not specified, then the operation assumes the user whose credentials
+  are used to call the operation.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -2346,6 +2409,7 @@ function delete_service_specific_credential(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_specific_credential(
     ServiceSpecificCredentialId,
     params::AbstractDict{String};
@@ -2406,6 +2470,7 @@ function delete_signing_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_signing_certificate(
     CertificateId,
     params::AbstractDict{String};
@@ -2454,6 +2519,7 @@ function delete_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sshpublic_key(
     SSHPublicKeyId,
     UserName,
@@ -2483,17 +2549,17 @@ end
 Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you
 delete a user programmatically, you must delete the items attached to the user manually, or
 the deletion fails. For more information, see [Deleting an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli).
-Before attempting to delete a user, remove the following items: - Password
-(<a>DeleteLoginProfile</a>)
- - Access keys (<a>DeleteAccessKey</a>)
- - Signing certificate (<a>DeleteSigningCertificate</a>)
- - SSH public key (<a>DeleteSSHPublicKey</a>)
- - Git credentials (<a>DeleteServiceSpecificCredential</a>)
- - Multi-factor authentication (MFA) device (<a>DeactivateMFADevice</a>,
-<a>DeleteVirtualMFADevice</a>)
- - Inline policies (<a>DeleteUserPolicy</a>)
- - Attached managed policies (<a>DetachUserPolicy</a>)
- - Group memberships (<a>RemoveUserFromGroup</a>)
+Before attempting to delete a user, remove the following items:
+
+- Password ([`delete_login_profile`](@ref))
+- Access keys ([`delete_access_key`](@ref))
+- Signing certificate ([`delete_signing_certificate`](@ref))
+- SSH public key ([`delete_sshpublic_key`](@ref))
+- Git credentials ([`delete_service_specific_credential`](@ref))
+- Multi-factor authentication (MFA) device ([`deactivate_mfadevice`](@ref), [`delete_virtual_mfadevice`](@ref))
+- Inline policies ([`delete_user_policy`](@ref))
+- Attached managed policies ([`detach_user_policy`](@ref))
+- Group memberships ([`remove_user_from_group`](@ref))
 
 # Arguments
 
@@ -2511,6 +2577,7 @@ function delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     UserName,
     params::AbstractDict{String};
@@ -2534,7 +2601,7 @@ Deletes the permissions boundary for the specified IAM user.
 
 !!! important
     Deleting the permissions boundary for a user might increase its permissions by allowing
-the user to perform all the actions granted in its permissions policies.
+    the user to perform all the actions granted in its permissions policies.
 
 # Arguments
 
@@ -2551,6 +2618,7 @@ function delete_user_permissions_boundary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_permissions_boundary(
     UserName,
     params::AbstractDict{String};
@@ -2573,7 +2641,7 @@ end
 Deletes the specified inline policy that is embedded in the specified IAM user.
 
 A user can also have managed policies attached to it. To detach a managed policy from a
-user, use <a>DetachUserPolicy</a>. For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+user, use [`detach_user_policy`](@ref). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -2600,6 +2668,7 @@ function delete_user_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_policy(
     PolicyName,
     UserName,
@@ -2628,7 +2697,7 @@ Deletes a virtual MFA device.
 
 !!! note
     You must deactivate a user's virtual MFA device before you can delete it. For
-information about deactivating MFA devices, see <a>DeactivateMFADevice</a>.
+    information about deactivating MFA devices, see [`deactivate_mfadevice`](@ref).
 
 # Arguments
 
@@ -2649,6 +2718,7 @@ function delete_virtual_mfadevice(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_virtual_mfadevice(
     SerialNumber,
     params::AbstractDict{String};
@@ -2670,8 +2740,8 @@ end
 
 Removes the specified managed policy from the specified IAM group.
 
-A group can also have inline policies embedded with it. To delete an inline policy, use
-<a>DeleteGroupPolicy</a>. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+A group can also have inline policies embedded with it. To delete an inline policy, use [`delete_group_policy`](@ref).
+For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -2697,6 +2767,7 @@ function detach_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_group_policy(
     GroupName,
     PolicyArn,
@@ -2723,8 +2794,8 @@ end
 
 Removes the specified managed policy from the specified role.
 
-A role can also have inline policies embedded with it. To delete an inline policy, use
-<a>DeleteRolePolicy</a>. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+A role can also have inline policies embedded with it. To delete an inline policy, use [`delete_role_policy`](@ref).
+For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -2749,6 +2820,7 @@ function detach_role_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_role_policy(
     PolicyArn,
     RoleName,
@@ -2775,8 +2847,8 @@ end
 
 Removes the specified managed policy from the specified user.
 
-A user can also have inline policies embedded with it. To delete an inline policy, use
-<a>DeleteUserPolicy</a>. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+A user can also have inline policies embedded with it. To delete an inline policy, use [`delete_user_policy`](@ref).
+For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -2801,6 +2873,7 @@ function detach_user_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_user_policy(
     PolicyArn,
     UserName,
@@ -2837,20 +2910,22 @@ with the device.
 
   !!! important
       Submit your request immediately after generating the authentication codes. If you
-  generate the codes and then wait too long to submit the request, the MFA device
-  successfully associates with the user but the MFA device becomes out of sync. This
-  happens because time-based one-time passwords (TOTP) expire after a short period of time.
-  If this happens, you can [resync the device](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html).
+      generate the codes and then wait too long to submit the request, the MFA device
+      successfully associates with the user but the MFA device becomes out of sync. This
+      happens because time-based one-time passwords (TOTP) expire after a short period of
+      time. If this happens, you can [resync the device](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html).
+
 - `authentication_code2`: A subsequent authentication code emitted by the device.
 
   The format for this parameter is a string of six digits.
 
   !!! important
       Submit your request immediately after generating the authentication codes. If you
-  generate the codes and then wait too long to submit the request, the MFA device
-  successfully associates with the user but the MFA device becomes out of sync. This
-  happens because time-based one-time passwords (TOTP) expire after a short period of time.
-  If this happens, you can [resync the device](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html).
+      generate the codes and then wait too long to submit the request, the MFA device
+      successfully associates with the user but the MFA device becomes out of sync. This
+      happens because time-based one-time passwords (TOTP) expire after a short period of
+      time. If this happens, you can [resync the device](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html).
+
 - `serial_number`: The serial number that uniquely identifies the MFA device. For virtual
   MFA devices, the serial number is the device ARN.
 
@@ -2882,6 +2957,7 @@ function enable_mfadevice(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_mfadevice(
     AuthenticationCode1,
     AuthenticationCode2,
@@ -2913,7 +2989,7 @@ end
     generate_credential_report()
     generate_credential_report(params::Dict{String,<:Any})
 
- Generates a credential report for the Amazon Web Services account. For more information
+Generates a credential report for the Amazon Web Services account. For more information
 about the credential report, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html)
 in the *IAM User Guide*.
 """
@@ -2922,6 +2998,7 @@ function generate_credential_report(; aws_config::AbstractAWSConfig=current_aws_
         "GenerateCredentialReport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function generate_credential_report(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2959,73 +3036,81 @@ For each service in both report types, the data includes the most recent account
 that the policy allows to account principals in the entity or the entity's children. For
 important information about the data, reporting period, permissions required,
 troubleshooting, and supported Regions see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html)
-in the *IAM User Guide*.</p>
+in the *IAM User Guide*.
 
 !!! important
     The data includes all attempts to access Amazon Web Services, not just the successful
-ones. This includes all attempts that were made using the Amazon Web Services Management
-Console, the Amazon Web Services API through any of the SDKs, or any of the command line
-tools. An unexpected entry in the service last accessed data does not mean that an account
-has been compromised, because the request might have been denied. Refer to your CloudTrail
-logs as the authoritative source for information about all API calls and whether they were
-successful or denied access. For more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
-in the *IAM User Guide*.This operation returns a `JobId`. Use this parameter in the `
-<a>GetOrganizationsAccessReport</a> ` operation to check the status of the report
-generation. To check the status of this request, use the `JobId` parameter in the `
-<a>GetOrganizationsAccessReport</a> ` operation and test the `JobStatus` response
-parameter. When the job is complete, you can retrieve the report.
+    ones. This includes all attempts that were made using the Amazon Web Services
+    Management Console, the Amazon Web Services API through any of the SDKs, or any of the
+    command line tools. An unexpected entry in the service last accessed data does not mean
+    that an account has been compromised, because the request might have been denied. Refer
+    to your CloudTrail logs as the authoritative source for information about all API calls
+    and whether they were successful or denied access. For more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
+    in the *IAM User Guide*.
 
- <p>To generate a service last accessed data report for entities, specify an entity path
+This operation returns a `JobId`. Use this parameter in the [`[`get_organizations_access_report`](@ref)`](@ref)
+operation to check the status of the report generation. To check the status of this
+request, use the `JobId` parameter in the [`[`get_organizations_access_report`](@ref)`](@ref)
+operation and test the `JobStatus` response parameter. When the job is complete, you can
+retrieve the report.
+
+To generate a service last accessed data report for entities, specify an entity path
 without specifying the optional Organizations policy ID. The type of entity that you
-specify determines the data returned in the report. - **Root** – When you specify the
-organizations root as the entity, the resulting report lists all of the services allowed by
-SCPs that are attached to your root. For each service, the report includes data for all
-accounts in your organization except the management account, because the management account
-is not limited by SCPs.
- - **OU** – When you specify an organizational unit (OU) as the entity, the resulting
-report lists all of the services allowed by SCPs that are attached to the OU and its
-parents. For each service, the report includes data for all accounts in the OU or its
-children. This data excludes the management account, because the management account is not
-limited by SCPs.
- - **management account** – When you specify the management account, the resulting report
-lists all Amazon Web Services services, because the management account is not limited by
-SCPs. For each service, the report includes data for only the management account.
- - **Account** – When you specify another account as the entity, the resulting report lists
-all of the services allowed by SCPs that are attached to the account and its parents. For
-each service, the report includes data for only the specified account.
+specify determines the data returned in the report.
+
+- **Root** – When you specify the organizations root as the entity, the resulting report
+  lists all of the services allowed by SCPs that are attached to your root. For each
+  service, the report includes data for all accounts in your organization except the
+  management account, because the management account is not limited by SCPs.
+- **OU** – When you specify an organizational unit (OU) as the entity, the resulting report
+  lists all of the services allowed by SCPs that are attached to the OU and its parents.
+  For each service, the report includes data for all accounts in the OU or its children.
+  This data excludes the management account, because the management account is not limited
+  by SCPs.
+- **management account** – When you specify the management account, the resulting report
+  lists all Amazon Web Services services, because the management account is not limited by
+  SCPs. For each service, the report includes data for only the management account.
+- **Account** – When you specify another account as the entity, the resulting report lists
+  all of the services allowed by SCPs that are attached to the account and its parents. For
+  each service, the report includes data for only the specified account.
+
 To generate a service last accessed data report for policies, specify an entity path and
 the optional Organizations policy ID. The type of entity that you specify determines the
-data returned for each service. - **Root** – When you specify the root entity and a policy
-ID, the resulting report lists all of the services that are allowed by the specified SCP.
-For each service, the report includes data for all accounts in your organization to which
-the SCP applies. This data excludes the management account, because the management account
-is not limited by SCPs. If the SCP is not attached to any entities in the organization,
-then the report will return a list of services with no data.
- - **OU** – When you specify an OU entity and a policy ID, the resulting report lists all
-of the services that are allowed by the specified SCP. For each service, the report
-includes data for all accounts in the OU or its children to which the SCP applies. This
-means that other accounts outside the OU that are affected by the SCP might not be included
-in the data. This data excludes the management account, because the management account is
-not limited by SCPs. If the SCP is not attached to the OU or one of its children, the
-report will return a list of services with no data.
- - **management account** – When you specify the management account, the resulting report
-lists all Amazon Web Services services, because the management account is not limited by
-SCPs. If you specify a policy ID in the CLI or API, the policy is ignored. For each
-service, the report includes data for only the management account.
- - **Account** – When you specify another account entity and a policy ID, the resulting
-report lists all of the services that are allowed by the specified SCP. For each service,
-the report includes data for only the specified account. This means that other accounts in
-the organization that are affected by the SCP might not be included in the data. If the SCP
-is not attached to the account, the report will return a list of services with no data.
+data returned for each service.
 
+- **Root** – When you specify the root entity and a policy ID, the resulting report lists
+  all of the services that are allowed by the specified SCP. For each service, the report
+  includes data for all accounts in your organization to which the SCP applies. This data
+  excludes the management account, because the management account is not limited by SCPs.
+  If the SCP is not attached to any entities in the organization, then the report will
+  return a list of services with no data.
+- **OU** – When you specify an OU entity and a policy ID, the resulting report lists all of
+  the services that are allowed by the specified SCP. For each service, the report includes
+  data for all accounts in the OU or its children to which the SCP applies. This means that
+  other accounts outside the OU that are affected by the SCP might not be included in the
+  data. This data excludes the management account, because the management account is not
+  limited by SCPs. If the SCP is not attached to the OU or one of its children, the report
+  will return a list of services with no data.
+- **management account** – When you specify the management account, the resulting report
+  lists all Amazon Web Services services, because the management account is not limited by
+  SCPs. If you specify a policy ID in the CLI or API, the policy is ignored. For each
+  service, the report includes data for only the management account.
+- **Account** – When you specify another account entity and a policy ID, the resulting
+  report lists all of the services that are allowed by the specified SCP. For each service,
+  the report includes data for only the specified account. This means that other accounts
+  in the organization that are affected by the SCP might not be included in the data. If
+  the SCP is not attached to the account, the report will return a list of services with no
+  data.
 
 !!! note
     Service last accessed data does not use other policy types when determining whether a
-principal could access a service. These other policy types include identity-based policies,
-resource-based policies, access control lists, IAM permissions boundaries, and STS assume
-role policies. It only applies SCP logic. For more about the evaluation of policy types,
-see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
-in the *IAM User Guide*.For more information about service last accessed data, see [Reducing policy scope by viewing user activity](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html)
+    principal could access a service. These other policy types include identity-based
+    policies, resource-based policies, access control lists, IAM permissions boundaries,
+    and STS assume role policies. It only applies SCP logic. For more about the evaluation
+    of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
+    in the *IAM User Guide*.
+
+For more information about service last accessed data, see [Reducing policy scope by viewing user activity](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -3033,8 +3118,9 @@ in the *IAM User Guide*.
 - `entity_path`: The path of the Organizations entity (root, OU, or account). You can build
   an entity path using the known structure of your organization. For example, assume that
   your account ID is `123456789012` and its parent OU ID is `ou-rge0-awsabcde`. The
-  organization root ID is `r-f6g7h8i9j0example` and your organization ID is `o-a1b2c3d4e5`.
-  Your entity path is `o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012`.
+  organization root ID is `r-f6g7h8i9j0example` and your organization ID is
+  `o-a1b2c3d4e5`. Your entity path is
+  `o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012`.
 
 # Optional Parameters
 
@@ -3056,6 +3142,7 @@ function generate_organizations_access_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_organizations_access_report(
     EntityPath,
     params::AbstractDict{String};
@@ -3081,44 +3168,49 @@ usually appears within four hours. IAM reports activity for at least the last 40
 less if your Region began supporting this feature within the last year. For more
 information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period).
 For more information about services and actions for which action last accessed information
-is displayed, see [IAM action last accessed information services and actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-action-last-accessed.html).</p>
+is displayed, see [IAM action last accessed information services and actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-action-last-accessed.html).
 
 !!! important
     The service last accessed data includes all attempts to access an Amazon Web Services
-API, not just the successful ones. This includes all attempts that were made using the
-Amazon Web Services Management Console, the Amazon Web Services API through any of the
-SDKs, or any of the command line tools. An unexpected entry in the service last accessed
-data does not mean that your account has been compromised, because the request might have
-been denied. Refer to your CloudTrail logs as the authoritative source for information
-about all API calls and whether they were successful or denied access. For more
-information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
-in the *IAM User Guide*.The `GenerateServiceLastAccessedDetails` operation returns a
-`JobId`. Use this parameter in the following operations to retrieve the following details
-from your report:  - <a>GetServiceLastAccessedDetails</a> – Use this operation for users,
-groups, roles, or policies to list every Amazon Web Services service that the resource
-could access using permissions policies. For each service, the response includes
-information about the most recent access attempt.
+    API, not just the successful ones. This includes all attempts that were made using the
+    Amazon Web Services Management Console, the Amazon Web Services API through any of the
+    SDKs, or any of the command line tools. An unexpected entry in the service last
+    accessed data does not mean that your account has been compromised, because the request
+    might have been denied. Refer to your CloudTrail logs as the authoritative source for
+    information about all API calls and whether they were successful or denied access. For
+    more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
+    in the *IAM User Guide*.
+
+The [`generate_service_last_accessed_details`](@ref) operation returns a `JobId`. Use this
+parameter in the following operations to retrieve the following details from your report:
+
+- [`get_service_last_accessed_details`](@ref) – Use this operation for users, groups,
+  roles, or policies to list every Amazon Web Services service that the resource could
+  access using permissions policies. For each service, the response includes information
+  about the most recent access attempt.
 
 The `JobId` returned by `GenerateServiceLastAccessedDetail` must be used by the same role
 within a session, or by the same user when used to call `GetServiceLastAccessedDetail`.
- - <a>GetServiceLastAccessedDetailsWithEntities</a> – Use this operation for groups and
-policies to list information about the associated entities (users or roles) that attempted
-to access a specific Amazon Web Services service.
+- [`get_service_last_accessed_details_with_entities`](@ref) – Use this operation for groups
+  and policies to list information about the associated entities (users or roles) that
+  attempted to access a specific Amazon Web Services service.
+
 To check the status of the `GenerateServiceLastAccessedDetails` request, use the `JobId`
 parameter in the same operations and test the `JobStatus` response parameter.
 
- <p>For additional information about the permissions policies that allow an identity (user,
-group, or role) to access specific services, use the
-<a>ListPoliciesGrantingServiceAccess</a> operation.
+For additional information about the permissions policies that allow an identity (user,
+group, or role) to access specific services, use the [`list_policies_granting_service_access`](@ref)
+operation.
 
 !!! note
     Service last accessed data does not use other policy types when determining whether a
-resource could access a service. These other policy types include resource-based policies,
-access control lists, Organizations policies, IAM permissions boundaries, and STS assume
-role policies. It only applies permissions policy logic. For more about the evaluation of
-policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
-in the *IAM User Guide*.For more information about service and action last accessed data,
-see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html)
+    resource could access a service. These other policy types include resource-based
+    policies, access control lists, Organizations policies, IAM permissions boundaries, and
+    STS assume role policies. It only applies permissions policy logic. For more about the
+    evaluation of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
+    in the *IAM User Guide*.
+
+For more information about service and action last accessed data, see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -3132,10 +3224,10 @@ in the *IAM User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Granularity"`: The level of detail that you want to generate. You can specify whether
-  you want to generate information about the last attempt to access services or actions. If
-  you specify service-level granularity, this operation generates only service data. If you
-  specify action-level granularity, it generates service and action data. If you don't
-  include this optional parameter, the operation generates service data.
+  you want to generate information about the last attempt to access services or actions.
+  If you specify service-level granularity, this operation generates only service data.
+  If you specify action-level granularity, it generates service and action data. If you
+  don't include this optional parameter, the operation generates service data.
 """
 function generate_service_last_accessed_details(
     Arn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3147,6 +3239,7 @@ function generate_service_last_accessed_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_service_last_accessed_details(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3183,6 +3276,7 @@ function get_access_key_last_used(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_key_last_used(
     AccessKeyId,
     params::AbstractDict{String};
@@ -3209,10 +3303,11 @@ policies) in your account.
 
 !!! note
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
-You can use a URL decoding method to convert the policy back to plain JSON text. For
-example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-utility class in the Java SDK. Other languages and SDKs provide similar functionality.You
-can optionally filter the results using the `Filter` parameter. You can paginate the
+    You can use a URL decoding method to convert the policy back to plain JSON text. For
+    example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+
+You can optionally filter the results using the `Filter` parameter. You can paginate the
 results using the `MaxItems` and `Marker` parameters.
 
 # Optional Parameters
@@ -3229,13 +3324,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function get_account_authorization_details(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -3246,6 +3341,7 @@ function get_account_authorization_details(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_authorization_details(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3270,6 +3366,7 @@ function get_account_password_policy(; aws_config::AbstractAWSConfig=current_aws
         "GetAccountPasswordPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_password_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3288,12 +3385,13 @@ end
 Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services
 account.
 
- For information about IAM quotas, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
+For information about IAM quotas, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
 in the *IAM User Guide*.
 """
 function get_account_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("GetAccountSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_account_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3308,14 +3406,14 @@ end
 
 Gets a list of all of the context keys referenced in the input policies. The policies are
 supplied as a list of one or more strings. To get the context keys from policies associated
-with an IAM user, group, or role, use <a>GetContextKeysForPrincipalPolicy</a>.
+with an IAM user, group, or role, use [`get_context_keys_for_principal_policy`](@ref).
 
 Context keys are variables maintained by Amazon Web Services and its services that provide
 details about the context of an API query request. Context keys can be evaluated by testing
 against a value specified in an IAM policy. Use `GetContextKeysForCustomPolicy` to
-understand what key names and values you must supply when you call
-<a>SimulateCustomPolicy</a>. Note that all parameters are shown in unencoded form here for
-clarity but must be URL encoded to be included as a part of a real HTML request.
+understand what key names and values you must supply when you call [`simulate_custom_policy`](@ref).
+Note that all parameters are shown in unencoded form here for clarity but must be URL
+encoded to be included as a part of a real HTML request.
 
 # Arguments
 
@@ -3323,13 +3421,16 @@ clarity but must be URL encoded to be included as a part of a real HTML request.
   referenced in those policies. Each document is specified as a string containing the
   complete, valid JSON text of an IAM policy.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 """
 function get_context_keys_for_custom_policy(
     PolicyInputList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3341,6 +3442,7 @@ function get_context_keys_for_custom_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_context_keys_for_custom_policy(
     PolicyInputList,
     params::AbstractDict{String};
@@ -3368,27 +3470,27 @@ a user, then the request also includes all of the policies attached to groups th
 is a member of.
 
 You can optionally include a list of one or more additional policies, specified as strings.
-If you want to include *only* a list of policies by string, use
-<a>GetContextKeysForCustomPolicy</a> instead.
+If you want to include *only* a list of policies by string, use [`get_context_keys_for_custom_policy`](@ref)
+instead.
 
- **Note:** This operation discloses information about the permissions granted to other
+**Note:** This operation discloses information about the permissions granted to other
 users. If you do not want users to see other user's permissions, then consider allowing
-them to use <a>GetContextKeysForCustomPolicy</a> instead.
+them to use [`get_context_keys_for_custom_policy`](@ref) instead.
 
 Context keys are variables maintained by Amazon Web Services and its services that provide
 details about the context of an API query request. Context keys can be evaluated by testing
-against a value in an IAM policy. Use <a>GetContextKeysForPrincipalPolicy</a> to understand
-what key names and values you must supply when you call <a>SimulatePrincipalPolicy</a>.
+against a value in an IAM policy. Use [`get_context_keys_for_principal_policy`](@ref) to
+understand what key names and values you must supply when you call [`simulate_principal_policy`](@ref).
 
 # Arguments
 
 - `policy_source_arn`: The ARN of a user, group, or role whose policies contain the context
-  keys that you want listed. If you specify a user, the list includes context keys that are
-  found in all policies that are attached to the user. The list also includes all groups
-  that the user is a member of. If you pick a group or a role, then it includes only those
-  context keys that are found in policies attached to that entity. Note that all parameters
-  are shown in unencoded form here for clarity, but must be URL encoded to be included as a
-  part of a real HTML request.
+  keys that you want listed. If you specify a user, the list includes context keys that
+  are found in all policies that are attached to the user. The list also includes all
+  groups that the user is a member of. If you pick a group or a role, then it includes
+  only those context keys that are found in policies attached to that entity. Note that
+  all parameters are shown in unencoded form here for clarity, but must be URL encoded to
+  be included as a part of a real HTML request.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -3400,13 +3502,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyInputList"`: An optional list of additional policies for which you want the list
   of context keys that are referenced.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 """
 function get_context_keys_for_principal_policy(
     PolicySourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3418,6 +3523,7 @@ function get_context_keys_for_principal_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_context_keys_for_principal_policy(
     PolicySourceArn,
     params::AbstractDict{String};
@@ -3439,7 +3545,7 @@ end
     get_credential_report()
     get_credential_report(params::Dict{String,<:Any})
 
- Retrieves a credential report for the Amazon Web Services account. For more information
+Retrieves a credential report for the Amazon Web Services account. For more information
 about the credential report, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html)
 in the *IAM User Guide*.
 """
@@ -3448,6 +3554,7 @@ function get_credential_report(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetCredentialReport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_credential_report(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3463,7 +3570,7 @@ end
     get_group(group_name)
     get_group(group_name, params::Dict{String,<:Any})
 
- Returns a list of IAM users that are in the specified IAM group. You can paginate the
+Returns a list of IAM users that are in the specified IAM group. You can paginate the
 results using the `MaxItems` and `Marker` parameters.
 
 # Arguments
@@ -3482,13 +3589,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function get_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -3498,6 +3605,7 @@ function get_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group(
     GroupName,
     params::AbstractDict{String};
@@ -3517,19 +3625,19 @@ end
     get_group_policy(group_name, policy_name)
     get_group_policy(group_name, policy_name, params::Dict{String,<:Any})
 
-Retrieves the specified inline policy document that is embedded in the specified IAM
-group.</p>
+Retrieves the specified inline policy document that is embedded in the specified IAM group.
 
 !!! note
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
-You can use a URL decoding method to convert the policy back to plain JSON text. For
-example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-utility class in the Java SDK. Other languages and SDKs provide similar functionality.An
-IAM group can also have managed policies attached to it. To retrieve a managed policy
-document that is attached to a group, use <a>GetPolicy</a> to determine the policy's
-default version, then use <a>GetPolicyVersion</a> to retrieve the policy document.
+    You can use a URL decoding method to convert the policy back to plain JSON text. For
+    example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
 
- <p>For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+An IAM group can also have managed policies attached to it. To retrieve a managed policy
+document that is attached to a group, use [`get_policy`](@ref) to determine the policy's
+default version, then use [`get_policy_version`](@ref) to retrieve the policy document.
+
+For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -3555,6 +3663,7 @@ function get_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_policy(
     GroupName,
     PolicyName,
@@ -3579,7 +3688,7 @@ end
     get_instance_profile(instance_profile_name)
     get_instance_profile(instance_profile_name, params::Dict{String,<:Any})
 
- Retrieves information about the specified instance profile, including the instance
+Retrieves information about the specified instance profile, including the instance
 profile's path, GUID, ARN, and role. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)
 in the *IAM User Guide*.
 
@@ -3601,6 +3710,7 @@ function get_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_profile(
     InstanceProfileName,
     params::AbstractDict{String};
@@ -3654,6 +3764,7 @@ function get_login_profile(UserName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_login_profile(
     UserName,
     params::AbstractDict{String};
@@ -3694,6 +3805,7 @@ function get_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mfadevice(
     SerialNumber,
     params::AbstractDict{String};
@@ -3720,7 +3832,7 @@ IAM.
 
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the OIDC provider
   resource object in IAM to get information for. You can get a list of OIDC provider
-  resource ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
+  resource ARNs by using the [`list_open_idconnect_providers`](@ref) operation.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -3735,6 +3847,7 @@ function get_open_idconnect_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_open_idconnect_provider(
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
@@ -3759,12 +3872,11 @@ end
     get_organizations_access_report(job_id, params::Dict{String,<:Any})
 
 Retrieves the service last accessed data report for Organizations that was previously
-generated using the ` <a>GenerateOrganizationsAccessReport</a> ` operation. This operation
-retrieves the status of your report job and the report contents.
+generated using the [`[`generate_organizations_access_report`](@ref)`](@ref) operation.
+This operation retrieves the status of your report job and the report contents.
 
 Depending on the parameters that you passed when you generated the report, the data
-returned could include different information. For details, see
-<a>GenerateOrganizationsAccessReport</a>.
+returned could include different information. For details, see [`generate_organizations_access_report`](@ref).
 
 To call this operation, you must be signed in to the management account in your
 organization. SCPs must be enabled for your organization root. You must have permissions to
@@ -3780,8 +3892,8 @@ By default, the list is sorted by service namespace.
 
 # Arguments
 
-- `job_id`: The identifier of the request generated by the
-  <a>GenerateOrganizationsAccessReport</a> operation.
+- `job_id`: The identifier of the request generated by the [`generate_organizations_access_report`](@ref)
+  operation.
 
 # Optional Parameters
 
@@ -3791,13 +3903,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"SortKey"`: The key that is used to sort the results. If you choose the namespace key,
   the results are returned in alphabetical order. If you choose the time key, the results
   are sorted numerically by the date and time.
@@ -3812,6 +3924,7 @@ function get_organizations_access_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organizations_access_report(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3830,13 +3943,13 @@ end
 Retrieves information about the specified managed policy, including the policy's default
 version and the total number of IAM users, groups, and roles to which the policy is
 attached. To retrieve the list of the specific users, groups, and roles that the policy is
-attached to, use <a>ListEntitiesForPolicy</a>. This operation returns metadata about the
-policy. To retrieve the actual policy document for a specific version of the policy, use
-<a>GetPolicyVersion</a>.
+attached to, use [`list_entities_for_policy`](@ref). This operation returns metadata about
+the policy. To retrieve the actual policy document for a specific version of the policy,
+use [`get_policy_version`](@ref).
 
 This operation retrieves information about managed policies. To retrieve information about
-an inline policy that is embedded with an IAM user, group, or role, use
-<a>GetUserPolicy</a>, <a>GetGroupPolicy</a>, or <a>GetRolePolicy</a>.
+an inline policy that is embedded with an IAM user, group, or role, use [`get_user_policy`](@ref),
+[`get_group_policy`](@ref), or [`get_role_policy`](@ref).
 
 For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -3857,6 +3970,7 @@ function get_policy(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     PolicyArn,
     params::AbstractDict{String};
@@ -3877,23 +3991,24 @@ end
     get_policy_version(policy_arn, version_id, params::Dict{String,<:Any})
 
 Retrieves information about the specified version of the specified managed policy,
-including the policy document.</p>
+including the policy document.
 
 !!! note
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
-You can use a URL decoding method to convert the policy back to plain JSON text. For
-example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-utility class in the Java SDK. Other languages and SDKs provide similar functionality.To
-list the available versions for a policy, use <a>ListPolicyVersions</a>.
+    You can use a URL decoding method to convert the policy back to plain JSON text. For
+    example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+
+To list the available versions for a policy, use [`list_policy_versions`](@ref).
 
 This operation retrieves information about managed policies. To retrieve information about
-an inline policy that is embedded in a user, group, or role, use <a>GetUserPolicy</a>,
-<a>GetGroupPolicy</a>, or <a>GetRolePolicy</a>.
+an inline policy that is embedded in a user, group, or role, use [`get_user_policy`](@ref),
+[`get_group_policy`](@ref), or [`get_role_policy`](@ref).
 
 For more information about the types of policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
- <p>For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html)
+For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -3919,6 +4034,7 @@ function get_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy_version(
     PolicyArn,
     VersionId,
@@ -3950,9 +4066,9 @@ in the *IAM User Guide*.
 
 !!! note
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
-You can use a URL decoding method to convert the policy back to plain JSON text. For
-example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+    You can use a URL decoding method to convert the policy back to plain JSON text. For
+    example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
 
 # Arguments
 
@@ -3970,6 +4086,7 @@ function get_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_role(
     RoleName,
     params::AbstractDict{String};
@@ -3990,21 +4107,22 @@ end
     get_role_policy(policy_name, role_name, params::Dict{String,<:Any})
 
 Retrieves the specified inline policy document that is embedded with the specified IAM
-role.</p>
+role.
 
 !!! note
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
-You can use a URL decoding method to convert the policy back to plain JSON text. For
-example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-utility class in the Java SDK. Other languages and SDKs provide similar functionality.An
-IAM role can also have managed policies attached to it. To retrieve a managed policy
-document that is attached to a role, use <a>GetPolicy</a> to determine the policy's default
-version, then use <a>GetPolicyVersion</a> to retrieve the policy document.
+    You can use a URL decoding method to convert the policy back to plain JSON text. For
+    example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+
+An IAM role can also have managed policies attached to it. To retrieve a managed policy
+document that is attached to a role, use [`get_policy`](@ref) to determine the policy's
+default version, then use [`get_policy_version`](@ref) to retrieve the policy document.
 
 For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
- <p> For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -4030,6 +4148,7 @@ function get_role_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_role_policy(
     PolicyName,
     RoleName,
@@ -4078,6 +4197,7 @@ function get_samlprovider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_samlprovider(
     SAMLProviderArn,
     params::AbstractDict{String};
@@ -4124,6 +4244,7 @@ function get_server_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_server_certificate(
     ServerCertificateName,
     params::AbstractDict{String};
@@ -4147,35 +4268,38 @@ end
     get_service_last_accessed_details(job_id)
     get_service_last_accessed_details(job_id, params::Dict{String,<:Any})
 
-Retrieves a service last accessed report that was created using the
-`GenerateServiceLastAccessedDetails` operation. You can use the `JobId` parameter in
-`GetServiceLastAccessedDetails` to retrieve the status of your report job. When the report
-is complete, you can retrieve the generated report. The report includes a list of Amazon
-Web Services services that the resource (user, group, role, or managed policy) can
-access.</p>
+Retrieves a service last accessed report that was created using the [`generate_service_last_accessed_details`](@ref)
+operation. You can use the `JobId` parameter in `GetServiceLastAccessedDetails` to retrieve
+the status of your report job. When the report is complete, you can retrieve the generated
+report. The report includes a list of Amazon Web Services services that the resource (user,
+group, role, or managed policy) can access.
 
 !!! note
     Service last accessed data does not use other policy types when determining whether a
-resource could access a service. These other policy types include resource-based policies,
-access control lists, Organizations policies, IAM permissions boundaries, and STS assume
-role policies. It only applies permissions policy logic. For more about the evaluation of
-policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
-in the *IAM User Guide*.For each service that the resource could access using permissions
-policies, the operation returns details about the most recent access attempt. If there was
-no attempt, the service is listed without details about the most recent attempt to access
-the service. If the operation fails, the `GetServiceLastAccessedDetails` operation returns
-the reason that it failed.
+    resource could access a service. These other policy types include resource-based
+    policies, access control lists, Organizations policies, IAM permissions boundaries, and
+    STS assume role policies. It only applies permissions policy logic. For more about the
+    evaluation of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
+    in the *IAM User Guide*.
 
-The `GetServiceLastAccessedDetails` operation returns a list of services. This list
-includes the number of entities that have attempted to access the service and the date and
-time of the last attempt. It also returns the ARN of the following entity, depending on the
-resource ARN that you used to generate the report: - **User** – Returns the user ARN that
-you used to generate the report
- - **Group** – Returns the ARN of the group member (user) that last attempted to access the
-service
- - **Role** – Returns the role ARN that you used to generate the report
- - **Policy** – Returns the ARN of the user or role that last used the policy to attempt to
-access the service
+For each service that the resource could access using permissions policies, the operation
+returns details about the most recent access attempt. If there was no attempt, the service
+is listed without details about the most recent attempt to access the service. If the
+operation fails, the [`get_service_last_accessed_details`](@ref) operation returns the
+reason that it failed.
+
+The [`get_service_last_accessed_details`](@ref) operation returns a list of services. This
+list includes the number of entities that have attempted to access the service and the date
+and time of the last attempt. It also returns the ARN of the following entity, depending on
+the resource ARN that you used to generate the report:
+
+- **User** – Returns the user ARN that you used to generate the report
+- **Group** – Returns the ARN of the group member (user) that last attempted to access the
+  service
+- **Role** – Returns the role ARN that you used to generate the report
+- **Policy** – Returns the ARN of the user or role that last used the policy to attempt to
+  access the service
+
 By default, the list is sorted by service namespace.
 
 If you specified `ACTION_LEVEL` granularity when you generated the report, this operation
@@ -4183,15 +4307,15 @@ returns service and action last accessed data. This includes the most recent acc
 for each tracked action within a service. Otherwise, this operation returns only service
 data.
 
- <p>For more information about service and action last accessed data, see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html)
+For more information about service and action last accessed data, see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html)
 in the *IAM User Guide*.
 
 # Arguments
 
-- `job_id`: The ID of the request generated by the
-  <a>GenerateServiceLastAccessedDetails</a> operation. The `JobId` returned by
-  `GenerateServiceLastAccessedDetail` must be used by the same role within a session, or by
-  the same user when used to call `GetServiceLastAccessedDetail`.
+- `job_id`: The ID of the request generated by the [`generate_service_last_accessed_details`](@ref)
+  operation. The `JobId` returned by `GenerateServiceLastAccessedDetail` must be used by
+  the same role within a session, or by the same user when used to call
+  `GetServiceLastAccessedDetail`.
 
 # Optional Parameters
 
@@ -4201,13 +4325,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function get_service_last_accessed_details(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4219,6 +4343,7 @@ function get_service_last_accessed_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_last_accessed_details(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4234,36 +4359,38 @@ end
     get_service_last_accessed_details_with_entities(job_id, service_namespace)
     get_service_last_accessed_details_with_entities(job_id, service_namespace, params::Dict{String,<:Any})
 
-After you generate a group or policy report using the `GenerateServiceLastAccessedDetails`
+After you generate a group or policy report using the [`generate_service_last_accessed_details`](@ref)
 operation, you can use the `JobId` parameter in
 `GetServiceLastAccessedDetailsWithEntities`. This operation retrieves the status of your
 report job and a list of entities that could have used group or policy permissions to
-access the specified service.</p> - **Group** – For a group report, this operation returns
-a list of users in the group that could have used the group’s policies in an attempt to
-access the service.
- - **Policy** – For a policy report, this operation returns a list of entities (users or
-roles) that could have used the policy in an attempt to access the service.
+access the specified service.
+
+- **Group** – For a group report, this operation returns a list of users in the group that
+  could have used the group’s policies in an attempt to access the service.
+- **Policy** – For a policy report, this operation returns a list of entities (users or
+  roles) that could have used the policy in an attempt to access the service.
+
 You can also use this operation for user or role reports to retrieve details about those
 entities.
 
-If the operation fails, the `GetServiceLastAccessedDetailsWithEntities` operation returns
-the reason that it failed.
+If the operation fails, the [`get_service_last_accessed_details_with_entities`](@ref)
+operation returns the reason that it failed.
 
- <p>By default, the list of associated entities is sorted by date, with the most recent
-access listed first.
+By default, the list of associated entities is sorted by date, with the most recent access
+listed first.
 
 # Arguments
 
-- `job_id`: The ID of the request generated by the `GenerateServiceLastAccessedDetails`
+- `job_id`: The ID of the request generated by the [`generate_service_last_accessed_details`](@ref)
   operation.
 - `service_namespace`: The service namespace for an Amazon Web Services service. Provide
-  the service namespace to learn when the IAM entity last attempted to access the specified
-  service.
+  the service namespace to learn when the IAM entity last attempted to access the
+  specified service.
 
   To learn the service namespace for a service, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
-  in the *IAM User Guide*. Choose the name of the service to view details for that service.
-  In the first paragraph, find the service prefix. For example, `(service prefix: a4b)`.
-  For more information about service namespaces, see [Amazon Web Services service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
+  in the *IAM User Guide*. Choose the name of the service to view details for that
+  service. In the first paragraph, find the service prefix. For example,
+  `(service prefix: a4b)`. For more information about service namespaces, see [Amazon Web Services service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -4274,13 +4401,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function get_service_last_accessed_details_with_entities(
     JobId, ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4292,6 +4419,7 @@ function get_service_last_accessed_details_with_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_last_accessed_details_with_entities(
     JobId,
     ServiceNamespace,
@@ -4316,17 +4444,17 @@ end
     get_service_linked_role_deletion_status(deletion_task_id)
     get_service_linked_role_deletion_status(deletion_task_id, params::Dict{String,<:Any})
 
-Retrieves the status of your service-linked role deletion. After you use
-<a>DeleteServiceLinkedRole</a> to submit a service-linked role for deletion, you can use
-the `DeletionTaskId` parameter in `GetServiceLinkedRoleDeletionStatus` to check the status
-of the deletion. If the deletion fails, this operation returns the reason that it failed,
-if that information is returned by the service.
+Retrieves the status of your service-linked role deletion. After you use [`delete_service_linked_role`](@ref)
+to submit a service-linked role for deletion, you can use the `DeletionTaskId` parameter in
+`GetServiceLinkedRoleDeletionStatus` to check the status of the deletion. If the deletion
+fails, this operation returns the reason that it failed, if that information is returned by
+the service.
 
 # Arguments
 
-- `deletion_task_id`: The deletion task identifier. This identifier is returned by the
-  <a>DeleteServiceLinkedRole</a> operation in the format `task/aws-service-role/&lt;service-
-  principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;`.
+- `deletion_task_id`: The deletion task identifier. This identifier is returned by the [`delete_service_linked_role`](@ref)
+  operation in the format
+  `task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;`.
 """
 function get_service_linked_role_deletion_status(
     DeletionTaskId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4338,6 +4466,7 @@ function get_service_linked_role_deletion_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_linked_role_deletion_status(
     DeletionTaskId,
     params::AbstractDict{String};
@@ -4393,6 +4522,7 @@ function get_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sshpublic_key(
     Encoding,
     SSHPublicKeyId,
@@ -4436,12 +4566,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This parameter is optional. If it is not included, it defaults to the user making the
   request. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex))
-  a string of characters consisting of upper and lowercase alphanumeric characters with no
-  spaces. You can also include any of the following characters: _+=,.@-
+  a string of characters consisting of upper and lowercase alphanumeric characters with
+  no spaces. You can also include any of the following characters: _+=,.@-
 """
 function get_user(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("GetUser"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_user(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4452,19 +4583,19 @@ end
     get_user_policy(policy_name, user_name)
     get_user_policy(policy_name, user_name, params::Dict{String,<:Any})
 
-Retrieves the specified inline policy document that is embedded in the specified IAM
-user.</p>
+Retrieves the specified inline policy document that is embedded in the specified IAM user.
 
 !!! note
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
-You can use a URL decoding method to convert the policy back to plain JSON text. For
-example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-utility class in the Java SDK. Other languages and SDKs provide similar functionality.An
-IAM user can also have managed policies attached to it. To retrieve a managed policy
-document that is attached to a user, use <a>GetPolicy</a> to determine the policy's default
-version. Then use <a>GetPolicyVersion</a> to retrieve the policy document.
+    You can use a URL decoding method to convert the policy back to plain JSON text. For
+    example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
 
- <p>For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+An IAM user can also have managed policies attached to it. To retrieve a managed policy
+document that is attached to a user, use [`get_policy`](@ref) to determine the policy's
+default version. Then use [`get_policy_version`](@ref) to retrieve the policy document.
+
+For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -4490,6 +4621,7 @@ function get_user_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_policy(
     PolicyName,
     UserName,
@@ -4531,7 +4663,7 @@ by running this command.
 
 !!! note
     To ensure the security of your Amazon Web Services account, the secret access key is
-accessible only during key and user creation.
+    accessible only during key and user creation.
 
 # Optional Parameters
 
@@ -4541,13 +4673,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"UserName"`: The name of the user.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -4557,6 +4689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_access_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListAccessKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_access_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4581,17 +4714,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_account_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListAccountAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_account_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4607,7 +4741,7 @@ end
 Lists all managed policies that are attached to the specified IAM group.
 
 An IAM group can also have inline policies embedded with it. To list the inline policies
-for a group, use <a>ListGroupPolicies</a>. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+for a group, use [`list_group_policies`](@ref). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. You can use the
@@ -4632,21 +4766,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
   it is not included, it defaults to a slash (/), listing all policies.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_group_policies(
     GroupName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4658,6 +4792,7 @@ function list_attached_group_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attached_group_policies(
     GroupName,
     params::AbstractDict{String};
@@ -4680,7 +4815,7 @@ end
 Lists all managed policies that are attached to the specified IAM role.
 
 An IAM role can also have inline policies embedded with it. To list the inline policies for
-a role, use <a>ListRolePolicies</a>. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+a role, use [`list_role_policies`](@ref). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. You can use the
@@ -4704,21 +4839,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
   it is not included, it defaults to a slash (/), listing all policies.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_role_policies(
     RoleName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4730,6 +4865,7 @@ function list_attached_role_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attached_role_policies(
     RoleName,
     params::AbstractDict{String};
@@ -4752,7 +4888,7 @@ end
 Lists all managed policies that are attached to the specified IAM user.
 
 An IAM user can also have inline policies embedded with it. To list the inline policies for
-a user, use <a>ListUserPolicies</a>. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+a user, use [`list_user_policies`](@ref). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. You can use the
@@ -4776,21 +4912,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
   it is not included, it defaults to a slash (/), listing all policies.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_user_policies(
     UserName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4802,6 +4938,7 @@ function list_attached_user_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attached_user_policies(
     UserName,
     params::AbstractDict{String};
@@ -4851,28 +4988,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
   it is not included, it defaults to a slash (/), listing all entities.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"PolicyUsageFilter"`: The policy usage method to use for filtering the results.
 
   To list only permissions policies, set `PolicyUsageFilter` to `PermissionsPolicy`. To
   list only the policies used to set permissions boundaries, set the value to
   `PermissionsBoundary`.
 
-This parameter is optional. If it is not included, all policies are returned.
+  This parameter is optional. If it is not included, all policies are returned.
 """
 function list_entities_for_policy(
     PolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4884,6 +5021,7 @@ function list_entities_for_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entities_for_policy(
     PolicyArn,
     params::AbstractDict{String};
@@ -4906,8 +5044,8 @@ end
 Lists the names of the inline policies that are embedded in the specified IAM group.
 
 An IAM group can also have managed policies attached to it. To list the managed policies
-that are attached to a group, use <a>ListAttachedGroupPolicies</a>. For more information
-about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+that are attached to a group, use [`list_attached_group_policies`](@ref). For more
+information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. If there are no
@@ -4929,13 +5067,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_group_policies(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -4945,6 +5083,7 @@ function list_group_policies(GroupName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_policies(
     GroupName,
     params::AbstractDict{String};
@@ -4966,7 +5105,7 @@ end
 
 Lists the IAM groups that have the specified path prefix.
 
- You can paginate the results using the `MaxItems` and `Marker` parameters.
+You can paginate the results using the `MaxItems` and `Marker` parameters.
 
 # Optional Parameters
 
@@ -4976,14 +5115,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
-- `"PathPrefix"`:  The path prefix for filtering the results. For example, the prefix
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. For example, the prefix
   `/division_abc/subdivision_xyz/` gets all groups whose path starts with
   `/division_abc/subdivision_xyz/`.
 
@@ -4997,6 +5136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5027,13 +5167,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_groups_for_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -5043,6 +5183,7 @@ function list_groups_for_user(UserName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups_for_user(
     UserName,
     params::AbstractDict{String};
@@ -5082,13 +5223,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_instance_profile_tags(
     InstanceProfileName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5100,6 +5241,7 @@ function list_instance_profile_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instance_profile_tags(
     InstanceProfileName,
     params::AbstractDict{String};
@@ -5129,10 +5271,11 @@ in the *IAM User Guide*.
 
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
-resource. For example, this operation does not return tags, even though they are an
-attribute of the returned object. To view all of the information for an instance profile,
-see <a>GetInstanceProfile</a>.You can paginate the results using the `MaxItems` and
-`Marker` parameters.
+    resource. For example, this operation does not return tags, even though they are an
+    attribute of the returned object. To view all of the information for an instance
+    profile, see [`get_instance_profile`](@ref).
+
+You can paginate the results using the `MaxItems` and `Marker` parameters.
 
 # Optional Parameters
 
@@ -5142,14 +5285,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
-- `"PathPrefix"`:  The path prefix for filtering the results. For example, the prefix
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. For example, the prefix
   `/application_abc/component_xyz/` gets all instance profiles whose path starts with
   `/application_abc/component_xyz/`.
 
@@ -5165,6 +5308,7 @@ function list_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_instance_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5202,13 +5346,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_instance_profiles_for_role(
     RoleName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5220,6 +5364,7 @@ function list_instance_profiles_for_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instance_profiles_for_role(
     RoleName,
     params::AbstractDict{String};
@@ -5261,13 +5406,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_mfadevice_tags(
     SerialNumber; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5279,6 +5424,7 @@ function list_mfadevice_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mfadevice_tags(
     SerialNumber,
     params::AbstractDict{String};
@@ -5313,13 +5459,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"UserName"`: The name of the user whose MFA devices you want to list.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -5329,6 +5475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_mfadevices(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListMFADevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_mfadevices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5364,13 +5511,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_open_idconnect_provider_tags(
     OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5382,6 +5529,7 @@ function list_open_idconnect_provider_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_open_idconnect_provider_tags(
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
@@ -5410,15 +5558,17 @@ the Amazon Web Services account.
 
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
-resource. For example, this operation does not return tags, even though they are an
-attribute of the returned object. To view all of the information for an OIDC provider, see
-<a>GetOpenIDConnectProvider</a>.
+    resource. For example, this operation does not return tags, even though they are an
+    attribute of the returned object. To view all of the information for an OIDC provider,
+    see [`get_open_idconnect_provider`](@ref).
+
 """
 function list_open_idconnect_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListOpenIDConnectProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_open_idconnect_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5450,9 +5600,9 @@ in the *IAM User Guide*.
 
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
-resource. For example, this operation does not return tags, even though they are an
-attribute of the returned object. To view all of the information for a customer manged
-policy, see <a>GetPolicy</a>.
+    resource. For example, this operation does not return tags, even though they are an
+    attribute of the returned object. To view all of the information for a customer manged
+    policy, see [`get_policy`](@ref).
 
 # Optional Parameters
 
@@ -5462,13 +5612,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"OnlyAttached"`: A flag to filter the results to only the attached policies.
 
   When `OnlyAttached` is `true`, the returned list contains only the policies that are
@@ -5477,28 +5627,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
   it is not included, it defaults to a slash (/), listing all policies. This parameter
   allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of
-  characters consisting of either a forward slash (/) by itself or a string that must begin
-  and end with forward slashes. In addition, it can contain any ASCII character from the !
-  (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation characters,
-  digits, and upper and lowercased letters.
+  characters consisting of either a forward slash (/) by itself or a string that must
+  begin and end with forward slashes. In addition, it can contain any ASCII character
+  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"PolicyUsageFilter"`: The policy usage method to use for filtering the results.
 
   To list only permissions policies, set `PolicyUsageFilter` to `PermissionsPolicy`. To
   list only the policies used to set permissions boundaries, set the value to
   `PermissionsBoundary`.
 
-This parameter is optional. If it is not included, all policies are returned.
+  This parameter is optional. If it is not included, all policies are returned.
 - `"Scope"`: The scope to use for filtering the results.
 
-  To list only Amazon Web Services managed policies, set `Scope` to `AWS`. To list only the
-  customer managed policies in your Amazon Web Services account, set `Scope` to `Local`.
+  To list only Amazon Web Services managed policies, set `Scope` to `AWS`. To list only
+  the customer managed policies in your Amazon Web Services account, set `Scope` to
+  `Local`.
 
-  This parameter is optional. If it is not included, or if it is set to `All`, all policies
-  are returned.
+  This parameter is optional. If it is not included, or if it is set to `All`, all
+  policies are returned.
 """
 function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5512,32 +5664,36 @@ end
     list_policies_granting_service_access(arn, service_namespaces, params::Dict{String,<:Any})
 
 Retrieves a list of policies that the IAM identity (user, group, or role) can use to access
-each specified service.</p>
+each specified service.
 
 !!! note
     This operation does not use other policy types when determining whether a resource
-could access a service. These other policy types include resource-based policies, access
-control lists, Organizations policies, IAM permissions boundaries, and STS assume role
-policies. It only applies permissions policy logic. For more about the evaluation of policy
-types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
-in the *IAM User Guide*.The list of policies returned by the operation depends on the ARN
-of the identity that you provide. - **User** – The list of policies includes the managed
-and inline policies that are attached to the user directly. The list also includes any
-additional managed and inline policies that are attached to the group to which the user
-belongs.
- - **Group** – The list of policies includes only the managed and inline policies that are
-attached to the group directly. Policies that are attached to the group’s user are not
-included.
- - **Role** – The list of policies includes only the managed and inline policies that are
-attached to the role.
+    could access a service. These other policy types include resource-based policies,
+    access control lists, Organizations policies, IAM permissions boundaries, and STS
+    assume role policies. It only applies permissions policy logic. For more about the
+    evaluation of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics)
+    in the *IAM User Guide*.
+
+The list of policies returned by the operation depends on the ARN of the identity that you
+provide.
+
+- **User** – The list of policies includes the managed and inline policies that are
+  attached to the user directly. The list also includes any additional managed and inline
+  policies that are attached to the group to which the user belongs.
+- **Group** – The list of policies includes only the managed and inline policies that are
+  attached to the group directly. Policies that are attached to the group’s user are not
+  included.
+- **Role** – The list of policies includes only the managed and inline policies that are
+  attached to the role.
+
 For each managed policy, this operation returns the ARN and policy name. For each inline
 policy, it returns the policy name and the entity to which it is attached. Inline policies
 do not have an ARN. For more information about these policy types, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html)
 in the *IAM User Guide*.
 
- <p>Policies that are attached to users and roles as permissions boundaries are not
-returned. To view which managed policy is currently used to set the permissions boundary
-for a user or role, use the <a>GetUser</a> or <a>GetRole</a> operations.
+Policies that are attached to users and roles as permissions boundaries are not returned.
+To view which managed policy is currently used to set the permissions boundary for a user
+or role, use the [`get_user`](@ref) or [`get_role`](@ref) operations.
 
 # Arguments
 
@@ -5546,9 +5702,9 @@ for a user or role, use the <a>GetUser</a> or <a>GetRole</a> operations.
   policies you want to list.
 
   To learn the service namespace for a service, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
-  in the *IAM User Guide*. Choose the name of the service to view details for that service.
-  In the first paragraph, find the service prefix. For example, `(service prefix: a4b)`.
-  For more information about service namespaces, see [Amazon Web Services service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
+  in the *IAM User Guide*. Choose the name of the service to view details for that
+  service. In the first paragraph, find the service prefix. For example,
+  `(service prefix: a4b)`. For more information about service namespaces, see [Amazon Web Services service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -5569,6 +5725,7 @@ function list_policies_granting_service_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policies_granting_service_access(
     Arn,
     ServiceNamespaces,
@@ -5613,13 +5770,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -5629,6 +5786,7 @@ function list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_tags(
     PolicyArn,
     params::AbstractDict{String};
@@ -5670,13 +5828,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -5686,6 +5844,7 @@ function list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_versions(
     PolicyArn,
     params::AbstractDict{String};
@@ -5708,8 +5867,8 @@ end
 Lists the names of the inline policies that are embedded in the specified IAM role.
 
 An IAM role can also have managed policies attached to it. To list the managed policies
-that are attached to a role, use <a>ListAttachedRolePolicies</a>. For more information
-about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+that are attached to a role, use [`list_attached_role_policies`](@ref). For more
+information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. If there are no
@@ -5731,13 +5890,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_role_policies(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -5747,6 +5906,7 @@ function list_role_policies(RoleName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_role_policies(
     RoleName,
     params::AbstractDict{String};
@@ -5775,8 +5935,8 @@ in the *IAM User Guide*.
 - `role_name`: The name of the IAM role for which you want to see the list of tags.
 
   This parameter accepts (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters that consist of upper and lowercase alphanumeric characters with no
-  spaces. You can also include any of the following characters: _+=,.@-
+  string of characters that consist of upper and lowercase alphanumeric characters with
+  no spaces. You can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
 
@@ -5786,13 +5946,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_role_tags(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -5802,6 +5962,7 @@ function list_role_tags(RoleName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_role_tags(
     RoleName,
     params::AbstractDict{String};
@@ -5827,12 +5988,16 @@ in the *IAM User Guide*.
 
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
-resource. This operation does not return the following attributes, even though they are an
-attribute of the returned object: - PermissionsBoundary
- - RoleLastUsed
- - Tags
-To view all of the information for a role, see <a>GetRole</a>.You can paginate the results
-using the `MaxItems` and `Marker` parameters.
+    resource. This operation does not return the following attributes, even though they are
+    an attribute of the returned object:
+
+    - PermissionsBoundary
+    - RoleLastUsed
+    - Tags
+
+    To view all of the information for a role, see [`get_role`](@ref).
+
+You can paginate the results using the `MaxItems` and `Marker` parameters.
 
 # Optional Parameters
 
@@ -5842,14 +6007,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
-- `"PathPrefix"`:  The path prefix for filtering the results. For example, the prefix
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. For example, the prefix
   `/application_abc/component_xyz/` gets all roles whose path starts with
   `/application_abc/component_xyz/`.
 
@@ -5863,6 +6028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_roles(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListRoles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_roles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5897,13 +6063,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_samlprovider_tags(
     SAMLProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -5915,6 +6081,7 @@ function list_samlprovider_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_samlprovider_tags(
     SAMLProviderArn,
     params::AbstractDict{String};
@@ -5939,15 +6106,16 @@ end
 Lists the SAML provider resource objects defined in IAM in the account. IAM resource-
 listing operations return a subset of the available attributes for the resource. For
 example, this operation does not return tags, even though they are an attribute of the
-returned object. To view all of the information for a SAML provider, see
-<a>GetSAMLProvider</a>.
+returned object. To view all of the information for a SAML provider, see [`get_samlprovider`](@ref).
 
 !!! important
     This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+
 """
 function list_samlproviders(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListSAMLProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_samlproviders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5966,9 +6134,9 @@ in the *IAM User Guide*.
 
 !!! note
     For certificates in a Region supported by Certificate Manager (ACM), we recommend that
-you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy
-your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-in the *IAM User Guide*.
+    you don't use IAM server certificates. Instead, use ACM to provision, manage, and
+    deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
@@ -5987,13 +6155,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_server_certificate_tags(
     ServerCertificateName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -6005,6 +6173,7 @@ function list_server_certificate_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_server_certificate_tags(
     ServerCertificateName,
     params::AbstractDict{String};
@@ -6031,7 +6200,7 @@ end
 Lists the server certificates stored in IAM that have the specified path prefix. If none
 exist, the operation returns an empty list.
 
- You can paginate the results using the `MaxItems` and `Marker` parameters.
+You can paginate the results using the `MaxItems` and `Marker` parameters.
 
 For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
 in the *IAM User Guide*. This topic also includes a list of Amazon Web Services services
@@ -6039,9 +6208,9 @@ that can use the server certificates that you manage with IAM.
 
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
-resource. For example, this operation does not return tags, even though they are an
-attribute of the returned object. To view all of the information for a servercertificate,
-see <a>GetServerCertificate</a>.
+    resource. For example, this operation does not return tags, even though they are an
+    attribute of the returned object. To view all of the information for a
+    servercertificate, see [`get_server_certificate`](@ref).
 
 # Optional Parameters
 
@@ -6051,14 +6220,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
-- `"PathPrefix"`:  The path prefix for filtering the results. For example:
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. For example:
   `/company/servercerts` would get all server certificates for which the path starts with
   `/company/servercerts`.
 
@@ -6074,6 +6243,7 @@ function list_server_certificates(; aws_config::AbstractAWSConfig=current_aws_co
         "ListServerCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_server_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6120,6 +6290,7 @@ function list_service_specific_credentials(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_specific_credentials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6155,13 +6326,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"UserName"`: The name of the IAM user whose signing certificates you want to examine.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -6173,6 +6344,7 @@ function list_signing_certificates(; aws_config::AbstractAWSConfig=current_aws_c
         "ListSigningCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_signing_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6207,16 +6379,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"UserName"`: The name of the IAM user to list SSH public keys for. If none is specified,
-  the `UserName` field is determined implicitly based on the Amazon Web Services access key
-  used to sign the request.
+  the `UserName` field is determined implicitly based on the Amazon Web Services access
+  key used to sign the request.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -6225,6 +6397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_sshpublic_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListSSHPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_sshpublic_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6240,8 +6413,8 @@ end
 Lists the names of the inline policies embedded in the specified IAM user.
 
 An IAM user can also have managed policies attached to it. To list the managed policies
-that are attached to a user, use <a>ListAttachedUserPolicies</a>. For more information
-about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+that are attached to a user, use [`list_attached_user_policies`](@ref). For more
+information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. If there are no
@@ -6263,13 +6436,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_user_policies(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -6279,6 +6452,7 @@ function list_user_policies(UserName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_policies(
     UserName,
     params::AbstractDict{String};
@@ -6318,13 +6492,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_user_tags(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -6334,6 +6508,7 @@ function list_user_tags(UserName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_tags(
     UserName,
     params::AbstractDict{String};
@@ -6359,11 +6534,15 @@ operation returns an empty list.
 
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
-resource. This operation does not return the following attributes, even though they are an
-attribute of the returned object: - PermissionsBoundary
- - Tags
-To view all of the information for a user, see <a>GetUser</a>.You can paginate the results
-using the `MaxItems` and `Marker` parameters.
+    resource. This operation does not return the following attributes, even though they are
+    an attribute of the returned object:
+
+    - PermissionsBoundary
+    - Tags
+
+    To view all of the information for a user, see [`get_user`](@ref).
+
+You can paginate the results using the `MaxItems` and `Marker` parameters.
 
 # Optional Parameters
 
@@ -6373,14 +6552,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
-- `"PathPrefix"`:  The path prefix for filtering the results. For example:
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. For example:
   `/division_abc/subdivision_xyz/`, which would get all user names whose path starts with
   `/division_abc/subdivision_xyz/`.
 
@@ -6394,6 +6573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_users(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6410,35 +6590,37 @@ virtual MFA devices. Assignment status can be `Assigned`, `Unassigned`, or `Any`
 
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
-resource. For example, this operation does not return tags, even though they are an
-attribute of the returned object. To view tag information for a virtual MFA device, see
-<a>ListMFADeviceTags</a>.You can paginate the results using the `MaxItems` and `Marker`
-parameters.
+    resource. For example, this operation does not return tags, even though they are an
+    attribute of the returned object. To view tag information for a virtual MFA device, see
+    [`list_mfadevice_tags`](@ref).
+
+You can paginate the results using the `MaxItems` and `Marker` parameters.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AssignmentStatus"`:  The status (`Unassigned` or `Assigned`) of the devices to list. If
+- `"AssignmentStatus"`: The status (`Unassigned` or `Assigned`) of the devices to list. If
   you do not specify an `AssignmentStatus`, the operation defaults to `Any`, which lists
   both assigned and unassigned virtual MFA devices.,
 - `"Marker"`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 """
 function list_virtual_mfadevices(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListVirtualMFADevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_virtual_mfadevices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6457,8 +6639,8 @@ end
 Adds or updates an inline policy document that is embedded in the specified IAM group.
 
 A user can also have managed policies attached to it. To attach a managed policy to a
-group, use [ `AttachGroupPolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html).
-To create a new managed policy, use [ `CreatePolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html).
+group, use [`AttachGroupPolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html).
+To create a new managed policy, use [`CreatePolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html).
 For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
@@ -6468,8 +6650,8 @@ in the *IAM User Guide*.
 
 !!! note
     Because policy documents can be large, you should use POST rather than GET when calling
-`PutGroupPolicy`. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
-in the *IAM User Guide*.
+    `PutGroupPolicy`. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
@@ -6484,13 +6666,16 @@ in the *IAM User Guide*.
   formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation
   always converts a YAML policy to JSON format before submitting it to IAM.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `policy_name`: The name of the policy document.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -6514,6 +6699,7 @@ function put_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_group_policy(
     GroupName,
     PolicyDocument,
@@ -6553,9 +6739,9 @@ You cannot set the boundary for a service-linked role.
 
 !!! important
     Policies used as permissions boundaries do not provide permissions. You must also
-attach a permissions policy to the role. To learn how the effective permissions for a role
-are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)
-in the IAM User Guide.
+    attach a permissions policy to the role. To learn how the effective permissions for a
+    role are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)
+    in the IAM User Guide.
 
 # Arguments
 
@@ -6568,7 +6754,7 @@ in the IAM User Guide.
   entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
   in the *IAM User Guide*.
 
-  For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
+  For more information about policy types, see [Policy types](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
   in the *IAM User Guide*.
 - `role_name`: The name (friendly name, not ARN) of the IAM role for which you want to set
   the permissions boundary.
@@ -6585,6 +6771,7 @@ function put_role_permissions_boundary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_role_permissions_boundary(
     PermissionsBoundary,
     RoleName,
@@ -6615,14 +6802,14 @@ Adds or updates an inline policy document that is embedded in the specified IAM 
 
 When you embed an inline policy in a role, the inline policy is used as part of the role's
 access (permissions) policy. The role's trust policy is created at the same time as the
-role, using [ `CreateRole` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html).
-You can update a role's trust policy using [ `UpdateAssumeRolePolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html).
+role, using [`CreateRole`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html).
+You can update a role's trust policy using [`UpdateAssumeRolePolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html).
 For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html)
 in the *IAM User Guide*.
 
 A role can also have a managed policy attached to it. To attach a managed policy to a role,
-use [ `AttachRolePolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html).
-To create a new managed policy, use [ `CreatePolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html).
+use [`AttachRolePolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html).
+To create a new managed policy, use [`CreatePolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html).
 For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
@@ -6632,8 +6819,8 @@ in the *IAM User Guide*.
 
 !!! note
     Because policy documents can be large, you should use POST rather than GET when calling
-`PutRolePolicy`. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
-in the *IAM User Guide*.
+    `PutRolePolicy`. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
@@ -6643,13 +6830,16 @@ in the *IAM User Guide*.
   formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation
   always converts a YAML policy to JSON format before submitting it to IAM.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `policy_name`: The name of the policy document.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -6675,6 +6865,7 @@ function put_role_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_role_policy(
     PolicyDocument,
     PolicyName,
@@ -6712,9 +6903,9 @@ for the user.
 
 !!! important
     Policies that are used as permissions boundaries do not provide permissions. You must
-also attach a permissions policy to the user. To learn how the effective permissions for a
-user are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)
-in the IAM User Guide.
+    also attach a permissions policy to the user. To learn how the effective permissions
+    for a user are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)
+    in the IAM User Guide.
 
 # Arguments
 
@@ -6727,7 +6918,7 @@ in the IAM User Guide.
   entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
   in the *IAM User Guide*.
 
-  For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
+  For more information about policy types, see [Policy types](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
   in the *IAM User Guide*.
 - `user_name`: The name (friendly name, not ARN) of the IAM user for which you want to set
   the permissions boundary.
@@ -6744,6 +6935,7 @@ function put_user_permissions_boundary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_user_permissions_boundary(
     PermissionsBoundary,
     UserName,
@@ -6773,8 +6965,8 @@ end
 Adds or updates an inline policy document that is embedded in the specified IAM user.
 
 An IAM user can also have a managed policy attached to it. To attach a managed policy to a
-user, use [ `AttachUserPolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html).
-To create a new managed policy, use [ `CreatePolicy` ](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html).
+user, use [`AttachUserPolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html).
+To create a new managed policy, use [`CreatePolicy`](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html).
 For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
@@ -6784,8 +6976,8 @@ in the *IAM User Guide*.
 
 !!! note
     Because policy documents can be large, you should use POST rather than GET when calling
-`PutUserPolicy`. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
-in the *IAM User Guide*.
+    `PutUserPolicy`. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
@@ -6795,13 +6987,16 @@ in the *IAM User Guide*.
   formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation
   always converts a YAML policy to JSON format before submitting it to IAM.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `policy_name`: The name of the policy document.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -6827,6 +7022,7 @@ function put_user_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_user_policy(
     PolicyDocument,
     PolicyName,
@@ -6865,10 +7061,10 @@ client ID that does not exist.
 # Arguments
 
 - `client_id`: The client ID (also known as audience) to remove from the IAM OIDC provider
-  resource. For more information about client IDs, see <a>CreateOpenIDConnectProvider</a>.
+  resource. For more information about client IDs, see [`create_open_idconnect_provider`](@ref).
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider
-  resource to remove the client ID from. You can get a list of OIDC provider ARNs by using
-  the <a>ListOpenIDConnectProviders</a> operation.
+  resource to remove the client ID from. You can get a list of OIDC provider ARNs by
+  using the [`list_open_idconnect_providers`](@ref) operation.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -6885,6 +7081,7 @@ function remove_client_idfrom_open_idconnect_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_client_idfrom_open_idconnect_provider(
     ClientID,
     OpenIDConnectProviderArn,
@@ -6916,8 +7113,10 @@ Removes the specified IAM role from the specified Amazon EC2 instance profile.
 
 !!! important
     Make sure that you do not have any Amazon EC2 instances running with the role you are
-about to remove from the instance profile. Removing a role from an instance profile that is
-associated with a running instance might break any applications running on the instance.
+    about to remove from the instance profile. Removing a role from an instance profile
+    that is associated with a running instance might break any applications running on the
+    instance.
+
 For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 in the *IAM User Guide*. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)
 in the *IAM User Guide*.
@@ -6947,6 +7146,7 @@ function remove_role_from_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_role_from_instance_profile(
     InstanceProfileName,
     RoleName,
@@ -6998,6 +7198,7 @@ function remove_user_from_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_user_from_group(
     GroupName,
     UserName,
@@ -7040,8 +7241,8 @@ user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"UserName"`: The name of the IAM user associated with the service-specific credential.
-  If this value is not specified, then the operation assumes the user whose credentials are
-  used to call the operation.
+  If this value is not specified, then the operation assumes the user whose credentials
+  are used to call the operation.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -7057,6 +7258,7 @@ function reset_service_specific_credential(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_service_specific_credential(
     ServiceSpecificCredentialId,
     params::AbstractDict{String};
@@ -7092,10 +7294,10 @@ in the *IAM User Guide*.
 
 - `authentication_code1`: An authentication code emitted by the device.
 
-The format for this parameter is a sequence of six digits.
+  The format for this parameter is a sequence of six digits.
 - `authentication_code2`: A subsequent authentication code emitted by the device.
 
-The format for this parameter is a sequence of six digits.
+  The format for this parameter is a sequence of six digits.
 - `serial_number`: Serial number that uniquely identifies the MFA device.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -7126,6 +7328,7 @@ function resync_mfadevice(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resync_mfadevice(
     AuthenticationCode1,
     AuthenticationCode2,
@@ -7161,8 +7364,7 @@ Sets the specified version of the specified policy as the policy's default (oper
 version.
 
 This operation affects all users, groups, and roles that the policy is attached to. To list
-the users, groups, and roles that the policy is attached to, use
-<a>ListEntitiesForPolicy</a>.
+the users, groups, and roles that the policy is attached to, use [`list_entities_for_policy`](@ref).
 
 For information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -7189,6 +7391,7 @@ function set_default_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_policy_version(
     PolicyArn,
     VersionId,
@@ -7231,15 +7434,15 @@ might affect systems where you temporarily store tokens. For information, see [A
 in the *IAM User Guide*.
 
 To view the current session token version, see the `GlobalEndpointTokenVersion` entry in
-the response of the <a>GetAccountSummary</a> operation.
+the response of the [`get_account_summary`](@ref) operation.
 
 # Arguments
 
 - `global_endpoint_token_version`: The version of the global endpoint token. Version 1
-  tokens are valid only in Amazon Web Services Regions that are available by default. These
-  tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version
-  2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect
-  systems where you temporarily store tokens.
+  tokens are valid only in Amazon Web Services Regions that are available by default.
+  These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong).
+  Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and
+  might affect systems where you temporarily store tokens.
 
   For information, see [Activating and deactivating STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html)
   in the *IAM User Guide*.
@@ -7254,6 +7457,7 @@ function set_security_token_service_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_security_token_service_preferences(
     GlobalEndpointTokenVersion,
     params::AbstractDict{String};
@@ -7288,60 +7492,61 @@ determine if the simulated policies allow or deny the operations. You can simula
 resources that don't exist in your account.
 
 If you want to simulate existing policies that are attached to an IAM user, group, or role,
-use <a>SimulatePrincipalPolicy</a> instead.
+use [`simulate_principal_policy`](@ref) instead.
 
 Context keys are variables that are maintained by Amazon Web Services and its services and
 which provide details about the context of an API query request. You can use the
 `Condition` element of an IAM policy to evaluate context keys. To get the list of context
-keys that the policies require for correct simulation, use
-<a>GetContextKeysForCustomPolicy</a>.
+keys that the policies require for correct simulation, use [`get_context_keys_for_custom_policy`](@ref).
 
 If the output is long, you can use `MaxItems` and `Marker` parameters to paginate the
 results.
 
 !!! note
     The IAM policy simulator evaluates statements in the identity-based policy and the
-inputs that you provide during simulation. The policy simulator results can differ from
-your live Amazon Web Services environment. We recommend that you check your policies
-against your live Amazon Web Services environment after testing using the policy simulator
-to confirm that you have the desired results. For more information about using the policy
-simulator, see [Testing IAM policies with the IAM policy simulator ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in
-the *IAM User Guide*.
+    inputs that you provide during simulation. The policy simulator results can differ from
+    your live Amazon Web Services environment. We recommend that you check your policies
+    against your live Amazon Web Services environment after testing using the policy
+    simulator to confirm that you have the desired results. For more information about
+    using the policy simulator, see [Testing IAM policies with the IAM policy simulator](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in
+    the *IAM User Guide*.
 
 # Arguments
 
 - `action_names`: A list of names of API operations to evaluate in the simulation. Each
   operation is evaluated against each resource. Each operation must include the service
-  identifier, such as `iam:CreateUser`. This operation does not support using wildcards (*)
-  in an action name.
+  identifier, such as `iam:CreateUser`. This operation does not support using wildcards
+  (*) in an action name.
 - `policy_input_list`: A list of policy documents to include in the simulation. Each
   document is specified as a string containing the complete, valid JSON text of an IAM
-  policy. Do not include any resource-based policies in this parameter. Any resource-based
-  policy must be submitted with the `ResourcePolicy` parameter. The policies cannot be
-  "scope-down" policies, such as you could include in a call to [GetFederationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetFederationToken.html)
+  policy. Do not include any resource-based policies in this parameter. Any resource-
+  based policy must be submitted with the `ResourcePolicy` parameter. The policies cannot
+  be "scope-down" policies, such as you could include in a call to [GetFederationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetFederationToken.html)
   or one of the [AssumeRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AssumeRole.html)
-  API operations. In other words, do not use policies designed to restrict what a user can
-  do while using the temporary credentials.
+  API operations. In other words, do not use policies designed to restrict what a user
+  can do while using the temporary credentials.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CallerArn"`: The ARN of the IAM user that you want to use as the simulated caller of
-  the API operations. `CallerArn` is required if you include a `ResourcePolicy` so that the
-  policy's `Principal` element has a value to use in evaluating the policy.
+  the API operations. `CallerArn` is required if you include a `ResourcePolicy` so that
+  the policy's `Principal` element has a value to use in evaluating the policy.
 
   You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed
   role, federated user, or a service principal.
@@ -7352,13 +7557,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"PermissionsBoundaryPolicyInputList"`: The IAM permissions boundary policy to simulate.
   The permissions boundary sets the maximum permissions that an IAM entity can have. You
   can input only one permissions boundary when you pass a policy to this operation. For
@@ -7366,17 +7571,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *IAM User Guide*. The policy input is specified as a string that contains the
   complete, valid JSON text of a permissions boundary policy.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `"ResourceArns"`: A list of ARNs of Amazon Web Services resources to include in the
   simulation. If this parameter is not provided, then the value defaults to `*` (all
   resources). Each API in the `ActionNames` parameter is evaluated for each resource in
@@ -7385,8 +7593,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in your account.
 
   The simulation does not automatically retrieve policies for the specified resources. If
-  you want to include a resource policy in the simulation, then you must include the policy
-  as a string in the `ResourcePolicy` parameter.
+  you want to include a resource policy in the simulation, then you must include the
+  policy as a string in the `ResourcePolicy` parameter.
 
   If you include a `ResourcePolicy`, then it must be applicable to all of the resources
   included in the simulation or you receive an invalid input error.
@@ -7394,36 +7602,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
-!!! note
-    Simulation of resource-based policies isn't supported for IAM roles.
+  !!! note
+      Simulation of resource-based policies isn't supported for IAM roles.
+
 - `"ResourceHandlingOption"`: Specifies the type of simulation to run. Different API
   operations that support resource-based policies require different combinations of
   resources. By specifying the type of simulation to run, you enable the policy simulator
-  to enforce the presence of the required resources to ensure reliable simulation results.
-  If your simulation does not match one of the following scenarios, then you can omit this
-  parameter. The following list shows each of the supported scenario values and the
-  resources that you must define to run the simulation.
+  to enforce the presence of the required resources to ensure reliable simulation
+  results. If your simulation does not match one of the following scenarios, then you can
+  omit this parameter. The following list shows each of the supported scenario values and
+  the resources that you must define to run the simulation.
 
-  Each of the Amazon EC2 scenarios requires that you specify instance, image, and security
-  group resources. If your scenario includes an EBS volume, then you must specify that
-  volume as a resource. If the Amazon EC2 scenario includes VPC, then you must supply the
-  network interface resource. If it includes an IP subnet, then you must specify the subnet
-  resource. For more information on the Amazon EC2 scenario options, see [Supported platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
-  in the *Amazon EC2 User Guide*.</p> - **EC2-VPC-InstanceStore**
+  Each of the Amazon EC2 scenarios requires that you specify instance, image, and
+  security group resources. If your scenario includes an EBS volume, then you must
+  specify that volume as a resource. If the Amazon EC2 scenario includes VPC, then you
+  must supply the network interface resource. If it includes an IP subnet, then you must
+  specify the subnet resource. For more information on the Amazon EC2 scenario options,
+  see [Supported platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
+  in the *Amazon EC2 User Guide*.
+
+  - **EC2-VPC-InstanceStore**
 
   instance, image, security group, network interface
-   - **EC2-VPC-InstanceStore-Subnet**
+  - **EC2-VPC-InstanceStore-Subnet**
 
   instance, image, security group, network interface, subnet
-   - **EC2-VPC-EBS**
+  - **EC2-VPC-EBS**
 
   instance, image, security group, network interface, volume
-   - **EC2-VPC-EBS-Subnet**
+  - **EC2-VPC-EBS-Subnet**
 
- <p>instance, image, security group, network interface, subnet, volume
+  instance, image, security group, network interface, subnet, volume
+
 - `"ResourceOwner"`: An ARN representing the Amazon Web Services account ID that specifies
-  the owner of any simulated resource that does not identify its owner in the resource ARN.
-  Examples of resource ARNs include an S3 bucket or object. If `ResourceOwner` is
+  the owner of any simulated resource that does not identify its owner in the resource
+  ARN. Examples of resource ARNs include an S3 bucket or object. If `ResourceOwner` is
   specified, it is also used as the account owner of any `ResourcePolicy` included in the
   simulation. If the `ResourceOwner` parameter is not specified, then the owner of the
   resources and the resource policy defaults to the account of the identity provided in
@@ -7435,24 +7648,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, to represent the account with the 112233445566 ID, use the following ARN:
   `arn:aws:iam::112233445566-ID:root`.
 - `"ResourcePolicy"`: A resource-based policy to include in the simulation provided as a
-  string. Each resource in the simulation is treated as if it had this policy attached. You
-  can include only one resource-based policy in a simulation.
+  string. Each resource in the simulation is treated as if it had this policy attached.
+  You can include only one resource-based policy in a simulation.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
 
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
 
-!!! note
-    Simulation of resource-based policies isn't supported for IAM roles.
+  !!! note
+      Simulation of resource-based policies isn't supported for IAM roles.
+
 """
 function simulate_custom_policy(
     ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -7466,6 +7681,7 @@ function simulate_custom_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function simulate_custom_policy(
     ActionNames,
     PolicyInputList,
@@ -7500,7 +7716,7 @@ belongs to. You can simulate resources that don't exist in your account.
 
 You can optionally include a list of one or more additional policies specified as strings
 to include in the simulation. If you want to simulate only policies specified as strings,
-use <a>SimulateCustomPolicy</a> instead.
+use [`simulate_custom_policy`](@ref) instead.
 
 You can also optionally include one resource-based policy to be evaluated with each of the
 resources included in the simulation for IAM users only.
@@ -7508,26 +7724,26 @@ resources included in the simulation for IAM users only.
 The simulation does not perform the API operations; it only checks the authorization to
 determine if the simulated policies allow or deny the operations.
 
- **Note:** This operation discloses information about the permissions granted to other
+**Note:** This operation discloses information about the permissions granted to other
 users. If you do not want users to see other user's permissions, then consider allowing
-them to use <a>SimulateCustomPolicy</a> instead.
+them to use [`simulate_custom_policy`](@ref) instead.
 
 Context keys are variables maintained by Amazon Web Services and its services that provide
 details about the context of an API query request. You can use the `Condition` element of
 an IAM policy to evaluate context keys. To get the list of context keys that the policies
-require for correct simulation, use <a>GetContextKeysForPrincipalPolicy</a>.
+require for correct simulation, use [`get_context_keys_for_principal_policy`](@ref).
 
 If the output is long, you can use the `MaxItems` and `Marker` parameters to paginate the
 results.
 
 !!! note
     The IAM policy simulator evaluates statements in the identity-based policy and the
-inputs that you provide during simulation. The policy simulator results can differ from
-your live Amazon Web Services environment. We recommend that you check your policies
-against your live Amazon Web Services environment after testing using the policy simulator
-to confirm that you have the desired results. For more information about using the policy
-simulator, see [Testing IAM policies with the IAM policy simulator ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in
-the *IAM User Guide*.
+    inputs that you provide during simulation. The policy simulator results can differ from
+    your live Amazon Web Services environment. We recommend that you check your policies
+    against your live Amazon Web Services environment after testing using the policy
+    simulator to confirm that you have the desired results. For more information about
+    using the policy simulator, see [Testing IAM policies with the IAM policy simulator](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in
+    the *IAM User Guide*.
 
 # Arguments
 
@@ -7536,13 +7752,13 @@ the *IAM User Guide*.
   identifier, such as `iam:CreateUser`.
 - `policy_source_arn`: The Amazon Resource Name (ARN) of a user, group, or role whose
   policies you want to include in the simulation. If you specify a user, group, or role,
-  the simulation includes all policies that are associated with that entity. If you specify
-  a user, the simulation also includes all policies that are attached to any groups the
-  user belongs to.
+  the simulation includes all policies that are associated with that entity. If you
+  specify a user, the simulation also includes all policies that are attached to any
+  groups the user belongs to.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -7552,16 +7768,16 @@ the *IAM User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CallerArn"`: The ARN of the IAM user that you want to specify as the simulated caller
-  of the API operations. If you do not specify a `CallerArn`, it defaults to the ARN of the
-  user that you specify in `PolicySourceArn`, if you specified a user. If you include both
-  a `PolicySourceArn` (for example, `arn:aws:iam::123456789012:user/David`) and a
+  of the API operations. If you do not specify a `CallerArn`, it defaults to the ARN of
+  the user that you specify in `PolicySourceArn`, if you specified a user. If you include
+  both a `PolicySourceArn` (for example, `arn:aws:iam::123456789012:user/David`) and a
   `CallerArn` (for example, `arn:aws:iam::123456789012:user/Bob`), the result is that you
   simulate calling the API operations as Bob, as if Bob had David's policies.
 
   You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed
   role, federated user, or a service principal.
 
-   `CallerArn` is required if you include a `ResourcePolicy` and the `PolicySourceArn` is
+  `CallerArn` is required if you include a `ResourcePolicy` and the `PolicySourceArn` is
   not the ARN for an IAM user. This is required so that the resource-based policy's
   `Principal` element has a value to use in evaluating the policy.
 
@@ -7574,13 +7790,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response indicating that the results are truncated. Set it to the value of the `Marker`
   element in the response that you received to indicate where the next call should start.
 - `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
-  items you want in the response. If additional items exist beyond the maximum you specify,
-  the `IsTruncated` response element is `true`.
+  items you want in the response. If additional items exist beyond the maximum you
+  specify, the `IsTruncated` response element is `true`.
 
-  If you do not include this parameter, the number of items defaults to 100. Note that IAM
-  might return fewer results, even when there are more results available. In that case, the
-  `IsTruncated` response element returns `true`, and `Marker` contains a value to include
-  in the subsequent call that tells the service where to continue from.
+  If you do not include this parameter, the number of items defaults to 100. Note that
+  IAM might return fewer results, even when there are more results available. In that
+  case, the `IsTruncated` response element returns `true`, and `Marker` contains a value
+  to include in the subsequent call that tells the service where to continue from.
 - `"PermissionsBoundaryPolicyInputList"`: The IAM permissions boundary policy to simulate.
   The permissions boundary sets the maximum permissions that the entity can have. You can
   input only one permissions boundary when you pass a policy to this operation. An IAM
@@ -7591,28 +7807,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *IAM User Guide*. The policy input is specified as a string containing the
   complete, valid JSON text of a permissions boundary policy.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `"PolicyInputList"`: An optional list of additional policy documents to include in the
   simulation. Each document is specified as a string containing the complete, valid JSON
   text of an IAM policy.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `"ResourceArns"`: A list of ARNs of Amazon Web Services resources to include in the
   simulation. If this parameter is not provided, then the value defaults to `*` (all
   resources). Each API in the `ActionNames` parameter is evaluated for each resource in
@@ -7621,67 +7843,74 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in your account.
 
   The simulation does not automatically retrieve policies for the specified resources. If
-  you want to include a resource policy in the simulation, then you must include the policy
-  as a string in the `ResourcePolicy` parameter.
+  you want to include a resource policy in the simulation, then you must include the
+  policy as a string in the `ResourcePolicy` parameter.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
-!!! note
-    Simulation of resource-based policies isn't supported for IAM roles.
+  !!! note
+      Simulation of resource-based policies isn't supported for IAM roles.
+
 - `"ResourceHandlingOption"`: Specifies the type of simulation to run. Different API
   operations that support resource-based policies require different combinations of
   resources. By specifying the type of simulation to run, you enable the policy simulator
-  to enforce the presence of the required resources to ensure reliable simulation results.
-  If your simulation does not match one of the following scenarios, then you can omit this
-  parameter. The following list shows each of the supported scenario values and the
-  resources that you must define to run the simulation.
+  to enforce the presence of the required resources to ensure reliable simulation
+  results. If your simulation does not match one of the following scenarios, then you can
+  omit this parameter. The following list shows each of the supported scenario values and
+  the resources that you must define to run the simulation.
 
-  Each of the Amazon EC2 scenarios requires that you specify instance, image, and security
-  group resources. If your scenario includes an EBS volume, then you must specify that
-  volume as a resource. If the Amazon EC2 scenario includes VPC, then you must supply the
-  network interface resource. If it includes an IP subnet, then you must specify the subnet
-  resource. For more information on the Amazon EC2 scenario options, see [Supported platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
-  in the *Amazon EC2 User Guide*.</p> - **EC2-VPC-InstanceStore**
+  Each of the Amazon EC2 scenarios requires that you specify instance, image, and
+  security group resources. If your scenario includes an EBS volume, then you must
+  specify that volume as a resource. If the Amazon EC2 scenario includes VPC, then you
+  must supply the network interface resource. If it includes an IP subnet, then you must
+  specify the subnet resource. For more information on the Amazon EC2 scenario options,
+  see [Supported platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
+  in the *Amazon EC2 User Guide*.
+
+  - **EC2-VPC-InstanceStore**
 
   instance, image, security group, network interface
-   - **EC2-VPC-InstanceStore-Subnet**
+  - **EC2-VPC-InstanceStore-Subnet**
 
   instance, image, security group, network interface, subnet
-   - **EC2-VPC-EBS**
+  - **EC2-VPC-EBS**
 
   instance, image, security group, network interface, volume
-   - **EC2-VPC-EBS-Subnet**
+  - **EC2-VPC-EBS-Subnet**
 
- <p>instance, image, security group, network interface, subnet, volume
+  instance, image, security group, network interface, subnet, volume
+
 - `"ResourceOwner"`: An Amazon Web Services account ID that specifies the owner of any
   simulated resource that does not identify its owner in the resource ARN. Examples of
-  resource ARNs include an S3 bucket or object. If `ResourceOwner` is specified, it is also
-  used as the account owner of any `ResourcePolicy` included in the simulation. If the
-  `ResourceOwner` parameter is not specified, then the owner of the resources and the
+  resource ARNs include an S3 bucket or object. If `ResourceOwner` is specified, it is
+  also used as the account owner of any `ResourcePolicy` included in the simulation. If
+  the `ResourceOwner` parameter is not specified, then the owner of the resources and the
   resource policy defaults to the account of the identity provided in `CallerArn`. This
   parameter is required only if you specify a resource-based policy and account that owns
   the resource is different from the account that owns the simulated calling user
   `CallerArn`.
 - `"ResourcePolicy"`: A resource-based policy to include in the simulation provided as a
-  string. Each resource in the simulation is treated as if it had this policy attached. You
-  can include only one resource-based policy in a simulation.
+  string. Each resource in the simulation is treated as if it had this policy attached.
+  You can include only one resource-based policy in a simulation.
 
-  The maximum length of the policy document that you can pass in this operation, including
-  whitespace, is listed below. To view the maximum character counts of a managed policy
-  with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+  The maximum length of the policy document that you can pass in this operation,
+  including whitespace, is listed below. To view the maximum character counts of a
+  managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
 
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
 
-!!! note
-    Simulation of resource-based policies isn't supported for IAM roles.
+  !!! note
+      Simulation of resource-based policies isn't supported for IAM roles.
+
 """
 function simulate_principal_policy(
     ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -7695,6 +7924,7 @@ function simulate_principal_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function simulate_principal_policy(
     ActionNames,
     PolicySourceArn,
@@ -7725,24 +7955,25 @@ Adds one or more tags to an IAM instance profile. If a tag with the same key nam
 exists, then that tag is overwritten with the new value.
 
 Each tag consists of a key name and an associated value. By assigning tags to your
-resources, you can do the following: - **Administrative grouping and discovery** - Attach
-tags to resources to aid in organization and search. For example, you could search for all
-resources with the key name *Project* and the value *MyImportantProject*. Or search for all
-resources with the key name *Cost Center* and the value *41200*.
- - **Access control** - Include tags in IAM user-based and resource-based policies. You can
-use tags to restrict access to only an IAM instance profile that has a specified tag
-attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
+resources, you can do the following:
 
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM user-based and resource-based policies. You can
+  use tags to restrict access to only an IAM instance profile that has a specified tag
+  attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
 
 # Arguments
 
@@ -7765,6 +7996,7 @@ function tag_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_instance_profile(
     InstanceProfileName,
     Tags,
@@ -7795,24 +8027,25 @@ Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device
 with the same key name already exists, then that tag is overwritten with the new value.
 
 A tag consists of a key name and an associated value. By assigning tags to your resources,
-you can do the following: - **Administrative grouping and discovery** - Attach tags to
-resources to aid in organization and search. For example, you could search for all
-resources with the key name *Project* and the value *MyImportantProject*. Or search for all
-resources with the key name *Cost Center* and the value *41200*.
- - **Access control** - Include tags in IAM user-based and resource-based policies. You can
-use tags to restrict access to only an IAM virtual MFA device that has a specified tag
-attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
+you can do the following:
 
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM user-based and resource-based policies. You can
+  use tags to restrict access to only an IAM virtual MFA device that has a specified tag
+  attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
 
 # Arguments
 
@@ -7835,6 +8068,7 @@ function tag_mfadevice(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_mfadevice(
     SerialNumber,
     Tags,
@@ -7865,24 +8099,25 @@ If a tag with the same key name already exists, then that tag is overwritten wit
 value.
 
 A tag consists of a key name and an associated value. By assigning tags to your resources,
-you can do the following: - **Administrative grouping and discovery** - Attach tags to
-resources to aid in organization and search. For example, you could search for all
-resources with the key name *Project* and the value *MyImportantProject*. Or search for all
-resources with the key name *Cost Center* and the value *41200*.
- - **Access control** - Include tags in IAM identity-based and resource-based policies. You
-can use tags to restrict access to only an OIDC provider that has a specified tag attached.
-For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
+you can do the following:
 
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM identity-based and resource-based policies. You
+  can use tags to restrict access to only an OIDC provider that has a specified tag
+  attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
 
 # Arguments
 
@@ -7907,6 +8142,7 @@ function tag_open_idconnect_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_open_idconnect_provider(
     OpenIDConnectProviderArn,
     Tags,
@@ -7937,24 +8173,25 @@ Adds one or more tags to an IAM customer managed policy. If a tag with the same 
 already exists, then that tag is overwritten with the new value.
 
 A tag consists of a key name and an associated value. By assigning tags to your resources,
-you can do the following: - **Administrative grouping and discovery** - Attach tags to
-resources to aid in organization and search. For example, you could search for all
-resources with the key name *Project* and the value *MyImportantProject*. Or search for all
-resources with the key name *Cost Center* and the value *41200*.
- - **Access control** - Include tags in IAM user-based and resource-based policies. You can
-use tags to restrict access to only an IAM customer managed policy that has a specified tag
-attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
+you can do the following:
 
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM user-based and resource-based policies. You can
+  use tags to restrict access to only an IAM customer managed policy that has a specified
+  tag attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
 
 # Arguments
 
@@ -7974,6 +8211,7 @@ function tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_policy(
     PolicyArn,
     Tags,
@@ -8001,27 +8239,29 @@ role. If a tag with the same key name already exists, then that tag is overwritt
 new value.
 
 A tag consists of a key name and an associated value. By assigning tags to your resources,
-you can do the following: - **Administrative grouping and discovery** - Attach tags to
-resources to aid in organization and search. For example, you could search for all
-resources with the key name *Project* and the value *MyImportantProject*. Or search for all
-resources with the key name *Cost Center* and the value *41200*.
- - **Access control** - Include tags in IAM user-based and resource-based policies. You can
-use tags to restrict access to only an IAM role that has a specified tag attached. You can
-also restrict access to only those resources that have a certain tag attached. For examples
-of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
- - **Cost allocation** - Use tags to help track which individuals and teams are using which
-Amazon Web Services resources.
+you can do the following:
 
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM user-based and resource-based policies. You can
+  use tags to restrict access to only an IAM role that has a specified tag attached. You
+  can also restrict access to only those resources that have a certain tag attached. For
+  examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
+- **Cost allocation** - Use tags to help track which individuals and teams are using which
+  Amazon Web Services resources.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
+
 For more information about tagging, see [Tagging IAM identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
 in the *IAM User Guide*.
 
@@ -8030,8 +8270,8 @@ in the *IAM User Guide*.
 - `role_name`: The name of the IAM role to which you want to add tags.
 
   This parameter accepts (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters that consist of upper and lowercase alphanumeric characters with no
-  spaces. You can also include any of the following characters: _+=,.@-
+  string of characters that consist of upper and lowercase alphanumeric characters with
+  no spaces. You can also include any of the following characters: _+=,.@-
 - `tags`: The list of tags that you want to attach to the IAM role. Each tag consists of a
   key name and an associated value.
 """
@@ -8043,6 +8283,7 @@ function tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_role(
     RoleName,
     Tags,
@@ -8066,29 +8307,30 @@ end
     tag_samlprovider(samlprovider_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more tags to a Security Assertion Markup Language (SAML) identity provider. For
-more information about these providers, see [About SAML 2.0-based federation ](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html).
+more information about these providers, see [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html).
 If a tag with the same key name already exists, then that tag is overwritten with the new
 value.
 
 A tag consists of a key name and an associated value. By assigning tags to your resources,
-you can do the following: - **Administrative grouping and discovery** - Attach tags to
-resources to aid in organization and search. For example, you could search for all
-resources with the key name *Project* and the value *MyImportantProject*. Or search for all
-resources with the key name *Cost Center* and the value *41200*.
- - **Access control** - Include tags in IAM user-based and resource-based policies. You can
-use tags to restrict access to only a SAML identity provider that has a specified tag
-attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
+you can do the following:
 
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM user-based and resource-based policies. You can
+  use tags to restrict access to only a SAML identity provider that has a specified tag
+  attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
 
 # Arguments
 
@@ -8111,6 +8353,7 @@ function tag_samlprovider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_samlprovider(
     SAMLProviderArn,
     Tags,
@@ -8140,30 +8383,32 @@ exists, then that tag is overwritten with the new value.
 
 !!! note
     For certificates in a Region supported by Certificate Manager (ACM), we recommend that
-you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy
-your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-in the *IAM User Guide*.A tag consists of a key name and an associated value. By assigning
-tags to your resources, you can do the following: - **Administrative grouping and
-discovery** - Attach tags to resources to aid in organization and search. For example, you
-could search for all resources with the key name *Project* and the value
-*MyImportantProject*. Or search for all resources with the key name *Cost Center* and the
-value *41200*.
- - **Access control** - Include tags in IAM user-based and resource-based policies. You can
-use tags to restrict access to only a server certificate that has a specified tag attached.
-For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
- - **Cost allocation** - Use tags to help track which individuals and teams are using which
-Amazon Web Services resources.
+    you don't use IAM server certificates. Instead, use ACM to provision, manage, and
+    deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+    in the *IAM User Guide*.
 
+A tag consists of a key name and an associated value. By assigning tags to your resources,
+you can do the following:
+
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM user-based and resource-based policies. You can
+  use tags to restrict access to only a server certificate that has a specified tag
+  attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
+- **Cost allocation** - Use tags to help track which individuals and teams are using which
+  Amazon Web Services resources.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
 
 # Arguments
 
@@ -8186,6 +8431,7 @@ function tag_server_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_server_certificate(
     ServerCertificateName,
     Tags,
@@ -8216,27 +8462,29 @@ Adds one or more tags to an IAM user. If a tag with the same key name already ex
 that tag is overwritten with the new value.
 
 A tag consists of a key name and an associated value. By assigning tags to your resources,
-you can do the following: - **Administrative grouping and discovery** - Attach tags to
-resources to aid in organization and search. For example, you could search for all
-resources with the key name *Project* and the value *MyImportantProject*. Or search for all
-resources with the key name *Cost Center* and the value *41200*.
- - **Access control** - Include tags in IAM identity-based and resource-based policies. You
-can use tags to restrict access to only an IAM requesting user that has a specified tag
-attached. You can also restrict access to only those resources that have a certain tag
-attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
-in the *IAM User Guide*.
- - **Cost allocation** - Use tags to help track which individuals and teams are using which
-Amazon Web Services resources.
+you can do the following:
 
+- **Administrative grouping and discovery** - Attach tags to resources to aid in
+  organization and search. For example, you could search for all resources with the key
+  name *Project* and the value *MyImportantProject*. Or search for all resources with the
+  key name *Cost Center* and the value *41200*.
+- **Access control** - Include tags in IAM identity-based and resource-based policies. You
+  can use tags to restrict access to only an IAM requesting user that has a specified tag
+  attached. You can also restrict access to only those resources that have a certain tag
+  attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)
+  in the *IAM User Guide*.
+- **Cost allocation** - Use tags to help track which individuals and teams are using which
+  Amazon Web Services resources.
 
 !!! note
     - If any one of the tags is invalid or if you exceed the allowed maximum number of
-tags, then the entire request fails and the resource is not created. For more information
-about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
-in the *IAM User Guide*.
- - Amazon Web Services always interprets the tag `Value` as a single string. If you need to
-store an array, you can store comma-separated values in the string. However, you must
-interpret the value in your code.
+      tags, then the entire request fails and the resource is not created. For more
+      information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
+      in the *IAM User Guide*.
+    - Amazon Web Services always interprets the tag `Value` as a single string. If you need
+      to store an array, you can store comma-separated values in the string. However, you
+      must interpret the value in your code.
+
 For more information about tagging, see [Tagging IAM identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
 in the *IAM User Guide*.
 
@@ -8258,6 +8506,7 @@ function tag_user(Tags, UserName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_user(
     Tags,
     UserName,
@@ -8307,6 +8556,7 @@ function untag_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_instance_profile(
     InstanceProfileName,
     TagKeys,
@@ -8358,6 +8608,7 @@ function untag_mfadevice(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_mfadevice(
     SerialNumber,
     TagKeys,
@@ -8410,6 +8661,7 @@ function untag_open_idconnect_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_open_idconnect_provider(
     OpenIDConnectProviderArn,
     TagKeys,
@@ -8462,6 +8714,7 @@ function untag_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_policy(
     PolicyArn,
     TagKeys,
@@ -8494,8 +8747,8 @@ in the *IAM User Guide*.
 - `role_name`: The name of the IAM role from which you want to remove tags.
 
   This parameter accepts (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters that consist of upper and lowercase alphanumeric characters with no
-  spaces. You can also include any of the following characters: _+=,.@-
+  string of characters that consist of upper and lowercase alphanumeric characters with
+  no spaces. You can also include any of the following characters: _+=,.@-
 - `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
   are removed from the specified role.
 """
@@ -8507,6 +8760,7 @@ function untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_role(
     RoleName,
     TagKeys,
@@ -8557,6 +8811,7 @@ function untag_samlprovider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_samlprovider(
     SAMLProviderArn,
     TagKeys,
@@ -8589,9 +8844,9 @@ in the *IAM User Guide*.
 
 !!! note
     For certificates in a Region supported by Certificate Manager (ACM), we recommend that
-you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy
-your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-in the *IAM User Guide*.
+    you don't use IAM server certificates. Instead, use ACM to provision, manage, and
+    deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
@@ -8616,6 +8871,7 @@ function untag_server_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_server_certificate(
     ServerCertificateName,
     TagKeys,
@@ -8663,6 +8919,7 @@ function untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_user(
     TagKeys,
     UserName,
@@ -8707,8 +8964,8 @@ in the *IAM User Guide*.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters that can consist of any upper or lowercased letter or digit.
-- `status`:  The status you want to assign to the secret access key. `Active` means that
-  the key can be used for programmatic calls to Amazon Web Services, while `Inactive` means
+- `status`: The status you want to assign to the secret access key. `Active` means that the
+  key can be used for programmatic calls to Amazon Web Services, while `Inactive` means
   that the key cannot be used.
 
 # Optional Parameters
@@ -8731,6 +8988,7 @@ function update_access_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_key(
     AccessKeyId,
     Status,
@@ -8759,27 +9017,29 @@ Updates the password policy settings for the Amazon Web Services account.
 
 !!! note
     This operation does not support partial updates. No parameters are required, but if you
-do not specify a parameter, that parameter's value reverts to its default value. See the
-**Request Parameters** section for each parameter's default value. Also note that some
-parameters do not allow the default parameter to be explicitly set. Instead, to invoke the
-default value, do not include that parameter when you invoke the operation. For more
-information about using a password policy, see [Managing an IAM password policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html)
+    do not specify a parameter, that parameter's value reverts to its default value. See
+    the **Request Parameters** section for each parameter's default value. Also note that
+    some parameters do not allow the default parameter to be explicitly set. Instead, to
+    invoke the default value, do not include that parameter when you invoke the operation.
+
+For more information about using a password policy, see [Managing an IAM password policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html)
 in the *IAM User Guide*.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AllowUsersToChangePassword"`:  Allows all IAM users in your account to use the Amazon
-  Web Services Management Console to change their own passwords. For more information, see [Permitting IAM users to change their own passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_enable-user-change.html)
+- `"AllowUsersToChangePassword"`: Allows all IAM users in your account to use the Amazon
+  Web Services Management Console to change their own passwords. For more information,
+  see [Permitting IAM users to change their own passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_enable-user-change.html)
   in the *IAM User Guide*.
 
   If you do not specify a value for this parameter, then the operation uses the default
   value of `false`. The result is that IAM users in the account do not automatically have
   permissions to change their own password.
-- `"HardExpiry"`:  Prevents IAM users who are accessing the account via the Amazon Web
-  Services Management Console from setting a new console password after their password has
-  expired. The IAM user cannot access the console until an administrator resets the
+- `"HardExpiry"`: Prevents IAM users who are accessing the account via the Amazon Web
+  Services Management Console from setting a new console password after their password
+  has expired. The IAM user cannot access the console until an administrator resets the
   password.
 
   If you do not specify a value for this parameter, then the operation uses the default
@@ -8788,12 +9048,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       In the Amazon Web Services Management Console, the custom password policy option
-  **Allow users to change their own password** gives IAM users permissions to
-  `iam:ChangePassword` for only their user and to the `iam:GetAccountPasswordPolicy`
-  action. This option does not attach a permissions policy to each user, rather the
-  permissions are applied at the account-level for all users by IAM. IAM users with
-  `iam:ChangePassword` permission and active access keys can reset their own expired
-  console password using the CLI or API.
+      **Allow users to change their own password** gives IAM users permissions to
+      `iam:ChangePassword` for only their user and to the `iam:GetAccountPasswordPolicy`
+      action. This option does not attach a permissions policy to each user, rather the
+      permissions are applied at the account-level for all users by IAM. IAM users with
+      `iam:ChangePassword` permission and active access keys can reset their own expired
+      console password using the CLI or API.
+
 - `"MaxPasswordAge"`: The number of days that an IAM user password is valid.
 
   If you do not specify a value for this parameter, then the operation uses the default
@@ -8826,7 +9087,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   ! @ # \$ % ^ &amp; * ( ) _ + - = [ ] { } | '
 
-If you do not specify a value for this parameter, then the operation uses the default value of `false`. The result is that passwords do not require at least one symbol character.
+  If you do not specify a value for this parameter, then the operation uses the default
+  value of `false`. The result is that passwords do not require at least one symbol
+  character.
 - `"RequireUppercaseCharacters"`: Specifies whether IAM user passwords must contain at
   least one uppercase character from the ISO basic Latin alphabet (A to Z).
 
@@ -8843,6 +9106,7 @@ function update_account_password_policy(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_password_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8869,13 +9133,16 @@ referred to as the "role trust policy". For more information about roles, see [U
   formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation
   always converts a YAML policy to JSON format before submitting it to IAM.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `role_name`: The name of the role to update with the new policy.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -8892,6 +9159,7 @@ function update_assume_role_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assume_role_policy(
     PolicyDocument,
     RoleName,
@@ -8922,15 +9190,15 @@ Updates the name and/or the path of the specified IAM group.
 
 !!! important
     You should understand the implications of changing a group's path or name. For more
-information, see [Renaming users and groups](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html)
-in the *IAM User Guide*.
+    information, see [Renaming users and groups](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html)
+    in the *IAM User Guide*.
 
 !!! note
     The person making the request (the principal), must have permission to change the role
-group with the old name and the new name. For example, to change the group named `Managers`
-to `MGRs`, the principal must have a policy that allows them to update both groups. If the
-principal has permission to update the `Managers` group, but not the `MGRs` group, then the
-update fails. For more information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html).
+    group with the old name and the new name. For example, to change the group named
+    `Managers` to `MGRs`, the principal must have a policy that allows them to update both
+    groups. If the principal has permission to update the `Managers` group, but not the
+    `MGRs` group, then the update fails. For more information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html).
 
 # Arguments
 
@@ -8948,16 +9216,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NewGroupName"`: New name for the IAM group. Only include this if changing the group's
   name.
 
-  IAM user, group, role, and policy names must be unique within the account. Names are not
-  distinguished by case. For example, you cannot create resources named both "MyResource"
-  and "myresource".
+  IAM user, group, role, and policy names must be unique within the account. Names are
+  not distinguished by case. For example, you cannot create resources named both
+  "MyResource" and "myresource".
 - `"NewPath"`: New path for the IAM group. Only include this if changing the group's path.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 """
 function update_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -8967,6 +9235,7 @@ function update_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupName,
     params::AbstractDict{String};
@@ -8988,7 +9257,7 @@ end
 
 Changes the password for the specified IAM user. You can use the CLI, the Amazon Web
 Services API, or the **Users** page in the IAM console to change the password for any IAM
-user. Use <a>ChangePassword</a> to change your own password in the **My Security
+user. Use [`change_password`](@ref) to change your own password in the **My Security
 Credentials** page in the Amazon Web Services Management Console.
 
 For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
@@ -9008,16 +9277,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Password"`: The new password for the specified IAM user.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
   However, the format can be further restricted by the account administrator by setting a
-  password policy on the Amazon Web Services account. For more information, see
-  <a>UpdateAccountPasswordPolicy</a>.
+  password policy on the Amazon Web Services account. For more information, see [`update_account_password_policy`](@ref).
 - `"PasswordResetRequired"`: Allows this new password to be used only once by requiring the
   specified IAM user to set a new password on next sign-in.
 """
@@ -9029,6 +9300,7 @@ function update_login_profile(UserName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_login_profile(
     UserName,
     params::AbstractDict{String};
@@ -9061,27 +9333,26 @@ the certificate thumbprint is updated.
 
 !!! note
     Amazon Web Services secures communication with OIDC identity providers (IdPs) using our
-library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS)
-endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed by
-one of these trusted CAs, only then we secure communication using the thumbprints set in
-the IdP's configuration.
+    library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set
+    (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not
+    signed by one of these trusted CAs, only then we secure communication using the
+    thumbprints set in the IdP's configuration.
 
 !!! note
     Trust for the OIDC provider is derived from the provider certificate and is validated
-by the thumbprint. Therefore, it is best to limit access to the
-`UpdateOpenIDConnectProviderThumbprint` operation to highly privileged users.
+    by the thumbprint. Therefore, it is best to limit access to the [`update_open_idconnect_provider_thumbprint`](@ref)
+    operation to highly privileged users.
 
 # Arguments
 
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider
   resource object for which you want to update the thumbprint. You can get a list of OIDC
-  provider ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
+  provider ARNs by using the [`list_open_idconnect_providers`](@ref) operation.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `thumbprint_list`: A list of certificate thumbprints that are associated with the
-  specified IAM OpenID Connect provider. For more information, see
-  <a>CreateOpenIDConnectProvider</a>.
+  specified IAM OpenID Connect provider. For more information, see [`create_open_idconnect_provider`](@ref).
 """
 function update_open_idconnect_provider_thumbprint(
     OpenIDConnectProviderArn,
@@ -9098,6 +9369,7 @@ function update_open_idconnect_provider_thumbprint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_open_idconnect_provider_thumbprint(
     OpenIDConnectProviderArn,
     ThumbprintList,
@@ -9137,22 +9409,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The new description that you want to apply to the specified role.
 - `"MaxSessionDuration"`: The maximum session duration (in seconds) that you want to set
-  for the specified role. If you do not specify a value for this setting, the default value
-  of one hour is applied. This setting can have a value from 1 hour to 12 hours.
+  for the specified role. If you do not specify a value for this setting, the default
+  value of one hour is applied. This setting can have a value from 1 hour to 12 hours.
 
   Anyone who assumes the role from the CLI or API can use the `DurationSeconds` API
   parameter or the `duration-seconds` CLI parameter to request a longer session. The
-  `MaxSessionDuration` setting determines the maximum duration that can be requested using
-  the `DurationSeconds` parameter. If users don't specify a value for the `DurationSeconds`
-  parameter, their security credentials are valid for one hour by default. This applies
-  when you use the `AssumeRole*` API operations or the `assume-role*` CLI operations but
-  does not apply when you use those operations to create a console URL. For more
-  information, see [Using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
+  `MaxSessionDuration` setting determines the maximum duration that can be requested
+  using the `DurationSeconds` parameter. If users don't specify a value for the
+  `DurationSeconds` parameter, their security credentials are valid for one hour by
+  default. This applies when you use the `AssumeRole*` API operations or the
+  `assume-role*` CLI operations but does not apply when you use those operations to
+  create a console URL. For more information, see [Using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
   in the *IAM User Guide*.
 
   !!! note
       IAM role credentials provided by Amazon EC2 instances assigned to the role are not
-  subject to the specified maximum session duration.
+      subject to the specified maximum session duration.
+
 """
 function update_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -9162,6 +9435,7 @@ function update_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_role(
     RoleName,
     params::AbstractDict{String};
@@ -9181,10 +9455,10 @@ end
     update_role_description(description, role_name)
     update_role_description(description, role_name, params::Dict{String,<:Any})
 
-Use <a>UpdateRole</a> instead.
+Use [`update_role`](@ref) instead.
 
 Modifies only the description of a role. This operation performs the same function as the
-`Description` parameter in the `UpdateRole` operation.
+`Description` parameter in the [`update_role`](@ref) operation.
 
 # Arguments
 
@@ -9201,6 +9475,7 @@ function update_role_description(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_role_description(
     Description,
     RoleName,
@@ -9234,8 +9509,8 @@ Updates the metadata document for an existing SAML provider resource object.
 
 - `samlmetadata_document`: An XML document generated by an identity provider (IdP) that
   supports SAML 2.0. The document includes the issuer's name, expiration information, and
-  keys that can be used to validate the SAML authentication response (assertions) that are
-  received from the IdP. You must generate the metadata document using the identity
+  keys that can be used to validate the SAML authentication response (assertions) that
+  are received from the IdP. You must generate the metadata document using the identity
   management software that is used as your organization's IdP.
 - `samlprovider_arn`: The Amazon Resource Name (ARN) of the SAML provider to update.
 
@@ -9257,6 +9532,7 @@ function update_samlprovider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_samlprovider(
     SAMLMetadataDocument,
     SAMLProviderArn,
@@ -9292,17 +9568,17 @@ that can use the server certificates that you manage with IAM.
 
 !!! important
     You should understand the implications of changing a server certificate's path or name.
-For more information, see [Renaming a server certificate](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts)
-in the *IAM User Guide*.
+    For more information, see [Renaming a server certificate](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts)
+    in the *IAM User Guide*.
 
 !!! note
     The person making the request (the principal), must have permission to change the
-server certificate with the old name and the new name. For example, to change the
-certificate named `ProductionCert` to `ProdCert`, the principal must have a policy that
-allows them to update both certificates. If the principal has permission to update the
-`ProductionCert` group, but not the `ProdCert` certificate, then the update fails. For more
-information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html)
-in the *IAM User Guide*.
+    server certificate with the old name and the new name. For example, to change the
+    certificate named `ProductionCert` to `ProdCert`, the principal must have a policy that
+    allows them to update both certificates. If the principal has permission to update the
+    `ProductionCert` group, but not the `ProdCert` certificate, then the update fails. For
+    more information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
@@ -9320,10 +9596,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   updating the server certificate's path.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"NewServerCertificateName"`: The new name for the server certificate. Include this only
   if you are updating the server certificate's name. The name of the certificate cannot
   contain any spaces.
@@ -9342,6 +9618,7 @@ function update_server_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_server_certificate(
     ServerCertificateName,
     params::AbstractDict{String};
@@ -9403,6 +9680,7 @@ function update_service_specific_credential(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_specific_credential(
     ServiceSpecificCredentialId,
     Status,
@@ -9446,7 +9724,7 @@ account has no associated users.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters that can consist of any upper or lowercased letter or digit.
-- `status`:  The status you want to assign to the certificate. `Active` means that the
+- `status`: The status you want to assign to the certificate. `Active` means that the
   certificate can be used for programmatic calls to Amazon Web Services `Inactive` means
   that the certificate cannot be used.
 
@@ -9470,6 +9748,7 @@ function update_signing_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_signing_certificate(
     CertificateId,
     Status,
@@ -9530,6 +9809,7 @@ function update_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sshpublic_key(
     SSHPublicKeyId,
     Status,
@@ -9563,15 +9843,15 @@ Updates the name and/or the path of the specified IAM user.
 
 !!! important
     You should understand the implications of changing an IAM user's path or name. For more
-information, see [Renaming an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming)
-and [Renaming an IAM group](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html)
-in the *IAM User Guide*.
+    information, see [Renaming an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming)
+    and [Renaming an IAM group](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html)
+    in the *IAM User Guide*.
 
 !!! note
     To change a user name, the requester must have appropriate permissions on both the
-source object and the target object. For example, to change Bob to Robert, the entity
-making the request must have permission on Bob and Robert, or must have permission on all
-(*). For more information about permissions, see [Permissions and policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html).
+    source object and the target object. For example, to change Bob to Robert, the entity
+    making the request must have permission on Bob and Robert, or must have permission on
+    all (*). For more information about permissions, see [Permissions and policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html).
 
 # Arguments
 
@@ -9590,16 +9870,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the user's path.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
-  string of characters consisting of either a forward slash (/) by itself or a string that
-  must begin and end with forward slashes. In addition, it can contain any ASCII character
-  from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 - `"NewUserName"`: New name for the user. Include this parameter only if you're changing
   the user's name.
 
-  IAM user, group, role, and policy names must be unique within the account. Names are not
-  distinguished by case. For example, you cannot create resources named both "MyResource"
-  and "myresource".
+  IAM user, group, role, and policy names must be unique within the account. Names are
+  not distinguished by case. For example, you cannot create resources named both
+  "MyResource" and "myresource".
 """
 function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
@@ -9609,6 +9889,7 @@ function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     UserName,
     params::AbstractDict{String};
@@ -9647,32 +9928,39 @@ in the *IAM User Guide*.
 
 !!! note
     Because the body of the public key certificate, private key, and the certificate chain
-can be large, you should use POST rather than GET when calling `UploadServerCertificate`.
-For information about setting up signatures and authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html)
-in the *Amazon Web Services General Reference*. For general information about using the
-Query API with IAM, see [Calling the API by making HTTP query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/programming.html)
-in the *IAM User Guide*.
+    can be large, you should use POST rather than GET when calling
+    `UploadServerCertificate`. For information about setting up signatures and
+    authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html)
+    in the *Amazon Web Services General Reference*. For general information about using the
+    Query API with IAM, see [Calling the API by making HTTP query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/programming.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
 - `certificate_body`: The contents of the public key certificate in PEM-encoded format.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `private_key`: The contents of the private key in PEM-encoded format.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `server_certificate_name`: The name for the server certificate. Do not include the path
   in this value. The name of the certificate cannot contain any spaces.
 
@@ -9687,27 +9975,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateChain"`: The contents of the certificate chain. This is typically a
   concatenation of the PEM-encoded public key certificates of the chain.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `"Path"`: The path for the server certificate. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
   in the *IAM User Guide*.
 
   This parameter is optional. If it is not included, it defaults to a slash (/). This
-  parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string
-  of characters consisting of either a forward slash (/) by itself or a string that must
-  begin and end with forward slashes. In addition, it can contain any ASCII character from
-  the ! (`\\u0021`) through the DEL character (`\\u007F`), including most punctuation
-  characters, digits, and upper and lowercased letters.
+  parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
+  string of characters consisting of either a forward slash (/) by itself or a string
+  that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (`\\u0021`) through the DEL character (`\\u007F`), including most
+  punctuation characters, digits, and upper and lowercased letters.
 
   !!! note
-      If you are uploading a server certificate specifically for use with Amazon CloudFront
-  distributions, you must specify a path using the `path` parameter. The path must begin
-  with `/cloudfront` and must include a trailing slash (for example, `/cloudfront/test/`).
+      If you are uploading a server certificate specifically for use with Amazon
+      CloudFront distributions, you must specify a path using the `path` parameter. The
+      path must begin with `/cloudfront` and must include a trailing slash (for example,
+      `/cloudfront/test/`).
+
 - `"Tags"`: A list of tags that you want to attach to the new IAM server certificate
   resource. Each tag consists of a key name and an associated value. For more information
   about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
@@ -9715,7 +10008,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If any one of the tags is invalid or if you exceed the allowed maximum number of
-  tags, then the entire request fails and the resource is not created.
+      tags, then the entire request fails and the resource is not created.
+
 """
 function upload_server_certificate(
     CertificateBody,
@@ -9734,6 +10028,7 @@ function upload_server_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_server_certificate(
     CertificateBody,
     PrivateKey,
@@ -9779,23 +10074,25 @@ account has no associated users.
 
 !!! note
     Because the body of an X.509 certificate can be large, you should use POST rather than
-GET when calling `UploadSigningCertificate`. For information about setting up signatures
-and authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html)
-in the *Amazon Web Services General Reference*. For general information about using the
-Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
-in the *IAM User Guide*.
+    GET when calling `UploadSigningCertificate`. For information about setting up
+    signatures and authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html)
+    in the *Amazon Web Services General Reference*. For general information about using the
+    Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html)
+    in the *IAM User Guide*.
 
 # Arguments
 
 - `certificate_body`: The contents of the signing certificate.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
 
 # Optional Parameters
 
@@ -9817,6 +10114,7 @@ function upload_signing_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_signing_certificate(
     CertificateBody,
     params::AbstractDict{String};
@@ -9848,16 +10146,20 @@ in the *CodeCommit User Guide*.
 # Arguments
 
 - `sshpublic_key_body`: The SSH public key. The public key must be encoded in ssh-rsa
-  format or PEM format. The minimum bit-length of the public key is 2048 bits. For example,
-  you can generate a 2048-bit key, and the resulting PEM file is 1679 bytes long.
+  format or PEM format. The minimum bit-length of the public key is 2048 bits. For
+  example, you can generate a 2048-bit key, and the resulting PEM file is 1679 bytes
+  long.
 
-  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a
-  string of characters consisting of the following: - Any printable ASCII character ranging
-  from the space character (`\\u0020`) through the end of the ASCII character range
-   - The printable characters in the Basic Latin and Latin-1 Supplement character set
-  (through `\\u00FF`)
-   - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
-  (`\\u000D`)
+  The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is
+  a string of characters consisting of the following:
+
+  - Any printable ASCII character ranging from the space character (`\\u0020`) through
+    the end of the ASCII character range
+  - The printable characters in the Basic Latin and Latin-1 Supplement character set
+    (through `\\u00FF`)
+  - The special characters tab (`\\u0009`), line feed (`\\u000A`), and carriage return
+    (`\\u000D`)
+
 - `user_name`: The name of the IAM user to associate the SSH public key with.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
@@ -9874,6 +10176,7 @@ function upload_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_sshpublic_key(
     SSHPublicKeyBody,
     UserName,

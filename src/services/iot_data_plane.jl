@@ -34,6 +34,7 @@ function delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing_shadow(
     thingName,
     params::AbstractDict{String};
@@ -74,6 +75,7 @@ function get_retained_message(topic; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_retained_message(
     topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -116,6 +118,7 @@ function get_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_thing_shadow(
     thingName,
     params::AbstractDict{String};
@@ -160,6 +163,7 @@ function list_named_shadows_for_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_named_shadows_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -205,6 +209,7 @@ function list_retained_messages(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/retainedMessage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_retained_messages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -243,13 +248,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message.
 - `"messageExpiry"`: A user-defined integer value that represents the message expiry
   interval in seconds. If absent, the message doesn't expire. For more information about
-  the limits of `messageExpiry`, see [Amazon Web Services IoT Core message broker and protocol limits and quotas ](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits)
+  the limits of `messageExpiry`, see [Amazon Web Services IoT Core message broker and protocol limits and quotas](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits)
   from the Amazon Web Services Reference Guide.
 - `"payload"`: The message body. MQTT accepts text, binary, and empty (null) message
   payloads.
 
-  Publishing an empty (null) payload with **retain** = `true` deletes the retained message
-  identified by **topic** from Amazon Web Services IoT Core.
+  Publishing an empty (null) payload with **retain** = `true` deletes the retained
+  message identified by **topic** from Amazon Web Services IoT Core.
 - `"qos"`: The Quality of Service (QoS) level. The default QoS level is 0.
 - `"responseTopic"`: A UTF-8 encoded string that's used as the topic name for a response
   message. The response topic is used to describe the topic which the receiver should
@@ -258,12 +263,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retain"`: A Boolean value that determines whether to set the RETAIN flag when the
   message is published.
 
-  Setting the RETAIN flag causes the message to be retained and sent to new subscribers to
-  the topic.
+  Setting the RETAIN flag causes the message to be retained and sent to new subscribers
+  to the topic.
 
-Valid values: `true` | `false`
+  Valid values: `true` | `false`
 
-Default value: `false`
+  Default value: `false`
 - `"x-amz-mqtt5-correlation-data"`: The base64-encoded binary data used by the sender of
   the request message to identify which request the response message is for when it's
   received. `correlationData` is an HTTP header value in the API.
@@ -278,13 +283,14 @@ Default value: `false`
   The following example `userProperties` parameter is a JSON string which represents two
   User Properties. Note that it needs to be base64-encoded:
 
- `[{"deviceName": "alpha"}, {"deviceCnt": "45"}]`
+  `[{"deviceName": "alpha"}, {"deviceCnt": "45"}]`
 """
 function publish(topic; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
         "POST", "/topics/$(topic)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function publish(
     topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -331,6 +337,7 @@ function update_thing_shadow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_shadow(
     payload,
     thingName,

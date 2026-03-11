@@ -15,7 +15,7 @@ current request. If there are no unprocessed resources, the operation returns an
 
 !!! note
     - The API does not return results for deleted resources.
- - The API does not return tags and relationships.
+    - The API does not return tags and relationships.
 
 # Arguments
 
@@ -37,6 +37,7 @@ function batch_get_aggregate_resource_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifiers,
@@ -70,8 +71,8 @@ unprocessed resources, the operation returns an empty unprocessedResourceKeys li
 
 !!! note
     - The API does not return results for deleted resources.
- - The API does not return any tags for the requested resources. This information is
-filtered out of the supplementaryConfiguration section of the API response.
+    - The API does not return any tags for the requested resources. This information is
+      filtered out of the supplementaryConfiguration section of the API response.
 
 # Arguments
 
@@ -88,6 +89,7 @@ function batch_get_resource_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_resource_config(
     resourceKeys,
     params::AbstractDict{String};
@@ -131,6 +133,7 @@ function delete_aggregation_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion,
@@ -180,6 +183,7 @@ function delete_config_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_config_rule(
     ConfigRuleName,
     params::AbstractDict{String};
@@ -216,6 +220,7 @@ function delete_configuration_aggregator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_aggregator(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -267,6 +272,7 @@ function delete_configuration_recorder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_recorder(
     ConfigurationRecorderName,
     params::AbstractDict{String};
@@ -310,6 +316,7 @@ function delete_conformance_pack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_conformance_pack(
     ConformancePackName,
     params::AbstractDict{String};
@@ -352,6 +359,7 @@ function delete_delivery_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_delivery_channel(
     DeliveryChannelName,
     params::AbstractDict{String};
@@ -376,9 +384,8 @@ end
     delete_evaluation_results(config_rule_name, params::Dict{String,<:Any})
 
 Deletes the evaluation results for the specified Config rule. You can specify one Config
-rule per request. After you delete the evaluation results, you can call the
-<a>StartConfigRulesEvaluation</a> API to start evaluating your Amazon Web Services
-resources against the rule.
+rule per request. After you delete the evaluation results, you can call the [`start_config_rules_evaluation`](@ref)
+API to start evaluating your Amazon Web Services resources against the rule.
 
 # Arguments
 
@@ -395,6 +402,7 @@ function delete_evaluation_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_evaluation_results(
     ConfigRuleName,
     params::AbstractDict{String};
@@ -439,6 +447,7 @@ function delete_organization_config_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_organization_config_rule(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
@@ -467,7 +476,7 @@ end
 Deletes the specified organization conformance pack and all of the Config rules and
 remediation actions from all member accounts in that organization.
 
- Only a management account or a delegated administrator account can delete an organization
+Only a management account or a delegated administrator account can delete an organization
 conformance pack. When calling this API with a delegated administrator, you must ensure
 Organizations `ListDelegatedAdministrator` permissions are added.
 
@@ -491,6 +500,7 @@ function delete_organization_conformance_pack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_organization_conformance_pack(
     OrganizationConformancePackName,
     params::AbstractDict{String};
@@ -540,6 +550,7 @@ function delete_pending_aggregation_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pending_aggregation_request(
     RequesterAccountId,
     RequesterAwsRegion,
@@ -590,6 +601,7 @@ function delete_remediation_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_remediation_configuration(
     ConfigRuleName,
     params::AbstractDict{String};
@@ -613,16 +625,16 @@ Deletes one or more remediation exceptions mentioned in the resource keys.
 
 !!! note
     Config generates a remediation exception when a problem occurs executing a remediation
-action to a specific resource. Remediation exceptions blocks auto-remediation until the
-exception is cleared.
+    action to a specific resource. Remediation exceptions blocks auto-remediation until the
+    exception is cleared.
 
 # Arguments
 
 - `config_rule_name`: The name of the Config rule for which you want to delete remediation
   exception configuration.
 - `resource_keys`: An exception list of resource exception keys to be processed with the
-  current request. Config adds exception for each resource key. For example, Config adds 3
-  exceptions for 3 resource keys.
+  current request. Config adds exception for each resource key. For example, Config adds
+  3 exceptions for 3 resource keys.
 """
 function delete_remediation_exceptions(
     ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -636,6 +648,7 @@ function delete_remediation_exceptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_remediation_exceptions(
     ConfigRuleName,
     ResourceKeys,
@@ -681,6 +694,7 @@ function delete_resource_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_config(
     ResourceId,
     ResourceType,
@@ -723,6 +737,7 @@ function delete_retention_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retention_configuration(
     RetentionConfigurationName,
     params::AbstractDict{String};
@@ -763,6 +778,7 @@ function delete_stored_query(QueryName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stored_query(
     QueryName,
     params::AbstractDict{String};
@@ -784,11 +800,12 @@ end
 
 Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified
 delivery channel. After the delivery has started, Config sends the following notifications
-using an Amazon SNS topic that you have specified. - Notification of the start of the
-delivery.
- - Notification of the completion of the delivery, if the delivery was successfully
-completed.
- - Notification of delivery failure, if the delivery failed.
+using an Amazon SNS topic that you have specified.
+
+- Notification of the start of the delivery.
+- Notification of the completion of the delivery, if the delivery was successfully
+  completed.
+- Notification of delivery failure, if the delivery failed.
 
 # Arguments
 
@@ -805,6 +822,7 @@ function deliver_config_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deliver_config_snapshot(
     deliveryChannelName,
     params::AbstractDict{String};
@@ -834,7 +852,7 @@ results.
 
 !!! note
     The results can return an empty result page, but if you have a `nextToken`, the results
-are displayed on the next page.
+    are displayed on the next page.
 
 # Arguments
 
@@ -860,6 +878,7 @@ function describe_aggregate_compliance_by_config_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_aggregate_compliance_by_config_rules(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -892,7 +911,7 @@ cannot be evaluated due to insufficient data.
 
 !!! note
     The results can return an empty result page, but if you have a `nextToken`, the results
-are displayed on the next page.
+    are displayed on the next page.
 
 # Arguments
 
@@ -918,6 +937,7 @@ function describe_aggregate_compliance_by_conformance_packs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_aggregate_compliance_by_conformance_packs(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -963,6 +983,7 @@ function describe_aggregation_authorizations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_aggregation_authorizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -986,16 +1007,17 @@ A rule is compliant if all of the evaluated resources comply with it. It is nonc
 any of these resources do not comply.
 
 If Config has no current evaluation results for the rule, it returns `INSUFFICIENT_DATA`.
-This result might indicate one of the following conditions: - Config has never invoked an
-evaluation for the rule. To check whether it has, use the
-`DescribeConfigRuleEvaluationStatus` action to get the `LastSuccessfulInvocationTime` and
-`LastFailedInvocationTime`.
- - The rule's Lambda function is failing to send evaluation results to Config. Verify that
-the role you assigned to your configuration recorder includes the `config:PutEvaluations`
-permission. If the rule is a custom rule, verify that the Lambda execution role includes
-the `config:PutEvaluations` permission.
- - The rule's Lambda function has returned `NOT_APPLICABLE` for all evaluation results.
-This can occur if the resources were deleted or removed from the rule's scope.
+This result might indicate one of the following conditions:
+
+- Config has never invoked an evaluation for the rule. To check whether it has, use the
+  `DescribeConfigRuleEvaluationStatus` action to get the `LastSuccessfulInvocationTime` and
+  `LastFailedInvocationTime`.
+- The rule's Lambda function is failing to send evaluation results to Config. Verify that
+  the role you assigned to your configuration recorder includes the `config:PutEvaluations`
+  permission. If the rule is a custom rule, verify that the Lambda execution role includes
+  the `config:PutEvaluations` permission.
+- The rule's Lambda function has returned `NOT_APPLICABLE` for all evaluation results. This
+  can occur if the resources were deleted or removed from the rule's scope.
 
 # Optional Parameters
 
@@ -1015,6 +1037,7 @@ function describe_compliance_by_config_rule(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_compliance_by_config_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1039,15 +1062,17 @@ noncompliant if it does not comply with one or more of these rules.
 
 If Config has no current evaluation results for the resource, it returns
 `INSUFFICIENT_DATA`. This result might indicate one of the following conditions about the
-rules that evaluate the resource: - Config has never invoked an evaluation for the rule. To
-check whether it has, use the `DescribeConfigRuleEvaluationStatus` action to get the
-`LastSuccessfulInvocationTime` and `LastFailedInvocationTime`.
- - The rule's Lambda function is failing to send evaluation results to Config. Verify that
-the role that you assigned to your configuration recorder includes the
-`config:PutEvaluations` permission. If the rule is a custom rule, verify that the Lambda
-execution role includes the `config:PutEvaluations` permission.
- - The rule's Lambda function has returned `NOT_APPLICABLE` for all evaluation results.
-This can occur if the resources were deleted or removed from the rule's scope.
+rules that evaluate the resource:
+
+- Config has never invoked an evaluation for the rule. To check whether it has, use the
+  `DescribeConfigRuleEvaluationStatus` action to get the `LastSuccessfulInvocationTime` and
+  `LastFailedInvocationTime`.
+- The rule's Lambda function is failing to send evaluation results to Config. Verify that
+  the role that you assigned to your configuration recorder includes the
+  `config:PutEvaluations` permission. If the rule is a custom rule, verify that the Lambda
+  execution role includes the `config:PutEvaluations` permission.
+- The rule's Lambda function has returned `NOT_APPLICABLE` for all evaluation results. This
+  can occur if the resources were deleted or removed from the rule's scope.
 
 # Optional Parameters
 
@@ -1060,8 +1085,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The `nextToken` string returned on a previous page that you use to get the
   next page of results in a paginated response.
 - `"ResourceId"`: The ID of the Amazon Web Services resource for which you want compliance
-  information. You can specify only one resource ID. If you specify a resource ID, you must
-  also specify a type for `ResourceType`.
+  information. You can specify only one resource ID. If you specify a resource ID, you
+  must also specify a type for `ResourceType`.
 - `"ResourceType"`: The types of Amazon Web Services resources for which you want
   compliance information (for example, `AWS::EC2::Instance`). For this action, you can
   specify that the resource type is an Amazon Web Services account by specifying
@@ -1076,6 +1101,7 @@ function describe_compliance_by_resource(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_compliance_by_resource(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1104,8 +1130,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Config managed rules that you use.
 - `"Limit"`: The number of rule evaluation results that you want returned.
 
-  This parameter is required if the rule limit for your account is more than the default of
-  1000 rules.
+  This parameter is required if the rule limit for your account is more than the default
+  of 1000 rules.
 
   For information about requesting a rule limit increase, see [Config Limits](http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config)
   in the *Amazon Web Services General Reference Guide*.
@@ -1121,6 +1147,7 @@ function describe_config_rule_evaluation_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_config_rule_evaluation_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1145,8 +1172,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigRuleNames"`: The names of the Config rules for which you want details. If you do
   not specify any names, Config returns details for all your rules.
 - `"Filters"`: Returns a list of Detective or Proactive Config rules. By default, this API
-  returns an unfiltered list. For more information on Detective or Proactive Config rules,
-  see [ **Evaluation Mode** ](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html)
+  returns an unfiltered list. For more information on Detective or Proactive Config
+  rules, see [**Evaluation Mode**](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html)
   in the *Config Developer Guide*.
 - `"NextToken"`: The `nextToken` string returned on a previous page that you use to get the
   next page of results in a paginated response.
@@ -1156,6 +1183,7 @@ function describe_config_rules(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeConfigRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_config_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1188,10 +1216,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is maximum. If you specify 0, Config uses the default.
 - `"NextToken"`: The `nextToken` string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"UpdateStatus"`: Filters the status type. - Valid value FAILED indicates errors while
-  moving data.
-   - Valid value SUCCEEDED indicates the data was successfully moved.
-   - Valid value OUTDATED indicates the data is not the most recent.
+- `"UpdateStatus"`: Filters the status type.
+
+  - Valid value FAILED indicates errors while moving data.
+  - Valid value SUCCEEDED indicates the data was successfully moved.
+  - Valid value OUTDATED indicates the data is not the most recent.
+
 """
 function describe_configuration_aggregator_sources_status(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1203,6 +1233,7 @@ function describe_configuration_aggregator_sources_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_aggregator_sources_status(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -1251,6 +1282,7 @@ function describe_configuration_aggregators(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_aggregators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1272,8 +1304,8 @@ this action returns the status of all configuration recorders associated with th
 
 !!! note
     &gt;You can specify only one configuration recorder for each Amazon Web Services Region
-for each account. For a detailed status of recording events over time, add your Config
-events to Amazon CloudWatch metrics and use CloudWatch metrics.
+    for each account. For a detailed status of recording events over time, add your Config
+    events to Amazon CloudWatch metrics and use CloudWatch metrics.
 
 # Optional Parameters
 
@@ -1292,6 +1324,7 @@ function describe_configuration_recorder_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_recorder_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1313,7 +1346,7 @@ associated with the account.
 
 !!! note
     You can specify only one configuration recorder for each Amazon Web Services Region for
-each account.
+    each account.
 
 # Optional Parameters
 
@@ -1330,6 +1363,7 @@ function describe_configuration_recorders(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_recorders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1374,6 +1408,7 @@ function describe_conformance_pack_compliance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_conformance_pack_compliance(
     ConformancePackName,
     params::AbstractDict{String};
@@ -1420,6 +1455,7 @@ function describe_conformance_pack_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_conformance_pack_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1453,6 +1489,7 @@ function describe_conformance_packs(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeConformancePacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_conformance_packs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1490,6 +1527,7 @@ function describe_delivery_channel_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_delivery_channel_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1523,6 +1561,7 @@ function describe_delivery_channels(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeDeliveryChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_delivery_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1538,15 +1577,15 @@ end
     describe_organization_config_rule_statuses()
     describe_organization_config_rule_statuses(params::Dict{String,<:Any})
 
-Provides organization Config rule deployment status for an organization.</p>
+Provides organization Config rule deployment status for an organization.
 
 !!! note
     The status is not considered successful until organization Config rule is successfully
-deployed in all the member accounts with an exception of excluded accounts.
+    deployed in all the member accounts with an exception of excluded accounts.
 
- <p>When you specify the limit and the next token, you receive a paginated response. Limit
-and next token are not applicable if you specify organization Config rule names. It is only
-applicable, when you request all the organization Config rules.
+    When you specify the limit and the next token, you receive a paginated response. Limit
+    and next token are not applicable if you specify organization Config rule names. It is
+    only applicable, when you request all the organization Config rules.
 
 # Optional Parameters
 
@@ -1557,8 +1596,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The `nextToken` string returned on a previous page that you use to get the
   next page of results in a paginated response.
 - `"OrganizationConfigRuleNames"`: The names of organization Config rules for which you
-  want status details. If you do not specify any names, Config returns details for all your
-  organization Config rules.
+  want status details. If you do not specify any names, Config returns details for all
+  your organization Config rules.
 """
 function describe_organization_config_rule_statuses(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1569,6 +1608,7 @@ function describe_organization_config_rule_statuses(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_config_rule_statuses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1584,25 +1624,26 @@ end
     describe_organization_config_rules()
     describe_organization_config_rules(params::Dict{String,<:Any})
 
-Returns a list of organization Config rules. </p>
+Returns a list of organization Config rules.
 
 !!! note
     When you specify the limit and the next token, you receive a paginated response.
 
-Limit and next token are not applicable if you specify organization Config rule names. It
-is only applicable, when you request all the organization Config rules.
+    Limit and next token are not applicable if you specify organization Config rule names.
+    It is only applicable, when you request all the organization Config rules.
 
- *For accounts within an organization*
+    *For accounts within an organization*
 
- <p>If you deploy an organizational rule or conformance pack in an organization
-administrator account, and then establish a delegated administrator and deploy an
-organizational rule or conformance pack in the delegated administrator account, you won't
-be able to see the organizational rule or conformance pack in the organization
-administrator account from the delegated administrator account or see the organizational
-rule or conformance pack in the delegated administrator account from organization
-administrator account. The `DescribeOrganizationConfigRules` and
-`DescribeOrganizationConformancePacks` APIs can only see and interact with the organization-
-related resource that were deployed from within the account calling those APIs.
+    If you deploy an organizational rule or conformance pack in an organization
+    administrator account, and then establish a delegated administrator and deploy an
+    organizational rule or conformance pack in the delegated administrator account, you
+    won't be able to see the organizational rule or conformance pack in the organization
+    administrator account from the delegated administrator account or see the
+    organizational rule or conformance pack in the delegated administrator account from
+    organization administrator account. The `DescribeOrganizationConfigRules` and
+    `DescribeOrganizationConformancePacks` APIs can only see and interact with the
+    organization-related resource that were deployed from within the account calling those
+    APIs.
 
 # Optional Parameters
 
@@ -1625,6 +1666,7 @@ function describe_organization_config_rules(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_config_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1640,15 +1682,16 @@ end
     describe_organization_conformance_pack_statuses()
     describe_organization_conformance_pack_statuses(params::Dict{String,<:Any})
 
-Provides organization conformance pack deployment status for an organization. </p>
+Provides organization conformance pack deployment status for an organization.
 
 !!! note
     The status is not considered successful until organization conformance pack is
-successfully deployed in all the member accounts with an exception of excluded accounts.
+    successfully deployed in all the member accounts with an exception of excluded
+    accounts.
 
- <p>When you specify the limit and the next token, you receive a paginated response. Limit
-and next token are not applicable if you specify organization conformance pack names. They
-are only applicable, when you request all the organization conformance packs.
+    When you specify the limit and the next token, you receive a paginated response. Limit
+    and next token are not applicable if you specify organization conformance pack names.
+    They are only applicable, when you request all the organization conformance packs.
 
 # Optional Parameters
 
@@ -1671,6 +1714,7 @@ function describe_organization_conformance_pack_statuses(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_conformance_pack_statuses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1686,25 +1730,27 @@ end
     describe_organization_conformance_packs()
     describe_organization_conformance_packs(params::Dict{String,<:Any})
 
-Returns a list of organization conformance packs. </p>
+Returns a list of organization conformance packs.
 
 !!! note
     When you specify the limit and the next token, you receive a paginated response.
 
-Limit and next token are not applicable if you specify organization conformance packs
-names. They are only applicable, when you request all the organization conformance packs.
+    Limit and next token are not applicable if you specify organization conformance packs
+    names. They are only applicable, when you request all the organization conformance
+    packs.
 
- *For accounts within an organization*
+    *For accounts within an organization*
 
- <p>If you deploy an organizational rule or conformance pack in an organization
-administrator account, and then establish a delegated administrator and deploy an
-organizational rule or conformance pack in the delegated administrator account, you won't
-be able to see the organizational rule or conformance pack in the organization
-administrator account from the delegated administrator account or see the organizational
-rule or conformance pack in the delegated administrator account from organization
-administrator account. The `DescribeOrganizationConfigRules` and
-`DescribeOrganizationConformancePacks` APIs can only see and interact with the organization-
-related resource that were deployed from within the account calling those APIs.
+    If you deploy an organizational rule or conformance pack in an organization
+    administrator account, and then establish a delegated administrator and deploy an
+    organizational rule or conformance pack in the delegated administrator account, you
+    won't be able to see the organizational rule or conformance pack in the organization
+    administrator account from the delegated administrator account or see the
+    organizational rule or conformance pack in the delegated administrator account from
+    organization administrator account. The `DescribeOrganizationConfigRules` and
+    `DescribeOrganizationConformancePacks` APIs can only see and interact with the
+    organization-related resource that were deployed from within the account calling those
+    APIs.
 
 # Optional Parameters
 
@@ -1726,6 +1772,7 @@ function describe_organization_conformance_packs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_conformance_packs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1761,6 +1808,7 @@ function describe_pending_aggregation_requests(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pending_aggregation_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1793,6 +1841,7 @@ function describe_remediation_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_remediation_configurations(
     ConfigRuleNames,
     params::AbstractDict{String};
@@ -1817,17 +1866,17 @@ end
 Returns the details of one or more remediation exceptions. A detailed view of a remediation
 exception for a set of resources that includes an explanation of an exception and the time
 when the exception will be deleted. When you specify the limit and the next token, you
-receive a paginated response. </p>
+receive a paginated response.
 
 !!! note
     Config generates a remediation exception when a problem occurs executing a remediation
-action to a specific resource. Remediation exceptions blocks auto-remediation until the
-exception is cleared.
+    action to a specific resource. Remediation exceptions blocks auto-remediation until the
+    exception is cleared.
 
-When you specify the limit and the next token, you receive a paginated response.
+    When you specify the limit and the next token, you receive a paginated response.
 
- <p>Limit and next token are not applicable if you request resources in batch. It is only
-applicable, when you request all resources.
+    Limit and next token are not applicable if you request resources in batch. It is only
+    applicable, when you request all resources.
 
 # Arguments
 
@@ -1842,8 +1891,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The `nextToken` string returned in a previous request that you use to
   request the next page of results in a paginated response.
 - `"ResourceKeys"`: An exception list of resource exception keys to be processed with the
-  current request. Config adds exception for each resource key. For example, Config adds 3
-  exceptions for 3 resource keys.
+  current request. Config adds exception for each resource key. For example, Config adds
+  3 exceptions for 3 resource keys.
 """
 function describe_remediation_exceptions(
     ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1855,6 +1904,7 @@ function describe_remediation_exceptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_remediation_exceptions(
     ConfigRuleName,
     params::AbstractDict{String};
@@ -1904,6 +1954,7 @@ function describe_remediation_execution_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_remediation_execution_status(
     ConfigRuleName,
     params::AbstractDict{String};
@@ -1942,7 +1993,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Currently, Config supports only one retention configuration per region in your
-  account.
+      account.
+
 """
 function describe_retention_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1953,6 +2005,7 @@ function describe_retention_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_retention_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1974,7 +2027,7 @@ when each resource was last evaluated, and whether each resource complies with t
 
 !!! note
     The results can return an empty result page. But if you have a `nextToken`, the results
-are displayed on the next page.
+    are displayed on the next page.
 
 # Arguments
 
@@ -1990,9 +2043,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ComplianceType"`: The resource compliance status.
 
   !!! note
-      For the `GetAggregateComplianceDetailsByConfigRuleRequest` data type, Config supports
-  only the `COMPLIANT` and `NON_COMPLIANT`. Config does not support the `NOT_APPLICABLE`
-  and `INSUFFICIENT_DATA` values.
+      For the `GetAggregateComplianceDetailsByConfigRuleRequest` data type, Config
+      supports only the `COMPLIANT` and `NON_COMPLIANT`. Config does not support the
+      `NOT_APPLICABLE` and `INSUFFICIENT_DATA` values.
+
 - `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   50. You cannot specify a number greater than 100. If you specify 0, Config uses the
   default.
@@ -2018,6 +2072,7 @@ function get_aggregate_compliance_details_by_config_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_aggregate_compliance_details_by_config_rule(
     AccountId,
     AwsRegion,
@@ -2054,7 +2109,7 @@ in an aggregator.
 
 !!! note
     The results can return an empty result page, but if you have a nextToken, the results
-are displayed on the next page.
+    are displayed on the next page.
 
 # Arguments
 
@@ -2082,6 +2137,7 @@ function get_aggregate_config_rule_compliance_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_aggregate_config_rule_compliance_summary(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -2113,7 +2169,7 @@ Amazon Web Services account ID or Amazon Web Services Region.
 
 !!! note
     The results can return an empty result page, but if you have a nextToken, the results
-are displayed on the next page.
+    are displayed on the next page.
 
 # Arguments
 
@@ -2142,6 +2198,7 @@ function get_aggregate_conformance_pack_compliance_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_aggregate_conformance_pack_compliance_summary(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -2185,9 +2242,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters the results based on the `ResourceCountFilters` object.
 - `"GroupByKey"`: The key to group the resource counts.
-- `"Limit"`: The maximum number of <a>GroupedResourceCount</a> objects returned on each
-  page. The default is 1000. You cannot specify a number greater than 1000. If you specify
-  0, Config uses the default.
+- `"Limit"`: The maximum number of [`grouped_resource_count`](@ref) objects returned on
+  each page. The default is 1000. You cannot specify a number greater than 1000. If you
+  specify 0, Config uses the default.
 - `"NextToken"`: The `nextToken` string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
@@ -2201,6 +2258,7 @@ function get_aggregate_discovered_resource_counts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_aggregate_discovered_resource_counts(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -2249,6 +2307,7 @@ function get_aggregate_resource_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifier,
@@ -2290,7 +2349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ComplianceTypes"`: Filters the results by compliance.
 
-   `INSUFFICIENT_DATA` is a valid `ComplianceType` that is returned when an Config rule
+  `INSUFFICIENT_DATA` is a valid `ComplianceType` that is returned when an Config rule
   cannot be evaluated. However, `INSUFFICIENT_DATA` cannot be used as a `ComplianceType`
   for filtering results.
 - `"Limit"`: The maximum number of evaluation results returned on each page. The default is
@@ -2309,6 +2368,7 @@ function get_compliance_details_by_config_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compliance_details_by_config_rule(
     ConfigRuleName,
     params::AbstractDict{String};
@@ -2338,7 +2398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ComplianceTypes"`: Filters the results by compliance.
 
-   `INSUFFICIENT_DATA` is a valid `ComplianceType` that is returned when an Config rule
+  `INSUFFICIENT_DATA` is a valid `ComplianceType` that is returned when an Config rule
   cannot be evaluated. However, `INSUFFICIENT_DATA` cannot be used as a `ComplianceType`
   for filtering results.
 - `"NextToken"`: The `nextToken` string returned on a previous page that you use to get the
@@ -2347,8 +2407,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you want to retrieve evaluation results.
 
   !!! note
-      You need to only provide either a `ResourceEvaluationID` or a `ResourceID `and
-  `ResourceType`.
+      You need to only provide either a `ResourceEvaluationID` or a `ResourceID`and
+      `ResourceType`.
+
 - `"ResourceId"`: The ID of the Amazon Web Services resource for which you want compliance
   information.
 - `"ResourceType"`: The type of the Amazon Web Services resource for which you want
@@ -2363,6 +2424,7 @@ function get_compliance_details_by_resource(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compliance_details_by_resource(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2390,6 +2452,7 @@ function get_compliance_summary_by_config_rule(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compliance_summary_by_config_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2429,6 +2492,7 @@ function get_compliance_summary_by_resource_type(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compliance_summary_by_resource_type(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2471,6 +2535,7 @@ function get_conformance_pack_compliance_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_conformance_pack_compliance_details(
     ConformancePackName,
     params::AbstractDict{String};
@@ -2519,6 +2584,7 @@ function get_conformance_pack_compliance_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_conformance_pack_compliance_summary(
     ConformancePackNames,
     params::AbstractDict{String};
@@ -2555,6 +2621,7 @@ function get_custom_rule_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "GetCustomRulePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_custom_rule_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2576,33 +2643,36 @@ resources that Config is recording in this region for your Amazon Web Services a
 ## Example
 
 1. Config is recording three resource types in the US East (Ohio) Region for your account:
-25 EC2 instances, 20 IAM users, and 15 S3 buckets.
- 2. You make a call to the `GetDiscoveredResourceCounts` action and specify that you want
-all resource types.
- 3. Config returns the following: - The resource types (EC2 instances, IAM users, and S3
-buckets).
- - The number of each resource type (25, 20, and 15).
- - The total number of all resources (60).
-The response is paginated. By default, Config lists 100 <a>ResourceCount</a> objects on
+   25 EC2 instances, 20 IAM users, and 15 S3 buckets.2. You make a call to the
+   `GetDiscoveredResourceCounts` action and specify that you want all resource types.3.
+   Config returns the following:
+
+- The resource types (EC2 instances, IAM users, and S3 buckets).
+- The number of each resource type (25, 20, and 15).
+- The total number of all resources (60).
+
+The response is paginated. By default, Config lists 100 [`resource_count`](@ref) objects on
 each page. You can customize this number with the `limit` parameter. The response includes
 a `nextToken` string. To get the next page of results, run the request again and specify
 the string for the `nextToken` parameter.
 
 !!! note
     If you make a call to the [`get_discovered_resource_counts`](@ref) action, you might
-not immediately receive resource counts in the following situations: - You are a new Config
-customer.
- - You just enabled resource recording.
-It might take a few minutes for Config to record and count your resources. Wait a few
-minutes and then retry the [`get_discovered_resource_counts`](@ref) action.
+    not immediately receive resource counts in the following situations:
+
+    - You are a new Config customer.
+    - You just enabled resource recording.
+
+    It might take a few minutes for Config to record and count your resources. Wait a few
+    minutes and then retry the [`get_discovered_resource_counts`](@ref) action.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"limit"`: The maximum number of <a>ResourceCount</a> objects returned on each page. The
-  default is 100. You cannot specify a number greater than 100. If you specify 0, Config
-  uses the default.
+- `"limit"`: The maximum number of [`resource_count`](@ref) objects returned on each page.
+  The default is 100. You cannot specify a number greater than 100. If you specify 0,
+  Config uses the default.
 - `"nextToken"`: The `nextToken` string returned on a previous page that you use to get the
   next page of results in a paginated response.
 - `"resourceTypes"`: The comma-separated list that specifies the resource types that you
@@ -2612,10 +2682,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Config is recording in the region for your account.
 
   !!! note
-      If the configuration recorder is turned off, Config returns an empty list of
-  <a>ResourceCount</a> objects. If the configuration recorder is not recording a specific
-  resource type (for example, S3 buckets), that resource type is not returned in the list
-  of <a>ResourceCount</a> objects.
+      If the configuration recorder is turned off, Config returns an empty list of [`resource_count`](@ref)
+      objects. If the configuration recorder is not recording a specific resource type
+      (for example, S3 buckets), that resource type is not returned in the list of [`resource_count`](@ref)
+      objects.
+
 """
 function get_discovered_resource_counts(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -2626,6 +2697,7 @@ function get_discovered_resource_counts(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_discovered_resource_counts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2669,6 +2741,7 @@ function get_organization_config_rule_detailed_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organization_config_rule_detailed_status(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
@@ -2725,6 +2798,7 @@ function get_organization_conformance_pack_detailed_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organization_conformance_pack_detailed_status(
     OrganizationConformancePackName,
     params::AbstractDict{String};
@@ -2767,6 +2841,7 @@ function get_organization_custom_rule_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organization_custom_rule_policy(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
@@ -2796,22 +2871,23 @@ end
 
 !!! important
     For accurate reporting on the compliance status, you must record the
-`AWS::Config::ResourceCompliance` resource type. For more information, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html).</p>Returns
-a list of `ConfigurationItems` for the specified resource. The list contains details about
-each state of the resource during the specified time interval. If you specified a retention
-period to retain your `ConfigurationItems` between a minimum of 30 days and a maximum of 7
-years (2557 days), Config returns the `ConfigurationItems` for the specified retention
-period.
+    `AWS::Config::ResourceCompliance` resource type. For more information, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html).
 
- <p>The response is paginated. By default, Config returns a limit of 10 configuration items
-per page. You can customize this number with the `limit` parameter. The response includes a
+Returns a list of `ConfigurationItems` for the specified resource. The list contains
+details about each state of the resource during the specified time interval. If you
+specified a retention period to retain your `ConfigurationItems` between a minimum of 30
+days and a maximum of 7 years (2557 days), Config returns the `ConfigurationItems` for the
+specified retention period.
+
+The response is paginated. By default, Config returns a limit of 10 configuration items per
+page. You can customize this number with the `limit` parameter. The response includes a
 `nextToken` string. To get the next page of results, run the request again and specify the
 string for the `nextToken` parameter.
 
 !!! note
     Each call to the API is limited to span a duration of seven days. It is likely that the
-number of records returned is smaller than the specified `limit`. In such cases, you can
-make another call, using the `nextToken`.
+    number of records returned is smaller than the specified `limit`. In such cases, you
+    can make another call, using the `nextToken`.
 
 # Arguments
 
@@ -2845,6 +2921,7 @@ function get_resource_config_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_config_history(
     resourceId,
     resourceType,
@@ -2878,9 +2955,9 @@ run, and whether the resource details comply with the configuration of the proac
 
 !!! note
     To see additional information about the evaluation result, such as which rule flagged a
-resource as NON_COMPLIANT, use the [GetComplianceDetailsByResource](https://docs.aws.amazon.com/config/latest/APIReference/API_GetComplianceDetailsByResource.html)
-API. For more information, see the [Examples](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceEvaluationSummary.html#API_GetResourceEvaluationSummary_Examples)
-section.
+    resource as NON_COMPLIANT, use the [GetComplianceDetailsByResource](https://docs.aws.amazon.com/config/latest/APIReference/API_GetComplianceDetailsByResource.html)
+    API. For more information, see the [Examples](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceEvaluationSummary.html#API_GetResourceEvaluationSummary_Examples)
+    section.
 
 # Arguments
 
@@ -2897,6 +2974,7 @@ function get_resource_evaluation_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_evaluation_summary(
     ResourceEvaluationId,
     params::AbstractDict{String};
@@ -2934,6 +3012,7 @@ function get_stored_query(QueryName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stored_query(
     QueryName,
     params::AbstractDict{String};
@@ -2993,6 +3072,7 @@ function list_aggregate_discovered_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_aggregate_discovered_resources(
     ConfigurationAggregatorName,
     ResourceType,
@@ -3029,7 +3109,7 @@ conformance packs.
 
 !!! note
     Conformance packs with no evaluation results will have a compliance score of
-`INSUFFICIENT_DATA`.
+    `INSUFFICIENT_DATA`.
 
 # Optional Parameters
 
@@ -3043,8 +3123,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order, depending on `SortOrder`.
 
   By default, conformance pack compliance scores are sorted in alphabetical order by name
-  of the conformance pack. Enter `SCORE`, to sort conformance pack compliance scores by the
-  numerical value of the compliance score.
+  of the conformance pack. Enter `SCORE`, to sort conformance pack compliance scores by
+  the numerical value of the compliance score.
 - `"SortOrder"`: Determines the order in which conformance pack compliance scores are
   sorted. Either in ascending or descending order.
 
@@ -3052,10 +3132,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the conformance pack. Conformance pack compliance scores are sorted in reverse
   alphabetical order if you enter `DESCENDING`.
 
-  You can sort conformance pack compliance scores by the numerical value of the compliance
-  score by entering `SCORE` in the `SortBy` action. When compliance scores are sorted by
-  `SCORE`, conformance packs with a compliance score of `INSUFFICIENT_DATA` will be last
-  when sorting by ascending order and first when sorting by descending order.
+  You can sort conformance pack compliance scores by the numerical value of the
+  compliance score by entering `SCORE` in the `SortBy` action. When compliance scores are
+  sorted by `SCORE`, conformance packs with a compliance score of `INSUFFICIENT_DATA`
+  will be last when sorting by ascending order and first when sorting by descending order.
 """
 function list_conformance_pack_compliance_scores(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -3066,6 +3146,7 @@ function list_conformance_pack_compliance_scores(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_conformance_pack_compliance_scores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3089,10 +3170,12 @@ include only resources that have specific resource IDs or a resource name.
 
 !!! note
     You can specify either resource IDs or a resource name, but not both, in the same
-request.The response is paginated. By default, Config lists 100 resource identifiers on
-each page. You can customize this number with the `limit` parameter. The response includes
-a `nextToken` string. To get the next page of results, run the request again and specify
-the string for the `nextToken` parameter.
+    request.
+
+The response is paginated. By default, Config lists 100 resource identifiers on each page.
+You can customize this number with the `limit` parameter. The response includes a
+`nextToken` string. To get the next page of results, run the request again and specify the
+string for the `nextToken` parameter.
 
 # Arguments
 
@@ -3127,6 +3210,7 @@ function list_discovered_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_discovered_resources(
     resourceType,
     params::AbstractDict{String};
@@ -3163,6 +3247,7 @@ function list_resource_evaluations(; aws_config::AbstractAWSConfig=current_aws_c
         "ListResourceEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resource_evaluations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3194,6 +3279,7 @@ function list_stored_queries(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListStoredQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_stored_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3233,6 +3319,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -3257,9 +3344,10 @@ region.
 
 !!! note
     `PutAggregationAuthorization` is an idempotent API. Subsequent requests won’t create a
-duplicate resource if one was already created. If a following request has different `tags`
-values, Config will ignore these differences and treat it as an idempotent request of the
-previous. In this case, `tags` will not be updated, even if they are different.
+    duplicate resource if one was already created. If a following request has different
+    `tags` values, Config will ignore these differences and treat it as an idempotent
+    request of the previous. In this case, `tags` will not be updated, even if they are
+    different.
 
 # Arguments
 
@@ -3288,6 +3376,7 @@ function put_aggregation_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion,
@@ -3317,7 +3406,7 @@ end
 
 Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply
 with your desired configurations. For information on how many Config rules you can have per
-account, see [ **Service Limits** ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
+account, see [**Service Limits**](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
 in the *Config Developer Guide*.
 
 There are two types of rules: *Config Managed Rules* and *Config Custom Rules*. You can use
@@ -3329,7 +3418,7 @@ If you are adding an Config managed rule, you must specify the rule's identifier
 `SourceIdentifier` key.
 
 Config Custom Rules are rules that you create from scratch. There are two ways to create
-Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function))
+Config custom rules: with Lambda functions ([Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function))
 and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)),
 a policy-as-code language. Config custom rules created with Lambda are called *Config
 Custom Lambda Rules* and Config custom rules created with Guard are called *Config Custom
@@ -3354,9 +3443,9 @@ in the *Config Developer Guide*.
 
 !!! note
     `PutConfigRule` is an idempotent API. Subsequent requests won’t create a duplicate
-resource if one was already created. If a following request has different `tags` values,
-Config will ignore these differences and treat it as an idempotent request of the previous.
-In this case, `tags` will not be updated, even if they are different.
+    resource if one was already created. If a following request has different `tags`
+    values, Config will ignore these differences and treat it as an idempotent request of
+    the previous. In this case, `tags` will not be updated, even if they are different.
 
 # Arguments
 
@@ -3376,6 +3465,7 @@ function put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_config_rule(
     ConfigRule,
     params::AbstractDict{String};
@@ -3398,28 +3488,30 @@ end
 Creates and updates the configuration aggregator with the selected source accounts and
 regions. The source account can be individual account(s) or an organization.
 
- `accountIds` that are passed will be replaced with existing accounts. If you want to add
+`accountIds` that are passed will be replaced with existing accounts. If you want to add
 additional accounts into the aggregator, call `DescribeConfigurationAggregators` to get the
-previous accounts and then append new ones.</p>
+previous accounts and then append new ones.
 
 !!! note
     Config should be enabled in source accounts and regions you want to aggregate.
 
-If your source type is an organization, you must be signed in to the management account or
-a registered delegated administrator and all the features must be enabled in your
-organization. If the caller is a management account, Config calls `EnableAwsServiceAccess`
-API to enable integration between Config and Organizations. If the caller is a registered
-delegated administrator, Config calls `ListDelegatedAdministrators` API to verify whether
-the caller is a valid delegated administrator.
+    If your source type is an organization, you must be signed in to the management account
+    or a registered delegated administrator and all the features must be enabled in your
+    organization. If the caller is a management account, Config calls
+    `EnableAwsServiceAccess` API to enable integration between Config and Organizations. If
+    the caller is a registered delegated administrator, Config calls
+    `ListDelegatedAdministrators` API to verify whether the caller is a valid delegated
+    administrator.
 
- <p>To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli)
-in the *Config developer guide*.
+    To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli)
+    in the *Config developer guide*.
 
 !!! note
     `PutConfigurationAggregator` is an idempotent API. Subsequent requests won’t create a
-duplicate resource if one was already created. If a following request has different `tags`
-values, Config will ignore these differences and treat it as an idempotent request of the
-previous. In this case, `tags` will not be updated, even if they are different.
+    duplicate resource if one was already created. If a following request has different
+    `tags` values, Config will ignore these differences and treat it as an idempotent
+    request of the previous. In this case, `tags` will not be updated, even if they are
+    different.
 
 # Arguments
 
@@ -3443,6 +3535,7 @@ function put_configuration_aggregator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_aggregator(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
@@ -3472,15 +3565,15 @@ Creates a new configuration recorder to record configuration changes for specifi
 types.
 
 You can also use this action to change the `roleARN` or the `recordingGroup` of an existing
-recorder. For more information, see [ **Managing the Configuration Recorder** ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html)
-in the *Config Developer Guide*.</p>
+recorder. For more information, see [**Managing the Configuration Recorder**](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html)
+in the *Config Developer Guide*.
 
 !!! note
     You can specify only one configuration recorder for each Amazon Web Services Region for
-each account.
+    each account.
 
- <p>If the configuration recorder does not have the `recordingGroup` field specified, the
-default is to record all supported resource types.
+    If the configuration recorder does not have the `recordingGroup` field specified, the
+    default is to record all supported resource types.
 
 # Arguments
 
@@ -3497,6 +3590,7 @@ function put_configuration_recorder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_recorder(
     ConfigurationRecorder,
     params::AbstractDict{String};
@@ -3522,7 +3616,7 @@ end
 
 Creates or updates a conformance pack. A conformance pack is a collection of Config rules
 that can be easily deployed in an account and a region and across an organization. For
-information on how many conformance packs you can have per account, see [ **Service Limits** ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
+information on how many conformance packs you can have per account, see [**Service Limits**](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
 in the *Config Developer Guide*.
 
 This API creates a service-linked role `AWSServiceRoleForConfigConforms` in your account.
@@ -3530,7 +3624,7 @@ The service-linked role is created only when the role does not exist in your acc
 
 !!! note
     You must specify only one of the follow parameters: `TemplateS3Uri`, `TemplateBody` or
-`TemplateSSMDocumentDetails`.
+    `TemplateSSMDocumentDetails`.
 
 # Arguments
 
@@ -3544,29 +3638,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeliveryS3Bucket"`: The name of the Amazon S3 bucket where Config stores conformance
   pack templates.
 
-!!! note
-    This field is optional.
+  !!! note
+      This field is optional.
+
 - `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.
 
-!!! note
-    This field is optional.
+  !!! note
+      This field is optional.
+
 - `"TemplateBody"`: A string containing the full conformance pack template body. The
   structure containing the template body has a minimum length of 1 byte and a maximum
   length of 51,200 bytes.
 
   !!! note
       You can use a YAML template with two resource types: Config rule
-  (`AWS::Config::ConfigRule`) and remediation action
-  (`AWS::Config::RemediationConfiguration`).
+      (`AWS::Config::ConfigRule`) and remediation action
+      (`AWS::Config::RemediationConfiguration`).
+
 - `"TemplateS3Uri"`: The location of the file containing the template body
-  (`s3://bucketname/prefix`). The uri must point to a conformance pack template (max size:
-  300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance
-  pack.
+  (`s3://bucketname/prefix`). The uri must point to a conformance pack template (max
+  size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the
+  conformance pack.
 
   !!! note
       You must have access to read Amazon S3 bucket. In addition, in order to ensure a
-  successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
-  if this parameter is passed.
+      successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
+      if this parameter is passed.
+
 - `"TemplateSSMDocumentDetails"`: An object of type `TemplateSSMDocumentDetails`, which
   contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems
   Manager document (SSM document) and the version of the SSM document that is used to
@@ -3582,6 +3680,7 @@ function put_conformance_pack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_conformance_pack(
     ConformancePackName,
     params::AbstractDict{String};
@@ -3634,6 +3733,7 @@ function put_delivery_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_delivery_channel(
     DeliveryChannel,
     params::AbstractDict{String};
@@ -3671,12 +3771,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifies an Amazon Web Services resource and indicates whether it complies with the
   Config rule that invokes the Lambda function.
 - `"TestMode"`: Use this parameter to specify a test run for `PutEvaluations`. You can
-  verify whether your Lambda function will deliver evaluation results to Config. No updates
-  occur to your existing evaluations, and evaluation results are not sent to Config.
+  verify whether your Lambda function will deliver evaluation results to Config. No
+  updates occur to your existing evaluations, and evaluation results are not sent to
+  Config.
 
   !!! note
       When `TestMode` is `true`, `PutEvaluations` doesn't require a valid value for the
-  `ResultToken` parameter, but the value cannot be null.
+      `ResultToken` parameter, but the value cannot be null.
+
 """
 function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
@@ -3686,6 +3788,7 @@ function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_evaluations(
     ResultToken,
     params::AbstractDict{String};
@@ -3726,6 +3829,7 @@ function put_external_evaluation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_external_evaluation(
     ConfigRuleName,
     ExternalEvaluation,
@@ -3755,10 +3859,10 @@ end
 
 Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web
 Services resources comply with your desired configurations. For information on how many
-organization Config rules you can have per account, see [ **Service Limits** ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
+organization Config rules you can have per account, see [**Service Limits**](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
 in the *Config Developer Guide*.
 
- Only a management account and a delegated administrator can create or update an
+Only a management account and a delegated administrator can create or update an
 organization Config rule. When calling this API with a delegated administrator, you must
 ensure Organizations `ListDelegatedAdministrator` permissions are added. An organization
 can have up to 3 delegated administrators.
@@ -3770,8 +3874,8 @@ is created only when the role does not exist in the caller account. Config verif
 existence of role with `GetRole` action.
 
 To use this API with delegated administrator, register a delegated administrator by calling
-Amazon Web Services Organization `register-delegated-administrator` for `config-
-multiaccountsetup.amazonaws.com`.
+Amazon Web Services Organization `register-delegated-administrator` for
+`config-multiaccountsetup.amazonaws.com`.
 
 There are two types of rules: *Config Managed Rules* and *Config Custom Rules*. You can use
 `PutOrganizationConfigRule` to create both Config Managed Rules and Config Custom Rules.
@@ -3782,7 +3886,7 @@ If you are adding an Config managed rule, you must specify the rule's identifier
 `RuleIdentifier` key.
 
 Config Custom Rules are rules that you create from scratch. There are two ways to create
-Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function))
+Config custom rules: with Lambda functions ([Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function))
 and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)),
 a policy-as-code language. Config custom rules created with Lambda are called *Config
 Custom Lambda Rules* and Config custom rules created with Guard are called *Config Custom
@@ -3793,15 +3897,15 @@ function in the management account or a delegated administrator that the rule in
 evaluate your resources. You also need to create an IAM role in the managed account that
 can be assumed by the Lambda function. When you use `PutOrganizationConfigRule` to add a
 Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda
-assigns to the function.</p>
+assigns to the function.
 
 !!! note
     Prerequisite: Ensure you call `EnableAllFeatures` API to enable all features in an
-organization.
+    organization.
 
- <p>Make sure to specify one of either `OrganizationCustomPolicyRuleMetadata` for Custom
-Policy rules, `OrganizationCustomRuleMetadata` for Custom Lambda rules, or
-`OrganizationManagedRuleMetadata` for managed rules.
+    Make sure to specify one of either `OrganizationCustomPolicyRuleMetadata` for Custom
+    Policy rules, `OrganizationCustomRuleMetadata` for Custom Lambda rules, or
+    `OrganizationManagedRuleMetadata` for managed rules.
 
 # Arguments
 
@@ -3814,22 +3918,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExcludedAccounts"`: A comma-separated list of accounts that you want to exclude from an
   organization Config rule.
 - `"OrganizationCustomPolicyRuleMetadata"`: An `OrganizationCustomPolicyRuleMetadata`
-  object. This object specifies metadata for your organization's Config Custom Policy rule.
-  The metadata includes the runtime system in use, which accounts have debug logging
-  enabled, and other custom rule metadata, such as resource type, resource ID of Amazon Web
-  Services resource, and organization trigger types that initiate Config to evaluate Amazon
-  Web Services resources against a rule.
+  object. This object specifies metadata for your organization's Config Custom Policy
+  rule. The metadata includes the runtime system in use, which accounts have debug
+  logging enabled, and other custom rule metadata, such as resource type, resource ID of
+  Amazon Web Services resource, and organization trigger types that initiate Config to
+  evaluate Amazon Web Services resources against a rule.
 - `"OrganizationCustomRuleMetadata"`: An `OrganizationCustomRuleMetadata` object. This
-  object specifies organization custom rule metadata such as resource type, resource ID of
-  Amazon Web Services resource, Lambda function ARN, and organization trigger types that
-  trigger Config to evaluate your Amazon Web Services resources against a rule. It also
-  provides the frequency with which you want Config to run evaluations for the rule if the
-  trigger type is periodic.
+  object specifies organization custom rule metadata such as resource type, resource ID
+  of Amazon Web Services resource, Lambda function ARN, and organization trigger types
+  that trigger Config to evaluate your Amazon Web Services resources against a rule. It
+  also provides the frequency with which you want Config to run evaluations for the rule
+  if the trigger type is periodic.
 - `"OrganizationManagedRuleMetadata"`: An `OrganizationManagedRuleMetadata` object. This
   object specifies organization managed rule metadata such as resource type and ID of
   Amazon Web Services resource along with the rule identifier. It also provides the
-  frequency with which you want Config to run evaluations for the rule if the trigger type
-  is periodic.
+  frequency with which you want Config to run evaluations for the rule if the trigger
+  type is periodic.
 """
 function put_organization_config_rule(
     OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3841,6 +3945,7 @@ function put_organization_config_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_organization_config_rule(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
@@ -3868,7 +3973,7 @@ end
 
 Deploys conformance packs across member accounts in an Amazon Web Services Organization.
 For information on how many organization conformance packs and how many Config rules you
-can have per account, see [ **Service Limits** ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
+can have per account, see [**Service Limits**](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
 in the *Config Developer Guide*.
 
 Only a management account and a delegated administrator can call this API. When calling
@@ -3881,20 +3986,20 @@ through the `EnableAWSServiceAccess` action and creates a service-linked role
 `AWSServiceRoleForConfigMultiAccountSetup` in the management or delegated administrator
 account of your organization. The service-linked role is created only when the role does
 not exist in the caller account. To use this API with delegated administrator, register a
-delegated administrator by calling Amazon Web Services Organization `register-delegate-
-admin` for `config-multiaccountsetup.amazonaws.com`.</p>
+delegated administrator by calling Amazon Web Services Organization
+`register-delegate-admin` for `config-multiaccountsetup.amazonaws.com`.
 
 !!! note
     Prerequisite: Ensure you call `EnableAllFeatures` API to enable all features in an
-organization.
+    organization.
 
-You must specify either the `TemplateS3Uri` or the `TemplateBody` parameter, but not both.
-If you provide both Config uses the `TemplateS3Uri` parameter and ignores the
-`TemplateBody` parameter.
+    You must specify either the `TemplateS3Uri` or the `TemplateBody` parameter, but not
+    both. If you provide both Config uses the `TemplateS3Uri` parameter and ignores the
+    `TemplateBody` parameter.
 
- <p>Config sets the state of a conformance pack to CREATE_IN_PROGRESS and
-UPDATE_IN_PROGRESS until the conformance pack is created or updated. You cannot update a
-conformance pack while it is in this state.
+    Config sets the state of a conformance pack to CREATE_IN_PROGRESS and
+    UPDATE_IN_PROGRESS until the conformance pack is created or updated. You cannot update
+    a conformance pack while it is in this state.
 
 # Arguments
 
@@ -3911,10 +4016,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This field is optional. If used, it must be prefixed with `awsconfigconforms`.
+
 - `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.
 
-!!! note
-    This field is optional.
+  !!! note
+      This field is optional.
+
 - `"ExcludedAccounts"`: A list of Amazon Web Services accounts to be excluded from an
   organization conformance pack while deploying a conformance pack.
 - `"TemplateBody"`: A string containing full conformance pack template body. Structure
@@ -3925,8 +4032,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You must have access to read Amazon S3 bucket. In addition, in order to ensure a
-  successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
-  if this parameter is passed.
+      successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
+      if this parameter is passed.
+
 """
 function put_organization_conformance_pack(
     OrganizationConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3940,6 +4048,7 @@ function put_organization_conformance_pack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_organization_conformance_pack(
     OrganizationConformancePackName,
     params::AbstractDict{String};
@@ -3968,42 +4077,43 @@ end
 Adds or updates the remediation configuration with a specific Config rule with the selected
 target or action. The API creates the `RemediationConfiguration` object for the Config
 rule. The Config rule must already exist for you to add a remediation configuration. The
-target (SSM document) must exist and have permissions to use the target. </p>
+target (SSM document) must exist and have permissions to use the target.
 
 !!! note
     **Be aware of backward incompatible changes**
 
-If you make backward incompatible changes to the SSM document, you must call this again to
-ensure the remediations can run.
+    If you make backward incompatible changes to the SSM document, you must call this again
+    to ensure the remediations can run.
 
-This API does not support adding remediation configurations for service-linked Config Rules
-such as Organization Config rules, the rules deployed by conformance packs, and rules
-deployed by Amazon Web Services Security Hub.
+    This API does not support adding remediation configurations for service-linked Config
+    Rules such as Organization Config rules, the rules deployed by conformance packs, and
+    rules deployed by Amazon Web Services Security Hub.
 
 !!! note
     **Required fields**
 
-For manual remediation configuration, you need to provide a value for
-`automationAssumeRole` or use a value in the `assumeRole`field to remediate your resources.
-The SSM automation document can use either as long as it maps to a valid parameter.
+    For manual remediation configuration, you need to provide a value for
+    `automationAssumeRole` or use a value in the `assumeRole`field to remediate your
+    resources. The SSM automation document can use either as long as it maps to a valid
+    parameter.
 
-However, for automatic remediation configuration, the only valid `assumeRole` field value
-is `AutomationAssumeRole` and you need to provide a value for `AutomationAssumeRole` to
-remediate your resources.
+    However, for automatic remediation configuration, the only valid `assumeRole` field
+    value is `AutomationAssumeRole` and you need to provide a value for
+    `AutomationAssumeRole` to remediate your resources.
 
 !!! note
     **Auto remediation can be initiated even for compliant resources**
 
-If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html)
-API or the Config console, it initiates the remediation process for all non-compliant
-resources for that specific rule. The auto remediation process relies on the compliance
-data snapshot which is captured on a periodic basis. Any non-compliant resource that is
-updated between the snapshot schedule will continue to be remediated based on the last
-known compliance data snapshot.
+    If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html)
+    API or the Config console, it initiates the remediation process for all non-compliant
+    resources for that specific rule. The auto remediation process relies on the compliance
+    data snapshot which is captured on a periodic basis. Any non-compliant resource that is
+    updated between the snapshot schedule will continue to be remediated based on the last
+    known compliance data snapshot.
 
- <p>This means that in some cases auto remediation can be initiated even for compliant
-resources, since the bootstrap processor uses a database that can have stale evaluation
-results based on the last known compliance data snapshot.
+    This means that in some cases auto remediation can be initiated even for compliant
+    resources, since the bootstrap processor uses a database that can have stale evaluation
+    results based on the last known compliance data snapshot.
 
 # Arguments
 
@@ -4019,6 +4129,7 @@ function put_remediation_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_remediation_configurations(
     RemediationConfigurations,
     params::AbstractDict{String};
@@ -4044,56 +4155,56 @@ end
 
 A remediation exception is when a specified resource is no longer considered for auto-
 remediation. This API adds a new exception or updates an existing exception for a specified
-resource with a specified Config rule. </p>
+resource with a specified Config rule.
 
 !!! note
     **Exceptions block auto remediation**
 
-Config generates a remediation exception when a problem occurs running a remediation action
-for a specified resource. Remediation exceptions blocks auto-remediation until the
-exception is cleared.
+    Config generates a remediation exception when a problem occurs running a remediation
+    action for a specified resource. Remediation exceptions blocks auto-remediation until
+    the exception is cleared.
 
 !!! note
     **Manual remediation is recommended when placing an exception**
 
-When placing an exception on an Amazon Web Services resource, it is recommended that
-remediation is set as manual remediation until the given Config rule for the specified
-resource evaluates the resource as `NON_COMPLIANT`. Once the resource has been evaluated as
-`NON_COMPLIANT`, you can add remediation exceptions and change the remediation type back
-from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation
-before a `NON_COMPLIANT` evaluation result can delete resources before the exception is
-applied.
+    When placing an exception on an Amazon Web Services resource, it is recommended that
+    remediation is set as manual remediation until the given Config rule for the specified
+    resource evaluates the resource as `NON_COMPLIANT`. Once the resource has been
+    evaluated as `NON_COMPLIANT`, you can add remediation exceptions and change the
+    remediation type back from Manual to Auto if you want to use auto-remediation.
+    Otherwise, using auto-remediation before a `NON_COMPLIANT` evaluation result can delete
+    resources before the exception is applied.
 
 !!! note
     **Exceptions can only be performed on non-compliant resources**
 
-Placing an exception can only be performed on resources that are `NON_COMPLIANT`. If you
-use this API for `COMPLIANT` resources or resources that are `NOT_APPLICABLE`, a
-remediation exception will not be generated. For more information on the conditions that
-initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules)
-in the *Config Developer Guide*.
+    Placing an exception can only be performed on resources that are `NON_COMPLIANT`. If
+    you use this API for `COMPLIANT` resources or resources that are `NOT_APPLICABLE`, a
+    remediation exception will not be generated. For more information on the conditions
+    that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules)
+    in the *Config Developer Guide*.
 
 !!! note
     **Auto remediation can be initiated even for compliant resources**
 
-If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html)
-API or the Config console, it initiates the remediation process for all non-compliant
-resources for that specific rule. The auto remediation process relies on the compliance
-data snapshot which is captured on a periodic basis. Any non-compliant resource that is
-updated between the snapshot schedule will continue to be remediated based on the last
-known compliance data snapshot.
+    If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html)
+    API or the Config console, it initiates the remediation process for all non-compliant
+    resources for that specific rule. The auto remediation process relies on the compliance
+    data snapshot which is captured on a periodic basis. Any non-compliant resource that is
+    updated between the snapshot schedule will continue to be remediated based on the last
+    known compliance data snapshot.
 
- <p>This means that in some cases auto remediation can be initiated even for compliant
-resources, since the bootstrap processor uses a database that can have stale evaluation
-results based on the last known compliance data snapshot.
+    This means that in some cases auto remediation can be initiated even for compliant
+    resources, since the bootstrap processor uses a database that can have stale evaluation
+    results based on the last known compliance data snapshot.
 
 # Arguments
 
 - `config_rule_name`: The name of the Config rule for which you want to create remediation
   exception.
 - `resource_keys`: An exception list of resource exception keys to be processed with the
-  current request. Config adds exception for each resource key. For example, Config adds 3
-  exceptions for 3 resource keys.
+  current request. Config adds exception for each resource key. For example, Config adds
+  3 exceptions for 3 resource keys.
 
 # Optional Parameters
 
@@ -4114,6 +4225,7 @@ function put_remediation_exceptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_remediation_exceptions(
     ConfigRuleName,
     ResourceKeys,
@@ -4143,32 +4255,35 @@ end
 Records the configuration state for the resource provided in the request. The configuration
 state of a resource is represented in Config as Configuration Items. Once this API records
 the configuration item, you can retrieve the list of configuration items for the custom
-resource type using existing Config APIs. </p>
+resource type using existing Config APIs.
 
 !!! note
     The custom resource type must be registered with CloudFormation. This API accepts the
-configuration item registered with CloudFormation.
+    configuration item registered with CloudFormation.
 
-When you call this API, Config only stores configuration state of the resource provided in
-the request. This API does not change or remediate the configuration of the resource.
+    When you call this API, Config only stores configuration state of the resource provided
+    in the request. This API does not change or remediate the configuration of the
+    resource.
 
- <p>Write-only schema properites are not recorded as part of the published configuration
-item.
+    Write-only schema properites are not recorded as part of the published configuration
+    item.
 
 # Arguments
 
 - `configuration`: The configuration object of the resource in valid JSON format. It must
   match the schema registered with CloudFormation.
 
-!!! note
-    The configuration JSON must not exceed 64 KB.
+  !!! note
+      The configuration JSON must not exceed 64 KB.
+
 - `resource_id`: Unique identifier of the resource.
 - `resource_type`: The type of the resource. The custom resource type must be registered
   with CloudFormation.
 
   !!! note
-      You cannot use the organization names “amzn”, “amazon”, “alexa”, “custom” with custom
-  resource types. It is the first part of the ResourceType up to the first ::.
+      You cannot use the organization names “amzn”, “amazon”, “alexa”, “custom” with
+      custom resource types. It is the first part of the ResourceType up to the first ::.
+
 - `schema_version_id`: Version of the schema registered for the ResourceType in
   CloudFormation.
 
@@ -4181,8 +4296,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This field is not to be confused with the Amazon Web Services-wide tag feature for
-  Amazon Web Services resources. Tags for `PutResourceConfig` are tags that you supply for
-  the configuration items of your custom resources.
+      Amazon Web Services resources. Tags for `PutResourceConfig` are tags that you
+      supply for the configuration items of your custom resources.
+
 """
 function put_resource_config(
     Configuration,
@@ -4203,6 +4319,7 @@ function put_resource_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_config(
     Configuration,
     ResourceId,
@@ -4247,8 +4364,9 @@ object.
 
 - `retention_period_in_days`: Number of days Config stores your historical information.
 
-!!! note
-    Currently, only applicable to the configuration item history.
+  !!! note
+      Currently, only applicable to the configuration item history.
+
 """
 function put_retention_configuration(
     RetentionPeriodInDays; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4260,6 +4378,7 @@ function put_retention_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_retention_configuration(
     RetentionPeriodInDays,
     params::AbstractDict{String};
@@ -4290,9 +4409,9 @@ Region.
 
 !!! note
     `PutStoredQuery` is an idempotent API. Subsequent requests won’t create a duplicate
-resource if one was already created. If a following request has different `tags` values,
-Config will ignore these differences and treat it as an idempotent request of the previous.
-In this case, `tags` will not be updated, even if they are different.
+    resource if one was already created. If a following request has different `tags`
+    values, Config will ignore these differences and treat it as an idempotent request of
+    the previous. In this case, `tags` will not be updated, even if they are different.
 
 # Arguments
 
@@ -4300,9 +4419,9 @@ In this case, `tags` will not be updated, even if they are different.
   `Expression`.
 
   !!! note
-      When you are creating a query, you must provide a query name and an expression. When
-  you are updating a query, you must provide a query name but updating the description is
-  optional.
+      When you are creating a query, you must provide a query name and an expression.
+      When you are updating a query, you must provide a query name but updating the
+      description is optional.
 
 # Optional Parameters
 
@@ -4318,6 +4437,7 @@ function put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_stored_query(
     StoredQuery,
     params::AbstractDict{String};
@@ -4342,18 +4462,19 @@ configuration state of Amazon Web Services resources across multiple accounts an
 performs the corresponding search, and returns resource configurations matching the
 properties.
 
-For more information about query components, see the [ **Query Components** ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html)
-section in the *Config Developer Guide*.</p>
+For more information about query components, see the [**Query Components**](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html)
+section in the *Config Developer Guide*.
 
 !!! note
     If you run an aggregation query (i.e., using `GROUP BY` or using aggregate functions
-such as `COUNT`; e.g., `SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role'
-GROUP BY resourceId`) and do not specify the `MaxResults` or the `Limit` query parameters,
-the default page size is set to 500.
+    such as `COUNT`; e.g.,
+    `SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY resourceId`)
+    and do not specify the `MaxResults` or the `Limit` query parameters, the default page
+    size is set to 500.
 
- <p>If you run a non-aggregation query (i.e., not using `GROUP BY` or aggregate function;
-e.g., `SELECT * WHERE resourceType = 'AWS::IAM::Role'`) and do not specify the `MaxResults`
-or the `Limit` query parameters, the default page size is set to 25.
+    If you run a non-aggregation query (i.e., not using `GROUP BY` or aggregate function;
+    e.g., `SELECT * WHERE resourceType = 'AWS::IAM::Role'`) and do not specify the
+    `MaxResults` or the `Limit` query parameters, the default page size is set to 25.
 
 # Arguments
 
@@ -4385,6 +4506,7 @@ function select_aggregate_resource_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function select_aggregate_resource_config(
     ConfigurationAggregatorName,
     Expression,
@@ -4415,7 +4537,7 @@ end
 Accepts a structured query language (SQL) `SELECT` command, performs the corresponding
 search, and returns resource configurations matching the properties.
 
-For more information about query components, see the [ **Query Components** ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html)
+For more information about query components, see the [**Query Components**](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html)
 section in the *Config Developer Guide*.
 
 # Arguments
@@ -4440,6 +4562,7 @@ function select_resource_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function select_resource_config(
     Expression,
     params::AbstractDict{String};
@@ -4473,15 +4596,17 @@ will receive a `ConfigRuleEvaluationStarted` notification when the evaluation st
 
 !!! note
     You don't need to call the `StartConfigRulesEvaluation` API to run an evaluation for a
-new rule. When you create a rule, Config evaluates your resources against the rule
-automatically.The `StartConfigRulesEvaluation` API is useful if you want to run on-demand
-evaluations, such as the following example: 1. You have a custom rule that evaluates your
-IAM resources every 24 hours.
- 2. You update your Lambda function to add additional conditions to your rule.
- 3. Instead of waiting for the next periodic evaluation, you call the
-`StartConfigRulesEvaluation` API.
- 4. Config invokes your Lambda function and evaluates your IAM resources.
- 5. Your custom rule will still run periodic evaluations every 24 hours.
+    new rule. When you create a rule, Config evaluates your resources against the rule
+    automatically.
+
+The `StartConfigRulesEvaluation` API is useful if you want to run on-demand evaluations,
+such as the following example:
+
+1. You have a custom rule that evaluates your IAM resources every 24 hours.2. You update
+   your Lambda function to add additional conditions to your rule.3. Instead of waiting for
+   the next periodic evaluation, you call the `StartConfigRulesEvaluation` API.4. Config
+   invokes your Lambda function and evaluates your IAM resources.5. Your custom rule will
+   still run periodic evaluations every 24 hours.
 
 # Optional Parameters
 
@@ -4495,6 +4620,7 @@ function start_config_rules_evaluation(; aws_config::AbstractAWSConfig=current_a
         "StartConfigRulesEvaluation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_config_rules_evaluation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4531,6 +4657,7 @@ function start_configuration_recorder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_configuration_recorder(
     ConfigurationRecorderName,
     params::AbstractDict{String};
@@ -4580,6 +4707,7 @@ function start_remediation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_remediation_execution(
     ConfigRuleName,
     ResourceKeys,
@@ -4610,20 +4738,20 @@ Runs an on-demand evaluation for the specified resource to determine whether the
 details will comply with configured Config rules. You can also use it for evaluation
 purposes. Config recommends using an evaluation context. It runs an execution against the
 resource details with all of the Config rules in your account that match with the specified
-proactive mode and resource type.</p>
+proactive mode and resource type.
 
 !!! note
     Ensure you have the `cloudformation:DescribeType` role setup to validate the resource
-type schema.
+    type schema.
 
-You can find the [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html)
-in "*Amazon Web Services public extensions*" within the CloudFormation registry or with the
-following CLI commmand: `aws cloudformation describe-type --type-name "AWS::S3::Bucket" --
-type RESOURCE`.
+    You can find the [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html)
+    in "*Amazon Web Services public extensions*" within the CloudFormation registry or with
+    the following CLI commmand:
+    `aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE`.
 
- <p>For more information, see [Managing extensions through the CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view)
-and [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
-in the CloudFormation User Guide.
+    For more information, see [Managing extensions through the CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view)
+    and [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+    in the CloudFormation User Guide.
 
 # Arguments
 
@@ -4641,11 +4769,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Avoid reusing the same client token for other API requests. If you retry a request
-  that completed successfully using the same client token and the same parameters, the
-  retry succeeds without performing any further actions. If you retry a successful request
-  using the same client token, but one or more of the parameters are different, other than
-  the Region or Availability Zone, the retry fails with an IdempotentParameterMismatch
-  error.
+      that completed successfully using the same client token and the same parameters,
+      the retry succeeds without performing any further actions. If you retry a
+      successful request using the same client token, but one or more of the parameters
+      are different, other than the Region or Availability Zone, the retry fails with an
+      IdempotentParameterMismatch error.
+
 - `"EvaluationContext"`: Returns an `EvaluationContext` object.
 - `"EvaluationTimeout"`: The timeout for an evaluation. The default is 900 seconds. You
   cannot specify a number greater than 3600. If you specify 0, Config uses the default.
@@ -4662,6 +4791,7 @@ function start_resource_evaluation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_resource_evaluation(
     EvaluationMode,
     ResourceDetails,
@@ -4706,6 +4836,7 @@ function stop_configuration_recorder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_configuration_recorder(
     ConfigurationRecorderName,
     params::AbstractDict{String};
@@ -4749,6 +4880,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -4792,6 +4924,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,

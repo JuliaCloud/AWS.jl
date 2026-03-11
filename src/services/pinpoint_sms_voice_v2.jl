@@ -21,11 +21,11 @@ is returned.
 - `iso_country_code`: The new two-character code, in ISO 3166-1 alpha-2 format, for the
   country or region of the origination identity.
 - `origination_identity`: The origination identity to use, such as PhoneNumberId,
-  PhoneNumberArn, SenderId, or SenderIdArn. You can use <a>DescribePhoneNumbers</a> to find
-  the values for PhoneNumberId and PhoneNumberArn, while <a>DescribeSenderIds</a> can be
-  used to get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId, or SenderIdArn. You can use [`describe_phone_numbers`](@ref)
+  to find the values for PhoneNumberId and PhoneNumberArn, while [`describe_sender_ids`](@ref)
+  can be used to get the values for SenderId and SenderIdArn.
 - `pool_id`: The pool to update with the new Identity. This value can be either the PoolId
-  or PoolArn, and you can find these values using <a>DescribePools</a>.
+  or PoolArn, and you can find these values using [`describe_pools`](@ref).
 
 # Optional Parameters
 
@@ -53,6 +53,7 @@ function associate_origination_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -108,6 +109,7 @@ function associate_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId,
@@ -169,6 +171,7 @@ function create_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -209,14 +212,14 @@ Firehose destination.
 # Arguments
 
 - `configuration_set_name`: Either the name of the configuration set or the configuration
-  set ARN to apply event logging to. The ConfigurateSetName and ConfigurationSetArn can be
-  found using the [`describe_configuration_sets`](@ref) action.
+  set ARN to apply event logging to. The ConfigurateSetName and ConfigurationSetArn can
+  be found using the [`describe_configuration_sets`](@ref) action.
 - `event_destination_name`: The name that identifies the event destination.
 - `matching_event_types`: An array of event types that determine which events to log. If
   "ALL" is used, then AWS End User Messaging SMS and Voice logs every event type.
 
-!!! note
-    The `TEXT_SENT` event type is not supported.
+  !!! note
+      The `TEXT_SENT` event type is not supported.
 
 # Optional Parameters
 
@@ -250,6 +253,7 @@ function create_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -288,7 +292,7 @@ An opt-out list is a list of phone numbers that are opted out, meaning you can't
 or voice messages to them. If end user replies with the keyword "STOP," an entry for the
 phone number is added to the opt-out list. In addition to STOP, your recipients can use any
 supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out
-keywords, see [ SMS opt out ](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-manage.html#channels-sms-manage-optout)
+keywords, see [SMS opt out](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-manage.html#channels-sms-manage-optout)
 in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
@@ -316,6 +320,7 @@ function create_opt_out_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_opt_out_list(
     OptOutListName,
     params::AbstractDict{String};
@@ -361,9 +366,9 @@ an error is returned. A sender ID can be associated with multiple pools.
   critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-
   sensitive. After the pool is created the MessageType can't be changed.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use <a>DescribePhoneNumbers</a> to find
-  the values for PhoneNumberId and PhoneNumberArn while <a>DescribeSenderIds</a> can be
-  used to get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref)
+  to find the values for PhoneNumberId and PhoneNumberArn while [`describe_sender_ids`](@ref)
+  can be used to get the values for SenderId and SenderIdArn.
 
   After the pool is created you can add more origination identities to the pool by using [AssociateOriginationIdentity](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_AssociateOriginationIdentity.html).
 
@@ -396,6 +401,7 @@ function create_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pool(
     IsoCountryCode,
     MessageType,
@@ -450,6 +456,7 @@ function create_protect_configuration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_protect_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -496,6 +503,7 @@ function create_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration(
     RegistrationType,
     params::AbstractDict{String};
@@ -539,6 +547,7 @@ function create_registration_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_association(
     RegistrationId,
     ResourceId,
@@ -594,6 +603,7 @@ function create_registration_attachment(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_attachment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -628,6 +638,7 @@ function create_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -676,6 +687,7 @@ function create_verified_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_verified_destination_number(
     DestinationPhoneNumber,
     params::AbstractDict{String};
@@ -713,6 +725,7 @@ function delete_account_default_protect_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_default_protect_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -750,6 +763,7 @@ function delete_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -775,7 +789,7 @@ end
 
 Deletes an existing default message type on a configuration set.
 
- A message type is a type of messages that you plan to send. If you send account-related
+A message type is a type of messages that you plan to send. If you send account-related
 messages or time-sensitive messages such as one-time passcodes, choose **Transactional**.
 If you plan to send messages that contain marketing material or other promotional content,
 choose **Promotional**. This setting applies to your entire Amazon Web Services account.
@@ -797,6 +811,7 @@ function delete_default_message_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_default_message_type(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -828,8 +843,8 @@ SMS messages. Support for sender ID capabilities varies by country or region.
 # Arguments
 
 - `configuration_set_name`: The name of the configuration set or the configuration set
-  Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName
-  and ConfigurationSetArn can be found using the [`describe_configuration_sets`](@ref)
+  Amazon Resource Name (ARN) to delete the default sender ID from. The
+  ConfigurationSetName and ConfigurationSetArn can be found using the [`describe_configuration_sets`](@ref)
   action.
 """
 function delete_default_sender_id(
@@ -842,6 +857,7 @@ function delete_default_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_default_sender_id(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -895,6 +911,7 @@ function delete_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -936,9 +953,9 @@ Keywords "HELP" and "STOP" can't be deleted or modified.
 
 - `keyword`: The keyword to delete.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, PoolId or PoolArn. You can use <a>DescribePhoneNumbers</a> to find the
-  values for PhoneNumberId and PhoneNumberArn and <a>DescribePools</a> to find the values
-  of PoolId and PoolArn.
+  PhoneNumberArn, PoolId or PoolArn. You can use [`describe_phone_numbers`](@ref) to find
+  the values for PhoneNumberId and PhoneNumberArn and [`describe_pools`](@ref) to find
+  the values of PoolId and PoolArn.
 """
 function delete_keyword(
     Keyword, OriginationIdentity; aws_config::AbstractAWSConfig=current_aws_config()
@@ -952,6 +969,7 @@ function delete_keyword(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_keyword(
     Keyword,
     OriginationIdentity,
@@ -993,6 +1011,7 @@ function delete_media_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1017,7 +1036,7 @@ number or pool, an error is returned.
 # Arguments
 
 - `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList to delete. You
-  can use <a>DescribeOptOutLists</a> to find the values for OptOutListName and
+  can use [`describe_opt_out_lists`](@ref) to find the values for OptOutListName and
   OptOutListArn.
 """
 function delete_opt_out_list(
@@ -1030,6 +1049,7 @@ function delete_opt_out_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_opt_out_list(
     OptOutListName,
     params::AbstractDict{String};
@@ -1073,6 +1093,7 @@ function delete_opted_out_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_opted_out_number(
     OptOutListName,
     OptedOutNumber,
@@ -1109,7 +1130,7 @@ numbers and SenderIds that are associated with your Amazon Web Services account.
 
 # Arguments
 
-- `pool_id`: The PoolId or PoolArn of the pool to delete. You can use <a>DescribePools</a>
+- `pool_id`: The PoolId or PoolArn of the pool to delete. You can use [`describe_pools`](@ref)
   to find the values for PoolId and PoolArn .
 """
 function delete_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1120,6 +1141,7 @@ function delete_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1153,6 +1175,7 @@ function delete_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -1192,6 +1215,7 @@ function delete_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration(
     RegistrationId,
     params::AbstractDict{String};
@@ -1227,6 +1251,7 @@ function delete_registration_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_attachment(
     RegistrationAttachmentId,
     params::AbstractDict{String};
@@ -1254,8 +1279,8 @@ Delete the value in a registration form field.
 
 # Arguments
 
-- `field_path`: The path to the registration form field. You can use
-  <a>DescribeRegistrationFieldDefinitions</a> for a list of **FieldPaths**.
+- `field_path`: The path to the registration form field. You can use [`describe_registration_field_definitions`](@ref)
+  for a list of **FieldPaths**.
 - `registration_id`: The unique identifier for the registration.
 """
 function delete_registration_field_value(
@@ -1268,6 +1293,7 @@ function delete_registration_field_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_field_value(
     FieldPath,
     RegistrationId,
@@ -1296,7 +1322,7 @@ end
 
 Deletes an account-level monthly spending limit override for sending text messages.
 Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which
-is controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
+is controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
 in the *AWS End User Messaging SMS User Guide*.
 """
 function delete_text_message_spend_limit_override(;
@@ -1308,6 +1334,7 @@ function delete_text_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_text_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1340,6 +1367,7 @@ function delete_verified_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_verified_destination_number(
     VerifiedDestinationNumberId,
     params::AbstractDict{String};
@@ -1367,7 +1395,7 @@ end
 
 Deletes an account level monthly spend limit override for sending voice messages. Deleting
 a spend limit override sets the `EnforcedLimit` equal to the `MaxLimit`, which is
-controlled by Amazon Web Services. For more information on spending limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
+controlled by Amazon Web Services. For more information on spending limits (quotas) see [Quotas](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
 in the *AWS End User Messaging SMS User Guide*.
 """
 function delete_voice_message_spend_limit_override(;
@@ -1379,6 +1407,7 @@ function delete_voice_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1415,6 +1444,7 @@ function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1436,7 +1466,7 @@ that quota, and the quota's maximum value.
 
 When you establish an Amazon Web Services account, the account has initial quotas on the
 maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can
-create in a given Region. For more information see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
+create in a given Region. For more information see [Quotas](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
 in the *AWS End User Messaging SMS User Guide*.
 
 # Optional Parameters
@@ -1452,6 +1482,7 @@ function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1493,6 +1524,7 @@ function describe_configuration_sets(; aws_config::AbstractAWSConfig=current_aws
         "DescribeConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1521,9 +1553,9 @@ If you specify a keyword that isn't valid, an error is returned.
 # Arguments
 
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use <a>DescribePhoneNumbers</a> to find
-  the values for PhoneNumberId and PhoneNumberArn while <a>DescribeSenderIds</a> can be
-  used to get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref)
+  to find the values for PhoneNumberId and PhoneNumberArn while [`describe_sender_ids`](@ref)
+  can be used to get the values for SenderId and SenderIdArn.
 
 # Optional Parameters
 
@@ -1545,6 +1577,7 @@ function describe_keywords(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_keywords(
     OriginationIdentity,
     params::AbstractDict{String};
@@ -1592,6 +1625,7 @@ function describe_opt_out_lists(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeOptOutLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_opt_out_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1620,8 +1654,8 @@ If you specify an opted out number that isn't valid, an error is returned.
 
 # Arguments
 
-- `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList. You can use
-  <a>DescribeOptOutLists</a> to find the values for OptOutListName and OptOutListArn.
+- `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList. You can use [`describe_opt_out_lists`](@ref)
+  to find the values for OptOutListName and OptOutListArn.
 
 # Optional Parameters
 
@@ -1643,6 +1677,7 @@ function describe_opted_out_numbers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_opted_out_numbers(
     OptOutListName,
     params::AbstractDict{String};
@@ -1687,6 +1722,7 @@ function describe_phone_numbers(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribePhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1731,6 +1767,7 @@ function describe_pools(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribePools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1765,6 +1802,7 @@ function describe_protect_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_protect_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1803,6 +1841,7 @@ function describe_registration_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1847,6 +1886,7 @@ function describe_registration_field_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_field_definitions(
     RegistrationType,
     params::AbstractDict{String};
@@ -1895,6 +1935,7 @@ function describe_registration_field_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_field_values(
     RegistrationId,
     params::AbstractDict{String};
@@ -1942,6 +1983,7 @@ function describe_registration_section_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_section_definitions(
     RegistrationType,
     params::AbstractDict{String};
@@ -1987,6 +2029,7 @@ function describe_registration_type_definitions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_type_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2028,6 +2071,7 @@ function describe_registration_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_versions(
     RegistrationId,
     params::AbstractDict{String};
@@ -2064,6 +2108,7 @@ function describe_registrations(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeRegistrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2104,6 +2149,7 @@ function describe_sender_ids(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeSenderIds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_sender_ids(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2119,7 +2165,7 @@ end
 Describes the current monthly spend limits for sending voice and text messages.
 
 When you establish an Amazon Web Services account, the account has initial monthly spend
-limit in a given Region. For more information on increasing your monthly spend limit, see [ Requesting increases to your monthly SMS, MMS, or Voice spending quota ](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html)
+limit in a given Region. For more information on increasing your monthly spend limit, see [Requesting increases to your monthly SMS, MMS, or Voice spending quota](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html)
 in the *AWS End User Messaging SMS User Guide*.
 
 # Optional Parameters
@@ -2135,6 +2181,7 @@ function describe_spend_limits(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeSpendLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_spend_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2173,6 +2220,7 @@ function describe_verified_destination_numbers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_destination_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2197,9 +2245,9 @@ If the origination identity isn't associated with the specified pool, an error i
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
   or region.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use <a>DescribePhoneNumbers</a> find the
-  values for PhoneNumberId and PhoneNumberArn, or use <a>DescribeSenderIds</a> to get the
-  values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref)
+  find the values for PhoneNumberId and PhoneNumberArn, or use [`describe_sender_ids`](@ref)
+  to get the values for SenderId and SenderIdArn.
 - `pool_id`: The unique identifier for the pool to disassociate with the origination
   identity. This value can be either the PoolId or PoolArn.
 
@@ -2229,6 +2277,7 @@ function disassociate_origination_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -2281,6 +2330,7 @@ function disassociate_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId,
@@ -2324,6 +2374,7 @@ function discard_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function discard_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -2366,6 +2417,7 @@ function get_protect_configuration_country_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protect_configuration_country_rule_set(
     NumberCapability,
     ProtectConfigurationId,
@@ -2422,6 +2474,7 @@ function list_pool_origination_identities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pool_origination_identities(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2463,6 +2516,7 @@ function list_registration_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_registration_associations(
     RegistrationId,
     params::AbstractDict{String};
@@ -2498,6 +2552,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2519,7 +2574,7 @@ end
 
 Creates or updates a keyword configuration on an origination phone number or pool.
 
- A keyword is a word that you can search for on a particular phone number or pool. It is
+A keyword is a word that you can search for on a particular phone number or pool. It is
 also a specific word or phrase that an end user can send to your number to elicit a
 response, such as an informational message or a special offer. When your number receives a
 message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a
@@ -2532,18 +2587,20 @@ If you specify a keyword that isn't valid, an error is returned.
 - `keyword`: The new keyword to add.
 - `keyword_message`: The message associated with the keyword.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use <a>DescribePhoneNumbers</a> get the
-  values for PhoneNumberId and PhoneNumberArn while <a>DescribeSenderIds</a> can be used to
-  get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref)
+  get the values for PhoneNumberId and PhoneNumberArn while [`describe_sender_ids`](@ref)
+  can be used to get the values for SenderId and SenderIdArn.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"KeywordAction"`: The action to perform for the new keyword when it is received. -
-  AUTOMATIC_RESPONSE: A message is sent to the recipient.
-   - OPT_OUT: Keeps the recipient from receiving future messages.
-   - OPT_IN: The recipient wants to receive future messages.
+- `"KeywordAction"`: The action to perform for the new keyword when it is received.
+
+  - AUTOMATIC_RESPONSE: A message is sent to the recipient.
+  - OPT_OUT: Keeps the recipient from receiving future messages.
+  - OPT_IN: The recipient wants to receive future messages.
+
 """
 function put_keyword(
     Keyword,
@@ -2562,6 +2619,7 @@ function put_keyword(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_keyword(
     Keyword,
     KeywordMessage,
@@ -2613,6 +2671,7 @@ function put_opted_out_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_opted_out_number(
     OptOutListName,
     OptedOutNumber,
@@ -2643,8 +2702,8 @@ Creates or updates a field value for a registration.
 
 # Arguments
 
-- `field_path`: The path to the registration form field. You can use
-  <a>DescribeRegistrationFieldDefinitions</a> for a list of **FieldPaths**.
+- `field_path`: The path to the registration form field. You can use [`describe_registration_field_definitions`](@ref)
+  for a list of **FieldPaths**.
 - `registration_id`: The unique identifier for the registration.
 
 # Optional Parameters
@@ -2665,6 +2724,7 @@ function put_registration_field_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registration_field_value(
     FieldPath,
     RegistrationId,
@@ -2700,7 +2760,7 @@ pool, an error is returned.
 # Arguments
 
 - `phone_number_id`: The PhoneNumberId or PhoneNumberArn of the phone number to release.
-  You can use <a>DescribePhoneNumbers</a> to get the values for PhoneNumberId and
+  You can use [`describe_phone_numbers`](@ref) to get the values for PhoneNumberId and
   PhoneNumberArn.
 """
 function release_phone_number(
@@ -2713,6 +2773,7 @@ function release_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -2750,6 +2811,7 @@ function release_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_sender_id(
     IsoCountryCode,
     SenderId,
@@ -2829,6 +2891,7 @@ function request_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_phone_number(
     IsoCountryCode,
     MessageType,
@@ -2879,8 +2942,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the
   sender ID can't be deleted.
 - `"MessageTypes"`: The type of message. Valid values are TRANSACTIONAL for messages that
-  are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-
-  sensitive.
+  are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or
+  time-sensitive.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the sender ID.
 """
 function request_sender_id(
@@ -2897,6 +2960,7 @@ function request_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_sender_id(
     IsoCountryCode,
     SenderId,
@@ -2928,8 +2992,8 @@ end
 Before you can send test messages to a verified destination phone number you need to opt-in
 the verified destination phone number. Creates a new text message with a verification code
 and send it to a verified destination phone number. Once you have the verification code use
-<a>VerifyDestinationNumber</a> to opt-in the verified destination phone number to receive
-messages.
+[`verify_destination_number`](@ref) to opt-in the verified destination phone number to
+receive messages.
 
 # Arguments
 
@@ -2946,8 +3010,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Context"`: You can specify custom data in this field. If you do, that data is logged to
   the event destination.
 - `"DestinationCountryParameters"`: This field is used for any country-specific
-  registration requirements. Currently, this setting is only used when you send messages to
-  recipients in India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).
+  registration requirements. Currently, this setting is only used when you send messages
+  to recipients in India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).
 - `"LanguageCode"`: Choose the language to use for the message.
 - `"OriginationIdentity"`: The origination identity of the message. This can be either the
   PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
@@ -2967,6 +3031,7 @@ function send_destination_number_verification_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_destination_number_verification_code(
     VerificationChannel,
     VerifiedDestinationNumberId,
@@ -3016,8 +3081,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message.
 - `"MediaUrls"`: An array of URLs to each media file to send.
 
-  The media files have to be stored in a publicly available S3 bucket. Supported media file
-  formats are listed in [MMS file types, size and character limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/mms-limitations-character.html).
+  The media files have to be stored in a publicly available S3 bucket. Supported media
+  file formats are listed in [MMS file types, size and character limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/mms-limitations-character.html).
   For more information on creating an S3 bucket and managing objects, see [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
   and [Uploading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   in the S3 user guide.
@@ -3040,6 +3105,7 @@ function send_media_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_media_message(
     DestinationPhoneNumber,
     OriginationIdentity,
@@ -3088,23 +3154,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Context"`: You can specify custom data in this field. If you do, that data is logged to
   the event destination.
 - `"DestinationCountryParameters"`: This field is used for any country-specific
-  registration requirements. Currently, this setting is only used when you send messages to
-  recipients in India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).
-   - `IN_ENTITY_ID` The entity ID or Principal Entity (PE) ID that you received after
-  completing the sender ID registration process.
-   - `IN_TEMPLATE_ID` The template ID that you received after completing the sender ID
-  registration process.
+  registration requirements. Currently, this setting is only used when you send messages
+  to recipients in India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).
+
+
+  - `IN_ENTITY_ID` The entity ID or Principal Entity (PE) ID that you received after
+    completing the sender ID registration process.
+  - `IN_TEMPLATE_ID` The template ID that you received after completing the sender ID
+    registration process.
 
   !!! important
       Make sure that the Template ID that you specify matches your message template
-  exactly. If your message doesn't match the template that you provided during the
-  registration process, the mobile carriers might reject your message.
+      exactly. If your message doesn't match the template that you provided during the
+      registration process, the mobile carriers might reject your message.
+
 - `"DryRun"`: When set to true, the message is checked and validated, but isn't sent to the
   end recipient. You are not charged for using `DryRun`.
 
-  The Message Parts per Second (MPS) limit when using `DryRun` is five. If your origination
-  identity has a lower MPS limit then the lower MPS limit is used. For more information
-  about MPS limits, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html)
+  The Message Parts per Second (MPS) limit when using `DryRun` is five. If your
+  origination identity has a lower MPS limit then the lower MPS limit is used. For more
+  information about MPS limits, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html)
   in the *AWS End User Messaging SMS User Guide*..
 - `"Keyword"`: When you register a short code in the US, you must specify a program name.
   If you don’t have a US short code, omit this attribute.
@@ -3118,8 +3187,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
 - `"ProtectConfigurationId"`: The unique identifier for the protect configuration.
 - `"TimeToLive"`: How long the text message is valid for, in seconds. By default this is 72
-  hours. If the messages isn't handed off before the TTL expires we stop attempting to hand
-  off the message and return `TTL_EXPIRED` event.
+  hours. If the messages isn't handed off before the TTL expires we stop attempting to
+  hand off the message and return `TTL_EXPIRED` event.
 """
 function send_text_message(
     DestinationPhoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3131,6 +3200,7 @@ function send_text_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_text_message(
     DestinationPhoneNumber,
     params::AbstractDict{String};
@@ -3176,8 +3246,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxPricePerMinute"`: The maximum amount to spend per voice message, in US dollars.
 - `"MessageBody"`: The text to convert to a voice message.
 - `"MessageBodyTextType"`: Specifies if the MessageBody field contains text or [speech synthesis markup language (SSML)](https://docs.aws.amazon.com/polly/latest/dg/what-is.html).
+
+
   - TEXT: This is the default value. When used the maximum character limit is 3000.
-   - SSML: When used the maximum character limit is 6000 including SSML tagging.
+  - SSML: When used the maximum character limit is 6000 including SSML tagging.
+
 - `"ProtectConfigurationId"`: The unique identifier for the protect configuration.
 - `"TimeToLive"`: How long the voice message is valid for. By default this is 72 hours.
 - `"VoiceId"`: The voice for the [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html)
@@ -3198,6 +3271,7 @@ function send_voice_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_voice_message(
     DestinationPhoneNumber,
     OriginationIdentity,
@@ -3243,6 +3317,7 @@ function set_account_default_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_account_default_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -3294,6 +3369,7 @@ function set_default_message_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_message_type(
     ConfigurationSetName,
     MessageType,
@@ -3333,9 +3409,9 @@ numbers or registered sender IDs are available in your account.
   This field can be the ConsigurationSetName or ConfigurationSetArn.
 - `sender_id`: The current sender ID for the configuration set. When sending a text message
   to a destination country which supports SenderIds, the default sender ID on the
-  configuration set specified on <a>SendTextMessage</a> will be used if no dedicated
-  origination phone numbers or registered SenderIds are available in your account, instead
-  of a generic sender ID, such as 'NOTICE'.
+  configuration set specified on [`send_text_message`](@ref) will be used if no dedicated
+  origination phone numbers or registered SenderIds are available in your account,
+  instead of a generic sender ID, such as 'NOTICE'.
 """
 function set_default_sender_id(
     ConfigurationSetName, SenderId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3349,6 +3425,7 @@ function set_default_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_sender_id(
     ConfigurationSetName,
     SenderId,
@@ -3393,6 +3470,7 @@ function set_media_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_media_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3430,6 +3508,7 @@ function set_text_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_text_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3467,6 +3546,7 @@ function set_voice_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_voice_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3502,6 +3582,7 @@ function submit_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -3524,7 +3605,7 @@ end
 Adds or overwrites only the specified tags for the specified resource. When you specify an
 existing tag key, the value is overwritten with the new value. Each resource can have a
 maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
-unique per resource. For more information about tags, see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html)
+unique per resource. For more information about tags, see [Tags](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html)
 in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
@@ -3540,6 +3621,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3565,7 +3647,7 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the association of the specified tags from a resource. For more information on tags
-see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html)
+see [Tags](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html)
 in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
@@ -3583,6 +3665,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3631,8 +3714,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destination for logging to Firehose.
 - `"MatchingEventTypes"`: An array of event types that determine which events to log.
 
-!!! note
-    The `TEXT_SENT` event type is not supported.
+  !!! note
+      The `TEXT_SENT` event type is not supported.
+
 - `"SnsDestination"`: An object that contains information about an event destination that
   sends data to Amazon SNS.
 """
@@ -3651,6 +3735,7 @@ function update_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -3719,6 +3804,7 @@ function update_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -3775,6 +3861,7 @@ function update_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3813,6 +3900,7 @@ function update_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -3866,6 +3954,7 @@ function update_protect_configuration_country_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protect_configuration_country_rule_set(
     CountryRuleSetUpdates,
     NumberCapability,
@@ -3920,6 +4009,7 @@ function update_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sender_id(
     IsoCountryCode,
     SenderId,
@@ -3971,6 +4061,7 @@ function verify_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_destination_number(
     VerificationCode,
     VerifiedDestinationNumberId,

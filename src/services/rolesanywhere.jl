@@ -11,7 +11,7 @@ using AWS.UUIDs
 Creates a *profile*, a list of the roles that Roles Anywhere service is trusted to assume.
 You use profiles to intersect permissions with IAM managed policies.
 
- **Required permissions: ** `rolesanywhere:CreateProfile`.
+**Required permissions:** `rolesanywhere:CreateProfile`.
 
 # Arguments
 
@@ -25,10 +25,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
   accepted in a temporary credential request.
-- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
+- `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
-  page for more details. In requests, if this value is not provided, the default value will
-  be 3600.
+  page for more details. In requests, if this value is not provided, the default value
+  will be 3600.
 - `"enabled"`: Specifies whether the profile is enabled.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
@@ -47,6 +47,7 @@ function create_profile(name, roleArns; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile(
     name,
     roleArns,
@@ -76,7 +77,7 @@ Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Service
 can authenticate with the trust anchor using certificates issued by the CA in exchange for
 temporary Amazon Web Services credentials.
 
- **Required permissions: ** `rolesanywhere:CreateTrustAnchor`.
+**Required permissions:** `rolesanywhere:CreateTrustAnchor`.
 
 # Arguments
 
@@ -103,6 +104,7 @@ function create_trust_anchor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trust_anchor(
     name,
     source,
@@ -150,6 +152,7 @@ function delete_attribute_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_attribute_mapping(
     certificateField,
     profileId,
@@ -175,7 +178,7 @@ end
 
 Deletes a certificate revocation list (CRL).
 
- **Required permissions: ** `rolesanywhere:DeleteCrl`.
+**Required permissions:** `rolesanywhere:DeleteCrl`.
 
 # Arguments
 
@@ -186,6 +189,7 @@ function delete_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -204,7 +208,7 @@ end
 
 Deletes a profile.
 
- **Required permissions: ** `rolesanywhere:DeleteProfile`.
+**Required permissions:** `rolesanywhere:DeleteProfile`.
 
 # Arguments
 
@@ -218,6 +222,7 @@ function delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile(
     profileId,
     params::AbstractDict{String};
@@ -238,7 +243,7 @@ end
 
 Deletes a trust anchor.
 
- **Required permissions: ** `rolesanywhere:DeleteTrustAnchor`.
+**Required permissions:** `rolesanywhere:DeleteTrustAnchor`.
 
 # Arguments
 
@@ -254,6 +259,7 @@ function delete_trust_anchor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trust_anchor(
     trustAnchorId,
     params::AbstractDict{String};
@@ -274,7 +280,7 @@ end
 
 Disables a certificate revocation list (CRL).
 
- **Required permissions: ** `rolesanywhere:DisableCrl`.
+**Required permissions:** `rolesanywhere:DisableCrl`.
 
 # Arguments
 
@@ -288,6 +294,7 @@ function disable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -306,7 +313,7 @@ end
 
 Disables a profile. When disabled, temporary credential requests with this profile fail.
 
- **Required permissions: ** `rolesanywhere:DisableProfile`.
+**Required permissions:** `rolesanywhere:DisableProfile`.
 
 # Arguments
 
@@ -320,6 +327,7 @@ function disable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_profile(
     profileId,
     params::AbstractDict{String};
@@ -341,7 +349,7 @@ end
 Disables a trust anchor. When disabled, temporary credential requests specifying this trust
 anchor are unauthorized.
 
- **Required permissions: ** `rolesanywhere:DisableTrustAnchor`.
+**Required permissions:** `rolesanywhere:DisableTrustAnchor`.
 
 # Arguments
 
@@ -357,6 +365,7 @@ function disable_trust_anchor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_trust_anchor(
     trustAnchorId,
     params::AbstractDict{String};
@@ -378,7 +387,7 @@ end
 Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL
 are unauthorized to receive session credentials.
 
- **Required permissions: ** `rolesanywhere:EnableCrl`.
+**Required permissions:** `rolesanywhere:EnableCrl`.
 
 # Arguments
 
@@ -392,6 +401,7 @@ function enable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,7 +420,7 @@ end
 
 Enables temporary credential requests for a profile.
 
- **Required permissions: ** `rolesanywhere:EnableProfile`.
+**Required permissions:** `rolesanywhere:EnableProfile`.
 
 # Arguments
 
@@ -424,6 +434,7 @@ function enable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_profile(
     profileId,
     params::AbstractDict{String};
@@ -445,7 +456,7 @@ end
 Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized
 for trust validation.
 
- **Required permissions: ** `rolesanywhere:EnableTrustAnchor`.
+**Required permissions:** `rolesanywhere:EnableTrustAnchor`.
 
 # Arguments
 
@@ -461,6 +472,7 @@ function enable_trust_anchor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_trust_anchor(
     trustAnchorId,
     params::AbstractDict{String};
@@ -481,7 +493,7 @@ end
 
 Gets a certificate revocation list (CRL).
 
- **Required permissions: ** `rolesanywhere:GetCrl`.
+**Required permissions:** `rolesanywhere:GetCrl`.
 
 # Arguments
 
@@ -492,6 +504,7 @@ function get_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,7 +523,7 @@ end
 
 Gets a profile.
 
- **Required permissions: ** `rolesanywhere:GetProfile`.
+**Required permissions:** `rolesanywhere:GetProfile`.
 
 # Arguments
 
@@ -524,6 +537,7 @@ function get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile(
     profileId,
     params::AbstractDict{String};
@@ -547,7 +561,7 @@ subject stores auditing information such as the status of the last authenticatio
 the certificate data used in the attempt, and the last time the associated identity
 attempted authentication.
 
- **Required permissions: ** `rolesanywhere:GetSubject`.
+**Required permissions:** `rolesanywhere:GetSubject`.
 
 # Arguments
 
@@ -561,6 +575,7 @@ function get_subject(subjectId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subject(
     subjectId,
     params::AbstractDict{String};
@@ -581,7 +596,7 @@ end
 
 Gets a trust anchor.
 
- **Required permissions: ** `rolesanywhere:GetTrustAnchor`.
+**Required permissions:** `rolesanywhere:GetTrustAnchor`.
 
 # Arguments
 
@@ -595,6 +610,7 @@ function get_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trust_anchor(
     trustAnchorId,
     params::AbstractDict{String};
@@ -618,7 +634,7 @@ been revoked by the issuing certificate Authority (CA).In order to be properly i
 CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing
 credentials.
 
- **Required permissions: ** `rolesanywhere:ImportCrl`.
+**Required permissions:** `rolesanywhere:ImportCrl`.
 
 # Arguments
 
@@ -647,6 +663,7 @@ function import_crl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_crl(
     crlData,
     name,
@@ -678,7 +695,7 @@ end
 Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web
 Services Region.
 
- **Required permissions: ** `rolesanywhere:ListCrls`.
+**Required permissions:** `rolesanywhere:ListCrls`.
 
 # Optional Parameters
 
@@ -694,6 +711,7 @@ function list_crls(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/crls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_crls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -708,7 +726,7 @@ end
 
 Lists all profiles in the authenticated account and Amazon Web Services Region.
 
- **Required permissions: ** `rolesanywhere:ListProfiles`.
+**Required permissions:** `rolesanywhere:ListProfiles`.
 
 # Optional Parameters
 
@@ -724,6 +742,7 @@ function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -738,7 +757,7 @@ end
 
 Lists the subjects in the authenticated account and Amazon Web Services Region.
 
- **Required permissions: ** `rolesanywhere:ListSubjects`.
+**Required permissions:** `rolesanywhere:ListSubjects`.
 
 # Optional Parameters
 
@@ -754,6 +773,7 @@ function list_subjects(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/subjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_subjects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -768,7 +788,7 @@ end
 
 Lists the tags attached to the resource.
 
- **Required permissions: ** `rolesanywhere:ListTagsForResource`.
+**Required permissions:** `rolesanywhere:ListTagsForResource`.
 
 # Arguments
 
@@ -785,6 +805,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -807,7 +828,7 @@ end
 
 Lists the trust anchors in the authenticated account and Amazon Web Services Region.
 
- **Required permissions: ** `rolesanywhere:ListTrustAnchors`.
+**Required permissions:** `rolesanywhere:ListTrustAnchors`.
 
 # Optional Parameters
 
@@ -823,6 +844,7 @@ function list_trust_anchors(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/trustanchors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_trust_anchors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -866,6 +888,7 @@ function put_attribute_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_attribute_mapping(
     certificateField,
     mappingRules,
@@ -899,7 +922,7 @@ Attaches a list of *notification settings* to a trust anchor.
 A notification setting includes information such as event name, threshold, status of the
 notification setting, and the channel to notify.
 
- **Required permissions: ** `rolesanywhere:PutNotificationSettings`.
+**Required permissions:** `rolesanywhere:PutNotificationSettings`.
 
 # Arguments
 
@@ -920,6 +943,7 @@ function put_notification_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_notification_settings(
     notificationSettings,
     trustAnchorId,
@@ -950,7 +974,7 @@ end
 
 Resets the *custom notification setting* to IAM Roles Anywhere default setting.
 
- **Required permissions: ** `rolesanywhere:ResetNotificationSettings`.
+**Required permissions:** `rolesanywhere:ResetNotificationSettings`.
 
 # Arguments
 
@@ -974,6 +998,7 @@ function reset_notification_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_notification_settings(
     notificationSettingKeys,
     trustAnchorId,
@@ -1004,7 +1029,7 @@ end
 
 Attaches tags to a resource.
 
- **Required permissions: ** `rolesanywhere:TagResource`.
+**Required permissions:** `rolesanywhere:TagResource`.
 
 # Arguments
 
@@ -1020,6 +1045,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1047,7 +1073,7 @@ end
 
 Removes tags from the resource.
 
- **Required permissions: ** `rolesanywhere:UntagResource`.
+**Required permissions:** `rolesanywhere:UntagResource`.
 
 # Arguments
 
@@ -1065,6 +1091,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1094,7 +1121,7 @@ Updates the certificate revocation list (CRL). A CRL is a list of certificates t
 been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates
 against the CRL before issuing credentials.
 
- **Required permissions: ** `rolesanywhere:UpdateCrl`.
+**Required permissions:** `rolesanywhere:UpdateCrl`.
 
 # Arguments
 
@@ -1112,6 +1139,7 @@ function update_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1131,7 +1159,7 @@ end
 Updates a *profile*, a list of the roles that IAM Roles Anywhere service is trusted to
 assume. You use profiles to intersect permissions with IAM managed policies.
 
- **Required permissions: ** `rolesanywhere:UpdateProfile`.
+**Required permissions:** `rolesanywhere:UpdateProfile`.
 
 # Arguments
 
@@ -1143,10 +1171,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
   accepted in a temporary credential request.
-- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
+- `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
-  page for more details. In requests, if this value is not provided, the default value will
-  be 3600.
+  page for more details. In requests, if this value is not provided, the default value
+  will be 3600.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
 - `"name"`: The name of the profile.
@@ -1163,6 +1191,7 @@ function update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile(
     profileId,
     params::AbstractDict{String};
@@ -1187,7 +1216,7 @@ to an Private Certificate Authority (Private CA) or by uploading a CA certificat
 Amazon Web Services workloads can authenticate with the trust anchor using certificates
 issued by the CA in exchange for temporary Amazon Web Services credentials.
 
- **Required permissions: ** `rolesanywhere:UpdateTrustAnchor`.
+**Required permissions:** `rolesanywhere:UpdateTrustAnchor`.
 
 # Arguments
 
@@ -1210,6 +1239,7 @@ function update_trust_anchor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trust_anchor(
     trustAnchorId,
     params::AbstractDict{String};

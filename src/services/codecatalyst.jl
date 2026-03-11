@@ -35,6 +35,7 @@ function create_access_token(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_token(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -57,8 +58,8 @@ project.
 
 !!! note
     When created in the Amazon CodeCatalyst console, by default a Dev Environment is
-configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of
-these defaults apply to a Dev Environment created programmatically.
+    configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None
+    of these defaults apply to a Dev Environment created programmatically.
 
 # Arguments
 
@@ -68,9 +69,10 @@ these defaults apply to a Dev Environment created programmatically.
 
   !!! note
       By default, a Dev Environment is configured to have 16GB of persistent storage when
-  created from the Amazon CodeCatalyst console, but there is no default when
-  programmatically creating a Dev Environment. Valid values for persistent storage are
-  based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+      created from the Amazon CodeCatalyst console, but there is no default when
+      programmatically creating a Dev Environment. Valid values for persistent storage
+      are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 
@@ -88,7 +90,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An IDE is required to create a Dev Environment. For Dev Environment creation, this
-  field contains configuration information and must be provided.
+      field contains configuration information and must be provided.
+
 - `"inactivityTimeoutMinutes"`: The amount of time the Dev Environment will run without any
   activity detected before stopping, in minutes. Only whole integers are allowed. Dev
   Environments consume compute minutes when running.
@@ -114,6 +117,7 @@ function create_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dev_environment(
     instanceType,
     persistentStorage,
@@ -169,6 +173,7 @@ function create_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     displayName,
     spaceName,
@@ -216,6 +221,7 @@ function create_source_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_source_repository(
     name,
     projectName,
@@ -240,7 +246,7 @@ Creates a branch in a specified source repository in Amazon CodeCatalyst.
 
 !!! note
     This API only creates a branch in a source repository hosted in Amazon CodeCatalyst.
-You cannot use this API to create a branch in a linked repository.
+    You cannot use this API to create a branch in a linked repository.
 
 # Arguments
 
@@ -270,6 +276,7 @@ function create_source_repository_branch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_source_repository_branch(
     name,
     projectName,
@@ -297,8 +304,7 @@ deleted by the user who created it.
 # Arguments
 
 - `id`: The ID of the personal access token to delete. You can find the IDs of all PATs
-  associated with your Amazon Web Services Builder ID in a space by calling
-  <a>ListAccessTokens</a>.
+  associated with your Amazon Web Services Builder ID in a space by calling [`list_access_tokens`](@ref).
 """
 function delete_access_token(id; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
@@ -308,6 +314,7 @@ function delete_access_token(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_token(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -329,7 +336,7 @@ Deletes a Dev Environment.
 # Arguments
 
 - `id`: The system-generated unique ID of the Dev Environment you want to delete. To
-  retrieve a list of Dev Environment IDs, use <a>ListDevEnvironments</a>.
+  retrieve a list of Dev Environment IDs, use [`list_dev_environments`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -343,6 +350,7 @@ function delete_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dev_environment(
     id,
     projectName,
@@ -367,8 +375,7 @@ Deletes a project in a space.
 
 # Arguments
 
-- `name`: The name of the project in the space. To retrieve a list of project names, use
-  <a>ListProjects</a>.
+- `name`: The name of the project in the space. To retrieve a list of project names, use [`list_projects`](@ref).
 - `space_name`: The name of the space.
 """
 function delete_project(name, spaceName; aws_config::AbstractAWSConfig=current_aws_config())
@@ -379,6 +386,7 @@ function delete_project(name, spaceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     name,
     spaceName,
@@ -417,6 +425,7 @@ function delete_source_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_repository(
     name,
     projectName,
@@ -441,11 +450,11 @@ Deletes a space.
 
 !!! important
     Deleting a space cannot be undone. Additionally, since space names must be unique
-across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
+    across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
 
 # Arguments
 
-- `name`: The name of the space. To retrieve a list of space names, use <a>ListSpaces</a>.
+- `name`: The name of the space. To retrieve a list of space names, use [`list_spaces`](@ref).
 """
 function delete_space(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
@@ -455,6 +464,7 @@ function delete_space(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_space(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -477,7 +487,7 @@ Environments are specific to the user who creates them.
 # Arguments
 
 - `id`: The system-generated unique ID of the Dev Environment for which you want to view
-  information. To retrieve a list of Dev Environment IDs, use <a>ListDevEnvironments</a>.
+  information. To retrieve a list of Dev Environment IDs, use [`list_dev_environments`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -491,6 +501,7 @@ function get_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dev_environment(
     id,
     projectName,
@@ -526,6 +537,7 @@ function get_project(name, spaceName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_project(
     name,
     spaceName,
@@ -563,6 +575,7 @@ function get_source_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_source_repository(
     name,
     projectName,
@@ -605,6 +618,7 @@ function get_source_repository_clone_urls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_source_repository_clone_urls(
     projectName,
     sourceRepositoryName,
@@ -636,6 +650,7 @@ function get_space(name; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/spaces/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_space(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -667,6 +682,7 @@ function get_subscription(spaceName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription(
     spaceName,
     params::AbstractDict{String};
@@ -699,6 +715,7 @@ function get_user_details(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/userDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_user_details(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -719,7 +736,7 @@ Returns information about a workflow.
 
 # Arguments
 
-- `id`: The ID of the workflow. To rerieve a list of workflow IDs, use <a>ListWorkflows</a>.
+- `id`: The ID of the workflow. To rerieve a list of workflow IDs, use [`list_workflows`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -733,6 +750,7 @@ function get_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow(
     id,
     projectName,
@@ -757,8 +775,7 @@ Returns information about a specified run of a workflow.
 
 # Arguments
 
-- `id`: The ID of the workflow run. To retrieve a list of workflow run IDs, use
-  <a>ListWorkflowRuns</a>.
+- `id`: The ID of the workflow run. To retrieve a list of workflow run IDs, use [`list_workflow_runs`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -772,6 +789,7 @@ function get_workflow_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_run(
     id,
     projectName,
@@ -800,8 +818,8 @@ only list PATs associated with your Amazon Web Services Builder ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -810,6 +828,7 @@ function list_access_tokens(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/v1/accessTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_access_tokens(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -839,8 +858,8 @@ Retrieves a list of active sessions for a Dev Environment in a project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -857,6 +876,7 @@ function list_dev_environment_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dev_environment_sessions(
     devEnvironmentId,
     projectName,
@@ -890,8 +910,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Information about filters to apply to narrow the results returned in the
   list.
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"projectName"`: The name of the project in the space.
@@ -906,6 +926,7 @@ function list_dev_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dev_environments(
     spaceName,
     params::AbstractDict{String};
@@ -930,10 +951,11 @@ in the *Amazon CodeCatalyst User Guide*.
 
 !!! note
     ListEventLogs guarantees events for the last 30 days in a given space. You can also
-view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst
-in the CloudTrail console by viewing Event history, or by creating a trail to create and
-maintain a record of events that extends past 90 days. For more information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html)
-and [Working with CloudTrail trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html).
+    view and retrieve a list of management events over the last 90 days for Amazon
+    CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail
+    to create and maintain a record of events that extends past 90 days. For more
+    information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html)
+    and [Working with CloudTrail trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html).
 
 # Arguments
 
@@ -949,8 +971,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"eventName"`: The name of the event.
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -965,6 +987,7 @@ function list_event_logs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_logs(
     endTime,
     spaceName,
@@ -1004,8 +1027,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Information about filters to apply to narrow the results returned in the
   list.
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1017,6 +1040,7 @@ function list_projects(spaceName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_projects(
     spaceName,
     params::AbstractDict{String};
@@ -1047,8 +1071,8 @@ Retrieves a list of source repositories in a project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1062,6 +1086,7 @@ function list_source_repositories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_source_repositories(
     projectName,
     spaceName,
@@ -1094,8 +1119,8 @@ Retrieves a list of branches in a specified source repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1112,6 +1137,7 @@ function list_source_repository_branches(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_source_repository_branches(
     projectName,
     sourceRepositoryName,
@@ -1146,6 +1172,7 @@ function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/v1/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,13 +1197,12 @@ Retrieves a list of workflow runs of a specified workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"sortBy"`: Information used to sort the items in the returned list.
-- `"workflowId"`: The ID of the workflow. To retrieve a list of workflow IDs, use
-  <a>ListWorkflows</a>.
+- `"workflowId"`: The ID of the workflow. To retrieve a list of workflow IDs, use [`list_workflows`](@ref).
 """
 function list_workflow_runs(
     projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1188,6 +1214,7 @@ function list_workflow_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_runs(
     projectName,
     spaceName,
@@ -1219,8 +1246,8 @@ Retrieves a list of workflows in a specified project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"sortBy"`: Information used to sort the items in the returned list.
@@ -1235,6 +1262,7 @@ function list_workflows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflows(
     projectName,
     spaceName,
@@ -1283,6 +1311,7 @@ function start_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dev_environment(
     id,
     projectName,
@@ -1327,6 +1356,7 @@ function start_dev_environment_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dev_environment_session(
     id,
     projectName,
@@ -1361,7 +1391,7 @@ Begins a run of a specified workflow.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 - `workflow_id`: The system-generated unique ID of the workflow. To retrieve a list of
-  workflow IDs, use <a>ListWorkflows</a>.
+  workflow IDs, use [`list_workflows`](@ref).
 
 # Optional Parameters
 
@@ -1383,6 +1413,7 @@ function start_workflow_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_workflow_run(
     projectName,
     spaceName,
@@ -1430,6 +1461,7 @@ function stop_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_dev_environment(
     id,
     projectName,
@@ -1454,11 +1486,10 @@ Stops a session for a specified Dev Environment.
 
 # Arguments
 
-- `id`: The system-generated unique ID of the Dev Environment. To obtain this ID, use
-  <a>ListDevEnvironments</a>.
+- `id`: The system-generated unique ID of the Dev Environment. To obtain this ID, use [`list_dev_environments`](@ref).
 - `project_name`: The name of the project in the space.
 - `session_id`: The system-generated unique ID of the Dev Environment session. This ID is
-  returned by <a>StartDevEnvironmentSession</a>.
+  returned by [`start_dev_environment_session`](@ref).
 - `space_name`: The name of the space.
 """
 function stop_dev_environment_session(
@@ -1475,6 +1506,7 @@ function stop_dev_environment_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_dev_environment_session(
     id,
     projectName,
@@ -1523,10 +1555,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Changing this value will cause a restart of the Dev Environment if it is running.
+
 - `"instanceType"`: The Amazon EC2 instace type to use for the Dev Environment.
 
   !!! note
       Changing this value will cause a restart of the Dev Environment if it is running.
+
 """
 function update_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1538,6 +1572,7 @@ function update_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dev_environment(
     id,
     projectName,
@@ -1579,6 +1614,7 @@ function update_project(name, spaceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     name,
     spaceName,
@@ -1618,6 +1654,7 @@ function update_space(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_space(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1642,6 +1679,7 @@ function verify_session(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function verify_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

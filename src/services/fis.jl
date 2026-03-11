@@ -10,14 +10,17 @@ using AWS.UUIDs
 
 Creates an experiment template.
 
-An experiment template includes the following components: - **Targets**: A target can be a
-specific resource in your Amazon Web Services environment, or one or more resources that
-match criteria that you specify, for example, resources that have specific tags.
- - **Actions**: The actions to carry out on the target. You can specify multiple actions,
-the duration of each action, and when to start each action during an experiment.
- - **Stop conditions**: If a stop condition is triggered while an experiment is running,
-the experiment is automatically stopped. You can define a stop condition as a CloudWatch
-alarm.
+An experiment template includes the following components:
+
+- **Targets**: A target can be a specific resource in your Amazon Web Services environment,
+  or one or more resources that match criteria that you specify, for example, resources
+  that have specific tags.
+- **Actions**: The actions to carry out on the target. You can specify multiple actions,
+  the duration of each action, and when to start each action during an experiment.
+- **Stop conditions**: If a stop condition is triggered while an experiment is running, the
+  experiment is automatically stopped. You can define a stop condition as a CloudWatch
+  alarm.
+
 For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html)
 in the *Fault Injection Service User Guide*.
 
@@ -62,6 +65,7 @@ function create_experiment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_experiment_template(
     actions,
     clientToken,
@@ -97,8 +101,8 @@ end
     create_target_account_configuration(account_id, id, role_arn, params::Dict{String,<:Any})
 
 Creates a target account configuration for the experiment template. A target account
-configuration is required when `accountTargeting` of `experimentOptions` is set to `multi-
-account`. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html)
+configuration is required when `accountTargeting` of `experimentOptions` is set to
+`multi-account`. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html)
 in the *Fault Injection Service User Guide*.
 
 # Arguments
@@ -126,6 +130,7 @@ function create_target_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_target_account_configuration(
     accountId,
     id,
@@ -166,6 +171,7 @@ function delete_experiment_template(id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -199,6 +205,7 @@ function delete_target_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_target_account_configuration(
     accountId,
     id,
@@ -229,6 +236,7 @@ function get_action(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/actions/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_action(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -256,6 +264,7 @@ function get_experiment(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/experiments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_experiment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -289,6 +298,7 @@ function get_experiment_target_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_experiment_target_account_configuration(
     accountId,
     id,
@@ -322,6 +332,7 @@ function get_experiment_template(id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -338,17 +349,18 @@ end
     get_safety_lever(id)
     get_safety_lever(id, params::Dict{String,<:Any})
 
- Gets information about the specified safety lever.
+Gets information about the specified safety lever.
 
 # Arguments
 
-- `id`:  The ID of the safety lever.
+- `id`: The ID of the safety lever.
 """
 function get_safety_lever(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET", "/safetyLevers/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_safety_lever(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -383,6 +395,7 @@ function get_target_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_target_account_configuration(
     accountId,
     id,
@@ -418,6 +431,7 @@ function get_target_resource_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_target_resource_type(
     resourceType,
     params::AbstractDict{String};
@@ -449,6 +463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return fis("GET", "/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -486,6 +501,7 @@ function list_experiment_resolved_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_experiment_resolved_targets(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,6 +540,7 @@ function list_experiment_target_account_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_experiment_target_account_configurations(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -558,6 +575,7 @@ function list_experiment_templates(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_experiment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -590,6 +608,7 @@ function list_experiments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_experiments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -622,6 +641,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -664,6 +684,7 @@ function list_target_account_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_target_account_configurations(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -698,6 +719,7 @@ function list_target_resource_types(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_target_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -742,6 +764,7 @@ function start_experiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_experiment(
     clientToken,
     experimentTemplateId,
@@ -784,6 +807,7 @@ function stop_experiment(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_experiment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -816,6 +840,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -855,6 +880,7 @@ function untag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -900,6 +926,7 @@ function update_experiment_template(id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -916,12 +943,12 @@ end
     update_safety_lever_state(id, state)
     update_safety_lever_state(id, state, params::Dict{String,<:Any})
 
- Updates the specified safety lever state.
+Updates the specified safety lever state.
 
 # Arguments
 
-- `id`:  The ID of the safety lever.
-- `state`:  The state of the safety lever.
+- `id`: The ID of the safety lever.
+- `state`: The state of the safety lever.
 """
 function update_safety_lever_state(
     id, state; aws_config::AbstractAWSConfig=current_aws_config()
@@ -934,6 +961,7 @@ function update_safety_lever_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_safety_lever_state(
     id,
     state,
@@ -977,6 +1005,7 @@ function update_target_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_target_account_configuration(
     accountId,
     id,

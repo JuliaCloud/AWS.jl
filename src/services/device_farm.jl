@@ -22,12 +22,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The device pool's description.
 - `"maxDevices"`: The number of devices that Device Farm can add to your device pool.
-  Device Farm adds devices that are available and meet the criteria that you assign for the
-  `rules` parameter. Depending on how many devices meet these constraints, your device pool
-  might contain fewer devices than the value for this parameter.
+  Device Farm adds devices that are available and meet the criteria that you assign for
+  the `rules` parameter. Depending on how many devices meet these constraints, your
+  device pool might contain fewer devices than the value for this parameter.
 
-  By specifying the maximum number of devices, you can control the costs that you incur by
-  running tests.
+  By specifying the maximum number of devices, you can control the costs that you incur
+  by running tests.
 """
 function create_device_pool(
     name, projectArn, rules; aws_config::AbstractAWSConfig=current_aws_config()
@@ -39,6 +39,7 @@ function create_device_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_pool(
     name,
     projectArn,
@@ -80,7 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"excludeAppPackagesFromCleanup"`: An array of strings that specifies the list of app
   packages that should not be cleaned up from the device after a test run.
 
-The list of packages is considered only if you set `packageCleanup` to `true`.
+  The list of packages is considered only if you set `packageCleanup` to `true`.
 - `"packageCleanup"`: When set to `true`, Device Farm removes app packages after a test
   run. The default value is `false` for private devices.
 - `"rebootAfterUse"`: When set to `true`, Device Farm reboots the instance after a test
@@ -94,6 +95,7 @@ function create_instance_profile(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_profile(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +152,7 @@ function create_network_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_profile(
     name,
     projectArn,
@@ -195,6 +198,7 @@ function create_project(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,21 +228,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientId"`: Unique identifier for the client. If you want access to multiple devices on
   the same client, you should pass the same `clientId` value in each call to
-  `CreateRemoteAccessSession`. This identifier is required only if `remoteDebugEnabled` is
-  set to `true`.
+  `CreateRemoteAccessSession`. This identifier is required only if `remoteDebugEnabled`
+  is set to `true`.
 
   Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
 - `"configuration"`: The configuration information for the remote access session request.
 - `"instanceArn"`: The Amazon Resource Name (ARN) of the device instance for which you want
   to create a remote access session.
 - `"interactionMode"`: The interaction mode of the remote access session. Valid values are:
+
+
   - INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating
-  the screen. You cannot run XCUITest framework-based tests in this mode.
-   - NO_VIDEO: You are connected to the device, but cannot interact with it or view the
-  screen. This mode has the fastest test execution speed. You can run XCUITest framework-
-  based tests in this mode.
-   - VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run
-  XCUITest framework-based tests and watch the screen in this mode.
+    the screen. You cannot run XCUITest framework-based tests in this mode.
+  - NO_VIDEO: You are connected to the device, but cannot interact with it or view the
+    screen. This mode has the fastest test execution speed. You can run XCUITest
+    framework-based tests in this mode.
+  - VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run
+    XCUITest framework-based tests and watch the screen in this mode.
+
 - `"name"`: The name of the remote access session to create.
 - `"remoteDebugEnabled"`: Set to `true` if you want to access devices remotely for
   debugging in your remote access session.
@@ -253,8 +260,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information on how Device Farm modifies your uploads during tests, see [Do you modify my app?](http://aws.amazon.com/device-farm/faqs/)
 - `"sshPublicKey"`: Ignored. The public key of the `ssh` key pair you want to use for
-  connecting to remote devices in your remote debugging session. This key is required only
-  if `remoteDebugEnabled` is set to `true`.
+  connecting to remote devices in your remote debugging session. This key is required
+  only if `remoteDebugEnabled` is set to `true`.
 
   Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
 """
@@ -268,6 +275,7 @@ function create_remote_access_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_remote_access_session(
     deviceArn,
     projectArn,
@@ -292,7 +300,7 @@ end
     create_test_grid_project(name)
     create_test_grid_project(name, params::Dict{String,<:Any})
 
-Creates a Selenium testing project. Projects are used to track <a>TestGridSession</a>
+Creates a Selenium testing project. Projects are used to track [`test_grid_session`](@ref)
 instances.
 
 # Arguments
@@ -314,6 +322,7 @@ function create_test_grid_project(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_grid_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -335,8 +344,8 @@ constructor.
 # Arguments
 
 - `expires_in_seconds`: Lifetime, in seconds, of the URL.
-- `project_arn`: ARN (from <a>CreateTestGridProject</a> or <a>ListTestGridProjects</a>) to
-  associate with the short-term URL.
+- `project_arn`: ARN (from [`create_test_grid_project`](@ref) or [`list_test_grid_projects`](@ref))
+  to associate with the short-term URL.
 """
 function create_test_grid_url(
     expiresInSeconds, projectArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -350,6 +359,7 @@ function create_test_grid_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_grid_url(
     expiresInSeconds,
     projectArn,
@@ -387,36 +397,39 @@ Uploads an app or test scripts.
 - `project_arn`: The ARN of the project for the upload.
 - `type`: The upload's upload type.
 
-  Must be one of the following values: - ANDROID_APP
-   - IOS_APP
-   - WEB_APP
-   - EXTERNAL_DATA
-   - APPIUM_JAVA_JUNIT_TEST_PACKAGE
-   - APPIUM_JAVA_TESTNG_TEST_PACKAGE
-   - APPIUM_PYTHON_TEST_PACKAGE
-   - APPIUM_NODE_TEST_PACKAGE
-   - APPIUM_RUBY_TEST_PACKAGE
-   - APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
-   - APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
-   - APPIUM_WEB_PYTHON_TEST_PACKAGE
-   - APPIUM_WEB_NODE_TEST_PACKAGE
-   - APPIUM_WEB_RUBY_TEST_PACKAGE
-   - INSTRUMENTATION_TEST_PACKAGE
-   - XCTEST_TEST_PACKAGE
-   - XCTEST_UI_TEST_PACKAGE
-   - APPIUM_JAVA_JUNIT_TEST_SPEC
-   - APPIUM_JAVA_TESTNG_TEST_SPEC
-   - APPIUM_PYTHON_TEST_SPEC
-   - APPIUM_NODE_TEST_SPEC
-   - APPIUM_RUBY_TEST_SPEC
-   - APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
-   - APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
-   - APPIUM_WEB_PYTHON_TEST_SPEC
-   - APPIUM_WEB_NODE_TEST_SPEC
-   - APPIUM_WEB_RUBY_TEST_SPEC
-   - INSTRUMENTATION_TEST_SPEC
-   - XCTEST_UI_TEST_SPEC
-   If you call `CreateUpload` with `WEB_APP` specified, AWS Device Farm throws an
+  Must be one of the following values:
+
+  - ANDROID_APP
+  - IOS_APP
+  - WEB_APP
+  - EXTERNAL_DATA
+  - APPIUM_JAVA_JUNIT_TEST_PACKAGE
+  - APPIUM_JAVA_TESTNG_TEST_PACKAGE
+  - APPIUM_PYTHON_TEST_PACKAGE
+  - APPIUM_NODE_TEST_PACKAGE
+  - APPIUM_RUBY_TEST_PACKAGE
+  - APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
+  - APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
+  - APPIUM_WEB_PYTHON_TEST_PACKAGE
+  - APPIUM_WEB_NODE_TEST_PACKAGE
+  - APPIUM_WEB_RUBY_TEST_PACKAGE
+  - INSTRUMENTATION_TEST_PACKAGE
+  - XCTEST_TEST_PACKAGE
+  - XCTEST_UI_TEST_PACKAGE
+  - APPIUM_JAVA_JUNIT_TEST_SPEC
+  - APPIUM_JAVA_TESTNG_TEST_SPEC
+  - APPIUM_PYTHON_TEST_SPEC
+  - APPIUM_NODE_TEST_SPEC
+  - APPIUM_RUBY_TEST_SPEC
+  - APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
+  - APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
+  - APPIUM_WEB_PYTHON_TEST_SPEC
+  - APPIUM_WEB_NODE_TEST_SPEC
+  - APPIUM_WEB_RUBY_TEST_SPEC
+  - INSTRUMENTATION_TEST_SPEC
+  - XCTEST_UI_TEST_SPEC
+
+  If you call `CreateUpload` with `WEB_APP` specified, AWS Device Farm throws an
   `ArgumentException` error.
 
 # Optional Parameters
@@ -435,6 +448,7 @@ function create_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_upload(
     name,
     projectArn,
@@ -498,6 +512,7 @@ function create_vpceconfiguration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpceconfiguration(
     serviceDnsName,
     vpceConfigurationName,
@@ -542,6 +557,7 @@ function delete_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -572,6 +588,7 @@ function delete_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -601,6 +618,7 @@ function delete_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -618,7 +636,7 @@ end
 
 Deletes an AWS Device Farm project, given the project ARN.
 
- Deleting this resource does not stop an in-progress run.
+Deleting this resource does not stop an in-progress run.
 
 # Arguments
 
@@ -632,6 +650,7 @@ function delete_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -664,6 +683,7 @@ function delete_remote_access_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -681,7 +701,7 @@ end
 
 Deletes the run, given the run ARN.
 
- Deleting this resource does not stop an in-progress run.
+Deleting this resource does not stop an in-progress run.
 
 # Arguments
 
@@ -695,6 +715,7 @@ function delete_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,7 +731,7 @@ end
     delete_test_grid_project(project_arn)
     delete_test_grid_project(project_arn, params::Dict{String,<:Any})
 
- Deletes a Selenium testing project and all content generated under it.
+Deletes a Selenium testing project and all content generated under it.
 
 !!! important
     You cannot undo this operation.
@@ -720,8 +741,8 @@ end
 
 # Arguments
 
-- `project_arn`: The ARN of the project to delete, from <a>CreateTestGridProject</a> or
-  <a>ListTestGridProjects</a>.
+- `project_arn`: The ARN of the project to delete, from [`create_test_grid_project`](@ref)
+  or [`list_test_grid_projects`](@ref).
 """
 function delete_test_grid_project(
     projectArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -733,6 +754,7 @@ function delete_test_grid_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -766,6 +788,7 @@ function delete_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -796,6 +819,7 @@ function delete_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -819,6 +843,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -845,6 +870,7 @@ function get_device(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -874,6 +900,7 @@ function get_device_instance(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_instance(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +930,7 @@ function get_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -933,20 +961,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"test"`: Information about the uploaded test to be run against the device pool.
 - `"testType"`: The test type for the specified device pool.
 
-  Allowed values include the following: - BUILTIN_FUZZ.
-   - APPIUM_JAVA_JUNIT.
-   - APPIUM_JAVA_TESTNG.
-   - APPIUM_PYTHON.
-   - APPIUM_NODE.
-   - APPIUM_RUBY.
-   - APPIUM_WEB_JAVA_JUNIT.
-   - APPIUM_WEB_JAVA_TESTNG.
-   - APPIUM_WEB_PYTHON.
-   - APPIUM_WEB_NODE.
- - APPIUM_WEB_RUBY.
- - INSTRUMENTATION.
- - XCTEST.
- - XCTEST_UI.
+  Allowed values include the following:
+
+  - BUILTIN_FUZZ.
+  - APPIUM_JAVA_JUNIT.
+  - APPIUM_JAVA_TESTNG.
+  - APPIUM_PYTHON.
+  - APPIUM_NODE.
+  - APPIUM_RUBY.
+  - APPIUM_WEB_JAVA_JUNIT.
+  - APPIUM_WEB_JAVA_TESTNG.
+  - APPIUM_WEB_PYTHON.
+  - APPIUM_WEB_NODE.
+  - APPIUM_WEB_RUBY.
+  - INSTRUMENTATION.
+  - XCTEST.
+  - XCTEST_UI.
+
 """
 function get_device_pool_compatibility(
     devicePoolArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -958,6 +989,7 @@ function get_device_pool_compatibility(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_pool_compatibility(
     devicePoolArn,
     params::AbstractDict{String};
@@ -991,6 +1023,7 @@ function get_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1053,7 @@ function get_job(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1049,6 +1083,7 @@ function get_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1081,6 +1116,7 @@ function get_offering_status(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetOfferingStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_offering_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1107,6 +1143,7 @@ function get_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1137,6 +1174,7 @@ function get_remote_access_session(arn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1166,6 +1204,7 @@ function get_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1195,6 +1234,7 @@ function get_suite(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_suite(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1224,6 +1264,7 @@ function get_test(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1243,8 +1284,8 @@ Retrieves information about a Selenium testing project.
 
 # Arguments
 
-- `project_arn`: The ARN of the Selenium testing project, from either
-  <a>CreateTestGridProject</a> or <a>ListTestGridProjects</a>.
+- `project_arn`: The ARN of the Selenium testing project, from either [`create_test_grid_project`](@ref)
+  or [`list_test_grid_projects`](@ref).
 """
 function get_test_grid_project(
     projectArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1256,6 +1297,7 @@ function get_test_grid_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -1276,19 +1318,20 @@ end
     get_test_grid_session(params::Dict{String,<:Any})
 
 A session is an instance of a browser created through a `RemoteWebDriver` with the URL from
-<a>CreateTestGridUrlResult\$url</a>. You can use the following to look up sessions: - The
-session ARN (<a>GetTestGridSessionRequest\$sessionArn</a>).
- - The project ARN and a session ID (<a>GetTestGridSessionRequest\$projectArn</a> and
-<a>GetTestGridSessionRequest\$sessionId</a>).
- <p/>
+[`create_test_grid_url_result\$url`](@ref). You can use the following to look up sessions:
+
+- The session ARN ([`get_test_grid_session_request\$session_arn`](@ref)).
+- The project ARN and a session ID ([`get_test_grid_session_request\$project_arn`](@ref)
+  and [`get_test_grid_session_request\$session_id`](@ref)).
+
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"projectArn"`: The ARN for the project that this session belongs to. See
-  <a>CreateTestGridProject</a> and <a>ListTestGridProjects</a>.
-- `"sessionArn"`: An ARN that uniquely identifies a <a>TestGridSession</a>.
+- `"projectArn"`: The ARN for the project that this session belongs to. See [`create_test_grid_project`](@ref)
+  and [`list_test_grid_projects`](@ref).
+- `"sessionArn"`: An ARN that uniquely identifies a [`test_grid_session`](@ref).
 - `"sessionId"`: An ID associated with this session.
 """
 function get_test_grid_session(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1296,6 +1339,7 @@ function get_test_grid_session(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetTestGridSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_test_grid_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1322,6 +1366,7 @@ function get_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1353,6 +1398,7 @@ function get_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1389,6 +1435,7 @@ function install_to_remote_access_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function install_to_remote_access_session(
     appArn,
     remoteAccessSessionArn,
@@ -1422,9 +1469,11 @@ Gets information about artifacts.
 - `arn`: The run, job, suite, or test ARN.
 - `type`: The artifacts' type.
 
-Allowed values include: - FILE
- - LOG
- - SCREENSHOT
+  Allowed values include:
+
+  - FILE
+  - LOG
+  - SCREENSHOT
 
 # Optional Parameters
 
@@ -1441,6 +1490,7 @@ function list_artifacts(arn, type; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_artifacts(
     arn,
     type,
@@ -1478,6 +1528,7 @@ function list_device_instances(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListDeviceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_device_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1507,9 +1558,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 - `"type"`: The device pools' type.
 
-  Allowed values include: - CURATED: A device pool that is created and managed by AWS
-  Device Farm.
-   - PRIVATE: A device pool that is created and managed by the device pool developer.
+  Allowed values include:
+
+  - CURATED: A device pool that is created and managed by AWS Device Farm.
+  - PRIVATE: A device pool that is created and managed by the device pool developer.
+
 """
 function list_device_pools(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
@@ -1519,6 +1572,7 @@ function list_device_pools(arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_pools(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1542,39 +1596,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"arn"`: The Amazon Resource Name (ARN) of the project.
 - `"filters"`: Used to select a set of devices. A filter is made up of an attribute, an
-  operator, and one or more values.</p> - Attribute: The aspect of a device such as
-  platform or model used as the selection criteria in a device filter.
+  operator, and one or more values.
 
-   <p>Allowed values include: <ul> <li>ARN: The Amazon Resource Name (ARN) of the device
-  (for example, `arn:aws:devicefarm:us-west-2::device:12345Example`).
-   - PLATFORM: The device platform. Valid values are ANDROID or IOS.
-   - OS_VERSION: The operating system version (for example, 10.3.2).
-   - MODEL: The device model (for example, iPad 5th Gen).
-   - AVAILABILITY: The current availability of the device. Valid values are AVAILABLE,
-  HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
-   - FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
-   - MANUFACTURER: The device manufacturer (for example, Apple).
-   - REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values
-  are TRUE or FALSE.
-   - REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values
-  are TRUE or FALSE. Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html),
-  this attribute is ignored.
-   - INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
-   - INSTANCE_LABELS: The label of the device instance.
-   - FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.
-   </li> <li>Operator: The filter operator. - The EQUALS operator is available for every
-  attribute except INSTANCE_LABELS.
-   - The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.
-   - The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL,
-  MANUFACTURER, and INSTANCE_ARN attributes.
-   - The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators
-  are also available for the OS_VERSION attribute.
-   </li> <li>Values: An array of one or more filter values. - The IN and NOT_IN operators
-  take a values array that has one or more elements.
-   - The other operators require an array with a single element.
-   - In a request, the AVAILABILITY attribute takes the following values: AVAILABLE,
-  HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
- </li> </ul>
+  - Attribute: The aspect of a device such as platform or model used as the selection
+    criteria in a device filter.
+
+  Allowed values include:   - ARN: The Amazon Resource Name (ARN) of the device (for
+  example, `arn:aws:devicefarm:us-west-2::device:12345Example`).
+    - PLATFORM: The device platform. Valid values are ANDROID or IOS.
+    - OS_VERSION: The operating system version (for example, 10.3.2).
+    - MODEL: The device model (for example, iPad 5th Gen).
+    - AVAILABILITY: The current availability of the device. Valid values are AVAILABLE,
+      HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
+    - FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
+    - MANUFACTURER: The device manufacturer (for example, Apple).
+    - REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid
+      values are TRUE or FALSE.
+    - REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid
+      values are TRUE or FALSE. Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html),
+      this attribute is ignored.
+    - INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+    - INSTANCE_LABELS: The label of the device instance.
+    - FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.
+  - Operator: The filter operator.   - The EQUALS operator is available for every
+    attribute except INSTANCE_LABELS.
+    - The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.
+    - The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL,
+      MANUFACTURER, and INSTANCE_ARN attributes.
+    - The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS
+      operators are also available for the OS_VERSION attribute.
+  - Values: An array of one or more filter values.   - The IN and NOT_IN operators take a
+    values array that has one or more elements.
+    - The other operators require an array with a single element.
+    - In a request, the AVAILABILITY attribute takes the following values: AVAILABLE,
+      HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
+
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
@@ -1583,6 +1639,7 @@ function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1611,6 +1668,7 @@ function list_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_instance_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1647,6 +1705,7 @@ function list_jobs(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_jobs(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1686,6 +1745,7 @@ function list_network_profiles(arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_network_profiles(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1718,6 +1778,7 @@ function list_offering_promotions(; aws_config::AbstractAWSConfig=current_aws_co
         "ListOfferingPromotions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offering_promotions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1750,6 +1811,7 @@ function list_offering_transactions(; aws_config::AbstractAWSConfig=current_aws_
         "ListOfferingTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offering_transactions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1782,6 +1844,7 @@ function list_offerings(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1810,6 +1873,7 @@ function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1846,6 +1910,7 @@ function list_remote_access_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_remote_access_sessions(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1882,6 +1947,7 @@ function list_runs(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_runs(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1918,6 +1984,7 @@ function list_samples(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_samples(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1954,6 +2021,7 @@ function list_suites(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_suites(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1988,6 +2056,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2021,6 +2090,7 @@ function list_test_grid_projects(; aws_config::AbstractAWSConfig=current_aws_con
         "ListTestGridProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_grid_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2036,7 +2106,7 @@ end
     list_test_grid_session_actions(session_arn)
     list_test_grid_session_actions(session_arn, params::Dict{String,<:Any})
 
-Returns a list of the actions taken in a <a>TestGridSession</a>.
+Returns a list of the actions taken in a [`test_grid_session`](@ref).
 
 # Arguments
 
@@ -2059,6 +2129,7 @@ function list_test_grid_session_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_grid_session_actions(
     sessionArn,
     params::AbstractDict{String};
@@ -2082,7 +2153,7 @@ Retrieves a list of artifacts created during the session.
 
 # Arguments
 
-- `session_arn`: The ARN of a <a>TestGridSession</a>.
+- `session_arn`: The ARN of a [`test_grid_session`](@ref).
 
 # Optional Parameters
 
@@ -2102,6 +2173,7 @@ function list_test_grid_session_artifacts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_grid_session_artifacts(
     sessionArn,
     params::AbstractDict{String};
@@ -2121,11 +2193,11 @@ end
     list_test_grid_sessions(project_arn)
     list_test_grid_sessions(project_arn, params::Dict{String,<:Any})
 
-Retrieves a list of sessions for a <a>TestGridProject</a>.
+Retrieves a list of sessions for a [`test_grid_project`](@ref).
 
 # Arguments
 
-- `project_arn`: ARN of a <a>TestGridProject</a>.
+- `project_arn`: ARN of a [`test_grid_project`](@ref).
 
 # Optional Parameters
 
@@ -2149,6 +2221,7 @@ function list_test_grid_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_grid_sessions(
     projectArn,
     params::AbstractDict{String};
@@ -2189,6 +2262,7 @@ function list_tests(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tests(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2230,6 +2304,7 @@ function list_unique_problems(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_unique_problems(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2259,35 +2334,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 - `"type"`: The type of upload.
 
-  Must be one of the following values: - ANDROID_APP
-   - IOS_APP
-   - WEB_APP
-   - EXTERNAL_DATA
-   - APPIUM_JAVA_JUNIT_TEST_PACKAGE
-   - APPIUM_JAVA_TESTNG_TEST_PACKAGE
-   - APPIUM_PYTHON_TEST_PACKAGE
-   - APPIUM_NODE_TEST_PACKAGE
-   - APPIUM_RUBY_TEST_PACKAGE
-   - APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
-   - APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
-   - APPIUM_WEB_PYTHON_TEST_PACKAGE
-   - APPIUM_WEB_NODE_TEST_PACKAGE
-   - APPIUM_WEB_RUBY_TEST_PACKAGE
-   - INSTRUMENTATION_TEST_PACKAGE
-   - XCTEST_TEST_PACKAGE
-   - XCTEST_UI_TEST_PACKAGE
-   - APPIUM_JAVA_JUNIT_TEST_SPEC
-   - APPIUM_JAVA_TESTNG_TEST_SPEC
-   - APPIUM_PYTHON_TEST_SPEC
-   - APPIUM_NODE_TEST_SPEC
-   - APPIUM_RUBY_TEST_SPEC
-   - APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
-   - APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
-   - APPIUM_WEB_PYTHON_TEST_SPEC
-   - APPIUM_WEB_NODE_TEST_SPEC
-   - APPIUM_WEB_RUBY_TEST_SPEC
- - INSTRUMENTATION_TEST_SPEC
- - XCTEST_UI_TEST_SPEC
+  Must be one of the following values:
+
+  - ANDROID_APP
+  - IOS_APP
+  - WEB_APP
+  - EXTERNAL_DATA
+  - APPIUM_JAVA_JUNIT_TEST_PACKAGE
+  - APPIUM_JAVA_TESTNG_TEST_PACKAGE
+  - APPIUM_PYTHON_TEST_PACKAGE
+  - APPIUM_NODE_TEST_PACKAGE
+  - APPIUM_RUBY_TEST_PACKAGE
+  - APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
+  - APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
+  - APPIUM_WEB_PYTHON_TEST_PACKAGE
+  - APPIUM_WEB_NODE_TEST_PACKAGE
+  - APPIUM_WEB_RUBY_TEST_PACKAGE
+  - INSTRUMENTATION_TEST_PACKAGE
+  - XCTEST_TEST_PACKAGE
+  - XCTEST_UI_TEST_PACKAGE
+  - APPIUM_JAVA_JUNIT_TEST_SPEC
+  - APPIUM_JAVA_TESTNG_TEST_SPEC
+  - APPIUM_PYTHON_TEST_SPEC
+  - APPIUM_NODE_TEST_SPEC
+  - APPIUM_RUBY_TEST_SPEC
+  - APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
+  - APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
+  - APPIUM_WEB_PYTHON_TEST_SPEC
+  - APPIUM_WEB_NODE_TEST_SPEC
+  - APPIUM_WEB_RUBY_TEST_SPEC
+  - INSTRUMENTATION_TEST_SPEC
+  - XCTEST_UI_TEST_SPEC
+
 """
 function list_uploads(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
@@ -2297,6 +2375,7 @@ function list_uploads(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_uploads(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2329,6 +2408,7 @@ function list_vpceconfigurations(; aws_config::AbstractAWSConfig=current_aws_con
         "ListVPCEConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpceconfigurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2370,6 +2450,7 @@ function purchase_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_offering(
     offeringId,
     quantity,
@@ -2414,6 +2495,7 @@ function renew_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function renew_offering(
     offeringId,
     quantity,
@@ -2449,14 +2531,14 @@ Schedules a run.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"appArn"`: The ARN of an application package to run tests against, created with
-  <a>CreateUpload</a>. See <a>ListUploads</a>.
+- `"appArn"`: The ARN of an application package to run tests against, created with [`create_upload`](@ref).
+  See [`list_uploads`](@ref).
 - `"configuration"`: Information about the settings for the run to be scheduled.
 - `"devicePoolArn"`: The ARN of the device pool for the run to be scheduled.
 - `"deviceSelectionConfiguration"`: The filter criteria used to dynamically select a set of
   devices for a test run and the maximum number of devices to be included in the run.
 
-  Either ** `devicePoolArn` ** or ** `deviceSelectionConfiguration` ** is required in a
+  Either **`devicePoolArn`** or **`deviceSelectionConfiguration`** is required in a
   request.
 - `"executionConfiguration"`: Specifies configuration information about a test run, such as
   the execution timeout (in minutes).
@@ -2470,6 +2552,7 @@ function schedule_run(projectArn, test; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function schedule_run(
     projectArn,
     test,
@@ -2510,6 +2593,7 @@ function stop_job(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_job(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2539,6 +2623,7 @@ function stop_remote_access_session(arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2572,6 +2657,7 @@ function stop_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2609,6 +2695,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2638,8 +2725,8 @@ Deletes the specified tags from a resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource or resources from which to
-  delete tags. You can associate tags with the following Device Farm resources: `PROJECT`,
-  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`,
+  delete tags. You can associate tags with the following Device Farm resources:
+  `PROJECT`, `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`,
   `DEVICE_POOL`, `DEVICE`, and `VPCE_CONFIGURATION`.
 - `tag_keys`: The keys of the tags to be removed.
 """
@@ -2653,6 +2740,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2699,6 +2787,7 @@ function update_device_instance(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_instance(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2729,8 +2818,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clearMaxDevices"`: Sets whether the `maxDevices` parameter applies to your device pool.
   If you set this parameter to `true`, the `maxDevices` parameter does not apply, and
   Device Farm does not limit the number of devices that it adds to your device pool. In
-  this case, Device Farm adds all available devices that meet the criteria specified in the
-  `rules` parameter.
+  this case, Device Farm adds all available devices that meet the criteria specified in
+  the `rules` parameter.
 
   If you use this parameter in your request, you cannot use the `maxDevices` parameter in
   the same request.
@@ -2740,11 +2829,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the `rules` parameter. Depending on how many devices meet these constraints, your
   device pool might contain fewer devices than the value for this parameter.
 
-  By specifying the maximum number of devices, you can control the costs that you incur by
-  running tests.
+  By specifying the maximum number of devices, you can control the costs that you incur
+  by running tests.
 
-  If you use this parameter in your request, you cannot use the `clearMaxDevices` parameter
-  in the same request.
+  If you use this parameter in your request, you cannot use the `clearMaxDevices`
+  parameter in the same request.
 - `"name"`: A string that represents the name of the device pool to update.
 - `"rules"`: Represents the rules to modify for the device pool. Updating rules is
   optional. If you update rules for your request, the update replaces the existing rules.
@@ -2757,6 +2846,7 @@ function update_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2786,7 +2876,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"excludeAppPackagesFromCleanup"`: An array of strings that specifies the list of app
   packages that should not be cleaned up from the device after a test run is over.
 
-The list of packages is only considered if you set `packageCleanup` to `true`.
+  The list of packages is only considered if you set `packageCleanup` to `true`.
 - `"name"`: The updated name for your instance profile.
 - `"packageCleanup"`: The updated choice for whether you want to specify package cleanup.
   The default value is `false` for private devices.
@@ -2801,6 +2891,7 @@ function update_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2857,6 +2948,7 @@ function update_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2895,6 +2987,7 @@ function update_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2934,6 +3027,7 @@ function update_test_grid_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -2977,6 +3071,7 @@ function update_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3020,6 +3115,7 @@ function update_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -18,9 +18,9 @@ in the *Compute Optimizer User Guide*.
 - `recommendation_preference_names`: The name of the recommendation preference to delete.
 - `resource_type`: The target resource type of the recommendation preference to delete.
 
-  The `Ec2Instance` option encompasses standalone instances and instances that are part of
-  Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
-  part of an Auto Scaling group.
+  The `Ec2Instance` option encompasses standalone instances and instances that are part
+  of Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that
+  are part of an Auto Scaling group.
 
 # Optional Parameters
 
@@ -28,9 +28,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"scope"`: An object that describes the scope of the recommendation preference to delete.
 
-  You can delete recommendation preferences that are created at the organization level (for
-  management accounts of an organization only), account level, and resource level. For more
-  information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html)
+  You can delete recommendation preferences that are created at the organization level
+  (for management accounts of an organization only), account level, and resource level.
+  For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html)
   in the *Compute Optimizer User Guide*.
 """
 function delete_recommendation_preferences(
@@ -48,6 +48,7 @@ function delete_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recommendation_preferences(
     recommendationPreferenceNames,
     resourceType,
@@ -77,7 +78,7 @@ end
 
 Describes recommendation export jobs created in the last seven days.
 
-Use the [`export_auto_scaling_group_recommendations</a> or <a>_export_ec2_instance_recommendations`](@ref)
+Use the [`export_auto_scaling_group_recommendations`](@ref) or [`export_ec2_instance_recommendations`](@ref)
 actions to request an export of your recommendations. Then use the [`describe_recommendation_export_jobs`](@ref)
 action to view your export jobs.
 
@@ -89,10 +90,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export jobs.
 - `"jobIds"`: The identification numbers of the export jobs to return.
 
-  An export job ID is returned when you create an export using the [`export_auto_scaling_group_recommendations</a> or <a>_export_ec2_instance_recommendations`](@ref)
-  actions.
+  An export job ID is returned when you create an export using the [`export_auto_scaling_group_recommendations`](@ref)
+  or [`export_ec2_instance_recommendations`](@ref) actions.
 
-All export jobs created in the last seven days are returned if this parameter is omitted.
+  All export jobs created in the last seven days are returned if this parameter is
+  omitted.
 - `"maxResults"`: The maximum number of export jobs to return with a single request.
 
   To retrieve the remaining results, make another request with the returned `nextToken`
@@ -108,6 +110,7 @@ function describe_recommendation_export_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recommendation_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -139,11 +142,11 @@ Region.
   Service (Amazon S3) bucket name and key prefix for the export job.
 
   You must create the destination Amazon S3 bucket for your recommendations export before
-  you create the export job. Compute Optimizer does not create the S3 bucket for you. After
-  you create the S3 bucket, ensure that it has the required permissions policy to allow
-  Compute Optimizer to write the export file to it. If you plan to specify an object prefix
-  when you create the export job, you must include the object prefix in the policy that you
-  add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html)
+  you create the export job. Compute Optimizer does not create the S3 bucket for you.
+  After you create the S3 bucket, ensure that it has the required permissions policy to
+  allow Compute Optimizer to write the export file to it. If you plan to specify an
+  object prefix when you create the export job, you must include the object prefix in the
+  policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html)
   in the *Compute Optimizer User Guide*.
 
 # Optional Parameters
@@ -159,16 +162,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter cannot be specified together with the include member accounts parameter.
   The parameters are mutually exclusive.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the include member accounts parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the include member accounts parameter, is omitted.
 
-You can specify multiple account IDs per request.
+  You can specify multiple account IDs per request.
 - `"fieldsToExport"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
   in the *Compute Optimizer User Guide*.
 - `"fileFormat"`: The format of the export file.
 
-The only export file format currently supported is `Csv`.
+  The only export file format currently supported is `Csv`.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Auto Scaling group recommendations.
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
@@ -176,7 +179,8 @@ The only export file format currently supported is `Csv`.
   organization.
 
   The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  Compute Optimizer must be enabled in the organization account. For more information,
+  see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
   in the *Compute Optimizer User Guide*.
 
   Recommendations for member accounts of the organization are not included in the export
@@ -185,8 +189,8 @@ The only export file format currently supported is `Csv`.
   This parameter cannot be specified together with the account IDs parameter. The
   parameters are mutually exclusive.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the account IDs parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the account IDs parameter, is omitted.
 - `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to export.
 """
@@ -200,6 +204,7 @@ function export_auto_scaling_group_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_auto_scaling_group_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -250,16 +255,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter cannot be specified together with the include member accounts parameter.
   The parameters are mutually exclusive.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the include member accounts parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the include member accounts parameter, is omitted.
 
-You can specify multiple account IDs per request.
+  You can specify multiple account IDs per request.
 - `"fieldsToExport"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
   in the *Compute Optimizer User Guide*.
 - `"fileFormat"`: The format of the export file.
 
-The only export file format currently supported is `Csv`.
+  The only export file format currently supported is `Csv`.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Amazon EBS volume recommendations.
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
@@ -267,7 +272,8 @@ The only export file format currently supported is `Csv`.
   organization.
 
   The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  Compute Optimizer must be enabled in the organization account. For more information,
+  see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
   in the *Compute Optimizer User Guide*.
 
   Recommendations for member accounts of the organization are not included in the export
@@ -276,8 +282,8 @@ The only export file format currently supported is `Csv`.
   This parameter cannot be specified together with the account IDs parameter. The
   parameters are mutually exclusive.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the account IDs parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the account IDs parameter, is omitted.
 """
 function export_ebsvolume_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
@@ -289,6 +295,7 @@ function export_ebsvolume_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_ebsvolume_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -328,11 +335,11 @@ Region.
   Service (Amazon S3) bucket name and key prefix for the export job.
 
   You must create the destination Amazon S3 bucket for your recommendations export before
-  you create the export job. Compute Optimizer does not create the S3 bucket for you. After
-  you create the S3 bucket, ensure that it has the required permissions policy to allow
-  Compute Optimizer to write the export file to it. If you plan to specify an object prefix
-  when you create the export job, you must include the object prefix in the policy that you
-  add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html)
+  you create the export job. Compute Optimizer does not create the S3 bucket for you.
+  After you create the S3 bucket, ensure that it has the required permissions policy to
+  allow Compute Optimizer to write the export file to it. If you plan to specify an
+  object prefix when you create the export job, you must include the object prefix in the
+  policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html)
   in the *Compute Optimizer User Guide*.
 
 # Optional Parameters
@@ -348,16 +355,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter cannot be specified together with the include member accounts parameter.
   The parameters are mutually exclusive.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the include member accounts parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the include member accounts parameter, is omitted.
 
-You can specify multiple account IDs per request.
+  You can specify multiple account IDs per request.
 - `"fieldsToExport"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
   in the *Compute Optimizer User Guide*.
 - `"fileFormat"`: The format of the export file.
 
-The only export file format currently supported is `Csv`.
+  The only export file format currently supported is `Csv`.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   instance recommendations.
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
@@ -365,14 +372,15 @@ The only export file format currently supported is `Csv`.
   organization.
 
   The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  Compute Optimizer must be enabled in the organization account. For more information,
+  see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
   in the *Compute Optimizer User Guide*.
 
   Recommendations for member accounts of the organization are not included in the export
   file if this parameter is omitted.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the account IDs parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the account IDs parameter, is omitted.
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to export.
 """
@@ -386,6 +394,7 @@ function export_ec2_instance_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_ec2_instance_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -409,7 +418,7 @@ end
     export_ecsservice_recommendations(s3_destination_config)
     export_ecsservice_recommendations(s3_destination_config, params::Dict{String,<:Any})
 
- Exports optimization recommendations for Amazon ECS services on Fargate.
+Exports optimization recommendations for Amazon ECS services on Fargate.
 
 Recommendations are exported in a CSV file, and its metadata in a JSON file, to an existing
 Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information,
@@ -427,7 +436,7 @@ Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountIds"`:  The Amazon Web Services account IDs for the export Amazon ECS service
+- `"accountIds"`: The Amazon Web Services account IDs for the export Amazon ECS service
   recommendations.
 
   If your account is the management account or the delegated administrator of an
@@ -440,21 +449,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If this parameter or the include member accounts parameter is omitted, the
   recommendations for member accounts aren't included in the export.
 
-You can specify multiple account IDs per request.
+  You can specify multiple account IDs per request.
 - `"fieldsToExport"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
   in the *Compute Optimizer User Guide*.
-- `"fileFormat"`:  The format of the export file.
+- `"fileFormat"`: The format of the export file.
 
-The CSV file is the only export file format currently supported.
-- `"filters"`:  An array of objects to specify a filter that exports a more specific set of
+  The CSV file is the only export file format currently supported.
+- `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Amazon ECS service recommendations.
 - `"includeMemberAccounts"`: If your account is the management account or the delegated
   administrator of an organization, this parameter indicates whether to include
   recommendations for resources in all member accounts of the organization.
 
   The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  Compute Optimizer must be enabled in the organization account. For more information,
+  see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
   in the *Compute Optimizer User Guide*.
 
   If this parameter is omitted, recommendations for member accounts of the organization
@@ -473,6 +483,7 @@ function export_ecsservice_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_ecsservice_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -522,16 +533,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter cannot be specified together with the include member accounts parameter.
   The parameters are mutually exclusive.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the include member accounts parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the include member accounts parameter, is omitted.
 
-You can specify multiple account IDs per request.
+  You can specify multiple account IDs per request.
 - `"fieldsToExport"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
   in the *Compute Optimizer User Guide*.
 - `"fileFormat"`: The format of the export file.
 
-The only export file format currently supported is `Csv`.
+  The only export file format currently supported is `Csv`.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Lambda function recommendations.
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
@@ -539,7 +550,8 @@ The only export file format currently supported is `Csv`.
   organization.
 
   The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  Compute Optimizer must be enabled in the organization account. For more information,
+  see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
   in the *Compute Optimizer User Guide*.
 
   Recommendations for member accounts of the organization are not included in the export
@@ -548,8 +560,8 @@ The only export file format currently supported is `Csv`.
   This parameter cannot be specified together with the account IDs parameter. The
   parameters are mutually exclusive.
 
-  Recommendations for member accounts are not included in the export if this parameter, or
-  the account IDs parameter, is omitted.
+  Recommendations for member accounts are not included in the export if this parameter,
+  or the account IDs parameter, is omitted.
 """
 function export_lambda_function_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
@@ -561,6 +573,7 @@ function export_lambda_function_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_lambda_function_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -584,7 +597,7 @@ end
     export_license_recommendations(s3_destination_config)
     export_license_recommendations(s3_destination_config, params::Dict{String,<:Any})
 
- Export optimization recommendations for your licenses.
+Export optimization recommendations for your licenses.
 
 Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a
 JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service
@@ -610,24 +623,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter can't be specified together with the include member accounts parameter.
   The parameters are mutually exclusive.
 
-  If this parameter is omitted, recommendations for member accounts aren't included in the
-  export.
+  If this parameter is omitted, recommendations for member accounts aren't included in
+  the export.
 
-You can specify multiple account IDs per request.
+  You can specify multiple account IDs per request.
 - `"fieldsToExport"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
   in the *Compute Optimizer User Guide*.
 - `"fileFormat"`: The format of the export file.
 
-A CSV file is the only export format currently supported.
-- `"filters"`:  An array of objects to specify a filter that exports a more specific set of
+  A CSV file is the only export format currently supported.
+- `"filters"`: An array of objects to specify a filter that exports a more specific set of
   license recommendations.
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
   all member accounts of the organization if your account is the management account of an
   organization.
 
   The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  Compute Optimizer must be enabled in the organization account. For more information,
+  see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
   in the *Compute Optimizer User Guide*.
 
   If this parameter is omitted, recommendations for member accounts of the organization
@@ -646,6 +660,7 @@ function export_license_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_license_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -669,7 +684,7 @@ end
     export_rdsdatabase_recommendations(s3_destination_config)
     export_rdsdatabase_recommendations(s3_destination_config, params::Dict{String,<:Any})
 
- Export optimization recommendations for your Amazon Relational Database Service (Amazon
+Export optimization recommendations for your Amazon Relational Database Service (Amazon
 RDS).
 
 Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a
@@ -687,7 +702,7 @@ You can have only one Amazon RDS export job in progress per Amazon Web Services 
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountIds"`:  The Amazon Web Services account IDs for the export Amazon RDS
+- `"accountIds"`: The Amazon Web Services account IDs for the export Amazon RDS
   recommendations.
 
   If your account is the management account or the delegated administrator of an
@@ -700,21 +715,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If this parameter or the include member accounts parameter is omitted, the
   recommendations for member accounts aren't included in the export.
 
-You can specify multiple account IDs per request.
+  You can specify multiple account IDs per request.
 - `"fieldsToExport"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
   in the *Compute Optimizer User Guide*.
-- `"fileFormat"`:  The format of the export file.
+- `"fileFormat"`: The format of the export file.
 
-The CSV file is the only export file format currently supported.
-- `"filters"`:  An array of objects to specify a filter that exports a more specific set of
+  The CSV file is the only export file format currently supported.
+- `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Amazon RDS recommendations.
 - `"includeMemberAccounts"`: If your account is the management account or the delegated
   administrator of an organization, this parameter indicates whether to include
   recommendations for resources in all member accounts of the organization.
 
   The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  Compute Optimizer must be enabled in the organization account. For more information,
+  see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
   in the *Compute Optimizer User Guide*.
 
   If this parameter is omitted, recommendations for member accounts of the organization
@@ -734,6 +750,7 @@ function export_rdsdatabase_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_rdsdatabase_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -774,7 +791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the member account for which you want to return Auto Scaling group
   recommendations.
 
-Only one account ID can be specified per request.
+  Only one account ID can be specified per request.
 - `"autoScalingGroupArns"`: The Amazon Resource Name (ARN) of the Auto Scaling groups for
   which to return recommendations.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
@@ -798,6 +815,7 @@ function get_auto_scaling_group_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_auto_scaling_group_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -829,7 +847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If your account is the management account of an organization, use this parameter to
   specify the member account for which you want to return volume recommendations.
 
-Only one account ID can be specified per request.
+  Only one account ID can be specified per request.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   volume recommendations.
 - `"maxResults"`: The maximum number of volume recommendations to return with a single
@@ -848,6 +866,7 @@ function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ebsvolume_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -879,7 +898,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If your account is the management account of an organization, use this parameter to
   specify the member account for which you want to return instance recommendations.
 
-Only one account ID can be specified per request.
+  Only one account ID can be specified per request.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   instance recommendations.
 - `"instanceArns"`: The Amazon Resource Name (ARN) of the instances for which to return
@@ -902,6 +921,7 @@ function get_ec2_instance_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ec2_instance_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -921,8 +941,8 @@ Returns the projected utilization metrics of Amazon EC2 instance recommendations
 
 !!! note
     The `Cpu` and `Memory` metrics are the only projected utilization metrics returned when
-you run this action. Additionally, the `Memory` metric is returned only for resources that
-have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+    you run this action. Additionally, the `Memory` metric is returned only for resources
+    that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
 
 # Arguments
 
@@ -961,6 +981,7 @@ function get_ec2_recommendation_projected_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ec2_recommendation_projected_metrics(
     endTime,
     instanceArn,
@@ -994,19 +1015,19 @@ end
     get_ecsservice_recommendation_projected_metrics(end_time, period, service_arn, start_time, stat)
     get_ecsservice_recommendation_projected_metrics(end_time, period, service_arn, start_time, stat, params::Dict{String,<:Any})
 
- Returns the projected metrics of Amazon ECS service recommendations.
+Returns the projected metrics of Amazon ECS service recommendations.
 
 # Arguments
 
-- `end_time`:  The timestamp of the last projected metrics data point to return.
-- `period`:  The granularity, in seconds, of the projected metrics data points.
-- `service_arn`:  The ARN that identifies the Amazon ECS service.
+- `end_time`: The timestamp of the last projected metrics data point to return.
+- `period`: The granularity, in seconds, of the projected metrics data points.
+- `service_arn`: The ARN that identifies the Amazon ECS service.
 
-   The following is the format of the ARN:
+  The following is the format of the ARN:
 
- `arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name`
-- `start_time`:  The timestamp of the first projected metrics data point to return.
-- `stat`:  The statistic of the projected metrics.
+  `arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name`
+- `start_time`: The timestamp of the first projected metrics data point to return.
+- `stat`: The statistic of the projected metrics.
 """
 function get_ecsservice_recommendation_projected_metrics(
     endTime,
@@ -1029,6 +1050,7 @@ function get_ecsservice_recommendation_projected_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ecsservice_recommendation_projected_metrics(
     endTime,
     period,
@@ -1062,9 +1084,9 @@ end
     get_ecsservice_recommendations()
     get_ecsservice_recommendations(params::Dict{String,<:Any})
 
- Returns Amazon ECS service recommendations.
+Returns Amazon ECS service recommendations.
 
- Compute Optimizer generates recommendations for Amazon ECS services on Fargate that meet a
+Compute Optimizer generates recommendations for Amazon ECS services on Fargate that meet a
 specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html)
 in the *Compute Optimizer User Guide*.
 
@@ -1072,28 +1094,28 @@ in the *Compute Optimizer User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountIds"`:  Return the Amazon ECS service recommendations to the specified Amazon
-  Web Services account IDs.
+- `"accountIds"`: Return the Amazon ECS service recommendations to the specified Amazon Web
+  Services account IDs.
 
   If your account is the management account or the delegated administrator of an
   organization, use this parameter to return the Amazon ECS service recommendations to
   specific member accounts.
 
-You can only specify one account ID per request.
-- `"filters"`:  An array of objects to specify a filter that returns a more specific list
-  of Amazon ECS service recommendations.
-- `"maxResults"`:  The maximum number of Amazon ECS service recommendations to return with
-  a single request.
+  You can only specify one account ID per request.
+- `"filters"`: An array of objects to specify a filter that returns a more specific list of
+  Amazon ECS service recommendations.
+- `"maxResults"`: The maximum number of Amazon ECS service recommendations to return with a
+  single request.
 
   To retrieve the remaining results, make another request with the returned `nextToken`
   value.
-- `"nextToken"`:  The token to advance to the next page of Amazon ECS service
+- `"nextToken"`: The token to advance to the next page of Amazon ECS service
   recommendations.
-- `"serviceArns"`:  The ARN that identifies the Amazon ECS service.
+- `"serviceArns"`: The ARN that identifies the Amazon ECS service.
 
-   The following is the format of the ARN:
+  The following is the format of the ARN:
 
- `arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name`
+  `arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name`
 """
 function get_ecsservice_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1104,6 +1126,7 @@ function get_ecsservice_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ecsservice_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1143,6 +1166,7 @@ function get_effective_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_effective_recommendation_preferences(
     resourceArn,
     params::AbstractDict{String};
@@ -1174,6 +1198,7 @@ function get_enrollment_status(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_enrollment_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1217,6 +1242,7 @@ function get_enrollment_statuses_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_enrollment_statuses_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1248,17 +1274,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If your account is the management account of an organization, use this parameter to
   specify the member account for which you want to return function recommendations.
 
-Only one account ID can be specified per request.
+  Only one account ID can be specified per request.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   function recommendations.
 - `"functionArns"`: The Amazon Resource Name (ARN) of the functions for which to return
   recommendations.
 
-  You can specify a qualified or unqualified ARN. If you specify an unqualified ARN without
-  a function version suffix, Compute Optimizer will return recommendations for the latest
-  (`\$LATEST`) version of the function. If you specify a qualified ARN with a version
-  suffix, Compute Optimizer will return recommendations for the specified function version.
-  For more information about using function versions, see [Using versions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-versions.html#versioning-versions-using)
+  You can specify a qualified or unqualified ARN. If you specify an unqualified ARN
+  without a function version suffix, Compute Optimizer will return recommendations for
+  the latest (`\$LATEST`) version of the function. If you specify a qualified ARN with a
+  version suffix, Compute Optimizer will return recommendations for the specified
+  function version. For more information about using function versions, see [Using versions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-versions.html#versioning-versions-using)
   in the *Lambda Developer Guide*.
 - `"maxResults"`: The maximum number of function recommendations to return with a single
   request.
@@ -1276,6 +1302,7 @@ function get_lambda_function_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lambda_function_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1307,26 +1334,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If your account is the management account of an organization, use this parameter to
   specify the member account for which you want to return license recommendations.
 
-Only one account ID can be specified per request.
-- `"filters"`:  An array of objects to specify a filter that returns a more specific list
-  of license recommendations.
-- `"maxResults"`:  The maximum number of license recommendations to return with a single
+  Only one account ID can be specified per request.
+- `"filters"`: An array of objects to specify a filter that returns a more specific list of
+  license recommendations.
+- `"maxResults"`: The maximum number of license recommendations to return with a single
   request.
 
-   To retrieve the remaining results, make another request with the returned `nextToken`
+  To retrieve the remaining results, make another request with the returned `nextToken`
   value.
-- `"nextToken"`:  The token to advance to the next page of license recommendations.
-- `"resourceArns"`:  The ARN that identifies the Amazon EC2 instance.
+- `"nextToken"`: The token to advance to the next page of license recommendations.
+- `"resourceArns"`: The ARN that identifies the Amazon EC2 instance.
 
-   The following is the format of the ARN:
+  The following is the format of the ARN:
 
- `arn:aws:ec2:region:aws_account_id:instance/instance-id`
+  `arn:aws:ec2:region:aws_account_id:instance/instance-id`
 """
 function get_license_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_license_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1342,19 +1370,19 @@ end
     get_rdsdatabase_recommendation_projected_metrics(end_time, period, resource_arn, start_time, stat)
     get_rdsdatabase_recommendation_projected_metrics(end_time, period, resource_arn, start_time, stat, params::Dict{String,<:Any})
 
- Returns the projected metrics of Amazon RDS recommendations.
+Returns the projected metrics of Amazon RDS recommendations.
 
 # Arguments
 
-- `end_time`:  The timestamp of the last projected metrics data point to return.
-- `period`:  The granularity, in seconds, of the projected metrics data points.
-- `resource_arn`:  The ARN that identifies the Amazon RDS.
+- `end_time`: The timestamp of the last projected metrics data point to return.
+- `period`: The granularity, in seconds, of the projected metrics data points.
+- `resource_arn`: The ARN that identifies the Amazon RDS.
 
-   The following is the format of the ARN:
+  The following is the format of the ARN:
 
- `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
-- `start_time`:  The timestamp of the first projected metrics data point to return.
-- `stat`:  The statistic of the projected metrics.
+  `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
+- `start_time`: The timestamp of the first projected metrics data point to return.
+- `stat`: The statistic of the projected metrics.
 
 # Optional Parameters
 
@@ -1383,6 +1411,7 @@ function get_rdsdatabase_recommendation_projected_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rdsdatabase_recommendation_projected_metrics(
     endTime,
     period,
@@ -1416,7 +1445,7 @@ end
     get_rdsdatabase_recommendations()
     get_rdsdatabase_recommendations(params::Dict{String,<:Any})
 
- Returns Amazon RDS recommendations.
+Returns Amazon RDS recommendations.
 
 Compute Optimizer generates recommendations for Amazon RDS that meet a specific set of
 requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html)
@@ -1426,32 +1455,32 @@ in the *Compute Optimizer User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountIds"`:  Return the Amazon RDS recommendations to the specified Amazon Web
+- `"accountIds"`: Return the Amazon RDS recommendations to the specified Amazon Web
   Services account IDs.
 
   If your account is the management account or the delegated administrator of an
   organization, use this parameter to return the Amazon RDS recommendations to specific
   member accounts.
 
-You can only specify one account ID per request.
-- `"filters"`:  An array of objects to specify a filter that returns a more specific list
-  of Amazon RDS recommendations.
+  You can only specify one account ID per request.
+- `"filters"`: An array of objects to specify a filter that returns a more specific list of
+  Amazon RDS recommendations.
 - `"maxResults"`: The maximum number of Amazon RDS recommendations to return with a single
   request.
 
   To retrieve the remaining results, make another request with the returned `nextToken`
   value.
-- `"nextToken"`:  The token to advance to the next page of Amazon RDS recommendations.
+- `"nextToken"`: The token to advance to the next page of Amazon RDS recommendations.
 - `"recommendationPreferences"`:
-- `"resourceArns"`:  The ARN that identifies the Amazon RDS.
+- `"resourceArns"`: The ARN that identifies the Amazon RDS.
 
-   The following is the format of the ARN:
+  The following is the format of the ARN:
 
-   `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
+  `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
 
-   The following is the format of a DB Cluster ARN:
+  The following is the format of a DB Cluster ARN:
 
- `arn:aws:rds:{region}:{accountId}:cluster:{resourceName}`
+  `arn:aws:rds:{region}:{accountId}:cluster:{resourceName}`
 """
 function get_rdsdatabase_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1462,6 +1491,7 @@ function get_rdsdatabase_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rdsdatabase_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1491,9 +1521,9 @@ in the *Compute Optimizer User Guide*.
 - `resource_type`: The target resource type of the recommendation preference for which to
   return preferences.
 
-  The `Ec2Instance` option encompasses standalone instances and instances that are part of
-  Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
-  part of an Auto Scaling group.
+  The `Ec2Instance` option encompasses standalone instances and instances that are part
+  of Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that
+  are part of an Auto Scaling group.
 
 # Optional Parameters
 
@@ -1507,9 +1537,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of recommendation preferences.
 - `"scope"`: An object that describes the scope of the recommendation preference to return.
 
-  You can return recommendation preferences that are created at the organization level (for
-  management accounts of an organization only), account level, and resource level. For more
-  information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html)
+  You can return recommendation preferences that are created at the organization level
+  (for management accounts of an organization only), account level, and resource level.
+  For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html)
   in the *Compute Optimizer User Guide*.
 """
 function get_recommendation_preferences(
@@ -1522,6 +1552,7 @@ function get_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
@@ -1543,13 +1574,15 @@ end
 
 Returns the optimization findings for an account.
 
-It returns the number of: - Amazon EC2 instances in an account that are `Underprovisioned`,
-`Overprovisioned`, or `Optimized`.
- - Auto Scaling groups in an account that are `NotOptimized`, or `Optimized`.
- - Amazon EBS volumes in an account that are `NotOptimized`, or `Optimized`.
- - Lambda functions in an account that are `NotOptimized`, or `Optimized`.
- - Amazon ECS services in an account that are `Underprovisioned`, `Overprovisioned`, or
-`Optimized`.
+It returns the number of:
+
+- Amazon EC2 instances in an account that are `Underprovisioned`, `Overprovisioned`, or
+  `Optimized`.
+- Auto Scaling groups in an account that are `NotOptimized`, or `Optimized`.
+- Amazon EBS volumes in an account that are `NotOptimized`, or `Optimized`.
+- Lambda functions in an account that are `NotOptimized`, or `Optimized`.
+- Amazon ECS services in an account that are `Underprovisioned`, `Overprovisioned`, or
+  `Optimized`.
 
 # Optional Parameters
 
@@ -1561,7 +1594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If your account is the management account of an organization, use this parameter to
   specify the member account for which you want to return recommendation summaries.
 
-Only one account ID can be specified per request.
+  Only one account ID can be specified per request.
 - `"maxResults"`: The maximum number of recommendation summaries to return with a single
   request.
 
@@ -1574,6 +1607,7 @@ function get_recommendation_summaries(; aws_config::AbstractAWSConfig=current_aw
         "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_recommendation_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1599,9 +1633,9 @@ in the *Compute Optimizer User Guide*.
 
 - `resource_type`: The target resource type of the recommendation preference to create.
 
-  The `Ec2Instance` option encompasses standalone instances and instances that are part of
-  Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
-  part of an Auto Scaling group.
+  The `Ec2Instance` option encompasses standalone instances and instances that are part
+  of Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that
+  are part of an Auto Scaling group.
 
 # Optional Parameters
 
@@ -1618,24 +1652,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"externalMetricsPreference"`: The provider of the external metrics recommendation
   preference to create or update.
 
-  Specify a valid provider in the `source` field to activate the preference. To delete this
-  preference, see the [`delete_recommendation_preferences`](@ref) action.
+  Specify a valid provider in the `source` field to activate the preference. To delete
+  this preference, see the [`delete_recommendation_preferences`](@ref) action.
 
   This preference can only be set for the `Ec2Instance` resource type.
 
   For more information, see [External metrics ingestion](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html)
   in the *Compute Optimizer User Guide*.
 - `"inferredWorkloadTypes"`: The status of the inferred workload types recommendation
-  preference to create or update.</p>
+  preference to create or update.
 
   !!! note
       The inferred workload type feature is active by default. To deactivate it, create a
-  recommendation preference.Specify the `Inactive` status to deactivate the feature, or
-  specify `Active` to activate it.
+      recommendation preference.
 
-   <p>For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html)
+  Specify the `Inactive` status to deactivate the feature, or specify `Active` to
+  activate it.
+
+  For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html)
   in the *Compute Optimizer User Guide*.
-- `"lookBackPeriod"`:  The preference to control the number of days the utilization metrics
+- `"lookBackPeriod"`: The preference to control the number of days the utilization metrics
   of the Amazon Web Services resource are analyzed. When this preference isn't specified,
   we use the default value `DAYS_14`.
 
@@ -1644,9 +1680,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       - Amazon EC2 instance lookback preferences can be set at the organization, account,
-  and resource levels.
-   - Auto Scaling group lookback preferences can only be set at the resource level.
-- `"preferredResources"`:  The preference to control which resource type values are
+        and resource levels.
+      - Auto Scaling group lookback preferences can only be set at the resource level.
+
+- `"preferredResources"`: The preference to control which resource type values are
   considered when generating rightsizing recommendations. You can specify this preference
   as a combination of include and exclude lists. You must specify either an `includeList`
   or `excludeList`. If the preference is an empty set of resource type values, an error
@@ -1654,9 +1691,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You can only set this preference for the Amazon EC2 instance and Auto Scaling group
-  resource types.
-- `"savingsEstimationMode"`:  The status of the savings estimation mode preference to
-  create or update.
+      resource types.
+
+- `"savingsEstimationMode"`: The status of the savings estimation mode preference to create
+  or update.
 
   Specify the `AfterDiscounts` status to activate the preference, or specify
   `BeforeDiscounts` to deactivate the preference.
@@ -1664,7 +1702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Only the account manager or delegated administrator of your organization can activate
   this preference.
 
-  For more information, see [ Savings estimation mode](https://docs.aws.amazon.com/compute-optimizer/latest/ug/savings-estimation-mode.html)
+  For more information, see [Savings estimation mode](https://docs.aws.amazon.com/compute-optimizer/latest/ug/savings-estimation-mode.html)
   in the *Compute Optimizer User Guide*.
 - `"scope"`: An object that describes the scope of the recommendation preference to create.
 
@@ -1675,26 +1713,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You cannot create recommendation preferences for Auto Scaling groups at the
-  organization and account levels. You can create recommendation preferences for Auto
-  Scaling groups only at the resource level by specifying a scope name of `ResourceArn` and
-  a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure
-  the preference for all instances that are part of the specified Auto Scaling group. You
-  also cannot create recommendation preferences at the resource level for instances that
-  are part of an Auto Scaling group. You can create recommendation preferences at the
-  resource level only for standalone instances.
-- `"utilizationPreferences"`:  The preference to control the resource’s CPU utilization
+      organization and account levels. You can create recommendation preferences for Auto
+      Scaling groups only at the resource level by specifying a scope name of
+      `ResourceArn` and a scope value of the Auto Scaling group Amazon Resource Name
+      (ARN). This will configure the preference for all instances that are part of the
+      specified Auto Scaling group. You also cannot create recommendation preferences at
+      the resource level for instances that are part of an Auto Scaling group. You can
+      create recommendation preferences at the resource level only for standalone
+      instances.
+
+- `"utilizationPreferences"`: The preference to control the resource’s CPU utilization
   threshold, CPU utilization headroom, and memory utilization headroom. When this
   preference isn't specified, we use the following default values.
 
-  CPU utilization: - `P99_5` for threshold
-   - `PERCENT_20` for headroom
-  Memory utilization: - `PERCENT_20` for headroom
+  CPU utilization:
 
+  - `P99_5` for threshold
+  - `PERCENT_20` for headroom
+
+  Memory utilization:
+
+  - `PERCENT_20` for headroom
 
   !!! note
-      - You can only set CPU and memory utilization preferences for the Amazon EC2 instance
-  resource type.
- - The threshold setting isn’t available for memory utilization.
+      - You can only set CPU and memory utilization preferences for the Amazon EC2
+        instance resource type.
+      - The threshold setting isn’t available for memory utilization.
+
 """
 function put_recommendation_preferences(
     resourceType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1706,6 +1751,7 @@ function put_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
@@ -1743,20 +1789,20 @@ in the *Compute Optimizer User Guide*.
 
 - `status`: The new enrollment status of the account.
 
-  The following status options are available: - `Active` - Opts in your account to the
-  Compute Optimizer service. Compute Optimizer begins analyzing the configuration and
-  utilization metrics of your Amazon Web Services resources after you opt in. For more
-  information, see [Metrics analyzed by Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html)
-  in the *Compute Optimizer User Guide*.
-   - `Inactive` - Opts out your account from the Compute Optimizer service. Your account's
-  recommendations and related metrics data will be deleted from Compute Optimizer after you
-  opt out.
+  The following status options are available:
 
+  - `Active` - Opts in your account to the Compute Optimizer service. Compute Optimizer
+    begins analyzing the configuration and utilization metrics of your Amazon Web
+    Services resources after you opt in. For more information, see [Metrics analyzed by Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html)
+    in the *Compute Optimizer User Guide*.
+  - `Inactive` - Opts out your account from the Compute Optimizer service. Your account's
+    recommendations and related metrics data will be deleted from Compute Optimizer after
+    you opt out.
 
   !!! note
-      The `Pending` and `Failed` options cannot be used to update the enrollment status of
-  an account. They are returned in the response of a request to update the enrollment
-  status of an account.
+      The `Pending` and `Failed` options cannot be used to update the enrollment status
+      of an account. They are returned in the response of a request to update the
+      enrollment status of an account.
 
 # Optional Parameters
 
@@ -1775,6 +1821,7 @@ function update_enrollment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_enrollment_status(
     status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

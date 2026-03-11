@@ -44,6 +44,7 @@ function create_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -101,6 +102,7 @@ function create_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -157,6 +159,7 @@ function create_dedicated_ip_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -182,8 +185,8 @@ predict how your messages will be handled by various email providers around the 
 you perform a predictive inbox placement test, you provide a sample message that contains
 the content that you plan to send to your customers. Amazon Pinpoint then sends that
 message to special email addresses spread across several major email providers. After about
-24 hours, the test is complete, and you can use the `GetDeliverabilityTestReport` operation
-to view the results of the test.
+24 hours, the test is complete, and you can use the [`get_deliverability_test_report`](@ref)
+operation to view the results of the test.
 
 # Arguments
 
@@ -212,6 +215,7 @@ function create_deliverability_test_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deliverability_test_report(
     Content,
     FromEmailAddress,
@@ -276,6 +280,7 @@ function create_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -317,6 +322,7 @@ function delete_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -361,6 +367,7 @@ function delete_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -396,6 +403,7 @@ function delete_dedicated_ip_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -432,6 +440,7 @@ function delete_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -458,6 +467,7 @@ function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/email/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -493,6 +503,7 @@ function get_blacklist_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_blacklist_reports(
     BlacklistItemNames,
     params::AbstractDict{String};
@@ -538,6 +549,7 @@ function get_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -579,6 +591,7 @@ function get_configuration_set_event_destinations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_set_event_destinations(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -615,6 +628,7 @@ function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dedicated_ip(
     IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -640,9 +654,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `GetDedicatedIps` to indicate the
   position of the dedicated IP pool in the list of IP pools.
 - `"PageSize"`: The number of results to show in a single call to `GetDedicatedIpsRequest`.
-  If the number of results is larger than the number you specified in this parameter, then
-  the response includes a `NextToken` element, which you can use to obtain additional
-  results.
+  If the number of results is larger than the number you specified in this parameter,
+  then the response includes a `NextToken` element, which you can use to obtain
+  additional results.
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
 function get_dedicated_ips(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -653,6 +667,7 @@ function get_dedicated_ips(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dedicated_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -689,6 +704,7 @@ function get_deliverability_dashboard_options(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deliverability_dashboard_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -721,6 +737,7 @@ function get_deliverability_test_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deliverability_test_report(
     ReportId,
     params::AbstractDict{String};
@@ -741,14 +758,14 @@ end
 
 Retrieve all the deliverability data for a specific campaign. This data is available for a
 campaign only if the campaign sent email by using a domain that the Deliverability
-dashboard is enabled for (`PutDeliverabilityDashboardOption` operation).
+dashboard is enabled for ([`put_deliverability_dashboard_option`](@ref) operation).
 
 # Arguments
 
 - `campaign_id`: The unique identifier for the campaign. Amazon Pinpoint automatically
   generates and assigns this identifier to a campaign. This value is not the same as the
-  campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage
-  by using the Amazon Pinpoint API or the Amazon Pinpoint console.
+  campaign identifier that Amazon Pinpoint assigns to campaigns that you create and
+  manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
 """
 function get_domain_deliverability_campaign(
     CampaignId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -760,6 +777,7 @@ function get_domain_deliverability_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_deliverability_campaign(
     CampaignId,
     params::AbstractDict{String};
@@ -784,8 +802,8 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 
 - `domain`: The domain that you want to obtain deliverability metrics for.
 - `end_date`: The last day (in Unix time) that you want to obtain domain deliverability
-  metrics for. The `EndDate` that you specify has to be less than or equal to 30 days after
-  the `StartDate`.
+  metrics for. The `EndDate` that you specify has to be less than or equal to 30 days
+  after the `StartDate`.
 - `start_date`: The first day (in Unix time) that you want to obtain domain deliverability
   metrics for.
 """
@@ -800,6 +818,7 @@ function get_domain_statistics_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_statistics_report(
     Domain,
     EndDate,
@@ -844,6 +863,7 @@ function get_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -877,9 +897,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `ListConfigurationSets` to
   indicate the position in the list of configuration sets.
 - `"PageSize"`: The number of results to show in a single call to `ListConfigurationSets`.
-  If the number of results is larger than the number you specified in this parameter, then
-  the response includes a `NextToken` element, which you can use to obtain additional
-  results.
+  If the number of results is larger than the number you specified in this parameter,
+  then the response includes a `NextToken` element, which you can use to obtain
+  additional results.
 """
 function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
@@ -889,6 +909,7 @@ function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -915,9 +936,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `ListDedicatedIpPools` to
   indicate the position in the list of dedicated IP pools.
 - `"PageSize"`: The number of results to show in a single call to `ListDedicatedIpPools`.
-  If the number of results is larger than the number you specified in this parameter, then
-  the response includes a `NextToken` element, which you can use to obtain additional
-  results.
+  If the number of results is larger than the number you specified in this parameter,
+  then the response includes a `NextToken` element, which you can use to obtain
+  additional results.
 """
 function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
@@ -927,6 +948,7 @@ function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dedicated_ip_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,8 +966,8 @@ end
     list_deliverability_test_reports(params::Dict{String,<:Any})
 
 Show a list of the predictive inbox placement tests that you've performed, regardless of
-their statuses. For predictive inbox placement tests that are complete, you can use the
-`GetDeliverabilityTestReport` operation to view the results.
+their statuses. For predictive inbox placement tests that are complete, you can use the [`get_deliverability_test_report`](@ref)
+operation to view the results.
 
 # Optional Parameters
 
@@ -955,10 +977,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate the position in the list of predictive inbox placement tests.
 - `"PageSize"`: The number of results to show in a single call to
   `ListDeliverabilityTestReports`. If the number of results is larger than the number you
-  specified in this parameter, then the response includes a `NextToken` element, which you
-  can use to obtain additional results.
+  specified in this parameter, then the response includes a `NextToken` element, which
+  you can use to obtain additional results.
 
-The value you specify has to be at least 0, and can be no more than 1000.
+  The value you specify has to be at least 0, and can be no more than 1000.
 """
 function list_deliverability_test_reports(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -970,6 +992,7 @@ function list_deliverability_test_reports(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deliverability_test_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -988,8 +1011,8 @@ end
 
 Retrieve deliverability data for all the campaigns that used a specific domain to send
 email during a specified time range. This data is available for a domain only if you
-enabled the Deliverability dashboard (`PutDeliverabilityDashboardOption` operation) for the
-domain.
+enabled the Deliverability dashboard ([`put_deliverability_dashboard_option`](@ref)
+operation) for the domain.
 
 # Arguments
 
@@ -1004,13 +1027,12 @@ domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: A token that’s returned from a previous call to the
-  `ListDomainDeliverabilityCampaigns` operation. This token indicates the position of a
-  campaign in the list of campaigns.
+- `"NextToken"`: A token that’s returned from a previous call to the [`list_domain_deliverability_campaigns`](@ref)
+  operation. This token indicates the position of a campaign in the list of campaigns.
 - `"PageSize"`: The maximum number of results to include in response to a single call to
-  the `ListDomainDeliverabilityCampaigns` operation. If the number of results is larger
-  than the number that you specify in this parameter, the response includes a `NextToken`
-  element, which you can use to obtain additional results.
+  the [`list_domain_deliverability_campaigns`](@ref) operation. If the number of results
+  is larger than the number that you specify in this parameter, the response includes a
+  `NextToken` element, which you can use to obtain additional results.
 """
 function list_domain_deliverability_campaigns(
     EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1023,6 +1045,7 @@ function list_domain_deliverability_campaigns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_deliverability_campaigns(
     EndDate,
     StartDate,
@@ -1060,10 +1083,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `ListEmailIdentities` to indicate
   the position in the list of identities.
 - `"PageSize"`: The number of results to show in a single call to `ListEmailIdentities`. If
-  the number of results is larger than the number you specified in this parameter, then the
-  response includes a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified in this parameter, then
+  the response includes a `NextToken` element, which you can use to obtain additional
+  results.
 
-The value you specify has to be at least 0, and can be no more than 1000.
+  The value you specify has to be at least 0, and can be no more than 1000.
 """
 function list_email_identities(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
@@ -1073,6 +1097,7 @@ function list_email_identities(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_email_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1111,6 +1136,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1152,6 +1178,7 @@ function put_account_dedicated_ip_warmup_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_dedicated_ip_warmup_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1179,7 +1206,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If AWS paused your account's ability to send email, you can't use this operation to
-  resume your account's ability to send email.
+      resume your account's ability to send email.
+
 """
 function put_account_sending_attributes(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1191,6 +1219,7 @@ function put_account_sending_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_sending_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1236,6 +1265,7 @@ function put_configuration_set_delivery_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_delivery_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1280,6 +1310,7 @@ function put_configuration_set_reputation_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_reputation_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1323,6 +1354,7 @@ function put_configuration_set_sending_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_sending_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1365,6 +1397,7 @@ function put_configuration_set_tracking_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_tracking_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1383,14 +1416,14 @@ end
     put_dedicated_ip_in_pool(destination_pool_name, ip)
     put_dedicated_ip_in_pool(destination_pool_name, ip, params::Dict{String,<:Any})
 
-Move a dedicated IP address to an existing dedicated IP pool.</p>
+Move a dedicated IP address to an existing dedicated IP pool.
 
 !!! note
     The dedicated IP address that you specify must already exist, and must be associated
-with your Amazon Pinpoint account.
+    with your Amazon Pinpoint account.
 
- <p>The dedicated IP pool you specify must already exist. You can create a new pool by
-using the `CreateDedicatedIpPool` operation.
+    The dedicated IP pool you specify must already exist. You can create a new pool by
+    using the [`create_dedicated_ip_pool`](@ref) operation.
 
 # Arguments
 
@@ -1411,6 +1444,7 @@ function put_dedicated_ip_in_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dedicated_ip_in_pool(
     DestinationPoolName,
     IP,
@@ -1436,7 +1470,6 @@ end
     put_dedicated_ip_warmup_attributes(ip, warmup_percentage)
     put_dedicated_ip_warmup_attributes(ip, warmup_percentage, params::Dict{String,<:Any})
 
-<p/>
 
 # Arguments
 
@@ -1455,6 +1488,7 @@ function put_dedicated_ip_warmup_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dedicated_ip_warmup_attributes(
     IP,
     WarmupPercentage,
@@ -1510,6 +1544,7 @@ function put_deliverability_dashboard_option(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_deliverability_dashboard_option(
     DashboardEnabled,
     params::AbstractDict{String};
@@ -1558,6 +1593,7 @@ function put_email_identity_dkim_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_dkim_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1606,10 +1642,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified in the Return-Path header of the original email.
 
   When you set this value to `false`, Amazon Pinpoint sends notifications through other
-  mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're
-  required to have a method of tracking bounces and complaints. If you haven't set up
-  another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends
-  an email notification when these events occur (even if this setting is disabled).
+  mechanisms, such as by notifying an Amazon SNS topic or another event destination.
+  You're required to have a method of tracking bounces and complaints. If you haven't set
+  up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint
+  sends an email notification when these events occur (even if this setting is disabled).
 """
 function put_email_identity_feedback_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1621,6 +1657,7 @@ function put_email_identity_feedback_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_feedback_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1652,18 +1689,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"BehaviorOnMxFailure"`: The action that you want Amazon Pinpoint to take if it can't
   read the required MX record when you send an email. When you set this value to
-  `UseDefaultValue`, Amazon Pinpoint uses *amazonses.com* as the MAIL FROM domain. When you
-  set this value to `RejectMessage`, Amazon Pinpoint returns a `MailFromDomainNotVerified`
-  error, and doesn't attempt to deliver the email.
+  `UseDefaultValue`, Amazon Pinpoint uses *amazonses.com* as the MAIL FROM domain. When
+  you set this value to `RejectMessage`, Amazon Pinpoint returns a
+  `MailFromDomainNotVerified` error, and doesn't attempt to deliver the email.
 
   These behaviors are taken when the custom MAIL FROM domain configuration is in the
   `Pending`, `Failed`, and `TemporaryFailure` states.
-- `"MailFromDomain"`:  The custom MAIL FROM domain that you want the verified identity to
-  use. The MAIL FROM domain must meet the following criteria: - It has to be a subdomain of
-  the verified identity.
-   - It can't be used to receive email.
-   - It can't be used in a "From" address if the MAIL FROM domain is a destination for
-  feedback forwarding emails.
+- `"MailFromDomain"`: The custom MAIL FROM domain that you want the verified identity to
+  use. The MAIL FROM domain must meet the following criteria:
+
+  - It has to be a subdomain of the verified identity.
+  - It can't be used to receive email.
+  - It can't be used in a "From" address if the MAIL FROM domain is a destination for
+    feedback forwarding emails.
+
 """
 function put_email_identity_mail_from_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1675,6 +1714,7 @@ function put_email_identity_mail_from_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_mail_from_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1694,13 +1734,15 @@ end
     send_email(content, destination, params::Dict{String,<:Any})
 
 Sends an email message. You can use the Amazon Pinpoint Email API to send two types of
-messages: - **Simple** – A standard email message. When you create this type of message,
-you specify the sender, the recipient, and the message body, and Amazon Pinpoint assembles
-the message for you.
- - **Raw** – A raw, MIME-formatted email message. When you send this type of email, you
-have to specify all of the message headers, as well as the message body. You can use this
-message type to send messages that contain attachments. The message that you specify has to
-be a valid MIME message.
+messages:
+
+- **Simple** – A standard email message. When you create this type of message, you specify
+  the sender, the recipient, and the message body, and Amazon Pinpoint assembles the
+  message for you.
+- **Raw** – A raw, MIME-formatted email message. When you send this type of email, you have
+  to specify all of the message headers, as well as the message body. You can use this
+  message type to send messages that contain attachments. The message that you specify has
+  to be a valid MIME message.
 
 # Arguments
 
@@ -1715,8 +1757,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetName"`: The name of the configuration set that you want to use when
   sending the email.
 - `"EmailTags"`: A list of tags, in the form of name/value pairs, to apply to an email that
-  you send using the `SendEmail` operation. Tags correspond to characteristics of the email
-  that you define, so that you can publish email sending events.
+  you send using the [`send_email`](@ref) operation. Tags correspond to characteristics
+  of the email that you define, so that you can publish email sending events.
 - `"FeedbackForwardingEmailAddress"`: The address that Amazon Pinpoint should send bounce
   and complaint notifications to.
 - `"FromEmailAddress"`: The email address that you want to use as the "From" address for
@@ -1735,6 +1777,7 @@ function send_email(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_email(
     Content,
     Destination,
@@ -1786,6 +1829,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1835,6 +1879,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1889,6 +1934,7 @@ function update_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,

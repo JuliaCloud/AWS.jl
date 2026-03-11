@@ -29,8 +29,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unanswered questions into AWS support tickets.
 - `"tags"`: The list of tags associated with the private re:Post.
 - `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't
-  provide a key, your data is encrypted by default with a key that AWS owns and manages for
-  you.
+  provide a key, your data is encrypted by default with a key that AWS owns and manages
+  for you.
 """
 function create_space(
     name, subdomain, tier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -43,6 +43,7 @@ function create_space(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_space(
     name,
     subdomain,
@@ -83,6 +84,7 @@ function delete_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_space(
     spaceId,
     params::AbstractDict{String};
@@ -118,6 +120,7 @@ function deregister_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_admin(
     adminId,
     spaceId,
@@ -148,6 +151,7 @@ function get_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_space(
     spaceId,
     params::AbstractDict{String};
@@ -182,6 +186,7 @@ function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -211,6 +216,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -246,6 +252,7 @@ function register_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_admin(
     adminId,
     spaceId,
@@ -285,6 +292,7 @@ function send_invites(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_invites(
     accessorIds,
     body,
@@ -324,8 +332,8 @@ replaces the previous value for that tag.
 
 - `resource_arn`: The ARN of the resource that the tag is associated with.
 - `tags`: The list of tag keys and values that must be associated with the resource. You
-  can associate tag keys only, tags (key and values) only, or a combination of tag keys and
-  tags.
+  can associate tag keys only, tags (key and values) only, or a combination of tag keys
+  and tags.
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return repostspace(
@@ -336,6 +344,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -373,6 +382,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -413,6 +423,7 @@ function update_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config(
         "PUT", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_space(
     spaceId,
     params::AbstractDict{String};

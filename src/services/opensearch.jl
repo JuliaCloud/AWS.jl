@@ -25,6 +25,7 @@ function accept_inbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -68,6 +69,7 @@ function add_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_data_source(
     DataSourceType,
     DomainName,
@@ -112,6 +114,7 @@ function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     ARN,
     TagList,
@@ -151,6 +154,7 @@ function associate_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_package(
     DomainName,
     PackageID,
@@ -189,6 +193,7 @@ function authorize_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_vpc_endpoint_access(
     Account,
     DomainName,
@@ -231,6 +236,7 @@ function cancel_domain_config_change(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_domain_config_change(
     DomainName,
     params::AbstractDict{String};
@@ -269,6 +275,7 @@ function cancel_service_software_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -304,22 +311,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessPolicies"`: Identity and Access Management (IAM) policy document specifying the
   access policies for the new domain.
 - `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The
-  following key-value pairs are supported: - `"rest.action.multi.allow_explicit_index":
-  "true" | "false"` - Note the use of a string rather than a boolean. Specifies whether
-  explicit references to indexes are allowed inside the body of HTTP requests. If you want
-  to configure access policies for domain sub-resources, such as specific indexes and
-  domain APIs, you must disable this property. Default is true.
-   - `"indices.fielddata.cache.size": "80" ` - Note the use of a string rather than a
-  boolean. Specifies the percentage of heap space allocated to field data. Default is
-  unbounded.
-   - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather than
-  a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query.
-  Default is 1,024. Queries with more than the permitted number of clauses result in a
-  `TooManyClauses` error.
-   - `"override_main_response_version": "true" | "false"` - Note the use of a string rather
-  than a boolean. Specifies whether the domain reports its version as 7.10 to allow
-  Elasticsearch OSS clients and plugins to continue working with it. Default is false when
-  creating a domain and true when upgrading a domain.
+  following key-value pairs are supported:
+
+  - `"rest.action.multi.allow_explicit_index": "true" | "false"` - Note the use of a
+    string rather than a boolean. Specifies whether explicit references to indexes are
+    allowed inside the body of HTTP requests. If you want to configure access policies
+    for domain sub-resources, such as specific indexes and domain APIs, you must disable
+    this property. Default is true.
+  - `"indices.fielddata.cache.size": "80"` - Note the use of a string rather than a
+    boolean. Specifies the percentage of heap space allocated to field data. Default is
+    unbounded.
+  - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather
+    than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean
+    query. Default is 1,024. Queries with more than the permitted number of clauses
+    result in a `TooManyClauses` error.
+  - `"override_main_response_version": "true" | "false"` - Note the use of a string
+    rather than a boolean. Specifies whether the domain reports its version as 7.10 to
+    allow Elasticsearch OSS clients and plugins to continue working with it. Default is
+    false when creating a domain and true when upgrading a domain.
+
   For more information, see [Advanced cluster parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
 - `"AdvancedSecurityOptions"`: Options for fine-grained access control.
 - `"AutoTuneOptions"`: Options for Auto-Tune.
@@ -336,8 +346,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `Elasticsearch_7.9`. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
 - `"IPAddressType"`: Specify either dual stack or IPv4 as your IP address type. Dual stack
   allows you to share domain resources across IPv4 and IPv6 address types, and is the
-  recommended option. If you set your IP address type to dual stack, you can't change your
-  address type later.
+  recommended option. If you set your IP address type to dual stack, you can't change
+  your address type later.
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
 - `"NodeToNodeEncryptionOptions"`: Enables node-to-node encryption.
 - `"OffPeakWindowOptions"`: Specifies a daily 10-hour time block during which OpenSearch
@@ -350,8 +360,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SoftwareUpdateOptions"`: Software update options for the domain.
 - `"TagList"`: List of tags to add to the domain upon creation.
 - `"VPCOptions"`: Container for the values required to configure VPC access domains. If you
-  don't specify these values, OpenSearch Service creates the domain with a public endpoint.
-  For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
+  don't specify these values, OpenSearch Service creates the domain with a public
+  endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
 """
 function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
@@ -362,6 +372,7 @@ function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     DomainName,
     params::AbstractDict{String};
@@ -416,6 +427,7 @@ function create_outbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_outbound_connection(
     ConnectionAlias,
     LocalDomainInfo,
@@ -479,6 +491,7 @@ function create_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package(
     PackageName,
     PackageSource,
@@ -533,6 +546,7 @@ function create_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint(
     DomainArn,
     VpcOptions,
@@ -575,6 +589,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     DataSourceName,
     DomainName,
@@ -609,6 +624,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -644,6 +660,7 @@ function delete_inbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -679,6 +696,7 @@ function delete_outbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_outbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -712,6 +730,7 @@ function delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package(
     PackageID,
     params::AbstractDict{String};
@@ -746,6 +765,7 @@ function delete_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoint(
     VpcEndpointId,
     params::AbstractDict{String};
@@ -779,6 +799,7 @@ function describe_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain(
     DomainName,
     params::AbstractDict{String};
@@ -810,8 +831,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial `DescribeDomainAutoTunes` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `DescribeDomainAutoTunes`
+- `"NextToken"`: If your initial [`describe_domain_auto_tunes`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_domain_auto_tunes`](@ref)
   operations, which returns results in the next page.
 """
 function describe_domain_auto_tunes(
@@ -824,6 +845,7 @@ function describe_domain_auto_tunes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_auto_tunes(
     DomainName,
     params::AbstractDict{String};
@@ -866,6 +888,7 @@ function describe_domain_change_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_change_progress(
     DomainName,
     params::AbstractDict{String};
@@ -901,6 +924,7 @@ function describe_domain_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -936,6 +960,7 @@ function describe_domain_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_health(
     DomainName,
     params::AbstractDict{String};
@@ -971,6 +996,7 @@ function describe_domain_nodes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_nodes(
     DomainName,
     params::AbstractDict{String};
@@ -1006,6 +1032,7 @@ function describe_domains(DomainNames; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domains(
     DomainNames,
     params::AbstractDict{String};
@@ -1052,6 +1079,7 @@ function describe_dry_run_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dry_run_progress(
     DomainName,
     params::AbstractDict{String};
@@ -1077,13 +1105,13 @@ OpenSearch Service domain. For more information, see [Cross-cluster search for A
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`:  A list of filters used to match properties for inbound cross-cluster
+- `"Filters"`: A list of filters used to match properties for inbound cross-cluster
   connections.
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial `DescribeInboundConnections` operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent
-  `DescribeInboundConnections` operations, which returns results in the next page.
+- `"NextToken"`: If your initial [`describe_inbound_connections`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_inbound_connections`](@ref)
+  operations, which returns results in the next page.
 """
 function describe_inbound_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
@@ -1093,6 +1121,7 @@ function describe_inbound_connections(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inbound_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1136,6 +1165,7 @@ function describe_instance_type_limits(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_type_limits(
     EngineVersion,
     InstanceType,
@@ -1165,9 +1195,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: List of filter names and values that you can use for requests.
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial `DescribeOutboundConnections` operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent
-  `DescribeOutboundConnections` operations, which returns results in the next page.
+- `"NextToken"`: If your initial [`describe_outbound_connections`](@ref) operation returns
+  a `nextToken`, you can include the returned `nextToken` in subsequent [`describe_outbound_connections`](@ref)
+  operations, which returns results in the next page.
 """
 function describe_outbound_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
@@ -1177,6 +1207,7 @@ function describe_outbound_connections(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_outbound_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1202,8 +1233,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Only returns packages that match the `DescribePackagesFilterList` values.
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial `DescribePackageFilters` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `DescribePackageFilters`
+- `"NextToken"`: If your initial [`describe_package_filters`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_package_filters`](@ref)
   operations, which returns results in the next page.
 """
 function describe_packages(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1214,6 +1245,7 @@ function describe_packages(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1239,9 +1271,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `DescribeReservedInstanceOfferings` operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent
-  `DescribeReservedInstanceOfferings` operations, which returns results in the next page.
+- `"nextToken"`: If your initial [`describe_reserved_instance_offerings`](@ref) operation
+  returns a `nextToken`, you can include the returned `nextToken` in subsequent [`describe_reserved_instance_offerings`](@ref)
+  operations, which returns results in the next page.
 - `"offeringId"`: The Reserved Instance identifier filter value. Use this parameter to show
   only the available instance types that match the specified reservation identifier.
 """
@@ -1255,6 +1287,7 @@ function describe_reserved_instance_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_instance_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1280,9 +1313,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `DescribeReservedInstances` operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent
-  `DescribeReservedInstances` operations, which returns results in the next page.
+- `"nextToken"`: If your initial [`describe_reserved_instances`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_reserved_instances`](@ref)
+  operations, which returns results in the next page.
 - `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
   show only the reservation that matches the specified reserved OpenSearch instance ID.
 """
@@ -1294,6 +1327,7 @@ function describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1327,6 +1361,7 @@ function describe_vpc_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoints(
     VpcEndpointIds,
     params::AbstractDict{String};
@@ -1367,6 +1402,7 @@ function dissociate_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function dissociate_package(
     DomainName,
     PackageID,
@@ -1404,6 +1440,7 @@ function get_compatible_versions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compatible_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1437,6 +1474,7 @@ function get_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     DataSourceName,
     DomainName,
@@ -1474,6 +1512,7 @@ function get_domain_maintenance_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_maintenance_status(
     DomainName,
     maintenanceId,
@@ -1509,9 +1548,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `GetPackageVersionHistory` operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent
-  `GetPackageVersionHistory` operations, which returns results in the next page.
+- `"nextToken"`: If your initial [`get_package_version_history`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`get_package_version_history`](@ref)
+  operations, which returns results in the next page.
 """
 function get_package_version_history(
     PackageID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1523,6 +1562,7 @@ function get_package_version_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package_version_history(
     PackageID,
     params::AbstractDict{String};
@@ -1554,9 +1594,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `GetUpgradeHistory` operation returns a `nextToken`, you
-  can include the returned `nextToken` in subsequent `GetUpgradeHistory` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`get_upgrade_history`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`get_upgrade_history`](@ref)
+  operations, which returns results in the next page.
 """
 function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
@@ -1566,6 +1606,7 @@ function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upgrade_history(
     DomainName,
     params::AbstractDict{String};
@@ -1599,6 +1640,7 @@ function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upgrade_status(
     DomainName,
     params::AbstractDict{String};
@@ -1632,6 +1674,7 @@ function list_data_sources(DomainName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     DomainName,
     params::AbstractDict{String};
@@ -1663,9 +1706,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The name of the action.
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListDomainMaintenances` operation returns a `nextToken`,
-  include the returned `nextToken` in subsequent `ListDomainMaintenances` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`list_domain_maintenances`](@ref) operation returns a
+  `nextToken`, include the returned `nextToken` in subsequent [`list_domain_maintenances`](@ref)
+  operations, which returns results in the next page.
 - `"status"`: The status of the action.
 """
 function list_domain_maintenances(
@@ -1678,6 +1721,7 @@ function list_domain_maintenances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_maintenances(
     DomainName,
     params::AbstractDict{String};
@@ -1710,6 +1754,7 @@ function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2021-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1739,8 +1784,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListDomainsForPackage` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListDomainsForPackage`
+- `"nextToken"`: If your initial [`list_domains_for_package`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_domains_for_package`](@ref)
   operations, which returns results in the next page.
 """
 function list_domains_for_package(
@@ -1753,6 +1798,7 @@ function list_domains_for_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domains_for_package(
     PackageID,
     params::AbstractDict{String};
@@ -1787,8 +1833,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"instanceType"`: An optional parameter that lists information for a given instance type.
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListInstanceTypeDetails` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListInstanceTypeDetails`
+- `"nextToken"`: If your initial [`list_instance_type_details`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_instance_type_details`](@ref)
   operations, which returns results in the next page.
 - `"retrieveAZs"`: An optional parameter that specifies the Availability Zones for the
   domain.
@@ -1803,6 +1849,7 @@ function list_instance_type_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instance_type_details(
     EngineVersion,
     params::AbstractDict{String};
@@ -1834,8 +1881,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListPackagesForDomain` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListPackagesForDomain`
+- `"nextToken"`: If your initial [`list_packages_for_domain`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_packages_for_domain`](@ref)
   operations, which returns results in the next page.
 """
 function list_packages_for_domain(
@@ -1848,6 +1895,7 @@ function list_packages_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_packages_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1880,9 +1928,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListScheduledActions` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListScheduledActions` operations,
-  which returns results in the next page.
+- `"nextToken"`: If your initial [`list_scheduled_actions`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_scheduled_actions`](@ref)
+  operations, which returns results in the next page.
 """
 function list_scheduled_actions(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1894,6 +1942,7 @@ function list_scheduled_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scheduled_actions(
     DomainName,
     params::AbstractDict{String};
@@ -1928,6 +1977,7 @@ function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1952,9 +2002,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListVersions` operation returns a `nextToken`, you can
-  include the returned `nextToken` in subsequent `ListVersions` operations, which returns
-  results in the next page.
+- `"nextToken"`: If your initial [`list_versions`](@ref) operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent [`list_versions`](@ref)
+  operations, which returns results in the next page.
 """
 function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
@@ -1964,6 +2014,7 @@ function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1992,8 +2043,8 @@ given Amazon OpenSearch Service domain through the use of an interface VPC endpo
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: If your initial `ListVpcEndpointAccess` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListVpcEndpointAccess`
+- `"nextToken"`: If your initial [`list_vpc_endpoint_access`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_vpc_endpoint_access`](@ref)
   operations, which returns results in the next page.
 """
 function list_vpc_endpoint_access(
@@ -2006,6 +2057,7 @@ function list_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoint_access(
     DomainName,
     params::AbstractDict{String};
@@ -2031,9 +2083,9 @@ Services account and Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: If your initial `ListVpcEndpoints` operation returns a `nextToken`, you
-  can include the returned `nextToken` in subsequent `ListVpcEndpoints` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`list_vpc_endpoints`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_vpc_endpoints`](@ref)
+  operations, which returns results in the next page.
 """
 function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
@@ -2043,6 +2095,7 @@ function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2070,8 +2123,8 @@ domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: If your initial `ListEndpointsForDomain` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListEndpointsForDomain`
+- `"nextToken"`: If your initial [`list_endpoints_for_domain`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_endpoints_for_domain`](@ref)
   operations, which returns results in the next page.
 """
 function list_vpc_endpoints_for_domain(
@@ -2084,6 +2137,7 @@ function list_vpc_endpoints_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoints_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -2131,6 +2185,7 @@ function purchase_reserved_instance_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_instance_offering(
     ReservationName,
     ReservedInstanceOfferingId,
@@ -2176,6 +2231,7 @@ function reject_inbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -2195,7 +2251,7 @@ end
     remove_tags(arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the specified set of tags from an Amazon OpenSearch Service domain. For more
-information, see [ Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
+information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
 
 # Arguments
 
@@ -2212,6 +2268,7 @@ function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     ARN,
     TagKeys,
@@ -2252,6 +2309,7 @@ function revoke_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_vpc_endpoint_access(
     Account,
     DomainName,
@@ -2296,6 +2354,7 @@ function start_domain_maintenance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_domain_maintenance(
     Action,
     DomainName,
@@ -2329,13 +2388,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DesiredStartTime"`: The Epoch timestamp when you want the service software update to
   start. You only need to specify this parameter if you set `ScheduleAt` to `TIMESTAMP`.
-- `"ScheduleAt"`: When to start the service software update. - `NOW` - Immediately
-  schedules the update to happen in the current hour if there's capacity available.
-   - `TIMESTAMP` - Lets you specify a custom date and time to apply the update. If you
-  specify this value, you must also provide a value for `DesiredStartTime`.
-   - `OFF_PEAK_WINDOW` - Marks the update to be picked up during an upcoming off-peak
-  window. There's no guarantee that the update will happen during the next immediate
-  window. Depending on capacity, it might happen in subsequent days.
+- `"ScheduleAt"`: When to start the service software update.
+
+  - `NOW` - Immediately schedules the update to happen in the current hour if there's
+    capacity available.
+  - `TIMESTAMP` - Lets you specify a custom date and time to apply the update. If you
+    specify this value, you must also provide a value for `DesiredStartTime`.
+  - `OFF_PEAK_WINDOW` - Marks the update to be picked up during an upcoming off-peak
+    window. There's no guarantee that the update will happen during the next immediate
+    window. Depending on capacity, it might happen in subsequent days.
+
   Default: `NOW` if you don't specify a value for `DesiredStartTime`, and `TIMESTAMP` if
   you do.
 """
@@ -2350,6 +2412,7 @@ function start_service_software_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -2399,6 +2462,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     DataSourceName,
     DataSourceType,
@@ -2435,18 +2499,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessPolicies"`: Identity and Access Management (IAM) access policy as a JSON-
   formatted string.
 - `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The
-  following key-value pairs are supported: - `"rest.action.multi.allow_explicit_index":
-  "true" | "false"` - Note the use of a string rather than a boolean. Specifies whether
-  explicit references to indexes are allowed inside the body of HTTP requests. If you want
-  to configure access policies for domain sub-resources, such as specific indexes and
-  domain APIs, you must disable this property. Default is true.
-   - `"indices.fielddata.cache.size": "80" ` - Note the use of a string rather than a
-  boolean. Specifies the percentage of heap space allocated to field data. Default is
-  unbounded.
-   - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather than
-  a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query.
-  Default is 1,024. Queries with more than the permitted number of clauses result in a
-  `TooManyClauses` error.
+  following key-value pairs are supported:
+
+  - `"rest.action.multi.allow_explicit_index": "true" | "false"` - Note the use of a
+    string rather than a boolean. Specifies whether explicit references to indexes are
+    allowed inside the body of HTTP requests. If you want to configure access policies
+    for domain sub-resources, such as specific indexes and domain APIs, you must disable
+    this property. Default is true.
+  - `"indices.fielddata.cache.size": "80"` - Note the use of a string rather than a
+    boolean. Specifies the percentage of heap space allocated to field data. Default is
+    unbounded.
+  - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather
+    than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean
+    query. Default is 1,024. Queries with more than the permitted number of clauses
+    result in a `TooManyClauses` error.
+
   For more information, see [Advanced cluster parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
 - `"AdvancedSecurityOptions"`: Options for fine-grained access control.
 - `"AutoTuneOptions"`: Options for Auto-Tune.
@@ -2459,10 +2526,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: This flag, when set to True, specifies whether the `UpdateDomain` request
   should return the results of a dry run analysis without actually applying the change. A
   dry run determines what type of deployment the update will cause.
-- `"DryRunMode"`: The type of dry run to perform. - `Basic` only returns the type of
-  deployment (blue/green or dynamic) that the update will cause.
-   - `Verbose` runs an additional check to validate the changes you're making. For more
-  information, see [Validating a domain update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check).
+- `"DryRunMode"`: The type of dry run to perform.
+
+  - `Basic` only returns the type of deployment (blue/green or dynamic) that the update
+    will cause.
+  - `Verbose` runs an additional check to validate the changes you're making. For more
+    information, see [Validating a domain update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check).
+
 - `"EBSOptions"`: The type and size of the EBS volume to attach to instances in the domain.
 - `"EncryptionAtRestOptions"`: Encryption at rest options for the domain.
 - `"IPAddressType"`: Specify either dual stack or IPv4 as your IP address type. Dual stack
@@ -2488,6 +2558,7 @@ function update_domain_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -2533,6 +2604,7 @@ function update_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package(
     PackageID,
     PackageSource,
@@ -2573,13 +2645,15 @@ or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-s
   `JVM_HEAP_SIZE_TUNING`, or `JVM_YOUNG_GEN_TUNING`. To retrieve this value, send a [ListScheduledActions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html)
   request.
 - `domain_name`: The name of the domain to reschedule an action for.
-- `schedule_at`: When to schedule the action. - `NOW` - Immediately schedules the update to
-  happen in the current hour if there's capacity available.
-   - `TIMESTAMP` - Lets you specify a custom date and time to apply the update. If you
-  specify this value, you must also provide a value for `DesiredStartTime`.
-   - `OFF_PEAK_WINDOW` - Marks the action to be picked up during an upcoming off-peak
-  window. There's no guarantee that the change will be implemented during the next
-  immediate window. Depending on capacity, it might happen in subsequent days.
+- `schedule_at`: When to schedule the action.
+
+  - `NOW` - Immediately schedules the update to happen in the current hour if there's
+    capacity available.
+  - `TIMESTAMP` - Lets you specify a custom date and time to apply the update. If you
+    specify this value, you must also provide a value for `DesiredStartTime`.
+  - `OFF_PEAK_WINDOW` - Marks the action to be picked up during an upcoming off-peak
+    window. There's no guarantee that the change will be implemented during the next
+    immediate window. Depending on capacity, it might happen in subsequent days.
 
 # Optional Parameters
 
@@ -2605,6 +2679,7 @@ function update_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduled_action(
     ActionID,
     ActionType,
@@ -2654,6 +2729,7 @@ function update_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_endpoint(
     VpcEndpointId,
     VpcOptions,
@@ -2695,9 +2771,9 @@ eligibility check to a compatible version of OpenSearch or Elasticsearch.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AdvancedOptions"`: Only supports the `override_main_response_version` parameter and not
-  other advanced options. You can only include this option when upgrading to an OpenSearch
-  version. Specifies whether the domain reports its version as 7.10 so that it continues to
-  work with Elasticsearch OSS clients and plugins.
+  other advanced options. You can only include this option when upgrading to an
+  OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it
+  continues to work with Elasticsearch OSS clients and plugins.
 - `"PerformCheckOnly"`: When true, indicates that an upgrade eligibility check needs to be
   performed. Does not actually perform the upgrade.
 """
@@ -2712,6 +2788,7 @@ function upgrade_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_domain(
     DomainName,
     TargetVersion,

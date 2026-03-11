@@ -23,8 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Reserved for future use.
 - `"instructionsDocuments"`: Specifies one or more locations in Amazon S3, each specifying
-  an EDI document that can be used with this capability. Each item contains the name of the
-  bucket and the key, to identify the document's location.
+  an EDI document that can be used with this capability. Each item contains the name of
+  the bucket and the key, to identify the document's location.
 - `"tags"`: Specifies the key-value pairs assigned to ARNs that you can use to group and
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
@@ -44,6 +44,7 @@ function create_capability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_capability(
     configuration,
     name,
@@ -112,6 +113,7 @@ function create_partnership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partnership(
     capabilities,
     email,
@@ -181,6 +183,7 @@ function create_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile(
     businessName,
     logging,
@@ -258,6 +261,7 @@ function create_transformer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transformer(
     ediType,
     fileFormat,
@@ -305,6 +309,7 @@ function delete_capability(capabilityId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_capability(
     capabilityId,
     params::AbstractDict{String};
@@ -341,6 +346,7 @@ function delete_partnership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_partnership(
     partnershipId,
     params::AbstractDict{String};
@@ -375,6 +381,7 @@ function delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile(
     profileId,
     params::AbstractDict{String};
@@ -411,6 +418,7 @@ function delete_transformer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transformer(
     transformerId,
     params::AbstractDict{String};
@@ -445,6 +453,7 @@ function get_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_capability(
     capabilityId,
     params::AbstractDict{String};
@@ -480,6 +489,7 @@ function get_partnership(partnershipId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_partnership(
     partnershipId,
     params::AbstractDict{String};
@@ -514,6 +524,7 @@ function get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile(
     profileId,
     params::AbstractDict{String};
@@ -549,6 +560,7 @@ function get_transformer(transformerId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transformer(
     transformerId,
     params::AbstractDict{String};
@@ -588,6 +600,7 @@ function get_transformer_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transformer_job(
     transformerId,
     transformerJobId,
@@ -630,6 +643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_capabilities(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListCapabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_capabilities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -660,6 +674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_partnerships(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListPartnerships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_partnerships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -688,6 +703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -719,6 +735,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -753,6 +770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_transformers(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListTransformers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_transformers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,6 +822,7 @@ function start_transformer_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_transformer_job(
     inputFile,
     outputLocation,
@@ -855,6 +874,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -909,6 +929,7 @@ function test_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_mapping(
     fileFormat,
     inputFileContent,
@@ -963,6 +984,7 @@ function test_parsing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_parsing(
     ediType,
     fileFormat,
@@ -1013,6 +1035,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1051,8 +1074,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"configuration"`: Specifies a structure that contains the details for a capability.
 - `"instructionsDocuments"`: Specifies one or more locations in Amazon S3, each specifying
-  an EDI document that can be used with this capability. Each item contains the name of the
-  bucket and the key, to identify the document's location.
+  an EDI document that can be used with this capability. Each item contains the name of
+  the bucket and the key, to identify the document's location.
 - `"name"`: Specifies a new name for the capability, to replace the existing name.
 """
 function update_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1063,6 +1086,7 @@ function update_capability(capabilityId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_capability(
     capabilityId,
     params::AbstractDict{String};
@@ -1107,6 +1131,7 @@ function update_partnership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_partnership(
     partnershipId,
     params::AbstractDict{String};
@@ -1150,6 +1175,7 @@ function update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile(
     profileId,
     params::AbstractDict{String};
@@ -1203,6 +1229,7 @@ function update_transformer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_transformer(
     transformerId,
     params::AbstractDict{String};

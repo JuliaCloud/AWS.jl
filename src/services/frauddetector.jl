@@ -30,6 +30,7 @@ function batch_create_variable(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_variable(
     variableEntries,
     params::AbstractDict{String};
@@ -65,6 +66,7 @@ function batch_get_variable(names; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_variable(
     names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,11 +82,11 @@ end
     cancel_batch_import_job(job_id)
     cancel_batch_import_job(job_id, params::Dict{String,<:Any})
 
- Cancels an in-progress batch import job.
+Cancels an in-progress batch import job.
 
 # Arguments
 
-- `job_id`:  The ID of an in-progress batch import job to cancel.
+- `job_id`: The ID of an in-progress batch import job to cancel.
 
   Amazon Fraud Detector will throw an error if the batch import job is in `FAILED`,
   `CANCELED`, or `COMPLETED` state.
@@ -97,6 +99,7 @@ function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_batch_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -128,6 +131,7 @@ function cancel_batch_prediction_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_batch_prediction_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,8 +155,8 @@ Creates a batch import job.
 - `iam_role_arn`: The ARN of the IAM role created for Amazon S3 bucket that holds your data
   file.
 
-  The IAM role must have read permissions to your input S3 bucket and write permissions to
-  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  The IAM role must have read permissions to your input S3 bucket and write permissions
+  to your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
   in the *Amazon S3 User Guide*.
 - `input_path`: The URI that points to the Amazon S3 location of your data file.
 - `job_id`: The ID of the batch import job. The ID cannot be of a past job, unless the job
@@ -186,6 +190,7 @@ function create_batch_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_import_job(
     eventTypeName,
     iamRoleArn,
@@ -227,8 +232,8 @@ Creates a batch prediction job.
 - `event_type_name`: The name of the event type.
 - `iam_role_arn`: The ARN of the IAM role to use for this job request.
 
-  The IAM Role must have read permissions to your input S3 bucket and write permissions to
-  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  The IAM Role must have read permissions to your input S3 bucket and write permissions
+  to your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
   in the *Amazon S3 User Guide*.
 - `input_path`: The Amazon S3 location of your training file.
 - `job_id`: The ID of the batch prediction job.
@@ -264,6 +269,7 @@ function create_batch_prediction_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_prediction_job(
     detectorName,
     eventTypeName,
@@ -317,17 +323,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ruleExecutionMode"`: The rule execution mode for the rules included in the detector
   version.
 
-  You can define and edit the rule mode at the detector version level, when it is in draft
-  status.
+  You can define and edit the rule mode at the detector version level, when it is in
+  draft status.
 
-  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
-  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
-  outcomes for that single rule.
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially,
+  first to last, stopping at the first matched rule. Amazon Fraud dectector then provides
+  the outcomes for that single rule.
 
-  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
-  outcomes for all matched rules.
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns
+  the outcomes for all matched rules.
 
-The default behavior is `FIRST_MATCHED`.
+  The default behavior is `FIRST_MATCHED`.
 - `"tags"`: A collection of key and value pairs.
 """
 function create_detector_version(
@@ -340,6 +346,7 @@ function create_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_detector_version(
     detectorId,
     rules,
@@ -364,25 +371,25 @@ end
     create_list(name)
     create_list(name, params::Dict{String,<:Any})
 
- Creates a list.
+Creates a list.
 
 List is a set of input data for a variable in your event dataset. You use the input data in
 a rule that's associated with your detector. For more information, see [Lists](https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html).
 
 # Arguments
 
-- `name`:  The name of the list.
+- `name`: The name of the list.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The description of the list.
-- `"elements"`:  The names of the elements, if providing. You can also create an empty list
+- `"description"`: The description of the list.
+- `"elements"`: The names of the elements, if providing. You can also create an empty list
   and add elements later using the [UpdateList](https://docs.aws.amazon.com/frauddetector/latest/api/API_Updatelist.html)
   API.
-- `"tags"`:  A collection of the key and value pairs.
-- `"variableType"`:  The variable type of the list. You can only assign the variable type
+- `"tags"`: A collection of the key and value pairs.
+- `"variableType"`: The variable type of the list. You can only assign the variable type
   with String data type. For more information, see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
 """
 function create_list(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -393,6 +400,7 @@ function create_list(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_list(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -435,6 +443,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     eventTypeName,
     modelId,
@@ -502,6 +511,7 @@ function create_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_version(
     modelId,
     modelType,
@@ -571,6 +581,7 @@ function create_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule(
     detectorId,
     expression,
@@ -621,14 +632,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs.
 - `"variableType"`: The variable type. For more information see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
 
-
-  Valid Values: `AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY |
-  BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN |
-  CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT
-  | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE |
-  PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY |
-  SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP |
-  USERAGENT`
+  Valid Values:
+  `AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT`
 """
 function create_variable(
     dataSource,
@@ -649,6 +654,7 @@ function create_variable(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_variable(
     dataSource,
     dataType,
@@ -695,6 +701,7 @@ function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_batch_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,6 +733,7 @@ function delete_batch_prediction_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_batch_prediction_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -759,6 +767,7 @@ function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_detector(
     detectorId,
     params::AbstractDict{String};
@@ -801,6 +810,7 @@ function delete_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_detector_version(
     detectorId,
     detectorVersionId,
@@ -846,6 +856,7 @@ function delete_entity_type(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_entity_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -890,6 +901,7 @@ function delete_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event(
     eventId,
     eventTypeName,
@@ -933,6 +945,7 @@ function delete_event_type(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -964,6 +977,7 @@ function delete_events_by_event_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_events_by_event_type(
     eventTypeName,
     params::AbstractDict{String};
@@ -1003,6 +1017,7 @@ function delete_external_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_external_model(
     modelEndpoint,
     params::AbstractDict{String};
@@ -1044,6 +1059,7 @@ function delete_label(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,14 +1075,14 @@ end
     delete_list(name)
     delete_list(name, params::Dict{String,<:Any})
 
- Deletes the list, provided it is not used in a rule.
+Deletes the list, provided it is not used in a rule.
 
- When you delete a list, Amazon Fraud Detector permanently deletes that list and the
+When you delete a list, Amazon Fraud Detector permanently deletes that list and the
 elements in the list.
 
 # Arguments
 
-- `name`:  The name of the list to delete.
+- `name`: The name of the list to delete.
 """
 function delete_list(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
@@ -1076,6 +1092,7 @@ function delete_list(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_list(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1096,7 +1113,7 @@ Deletes a model.
 You can delete models and model versions in Amazon Fraud Detector, provided that they are
 not associated with a detector version.
 
- When you delete a model, Amazon Fraud Detector permanently deletes that model and the data
+When you delete a model, Amazon Fraud Detector permanently deletes that model and the data
 is no longer stored in Amazon Fraud Detector.
 
 # Arguments
@@ -1114,6 +1131,7 @@ function delete_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     modelId,
     modelType,
@@ -1143,7 +1161,7 @@ Deletes a model version.
 You can delete models and model versions in Amazon Fraud Detector, provided that they are
 not associated with a detector version.
 
- When you delete a model version, Amazon Fraud Detector permanently deletes that model
+When you delete a model version, Amazon Fraud Detector permanently deletes that model
 version and the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
@@ -1169,6 +1187,7 @@ function delete_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model_version(
     modelId,
     modelType,
@@ -1217,6 +1236,7 @@ function delete_outcome(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_outcome(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1250,6 +1270,7 @@ function delete_rule(rule; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1287,6 +1308,7 @@ function delete_variable(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_variable(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1323,6 +1345,7 @@ function describe_detector(detectorId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detector(
     detectorId,
     params::AbstractDict{String};
@@ -1360,6 +1383,7 @@ function describe_model_versions(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeModelVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_model_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1394,6 +1418,7 @@ function get_batch_import_jobs(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetBatchImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_batch_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1425,6 +1450,7 @@ function get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=current_aws_c
         "GetBatchPredictionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_batch_prediction_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1456,6 +1482,7 @@ function get_delete_events_by_event_type_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delete_events_by_event_type_status(
     eventTypeName,
     params::AbstractDict{String};
@@ -1494,6 +1521,7 @@ function get_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_detector_version(
     detectorId,
     detectorVersionId,
@@ -1539,6 +1567,7 @@ function get_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1570,6 +1599,7 @@ function get_entity_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_entity_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1600,6 +1630,7 @@ function get_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event(
     eventId,
     eventTypeName,
@@ -1639,27 +1670,28 @@ detector’s (`ACTIVE`) version is used.
 - `event_type_name`: The event type associated with the detector specified for the
   prediction.
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
-  Detector to represent data elements and their corresponding values for the event you are
-  sending for evaluation.</p>
+  Detector to represent data elements and their corresponding values for the event you
+  are sending for evaluation.
 
   !!! important
-      You must provide at least one eventVariableTo ensure most accurate fraud prediction
-  and to simplify your data preparation, Amazon Fraud Detector will replace all missing
-  variables or values as follows:
+      You must provide at least one eventVariable
 
-   **For Amazon Fraud Detector trained models:**
+  To ensure most accurate fraud prediction and to simplify your data preparation, Amazon
+  Fraud Detector will replace all missing variables or values as follows:
 
-  If a null value is provided explicitly for a variable or if a variable is missing, model
-  will replace the null value or the missing variable (no variable name in the
+  **For Amazon Fraud Detector trained models:**
+
+  If a null value is provided explicitly for a variable or if a variable is missing,
+  model will replace the null value or the missing variable (no variable name in the
   eventVariables map) with calculated default mean/medians for numeric variables and with
   special values for categorical variables.
 
-   **For imported SageMaker models:**
+  **For imported SageMaker models:**
 
-   <p>If a null value is provided explicitly for a variable, the model and rules will use
+  If a null value is provided explicitly for a variable, the model and rules will use
   “null” as the value. If a variable is not provided (no variable name in the
-  eventVariables map), model and rules will use the default value that is provided for the
-  variable.
+  eventVariables map), model and rules will use the default value that is provided for
+  the variable.
 
 # Optional Parameters
 
@@ -1691,6 +1723,7 @@ function get_event_prediction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_prediction(
     detectorId,
     entities,
@@ -1726,18 +1759,18 @@ end
     get_event_prediction_metadata(detector_id, detector_version_id, event_id, event_type_name, prediction_timestamp)
     get_event_prediction_metadata(detector_id, detector_version_id, event_id, event_type_name, prediction_timestamp, params::Dict{String,<:Any})
 
- Gets details of the past fraud predictions for the specified event ID, event type,
-detector ID, and detector version ID that was generated in the specified time period.
+Gets details of the past fraud predictions for the specified event ID, event type, detector
+ID, and detector version ID that was generated in the specified time period.
 
 # Arguments
 
-- `detector_id`:  The detector ID.
-- `detector_version_id`:  The detector version ID.
-- `event_id`:  The event ID.
-- `event_type_name`:  The event type associated with the detector specified for the
+- `detector_id`: The detector ID.
+- `detector_version_id`: The detector version ID.
+- `event_id`: The event ID.
+- `event_type_name`: The event type associated with the detector specified for the
   prediction.
-- `prediction_timestamp`:  The timestamp that defines when the prediction was generated.
-  The timestamp must be specified using ISO 8601 standard in UTC.
+- `prediction_timestamp`: The timestamp that defines when the prediction was generated. The
+  timestamp must be specified using ISO 8601 standard in UTC.
 
   We recommend calling [ListEventPredictions](https://docs.aws.amazon.com/frauddetector/latest/api/API_ListEventPredictions.html)
   first, and using the `predictionTimestamp` value in the response to provide an accurate
@@ -1764,6 +1797,7 @@ function get_event_prediction_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_prediction_metadata(
     detectorId,
     detectorVersionId,
@@ -1816,6 +1850,7 @@ function get_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_event_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1848,6 +1883,7 @@ function get_external_models(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetExternalModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_external_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1868,6 +1904,7 @@ function get_kmsencryption_key(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetKMSEncryptionKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_kmsencryption_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1902,6 +1939,7 @@ function get_labels(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_labels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1914,18 +1952,18 @@ end
     get_list_elements(name)
     get_list_elements(name, params::Dict{String,<:Any})
 
- Gets all the elements in the specified list.
+Gets all the elements in the specified list.
 
 # Arguments
 
-- `name`:  The name of the list.
+- `name`: The name of the list.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of objects to return for the request.
-- `"nextToken"`:  The next token for the subsequent request.
+- `"maxResults"`: The maximum number of objects to return for the request.
+- `"nextToken"`: The next token for the subsequent request.
 """
 function get_list_elements(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
@@ -1935,6 +1973,7 @@ function get_list_elements(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_list_elements(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1950,21 +1989,22 @@ end
     get_lists_metadata()
     get_lists_metadata(params::Dict{String,<:Any})
 
- Gets the metadata of either all the lists under the account or the specified list.
+Gets the metadata of either all the lists under the account or the specified list.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of objects to return for the request.
-- `"name"`:  The name of the list.
-- `"nextToken"`:  The next token for the subsequent request.
+- `"maxResults"`: The maximum number of objects to return for the request.
+- `"name"`: The name of the list.
+- `"nextToken"`: The next token for the subsequent request.
 """
 function get_lists_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetListsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_lists_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2002,6 +2042,7 @@ function get_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_version(
     modelId,
     modelType,
@@ -2055,6 +2096,7 @@ function get_models(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2086,6 +2128,7 @@ function get_outcomes(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetOutcomes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_outcomes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2128,6 +2171,7 @@ function get_rules(detectorId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rules(
     detectorId,
     params::AbstractDict{String};
@@ -2166,6 +2210,7 @@ function get_variables(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetVariables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_variables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2182,8 +2227,8 @@ Gets a list of past predictions. The list can be filtered by detector ID, detect
 ID, event ID, event type, or by specifying a time period. If filter is not specified, the
 most recent prediction is returned.
 
-For example, the following filter lists all past predictions for `xyz` event type - `{
-"eventType":{ "value": "xyz" }” } `
+For example, the following filter lists all past predictions for `xyz` event type -
+`{ "eventType":{ "value": "xyz" }” }`
 
 This is a paginated API. If you provide a null `maxResults`, this action will retrieve a
 maximum of 10 records per page. If you provide a `maxResults`, the value must be between 50
@@ -2194,21 +2239,22 @@ your request. A null `nextToken` fetches the records from the beginning.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"detectorId"`:  The detector ID.
-- `"detectorVersionId"`:  The detector version ID.
-- `"eventId"`:  The event ID.
-- `"eventType"`:  The event type associated with the detector.
-- `"maxResults"`:  The maximum number of predictions to return for the request.
-- `"nextToken"`:  Identifies the next page of results to return. Use the token to make the
-  call again to retrieve the next page. Keep all other arguments unchanged. Each pagination
-  token expires after 24 hours.
-- `"predictionTimeRange"`:  The time period for when the predictions were generated.
+- `"detectorId"`: The detector ID.
+- `"detectorVersionId"`: The detector version ID.
+- `"eventId"`: The event ID.
+- `"eventType"`: The event type associated with the detector.
+- `"maxResults"`: The maximum number of predictions to return for the request.
+- `"nextToken"`: Identifies the next page of results to return. Use the token to make the
+  call again to retrieve the next page. Keep all other arguments unchanged. Each
+  pagination token expires after 24 hours.
+- `"predictionTimeRange"`: The time period for when the predictions were generated.
 """
 function list_event_predictions(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "ListEventPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_predictions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2249,6 +2295,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -2292,6 +2339,7 @@ function put_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_detector(
     detectorId,
     eventTypeName,
@@ -2342,6 +2390,7 @@ function put_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_entity_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2394,6 +2443,7 @@ function put_event_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_event_type(
     entityTypes,
     eventVariables,
@@ -2465,6 +2515,7 @@ function put_external_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_external_model(
     inputConfiguration,
     invokeModelEndpointRoleArn,
@@ -2519,6 +2570,7 @@ function put_kmsencryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_kmsencryption_key(
     kmsEncryptionKeyArn,
     params::AbstractDict{String};
@@ -2565,6 +2617,7 @@ function put_label(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_label(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2601,6 +2654,7 @@ function put_outcome(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_outcome(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2628,8 +2682,8 @@ then later use to train a model.
   The timestamp must be specified using ISO 8601 standard in UTC.
 - `event_type_name`: The event type name of the event.
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
-  Detector to represent data elements and their corresponding values for the event you are
-  sending for evaluation.
+  Detector to represent data elements and their corresponding values for the event you
+  are sending for evaluation.
 
 # Optional Parameters
 
@@ -2661,6 +2715,7 @@ function send_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_event(
     entities,
     eventId,
@@ -2709,6 +2764,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -2750,6 +2806,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -2774,7 +2831,7 @@ end
     update_detector_version(detector_id, detector_version_id, external_model_endpoints, rules)
     update_detector_version(detector_id, detector_version_id, external_model_endpoints, rules, params::Dict{String,<:Any})
 
- Updates a detector version. The detector version attributes that you can update include
+Updates a detector version. The detector version attributes that you can update include
 models, external model endpoints, rules, rule execution mode, and description. You can only
 update a `DRAFT` detector version.
 
@@ -2794,15 +2851,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modelVersions"`: The model versions to include in the detector version.
 - `"ruleExecutionMode"`: The rule execution mode to add to the detector.
 
-  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
-  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
-  outcomes for that single rule.
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially,
+  first to last, stopping at the first matched rule. Amazon Fraud dectector then provides
+  the outcomes for that single rule.
 
-  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
-  outcomes for all matched rules. You can define and edit the rule mode at the detector
-  version level, when it is in draft status.
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns
+  the outcomes for all matched rules. You can define and edit the rule mode at the
+  detector version level, when it is in draft status.
 
-The default behavior is `FIRST_MATCHED`.
+  The default behavior is `FIRST_MATCHED`.
 """
 function update_detector_version(
     detectorId,
@@ -2823,6 +2880,7 @@ function update_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector_version(
     detectorId,
     detectorVersionId,
@@ -2880,6 +2938,7 @@ function update_detector_version_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector_version_metadata(
     description,
     detectorId,
@@ -2919,7 +2978,7 @@ and `INACTIVE` to `ACTIVE`.
 - `detector_version_id`: The detector version ID.
 - `status`: The new status.
 
-The only supported values are `ACTIVE` and `INACTIVE`
+  The only supported values are `ACTIVE` and `INACTIVE`
 """
 function update_detector_version_status(
     detectorId,
@@ -2938,6 +2997,7 @@ function update_detector_version_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector_version_status(
     detectorId,
     detectorVersionId,
@@ -2996,6 +3056,7 @@ function update_event_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_label(
     assignedLabel,
     eventId,
@@ -3027,32 +3088,35 @@ end
     update_list(name)
     update_list(name, params::Dict{String,<:Any})
 
- Updates a list.
+Updates a list.
 
 # Arguments
 
-- `name`:  The name of the list to update.
+- `name`: The name of the list to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The new description.
-- `"elements"`:  One or more list elements to add or replace. If you are providing the
+- `"description"`: The new description.
+- `"elements"`: One or more list elements to add or replace. If you are providing the
   elements, make sure to specify the `updateMode` to use.
 
   If you are deleting all elements from the list, use `REPLACE` for the `updateMode` and
   provide an empty list (0 elements).
-- `"updateMode"`:  The update mode (type).  - Use `APPEND` if you are adding elements to
-  the list.
-   - Use `REPLACE` if you replacing existing elements in the list.
-   - Use `REMOVE` if you are removing elements from the list.
-- `"variableType"`:  The variable type you want to assign to the list.
+- `"updateMode"`: The update mode (type).
+
+  - Use `APPEND` if you are adding elements to the list.
+  - Use `REPLACE` if you replacing existing elements in the list.
+  - Use `REMOVE` if you are removing elements from the list.
+
+- `"variableType"`: The variable type you want to assign to the list.
 
   !!! note
-      You cannot update a variable type of a list that already has a variable type assigned
-  to it. You can assign a variable type to a list only if the list does not already have a
-  variable type.
+      You cannot update a variable type of a list that already has a variable type
+      assigned to it. You can assign a variable type to a list only if the list does not
+      already have a variable type.
+
 """
 function update_list(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
@@ -3062,6 +3126,7 @@ function update_list(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_list(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3100,6 +3165,7 @@ function update_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model(
     modelId,
     modelType,
@@ -3162,6 +3228,7 @@ function update_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model_version(
     majorVersionNumber,
     modelId,
@@ -3193,10 +3260,10 @@ end
 
 Updates the status of a model version.
 
-You can perform the following status updates: 1. Change the `TRAINING_IN_PROGRESS` status
-to `TRAINING_CANCELLED`.
- 2. Change the `TRAINING_COMPLETE` status to `ACTIVE`.
- 3. Change `ACTIVE` to `INACTIVE`.
+You can perform the following status updates:
+
+1. Change the `TRAINING_IN_PROGRESS` status to `TRAINING_CANCELLED`.2. Change the
+   `TRAINING_COMPLETE` status to `ACTIVE`.3. Change `ACTIVE` to `INACTIVE`.
 
 # Arguments
 
@@ -3224,6 +3291,7 @@ function update_model_version_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model_version_status(
     modelId,
     modelType,
@@ -3272,6 +3340,7 @@ function update_rule_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_metadata(
     description,
     rule,
@@ -3328,6 +3397,7 @@ function update_rule_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_version(
     expression,
     language,
@@ -3381,6 +3451,7 @@ function update_variable(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_variable(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

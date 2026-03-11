@@ -29,6 +29,7 @@ function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -75,6 +76,7 @@ function create_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     JobType,
     Manifest,
@@ -135,6 +137,7 @@ function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_shipping_label(
     jobIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,6 +175,7 @@ function get_status(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_status(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -203,6 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +257,7 @@ function update_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job(
     JobId,
     JobType,

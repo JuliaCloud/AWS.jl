@@ -33,6 +33,7 @@ function apply_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_guardrail(
     content,
     guardrailIdentifier,
@@ -80,19 +81,21 @@ This operation requires permission for the `bedrock:InvokeModel` action.
 - `messages`: The messages that you want to send to the model.
 - `model_id`: The identifier for the model that you want to call.
 
-  The `modelId` to provide depends on the type of model or throughput that you use: - If
-  you use a base model, specify the model ID or its ARN. For a list of model IDs for base
-  models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
-  in the Amazon Bedrock User Guide.
-   - If you use an inference profile, specify the inference profile ID or its ARN. For a
-  list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html)
-  in the Amazon Bedrock User Guide.
-   - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
-  more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
-  in the Amazon Bedrock User Guide.
-   - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
-  the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
-  in the Amazon Bedrock User Guide.
+  The `modelId` to provide depends on the type of model or throughput that you use:
+
+  - If you use a base model, specify the model ID or its ARN. For a list of model IDs for
+    base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
+    in the Amazon Bedrock User Guide.
+  - If you use an inference profile, specify the inference profile ID or its ARN. For a
+    list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html)
+    in the Amazon Bedrock User Guide.
+  - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
+    more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
+    in the Amazon Bedrock User Guide.
+  - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
+    the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
+    in the Amazon Bedrock User Guide.
+
   The Converse API doesn't support [imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html).
 
 # Optional Parameters
@@ -103,15 +106,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supports, beyond the base set of inference parameters that `Converse` supports in the
   `inferenceConfig` field. For more information, see [Model parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
 - `"additionalModelResponseFieldPaths"`: Additional model parameters field paths to return
-  in the response. `Converse` returns the requested fields as a JSON Pointer object in the
-  `additionalModelResponseFields` field. The following is example JSON for
+  in the response. `Converse` returns the requested fields as a JSON Pointer object in
+  the `additionalModelResponseFields` field. The following is example JSON for
   `additionalModelResponseFieldPaths`.
 
-   `[ "/stop_sequence" ]`
+  `[ "/stop_sequence" ]`
 
-For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901) documentation.
+  For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901)
+  documentation.
 
- `Converse` rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a `400` error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by `Converse`.
+  `Converse` rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a
+  `400` error code. if the JSON Pointer is valid, but the requested field is not in the
+  model response, it is ignored by `Converse`.
 - `"guardrailConfig"`: Configuration information for a guardrail that you want to use in
   the request.
 - `"inferenceConfig"`: Inference parameters to pass to the model. `Converse` supports a
@@ -122,8 +128,9 @@ For information about the JSON Pointer syntax, see the [Internet Engineering Tas
   generating a response.
 
   !!! note
-      This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command
-  R+, and Mistral Large models.
+      This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere
+      Command R+, and Mistral Large models.
+
 """
 function converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_runtime(
@@ -134,6 +141,7 @@ function converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function converse(
     messages,
     modelId,
@@ -162,12 +170,14 @@ Should a model have unique inference parameters, you can also pass those unique 
 to the model.
 
 To find out if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html)
-and check the `responseStreamingSupported` field in the response.</p>
+and check the `responseStreamingSupported` field in the response.
 
 !!! note
     The CLI doesn't support streaming operations in Amazon Bedrock, including
-`ConverseStream`.Amazon Bedrock doesn't store any text, images, or documents that you
-provide as content. The data is only used to generate the response.
+    `ConverseStream`.
+
+Amazon Bedrock doesn't store any text, images, or documents that you provide as content.
+The data is only used to generate the response.
 
 For information about the Converse API, see *Use the Converse API* in the *Amazon Bedrock
 User Guide*. To use a guardrail, see *Use a guardrail with the Converse API* in the *Amazon
@@ -176,27 +186,28 @@ Bedrock User Guide*. To use a tool with a model, see *Tool use (Function calling
 
 For example code, see *Conversation streaming example* in the *Amazon Bedrock User Guide*.
 
- <p>This operation requires permission for the `bedrock:InvokeModelWithResponseStream`
-action.
+This operation requires permission for the `bedrock:InvokeModelWithResponseStream` action.
 
 # Arguments
 
 - `messages`: The messages that you want to send to the model.
 - `model_id`: The ID for the model.
 
-  The `modelId` to provide depends on the type of model or throughput that you use: - If
-  you use a base model, specify the model ID or its ARN. For a list of model IDs for base
-  models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
-  in the Amazon Bedrock User Guide.
-   - If you use an inference profile, specify the inference profile ID or its ARN. For a
-  list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html)
-  in the Amazon Bedrock User Guide.
-   - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
-  more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
-  in the Amazon Bedrock User Guide.
-   - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
-  the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
-  in the Amazon Bedrock User Guide.
+  The `modelId` to provide depends on the type of model or throughput that you use:
+
+  - If you use a base model, specify the model ID or its ARN. For a list of model IDs for
+    base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
+    in the Amazon Bedrock User Guide.
+  - If you use an inference profile, specify the inference profile ID or its ARN. For a
+    list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html)
+    in the Amazon Bedrock User Guide.
+  - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
+    more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
+    in the Amazon Bedrock User Guide.
+  - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
+    the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
+    in the Amazon Bedrock User Guide.
+
   The Converse API doesn't support [imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html).
 
 # Optional Parameters
@@ -211,11 +222,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the `additionalModelResponseFields` field. The following is example JSON for
   `additionalModelResponseFieldPaths`.
 
-   `[ "/stop_sequence" ]`
+  `[ "/stop_sequence" ]`
 
-For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901) documentation.
+  For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901)
+  documentation.
 
- `ConverseStream` rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a `400` error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by `ConverseStream`.
+  `ConverseStream` rejects an empty JSON Pointer or incorrectly structured JSON Pointer
+  with a `400` error code. if the JSON Pointer is valid, but the requested field is not
+  in the model response, it is ignored by `ConverseStream`.
 - `"guardrailConfig"`: Configuration information for a guardrail that you want to use in
   the request.
 - `"inferenceConfig"`: Inference parameters to pass to the model. `ConverseStream` supports
@@ -225,8 +239,9 @@ For information about the JSON Pointer syntax, see the [Internet Engineering Tas
 - `"toolConfig"`: Configuration information for the tools that the model can use when
   generating a response.
 
-!!! note
-    This field is only supported by Anthropic Claude 3 models.
+  !!! note
+      This field is only supported by Anthropic Claude 3 models.
+
 """
 function converse_stream(
     messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -239,6 +254,7 @@ function converse_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function converse_stream(
     messages,
     modelId,
@@ -271,25 +287,27 @@ This operation requires permission for the `bedrock:InvokeModel` action.
 # Arguments
 
 - `body`: The prompt and inference parameters in the format specified in the `contentType`
-  in the header. You must provide the body in JSON format. To see the format and content of
-  the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+  in the header. You must provide the body in JSON format. To see the format and content
+  of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
   For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html)
   in the Bedrock User Guide.
 - `model_id`: The unique identifier of the model to invoke to run inference.
 
-  The `modelId` to provide depends on the type of model that you use: - If you use a base
-  model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
-  in the Amazon Bedrock User Guide.
-   - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
-  more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
-  in the Amazon Bedrock User Guide.
-   - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
-  the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
-  in the Amazon Bedrock User Guide.
-   - If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html),
-  specify the ARN of the imported model. You can get the model ARN from a successful call
-  to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html)
-  or from the Imported models page in the Amazon Bedrock console.
+  The `modelId` to provide depends on the type of model that you use:
+
+  - If you use a base model, specify the model ID or its ARN. For a list of model IDs for
+    base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
+    in the Amazon Bedrock User Guide.
+  - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
+    more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
+    in the Amazon Bedrock User Guide.
+  - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
+    the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
+    in the Amazon Bedrock User Guide.
+  - If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html),
+    specify the ARN of the imported model. You can get the model ARN from a successful
+    call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html)
+    or from the Imported models page in the Amazon Bedrock console.
 
 # Optional Parameters
 
@@ -302,11 +320,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-GuardrailIdentifier"`: The unique identifier of the guardrail that you
   want to use. If you don't provide a value, no guardrail is applied to the invocation.
 
-  An error will be thrown in the following situations. - You don't provide a guardrail
-  identifier but you specify the `amazon-bedrock-guardrailConfig` field in the request
-  body.
-   - You enable the guardrail but the `contentType` isn't `application/json`.
-   - You provide a guardrail identifier, but `guardrailVersion` isn't specified.
+  An error will be thrown in the following situations.
+
+  - You don't provide a guardrail identifier but you specify the
+    `amazon-bedrock-guardrailConfig` field in the request body.
+  - You enable the guardrail but the `contentType` isn't `application/json`.
+  - You provide a guardrail identifier, but `guardrailVersion` isn't specified.
+
 - `"X-Amzn-Bedrock-GuardrailVersion"`: The version number for the guardrail. The value can
   also be `DRAFT`.
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
@@ -321,6 +341,7 @@ function invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_model(
     body,
     modelId,
@@ -344,38 +365,42 @@ Invoke the specified Amazon Bedrock model to run inference using the prompt and 
 parameters provided in the request body. The response is returned in a stream.
 
 To see if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html)
-and check the `responseStreamingSupported` field in the response.</p>
+and check the `responseStreamingSupported` field in the response.
 
 !!! note
     The CLI doesn't support streaming operations in Amazon Bedrock, including
-`InvokeModelWithResponseStream`.For example code, see *Invoke model with streaming code
-example* in the *Amazon Bedrock User Guide*.
+    `InvokeModelWithResponseStream`.
 
- <p>This operation requires permissions to perform the
-`bedrock:InvokeModelWithResponseStream` action.
+For example code, see *Invoke model with streaming code example* in the *Amazon Bedrock
+User Guide*.
+
+This operation requires permissions to perform the `bedrock:InvokeModelWithResponseStream`
+action.
 
 # Arguments
 
 - `body`: The prompt and inference parameters in the format specified in the `contentType`
-  in the header. You must provide the body in JSON format. To see the format and content of
-  the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+  in the header. You must provide the body in JSON format. To see the format and content
+  of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
   For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html)
   in the Bedrock User Guide.
 - `model_id`: The unique identifier of the model to invoke to run inference.
 
-  The `modelId` to provide depends on the type of model that you use: - If you use a base
-  model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
-  in the Amazon Bedrock User Guide.
-   - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
-  more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
-  in the Amazon Bedrock User Guide.
-   - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
-  the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
-  in the Amazon Bedrock User Guide.
-   - If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html),
-  specify the ARN of the imported model. You can get the model ARN from a successful call
-  to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html)
-  or from the Imported models page in the Amazon Bedrock console.
+  The `modelId` to provide depends on the type of model that you use:
+
+  - If you use a base model, specify the model ID or its ARN. For a list of model IDs for
+    base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
+    in the Amazon Bedrock User Guide.
+  - If you use a provisioned model, specify the ARN of the Provisioned Throughput. For
+    more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html)
+    in the Amazon Bedrock User Guide.
+  - If you use a custom model, first purchase Provisioned Throughput for it. Then specify
+    the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html)
+    in the Amazon Bedrock User Guide.
+  - If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html),
+    specify the ARN of the imported model. You can get the model ARN from a successful
+    call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html)
+    or from the Imported models page in the Amazon Bedrock console.
 
 # Optional Parameters
 
@@ -388,11 +413,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-GuardrailIdentifier"`: The unique identifier of the guardrail that you
   want to use. If you don't provide a value, no guardrail is applied to the invocation.
 
-  An error is thrown in the following situations. - You don't provide a guardrail
-  identifier but you specify the `amazon-bedrock-guardrailConfig` field in the request
-  body.
-   - You enable the guardrail but the `contentType` isn't `application/json`.
-   - You provide a guardrail identifier, but `guardrailVersion` isn't specified.
+  An error is thrown in the following situations.
+
+  - You don't provide a guardrail identifier but you specify the
+    `amazon-bedrock-guardrailConfig` field in the request body.
+  - You enable the guardrail but the `contentType` isn't `application/json`.
+  - You provide a guardrail identifier, but `guardrailVersion` isn't specified.
+
 - `"X-Amzn-Bedrock-GuardrailVersion"`: The version number for the guardrail. The value can
   also be `DRAFT`.
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
@@ -409,6 +436,7 @@ function invoke_model_with_response_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_model_with_response_stream(
     body,
     modelId,

@@ -28,6 +28,7 @@ function configure_logs(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_logs(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ function create_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset(
     id,
     packagingGroupId,
@@ -140,6 +142,7 @@ function create_packaging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_packaging_configuration(
     id,
     packagingGroupId,
@@ -188,6 +191,7 @@ function create_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_packaging_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -215,6 +219,7 @@ function delete_asset(id; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_asset(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -247,6 +252,7 @@ function delete_packaging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_packaging_configuration(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -277,6 +283,7 @@ function delete_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_packaging_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -304,6 +311,7 @@ function describe_asset(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_asset(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -336,6 +344,7 @@ function describe_packaging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_packaging_configuration(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +375,7 @@ function describe_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_packaging_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -397,6 +407,7 @@ function list_assets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -428,6 +439,7 @@ function list_packaging_configurations(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_packaging_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -458,6 +470,7 @@ function list_packaging_groups(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/packaging_groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_packaging_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -491,6 +504,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -528,6 +542,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -566,6 +581,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -606,6 +622,7 @@ function update_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_packaging_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

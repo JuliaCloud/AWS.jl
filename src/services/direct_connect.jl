@@ -45,6 +45,7 @@ function accept_direct_connect_gateway_association_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_direct_connect_gateway_association_proposal(
     associatedGatewayOwnerAccount,
     directConnectGatewayId,
@@ -77,11 +78,12 @@ end
 
 
 !!! note
-    Deprecated. Use <a>AllocateHostedConnection</a> instead.</p>Creates a hosted connection
-on an interconnect.
+    Deprecated. Use [`allocate_hosted_connection`](@ref) instead.
 
- <p>Allocates a VLAN number and a specified amount of bandwidth for use by a hosted
-connection on the specified interconnect.
+Creates a hosted connection on an interconnect.
+
+Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection
+on the specified interconnect.
 
 !!! note
     Intended for use by Direct Connect Partners only.
@@ -89,9 +91,9 @@ connection on the specified interconnect.
 # Arguments
 
 - `bandwidth`: The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
-  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those
-  Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps,
-  2Gbps, 5Gbps or 10Gbps hosted connection.
+  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only
+  those Direct Connect Partners who have met specific requirements are allowed to create
+  a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
 - `connection_name`: The name of the provisioned connection.
 - `interconnect_id`: The ID of the interconnect on which the connection will be provisioned.
 - `owner_account`: The ID of the Amazon Web Services account of the customer for whom the
@@ -119,6 +121,7 @@ function allocate_connection_on_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_connection_on_interconnect(
     bandwidth,
     connectionName,
@@ -202,6 +205,7 @@ function allocate_hosted_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_hosted_connection(
     bandwidth,
     connectionId,
@@ -238,9 +242,9 @@ end
 Provisions a private virtual interface to be owned by the specified Amazon Web Services
 account.
 
-Virtual interfaces created using this action must be confirmed by the owner using
-<a>ConfirmPrivateVirtualInterface</a>. Until then, the virtual interface is in the
-`Confirming` state and is not available to handle traffic.
+Virtual interfaces created using this action must be confirmed by the owner using [`confirm_private_virtual_interface`](@ref).
+Until then, the virtual interface is in the `Confirming` state and is not available to
+handle traffic.
 
 # Arguments
 
@@ -268,6 +272,7 @@ function allocate_private_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_private_virtual_interface(
     connectionId,
     newPrivateVirtualInterfaceAllocation,
@@ -304,9 +309,9 @@ account.
 The owner of a connection calls this function to provision a public virtual interface to be
 owned by the specified Amazon Web Services account.
 
-Virtual interfaces created using this function must be confirmed by the owner using
-<a>ConfirmPublicVirtualInterface</a>. Until this step has been completed, the virtual
-interface is in the `confirming` state and is not available to handle traffic.
+Virtual interfaces created using this function must be confirmed by the owner using [`confirm_public_virtual_interface`](@ref).
+Until this step has been completed, the virtual interface is in the `confirming` state and
+is not available to handle traffic.
 
 When creating an IPv6 public virtual interface, omit the Amazon address and customer
 address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses;
@@ -337,6 +342,7 @@ function allocate_public_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_public_virtual_interface(
     connectionId,
     newPublicVirtualInterfaceAllocation,
@@ -374,9 +380,9 @@ gateway.
 The owner of a connection provisions a transit virtual interface to be owned by the
 specified Amazon Web Services account.
 
-After you create a transit virtual interface, it must be confirmed by the owner using
-<a>ConfirmTransitVirtualInterface</a>. Until this step has been completed, the transit
-virtual interface is in the `requested` state and is not available to handle traffic.
+After you create a transit virtual interface, it must be confirmed by the owner using [`confirm_transit_virtual_interface`](@ref).
+Until this step has been completed, the transit virtual interface is in the `requested`
+state and is not available to handle traffic.
 
 # Arguments
 
@@ -404,6 +410,7 @@ function allocate_transit_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_transit_virtual_interface(
     connectionId,
     newTransitVirtualInterfaceAllocation,
@@ -465,6 +472,7 @@ function associate_connection_with_lag(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_connection_with_lag(
     connectionId,
     lagId,
@@ -515,6 +523,7 @@ function associate_hosted_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_hosted_connection(
     connectionId,
     parentConnectionId,
@@ -548,7 +557,7 @@ Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Assoc
 You must supply either the `secretARN,` or the CKN/CAK (`ckn` and `cak`) pair in the
 request.
 
-For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations ](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration)
+For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration)
 in the *Direct Connect User Guide*.
 
 # Arguments
@@ -556,7 +565,8 @@ in the *Direct Connect User Guide*.
 - `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
   (dxlag-xxxx).
 
-You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve connection ID.
+  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve
+  connection ID.
 
 # Optional Parameters
 
@@ -566,25 +576,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You can create the CKN/CAK pair using an industry standard tool.
 
-   The valid values are 64 hexadecimal characters (0-9, A-E).
+  The valid values are 64 hexadecimal characters (0-9, A-E).
 
   If you use this request parameter, you must use the `ckn` request parameter and not use
-  the `secretARN` request parameter.
+  the `secret_arn` request parameter.
 - `"ckn"`: The MAC Security (MACsec) CKN to associate with the dedicated connection.
 
   You can create the CKN/CAK pair using an industry standard tool.
 
-   The valid values are 64 hexadecimal characters (0-9, A-E).
+  The valid values are 64 hexadecimal characters (0-9, A-E).
 
   If you use this request parameter, you must use the `cak` request parameter and not use
-  the `secretARN` request parameter.
+  the `secret_arn` request parameter.
 - `"secretARN"`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
   associate with the dedicated connection.
 
-  You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve the MAC
-  Security (MACsec) secret key.
+  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve the
+  MAC Security (MACsec) secret key.
 
-If you use this request parameter, you do not use the `ckn` and `cak` request parameters.
+  If you use this request parameter, you do not use the `ckn` and `cak` request
+  parameters.
 """
 function associate_mac_sec_key(
     connectionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -596,6 +607,7 @@ function associate_mac_sec_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_mac_sec_key(
     connectionId,
     params::AbstractDict{String};
@@ -621,8 +633,7 @@ being migrated. If the target connection or LAG has an associated virtual interf
 conflicting VLAN number or a conflicting IP address, the operation fails.
 
 Virtual interfaces associated with a hosted connection cannot be associated with a LAG;
-hosted connections must be migrated along with their virtual interfaces using
-<a>AssociateHostedConnection</a>.
+hosted connections must be migrated along with their virtual interfaces using [`associate_hosted_connection`](@ref).
 
 To reassociate a virtual interface to a new connection or LAG, the requester must own
 either the virtual interface itself or the connection to which the virtual interface is
@@ -646,6 +657,7 @@ function associate_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_virtual_interface(
     connectionId,
     virtualInterfaceId,
@@ -692,6 +704,7 @@ function confirm_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_connection(
     connectionId,
     params::AbstractDict{String};
@@ -711,20 +724,21 @@ end
     confirm_customer_agreement()
     confirm_customer_agreement(params::Dict{String,<:Any})
 
- The confirmation of the terms of agreement when creating the connection/link aggregation
+The confirmation of the terms of agreement when creating the connection/link aggregation
 group (LAG).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"agreementName"`:  The name of the customer agreement.
+- `"agreementName"`: The name of the customer agreement.
 """
 function confirm_customer_agreement(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "ConfirmCustomerAgreement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function confirm_customer_agreement(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -768,6 +782,7 @@ function confirm_private_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_private_virtual_interface(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -809,6 +824,7 @@ function confirm_public_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_public_virtual_interface(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -833,7 +849,7 @@ end
 Accepts ownership of a transit virtual interface created by another Amazon Web Services
 account.
 
- After the owner of the transit virtual interface makes this call, the specified transit
+After the owner of the transit virtual interface makes this call, the specified transit
 virtual interface is created and made available to handle traffic.
 
 # Arguments
@@ -856,6 +872,7 @@ function confirm_transit_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_transit_virtual_interface(
     directConnectGatewayId,
     virtualInterfaceId,
@@ -897,12 +914,13 @@ custom IPv6 addresses.
 
 !!! important
     If you let Amazon Web Services auto-assign IPv4 addresses, a /30 CIDR will be allocated
-from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend to
-use the customer router peer IP address as the source and destination for traffic. Instead
-you should use RFC 1918 or other addressing, and specify the address yourself. For more
-information about RFC 1918 see [ Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918).For
-a public virtual interface, the Autonomous System Number (ASN) must be private or already
-on the allow list for the virtual interface.
+    from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend
+    to use the customer router peer IP address as the source and destination for traffic.
+    Instead you should use RFC 1918 or other addressing, and specify the address yourself.
+    For more information about RFC 1918 see [Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918).
+
+For a public virtual interface, the Autonomous System Number (ASN) must be private or
+already on the allow list for the virtual interface.
 
 # Optional Parameters
 
@@ -916,6 +934,7 @@ function create_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config())
         "CreateBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_bgppeer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -934,7 +953,7 @@ A connection links your internal network to an Direct Connect location over a st
 Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to
 an Direct Connect router.
 
-To find the locations for your Region, use <a>DescribeLocations</a>.
+To find the locations for your Region, use [`describe_locations`](@ref).
 
 You can automatically add the new connection to a link aggregation group (LAG) by
 specifying a LAG ID in the request. This ensures that the new connection is allocated on
@@ -976,6 +995,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     bandwidth,
     connectionName,
@@ -1035,6 +1055,7 @@ function create_direct_connect_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_direct_connect_gateway(
     directConnectGatewayName,
     params::AbstractDict{String};
@@ -1090,6 +1111,7 @@ function create_direct_connect_gateway_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_direct_connect_gateway_association(
     directConnectGatewayId,
     params::AbstractDict{String};
@@ -1152,6 +1174,7 @@ function create_direct_connect_gateway_association_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_direct_connect_gateway_association_proposal(
     directConnectGatewayId,
     directConnectGatewayOwnerAccount,
@@ -1197,9 +1220,9 @@ the same Direct Connect endpoint that hosts the specified LAG. If there are no a
 ports on the endpoint, the request fails and no interconnect is created.
 
 For each end customer, the Direct Connect Partner provisions a connection on their
-interconnect by calling <a>AllocateHostedConnection</a>. The end customer can then connect
-to Amazon Web Services resources by creating a virtual interface on their connection, using
-the VLAN assigned to them by the Direct Connect Partner.
+interconnect by calling [`allocate_hosted_connection`](@ref). The end customer can then
+connect to Amazon Web Services resources by creating a virtual interface on their
+connection, using the VLAN assigned to them by the Direct Connect Partner.
 
 !!! note
     Intended for use by Direct Connect Partners only.
@@ -1235,6 +1258,7 @@ function create_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_interconnect(
     bandwidth,
     interconnectName,
@@ -1309,8 +1333,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       All connections in the LAG must be capable of supporting MAC Security (MACsec). For
-  information about MAC Security (MACsec) prerequisties, see [MACsec prerequisties](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites)
-  in the *Direct Connect User Guide*.
+      information about MAC Security (MACsec) prerequisties, see [MACsec prerequisties](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites)
+      in the *Direct Connect User Guide*.
+
 - `"tags"`: The tags to associate with the LAG.
 """
 function create_lag(
@@ -1332,6 +1357,7 @@ function create_lag(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lag(
     connectionsBandwidth,
     lagName,
@@ -1374,8 +1400,8 @@ Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an updat
 underlying physical connection if it wasn't updated to support jumbo frames. Updating the
 connection disrupts network connectivity for all virtual interfaces associated with the
 connection for up to 30 seconds. To check whether your connection supports jumbo frames,
-call <a>DescribeConnections</a>. To check whether your virtual interface supports jumbo
-frames, call <a>DescribeVirtualInterfaces</a>.
+call [`describe_connections`](@ref). To check whether your virtual interface supports jumbo
+frames, call [`describe_virtual_interfaces`](@ref).
 
 # Arguments
 
@@ -1397,6 +1423,7 @@ function create_private_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_private_virtual_interface(
     connectionId,
     newPrivateVirtualInterface,
@@ -1452,6 +1479,7 @@ function create_public_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_public_virtual_interface(
     connectionId,
     newPublicVirtualInterface,
@@ -1486,16 +1514,16 @@ Connect gateway.
 
 !!! important
     If you associate your transit gateway with one or more Direct Connect gateways, the
-Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway
-must be different. For example, if you use the default ASN 64512 for both your the transit
-gateway and Direct Connect gateway, the association request fails.A jumbo MTU value must be
-either 1500 or 8500. No other values will be accepted. Setting the MTU of a virtual
-interface to 8500 (jumbo frames) can cause an update to the underlying physical connection
-if it wasn't updated to support jumbo frames. Updating the connection disrupts network
-connectivity for all virtual interfaces associated with the connection for up to 30
-seconds. To check whether your connection supports jumbo frames, call
-<a>DescribeConnections</a>. To check whether your virtual interface supports jumbo frames,
-call <a>DescribeVirtualInterfaces</a>.
+    Autonomous System Number (ASN) used by the transit gateway and the Direct Connect
+    gateway must be different. For example, if you use the default ASN 64512 for both your
+    the transit gateway and Direct Connect gateway, the association request fails.
+
+A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting
+the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying
+physical connection if it wasn't updated to support jumbo frames. Updating the connection
+disrupts network connectivity for all virtual interfaces associated with the connection for
+up to 30 seconds. To check whether your connection supports jumbo frames, call [`describe_connections`](@ref).
+To check whether your virtual interface supports jumbo frames, call [`describe_virtual_interfaces`](@ref).
 
 # Arguments
 
@@ -1517,6 +1545,7 @@ function create_transit_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_virtual_interface(
     connectionId,
     newTransitVirtualInterface,
@@ -1564,6 +1593,7 @@ function delete_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config())
         "DeleteBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bgppeer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1594,6 +1624,7 @@ function delete_connection(connectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     connectionId,
     params::AbstractDict{String};
@@ -1631,6 +1662,7 @@ function delete_direct_connect_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_direct_connect_gateway(
     directConnectGatewayId,
     params::AbstractDict{String};
@@ -1678,6 +1710,7 @@ function delete_direct_connect_gateway_association(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_direct_connect_gateway_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1710,6 +1743,7 @@ function delete_direct_connect_gateway_association_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_direct_connect_gateway_association_proposal(
     proposalId,
     params::AbstractDict{String};
@@ -1748,6 +1782,7 @@ function delete_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_interconnect(
     interconnectId,
     params::AbstractDict{String};
@@ -1782,6 +1817,7 @@ function delete_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lag(
     lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1813,6 +1849,7 @@ function delete_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_virtual_interface(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -1837,11 +1874,13 @@ end
 
 
 !!! note
-    Deprecated. Use <a>DescribeLoa</a> instead.</p>Gets the LOA-CFA for a connection.
+    Deprecated. Use [`describe_loa`](@ref) instead.
 
- <p>The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document
-that your APN partner or service provider uses when establishing your cross connect to
-Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
+Gets the LOA-CFA for a connection.
+
+The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that
+your APN partner or service provider uses when establishing your cross connect to Amazon
+Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
 in the *Direct Connect User Guide*.
 
 # Arguments
@@ -1868,6 +1907,7 @@ function describe_connection_loa(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connection_loa(
     connectionId,
     params::AbstractDict{String};
@@ -1900,6 +1940,7 @@ function describe_connections(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1918,8 +1959,9 @@ end
 
 
 !!! note
-    Deprecated. Use <a>DescribeHostedConnections</a> instead.Lists the connections that
-have been provisioned on the specified interconnect.
+    Deprecated. Use [`describe_hosted_connections`](@ref) instead.
+
+Lists the connections that have been provisioned on the specified interconnect.
 
 !!! note
     Intended for use by Direct Connect Partners only.
@@ -1938,6 +1980,7 @@ function describe_connections_on_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connections_on_interconnect(
     interconnectId,
     params::AbstractDict{String};
@@ -1965,6 +2008,7 @@ function describe_customer_metadata(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeCustomerMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_customer_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1992,7 +2036,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
-If `MaxResults` is given a value larger than 100, only 100 results are returned.
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token for the next page of results.
 - `"proposalId"`: The ID of the proposal.
 """
@@ -2005,6 +2049,7 @@ function describe_direct_connect_gateway_association_proposals(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateway_association_proposals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2021,23 +2066,25 @@ end
     describe_direct_connect_gateway_associations(params::Dict{String,<:Any})
 
 Lists the associations between your Direct Connect gateways and virtual private gateways
-and transit gateways. You must specify one of the following:</p> - A Direct Connect gateway
+and transit gateways. You must specify one of the following:
+
+- A Direct Connect gateway
 
 The response contains all virtual private gateways and transit gateways associated with the
 Direct Connect gateway.
- - A virtual private gateway
+- A virtual private gateway
 
 The response contains the Direct Connect gateway.
- - A transit gateway
+- A transit gateway
 
 The response contains the Direct Connect gateway.
- - A Direct Connect gateway and a virtual private gateway
+- A Direct Connect gateway and a virtual private gateway
 
 The response contains the association between the Direct Connect gateway and virtual
 private gateway.
- - A Direct Connect gateway and a transit gateway
+- A Direct Connect gateway and a transit gateway
 
- <p>The response contains the association between the Direct Connect gateway and transit
+The response contains the association between the Direct Connect gateway and transit
 gateway.
 
 # Optional Parameters
@@ -2050,7 +2097,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
-If `MaxResults` is given a value larger than 100, only 100 results are returned.
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 - `"virtualGatewayId"`: The ID of the virtual private gateway or transit gateway.
 """
@@ -2063,6 +2110,7 @@ function describe_direct_connect_gateway_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateway_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2093,7 +2141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
-If `MaxResults` is given a value larger than 100, only 100 results are returned.
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
@@ -2106,6 +2154,7 @@ function describe_direct_connect_gateway_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateway_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2132,7 +2181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
-If `MaxResults` is given a value larger than 100, only 100 results are returned.
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 """
 function describe_direct_connect_gateways(;
@@ -2144,6 +2193,7 @@ function describe_direct_connect_gateways(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2179,6 +2229,7 @@ function describe_hosted_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_hosted_connections(
     connectionId,
     params::AbstractDict{String};
@@ -2201,11 +2252,12 @@ end
 
 
 !!! note
-    Deprecated. Use <a>DescribeLoa</a> instead.</p>Gets the LOA-CFA for the specified
-interconnect.
+    Deprecated. Use [`describe_loa`](@ref) instead.
 
- <p>The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document
-that is used when establishing your cross connect to Amazon Web Services at the colocation
+Gets the LOA-CFA for the specified interconnect.
+
+The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that
+is used when establishing your cross connect to Amazon Web Services at the colocation
 facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
 in the *Direct Connect User Guide*.
 
@@ -2220,8 +2272,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
   value is application/pdf.
 - `"providerName"`: The name of the service provider who establishes connectivity on your
-  behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your
-  company name as the requester of the cross connect.
+  behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside
+  your company name as the requester of the cross connect.
 """
 function describe_interconnect_loa(
     interconnectId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2233,6 +2285,7 @@ function describe_interconnect_loa(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_interconnect_loa(
     interconnectId,
     params::AbstractDict{String};
@@ -2266,6 +2319,7 @@ function describe_interconnects(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeInterconnects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_interconnects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2294,6 +2348,7 @@ function describe_lags(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeLags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_lags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2324,8 +2379,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
   value is application/pdf.
 - `"providerName"`: The name of the service provider who establishes connectivity on your
-  behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your
-  company name as the requester of the cross connect.
+  behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside
+  your company name as the requester of the cross connect.
 """
 function describe_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
@@ -2335,6 +2390,7 @@ function describe_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_loa(
     connectionId,
     params::AbstractDict{String};
@@ -2355,14 +2411,14 @@ end
     describe_locations(params::Dict{String,<:Any})
 
 Lists the Direct Connect locations in the current Amazon Web Services Region. These are the
-locations that can be selected when calling <a>CreateConnection</a> or
-<a>CreateInterconnect</a>.
+locations that can be selected when calling [`create_connection`](@ref) or [`create_interconnect`](@ref).
 """
 function describe_locations(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2375,7 +2431,7 @@ end
     describe_router_configuration(virtual_interface_id)
     describe_router_configuration(virtual_interface_id, params::Dict{String,<:Any})
 
- Details about the router.
+Details about the router.
 
 # Arguments
 
@@ -2398,6 +2454,7 @@ function describe_router_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_router_configuration(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -2433,6 +2490,7 @@ function describe_tags(resourceArns; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tags(
     resourceArns,
     params::AbstractDict{String};
@@ -2456,17 +2514,19 @@ end
 
 !!! note
     Deprecated. Use `DescribeVpnGateways` instead. See [DescribeVPNGateways](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnGateways.html)
-in the *Amazon Elastic Compute Cloud API Reference*.</p>Lists the virtual private gateways
-owned by the Amazon Web Services account.
+    in the *Amazon Elastic Compute Cloud API Reference*.
 
- <p>You can create one or more Direct Connect private virtual interfaces linked to a
-virtual private gateway.
+Lists the virtual private gateways owned by the Amazon Web Services account.
+
+You can create one or more Direct Connect private virtual interfaces linked to a virtual
+private gateway.
 """
 function describe_virtual_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeVirtualGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_virtual_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2502,6 +2562,7 @@ function describe_virtual_interfaces(; aws_config::AbstractAWSConfig=current_aws
         "DescribeVirtualInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_virtual_interfaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2519,7 +2580,7 @@ end
 
 Disassociates a connection from a link aggregation group (LAG). The connection is
 interrupted and re-established as a standalone connection (the connection is not deleted;
-to delete the connection, use the <a>DeleteConnection</a> request). If the LAG has
+to delete the connection, use the [`delete_connection`](@ref) request). If the LAG has
 associated virtual interfaces or hosted connections, they remain associated with the LAG. A
 disassociated connection owned by an Direct Connect Partner is automatically converted to
 an interconnect.
@@ -2544,6 +2605,7 @@ function disassociate_connection_from_lag(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_connection_from_lag(
     connectionId,
     lagId,
@@ -2576,11 +2638,12 @@ dedicated connection.
 - `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
   (dxlag-xxxx).
 
-You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve connection ID.
+  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve
+  connection ID.
 - `secret_arn`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
 
-  You can use <a>DescribeConnections</a> to retrieve the ARN of the MAC Security (MACsec)
-  secret key.
+  You can use [`describe_connections`](@ref) to retrieve the ARN of the MAC Security
+  (MACsec) secret key.
 """
 function disassociate_mac_sec_key(
     connectionId, secretARN; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2592,6 +2655,7 @@ function disassociate_mac_sec_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_mac_sec_key(
     connectionId,
     secretARN,
@@ -2627,7 +2691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
-If `MaxResults` is given a value larger than 100, only 100 results are returned.
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token for the next page of results.
 - `"status"`: The status of the virtual interface failover test.
 - `"testId"`: The ID of the virtual interface failover test.
@@ -2642,6 +2706,7 @@ function list_virtual_interface_test_history(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_virtual_interface_test_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2680,9 +2745,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testDurationInMinutes"`: The time in minutes that the virtual interface failover test
   will last.
 
-Maximum value: 4,320 minutes (72 hours).
+  Maximum value: 4,320 minutes (72 hours).
 
-Default: 180 minutes (3 hours).
+  Default: 180 minutes (3 hours).
 """
 function start_bgp_failover_test(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2694,6 +2759,7 @@ function start_bgp_failover_test(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bgp_failover_test(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -2731,6 +2797,7 @@ function stop_bgp_failover_test(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_bgp_failover_test(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -2771,6 +2838,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2812,6 +2880,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2838,14 +2907,16 @@ end
 
 Updates the Direct Connect dedicated connection configuration.
 
-You can update the following parameters for a connection: - The connection name
- - The connection's MAC Security (MACsec) encryption mode.
+You can update the following parameters for a connection:
+
+- The connection name
+- The connection's MAC Security (MACsec) encryption mode.
 
 # Arguments
 
 - `connection_id`: The ID of the dedicated connection.
 
-You can use <a>DescribeConnections</a> to retrieve the connection ID.
+  You can use [`describe_connections`](@ref) to retrieve the connection ID.
 
 # Optional Parameters
 
@@ -2854,7 +2925,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectionName"`: The name of the connection.
 - `"encryptionMode"`: The connection MAC Security (MACsec) encryption mode.
 
-The valid values are `no_encrypt`, `should_encrypt`, and `must_encrypt`.
+  The valid values are `no_encrypt`, `should_encrypt`, and `must_encrypt`.
 """
 function update_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
@@ -2864,6 +2935,7 @@ function update_connection(connectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection(
     connectionId,
     params::AbstractDict{String};
@@ -2905,6 +2977,7 @@ function update_direct_connect_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_direct_connect_gateway(
     directConnectGatewayId,
     newDirectConnectGatewayName,
@@ -2955,6 +3028,7 @@ function update_direct_connect_gateway_association(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_direct_connect_gateway_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2972,19 +3046,20 @@ end
 
 Updates the attributes of the specified link aggregation group (LAG).
 
-You can update the following LAG attributes:</p> - The name of the LAG.
- - The value for the minimum number of connections that must be operational for the LAG
-itself to be operational.
- - The LAG's MACsec encryption mode.
+You can update the following LAG attributes:
 
- <p>Amazon Web Services assigns this value to each connection which is part of the LAG.
- - The tags
+- The name of the LAG.
+- The value for the minimum number of connections that must be operational for the LAG
+  itself to be operational.
+- The LAG's MACsec encryption mode.
 
+Amazon Web Services assigns this value to each connection which is part of the LAG.
+- The tags
 
 !!! note
     If you adjust the threshold value for the minimum number of operational connections,
-ensure that the new value does not cause the LAG to fall below the threshold and become non-
-operational.
+    ensure that the new value does not cause the LAG to fall below the threshold and become
+    non-operational.
 
 # Arguments
 
@@ -2996,7 +3071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"encryptionMode"`: The LAG MAC Security (MACsec) encryption mode.
 
-Amazon Web Services applies the value to all connections which are part of the LAG.
+  Amazon Web Services applies the value to all connections which are part of the LAG.
 - `"lagName"`: The name of the LAG.
 - `"minimumLinks"`: The minimum number of physical connections that must be operational for
   the LAG itself to be operational.
@@ -3009,6 +3084,7 @@ function update_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lag(
     lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3030,8 +3106,8 @@ Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an updat
 underlying physical connection if it wasn't updated to support jumbo frames. Updating the
 connection disrupts network connectivity for all virtual interfaces associated with the
 connection for up to 30 seconds. To check whether your connection supports jumbo frames,
-call <a>DescribeConnections</a>. To check whether your virtual interface supports jumbo
-frames, call <a>DescribeVirtualInterfaces</a>.
+call [`describe_connections`](@ref). To check whether your virtual interface supports jumbo
+frames, call [`describe_virtual_interfaces`](@ref).
 
 # Arguments
 
@@ -3056,6 +3132,7 @@ function update_virtual_interface_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_virtual_interface_attributes(
     virtualInterfaceId,
     params::AbstractDict{String};

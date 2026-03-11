@@ -34,6 +34,7 @@ function associate_phone_numbers_with_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers,
     voiceConnectorId,
@@ -69,8 +70,9 @@ Associates phone numbers with the specified Amazon Chime SDK Voice Connector gro
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceAssociate"`: If true, associates the provided phone numbers with the provided
-  Amazon Chime SDK Voice Connector Group and removes any previously existing associations.
-  If false, does not associate any phone numbers that have previously existing associations.
+  Amazon Chime SDK Voice Connector Group and removes any previously existing
+  associations. If false, does not associate any phone numbers that have previously
+  existing associations.
 """
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
@@ -85,6 +87,7 @@ function associate_phone_numbers_with_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId,
@@ -108,10 +111,10 @@ end
     batch_delete_phone_number(phone_number_ids)
     batch_delete_phone_number(phone_number_ids, params::Dict{String,<:Any})
 
- Moves phone numbers into the **Deletion queue**. Phone numbers must be disassociated from
+Moves phone numbers into the **Deletion queue**. Phone numbers must be disassociated from
 any users or Amazon Chime SDK Voice Connectors before they can be deleted.
 
- Phone numbers remain in the **Deletion queue** for 7 days before they are deleted
+Phone numbers remain in the **Deletion queue** for 7 days before they are deleted
 permanently.
 
 # Arguments
@@ -129,6 +132,7 @@ function batch_delete_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_phone_number(
     PhoneNumberIds,
     params::AbstractDict{String};
@@ -171,6 +175,7 @@ function batch_update_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_phone_number(
     UpdatePhoneNumberRequestItems,
     params::AbstractDict{String};
@@ -224,6 +229,7 @@ function create_phone_number_order(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_phone_number_order(
     E164PhoneNumbers,
     ProductType,
@@ -289,6 +295,7 @@ function create_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
@@ -346,6 +353,7 @@ function create_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sip_media_application(
     AwsRegion,
     Endpoints,
@@ -408,6 +416,7 @@ function create_sip_media_application_call(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sip_media_application_call(
     FromPhoneNumber,
     ToPhoneNumber,
@@ -474,6 +483,7 @@ function create_sip_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sip_rule(
     Name,
     TriggerType,
@@ -532,6 +542,7 @@ function create_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_connector(
     Name,
     RequireEncryption,
@@ -585,6 +596,7 @@ function create_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_connector_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -605,9 +617,11 @@ Creates a voice profile, which consists of an enrolled user and their latest voi
 
 !!! important
     Before creating any voice profiles, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
+
+For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
 in the *Amazon Chime SDK Developer Guide*.
 
 # Arguments
@@ -625,6 +639,7 @@ function create_voice_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_profile(
     SpeakerSearchTaskId,
     params::AbstractDict{String};
@@ -654,9 +669,11 @@ encrypted enrollment audio.
 
 !!! important
     Before creating any voice profiles, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
+
+For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
 in the *Amazon Chime SDK Developer Guide*.
 
 # Arguments
@@ -690,6 +707,7 @@ function create_voice_profile_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_profile_domain(
     Name,
     ServerSideEncryptionConfiguration,
@@ -739,6 +757,7 @@ function delete_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -774,6 +793,7 @@ function delete_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_proxy_session(
     proxySessionId,
     voiceConnectorId,
@@ -809,6 +829,7 @@ function delete_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -841,6 +862,7 @@ function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sip_rule(
     sipRuleId,
     params::AbstractDict{String};
@@ -876,6 +898,7 @@ function delete_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -910,6 +933,7 @@ function delete_voice_connector_emergency_calling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_emergency_calling_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -945,6 +969,7 @@ function delete_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_group(
     voiceConnectorGroupId,
     params::AbstractDict{String};
@@ -967,7 +992,7 @@ Deletes the origination settings for the specified Amazon Chime SDK Voice Connec
 
 !!! note
     If emergency calling is configured for the Voice Connector, it must be deleted prior to
-deleting the origination settings.
+    deleting the origination settings.
 
 # Arguments
 
@@ -983,6 +1008,7 @@ function delete_voice_connector_origination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_origination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1017,6 +1043,7 @@ function delete_voice_connector_proxy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_proxy(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1051,6 +1078,7 @@ function delete_voice_connector_streaming_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_streaming_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1073,7 +1101,7 @@ Deletes the termination settings for the specified Amazon Chime SDK Voice Connec
 
 !!! note
     If emergency calling is configured for the Voice Connector, it must be deleted prior to
-deleting the termination settings.
+    deleting the termination settings.
 
 # Arguments
 
@@ -1089,6 +1117,7 @@ function delete_voice_connector_termination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_termination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1127,6 +1156,7 @@ function delete_voice_connector_termination_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_termination_credentials(
     Usernames,
     voiceConnectorId,
@@ -1165,6 +1195,7 @@ function delete_voice_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_profile(
     VoiceProfileId,
     params::AbstractDict{String};
@@ -1199,6 +1230,7 @@ function delete_voice_profile_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_profile_domain(
     VoiceProfileDomainId,
     params::AbstractDict{String};
@@ -1236,6 +1268,7 @@ function disassociate_phone_numbers_from_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers,
     voiceConnectorId,
@@ -1280,6 +1313,7 @@ function disassociate_phone_numbers_from_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId,
@@ -1310,6 +1344,7 @@ function get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1337,6 +1372,7 @@ function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -1372,6 +1408,7 @@ function get_phone_number_order(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_phone_number_order(
     phoneNumberOrderId,
     params::AbstractDict{String};
@@ -1401,6 +1438,7 @@ function get_phone_number_settings(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_phone_number_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1473,7 @@ function get_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_proxy_session(
     proxySessionId,
     voiceConnectorId,
@@ -1471,6 +1510,7 @@ function get_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -1493,8 +1533,8 @@ Gets the Alexa Skill configuration for the SIP media application.
 
 !!! important
     Due to changes made by the Amazon Alexa service, this API is no longer available for
-use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
-page.
+    use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
+    page.
 
 # Arguments
 
@@ -1510,6 +1550,7 @@ function get_sip_media_application_alexa_skill_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sip_media_application_alexa_skill_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -1544,6 +1585,7 @@ function get_sip_media_application_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sip_media_application_logging_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -1577,6 +1619,7 @@ function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sip_rule(
     sipRuleId,
     params::AbstractDict{String};
@@ -1614,6 +1657,7 @@ function get_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_speaker_search_task(
     SpeakerSearchTaskId,
     VoiceConnectorId,
@@ -1650,6 +1694,7 @@ function get_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1684,6 +1729,7 @@ function get_voice_connector_emergency_calling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_emergency_calling_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1719,6 +1765,7 @@ function get_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_group(
     voiceConnectorGroupId,
     params::AbstractDict{String};
@@ -1754,6 +1801,7 @@ function get_voice_connector_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_logging_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1788,6 +1836,7 @@ function get_voice_connector_origination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_origination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1823,6 +1872,7 @@ function get_voice_connector_proxy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_proxy(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1859,6 +1909,7 @@ function get_voice_connector_streaming_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_streaming_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1893,6 +1944,7 @@ function get_voice_connector_termination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_termination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1928,6 +1980,7 @@ function get_voice_connector_termination_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_termination_health(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -1962,6 +2015,7 @@ function get_voice_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_profile(
     VoiceProfileId,
     params::AbstractDict{String};
@@ -1996,6 +2050,7 @@ function get_voice_profile_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_profile_domain(
     VoiceProfileDomainId,
     params::AbstractDict{String};
@@ -2037,6 +2092,7 @@ function get_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_tone_analysis_task(
     VoiceConnectorId,
     VoiceToneAnalysisTaskId,
@@ -2071,6 +2127,7 @@ function list_available_voice_connector_regions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_voice_connector_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2104,6 +2161,7 @@ function list_phone_number_orders(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_phone_number_orders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2139,6 +2197,7 @@ function list_phone_numbers(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/phone-numbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2179,6 +2238,7 @@ function list_proxy_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_proxy_sessions(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2215,6 +2275,7 @@ function list_sip_media_applications(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sip_media_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2247,6 +2308,7 @@ function list_sip_rules(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/sip-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_sip_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2276,6 +2338,7 @@ function list_supported_phone_number_countries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_supported_phone_number_countries(
     product_type,
     params::AbstractDict{String};
@@ -2311,6 +2374,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2344,6 +2408,7 @@ function list_voice_connector_groups(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_voice_connector_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2376,6 +2441,7 @@ function list_voice_connector_termination_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_voice_connector_termination_credentials(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2408,6 +2474,7 @@ function list_voice_connectors(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/voice-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_voice_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2441,6 +2508,7 @@ function list_voice_profile_domains(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_voice_profile_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2481,6 +2549,7 @@ function list_voice_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_voice_profiles(
     voice_profile_domain_id,
     params::AbstractDict{String};
@@ -2509,8 +2578,8 @@ Updates the Alexa Skill configuration for the SIP media application.
 
 !!! important
     Due to changes made by the Amazon Alexa service, this API is no longer available for
-use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
-page.
+    use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
+    page.
 
 # Arguments
 
@@ -2532,6 +2601,7 @@ function put_sip_media_application_alexa_skill_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_sip_media_application_alexa_skill_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -2573,6 +2643,7 @@ function put_sip_media_application_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_sip_media_application_logging_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -2611,6 +2682,7 @@ function put_voice_connector_emergency_calling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
     voiceConnectorId,
@@ -2658,6 +2730,7 @@ function put_voice_connector_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
     voiceConnectorId,
@@ -2701,6 +2774,7 @@ function put_voice_connector_origination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_origination(
     Origination,
     voiceConnectorId,
@@ -2755,6 +2829,7 @@ function put_voice_connector_proxy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
@@ -2804,6 +2879,7 @@ function put_voice_connector_streaming_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
     voiceConnectorId,
@@ -2847,6 +2923,7 @@ function put_voice_connector_termination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_termination(
     Termination,
     voiceConnectorId,
@@ -2890,6 +2967,7 @@ function put_voice_connector_termination_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_termination_credentials(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2924,6 +3002,7 @@ function restore_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -2972,6 +3051,7 @@ function search_available_phone_numbers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_available_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2992,9 +3072,9 @@ Starts a speaker search task.
 
 !!! important
     Before starting any speaker search tasks, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
 
 # Arguments
 
@@ -3027,6 +3107,7 @@ function start_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_speaker_search_task(
     TransactionId,
     VoiceConnectorId,
@@ -3061,9 +3142,9 @@ in the *Amazon Chime SDK Developer Guide*.
 
 !!! important
     Before starting any voice tone analysis tasks, you must provide all notices and obtain
-all consents from the speaker as required under applicable privacy and biometrics laws, and
-as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    all consents from the speaker as required under applicable privacy and biometrics laws,
+    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/)
+    for the Amazon Chime SDK.
 
 # Arguments
 
@@ -3092,6 +3173,7 @@ function start_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_voice_tone_analysis_task(
     LanguageCode,
     TransactionId,
@@ -3139,6 +3221,7 @@ function stop_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_speaker_search_task(
     SpeakerSearchTaskId,
     VoiceConnectorId,
@@ -3177,6 +3260,7 @@ function stop_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_voice_tone_analysis_task(
     VoiceConnectorId,
     VoiceToneAnalysisTaskId,
@@ -3212,6 +3296,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -3255,6 +3340,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -3293,6 +3379,7 @@ function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_conf
         "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3338,6 +3425,7 @@ function update_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -3375,6 +3463,7 @@ function update_phone_number_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_phone_number_settings(
     CallingName,
     params::AbstractDict{String};
@@ -3423,6 +3512,7 @@ function update_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_proxy_session(
     Capabilities,
     proxySessionId,
@@ -3468,6 +3558,7 @@ function update_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -3510,6 +3601,7 @@ function update_sip_media_application_call(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sip_media_application_call(
     Arguments,
     sipMediaApplicationId,
@@ -3557,6 +3649,7 @@ function update_sip_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sip_rule(
     Name,
     sipRuleId,
@@ -3598,6 +3691,7 @@ function update_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_connector(
     Name,
     RequireEncryption,
@@ -3647,6 +3741,7 @@ function update_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_connector_group(
     Name,
     VoiceConnectorItems,
@@ -3675,20 +3770,19 @@ end
     update_voice_profile(speaker_search_task_id, voice_profile_id)
     update_voice_profile(speaker_search_task_id, voice_profile_id, params::Dict{String,<:Any})
 
-Updates the specified voice profile’s voice print and refreshes its expiration
-timestamp.</p>
+Updates the specified voice profile’s voice print and refreshes its expiration timestamp.
 
 !!! important
     As a condition of using this feature, you acknowledge that the collection, use,
-storage, and retention of your caller’s biometric identifiers and biometric information
-(“biometric data”) in the form of a digital voiceprint requires the caller’s informed
-consent via a written release. Such consent is required under various state laws, including
-biometrics laws in Illinois, Texas, Washington and other state privacy laws.
+    storage, and retention of your caller’s biometric identifiers and biometric information
+    (“biometric data”) in the form of a digital voiceprint requires the caller’s informed
+    consent via a written release. Such consent is required under various state laws,
+    including biometrics laws in Illinois, Texas, Washington and other state privacy laws.
 
- <p>You must provide a written release to each caller through a process that clearly
-reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights
-service, as required under the terms of your agreement with AWS governing your use of the
-service.
+    You must provide a written release to each caller through a process that clearly
+    reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights
+    service, as required under the terms of your agreement with AWS governing your use of
+    the service.
 
 # Arguments
 
@@ -3706,6 +3800,7 @@ function update_voice_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_profile(
     SpeakerSearchTaskId,
     VoiceProfileId,
@@ -3754,6 +3849,7 @@ function update_voice_profile_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_profile_domain(
     VoiceProfileDomainId,
     params::AbstractDict{String};
@@ -3813,6 +3909,7 @@ function validate_e911_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_e911_address(
     AwsAccountId,
     City,

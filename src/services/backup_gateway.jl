@@ -13,7 +13,7 @@ you can back up and restore your VMs through the gateway.
 
 # Arguments
 
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the `ListGateways`
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`list_gateways`](@ref)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 - `server_arn`: The Amazon Resource Name (ARN) of the server that hosts your virtual
   machines.
@@ -28,6 +28,7 @@ function associate_gateway_to_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_gateway_to_server(
     GatewayArn,
     ServerArn,
@@ -53,7 +54,7 @@ end
     create_gateway(activation_key, gateway_display_name, gateway_type, params::Dict{String,<:Any})
 
 Creates a backup gateway. After you create a gateway, you can associate it with a server
-using the `AssociateGatewayToServer` operation.
+using the [`associate_gateway_to_server`](@ref) operation.
 
 # Arguments
 
@@ -84,6 +85,7 @@ function create_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_gateway(
     ActivationKey,
     GatewayDisplayName,
@@ -127,6 +129,7 @@ function delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway(
     GatewayArn,
     params::AbstractDict{String};
@@ -162,6 +165,7 @@ function delete_hypervisor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};
@@ -198,6 +202,7 @@ function disassociate_gateway_from_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_gateway_from_server(
     GatewayArn,
     params::AbstractDict{String};
@@ -223,7 +228,7 @@ effect. Use this to get a gateway's bandwidth rate limit schedule.
 
 # Arguments
 
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [ `ListGateways` ](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`ListGateways`](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 """
 function get_bandwidth_rate_limit_schedule(
@@ -236,6 +241,7 @@ function get_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bandwidth_rate_limit_schedule(
     GatewayArn,
     params::AbstractDict{String};
@@ -269,6 +275,7 @@ function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gateway(
     GatewayArn,
     params::AbstractDict{String};
@@ -304,6 +311,7 @@ function get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};
@@ -341,6 +349,7 @@ function get_hypervisor_property_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hypervisor_property_mappings(
     HypervisorArn,
     params::AbstractDict{String};
@@ -376,6 +385,7 @@ function get_virtual_machine(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_virtual_machine(
     ResourceArn,
     params::AbstractDict{String};
@@ -422,6 +432,7 @@ function import_hypervisor_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_hypervisor_configuration(
     Host,
     Name,
@@ -459,6 +470,7 @@ function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -487,6 +499,7 @@ function list_hypervisors(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_hypervisors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -515,6 +528,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -552,6 +566,7 @@ function list_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_virtual_machines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,9 +589,9 @@ limiting is in effect. Use this to initiate a gateway's bandwidth rate limit sch
 # Arguments
 
 - `bandwidth_rate_limit_intervals`: An array containing bandwidth rate limit schedule
-  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the
-  array is empty.
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [ `ListGateways` ](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
+  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled,
+  the array is empty.
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`ListGateways`](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 """
 function put_bandwidth_rate_limit_schedule(
@@ -594,6 +609,7 @@ function put_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayArn,
@@ -649,6 +665,7 @@ function put_hypervisor_property_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_hypervisor_property_mappings(
     HypervisorArn,
     IamRoleArn,
@@ -693,7 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DayOfMonth"`: The day of the month start maintenance on a gateway.
 
-Valid values range from `Sunday` to `Saturday`.
+  Valid values range from `Sunday` to `Saturday`.
 - `"DayOfWeek"`: The day of the week to start maintenance on a gateway.
 """
 function put_maintenance_start_time(
@@ -710,6 +727,7 @@ function put_maintenance_start_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_maintenance_start_time(
     GatewayArn,
     HourOfDay,
@@ -755,6 +773,7 @@ function start_virtual_machines_metadata_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_virtual_machines_metadata_sync(
     HypervisorArn,
     params::AbstractDict{String};
@@ -789,6 +808,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -839,6 +859,7 @@ function test_hypervisor_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_hypervisor_configuration(
     GatewayArn,
     Host,
@@ -878,6 +899,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -925,6 +947,7 @@ function update_gateway_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_information(
     GatewayArn,
     params::AbstractDict{String};
@@ -949,7 +972,7 @@ software update.
 
 !!! note
     When you make this request, you get a `200 OK` success response immediately. However,
-it might take some time for the update to complete.
+    it might take some time for the update to complete.
 
 # Arguments
 
@@ -965,6 +988,7 @@ function update_gateway_software_now(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_software_now(
     GatewayArn,
     params::AbstractDict{String};
@@ -1013,6 +1037,7 @@ function update_hypervisor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};

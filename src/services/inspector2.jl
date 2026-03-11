@@ -27,6 +27,7 @@ function associate_member(accountId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member(
     accountId,
     params::AbstractDict{String};
@@ -62,6 +63,7 @@ function batch_get_account_status(; aws_config::AbstractAWSConfig=current_aws_co
         "POST", "/status/batch/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_get_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -97,6 +99,7 @@ function batch_get_code_snippet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_code_snippet(
     findingArns,
     params::AbstractDict{String};
@@ -134,6 +137,7 @@ function batch_get_finding_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_finding_details(
     findingArns,
     params::AbstractDict{String};
@@ -171,6 +175,7 @@ function batch_get_free_trial_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_free_trial_info(
     accountIds,
     params::AbstractDict{String};
@@ -200,7 +205,7 @@ Amazon Inspector to use this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accountIds"`: <p>The unique identifiers for the Amazon Web Services accounts to
-  retrieve Amazon Inspector deep inspection activation status for. <pre>` &lt;/p&gt; `</pre>
+  retrieve Amazon Inspector deep inspection activation status for. <pre>`&lt;/p&gt;`</pre>
 """
 function batch_get_member_ec2_deep_inspection_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -212,6 +217,7 @@ function batch_get_member_ec2_deep_inspection_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_member_ec2_deep_inspection_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -248,6 +254,7 @@ function batch_update_member_ec2_deep_inspection_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_member_ec2_deep_inspection_status(
     accountIds,
     params::AbstractDict{String};
@@ -285,6 +292,7 @@ function cancel_findings_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_findings_report(
     reportId,
     params::AbstractDict{String};
@@ -320,6 +328,7 @@ function cancel_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_sbom_export(
     reportId,
     params::AbstractDict{String};
@@ -346,7 +355,7 @@ Creates a CIS scan configuration.
 
 - `scan_name`: The scan name for the CIS scan configuration.
 - `schedule`: The schedule for the CIS scan configuration.
-- `security_level`:  The security level for the CIS scan configuration. Security level
+- `security_level`: The security level for the CIS scan configuration. Security level
   refers to the Benchmark levels that CIS assigns to a profile.
 - `targets`: The targets for the CIS scan configuration.
 
@@ -376,6 +385,7 @@ function create_cis_scan_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cis_scan_configuration(
     scanName,
     schedule,
@@ -416,8 +426,8 @@ Creates a filter resource using specified filter criteria. When the filter actio
 - `action`: Defines the action that is to be applied to the findings that match the filter.
 - `filter_criteria`: Defines the criteria to be used in the filter for querying findings.
 - `name`: The name of the filter. Minimum length of 3. Maximum length of 64. Valid
-  characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces
-  are not allowed.
+  characters include alphanumeric characters, dot (.), underscore (_), and dash (-).
+  Spaces are not allowed.
 
 # Optional Parameters
 
@@ -440,6 +450,7 @@ function create_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_filter(
     action,
     filterCriteria,
@@ -494,6 +505,7 @@ function create_findings_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_findings_report(
     reportFormat,
     s3Destination,
@@ -546,6 +558,7 @@ function create_sbom_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sbom_export(
     reportFormat,
     s3Destination,
@@ -590,6 +603,7 @@ function delete_cis_scan_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cis_scan_configuration(
     scanConfigurationArn,
     params::AbstractDict{String};
@@ -629,6 +643,7 @@ function delete_filter(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_filter(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -657,6 +672,7 @@ function describe_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -688,6 +704,7 @@ function disable(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disable(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -718,6 +735,7 @@ function disable_delegated_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
@@ -757,6 +775,7 @@ function disassociate_member(accountId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member(
     accountId,
     params::AbstractDict{String};
@@ -801,6 +820,7 @@ function enable(resourceTypes; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable(
     resourceTypes,
     params::AbstractDict{String};
@@ -854,6 +874,7 @@ function enable_delegated_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
@@ -891,8 +912,8 @@ Retrieves a CIS scan report.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"reportFormat"`:  The format of the report. Valid values are `PDF` and `CSV`. If no
-  value is specified, the report format defaults to `PDF`.
+- `"reportFormat"`: The format of the report. Valid values are `PDF` and `CSV`. If no value
+  is specified, the report format defaults to `PDF`.
 - `"targetAccounts"`: The target accounts.
 """
 function get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=current_aws_config())
@@ -904,6 +925,7 @@ function get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cis_scan_report(
     scanArn,
     params::AbstractDict{String};
@@ -957,6 +979,7 @@ function get_cis_scan_result_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cis_scan_result_details(
     accountId,
     scanArn,
@@ -994,6 +1017,7 @@ function get_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/configuration/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1021,6 +1045,7 @@ function get_delegated_admin_account(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delegated_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1050,6 +1075,7 @@ function get_ec2_deep_inspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ec2_deep_inspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1084,6 +1110,7 @@ function get_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_encryption_key(
     resourceType,
     scanType,
@@ -1125,6 +1152,7 @@ function get_findings_report_status(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings_report_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1157,6 +1185,7 @@ function get_member(accountId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_member(
     accountId,
     params::AbstractDict{String};
@@ -1192,6 +1221,7 @@ function get_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sbom_export(
     reportId,
     params::AbstractDict{String};
@@ -1219,8 +1249,8 @@ Lists the permissions an account has to configure Amazon Inspector.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1236,6 +1266,7 @@ function list_account_permissions(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1274,6 +1305,7 @@ function list_cis_scan_configurations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cis_scan_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1319,6 +1351,7 @@ function list_cis_scan_results_aggregated_by_checks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cis_scan_results_aggregated_by_checks(
     scanArn,
     params::AbstractDict{String};
@@ -1366,6 +1399,7 @@ function list_cis_scan_results_aggregated_by_target_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cis_scan_results_aggregated_by_target_resource(
     scanArn,
     params::AbstractDict{String};
@@ -1403,6 +1437,7 @@ function list_cis_scans(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/cis/scan/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cis_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1428,8 +1463,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filterCriteria"`: An object that contains details on the filters to apply to the
   coverage data for your environment.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1441,6 +1476,7 @@ function list_coverage(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/coverage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_coverage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1479,6 +1515,7 @@ function list_coverage_statistics(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_coverage_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1502,8 +1539,8 @@ Lists information about the Amazon Inspector delegated administrator of your org
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1518,6 +1555,7 @@ function list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_delegated_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1543,8 +1581,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The action the filter applies to matched findings.
 - `"arns"`: The Amazon resource number (ARN) of the filter.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1556,6 +1594,7 @@ function list_filters(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/filters/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1587,8 +1626,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"aggregationRequest"`: Details of the aggregation request that is used to filter your
   aggregation results.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1606,6 +1645,7 @@ function list_finding_aggregations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_finding_aggregations(
     aggregationType,
     params::AbstractDict{String};
@@ -1636,8 +1676,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filterCriteria"`: Details on the filters to apply to your finding results.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1650,6 +1690,7 @@ function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/findings/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1674,8 +1715,8 @@ organization.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1689,6 +1730,7 @@ function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/members/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1721,6 +1763,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1747,8 +1790,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountIds"`: The Amazon Web Services account IDs to retrieve usage totals for.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1760,6 +1803,7 @@ function list_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/usage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_usage_totals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1795,6 +1839,7 @@ function reset_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_encryption_key(
     resourceType,
     scanType,
@@ -1846,6 +1891,7 @@ function search_vulnerabilities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_vulnerabilities(
     filterCriteria,
     params::AbstractDict{String};
@@ -1866,7 +1912,7 @@ end
     send_cis_session_health(scan_job_id, session_token)
     send_cis_session_health(scan_job_id, session_token, params::Dict{String,<:Any})
 
- Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
+Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
 communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
 API to start a CIS scan session for the scan ID supplied by the service.
 
@@ -1886,6 +1932,7 @@ function send_cis_session_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_cis_session_health(
     scanJobId,
     sessionToken,
@@ -1911,7 +1958,7 @@ end
     send_cis_session_telemetry(messages, scan_job_id, session_token)
     send_cis_session_telemetry(messages, scan_job_id, session_token, params::Dict{String,<:Any})
 
- Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
+Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
 communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
 API to start a CIS scan session for the scan ID supplied by the service.
 
@@ -1934,6 +1981,7 @@ function send_cis_session_telemetry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_cis_session_telemetry(
     messages,
     scanJobId,
@@ -1964,7 +2012,7 @@ end
     start_cis_session(message, scan_job_id)
     start_cis_session(message, scan_job_id, params::Dict{String,<:Any})
 
- Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
+Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
 with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
 a CIS scan session for the scan ID supplied by the service.
 
@@ -1984,6 +2032,7 @@ function start_cis_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cis_session(
     message,
     scanJobId,
@@ -2009,7 +2058,7 @@ end
     stop_cis_session(message, scan_job_id, session_token)
     stop_cis_session(message, scan_job_id, session_token, params::Dict{String,<:Any})
 
- Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
+Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
 with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
 a CIS scan session for the scan ID supplied by the service.
 
@@ -2032,6 +2081,7 @@ function stop_cis_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_cis_session(
     message,
     scanJobId,
@@ -2078,6 +2128,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2115,6 +2166,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2146,7 +2198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"scanName"`: The scan name for the CIS scan configuration.
 - `"schedule"`: The schedule for the CIS scan configuration.
-- `"securityLevel"`:  The security level for the CIS scan configuration. Security level
+- `"securityLevel"`: The security level for the CIS scan configuration. Security level
   refers to the Benchmark levels that CIS assigns to a profile.
 - `"targets"`: The targets for the CIS scan configuration.
 """
@@ -2161,6 +2213,7 @@ function update_cis_scan_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cis_scan_configuration(
     scanConfigurationArn,
     params::AbstractDict{String};
@@ -2206,6 +2259,7 @@ function update_configuration(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2231,8 +2285,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"activateDeepInspection"`: Specify `TRUE` to activate Amazon Inspector deep inspection
   in your account, or `FALSE` to deactivate. Member accounts in an organization cannot
-  deactivate deep inspection, instead the delegated administrator for the organization can
-  deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
+  deactivate deep inspection, instead the delegated administrator for the organization
+  can deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
 - `"packagePaths"`: The Amazon Inspector deep inspection custom paths you are adding for
   your account.
 """
@@ -2246,6 +2300,7 @@ function update_ec2_deep_inspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ec2_deep_inspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2284,6 +2339,7 @@ function update_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_encryption_key(
     kmsKeyId,
     resourceType,
@@ -2340,6 +2396,7 @@ function update_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_filter(
     filterArn,
     params::AbstractDict{String};
@@ -2379,6 +2436,7 @@ function update_org_ec2_deep_inspection_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_org_ec2_deep_inspection_configuration(
     orgPackagePaths,
     params::AbstractDict{String};
@@ -2419,6 +2477,7 @@ function update_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_configuration(
     autoEnable,
     params::AbstractDict{String};

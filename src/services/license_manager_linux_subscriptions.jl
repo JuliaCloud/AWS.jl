@@ -27,6 +27,7 @@ function deregister_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -70,6 +71,7 @@ function get_registered_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_registered_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -104,6 +106,7 @@ function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -129,23 +132,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: An array of structures that you can use to filter the results by your
   specified criteria. For example, you can specify `Region` in the `Name`, with the
-  `contains` operator to list all subscriptions that match a partial string in the `Value`,
-  such as `us-west`.
+  `contains` operator to list all subscriptions that match a partial string in the
+  `Value`, such as `us-west`.
 
   For each filter, you can specify one of the following values for the `Name` key to
-  streamline results: - `AccountID`
-   - `AmiID`
-   - `DualSubscription`
-   - `InstanceID`
-   - `InstanceType`
-   - `ProductCode`
-   - `Region`
-   - `Status`
-   - `UsageOperation`
+  streamline results:
+
+  - `AccountID`
+  - `AmiID`
+  - `DualSubscription`
+  - `InstanceID`
+  - `InstanceType`
+  - `ProductCode`
+  - `Region`
+  - `Status`
+  - `UsageOperation`
+
   For each filter, you can use one of the following `Operator` values to define the
-  behavior of the filter: - `contains`
- - `equals`
- - `Notequal`
+  behavior of the filter:
+
+  - `contains`
+  - `equals`
+  - `Notequal`
+
 - `"MaxResults"`: The maximum items to return in a request.
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -160,6 +169,7 @@ function list_linux_subscription_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_linux_subscription_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,13 +196,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: An array of structures that you can use to filter the results to those that
   match one or more sets of key-value pairs that you specify. For example, you can filter
-  by the name of `Subscription` with an optional operator to see subscriptions that match,
-  partially match, or don't match a certain subscription's name.
+  by the name of `Subscription` with an optional operator to see subscriptions that
+  match, partially match, or don't match a certain subscription's name.
 
-  The valid names for this filter are: - `Subscription`
-  The valid Operators for this filter are: - `contains`
- - `equals`
- - `Notequal`
+  The valid names for this filter are:
+
+  - `Subscription`
+
+  The valid Operators for this filter are:
+
+  - `contains`
+  - `equals`
+  - `Notequal`
+
 - `"MaxResults"`: The maximum items to return in a request.
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -205,6 +221,7 @@ function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_linux_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -243,6 +260,7 @@ function list_registered_subscription_providers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_registered_subscription_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -276,6 +294,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -300,8 +319,8 @@ Register the supported third-party subscription provider for your Bring Your Own
 # Arguments
 
 - `secret_arn`: The Amazon Resource Name (ARN) of the secret where you've stored your
-  subscription provider's access token. For RHEL subscriptions managed through the Red Hat
-  Subscription Manager (RHSM), the secret contains your Red Hat Offline token.
+  subscription provider's access token. For RHEL subscriptions managed through the Red
+  Hat Subscription Manager (RHSM), the secret contains your Red Hat Offline token.
 - `subscription_provider_source`: The supported Linux subscription provider to register.
 
 # Optional Parameters
@@ -327,6 +346,7 @@ function register_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_subscription_provider(
     SecretArn,
     SubscriptionProviderSource,
@@ -373,6 +393,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -411,6 +432,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -437,8 +459,8 @@ Updates the service settings for Linux subscriptions.
 - `linux_subscriptions_discovery`: Describes if the discovery of Linux subscriptions is
   enabled.
 - `linux_subscriptions_discovery_settings`: The settings defined for Linux subscriptions
-  discovery. The settings include if Organizations integration has been enabled, and which
-  Regions data will be aggregated from.
+  discovery. The settings include if Organizations integration has been enabled, and
+  which Regions data will be aggregated from.
 
 # Optional Parameters
 
@@ -464,6 +486,7 @@ function update_service_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings,

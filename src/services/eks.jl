@@ -37,6 +37,7 @@ function associate_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_access_policy(
     accessScope,
     name,
@@ -95,6 +96,7 @@ function associate_encryption_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_encryption_config(
     encryptionConfig,
     name,
@@ -158,6 +160,7 @@ function associate_identity_provider_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_identity_provider_config(
     name,
     oidc,
@@ -201,16 +204,17 @@ in the *Amazon EKS User Guide*.
 
 - `name`: The name of your cluster.
 - `principal_arn`: The ARN of the IAM principal for the `AccessEntry`. You can specify one
-  ARN for each access entry. You can't specify the same ARN in more than one access entry.
-  This value can't be changed after access entry creation.
+  ARN for each access entry. You can't specify the same ARN in more than one access
+  entry. This value can't be changed after access entry creation.
 
   The valid principals differ depending on the type of the access entry in the `type`
-  field. The only valid ARN is IAM roles for the types of access entries for nodes: <code/>
-  <code/>. You can use every IAM principal type for `STANDARD` access entries. You can't
-  use the STS session principal type with access entries because this is a temporary
-  principal for each session and not a permanent identity that can be assigned permissions.
+  field. The only valid ARN is IAM roles for the types of access entries for nodes:
+  <code/> <code/>. You can use every IAM principal type for `STANDARD` access entries.
+  You can't use the STS session principal type with access entries because this is a
+  temporary principal for each session and not a permanent identity that can be assigned
+  permissions.
 
-   [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp)
+  [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp)
   recommend using IAM roles with temporary credentials, rather than IAM users with long-
   term credentials.
 
@@ -222,20 +226,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the request.
 - `"kubernetesGroups"`: The value for `name` that you've specified for `kind: Group` as a
   `subject` in a Kubernetes `RoleBinding` or `ClusterRoleBinding` object. Amazon EKS
-  doesn't confirm that the value for `name` exists in any bindings on your cluster. You can
-  specify one or more names.
+  doesn't confirm that the value for `name` exists in any bindings on your cluster. You
+  can specify one or more names.
 
   Kubernetes authorizes the `principalArn` of the access entry to access any cluster
-  objects that you've specified in a Kubernetes `Role` or `ClusterRole` object that is also
-  specified in a binding's `roleRef`. For more information about creating Kubernetes
+  objects that you've specified in a Kubernetes `Role` or `ClusterRole` object that is
+  also specified in a binding's `roleRef`. For more information about creating Kubernetes
   `RoleBinding`, `ClusterRoleBinding`, `Role`, or `ClusterRole` objects, see [Using RBAC Authorization in the Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
 
   If you want Amazon EKS to authorize the `principalArn` (instead of, or in addition to
-  Kubernetes authorizing the `principalArn`), you can associate one or more access policies
-  to the access entry using `AssociateAccessPolicy`. If you associate any access policies,
-  the `principalARN` has all permissions assigned in the associated access policies and all
-  permissions in any Kubernetes `Role` or `ClusterRole` objects that the group names are
-  bound to.
+  Kubernetes authorizing the `principalArn`), you can associate one or more access
+  policies to the access entry using `AssociateAccessPolicy`. If you associate any access
+  policies, the `principalARN` has all permissions assigned in the associated access
+  policies and all permissions in any Kubernetes `Role` or `ClusterRole` objects that the
+  group names are bound to.
 - `"tags"`: Metadata that assists with categorization and organization. Each tag consists
   of a key and an optional value. You define both. Tags don't propagate to any other
   cluster or Amazon Web Services resources.
@@ -243,10 +247,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `EC2_LINUX`, and `EC2_WINDOWS`.
 
   If the `principalArn` is for an IAM role that's used for self-managed Amazon EC2 nodes,
-  specify `EC2_LINUX` or `EC2_WINDOWS`. Amazon EKS grants the necessary permissions to the
-  node for you. If the `principalArn` is for any other purpose, specify `STANDARD`. If you
-  don't specify a value, Amazon EKS sets the value to `STANDARD`. It's unnecessary to
-  create access entries for IAM roles used with Fargate profiles or managed Amazon EC2
+  specify `EC2_LINUX` or `EC2_WINDOWS`. Amazon EKS grants the necessary permissions to
+  the node for you. If the `principalArn` is for any other purpose, specify `STANDARD`.
+  If you don't specify a value, Amazon EKS sets the value to `STANDARD`. It's unnecessary
+  to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2
   nodes, because Amazon EKS creates entries in the `aws-auth` `ConfigMap` for the roles.
   You can't change this value once you've created the access entry.
 
@@ -271,6 +275,7 @@ function create_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_entry(
     name,
     principalArn,
@@ -315,7 +320,7 @@ in the *Amazon EKS User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"addonVersion"`: The version of the add-on. The version must match one of the versions
-  returned by [ `DescribeAddonVersions` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
+  returned by [`DescribeAddonVersions`](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 - `"configurationValues"`: The set of configuration values for the add-on that's created.
@@ -327,16 +332,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Attach an IAM Role to an Amazon EKS add-on using Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html)
   in the EKS User Guide.
 - `"resolveConflicts"`: How to resolve field value conflicts for an Amazon EKS add-on.
-  Conflicts are handled based on the value you choose: - **None** – If the self-managed
-  version of the add-on is installed on your cluster, Amazon EKS doesn't change the value.
-  Creation of the add-on might fail.
-   - **Overwrite** – If the self-managed version of the add-on is installed on your cluster
-  and the Amazon EKS default value is different than the existing value, Amazon EKS changes
-  the value to the Amazon EKS default value.
-   - **Preserve** – This is similar to the NONE option. If the self-managed version of the
-  add-on is installed on your cluster Amazon EKS doesn't change the add-on resource
-  properties. Creation of the add-on might fail if conflicts are detected. This option
-  works differently during the update operation. For more information, see [UpdateAddon](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAddon.html).
+  Conflicts are handled based on the value you choose:
+
+  - **None** – If the self-managed version of the add-on is installed on your cluster,
+    Amazon EKS doesn't change the value. Creation of the add-on might fail.
+  - **Overwrite** – If the self-managed version of the add-on is installed on your
+    cluster and the Amazon EKS default value is different than the existing value, Amazon
+    EKS changes the value to the Amazon EKS default value.
+  - **Preserve** – This is similar to the NONE option. If the self-managed version of the
+    add-on is installed on your cluster Amazon EKS doesn't change the add-on resource
+    properties. Creation of the add-on might fail if conflicts are detected. This option
+    works differently during the update operation. For more information, see [UpdateAddon](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAddon.html).
+
   If you don't currently have the self-managed version of the add-on installed on your
   cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default
   values, regardless of the option that you specify.
@@ -347,9 +354,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon EKS User Guide*.
 
   !!! note
-      To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider
-  created for your cluster. For more information, see [Enabling IAM roles for service accounts on your cluster](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
-  in the *Amazon EKS User Guide*.
+      To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC)
+      provider created for your cluster. For more information, see [Enabling IAM roles for service accounts on your cluster](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
+      in the *Amazon EKS User Guide*.
+
 - `"tags"`: Metadata that assists with categorization and organization. Each tag consists
   of a key and an optional value. You define both. Tags don't propagate to any other
   cluster or Amazon Web Services resources.
@@ -363,6 +371,7 @@ function create_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_addon(
     addonName,
     name,
@@ -411,17 +420,18 @@ You can use the `endpointPublicAccess` and `endpointPrivateAccess` parameters to
 disable public and private access to your cluster's Kubernetes API server endpoint. By
 default, public access is enabled, and private access is disabled. For more information,
 see [Amazon EKS Cluster Endpoint Access Control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
-in the * <i>Amazon EKS User Guide* </i>.
+in the *<i>Amazon EKS User Guide* </i>.
 
 You can use the `logging` parameter to enable or disable exporting the Kubernetes control
 plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs
 aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
-in the * <i>Amazon EKS User Guide* </i>.
+in the *<i>Amazon EKS User Guide* </i>.
 
 !!! note
     CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported
-control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).In
-most cases, it takes several minutes to create a cluster. After you create an Amazon EKS
+    control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
+
+In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS
 cluster, you must configure your Kubernetes tooling to communicate with the API server and
 launch nodes into your cluster. For more information, see [Allowing users to access your cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html)
 and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
@@ -431,16 +441,16 @@ in the *Amazon EKS User Guide*.
 
 - `name`: The unique name to give to your cluster.
 - `resources_vpc_config`: The VPC configuration that's used by the cluster control plane.
-  Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For
-  more information, see [Cluster VPC Considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
+  Amazon EKS VPC resources have specific requirements to work properly with Kubernetes.
+  For more information, see [Cluster VPC Considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
   and [Cluster Security Group Considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html)
-  in the *Amazon EKS User Guide*. You must specify at least two subnets. You can specify up
-  to five security groups. However, we recommend that you use a dedicated security group
-  for your cluster control plane.
+  in the *Amazon EKS User Guide*. You must specify at least two subnets. You can specify
+  up to five security groups. However, we recommend that you use a dedicated security
+  group for your cluster control plane.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that provides permissions for
-  the Kubernetes control plane to make calls to Amazon Web Services API operations on your
-  behalf. For more information, see [Amazon EKS Service IAM Role](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html)
-  in the * <i>Amazon EKS User Guide* </i>.
+  the Kubernetes control plane to make calls to Amazon Web Services API operations on
+  your behalf. For more information, see [Amazon EKS Service IAM Role](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html)
+  in the *<i>Amazon EKS User Guide* </i>.
 
 # Optional Parameters
 
@@ -461,14 +471,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logging"`: Enable or disable exporting the Kubernetes control plane logs for your
   cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to
   CloudWatch Logs. For more information, see [Amazon EKS Cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
-  in the * <i>Amazon EKS User Guide* </i>.
+  in the *<i>Amazon EKS User Guide* </i>.
 
   !!! note
-      CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported
-  control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
+      CloudWatch Logs ingestion, archive storage, and data scanning rates apply to
+      exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
+
 - `"outpostConfig"`: An object representing the configuration of your local Amazon EKS
-  cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost,
-  review [Local clusters for Amazon EKS on Amazon Web Services Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-overview.html)
+  cluster on an Amazon Web Services Outpost. Before creating a local cluster on an
+  Outpost, review [Local clusters for Amazon EKS on Amazon Web Services Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-overview.html)
   in the *Amazon EKS User Guide*. This object isn't available for creating Amazon EKS
   clusters on the Amazon Web Services cloud.
 - `"tags"`: Metadata that assists with categorization and organization. Each tag consists
@@ -479,8 +490,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: The desired Kubernetes version for your cluster. If you don't specify a
   value here, the default version available in Amazon EKS is used.
 
-!!! note
-    The default version might not be the latest version available.
+  !!! note
+      The default version might not be the latest version available.
+
 """
 function create_cluster(
     name, resourcesVpcConfig, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -498,6 +510,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     name,
     resourcesVpcConfig,
@@ -543,8 +556,8 @@ account is granted access to EKS Anywhere Curated Packages.
   characters.
 - `term`: An object representing the term duration and term unit type of your subscription.
   This determines the term length of your subscription. Valid values are MONTHS for term
-  unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription. This
-  value cannot be changed after creating the subscription.
+  unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription.
+  This value cannot be changed after creating the subscription.
 
 # Optional Parameters
 
@@ -555,7 +568,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 - `"licenseQuantity"`: The number of licenses to purchase with the subscription. Valid
-  values are between 1 and 100. This value can't be changed after creating the subscription.
+  values are between 1 and 100. This value can't be changed after creating the
+  subscription.
 - `"licenseType"`: The license type for all licenses in the subscription. Valid value is
   CLUSTER. With the CLUSTER license type, each license covers support for a single EKS
   Anywhere cluster.
@@ -576,6 +590,7 @@ function create_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_eks_anywhere_subscription(
     name,
     term,
@@ -641,7 +656,7 @@ in the *Amazon EKS User Guide*.
 - `pod_execution_role_arn`: The Amazon Resource Name (ARN) of the `Pod` execution role to
   use for a `Pod` that matches the selectors in the Fargate profile. The `Pod` execution
   role allows Fargate infrastructure to register with your cluster as a node, and it
-  provides read access to Amazon ECR image repositories. For more information, see [ `Pod` execution role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html)
+  provides read access to Amazon ECR image repositories. For more information, see [`Pod` execution role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html)
   in the *Amazon EKS User Guide*.
 
 # Optional Parameters
@@ -651,8 +666,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 - `"selectors"`: The selectors to match for a `Pod` to use this Fargate profile. Each
-  selector must have an associated Kubernetes `namespace`. Optionally, you can also specify
-  `labels` for a `namespace`. You may specify up to five selectors in a Fargate profile.
+  selector must have an associated Kubernetes `namespace`. Optionally, you can also
+  specify `labels` for a `namespace`. You may specify up to five selectors in a Fargate
+  profile.
 - `"subnets"`: The IDs of subnets to launch a `Pod` into. A `Pod` running on Fargate isn't
   assigned a public IP address, so only private subnets (with no direct route to an
   Internet Gateway) are accepted for this parameter.
@@ -678,6 +694,7 @@ function create_fargate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fargate_profile(
     fargateProfileName,
     name,
@@ -722,7 +739,7 @@ in the *Amazon EKS User Guide*.
 
 !!! note
     Windows AMI types are only supported for commercial Amazon Web Services Regions that
-support Windows on Amazon EKS.
+    support Windows on Amazon EKS.
 
 # Arguments
 
@@ -733,15 +750,15 @@ support Windows on Amazon EKS.
   instance profile and associated policies. Before you can launch nodes and register them
   into a cluster, you must create an IAM role for those nodes to use when they are
   launched. For more information, see [Amazon EKS node IAM role](https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html)
-  in the * <i>Amazon EKS User Guide* </i>. If you specify `launchTemplate`, then don't
-  specify ` [IamInstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html)
-  ` in your launch template, or the node group deployment will fail. For more information
+  in the *<i>Amazon EKS User Guide* </i>. If you specify `launchTemplate`, then don't
+  specify `[IamInstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html)`
+  in your launch template, or the node group deployment will fail. For more information
   about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
   in the *Amazon EKS User Guide*.
 - `nodegroup_name`: The unique name to give your node group.
 - `subnets`: The subnets to use for the Auto Scaling group that is created for your node
-  group. If you specify `launchTemplate`, then don't specify ` [SubnetId](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html)
-  ` in your launch template, or the node group deployment will fail. For more information
+  group. If you specify `launchTemplate`, then don't specify `[SubnetId](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html)`
+  in your launch template, or the node group deployment will fail. For more information
   about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
   in the *Amazon EKS User Guide*.
 
@@ -760,19 +777,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the request.
 - `"diskSize"`: The root device disk size (in GiB) for your node group instances. The
   default disk size is 20 GiB for Linux and Bottlerocket. The default disk size is 50 GiB
-  for Windows. If you specify `launchTemplate`, then don't specify `diskSize`, or the node
-  group deployment will fail. For more information about using launch templates with Amazon
-  EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+  for Windows. If you specify `launchTemplate`, then don't specify `diskSize`, or the
+  node group deployment will fail. For more information about using launch templates with
+  Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
   in the *Amazon EKS User Guide*.
 - `"instanceTypes"`: Specify the instance types for a node group. If you specify a GPU
   instance type, make sure to also specify an applicable GPU AMI type with the `amiType`
   parameter. If you specify `launchTemplate`, then you can specify zero or one instance
   type in your launch template *or* you can specify 0-20 instance types for
   `instanceTypes`. If however, you specify an instance type in your launch template *and*
-  specify any `instanceTypes`, the node group deployment will fail. If you don't specify an
-  instance type in a launch template or for `instanceTypes`, then `t3.medium` is used, by
-  default. If you specify `Spot` for `capacityType`, then we recommend specifying multiple
-  values for `instanceTypes`. For more information, see [Managed node group capacity types](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html#managed-node-group-capacity-types)
+  specify any `instanceTypes`, the node group deployment will fail. If you don't specify
+  an instance type in a launch template or for `instanceTypes`, then `t3.medium` is used,
+  by default. If you specify `Spot` for `capacityType`, then we recommend specifying
+  multiple values for `instanceTypes`. For more information, see [Managed node group capacity types](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html#managed-node-group-capacity-types)
   and [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
   in the *Amazon EKS User Guide*.
 - `"labels"`: The Kubernetes `labels` to apply to the nodes in the node group when they are
@@ -785,8 +802,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"releaseVersion"`: The AMI version of the Amazon EKS optimized AMI to use with your node
   group. By default, the latest available AMI version for the node group's current
   Kubernetes version is used. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html)
-  in the *Amazon EKS User Guide*. Amazon EKS managed node groups support the November 2022
-  and later releases of the Windows AMIs. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html)
+  in the *Amazon EKS User Guide*. Amazon EKS managed node groups support the November
+  2022 and later releases of the Windows AMIs. For information about Windows versions,
+  see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html)
   in the *Amazon EKS User Guide*.
 
   If you specify `launchTemplate`, and your launch template uses a custom AMI, then don't
@@ -807,10 +825,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Node taints on managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html).
 - `"updateConfig"`: The node group update configuration.
 - `"version"`: The Kubernetes version to use for your managed nodes. By default, the
-  Kubernetes version of the cluster is used, and this is the only accepted specified value.
-  If you specify `launchTemplate`, and your launch template uses a custom AMI, then don't
-  specify `version`, or the node group deployment will fail. For more information about
-  using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+  Kubernetes version of the cluster is used, and this is the only accepted specified
+  value. If you specify `launchTemplate`, and your launch template uses a custom AMI,
+  then don't specify `version`, or the node group deployment will fail. For more
+  information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
   in the *Amazon EKS User Guide*.
 """
 function create_nodegroup(
@@ -833,6 +851,7 @@ function create_nodegroup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_nodegroup(
     name,
     nodeRole,
@@ -886,8 +905,8 @@ Identity once, and reuse it across clusters.
 
 - `name`: The name of the cluster to create the association in.
 - `namespace`: The name of the Kubernetes namespace inside the cluster to create the
-  association in. The service account and the pods that use the service account must be in
-  this namespace.
+  association in. The service account and the pods that use the service account must be
+  in this namespace.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to associate with the service
   account. The EKS Pod Identity agent manages credentials to assume this role for
   applications in the containers in the pods that use this service account.
@@ -904,21 +923,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a key and an optional value. You define both. Tags don't propagate to any other
   cluster or Amazon Web Services resources.
 
-  The following basic restrictions apply to tags: - Maximum number of tags per resource –
-  50
-   - For each resource, each tag key must be unique, and each tag key can have only one
-  value.
-   - Maximum key length – 128 Unicode characters in UTF-8
-   - Maximum value length – 256 Unicode characters in UTF-8
-   - If your tagging schema is used across multiple services and resources, remember that
-  other services may have restrictions on allowed characters. Generally allowed characters
-  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
-  - = . _ : / @.
-   - Tag keys and values are case-sensitive.
-   - Do not use `aws:`, `AWS:`, or any upper or lowercase combination of such as a prefix
-  for either keys or values as it is reserved for Amazon Web Services use. You cannot edit
-  or delete tag keys or values with this prefix. Tags with this prefix do not count against
-  your tags per resource limit.
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource – 50
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length – 128 Unicode characters in UTF-8
+  - Maximum value length – 256 Unicode characters in UTF-8
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed
+    characters are: letters, numbers, and spaces representable in UTF-8, and the
+    following characters: + - = . _ : / @.
+  - Tag keys and values are case-sensitive.
+  - Do not use `aws:`, `AWS:`, or any upper or lowercase combination of such as a prefix
+    for either keys or values as it is reserved for Amazon Web Services use. You cannot
+    edit or delete tag keys or values with this prefix. Tags with this prefix do not
+    count against your tags per resource limit.
+
 """
 function create_pod_identity_association(
     name,
@@ -940,6 +961,7 @@ function create_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pod_identity_association(
     name,
     namespace,
@@ -992,6 +1014,7 @@ function delete_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_entry(
     name,
     principalArn,
@@ -1018,7 +1041,7 @@ add-on on the cluster using the Kubernetes API.
 
 # Arguments
 
-- `addon_name`: The name of the add-on. The name must match one of the names returned by [ `ListAddons` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
+- `addon_name`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
 - `name`: The name of your cluster.
 
 # Optional Parameters
@@ -1037,6 +1060,7 @@ function delete_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_addon(
     addonName,
     name,
@@ -1079,6 +1103,7 @@ function delete_cluster(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1114,6 +1139,7 @@ function delete_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_eks_anywhere_subscription(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1156,6 +1182,7 @@ function delete_fargate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fargate_profile(
     fargateProfileName,
     name,
@@ -1192,6 +1219,7 @@ function delete_nodegroup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_nodegroup(
     name,
     nodegroupName,
@@ -1232,6 +1260,7 @@ function delete_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pod_identity_association(
     associationId,
     name,
@@ -1268,6 +1297,7 @@ function deregister_cluster(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_cluster(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1301,6 +1331,7 @@ function describe_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_access_entry(
     name,
     principalArn,
@@ -1324,7 +1355,7 @@ Describes an Amazon EKS add-on.
 
 # Arguments
 
-- `addon_name`: The name of the add-on. The name must match one of the names returned by [ `ListAddons` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
+- `addon_name`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
 - `name`: The name of your cluster.
 """
 function describe_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1335,6 +1366,7 @@ function describe_addon(addonName, name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_addon(
     addonName,
     name,
@@ -1361,7 +1393,7 @@ Returns configuration options.
 - `addon_name`: The name of the add-on. The name must match one of the names returned by
   `DescribeAddonVersions`.
 - `addon_version`: The version of the add-on. The version must match one of the versions
-  returned by [ `DescribeAddonVersions` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
+  returned by [`DescribeAddonVersions`](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
 """
 function describe_addon_configuration(
     addonName, addonVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1374,6 +1406,7 @@ function describe_addon_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_addon_configuration(
     addonName,
     addonVersion,
@@ -1408,21 +1441,22 @@ Information such as the Kubernetes versions that you can use the add-on with, th
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"addonName"`: The name of the add-on. The name must match one of the names returned by [ `ListAddons` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
+- `"addonName"`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
 - `"kubernetesVersion"`: The Kubernetes versions that you can use the add-on with.
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 - `"owners"`: The owner of the add-on. For valid `owners`, don't specify a value for this
   property.
 - `"publishers"`: The publisher of the add-on. For valid `publishers`, don't specify a
@@ -1438,6 +1472,7 @@ function describe_addon_versions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_addon_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1462,7 +1497,7 @@ more information, see [Creating or updating a `kubeconfig` file for an Amazon EK
 
 !!! note
     The API server endpoint and certificate authority data aren't available until the
-cluster reaches the `ACTIVE` state.
+    cluster reaches the `ACTIVE` state.
 
 # Arguments
 
@@ -1473,6 +1508,7 @@ function describe_cluster(name; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/clusters/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cluster(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1505,6 +1541,7 @@ function describe_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_eks_anywhere_subscription(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1538,6 +1575,7 @@ function describe_fargate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fargate_profile(
     fargateProfileName,
     name,
@@ -1575,6 +1613,7 @@ function describe_identity_provider_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_provider_config(
     identityProviderConfig,
     name,
@@ -1615,6 +1654,7 @@ function describe_insight(id, name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_insight(
     id,
     name,
@@ -1651,6 +1691,7 @@ function describe_nodegroup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_nodegroup(
     name,
     nodegroupName,
@@ -1692,6 +1733,7 @@ function describe_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pod_identity_association(
     associationId,
     name,
@@ -1725,7 +1767,7 @@ the status is `Failed`, and an error detail explains the reason for the failure.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"addonName"`: The name of the add-on. The name must match one of the names returned by [ `ListAddons` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
+- `"addonName"`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
   This parameter is required if the update is an add-on update.
 - `"nodegroupName"`: The name of the Amazon EKS node group associated with the update. This
   parameter is required if the update is a node group update.
@@ -1738,6 +1780,7 @@ function describe_update(name, updateId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_update(
     name,
     updateId,
@@ -1776,6 +1819,7 @@ function disassociate_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_access_policy(
     name,
     policyArn,
@@ -1828,6 +1872,7 @@ function disassociate_identity_provider_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_identity_provider_config(
     identityProviderConfig,
     name,
@@ -1867,21 +1912,22 @@ Lists the access entries for your cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"associatedPolicyArn"`: The ARN of an `AccessPolicy`. When you specify an access policy
-  ARN, only the access entries associated to that access policy are returned. For a list of
-  available policy ARNs, use `ListAccessPolicies`.
+  ARN, only the access entries associated to that access policy are returned. For a list
+  of available policy ARNs, use `ListAccessPolicies`.
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_access_entries(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
@@ -1891,6 +1937,7 @@ function list_access_entries(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_entries(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1914,24 +1961,26 @@ Lists the available access policies.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_access_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_access_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1959,18 +2008,19 @@ Lists the installed add-ons.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_addons(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
@@ -1980,6 +2030,7 @@ function list_addons(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_addons(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2008,18 +2059,19 @@ Lists the access policies associated with an access entry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_associated_access_policies(
     name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2031,6 +2083,7 @@ function list_associated_access_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_access_policies(
     name,
     principalArn,
@@ -2062,22 +2115,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clusters, or blank to return only Amazon EKS clusters. '`all`' must be in lowercase
   otherwise an error occurs.
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return eks("GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2099,11 +2154,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeStatus"`: An array of subscription statuses to filter on.
 - `"maxResults"`: The maximum number of cluster results returned by
   ListEksAnywhereSubscriptions in paginated output. When you use this parameter,
-  ListEksAnywhereSubscriptions returns only maxResults results in a single page along with
-  a nextToken response element. You can see the remaining results of the initial request by
-  sending another ListEksAnywhereSubscriptions request with the returned nextToken value.
-  This value can be between 1 and 100. If you don't use this parameter,
-  ListEksAnywhereSubscriptions returns up to 10 results and a nextToken value if applicable.
+  ListEksAnywhereSubscriptions returns only maxResults results in a single page along
+  with a nextToken response element. You can see the remaining results of the initial
+  request by sending another ListEksAnywhereSubscriptions request with the returned
+  nextToken value. This value can be between 1 and 100. If you don't use this parameter,
+  ListEksAnywhereSubscriptions returns up to 10 results and a nextToken value if
+  applicable.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated
   `ListEksAnywhereSubscriptions` request where `maxResults` was used and the results
   exceeded the value of that parameter. Pagination continues from the end of the previous
@@ -2119,6 +2175,7 @@ function list_eks_anywhere_subscriptions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_eks_anywhere_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2147,18 +2204,19 @@ Services account in the specified Amazon Web Services Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_fargate_profiles(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
@@ -2168,6 +2226,7 @@ function list_fargate_profiles(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fargate_profiles(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2195,18 +2254,19 @@ Lists the identity provider configurations for your cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_identity_provider_configs(
     name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2218,6 +2278,7 @@ function list_identity_provider_configs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_provider_configs(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2249,11 +2310,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which insights are returned by category, associated Kubernetes version, and status.
 - `"maxResults"`: The maximum number of identity provider configurations returned by
   `ListInsights` in paginated output. When you use this parameter, `ListInsights` returns
-  only `maxResults` results in a single page along with a `nextToken` response element. You
-  can see the remaining results of the initial request by sending another `ListInsights`
-  request with the returned `nextToken` value. This value can be between 1 and 100. If you
-  don't use this parameter, `ListInsights` returns up to 100 results and a `nextToken`
-  value, if applicable.
+  only `maxResults` results in a single page along with a `nextToken` response element.
+  You can see the remaining results of the initial request by sending another
+  `ListInsights` request with the returned `nextToken` value. This value can be between 1
+  and 100. If you don't use this parameter, `ListInsights` returns up to 100 results and
+  a `nextToken` value, if applicable.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated `ListInsights`
   request. When the results of a `ListInsights` request exceed `maxResults`, you can use
   this value to retrieve the next page of results. This value is `null` when there are no
@@ -2267,6 +2328,7 @@ function list_insights(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_insights(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2296,18 +2358,19 @@ aren't listed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_nodegroups(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
@@ -2317,6 +2380,7 @@ function list_nodegroups(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_nodegroups(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2349,19 +2413,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListPodIdentityAssociations` returns only `maxResults` results in a single page along
   with a `nextToken` response element. You can see the remaining results of the initial
   request by sending another `ListPodIdentityAssociations` request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  `ListPodIdentityAssociations` returns up to 100 results and a `nextToken` value if
-  applicable.
+  `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, `ListPodIdentityAssociations` returns up to 100 results and a `nextToken`
+  value if applicable.
 - `"namespace"`: The name of the Kubernetes namespace inside the cluster that the
   associations are in.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated `ListUpdates`
-  request where `maxResults` was used and the results exceeded the value of that parameter.
-  Pagination continues from the end of the previous results that returned the `nextToken`
-  value.
+  request where `maxResults` was used and the results exceeded the value of that
+  parameter. Pagination continues from the end of the previous results that returned the
+  `nextToken` value.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 - `"serviceAccount"`: The name of the Kubernetes service account that the associations use.
 """
 function list_pod_identity_associations(
@@ -2374,6 +2439,7 @@ function list_pod_identity_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pod_identity_associations(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2407,6 +2473,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2438,18 +2505,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"addonName"`: The names of the installed add-ons that have available updates.
 - `"maxResults"`: The maximum number of results, returned in paginated output. You receive
-  `maxResults` in a single page, along with a `nextToken` response element. You can see the
-  remaining results of the initial request by sending another request with the returned
-  `nextToken` value. This value can be between 1 and 100. If you don't use this parameter,
-  100 results and a `nextToken` value, if applicable, are returned.
+  `maxResults` in a single page, along with a `nextToken` response element. You can see
+  the remaining results of the initial request by sending another request with the
+  returned `nextToken` value. This value can be between 1 and 100. If you don't use this
+  parameter, 100 results and a `nextToken` value, if applicable, are returned.
 - `"nextToken"`: The `nextToken` value returned from a previous paginated request, where
   `maxResults` was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the `nextToken` value. This
-  value is null when there are no more results to return.
+  continues from the end of the previous results that returned the `nextToken` value.
+  This value is null when there are no more results to return.
 
   !!! note
       This token should be treated as an opaque identifier that is used only to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 - `"nodegroupName"`: The name of the Amazon EKS managed node group to list updates for.
 """
 function list_updates(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2460,6 +2528,7 @@ function list_updates(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_updates(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2481,8 +2550,8 @@ Connects a Kubernetes cluster to the Amazon EKS control plane.
 Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current
 information about the cluster and its nodes.
 
-Cluster connection requires two steps. First, send a ` <a>RegisterClusterRequest</a> ` to
-add it to the Amazon EKS control plane.
+Cluster connection requires two steps. First, send a `[`register_cluster_request`](@ref)`
+to add it to the Amazon EKS control plane.
 
 Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml)
 containing the `activationID` and `activationCode` must be applied to the Kubernetes
@@ -2523,6 +2592,7 @@ function register_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_cluster(
     connectorConfig,
     name,
@@ -2576,6 +2646,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2613,6 +2684,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2647,20 +2719,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the request.
 - `"kubernetesGroups"`: The value for `name` that you've specified for `kind: Group` as a
   `subject` in a Kubernetes `RoleBinding` or `ClusterRoleBinding` object. Amazon EKS
-  doesn't confirm that the value for `name` exists in any bindings on your cluster. You can
-  specify one or more names.
+  doesn't confirm that the value for `name` exists in any bindings on your cluster. You
+  can specify one or more names.
 
   Kubernetes authorizes the `principalArn` of the access entry to access any cluster
-  objects that you've specified in a Kubernetes `Role` or `ClusterRole` object that is also
-  specified in a binding's `roleRef`. For more information about creating Kubernetes
+  objects that you've specified in a Kubernetes `Role` or `ClusterRole` object that is
+  also specified in a binding's `roleRef`. For more information about creating Kubernetes
   `RoleBinding`, `ClusterRoleBinding`, `Role`, or `ClusterRole` objects, see [Using RBAC Authorization in the Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
 
   If you want Amazon EKS to authorize the `principalArn` (instead of, or in addition to
-  Kubernetes authorizing the `principalArn`), you can associate one or more access policies
-  to the access entry using `AssociateAccessPolicy`. If you associate any access policies,
-  the `principalARN` has all permissions assigned in the associated access policies and all
-  permissions in any Kubernetes `Role` or `ClusterRole` objects that the group names are
-  bound to.
+  Kubernetes authorizing the `principalArn`), you can associate one or more access
+  policies to the access entry using `AssociateAccessPolicy`. If you associate any access
+  policies, the `principalARN` has all permissions assigned in the associated access
+  policies and all permissions in any Kubernetes `Role` or `ClusterRole` objects that the
+  group names are bound to.
 - `"username"`: The username to authenticate to Kubernetes with. We recommend not
   specifying a username and letting Amazon EKS specify it for you. For more information
   about the value Amazon EKS specifies for you, or constraints before specifying your own
@@ -2678,6 +2750,7 @@ function update_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_entry(
     name,
     principalArn,
@@ -2705,7 +2778,7 @@ Updates an Amazon EKS add-on.
 
 # Arguments
 
-- `addon_name`: The name of the add-on. The name must match one of the names returned by [ `ListAddons` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
+- `addon_name`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
 - `name`: The name of your cluster.
 
 # Optional Parameters
@@ -2713,28 +2786,30 @@ Updates an Amazon EKS add-on.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"addonVersion"`: The version of the add-on. The version must match one of the versions
-  returned by [ `DescribeAddonVersions` ](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
+  returned by [`DescribeAddonVersions`](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 - `"configurationValues"`: The set of configuration values for the add-on that's created.
   The values that you provide are validated against the schema returned by
   `DescribeAddonConfiguration`.
 - `"podIdentityAssociations"`: An array of Pod Identity Assocations to be updated. Each EKS
-  Pod Identity association maps a Kubernetes service account to an IAM Role. If this value
-  is left blank, no change. If an empty array is provided, existing Pod Identity
+  Pod Identity association maps a Kubernetes service account to an IAM Role. If this
+  value is left blank, no change. If an empty array is provided, existing Pod Identity
   Assocations owned by the Addon are deleted.
 
   For more information, see [Attach an IAM Role to an Amazon EKS add-on using Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html)
   in the EKS User Guide.
 - `"resolveConflicts"`: How to resolve field value conflicts for an Amazon EKS add-on if
-  you've changed a value from the Amazon EKS default value. Conflicts are handled based on
-  the option you choose: - **None** – Amazon EKS doesn't change the value. The update might
-  fail.
-   - **Overwrite** – Amazon EKS overwrites the changed value back to the Amazon EKS default
-  value.
-   - **Preserve** – Amazon EKS preserves the value. If you choose this option, we recommend
-  that you test any field and value changes on a non-production cluster before updating the
-  add-on on your production cluster.
+  you've changed a value from the Amazon EKS default value. Conflicts are handled based
+  on the option you choose:
+
+  - **None** – Amazon EKS doesn't change the value. The update might fail.
+  - **Overwrite** – Amazon EKS overwrites the changed value back to the Amazon EKS
+    default value.
+  - **Preserve** – Amazon EKS preserves the value. If you choose this option, we
+    recommend that you test any field and value changes on a non-production cluster
+    before updating the add-on on your production cluster.
+
 - `"serviceAccountRoleArn"`: The Amazon Resource Name (ARN) of an existing IAM role to bind
   to the add-on's service account. The role must be assigned the IAM permissions required
   by the add-on. If you don't specify an existing IAM role, then the add-on uses the
@@ -2742,9 +2817,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon EKS User Guide*.
 
   !!! note
-      To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider
-  created for your cluster. For more information, see [Enabling IAM roles for service accounts on your cluster](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
-  in the *Amazon EKS User Guide*.
+      To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC)
+      provider created for your cluster. For more information, see [Enabling IAM roles for service accounts on your cluster](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
+      in the *Amazon EKS User Guide*.
+
 """
 function update_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
@@ -2755,6 +2831,7 @@ function update_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_addon(
     addonName,
     name,
@@ -2785,25 +2862,26 @@ your cluster update with `DescribeUpdate`"/&gt;.
 You can use this API operation to enable or disable exporting the Kubernetes control plane
 logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't
 exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
-in the * <i>Amazon EKS User Guide* </i>.</p>
+in the *<i>Amazon EKS User Guide* </i>.
 
 !!! note
     CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported
-control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).You
-can also use this API operation to enable or disable public and private access to your
+    control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
+
+You can also use this API operation to enable or disable public and private access to your
 cluster's Kubernetes API server endpoint. By default, public access is enabled, and private
 access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
-in the * <i>Amazon EKS User Guide* </i>.
+in the *<i>Amazon EKS User Guide* </i>.
 
 You can also use this API operation to choose different subnets and security groups for the
 cluster. You must specify at least two subnets that are in different Availability Zones.
 You can't change which VPC the subnets are from, the subnets must be in the same VPC as the
 subnets that the cluster was created with. For more information about the VPC requirements,
 see [https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
-in the * <i>Amazon EKS User Guide* </i>.
+in the *<i>Amazon EKS User Guide* </i>.
 
- <p>Cluster updates are asynchronous, and they should finish within a few minutes. During
-an update, the cluster status moves to `UPDATING` (this status transition is eventually
+Cluster updates are asynchronous, and they should finish within a few minutes. During an
+update, the cluster status moves to `UPDATING` (this status transition is eventually
 consistent). When the update is complete (either `Failed` or `Successful`), the cluster
 status moves to `Active`.
 
@@ -2821,11 +2899,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logging"`: Enable or disable exporting the Kubernetes control plane logs for your
   cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to
   CloudWatch Logs. For more information, see [Amazon EKS cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
-  in the * <i>Amazon EKS User Guide* </i>.
+  in the *<i>Amazon EKS User Guide* </i>.
 
   !!! note
-      CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported
-  control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
+      CloudWatch Logs ingestion, archive storage, and data scanning rates apply to
+      exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
+
 - `"resourcesVpcConfig"`:
 - `"upgradePolicy"`: You can enable or disable extended support for clusters currently on
   standard support. You cannot disable extended support once it starts. You must enable
@@ -2840,6 +2919,7 @@ function update_cluster_config(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_config(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2862,7 +2942,8 @@ end
 
 Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues
 to function during the update. The response output includes an update ID that you can use
-to track the status of your cluster update with the <a>DescribeUpdate</a> API operation.
+to track the status of your cluster update with the [`describe_update`](@ref) API
+operation.
 
 Cluster updates are asynchronous, and they should finish within a few minutes. During an
 update, the cluster status moves to `UPDATING` (this status transition is eventually
@@ -2896,6 +2977,7 @@ function update_cluster_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_version(
     name,
     version,
@@ -2949,6 +3031,7 @@ function update_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_eks_anywhere_subscription(
     autoRenew,
     id,
@@ -2978,8 +3061,8 @@ end
 
 Updates an Amazon EKS managed node group configuration. Your node group continues to
 function during the update. The response output includes an update ID that you can use to
-track the status of your node group update with the <a>DescribeUpdate</a> API operation.
-Currently you can update the Kubernetes labels for a node group or the scaling
+track the status of your node group update with the [`describe_update`](@ref) API
+operation. Currently you can update the Kubernetes labels for a node group or the scaling
 configuration.
 
 # Arguments
@@ -3012,6 +3095,7 @@ function update_nodegroup_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_nodegroup_config(
     name,
     nodegroupName,
@@ -3070,29 +3154,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 - `"force"`: Force the update if any `Pod` on the existing node group can't be drained due
-  to a `Pod` disruption budget issue. If an update fails because all Pods can't be drained,
-  you can force the update after it fails to terminate the old node whether or not any
-  `Pod` is running on the node.
+  to a `Pod` disruption budget issue. If an update fails because all Pods can't be
+  drained, you can force the update after it fails to terminate the old node whether or
+  not any `Pod` is running on the node.
 - `"launchTemplate"`: An object representing a node group's launch template specification.
-  You can only update a node group using a launch template if the node group was originally
-  deployed with a launch template.
+  You can only update a node group using a launch template if the node group was
+  originally deployed with a launch template.
 - `"releaseVersion"`: The AMI version of the Amazon EKS optimized AMI to use for the
   update. By default, the latest available AMI version for the node group's Kubernetes
   version is used. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html)
-  in the *Amazon EKS User Guide*. Amazon EKS managed node groups support the November 2022
-  and later releases of the Windows AMIs. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html)
+  in the *Amazon EKS User Guide*. Amazon EKS managed node groups support the November
+  2022 and later releases of the Windows AMIs. For information about Windows versions,
+  see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html)
   in the *Amazon EKS User Guide*.
 
   If you specify `launchTemplate`, and your launch template uses a custom AMI, then don't
-  specify `releaseVersion`, or the node group update will fail. For more information about
-  using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+  specify `releaseVersion`, or the node group update will fail. For more information
+  about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
   in the *Amazon EKS User Guide*.
 - `"version"`: The Kubernetes version to update to. If no version is specified, then the
   Kubernetes version of the node group does not change. You can specify the Kubernetes
   version of the cluster to update the node group to the latest AMI version of the
   cluster's Kubernetes version. If you specify `launchTemplate`, and your launch template
-  uses a custom AMI, then don't specify `version`, or the node group update will fail. For
-  more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+  uses a custom AMI, then don't specify `version`, or the node group update will fail.
+  For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
   in the *Amazon EKS User Guide*.
 """
 function update_nodegroup_version(
@@ -3106,6 +3191,7 @@ function update_nodegroup_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_nodegroup_version(
     name,
     nodegroupName,
@@ -3158,6 +3244,7 @@ function update_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pod_identity_association(
     associationId,
     name,

@@ -22,6 +22,7 @@ function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -69,6 +70,7 @@ function create_data_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_set(
     AssetType,
     Description,
@@ -115,6 +117,7 @@ function create_event_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_action(
     Action,
     Event,
@@ -154,6 +157,7 @@ function create_job(Details, Type; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     Details,
     Type,
@@ -201,6 +205,7 @@ function create_revision(DataSetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_revision(
     DataSetId,
     params::AbstractDict{String};
@@ -237,6 +242,7 @@ function delete_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset(
     AssetId,
     DataSetId,
@@ -271,6 +277,7 @@ function delete_data_set(DataSetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_set(
     DataSetId,
     params::AbstractDict{String};
@@ -305,6 +312,7 @@ function delete_event_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_action(
     EventActionId,
     params::AbstractDict{String};
@@ -340,6 +348,7 @@ function delete_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_revision(
     DataSetId,
     RevisionId,
@@ -377,6 +386,7 @@ function get_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset(
     AssetId,
     DataSetId,
@@ -411,6 +421,7 @@ function get_data_set(DataSetId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_set(
     DataSetId,
     params::AbstractDict{String};
@@ -443,6 +454,7 @@ function get_event_action(EventActionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_action(
     EventActionId,
     params::AbstractDict{String};
@@ -472,6 +484,7 @@ function get_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +518,7 @@ function get_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_revision(
     DataSetId,
     RevisionId,
@@ -548,6 +562,7 @@ function list_data_set_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_set_revisions(
     DataSetId,
     params::AbstractDict{String};
@@ -585,6 +600,7 @@ function list_data_sets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/data-sets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -617,6 +633,7 @@ function list_event_actions(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/v1/event-actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -650,6 +667,7 @@ function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -687,6 +705,7 @@ function list_revision_assets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_revision_assets(
     DataSetId,
     RevisionId,
@@ -722,6 +741,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -763,6 +783,7 @@ function revoke_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_revision(
     DataSetId,
     RevisionId,
@@ -832,6 +853,7 @@ function send_api_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_api_asset(
     x_amzn_dataexchange_asset_id,
     x_amzn_dataexchange_data_set_id,
@@ -897,6 +919,7 @@ function send_data_set_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_set_notification(
     DataSetId,
     Type,
@@ -933,6 +956,7 @@ function start_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/v1/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -965,6 +989,7 @@ function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     tags,
@@ -1002,6 +1027,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1029,9 +1055,9 @@ This operation updates an asset.
 - `data_set_id`: The unique identifier for a data set.
 - `name`: The name of the asset. When importing from Amazon S3, the Amazon S3 object key is
   used as the asset name. When exporting to Amazon S3, the asset name is used as default
-  target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is
-  used as the asset name. When importing from Amazon Redshift, the datashare name is used
-  as the asset name. When importing from AWS Lake Formation, the static values of
+  target Amazon S3 object key. When importing from Amazon API Gateway API, the API name
+  is used as the asset name. When importing from Amazon Redshift, the datashare name is
+  used as the asset name. When importing from AWS Lake Formation, the static values of
   "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are
   used as the name.
 - `revision_id`: The unique identifier for a revision.
@@ -1047,6 +1073,7 @@ function update_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_asset(
     AssetId,
     DataSetId,
@@ -1089,6 +1116,7 @@ function update_data_set(DataSetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_set(
     DataSetId,
     params::AbstractDict{String};
@@ -1129,6 +1157,7 @@ function update_event_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_action(
     EventActionId,
     params::AbstractDict{String};
@@ -1160,8 +1189,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Comment"`: An optional comment about the revision.
 - `"Finalized"`: Finalizing a revision tells AWS Data Exchange that your changes to the
-  assets in the revision are complete. After it's in this read-only state, you can publish
-  the revision to your products.
+  assets in the revision are complete. After it's in this read-only state, you can
+  publish the revision to your products.
 """
 function update_revision(
     DataSetId, RevisionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1173,6 +1202,7 @@ function update_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_revision(
     DataSetId,
     RevisionId,

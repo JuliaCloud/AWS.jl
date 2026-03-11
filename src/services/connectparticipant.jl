@@ -13,8 +13,9 @@ provided in StartAttachmentUpload API. A conflict exception is thrown when an at
 with that identifier is already being uploaded.
 
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.The
-Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
 # Arguments
 
@@ -42,6 +43,7 @@ function complete_attachment_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_attachment_upload(
     AttachmentIds,
     ClientToken,
@@ -72,25 +74,33 @@ end
     create_participant_connection(x-_amz-_bearer)
     create_participant_connection(x-_amz-_bearer, params::Dict{String,<:Any})
 
-Creates the participant's connection. </p>
+Creates the participant's connection.
 
 !!! note
-    `ParticipantToken` is used for invoking this API instead of `ConnectionToken`.The
-participant token is valid for the lifetime of the participant – until they are part of a
-contact.
+    `ParticipantToken` is used for invoking this API instead of `ConnectionToken`.
+
+The participant token is valid for the lifetime of the participant – until they are part of
+a contact.
 
 The response URL for `WEBSOCKET` Type has a connect expiry timeout of 100s. Clients must
 manually connect to the returned websocket URL and subscribe to the desired topic.
 
 For chat, you need to publish the following on the established websocket connection:
 
- `{"topic":"aws/subscribe","content":{"topics":["aws/chat"]}}`
+`{"topic":"aws/subscribe","content":{"topics":["aws/chat"]}}`
 
-Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.
+Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients
+need to call this API again to obtain a new websocket URL and perform the same steps as
+before.
 
- **Message streaming support**: This API can also be used together with the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html) API to create a participant connection for chat contacts that are not using a websocket. For more information about message streaming, [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html) in the *Amazon Connect Administrator Guide*.
+**Message streaming support**: This API can also be used together with the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html)
+API to create a participant connection for chat contacts that are not using a websocket.
+For more information about message streaming, [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html)
+in the *Amazon Connect Administrator Guide*.
 
- <p> **Feature specifications**: For information about feature specifications, such as the allowed number of open websocket connections per participant, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the *Amazon Connect Administrator Guide*.
+**Feature specifications**: For information about feature specifications, such as the
+allowed number of open websocket connections per participant, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits)
+in the *Amazon Connect Administrator Guide*.
 
 !!! note
     The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
@@ -107,8 +117,8 @@ Upon websocket URL expiry, as specified in the response ConnectionExpiry paramet
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConnectParticipant"`: Amazon Connect Participant is used to mark the participant as
-  connected for customer participant in message streaming, as well as for agent or manager
-  participant in non-streaming chats.
+  connected for customer participant in message streaming, as well as for agent or
+  manager participant in non-streaming chats.
 - `"Type"`: Type of connection information required. If you need `CONNECTION_CREDENTIALS`
   along with marking participant as connected, pass `CONNECTION_CREDENTIALS` in `Type`.
 """
@@ -123,6 +133,7 @@ function create_participant_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_participant_connection(
     X_Amz_Bearer,
     params::AbstractDict{String};
@@ -168,6 +179,7 @@ function describe_view(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_view(
     ViewToken,
     X_Amz_Bearer,
@@ -198,8 +210,9 @@ end
 Disconnects a participant.
 
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.The
-Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
 # Arguments
 
@@ -227,6 +240,7 @@ function disconnect_participant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_participant(
     X_Amz_Bearer,
     params::AbstractDict{String};
@@ -258,8 +272,9 @@ Provides a pre-signed URL for download of a completed attachment. This is an asy
 API for use with active contacts.
 
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.The
-Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
 # Arguments
 
@@ -280,6 +295,7 @@ function get_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attachment(
     AttachmentId,
     X_Amz_Bearer,
@@ -311,20 +327,20 @@ end
 Retrieves a transcript of the session, including details about any attachments. For
 information about accessing past chat contact transcripts for a persistent chat, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
 
-
 If you have a process that consumes events in the transcript of an chat that has ended,
 note that chat transcripts contain the following event content types if the event has
-occurred during the chat session: -
-`application/vnd.amazonaws.connect.event.participant.left`
- - `application/vnd.amazonaws.connect.event.participant.joined`
- - `application/vnd.amazonaws.connect.event.chat.ended`
- - `application/vnd.amazonaws.connect.event.transfer.succeeded`
- - `application/vnd.amazonaws.connect.event.transfer.failed`
+occurred during the chat session:
 
+- `application/vnd.amazonaws.connect.event.participant.left`
+- `application/vnd.amazonaws.connect.event.participant.joined`
+- `application/vnd.amazonaws.connect.event.chat.ended`
+- `application/vnd.amazonaws.connect.event.transfer.succeeded`
+- `application/vnd.amazonaws.connect.event.transfer.failed`
 
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.The
-Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
 # Arguments
 
@@ -353,6 +369,7 @@ function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transcript(
     X_Amz_Bearer,
     params::AbstractDict{String};
@@ -383,23 +400,28 @@ end
 
 !!! note
     The `application/vnd.amazonaws.connect.event.connection.acknowledged` ContentType will
-no longer be supported starting December 31, 2024. This event has been migrated to the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
-API using the `ConnectParticipant` field.Sends an event. Message receipts are not supported
-when there are more than two active participants in the chat. Using the SendEvent API for
-message receipts when a supervisor is barged-in will result in a conflict exception.
+    no longer be supported starting December 31, 2024. This event has been migrated to the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
+    API using the `ConnectParticipant` field.
+
+Sends an event. Message receipts are not supported when there are more than two active
+participants in the chat. Using the SendEvent API for message receipts when a supervisor is
+barged-in will result in a conflict exception.
 
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.The
-Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
 # Arguments
 
-- `content_type`: The content type of the request. Supported types are: -
-  application/vnd.amazonaws.connect.event.typing
-   - application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated on
-  December 31, 2024)
-   - application/vnd.amazonaws.connect.event.message.delivered
-   - application/vnd.amazonaws.connect.event.message.read
+- `content_type`: The content type of the request. Supported types are:
+
+  - application/vnd.amazonaws.connect.event.typing
+  - application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated
+    on December 31, 2024)
+  - application/vnd.amazonaws.connect.event.message.delivered
+  - application/vnd.amazonaws.connect.event.message.read
+
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.
 
 # Optional Parameters
@@ -412,7 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content"`: The content of the event to be sent (for example, message text). For content
   related to message receipts, this is supported in the form of a JSON string.
 
-Sample Content: "{\\"messageId\\":\\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\\"}"
+  Sample Content: "{\\"messageId\\":\\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\\"}"
 """
 function send_event(
     ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
@@ -429,6 +451,7 @@ function send_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_event(
     ContentType,
     X_Amz_Bearer,
@@ -461,16 +484,20 @@ end
 Sends a message.
 
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.The
-Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
 # Arguments
 
-- `content`: The content of the message.  - For `text/plain` and `text/markdown`, the
-  Length Constraints are Minimum of 1, Maximum of 1024.
-   - For `application/json`, the Length Constraints are Minimum of 1, Maximum of 12000.
-   - For `application/vnd.amazonaws.connect.message.interactive.response`, the Length
-  Constraints are Minimum of 1, Maximum of 12288.
+- `content`: The content of the message.
+
+  - For `text/plain` and `text/markdown`, the Length Constraints are Minimum of 1,
+    Maximum of 1024.
+  - For `application/json`, the Length Constraints are Minimum of 1, Maximum of 12000.
+  - For `application/vnd.amazonaws.connect.message.interactive.response`, the Length
+    Constraints are Minimum of 1, Maximum of 12288.
+
 - `content_type`: The type of the content. Supported types are `text/plain`,
   `text/markdown`, `application/json`, and
   `application/vnd.amazonaws.connect.message.interactive.response`.
@@ -500,6 +527,7 @@ function send_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_message(
     Content,
     ContentType,
@@ -534,8 +562,9 @@ end
 Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3.
 
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.The
-Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
 # Arguments
 
@@ -571,6 +600,7 @@ function start_attachment_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_attachment_upload(
     AttachmentName,
     AttachmentSizeInBytes,

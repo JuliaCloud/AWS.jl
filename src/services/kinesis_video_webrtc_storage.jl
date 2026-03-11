@@ -12,11 +12,13 @@ using AWS.UUIDs
 
 !!! note
     Before using this API, you must call the `GetSignalingChannelEndpoint` API to request
-the WEBRTC endpoint. You then specify the endpoint and region in your `JoinStorageSession`
-API request.</p>Join the ongoing one way-video and/or multi-way audio WebRTC session as a
-video producing device for an input channel. If there’s no existing session for the
-channel, a new streaming session needs to be created, and the Amazon Resource Name (ARN) of
-the signaling channel must be provided.
+    the WEBRTC endpoint. You then specify the endpoint and region in your
+    `JoinStorageSession` API request.
+
+Join the ongoing one way-video and/or multi-way audio WebRTC session as a video producing
+device for an input channel. If there’s no existing session for the channel, a new
+streaming session needs to be created, and the Amazon Resource Name (ARN) of the signaling
+channel must be provided.
 
 Currently for the `SINGLE_MASTER` type, a video producing device is able to ingest both
 audio and video media into a stream. Only video producing devices can join the session and
@@ -25,8 +27,11 @@ record media.
 !!! important
     Both audio and video tracks are currently required for WebRTC ingestion.
 
-Current requirements: - Video track: H.264
- - Audio track: Opus
+    Current requirements:
+
+    - Video track: H.264
+    - Audio track: Opus
+
 The resulting ingested video in the Kinesis video stream will have the following
 parameters: H.264 video and AAC audio.
 
@@ -34,7 +39,7 @@ Once a master participant has negotiated a connection through WebRTC, the ingest
 session will be stored in the Kinesis video stream. Multiple viewers are then able to play
 back real-time media through our Playback APIs.
 
- <p>You can also use existing Kinesis Video Streams features like `HLS` or `DASH` playback,
+You can also use existing Kinesis Video Streams features like `HLS` or `DASH` playback,
 image generation via [GetImages](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/gs-getImages.html),
 and more with ingested WebRTC media.
 
@@ -43,16 +48,18 @@ and more with ingested WebRTC media.
 
 !!! note
     Assume that only one video producing device client can be associated with a session for
-the channel. If more than one client joins the session of a specific channel as a video
-producing device, the most recent client request takes precedence. **Additional
-information**  - **Idempotent** - This API is not idempotent.
- - **Retry behavior** - This is counted as a new API call.
- - **Concurrent calls** - Concurrent calls are allowed. An offer is sent once per each
-call.
+    the channel. If more than one client joins the session of a specific channel as a video
+    producing device, the most recent client request takes precedence.
+
+**Additional information**
+
+- **Idempotent** - This API is not idempotent.
+- **Retry behavior** - This is counted as a new API call.
+- **Concurrent calls** - Concurrent calls are allowed. An offer is sent once per each call.
 
 # Arguments
 
-- `channel_arn`:  The Amazon Resource Name (ARN) of the signaling channel.
+- `channel_arn`: The Amazon Resource Name (ARN) of the signaling channel.
 """
 function join_storage_session(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -65,6 +72,7 @@ function join_storage_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function join_storage_session(
     channelArn,
     params::AbstractDict{String};
@@ -85,7 +93,7 @@ end
     join_storage_session_as_viewer(channel_arn, client_id)
     join_storage_session_as_viewer(channel_arn, client_id, params::Dict{String,<:Any})
 
- Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an
+Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an
 input channel. If there’s no existing session for the channel, create a new streaming
 session and provide the Amazon Resource Name (ARN) of the signaling channel (`channelArn`)
 and client id (`clientId`).
@@ -104,8 +112,8 @@ takes precedence.
 
 # Arguments
 
-- `channel_arn`:  The Amazon Resource Name (ARN) of the signaling channel.
-- `client_id`:  The unique identifier for the sender client.
+- `channel_arn`: The Amazon Resource Name (ARN) of the signaling channel.
+- `client_id`: The unique identifier for the sender client.
 """
 function join_storage_session_as_viewer(
     channelArn, clientId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -118,6 +126,7 @@ function join_storage_session_as_viewer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function join_storage_session_as_viewer(
     channelArn,
     clientId,

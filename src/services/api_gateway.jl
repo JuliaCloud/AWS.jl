@@ -31,6 +31,7 @@ function create_api_key(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_api_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -50,9 +51,9 @@ Adds a new Authorizer resource to an existing RestApi resource.
 - `name`: The name of the authorizer.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `type`: The authorizer type. Valid values are `TOKEN` for a Lambda function using a
-  single authorization token submitted in a custom header, `REQUEST` for a Lambda function
-  using incoming request parameters, and `COGNITO_USER_POOLS` for using an Amazon Cognito
-  user pool.
+  single authorization token submitted in a custom header, `REQUEST` for a Lambda
+  function using incoming request parameters, and `COGNITO_USER_POOLS` for using an
+  Amazon Cognito user pool.
 
 # Optional Parameters
 
@@ -70,39 +71,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum value is 3600, or 1 hour.
 - `"authorizerUri"`: Specifies the authorizer's Uniform Resource Identifier (URI). For
   `TOKEN` or `REQUEST` authorizers, this must be a well-formed Lambda function URI, for
-  example, `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-
-  west-2:{account_id}:function:{lambda_function_name}/invocations`. In general, the URI has
-  this form `arn:aws:apigateway:{region}:lambda:path/{service_api}`, where `{region}` is
-  the same as the region hosting the Lambda function, `path` indicates that the remaining
-  substring in the URI should be treated as the path to the resource, including the initial
-  `/`. For Lambda functions, this is usually of the form `/2015-03-31/functions/[FunctionARN]/invocations`.
+  example,
+  `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations`.
+  In general, the URI has this form
+  `arn:aws:apigateway:{region}:lambda:path/{service_api}`, where `{region}` is the same
+  as the region hosting the Lambda function, `path` indicates that the remaining
+  substring in the URI should be treated as the path to the resource, including the
+  initial `/`. For Lambda functions, this is usually of the form `/2015-03-31/functions/[FunctionARN]/invocations`.
 - `"identitySource"`: The identity source for which authorization is requested. For a
   `TOKEN` or `COGNITO_USER_POOLS` authorizer, this is required and specifies the request
-  header mapping expression for the custom header holding the authorization token submitted
-  by the client. For example, if the token header name is `Auth`, the header mapping
-  expression is `method.request.header.Auth`. For the `REQUEST` authorizer, this is
-  required when authorization caching is enabled. The value is a comma-separated string of
-  one or more mapping expressions of the specified request parameters. For example, if an
-  `Auth` header, a `Name` query string parameter are defined as identity sources, this
-  value is `method.request.header.Auth, method.request.querystring.Name`. These parameters
-  will be used to derive the authorization caching key and to perform runtime validation of
-  the `REQUEST` authorizer by verifying all of the identity-related request parameters are
-  present, not null and non-empty. Only when this is true does the authorizer invoke the
-  authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without
-  calling the Lambda function. The valid value is a string of comma-separated mapping
-  expressions of the specified request parameters. When the authorization caching is not
-  enabled, this property is optional.
+  header mapping expression for the custom header holding the authorization token
+  submitted by the client. For example, if the token header name is `Auth`, the header
+  mapping expression is `method.request.header.Auth`. For the `REQUEST` authorizer, this
+  is required when authorization caching is enabled. The value is a comma-separated
+  string of one or more mapping expressions of the specified request parameters. For
+  example, if an `Auth` header, a `Name` query string parameter are defined as identity
+  sources, this value is `method.request.header.Auth, method.request.querystring.Name`.
+  These parameters will be used to derive the authorization caching key and to perform
+  runtime validation of the `REQUEST` authorizer by verifying all of the identity-related
+  request parameters are present, not null and non-empty. Only when this is true does the
+  authorizer invoke the authorizer Lambda function, otherwise, it returns a 401
+  Unauthorized response without calling the Lambda function. The valid value is a string
+  of comma-separated mapping expressions of the specified request parameters. When the
+  authorization caching is not enabled, this property is optional.
 - `"identityValidationExpression"`: A validation expression for the incoming identity
   token. For `TOKEN` authorizers, this value is a regular expression. For
-  `COGNITO_USER_POOLS` authorizers, API Gateway will match the `aud` field of the incoming
-  token from the client against the specified regular expression. It will invoke the
-  authorizer's Lambda function when there is a match. Otherwise, it will return a 401
-  Unauthorized response without calling the Lambda function. The validation expression does
-  not apply to the `REQUEST` authorizer.
+  `COGNITO_USER_POOLS` authorizers, API Gateway will match the `aud` field of the
+  incoming token from the client against the specified regular expression. It will invoke
+  the authorizer's Lambda function when there is a match. Otherwise, it will return a 401
+  Unauthorized response without calling the Lambda function. The validation expression
+  does not apply to the `REQUEST` authorizer.
 - `"providerARNs"`: A list of the Amazon Cognito user pool ARNs for the
-  `COGNITO_USER_POOLS` authorizer. Each element is of this format: `arn:aws:cognito-
-  idp:{region}:{account_id}:userpool/{user_pool_id}`. For a `TOKEN` or `REQUEST`
-  authorizer, this is not defined.
+  `COGNITO_USER_POOLS` authorizer. Each element is of this format:
+  `arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}`. For a `TOKEN` or
+  `REQUEST` authorizer, this is not defined.
 """
 function create_authorizer(
     name, restapi_id, type; aws_config::AbstractAWSConfig=current_aws_config()
@@ -115,6 +117,7 @@ function create_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_authorizer(
     name,
     restapi_id,
@@ -149,9 +152,9 @@ Creates a new BasePathMapping resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"basePath"`: The base path name that callers of the API must provide as part of the URL
-  after the domain name. This value must be unique for all of the mappings across a single
-  API. Specify '(none)' if you do not want callers to specify a base path name after the
-  domain name.
+  after the domain name. This value must be unique for all of the mappings across a
+  single API. Specify '(none)' if you do not want callers to specify a base path name
+  after the domain name.
 - `"stage"`: The name of the API's stage that you want to use for this mapping. Specify
   '(none)' if you want callers to explicitly specify the stage name after any base path
   name.
@@ -167,6 +170,7 @@ function create_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_base_path_mapping(
     domain_name,
     restApiId,
@@ -221,6 +225,7 @@ function create_deployment(restapi_id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     restapi_id,
     params::AbstractDict{String};
@@ -246,8 +251,8 @@ Creates a documentation part.
 - `location`: The location of the targeted API entity of the to-be-created documentation
   part.
 - `properties`: The new documentation content map of the targeted API entity. Enclosed key-
-  value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported
-  and, hence, published.
+  value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be
+  exported and, hence, published.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
 function create_documentation_part(
@@ -261,6 +266,7 @@ function create_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_documentation_part(
     location,
     properties,
@@ -312,6 +318,7 @@ function create_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_documentation_version(
     documentationVersion,
     restapi_id,
@@ -348,8 +355,8 @@ Creates a new domain name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"certificateArn"`: The reference to an Amazon Web Services-managed certificate that will
-  be used by edge-optimized endpoint for this domain name. Certificate Manager is the only
-  supported source.
+  be used by edge-optimized endpoint for this domain name. Certificate Manager is the
+  only supported source.
 - `"certificateBody"`: [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
 - `"certificateChain"`: [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
 - `"certificateName"`: The user-friendly name of the certificate that will be used by edge-
@@ -379,6 +386,7 @@ function create_domain_name(domainName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain_name(
     domainName,
     params::AbstractDict{String};
@@ -426,6 +434,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     contentType,
     name,
@@ -478,6 +487,7 @@ function create_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_request_validator(
     restapi_id,
     params::AbstractDict{String};
@@ -515,6 +525,7 @@ function create_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource(
     parent_id,
     pathPart,
@@ -556,16 +567,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cloneFrom"`: The ID of the RestApi that you want to clone from.
 - `"description"`: The description of the RestApi.
 - `"disableExecuteApiEndpoint"`: Specifies whether clients can invoke your API by using the
-  default `execute-api` endpoint. By default, clients can invoke your API with the default
-  `https://{api_id}.execute-api.{region}.amazonaws.com` endpoint. To require that clients
-  use a custom domain name to invoke your API, disable the default endpoint
+  default `execute-api` endpoint. By default, clients can invoke your API with the
+  default `https://{api_id}.execute-api.{region}.amazonaws.com` endpoint. To require that
+  clients use a custom domain name to invoke your API, disable the default endpoint
 - `"endpointConfiguration"`: The endpoint configuration of this RestApi showing the
   endpoint types of the API.
 - `"minimumCompressionSize"`: A nullable integer that is used to enable compression (with
-  non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with
-  a null value) on an API. When compression is enabled, compression or decompression is not
-  applied on the payload if the payload size is smaller than this value. Setting it to zero
-  allows compression for any payload size.
+  non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression
+  (with a null value) on an API. When compression is enabled, compression or
+  decompression is not applied on the payload if the payload size is smaller than this
+  value. Setting it to zero allows compression for any payload size.
 - `"policy"`: A stringified JSON policy document that applies to this RestApi regardless of
   the caller and Method configuration.
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
@@ -580,6 +591,7 @@ function create_rest_api(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rest_api(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -618,8 +630,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 - `"tracingEnabled"`: Specifies whether active tracing with X-ray is enabled for the Stage.
 - `"variables"`: A map that defines the stage variables for the new Stage resource.
-  Variable names can have alphanumeric and underscore characters, and the values must match
-  `[A-Za-z0-9-._~:/?#&amp;=,]+`.
+  Variable names can have alphanumeric and underscore characters, and the values must
+  match `[A-Za-z0-9-._~:/?#&amp;=,]+`.
 """
 function create_stage(
     deploymentId, restapi_id, stageName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -632,6 +644,7 @@ function create_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stage(
     deploymentId,
     restapi_id,
@@ -684,6 +697,7 @@ function create_usage_plan(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_plan(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -720,6 +734,7 @@ function create_usage_plan_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_plan_key(
     keyId,
     keyType,
@@ -773,6 +788,7 @@ function create_vpc_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_link(
     name,
     targetArns,
@@ -810,6 +826,7 @@ function delete_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -845,6 +862,7 @@ function delete_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_authorizer(
     authorizer_id,
     restapi_id,
@@ -870,7 +888,7 @@ Deletes the BasePathMapping resource.
 
 - `base_path`: The base path name of the BasePathMapping resource to delete.
 
-To specify an empty base path, set this parameter to `'(none)'`.
+  To specify an empty base path, set this parameter to `'(none)'`.
 - `domain_name`: The domain name of the BasePathMapping resource to delete.
 """
 function delete_base_path_mapping(
@@ -883,6 +901,7 @@ function delete_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_base_path_mapping(
     base_path,
     domain_name,
@@ -918,6 +937,7 @@ function delete_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -954,6 +974,7 @@ function delete_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment(
     deployment_id,
     restapi_id,
@@ -990,6 +1011,7 @@ function delete_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_documentation_part(
     part_id,
     restapi_id,
@@ -1026,6 +1048,7 @@ function delete_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_documentation_version(
     doc_version,
     restapi_id,
@@ -1059,6 +1082,7 @@ function delete_domain_name(domain_name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -1095,6 +1119,7 @@ function delete_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway_response(
     response_type,
     restapi_id,
@@ -1132,6 +1157,7 @@ function delete_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_integration(
     http_method,
     resource_id,
@@ -1175,6 +1201,7 @@ function delete_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_integration_response(
     http_method,
     resource_id,
@@ -1214,6 +1241,7 @@ function delete_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_method(
     http_method,
     resource_id,
@@ -1257,6 +1285,7 @@ function delete_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_method_response(
     http_method,
     resource_id,
@@ -1295,6 +1324,7 @@ function delete_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     model_name,
     restapi_id,
@@ -1331,6 +1361,7 @@ function delete_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -1367,6 +1398,7 @@ function delete_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource(
     resource_id,
     restapi_id,
@@ -1400,6 +1432,7 @@ function delete_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -1435,6 +1468,7 @@ function delete_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stage(
     restapi_id,
     stage_name,
@@ -1468,6 +1502,7 @@ function delete_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -1504,6 +1539,7 @@ function delete_usage_plan_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_plan_key(
     keyId,
     usageplanId,
@@ -1538,6 +1574,7 @@ function delete_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_link(
     vpclink_id,
     params::AbstractDict{String};
@@ -1573,6 +1610,7 @@ function flush_stage_authorizers_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function flush_stage_authorizers_cache(
     restapi_id,
     stage_name,
@@ -1609,6 +1647,7 @@ function flush_stage_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function flush_stage_cache(
     restapi_id,
     stage_name,
@@ -1645,6 +1684,7 @@ function generate_client_certificate(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_client_certificate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1668,6 +1708,7 @@ function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1698,6 +1739,7 @@ function get_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/apikeys/$(api_Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -1736,6 +1778,7 @@ function get_api_keys(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_api_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1765,6 +1808,7 @@ function get_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_authorizer(
     authorizer_id,
     restapi_id,
@@ -1806,6 +1850,7 @@ function get_authorizers(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_authorizers(
     restapi_id,
     params::AbstractDict{String};
@@ -1829,9 +1874,9 @@ Describe a BasePathMapping resource.
 # Arguments
 
 - `base_path`: The base path name that callers of the API must provide as part of the URL
-  after the domain name. This value must be unique for all of the mappings across a single
-  API. Specify '(none)' if you do not want callers to specify any base path name after the
-  domain name.
+  after the domain name. This value must be unique for all of the mappings across a
+  single API. Specify '(none)' if you do not want callers to specify any base path name
+  after the domain name.
 - `domain_name`: The domain name of the BasePathMapping resource to be described.
 """
 function get_base_path_mapping(
@@ -1844,6 +1889,7 @@ function get_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_base_path_mapping(
     base_path,
     domain_name,
@@ -1887,6 +1933,7 @@ function get_base_path_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_base_path_mappings(
     domain_name,
     params::AbstractDict{String};
@@ -1921,6 +1968,7 @@ function get_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -1954,6 +2002,7 @@ function get_client_certificates(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/clientcertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_client_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1982,13 +2031,14 @@ Gets information about a Deployment resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"embed"`: A query parameter to retrieve the specified embedded resources of the returned
-  Deployment resource in the response. In a REST API call, this `embed` parameter value is
-  a list of comma-separated strings, as in `GET
-  /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2`. The SDK and other
-  platform-dependent libraries might use a different format for the list. Currently, this
-  request supports only retrieval of the embedded API summary this way. Hence, the
-  parameter value must be a single-valued list containing only the `"apisummary"` string.
-  For example, `GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary`.
+  Deployment resource in the response. In a REST API call, this `embed` parameter value
+  is a list of comma-separated strings, as in
+  `GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2`. The SDK and
+  other platform-dependent libraries might use a different format for the list.
+  Currently, this request supports only retrieval of the embedded API summary this way.
+  Hence, the parameter value must be a single-valued list containing only the
+  `"apisummary"` string. For example,
+  `GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary`.
 """
 function get_deployment(
     deployment_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2000,6 +2050,7 @@ function get_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     deployment_id,
     restapi_id,
@@ -2041,6 +2092,7 @@ function get_deployments(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployments(
     restapi_id,
     params::AbstractDict{String};
@@ -2076,6 +2128,7 @@ function get_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_part(
     part_id,
     restapi_id,
@@ -2125,6 +2178,7 @@ function get_documentation_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_parts(
     restapi_id,
     params::AbstractDict{String};
@@ -2160,6 +2214,7 @@ function get_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_version(
     doc_version,
     restapi_id,
@@ -2203,6 +2258,7 @@ function get_documentation_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_versions(
     restapi_id,
     params::AbstractDict{String};
@@ -2236,6 +2292,7 @@ function get_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -2269,6 +2326,7 @@ function get_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2302,12 +2360,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `application/json` and `application/yaml` are supported for `exportType` of`oas30` and
   `swagger`. This should be specified in the `Accept` header for direct API requests.
 - `"parameters"`: A key-value map of query string parameters that specify properties of the
-  export, depending on the requested `exportType`. For `exportType` `oas30` and `swagger`,
-  any combination of the following parameters are supported: `extensions='integrations'` or
-  `extensions='apigateway'` will export the API with x-amazon-apigateway-integration
-  extensions. `extensions='authorizers'` will export the API with x-amazon-apigateway-
-  authorizer extensions. `postman` will export the API with Postman extensions, allowing
-  for import to the Postman tool
+  export, depending on the requested `exportType`. For `exportType` `oas30` and
+  `swagger`, any combination of the following parameters are supported:
+  `extensions='integrations'` or `extensions='apigateway'` will export the API with x-
+  amazon-apigateway-integration extensions. `extensions='authorizers'` will export the
+  API with x-amazon-apigateway-authorizer extensions. `postman` will export the API with
+  Postman extensions, allowing for import to the Postman tool
 """
 function get_export(
     export_type, restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2319,6 +2377,7 @@ function get_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export(
     export_type,
     restapi_id,
@@ -2356,6 +2415,7 @@ function get_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gateway_response(
     response_type,
     restapi_id,
@@ -2388,8 +2448,8 @@ default GatewayResponses collection for the supported response types.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"limit"`: The maximum number of returned results per page. The default value is 25 and
-  the maximum value is 500. The GatewayResponses collection does not support pagination and
-  the limit does not apply here.
+  the maximum value is 500. The GatewayResponses collection does not support pagination
+  and the limit does not apply here.
 - `"position"`: The current pagination position in the paged result set. The
   GatewayResponse collection does not support pagination and the position does not apply
   here.
@@ -2404,6 +2464,7 @@ function get_gateway_responses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gateway_responses(
     restapi_id,
     params::AbstractDict{String};
@@ -2440,6 +2501,7 @@ function get_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_integration(
     http_method,
     resource_id,
@@ -2483,6 +2545,7 @@ function get_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_integration_response(
     http_method,
     resource_id,
@@ -2522,6 +2585,7 @@ function get_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_method(
     http_method,
     resource_id,
@@ -2565,6 +2629,7 @@ function get_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_method_response(
     http_method,
     resource_id,
@@ -2610,6 +2675,7 @@ function get_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model(
     model_name,
     restapi_id,
@@ -2647,6 +2713,7 @@ function get_model_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_template(
     model_name,
     restapi_id,
@@ -2688,6 +2755,7 @@ function get_models(restapi_id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_models(
     restapi_id,
     params::AbstractDict{String};
@@ -2723,6 +2791,7 @@ function get_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -2766,6 +2835,7 @@ function get_request_validators(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_request_validators(
     restapi_id,
     params::AbstractDict{String};
@@ -2796,11 +2866,11 @@ Lists information about a resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"embed"`: A query parameter to retrieve the specified resources embedded in the returned
-  Resource representation in the response. This `embed` parameter value is a list of comma-
-  separated strings. Currently, the request supports only retrieval of the embedded Method
-  resources this way. The query parameter value must be a single-valued list and contain
-  the `"methods"` string. For example, `GET
-  /restapis/{restapi_id}/resources/{resource_id}?embed=methods`.
+  Resource representation in the response. This `embed` parameter value is a list of
+  comma-separated strings. Currently, the request supports only retrieval of the embedded
+  Method resources this way. The query parameter value must be a single-valued list and
+  contain the `"methods"` string. For example,
+  `GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods`.
 """
 function get_resource(
     resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2812,6 +2882,7 @@ function get_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource(
     resource_id,
     restapi_id,
@@ -2845,8 +2916,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned Resources resource in the response. This `embed` parameter value is a list of
   comma-separated strings. Currently, the request supports only retrieval of the embedded
   Method resources this way. The query parameter value must be a single-valued list and
-  contain the `"methods"` string. For example, `GET
-  /restapis/{restapi_id}/resources?embed=methods`.
+  contain the `"methods"` string. For example,
+  `GET /restapis/{restapi_id}/resources?embed=methods`.
 - `"limit"`: The maximum number of returned results per page. The default value is 25 and
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
@@ -2859,6 +2930,7 @@ function get_resources(restapi_id; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resources(
     restapi_id,
     params::AbstractDict{String};
@@ -2891,6 +2963,7 @@ function get_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -2924,6 +2997,7 @@ function get_rest_apis(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/restapis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_rest_apis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2965,6 +3039,7 @@ function get_sdk(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sdk(
     restapi_id,
     sdk_type,
@@ -2999,6 +3074,7 @@ function get_sdk_type(sdktype_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sdk_type(
     sdktype_id,
     params::AbstractDict{String};
@@ -3032,6 +3108,7 @@ function get_sdk_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/sdktypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sdk_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3061,6 +3138,7 @@ function get_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stage(
     restapi_id,
     stage_name,
@@ -3100,6 +3178,7 @@ function get_stages(restapi_id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stages(
     restapi_id,
     params::AbstractDict{String};
@@ -3141,6 +3220,7 @@ function get_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -3187,6 +3267,7 @@ function get_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage(
     endDate,
     startDate,
@@ -3227,6 +3308,7 @@ function get_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -3264,6 +3346,7 @@ function get_usage_plan_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_plan_key(
     keyId,
     usageplanId,
@@ -3309,6 +3392,7 @@ function get_usage_plan_keys(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_plan_keys(
     usageplanId,
     params::AbstractDict{String};
@@ -3343,6 +3427,7 @@ function get_usage_plans(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/usageplans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_usage_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3370,6 +3455,7 @@ function get_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpc_link(
     vpclink_id,
     params::AbstractDict{String};
@@ -3403,6 +3489,7 @@ function get_vpc_links(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_vpc_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3440,6 +3527,7 @@ function import_api_keys(body, format; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_api_keys(
     body,
     format,
@@ -3474,11 +3562,11 @@ Imports documentation parts
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"failonwarnings"`: A query parameter to specify whether to rollback the documentation
-  importation (`true`) or not (`false`) when a warning is encountered. The default value is
-  `false`.
+  importation (`true`) or not (`false`) when a warning is encountered. The default value
+  is `false`.
 - `"mode"`: A query parameter to indicate whether to overwrite (`overwrite`) any existing
-  DocumentationParts definition or to merge (`merge`) the new definition into the existing
-  one. The default value is `merge`.
+  DocumentationParts definition or to merge (`merge`) the new definition into the
+  existing one. The default value is `merge`.
 """
 function import_documentation_parts(
     body, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3491,6 +3579,7 @@ function import_documentation_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_documentation_parts(
     body,
     restapi_id,
@@ -3516,8 +3605,8 @@ definition file.
 # Arguments
 
 - `body`: The POST request body containing external API definitions. Currently, only
-  OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition
-  file is 6MB.
+  OpenAPI definition JSON/YAML files are supported. The maximum size of the API
+  definition file is 6MB.
 
 # Optional Parameters
 
@@ -3529,15 +3618,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the behavior of different API importing operations. The following shows operation-
   specific parameters and their supported values.
 
-   To exclude DocumentationParts from the import, set `parameters` as
+  To exclude DocumentationParts from the import, set `parameters` as
   `ignore=documentation`.
 
-   To configure the endpoint type, set `parameters` as `endpointConfigurationTypes=EDGE`,
+  To configure the endpoint type, set `parameters` as `endpointConfigurationTypes=EDGE`,
   `endpointConfigurationTypes=REGIONAL`, or `endpointConfigurationTypes=PRIVATE`. The
   default endpoint type is `EDGE`.
 
-   To handle imported `basepath`, set `parameters` as `basepath=ignore`, `basepath=prepend`
-  or `basepath=split`.
+  To handle imported `basepath`, set `parameters` as `basepath=ignore`,
+  `basepath=prepend` or `basepath=split`.
 """
 function import_rest_api(body; aws_config::AbstractAWSConfig=current_aws_config())
     return api_gateway(
@@ -3548,6 +3637,7 @@ function import_rest_api(body; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_rest_api(
     body, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3592,6 +3682,7 @@ function put_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_gateway_response(
     response_type,
     restapi_id,
@@ -3647,16 +3738,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"credentials"`: Specifies whether credentials are required for a put integration.
 - `"httpMethod"`: The HTTP method for the integration.
 - `"passthroughBehavior"`: Specifies the pass-through behavior for incoming requests based
-  on the Content-Type header in the request, and the available mapping templates specified
-  as the `requestTemplates` property on the Integration resource. There are three valid
-  values: `WHEN_NO_MATCH`, `WHEN_NO_TEMPLATES`, and `NEVER`.
+  on the Content-Type header in the request, and the available mapping templates
+  specified as the `requestTemplates` property on the Integration resource. There are
+  three valid values: `WHEN_NO_MATCH`, `WHEN_NO_TEMPLATES`, and `NEVER`.
 - `"requestParameters"`: A key-value map specifying request parameters that are passed from
-  the method request to the back end. The key is an integration request parameter name and
-  the associated value is a method request parameter value or static value that must be
-  enclosed within single quotes and pre-encoded as required by the back end. The method
-  request parameter value must match the pattern of `method.request.{location}.{name}`,
-  where `location` is `querystring`, `path`, or `header` and `name` must be a valid and
-  unique method request parameter name.
+  the method request to the back end. The key is an integration request parameter name
+  and the associated value is a method request parameter value or static value that must
+  be enclosed within single quotes and pre-encoded as required by the back end. The
+  method request parameter value must match the pattern of
+  `method.request.{location}.{name}`, where `location` is `querystring`, `path`, or
+  `header` and `name` must be a valid and unique method request parameter name.
 - `"requestTemplates"`: Represents a map of Velocity templates that are applied on the
   request payload based on the value of the Content-Type header sent by the client. The
   content type value is the key in this map, and the template (as a String) is the value.
@@ -3667,21 +3758,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP or `HTTP_PROXY` integrations, the URI must be a fully formed, encoded HTTP(S) URL
   according to the RFC-3986 specification, for either standard integration, where
   `connectionType` is not `VPC_LINK`, or private integration, where `connectionType` is
-  `VPC_LINK`. For a private HTTP integration, the URI is not used for routing. For `AWS` or
-  `AWS_PROXY` integrations, the URI is of the form
+  `VPC_LINK`. For a private HTTP integration, the URI is not used for routing. For `AWS`
+  or `AWS_PROXY` integrations, the URI is of the form
   `arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api`}.
-  Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the
-  integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated
+  Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of
+  the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated
   subdomain supported by certain Amazon Web Services service for fast host-name lookup.
   action can be used for an Amazon Web Services service action-based API, using an
-  Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers
-  to a supported action {name} plus any required input parameters. Alternatively, path can
-  be used for an Amazon Web Services service path-based API. The ensuing service_api refers
-  to the path to an Amazon Web Services service resource, including the region of the
-  integrated Amazon Web Services service, if applicable. For example, for integration with
-  the S3 API of `GetObject`, the `uri` can be either `arn:aws:apigateway:us-west-
-  2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}` or `arn:aws:apigateway:us-west-
-  2:s3:path/{bucket}/{key}`.
+  Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api}
+  refers to a supported action {name} plus any required input parameters. Alternatively,
+  path can be used for an Amazon Web Services service path-based API. The ensuing
+  service_api refers to the path to an Amazon Web Services service resource, including
+  the region of the integrated Amazon Web Services service, if applicable. For example,
+  for integration with the S3 API of `GetObject`, the `uri` can be either
+  `arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}` or
+  `arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}`.
 """
 function put_integration(
     http_method,
@@ -3698,6 +3789,7 @@ function put_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_integration(
     http_method,
     resource_id,
@@ -3740,14 +3832,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If this property is not defined, the response payload will be passed through from the
   integration response to the method response without modification.
 - `"responseParameters"`: A key-value map specifying response parameters that are passed to
-  the method response from the back end. The key is a method response header parameter name
-  and the mapped value is an integration response header value, a static value enclosed
-  within a pair of single quotes, or a JSON expression from the integration response body.
-  The mapping key must match the pattern of `method.response.header.{name}`, where `name`
-  is a valid and unique header name. The mapped non-static value must match the pattern of
-  `integration.response.header.{name}` or `integration.response.body.{JSON-expression}`,
-  where `name` must be a valid and unique response header name and `JSON-expression` a
-  valid JSON expression without the `\$` prefix.
+  the method response from the back end. The key is a method response header parameter
+  name and the mapped value is an integration response header value, a static value
+  enclosed within a pair of single quotes, or a JSON expression from the integration
+  response body. The mapping key must match the pattern of
+  `method.response.header.{name}`, where `name` is a valid and unique header name. The
+  mapped non-static value must match the pattern of `integration.response.header.{name}`
+  or `integration.response.body.{JSON-expression}`, where `name` must be a valid and
+  unique response header name and `JSON-expression` a valid JSON expression without the
+  `\$` prefix.
 - `"responseTemplates"`: Specifies a put integration response's templates.
 - `"selectionPattern"`: Specifies the selection pattern of a put integration response.
 """
@@ -3765,6 +3858,7 @@ function put_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_integration_response(
     http_method,
     resource_id,
@@ -3791,8 +3885,8 @@ Add a method to an existing Resource resource.
 # Arguments
 
 - `authorization_type`: The method's authorization type. Valid values are `NONE` for open
-  access, `AWS_IAM` for using AWS IAM permissions, `CUSTOM` for using a custom authorizer,
-  or `COGNITO_USER_POOLS` for using a Cognito user pool.
+  access, `AWS_IAM` for using AWS IAM permissions, `CUSTOM` for using a custom
+  authorizer, or `COGNITO_USER_POOLS` for using a Cognito user pool.
 - `http_method`: Specifies the method request's HTTP method type.
 - `resource_id`: The Resource identifier for the new Method resource.
 - `restapi_id`: The string identifier of the associated RestApi.
@@ -3805,27 +3899,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authorizationScopes"`: A list of authorization scopes configured on the method. The
   scopes are used with a `COGNITO_USER_POOLS` authorizer to authorize the method
   invocation. The authorization works by matching the method scopes against the scopes
-  parsed from the access token in the incoming request. The method invocation is authorized
-  if any method scopes matches a claimed scope in the access token. Otherwise, the
-  invocation is not authorized. When the method scope is configured, the client must
+  parsed from the access token in the incoming request. The method invocation is
+  authorized if any method scopes matches a claimed scope in the access token. Otherwise,
+  the invocation is not authorized. When the method scope is configured, the client must
   provide an access token instead of an identity token for authorization purposes.
 - `"authorizerId"`: Specifies the identifier of an Authorizer to use on this Method, if the
   type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API
   Gateway when you created the authorizer.
 - `"operationName"`: A human-friendly operation identifier for the method. For example, you
-  can assign the `operationName` of `ListPets` for the `GET /pets` method in the `PetStore`
-  example.
+  can assign the `operationName` of `ListPets` for the `GET /pets` method in the
+  `PetStore` example.
 - `"requestModels"`: Specifies the Model resources used for the request's content type.
   Request models are represented as a key/value map, with a content type as the key and a
   Model name as the value.
 - `"requestParameters"`: A key-value map defining required or optional method request
-  parameters that can be accepted by API Gateway. A key defines a method request parameter
-  name matching the pattern of `method.request.{location}.{name}`, where `location` is
-  `querystring`, `path`, or `header` and `name` is a valid and unique parameter name. The
-  value associated with the key is a Boolean flag indicating whether the parameter is
-  required (`true`) or optional (`false`). The method request parameter names defined here
-  are available in Integration to be mapped to integration request parameters or body-
-  mapping templates.
+  parameters that can be accepted by API Gateway. A key defines a method request
+  parameter name matching the pattern of `method.request.{location}.{name}`, where
+  `location` is `querystring`, `path`, or `header` and `name` is a valid and unique
+  parameter name. The value associated with the key is a Boolean flag indicating whether
+  the parameter is required (`true`) or optional (`false`). The method request parameter
+  names defined here are available in Integration to be mapped to integration request
+  parameters or body-mapping templates.
 - `"requestValidatorId"`: The identifier of a RequestValidator for validating the method
   request.
 """
@@ -3844,6 +3938,7 @@ function put_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_method(
     authorizationType,
     http_method,
@@ -3883,19 +3978,19 @@ Adds a MethodResponse to an existing Method resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"responseModels"`: Specifies the Model resources used for the response's content type.
-  Response models are represented as a key/value map, with a content type as the key and a
-  Model name as the value.
+  Response models are represented as a key/value map, with a content type as the key and
+  a Model name as the value.
 - `"responseParameters"`: A key-value map specifying required or optional response
-  parameters that API Gateway can send back to the caller. A key defines a method response
-  header name and the associated value is a Boolean flag indicating whether the method
-  response parameter is required or not. The method response header names must match the
-  pattern of `method.response.header.{name}`, where `name` is a valid and unique header
-  name. The response parameter names defined here are available in the integration response
-  to be mapped from an integration response header expressed in
+  parameters that API Gateway can send back to the caller. A key defines a method
+  response header name and the associated value is a Boolean flag indicating whether the
+  method response parameter is required or not. The method response header names must
+  match the pattern of `method.response.header.{name}`, where `name` is a valid and
+  unique header name. The response parameter names defined here are available in the
+  integration response to be mapped from an integration response header expressed in
   `integration.response.header.{name}`, a static value enclosed within a pair of single
   quotes (e.g., `'application/json'`), or a JSON expression from the back-end response
-  payload in the form of `integration.response.body.{JSON-expression}`, where `JSON-
-  expression` is a valid JSON expression without the `\$` prefix.)
+  payload in the form of `integration.response.body.{JSON-expression}`, where
+  `JSON-expression` is a valid JSON expression without the `\$` prefix.)
 """
 function put_method_response(
     http_method,
@@ -3911,6 +4006,7 @@ function put_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_method_response(
     http_method,
     resource_id,
@@ -3939,8 +4035,8 @@ into the existing API or overwriting the existing API.
 # Arguments
 
 - `body`: The PUT request body containing external API definitions. Currently, only OpenAPI
-  definition JSON/YAML files are supported. The maximum size of the API definition file is
-  6MB.
+  definition JSON/YAML files are supported. The maximum size of the API definition file
+  is 6MB.
 - `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
@@ -3953,8 +4049,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and "overwrite". By default, the update mode is "merge".
 - `"parameters"`: Custom header parameters as part of the request. For example, to exclude
   DocumentationParts from an imported API, set `ignore=documentation` as a `parameters`
-  value, as in the AWS CLI command of `aws apigateway import-rest-api --parameters
-  ignore=documentation --body 'file:///path/to/imported-api-body.json'`.
+  value, as in the AWS CLI command of
+  `aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'`.
 """
 function put_rest_api(body, restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
     return api_gateway(
@@ -3965,6 +4061,7 @@ function put_rest_api(body, restapi_id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rest_api(
     body,
     restapi_id,
@@ -4002,6 +4099,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -4038,8 +4136,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"headers"`: A key-value map of headers to simulate an incoming invocation request. This
   is where the incoming authorization token, or identity source, should be specified.
 - `"multiValueHeaders"`: The headers as a map from string to list of values to simulate an
-  incoming invocation request. This is where the incoming authorization token, or identity
-  source, may be specified.
+  incoming invocation request. This is where the incoming authorization token, or
+  identity source, may be specified.
 - `"pathWithQueryString"`: The URI path, including query string, of the simulated
   invocation request. Use this to specify path parameters and query string parameters.
 - `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
@@ -4055,6 +4153,7 @@ function test_invoke_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_invoke_authorizer(
     authorizer_id,
     restapi_id,
@@ -4109,6 +4208,7 @@ function test_invoke_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_invoke_method(
     http_method,
     resource_id,
@@ -4147,6 +4247,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -4179,6 +4280,7 @@ function update_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4211,6 +4313,7 @@ function update_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -4252,6 +4355,7 @@ function update_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_authorizer(
     authorizer_id,
     restapi_id,
@@ -4277,7 +4381,7 @@ Changes information about the BasePathMapping resource.
 
 - `base_path`: The base path of the BasePathMapping resource to change.
 
-To specify an empty base path, set this parameter to `'(none)'`.
+  To specify an empty base path, set this parameter to `'(none)'`.
 - `domain_name`: The domain name of the BasePathMapping resource to change.
 
 # Optional Parameters
@@ -4296,6 +4400,7 @@ function update_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_base_path_mapping(
     base_path,
     domain_name,
@@ -4337,6 +4442,7 @@ function update_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -4379,6 +4485,7 @@ function update_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deployment(
     deployment_id,
     restapi_id,
@@ -4421,6 +4528,7 @@ function update_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_documentation_part(
     part_id,
     restapi_id,
@@ -4463,6 +4571,7 @@ function update_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_documentation_version(
     doc_version,
     restapi_id,
@@ -4502,6 +4611,7 @@ function update_domain_name(domain_name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -4543,6 +4653,7 @@ function update_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_response(
     response_type,
     restapi_id,
@@ -4586,6 +4697,7 @@ function update_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_integration(
     http_method,
     resource_id,
@@ -4635,6 +4747,7 @@ function update_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_integration_response(
     http_method,
     resource_id,
@@ -4680,6 +4793,7 @@ function update_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_method(
     http_method,
     resource_id,
@@ -4729,6 +4843,7 @@ function update_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_method_response(
     http_method,
     resource_id,
@@ -4773,6 +4888,7 @@ function update_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model(
     model_name,
     restapi_id,
@@ -4815,6 +4931,7 @@ function update_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -4857,6 +4974,7 @@ function update_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource(
     resource_id,
     restapi_id,
@@ -4896,6 +5014,7 @@ function update_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -4937,6 +5056,7 @@ function update_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stage(
     restapi_id,
     stage_name,
@@ -4981,6 +5101,7 @@ function update_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_usage(
     keyId,
     usageplanId,
@@ -5020,6 +5141,7 @@ function update_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -5059,6 +5181,7 @@ function update_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_link(
     vpclink_id,
     params::AbstractDict{String};

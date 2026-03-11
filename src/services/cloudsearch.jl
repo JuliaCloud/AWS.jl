@@ -23,6 +23,7 @@ function build_suggesters(DomainName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function build_suggesters(
     DomainName,
     params::AbstractDict{String};
@@ -60,6 +61,7 @@ function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     DomainName,
     params::AbstractDict{String};
@@ -100,6 +102,7 @@ function define_analysis_scheme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_analysis_scheme(
     AnalysisScheme,
     DomainName,
@@ -126,9 +129,9 @@ end
     define_expression(domain_name, expression)
     define_expression(domain_name, expression, params::Dict{String,<:Any})
 
-Configures an `<a>Expression</a>` for the search domain. Used to create new expressions and
-modify existing ones. If the expression exists, the new configuration replaces the old one.
-For more information, see <a
+Configures an `[`expression`](@ref)` for the search domain. Used to create new expressions
+and modify existing ones. If the expression exists, the new configuration replaces the old
+one. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-
 expressions.html" target="_blank">Configuring Expressions</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -148,6 +151,7 @@ function define_expression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_expression(
     DomainName,
     Expression,
@@ -172,12 +176,12 @@ end
     define_index_field(domain_name, index_field)
     define_index_field(domain_name, index_field, params::Dict{String,<:Any})
 
-Configures an `<a>IndexField</a>` for the search domain. Used to create new fields and
+Configures an `[`index_field`](@ref)` for the search domain. Used to create new fields and
 modify existing ones. You must specify the name of the domain you are configuring and an
 index field configuration. The index field configuration specifies a unique name, the index
 field type, and the options you want to configure for the field. The options you can
-specify depend on the `<a>IndexFieldType</a>`. If the field exists, the new configuration
-replaces the old one. For more information, see <a
+specify depend on the `[`index_field_type`](@ref)`. If the field exists, the new
+configuration replaces the old one. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-
 fields.html" target="_blank">Configuring Index Fields</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -197,6 +201,7 @@ function define_index_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_index_field(
     DomainName,
     IndexField,
@@ -244,6 +249,7 @@ function define_suggester(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_suggester(
     DomainName,
     Suggester,
@@ -290,6 +296,7 @@ function delete_analysis_scheme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_analysis_scheme(
     AnalysisSchemeName,
     DomainName,
@@ -333,6 +340,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -352,7 +360,7 @@ end
     delete_expression(domain_name, expression_name)
     delete_expression(domain_name, expression_name, params::Dict{String,<:Any})
 
-Removes an `<a>Expression</a>` from the search domain. For more information, see <a
+Removes an `[`expression`](@ref)` from the search domain. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-
 expressions.html" target="_blank">Configuring Expressions</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -360,7 +368,7 @@ Developer Guide*.
 # Arguments
 
 - `domain_name`:
-- `expression_name`: The name of the `<a>Expression</a>` to delete.
+- `expression_name`: The name of the `[`expression`](@ref)` to delete.
 """
 function delete_expression(
     DomainName, ExpressionName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -372,6 +380,7 @@ function delete_expression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_expression(
     DomainName,
     ExpressionName,
@@ -398,7 +407,7 @@ end
     delete_index_field(domain_name, index_field_name)
     delete_index_field(domain_name, index_field_name, params::Dict{String,<:Any})
 
-Removes an `<a>IndexField</a>` from the search domain. For more information, see <a
+Removes an `[`index_field`](@ref)` from the search domain. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-
 fields.html" target="_blank">Configuring Index Fields</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -419,6 +428,7 @@ function delete_index_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_index_field(
     DomainName,
     IndexFieldName,
@@ -465,6 +475,7 @@ function delete_suggester(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_suggester(
     DomainName,
     SuggesterName,
@@ -522,6 +533,7 @@ function describe_analysis_schemes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_analysis_schemes(
     DomainName,
     params::AbstractDict{String};
@@ -569,6 +581,7 @@ function describe_availability_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_availability_options(
     DomainName,
     params::AbstractDict{String};
@@ -615,6 +628,7 @@ function describe_domain_endpoint_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_endpoint_options(
     DomainName,
     params::AbstractDict{String};
@@ -653,6 +667,7 @@ function describe_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -683,8 +698,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Deployed"`: Whether to display the deployed configuration (`true`) or include any
   pending changes (`false`). Defaults to `false`.
-- `"ExpressionNames"`: Limits the `<a>DescribeExpressions</a>` response to the specified
-  expressions. If not specified, all expressions are shown.
+- `"ExpressionNames"`: Limits the `[`describe_expressions`](@ref)` response to the
+  specified expressions. If not specified, all expressions are shown.
 """
 function describe_expressions(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -696,6 +711,7 @@ function describe_expressions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_expressions(
     DomainName,
     params::AbstractDict{String};
@@ -746,6 +762,7 @@ function describe_index_fields(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_index_fields(
     DomainName,
     params::AbstractDict{String};
@@ -785,6 +802,7 @@ function describe_scaling_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_parameters(
     DomainName,
     params::AbstractDict{String};
@@ -833,6 +851,7 @@ function describe_service_access_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_service_access_policies(
     DomainName,
     params::AbstractDict{String};
@@ -881,6 +900,7 @@ function describe_suggesters(DomainName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_suggesters(
     DomainName,
     params::AbstractDict{String};
@@ -901,7 +921,7 @@ end
     index_documents(domain_name, params::Dict{String,<:Any})
 
 Tells the search domain to start indexing its documents using the latest indexing options.
-This operation must be invoked to activate options whose <a>OptionStatus</a> is
+This operation must be invoked to activate options whose [`option_status`](@ref) is
 `RequiresIndexDocuments`.
 
 # Arguments
@@ -916,6 +936,7 @@ function index_documents(DomainName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function index_documents(
     DomainName,
     params::AbstractDict{String};
@@ -942,6 +963,7 @@ function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDomainNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -966,8 +988,9 @@ CloudSearch Developer Guide*.
 
 - `domain_name`:
 - `multi_az`: You expand an existing search domain to a second Availability Zone by setting
-  the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade
-  the domain to a single Availability Zone by setting the Multi-AZ option to `false`.
+  the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to
+  downgrade the domain to a single Availability Zone by setting the Multi-AZ option to
+  `false`.
 """
 function update_availability_options(
     DomainName, MultiAZ; aws_config::AbstractAWSConfig=current_aws_config()
@@ -979,6 +1002,7 @@ function update_availability_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_availability_options(
     DomainName,
     MultiAZ,
@@ -1028,6 +1052,7 @@ function update_domain_endpoint_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_endpoint_options(
     DomainEndpointOptions,
     DomainName,
@@ -1081,6 +1106,7 @@ function update_scaling_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scaling_parameters(
     DomainName,
     ScalingParameters,
@@ -1128,6 +1154,7 @@ function update_service_access_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_access_policies(
     AccessPolicies,
     DomainName,

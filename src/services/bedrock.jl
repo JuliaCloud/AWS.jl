@@ -27,6 +27,7 @@ function batch_delete_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_evaluation_job(
     jobIdentifiers,
     params::AbstractDict{String};
@@ -56,15 +57,15 @@ creating a model evaluation job see, [Model evaluation](https://docs.aws.amazon.
 - `evaluation_config`: Specifies whether the model evaluation job is automatic or uses
   human worker.
 - `inference_config`: Specify the models you want to use in your model evaluation job.
-  Automatic model evaluation jobs support a single model, and model evaluation job that use
-  human workers support two models.
+  Automatic model evaluation jobs support a single model, and model evaluation job that
+  use human workers support two models.
 - `job_name`: The name of the model evaluation job. Model evaluation job names must unique
   with your AWS account, and your account's AWS region.
 - `output_data_config`: An object that defines where the results of model evaluation job
   will be saved in Amazon S3.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can
-  assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the
-  service principal, and provide access to any Amazon S3 buckets specified in the
+  assume to perform tasks on your behalf. The service role must have Amazon Bedrock as
+  the service principal, and provide access to any Amazon S3 buckets specified in the
   `EvaluationConfig` object. To pass this role to Amazon Bedrock, the caller of this API
   must have the `iam:PassRole` permission. To learn more about the required permissions,
   see [Required permissions](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-security.html).
@@ -74,8 +75,9 @@ creating a model evaluation job see, [Model evaluation](https://docs.aws.amazon.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  request completes no more than one time. If this token matches a previous request,
+  Amazon Bedrock ignores the request, but does not return an error. For more information,
+  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customerEncryptionKeyId"`: Specify your customer managed key ARN that will be used to
   encrypt your model evaluation job.
 - `"jobDescription"`: A description of the model evaluation job.
@@ -104,6 +106,7 @@ function create_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_evaluation_job(
     evaluationConfig,
     inferenceConfig,
@@ -144,20 +147,23 @@ applications.
 
 You can configure the following policies in a guardrail to avoid undesirable and harmful
 content, filter out denied topics and words, and remove sensitive information for privacy
-protection.</p> - **Content filters** - Adjust filter strengths to block input prompts or
-model responses containing harmful content.
- - **Denied topics** - Define a set of topics that are undesirable in the context of your
-application. These topics will be blocked if detected in user queries or model responses.
- - **Word filters** - Configure filters to block undesirable words, phrases, and profanity.
-Such words can include offensive terms, competitor names etc.
- - **Sensitive information filters** - Block or mask sensitive information such as
-personally identifiable information (PII) or custom regex in user inputs and model
-responses.
+protection.
+
+- **Content filters** - Adjust filter strengths to block input prompts or model responses
+  containing harmful content.
+- **Denied topics** - Define a set of topics that are undesirable in the context of your
+  application. These topics will be blocked if detected in user queries or model responses.
+- **Word filters** - Configure filters to block undesirable words, phrases, and profanity.
+  Such words can include offensive terms, competitor names etc.
+- **Sensitive information filters** - Block or mask sensitive information such as
+  personally identifiable information (PII) or custom regex in user inputs and model
+  responses.
+
 In addition to the above policies, you can also configure the messages to be returned to
 the user if a user input or model response is in violation of the policies defined in the
 guardrail.
 
- <p>For more information, see [Guardrails for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
+For more information, see [Guardrails for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
 in the *Amazon Bedrock User Guide*.
 
 # Arguments
@@ -205,6 +211,7 @@ function create_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -266,6 +273,7 @@ function create_guardrail_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_guardrail_version(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -301,8 +309,9 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  request completes no more than one time. If this token matches a previous request,
+  Amazon Bedrock ignores the request, but does not return an error. For more information,
+  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"modelKmsKeyId"`: The ARN of the KMS key that you use to encrypt the model copy.
 - `"targetModelTags"`: Tags to associate with the target model. For more information, see [Tag resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html)
   in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
@@ -322,6 +331,7 @@ function create_model_copy_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_copy_job(
     sourceModelArn,
     targetModelName,
@@ -360,9 +370,9 @@ completes.
 
 For information on the format of training and validation data, see [Prepare the datasets](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-prepare.html).
 
- Model-customization jobs are asynchronous and the completion time depends on the base
-model and the training/validation data size. To monitor a job, use the
-`GetModelCustomizationJob` operation to retrieve the job status.
+Model-customization jobs are asynchronous and the completion time depends on the base model
+and the training/validation data size. To monitor a job, use the [`get_model_customization_job`](@ref)
+operation to retrieve the job status.
 
 For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
 in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
@@ -377,9 +387,9 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 - `output_data_config`: S3 location for the output data.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can
   assume to perform tasks on your behalf. For example, during model training, Amazon
-  Bedrock needs your permission to read input data from an S3 bucket, write model artifacts
-  to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API must have
-  the `iam:PassRole` permission.
+  Bedrock needs your permission to read input data from an S3 bucket, write model
+  artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API
+  must have the `iam:PassRole` permission.
 - `training_data_config`: Information about the training dataset.
 
 # Optional Parameters
@@ -387,8 +397,9 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  request completes no more than one time. If this token matches a previous request,
+  Amazon Bedrock ignores the request, but does not return an error. For more information,
+  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customModelKmsKeyId"`: The custom model is encrypted at rest using this key.
 - `"customModelTags"`: Tags to attach to the resulting custom model.
 - `"customizationType"`: The customization type.
@@ -424,6 +435,7 @@ function create_model_customization_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_customization_job(
     baseModelIdentifier,
     customModelName,
@@ -478,8 +490,9 @@ such as Amazon SageMaker. For more information, see [Import a customized model](
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  request completes no more than one time. If this token matches a previous request,
+  Amazon Bedrock ignores the request, but does not return an error. For more information,
+  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"importedModelKmsKeyId"`: The imported model is encrypted at rest using this key.
 - `"importedModelTags"`: Tags to attach to the imported model.
 - `"jobTags"`: Tags to attach to this import job.
@@ -506,6 +519,7 @@ function create_model_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_import_job(
     importedModelName,
     jobName,
@@ -552,16 +566,17 @@ The response returns a `jobArn` that you can use to stop or get details about th
   job.
 - `output_data_config`: Details about the location of the output of the batch inference job.
 - `role_arn`: The Amazon Resource Name (ARN) of the service role with permissions to carry
-  out and manage batch inference. You can use the console to create a default service role
-  or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
+  out and manage batch inference. You can use the console to create a default service
+  role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+  request completes no more than one time. If this token matches a previous request,
+  Amazon Bedrock ignores the request, but does not return an error. For more information,
+  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"tags"`: Any tags to associate with the batch inference job. For more information, see [Tagging Amazon Bedrock resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
 - `"timeoutDurationInHours"`: The number of hours after which to force the batch inference
   job to time out.
@@ -589,6 +604,7 @@ function create_model_invocation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_invocation_job(
     inputDataConfig,
     jobName,
@@ -636,17 +652,17 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
   Throughput, see [Amazon Bedrock model IDs for purchasing Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#prov-throughput-models)
   in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 - `model_units`: Number of model units to allocate. A model unit delivers a specific
-  throughput level for the specified model. The throughput level of a model unit specifies
-  the total number of input and output tokens that it can process and generate within a
-  span of one minute. By default, your account has no model units for purchasing
+  throughput level for the specified model. The throughput level of a model unit
+  specifies the total number of input and output tokens that it can process and generate
+  within a span of one minute. By default, your account has no model units for purchasing
   Provisioned Throughputs with commitment. You must first visit the [Amazon Web Services support center](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase)
   to request MUs.
 
   For model unit quotas, see [Provisioned Throughput quotas](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html#prov-thru-quotas)
   in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
-  For more information about what an MU specifies, contact your Amazon Web Services account
-  manager.
+  For more information about what an MU specifies, contact your Amazon Web Services
+  account manager.
 - `provisioned_model_name`: The name for this Provisioned Throughput.
 
 # Optional Parameters
@@ -654,8 +670,9 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+  request completes no more than one time. If this token matches a previous request,
+  Amazon Bedrock ignores the request, but does not return an error. For more information,
+  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the Amazon S3 User Guide.
 - `"commitmentDuration"`: The commitment duration requested for the Provisioned Throughput.
   Billing occurs hourly and is discounted for longer commitment terms. To request a no-
@@ -685,6 +702,7 @@ function create_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioned_model_throughput(
     modelId,
     modelUnits,
@@ -733,6 +751,7 @@ function delete_custom_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -751,11 +770,12 @@ end
     delete_guardrail(guardrail_identifier)
     delete_guardrail(guardrail_identifier, params::Dict{String,<:Any})
 
-Deletes a guardrail. - To delete a guardrail, only specify the ARN of the guardrail in the
-`guardrailIdentifier` field. If you delete a guardrail, all of its versions will be
-deleted.
- - To delete a version of a guardrail, specify the ARN of the guardrail in the
-`guardrailIdentifier` field and the version in the `guardrailVersion` field.
+Deletes a guardrail.
+
+- To delete a guardrail, only specify the ARN of the guardrail in the `guardrailIdentifier`
+  field. If you delete a guardrail, all of its versions will be deleted.
+- To delete a version of a guardrail, specify the ARN of the guardrail in the
+  `guardrailIdentifier` field and the version in the `guardrailVersion` field.
 
 # Arguments
 
@@ -778,6 +798,7 @@ function delete_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -813,6 +834,7 @@ function delete_imported_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_imported_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -843,6 +865,7 @@ function delete_model_invocation_logging_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model_invocation_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -878,6 +901,7 @@ function delete_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
@@ -914,6 +938,7 @@ function get_custom_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -949,6 +974,7 @@ function get_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -983,6 +1009,7 @@ function get_foundation_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_foundation_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -1026,6 +1053,7 @@ function get_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -1060,6 +1088,7 @@ function get_imported_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_imported_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -1095,6 +1124,7 @@ function get_inference_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_inference_profile(
     inferenceProfileIdentifier,
     params::AbstractDict{String};
@@ -1128,6 +1158,7 @@ function get_model_copy_job(jobArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_copy_job(
     jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1162,6 +1193,7 @@ function get_model_customization_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1198,6 +1230,7 @@ function get_model_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_import_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1232,6 +1265,7 @@ function get_model_invocation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_invocation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1262,6 +1296,7 @@ function get_model_invocation_logging_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_invocation_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1296,6 +1331,7 @@ function get_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
@@ -1314,8 +1350,8 @@ end
     list_custom_models()
     list_custom_models(params::Dict{String,<:Any})
 
-Returns a list of the custom models that you have created with the
-`CreateModelCustomizationJob` operation.
+Returns a list of the custom models that you have created with the [`create_model_customization_job`](@ref)
+operation.
 
 For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
 in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
@@ -1347,6 +1383,7 @@ function list_custom_models(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/custom-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_custom_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,6 +1423,7 @@ function list_evaluation_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/evaluation-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_evaluation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1424,6 +1462,7 @@ function list_foundation_models(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/foundation-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_foundation_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1465,6 +1504,7 @@ function list_guardrails(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/guardrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_guardrails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1502,6 +1542,7 @@ function list_imported_models(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/imported-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_imported_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1536,6 +1577,7 @@ function list_inference_profiles(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/inference-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inference_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1584,6 +1626,7 @@ function list_model_copy_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/model-copy-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_model_copy_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1632,6 +1675,7 @@ function list_model_customization_jobs(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_customization_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1674,6 +1718,7 @@ function list_model_import_jobs(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/model-import-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_model_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1703,8 +1748,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the string.
 - `"nextToken"`: If there were more results than the value you specified in the
   `maxResults` field in a previous `ListModelInvocationJobs` request, the response would
-  have returned a `nextToken` value. To see the next batch of results, send the `nextToken`
-  value in another request.
+  have returned a `nextToken` value. To see the next batch of results, send the
+  `nextToken` value in another request.
 - `"sortBy"`: An attribute by which to sort the results.
 - `"sortOrder"`: Specifies whether to sort the results by ascending or descending order.
 - `"statusEquals"`: Specify a status to filter for batch inference jobs whose statuses
@@ -1722,6 +1767,7 @@ function list_model_invocation_jobs(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_invocation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1750,8 +1796,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"creationTimeBefore"`: A filter that returns Provisioned Throughputs created before the
   specified time.
 - `"maxResults"`: THe maximum number of results to return in the response. If there are
-  more results than the number you specified, the response returns a `nextToken` value. To
-  see the next batch of results, send the `nextToken` value in another list request.
+  more results than the number you specified, the response returns a `nextToken` value.
+  To see the next batch of results, send the `nextToken` value in another list request.
 - `"modelArnEquals"`: A filter that returns Provisioned Throughputs whose model Amazon
   Resource Name (ARN) is equal to the value that you specify.
 - `"nameContains"`: A filter that returns Provisioned Throughputs if their name contains
@@ -1774,6 +1820,7 @@ function list_provisioned_model_throughputs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioned_model_throughputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1810,6 +1857,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -1847,6 +1895,7 @@ function put_model_invocation_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_model_invocation_logging_configuration(
     loggingConfig,
     params::AbstractDict{String};
@@ -1883,6 +1932,7 @@ function stop_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1918,6 +1968,7 @@ function stop_model_customization_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1953,6 +2004,7 @@ function stop_model_invocation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_model_invocation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1988,6 +2040,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -2032,6 +2085,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -2057,26 +2111,26 @@ end
     update_guardrail(blocked_input_messaging, blocked_outputs_messaging, guardrail_identifier, name)
     update_guardrail(blocked_input_messaging, blocked_outputs_messaging, guardrail_identifier, name, params::Dict{String,<:Any})
 
-Updates a guardrail with the values you specify. - Specify a `name` and optional
-`description`.
- - Specify messages for when the guardrail successfully blocks a prompt or a model response
-in the `blockedInputMessaging` and `blockedOutputsMessaging` fields.
- - Specify topics for the guardrail to deny in the `topicPolicyConfig` object. Each [GuardrailTopicConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailTopicConfig.html)
-object in the `topicsConfig` list pertains to one topic. <ul> <li>Give a `name` and
-`description` so that the guardrail can properly identify the topic.
- - Specify `DENY` in the `type` field.
- - (Optional) Provide up to five prompts that you would categorize as belonging to the
-topic in the `examples` list.
- </li> <li>Specify filter strengths for the harmful categories defined in Amazon Bedrock in
-the `contentPolicyConfig` object. Each [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html)
-object in the `filtersConfig` list pertains to a harmful category. For more information,
-see [Content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-content-filters).
-For more information about the fields in a content filter, see [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
-- Specify the category in the `type` field.
- - Specify the strength of the filter for prompts in the `inputStrength` field and for
-model responses in the `strength` field of the [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
- </li> <li>(Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
-</li> </ul>
+Updates a guardrail with the values you specify.
+
+- Specify a `name` and optional `description`.
+- Specify messages for when the guardrail successfully blocks a prompt or a model response
+  in the `blockedInputMessaging` and `blockedOutputsMessaging` fields.
+- Specify topics for the guardrail to deny in the `topicPolicyConfig` object. Each [GuardrailTopicConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailTopicConfig.html)
+  object in the `topicsConfig` list pertains to one topic.   - Give a `name` and
+  `description` so that the guardrail can properly identify the topic.
+  - Specify `DENY` in the `type` field.
+  - (Optional) Provide up to five prompts that you would categorize as belonging to the
+    topic in the `examples` list.
+- Specify filter strengths for the harmful categories defined in Amazon Bedrock in the
+  `contentPolicyConfig` object. Each [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html)
+  object in the `filtersConfig` list pertains to a harmful category. For more information,
+  see [Content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-content-filters).
+  For more information about the fields in a content filter, see [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
+    - Specify the category in the `type` field.
+  - Specify the strength of the filter for prompts in the `inputStrength` field and for
+    model responses in the `strength` field of the [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
+- (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
 
 # Arguments
 
@@ -2120,6 +2174,7 @@ function update_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -2165,12 +2220,16 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"desiredModelId"`: The Amazon Resource Name (ARN) of the new model to associate with
-  this Provisioned Throughput. You can't specify this field if this Provisioned Throughput
-  is associated with a base model.
+  this Provisioned Throughput. You can't specify this field if this Provisioned
+  Throughput is associated with a base model.
 
-  If this Provisioned Throughput is associated with a custom model, you can specify one of
-  the following options: - The base model from which the custom model was customized.
-   - Another custom model that was customized from the same base model as the custom model.
+  If this Provisioned Throughput is associated with a custom model, you can specify one
+  of the following options:
+
+  - The base model from which the custom model was customized.
+  - Another custom model that was customized from the same base model as the custom
+    model.
+
 - `"desiredProvisionedModelName"`: The new name for this Provisioned Throughput.
 """
 function update_provisioned_model_throughput(
@@ -2183,6 +2242,7 @@ function update_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};

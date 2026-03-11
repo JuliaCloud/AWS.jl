@@ -25,6 +25,7 @@ function delete_report_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_report_definition(
     reportId,
     params::AbstractDict{String};
@@ -57,6 +58,7 @@ function get_report_definition(reportId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_report_definition(
     reportId,
     params::AbstractDict{String};
@@ -96,6 +98,7 @@ function import_application_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_application_usage(
     sourceS3Location,
     params::AbstractDict{String};
@@ -134,6 +137,7 @@ function list_report_definitions(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_report_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -184,6 +188,7 @@ function put_report_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_report_definition(
     destinationS3Location,
     format,
@@ -250,6 +255,7 @@ function update_report_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_report_definition(
     destinationS3Location,
     format,

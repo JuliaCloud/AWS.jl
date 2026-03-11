@@ -17,7 +17,7 @@ interval translates to an error budget of 21.9 minutes of downtime in a 30-day m
 
 Budget reports include a health indicator, the attainment value, and remaining budget.
 
-For more information about SLO error budgets, see [ SLO concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-concepts).
+For more information about SLO error budgets, see [SLO concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-concepts).
 
 # Arguments
 
@@ -37,6 +37,7 @@ function batch_get_service_level_objective_budget_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_service_level_objective_budget_report(
     SloIds,
     Timestamp,
@@ -79,43 +80,49 @@ CloudWatch metric or math expression that produces a time series.
 
 When you create an SLO, you specify whether it is a *period-based SLO* or a *request-based
 SLO*. Each type of SLO has a different way of evaluating your application's performance
-against its attainment goal.</p> - A *period-based SLO* uses defined *periods* of time
-within a specified total time interval. For each period of time, Application Signals
-determines whether the application met its goal. The attainment rate is calculated as the
-`number of good periods/number of total periods`.
+against its attainment goal.
+
+- A *period-based SLO* uses defined *periods* of time within a specified total time
+  interval. For each period of time, Application Signals determines whether the application
+  met its goal. The attainment rate is calculated as the
+  `number of good periods/number of total periods`.
 
 For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within
 your interval, your application must meet its performance goal during at least 99.9% of the
 time periods.
- - A *request-based SLO* doesn't use pre-defined periods of time. Instead, the SLO measures
-`number of good requests/number of total requests` during the interval. At any time, you
-can find the ratio of good requests to total requests for the interval up to the time stamp
-that you specify, and measure that ratio against the goal set in your SLO.
+- A *request-based SLO* doesn't use pre-defined periods of time. Instead, the SLO measures
+  `number of good requests/number of total requests` during the interval. At any time, you
+  can find the ratio of good requests to total requests for the interval up to the time
+  stamp that you specify, and measure that ratio against the goal set in your SLO.
+
 After you have created an SLO, you can retrieve error budget reports for it. An *error
 budget* is the amount of time or amount of requests that your application can be non-
-compliant with the SLO's goal, and still have your application meet the goal. - For a
-period-based SLO, the error budget starts at a number defined by the highest number of
-periods that can fail to meet the threshold, while still meeting the overall goal. The
-*remaining error budget* decreases with every failed period that is recorded. The error
-budget within one interval can never increase.
+compliant with the SLO's goal, and still have your application meet the goal.
+
+- For a period-based SLO, the error budget starts at a number defined by the highest number
+  of periods that can fail to meet the threshold, while still meeting the overall goal. The
+  *remaining error budget* decreases with every failed period that is recorded. The error
+  budget within one interval can never increase.
 
 For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms
 every month translates to an error budget of 21.9 minutes of downtime per month.
- - For a request-based SLO, the remaining error budget is dynamic and can increase or
-decrease, depending on the ratio of good requests to total requests.
-For more information about SLOs, see [ Service level objectives (SLOs)](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html).
+- For a request-based SLO, the remaining error budget is dynamic and can increase or
+  decrease, depending on the ratio of good requests to total requests.
 
+For more information about SLOs, see [Service level objectives (SLOs)](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html).
 
- <p>When you perform a `CreateServiceLevelObjective` operation, Application Signals creates
-the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role, if it doesn't
-already exist in your account. This service- linked role has the following permissions: -
-`xray:GetServiceGraph`
- - `logs:StartQuery`
- - `logs:GetQueryResults`
- - `cloudwatch:GetMetricData`
- - `cloudwatch:ListMetrics`
- - `tag:GetResources`
- - `autoscaling:DescribeAutoScalingGroups`
+When you perform a [`create_service_level_objective`](@ref) operation, Application Signals
+creates the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role, if it
+doesn't already exist in your account. This service- linked role has the following
+permissions:
+
+- `xray:GetServiceGraph`
+- `logs:StartQuery`
+- `logs:GetQueryResults`
+- `cloudwatch:GetMetricData`
+- `cloudwatch:ListMetrics`
+- `tag:GetResources`
+- `autoscaling:DescribeAutoScalingGroups`
 
 # Arguments
 
@@ -130,18 +137,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
   information about what performance metric this SLO will monitor.
 
-You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
+  You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
 - `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
   about what performance metric this SLO will monitor.
 
-You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
+  You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
 - `"Tags"`: A list of key-value pairs to associate with the SLO. You can associate as many
   as 50 tags with an SLO. To be able to associate tags with the SLO when you create the
   SLO, you must have the `cloudwatch:TagResource` permission.
 
-  Tags can help you organize and categorize your resources. You can also use them to scope
-  user permissions by granting a user permission to access or change only resources with
-  certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to
+  scope user permissions by granting a user permission to access or change only resources
+  with certain tag values.
 """
 function create_service_level_objective(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -154,6 +161,7 @@ function create_service_level_objective(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_level_objective(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -183,6 +191,7 @@ function delete_service_level_objective(
         "DELETE", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_service_level_objective(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -206,26 +215,28 @@ Returns information about a service discovered by Application Signals.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the `Type`, `Name`, and `Environment`
   attributes.
 
-  This is a string-to-string map. It can include the following fields. - `Type` designates
-  the type of object this is.
-   - `ResourceType` specifies the type of the resource. This field is used only when the
-  value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Name` specifies the name of the object. This is used only if the value of the `Type`
-  field is `Service`, `RemoteService`, or `AWS::Service`.
-   - `Identifier` identifies the resource objects of this resource. This is used only if
-  the value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Environment` specifies the location where this object is hosted, or what it belongs
-  to.
+  This is a string-to-string map. It can include the following fields.
+
+  - `Type` designates the type of object this is.
+  - `ResourceType` specifies the type of the resource. This field is used only when the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Name` specifies the name of the object. This is used only if the value of the `Type`
+    field is `Service`, `RemoteService`, or `AWS::Service`.
+  - `Identifier` identifies the resource objects of this resource. This is used only if
+    the value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs
+    to.
+
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
   `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 """
 function get_service(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
@@ -240,6 +251,7 @@ function get_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service(
     EndTime,
     KeyAttributes,
@@ -283,6 +295,7 @@ function get_service_level_objective(Id; aws_config::AbstractAWSConfig=current_a
         "GET", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_service_level_objective(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,26 +318,28 @@ services.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-Your requested end time will be rounded to the nearest hour.
+  Your requested end time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the `Type`, `Name`, and `Environment`
   attributes.
 
-  This is a string-to-string map. It can include the following fields. - `Type` designates
-  the type of object this is.
-   - `ResourceType` specifies the type of the resource. This field is used only when the
-  value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Name` specifies the name of the object. This is used only if the value of the `Type`
-  field is `Service`, `RemoteService`, or `AWS::Service`.
-   - `Identifier` identifies the resource objects of this resource. This is used only if
-  the value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Environment` specifies the location where this object is hosted, or what it belongs
-  to.
+  This is a string-to-string map. It can include the following fields.
+
+  - `Type` designates the type of object this is.
+  - `ResourceType` specifies the type of the resource. This field is used only when the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Name` specifies the name of the object. This is used only if the value of the `Type`
+    field is `Service`, `RemoteService`, or `AWS::Service`.
+  - `Identifier` identifies the resource objects of this resource. This is used only if
+    the value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs
+    to.
+
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
   `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -348,6 +363,7 @@ function list_service_dependencies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_dependencies(
     EndTime,
     KeyAttributes,
@@ -387,26 +403,28 @@ are instrumented with CloudWatch RUM app monitors.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the `Type`, `Name`, and `Environment`
   attributes.
 
-  This is a string-to-string map. It can include the following fields. - `Type` designates
-  the type of object this is.
-   - `ResourceType` specifies the type of the resource. This field is used only when the
-  value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Name` specifies the name of the object. This is used only if the value of the `Type`
-  field is `Service`, `RemoteService`, or `AWS::Service`.
-   - `Identifier` identifies the resource objects of this resource. This is used only if
-  the value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Environment` specifies the location where this object is hosted, or what it belongs
-  to.
+  This is a string-to-string map. It can include the following fields.
+
+  - `Type` designates the type of object this is.
+  - `ResourceType` specifies the type of the resource. This field is used only when the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Name` specifies the name of the object. This is used only if the value of the `Type`
+    field is `Service`, `RemoteService`, or `AWS::Service`.
+  - `Identifier` identifies the resource objects of this resource. This is used only if
+    the value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs
+    to.
+
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
   `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -430,6 +448,7 @@ function list_service_dependents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_dependents(
     EndTime,
     KeyAttributes,
@@ -469,16 +488,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KeyAttributes"`: You can use this optional field to specify which services you want to
   retrieve SLO information for.
 
-  This is a string-to-string map. It can include the following fields. - `Type` designates
-  the type of object this is.
-   - `ResourceType` specifies the type of the resource. This field is used only when the
-  value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Name` specifies the name of the object. This is used only if the value of the `Type`
-  field is `Service`, `RemoteService`, or `AWS::Service`.
-   - `Identifier` identifies the resource objects of this resource. This is used only if
-  the value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Environment` specifies the location where this object is hosted, or what it belongs
-  to.
+  This is a string-to-string map. It can include the following fields.
+
+  - `Type` designates the type of object this is.
+  - `ResourceType` specifies the type of the resource. This field is used only when the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Name` specifies the name of the object. This is used only if the value of the `Type`
+    field is `Service`, `RemoteService`, or `AWS::Service`.
+  - `Identifier` identifies the resource objects of this resource. This is used only if
+    the value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs
+    to.
+
 - `"MaxResults"`: The maximum number of results to return in one operation. If you omit
   this parameter, the default of 50 is used.
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
@@ -490,6 +511,7 @@ function list_service_level_objectives(; aws_config::AbstractAWSConfig=current_a
         "POST", "/slos"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_service_level_objectives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,26 +532,28 @@ Signals. Only the operations that were invoked during the specified time range a
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-Your requested end time will be rounded to the nearest hour.
+  Your requested end time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the `Type`, `Name`, and `Environment`
   attributes.
 
-  This is a string-to-string map. It can include the following fields. - `Type` designates
-  the type of object this is.
-   - `ResourceType` specifies the type of the resource. This field is used only when the
-  value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Name` specifies the name of the object. This is used only if the value of the `Type`
-  field is `Service`, `RemoteService`, or `AWS::Service`.
-   - `Identifier` identifies the resource objects of this resource. This is used only if
-  the value of the `Type` field is `Resource` or `AWS::Resource`.
-   - `Environment` specifies the location where this object is hosted, or what it belongs
-  to.
+  This is a string-to-string map. It can include the following fields.
+
+  - `Type` designates the type of object this is.
+  - `ResourceType` specifies the type of the resource. This field is used only when the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Name` specifies the name of the object. This is used only if the value of the `Type`
+    field is `Service`, `RemoteService`, or `AWS::Service`.
+  - `Identifier` identifies the resource objects of this resource. This is used only if
+    the value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs
+    to.
+
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
   `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -553,6 +577,7 @@ function list_service_operations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_operations(
     EndTime,
     KeyAttributes,
@@ -592,18 +617,18 @@ Services are discovered through Application Signals instrumentation.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
   `1698778057`
 
-Your requested start time will be rounded to the nearest hour.
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  The maximum number of results to return in one operation. If you omit
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
   this parameter, the default of 50 is used.
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of services.
@@ -619,6 +644,7 @@ function list_services(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_services(
     EndTime,
     StartTime,
@@ -652,10 +678,10 @@ level objectives.
 - `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want
   to view tags for.
 
-  The ARN format of an Application Signals SLO is `arn:aws:cloudwatch:*Region*:*account-
-  id*:slo:*slo-name* `
+  The ARN format of an Application Signals SLO is
+  `arn:aws:cloudwatch:*Region*:*account-id*:slo:*slo-name*`
 
-  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
+  For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
 """
 function list_tags_for_resource(
@@ -669,6 +695,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -691,21 +718,25 @@ end
 
 Enables this Amazon Web Services account to be able to use CloudWatch Application Signals
 by creating the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role. This
-service- linked role has the following permissions: - `xray:GetServiceGraph`
- - `logs:StartQuery`
- - `logs:GetQueryResults`
- - `cloudwatch:GetMetricData`
- - `cloudwatch:ListMetrics`
- - `tag:GetResources`
- - `autoscaling:DescribeAutoScalingGroups`
+service- linked role has the following permissions:
+
+- `xray:GetServiceGraph`
+- `logs:StartQuery`
+- `logs:GetQueryResults`
+- `cloudwatch:GetMetricData`
+- `cloudwatch:ListMetrics`
+- `tag:GetResources`
+- `autoscaling:DescribeAutoScalingGroups`
+
 After completing this step, you still need to instrument your Java and Python applications
-to send data to Application Signals. For more information, see [ Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
+to send data to Application Signals. For more information, see [Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
 """
 function start_discovery(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_discovery(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -744,10 +775,10 @@ You can associate as many as 50 tags with a CloudWatch resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want
   to set tags for.
 
-  The ARN format of an Application Signals SLO is `arn:aws:cloudwatch:*Region*:*account-
-  id*:slo:*slo-name* `
+  The ARN format of an Application Signals SLO is
+  `arn:aws:cloudwatch:*Region*:*account-id*:slo:*slo-name*`
 
-  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
+  For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
 - `tags`: The list of key-value pairs to associate with the alarm.
 """
@@ -760,6 +791,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -792,10 +824,10 @@ Removes one or more tags from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want
   to delete tags from.
 
-  The ARN format of an Application Signals SLO is `arn:aws:cloudwatch:*Region*:*account-
-  id*:slo:*slo-name* `
+  The ARN format of an Application Signals SLO is
+  `arn:aws:cloudwatch:*Region*:*account-id*:slo:*slo-name*`
 
-  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
+  For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
@@ -810,6 +842,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -856,7 +889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
   information about what performance metric this SLO will monitor.
 
-You can't specify both `SliConfig` and `RequestBasedSliConfig` in the same operation.
+  You can't specify both `SliConfig` and `RequestBasedSliConfig` in the same operation.
 - `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
   about what performance metric this SLO will monitor.
 """
@@ -867,6 +900,7 @@ function update_service_level_objective(
         "PATCH", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_service_level_objective(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

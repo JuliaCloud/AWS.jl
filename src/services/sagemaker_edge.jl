@@ -27,6 +27,7 @@ function get_deployments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployments(
     DeviceFleetName,
     DeviceName,
@@ -72,6 +73,7 @@ function get_device_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_registration(
     DeviceFleetName,
     DeviceName,
@@ -134,6 +136,7 @@ function send_heartbeat(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_heartbeat(
     AgentVersion,
     DeviceFleetName,

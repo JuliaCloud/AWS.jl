@@ -15,8 +15,8 @@ worker. Used for custom actions only.
 
 - `job_id`: The unique system-generated ID of the job for which you want to confirm receipt.
 - `nonce`: A system-generated random number that CodePipeline uses to ensure that the job
-  is being worked on by only one job worker. Get this number from the response of the
-  <a>PollForJobs</a> request that returned this job.
+  is being worked on by only one job worker. Get this number from the response of the [`poll_for_jobs`](@ref)
+  request that returned this job.
 """
 function acknowledge_job(jobId, nonce; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
@@ -26,6 +26,7 @@ function acknowledge_job(jobId, nonce; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function acknowledge_job(
     jobId,
     nonce,
@@ -54,8 +55,8 @@ Confirms a job worker has received the specified job. Used for partner actions o
   verify that the calling entity is allowed access to the job and its details.
 - `job_id`: The unique system-generated ID of the job.
 - `nonce`: A system-generated random number that CodePipeline uses to ensure that the job
-  is being worked on by only one job worker. Get this number from the response to a
-  <a>GetThirdPartyJobDetails</a> request.
+  is being worked on by only one job worker. Get this number from the response to a [`get_third_party_job_details`](@ref)
+  request.
 """
 function acknowledge_third_party_job(
     clientToken, jobId, nonce; aws_config::AbstractAWSConfig=current_aws_config()
@@ -67,6 +68,7 @@ function acknowledge_third_party_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function acknowledge_third_party_job(
     clientToken,
     jobId,
@@ -115,8 +117,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You can refer to a name in the configuration properties of the custom action within
-  the URL templates by following the format of {Config:name}, as long as the configuration
-  property is both required and not secret. For more information, see [Create a Custom Action for a Pipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html).
+      the URL templates by following the format of {Config:name}, as long as the
+      configuration property is both required and not secret. For more information, see [Create a Custom Action for a Pipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html).
+
 - `"settings"`: URLs that provide users information about this custom action.
 - `"tags"`: The tags for the custom action.
 """
@@ -141,6 +144,7 @@ function create_custom_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_action_type(
     category,
     inputArtifactDetails,
@@ -178,8 +182,8 @@ Creates a pipeline.
 
 !!! note
     In the pipeline structure, you must include either `artifactStore` or `artifactStores`
-in your pipeline, but you cannot use both. If you create a cross-region action in your
-pipeline, you must use `artifactStores`.
+    in your pipeline, but you cannot use both. If you create a cross-region action in your
+    pipeline, you must use `artifactStores`.
 
 # Arguments
 
@@ -200,6 +204,7 @@ function create_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     pipeline,
     params::AbstractDict{String};
@@ -224,9 +229,9 @@ action is marked for deletion. Used for custom actions only.
 
 !!! important
     To re-create a custom action after it has been deleted you must use a string in the
-version field that has never been used before. This string can be an incremented version
-number, for example. To restore a deleted custom action, use a JSON file that is identical
-to the deleted action, including the original string in the version field.
+    version field that has never been used before. This string can be an incremented
+    version number, for example. To restore a deleted custom action, use a JSON file that
+    is identical to the deleted action, including the original string in the version field.
 
 # Arguments
 
@@ -247,6 +252,7 @@ function delete_custom_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_action_type(
     category,
     provider,
@@ -288,6 +294,7 @@ function delete_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -320,6 +327,7 @@ function delete_webhook(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_webhook(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -354,6 +362,7 @@ function deregister_webhook_with_third_party(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_webhook_with_third_party(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -381,8 +390,8 @@ Prevents artifacts in a pipeline from transitioning to the next stage in the pip
   transition of artifacts.
 - `transition_type`: Specifies whether artifacts are prevented from transitioning into the
   stage and being processed by the actions in that stage (inbound), or prevented from
-  transitioning from the stage after they have been processed by the actions in that stage
-  (outbound).
+  transitioning from the stage after they have been processed by the actions in that
+  stage (outbound).
 """
 function disable_stage_transition(
     pipelineName,
@@ -403,6 +412,7 @@ function disable_stage_transition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_stage_transition(
     pipelineName,
     reason,
@@ -463,6 +473,7 @@ function enable_stage_transition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_stage_transition(
     pipelineName,
     stageName,
@@ -499,12 +510,15 @@ supported integration model.
 # Arguments
 
 - `category`: Defines what kind of action can be taken in the stage. The following are the
-  valid values: - `Source`
- - `Build`
- - `Test`
- - `Deploy`
- - `Approval`
- - `Invoke`
+  valid values:
+
+  - `Source`
+  - `Build`
+  - `Test`
+  - `Deploy`
+  - `Approval`
+  - `Invoke`
+
 - `owner`: The creator of an action type that was created with any supported integration
   model. There are two valid values: `AWS` and `ThirdParty`.
 - `provider`: The provider of the action type being called. The provider name is specified
@@ -526,6 +540,7 @@ function get_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_action_type(
     category,
     owner,
@@ -561,9 +576,9 @@ Returns information about a job. Used for custom actions only.
 
 !!! important
     When this API is called, CodePipeline returns temporary credentials for the S3 bucket
-used to store artifacts for the pipeline, if the action requires access to that S3 bucket
-for input or output artifacts. This API also returns any secret values defined for the
-action.
+    used to store artifacts for the pipeline, if the action requires access to that S3
+    bucket for input or output artifacts. This API also returns any secret values defined
+    for the action.
 
 # Arguments
 
@@ -577,6 +592,7 @@ function get_job_details(jobId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_details(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -594,7 +610,7 @@ end
 
 Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return
 the entire structure of a pipeline in JSON format, which can then be modified and used to
-update the pipeline structure with <a>UpdatePipeline</a>.
+update the pipeline structure with [`update_pipeline`](@ref).
 
 # Arguments
 
@@ -616,6 +632,7 @@ function get_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -652,6 +669,7 @@ function get_pipeline_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_execution(
     pipelineExecutionId,
     pipelineName,
@@ -683,7 +701,7 @@ Returns information about the state of a pipeline, including the stages and acti
 
 !!! note
     Values returned in the `revisionId` and `revisionUrl` fields indicate the source
-revision information, such as the commit ID, for the current state.
+    revision information, such as the commit ID, for the current state.
 
 # Arguments
 
@@ -697,6 +715,7 @@ function get_pipeline_state(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_state(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -716,9 +735,9 @@ Requests the details of a job for a third party action. Used for partner actions
 
 !!! important
     When this API is called, CodePipeline returns temporary credentials for the S3 bucket
-used to store artifacts for the pipeline, if the action requires access to that S3 bucket
-for input or output artifacts. This API also returns any secret values defined for the
-action.
+    used to store artifacts for the pipeline, if the action requires access to that S3
+    bucket for input or output artifacts. This API also returns any secret values defined
+    for the action.
 
 # Arguments
 
@@ -736,6 +755,7 @@ function get_third_party_job_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_third_party_job_details(
     clientToken,
     jobId,
@@ -764,7 +784,7 @@ Lists the action executions that have occurred in a pipeline.
 
 # Arguments
 
-- `pipeline_name`:  The name of the pipeline for which you want to list action execution
+- `pipeline_name`: The name of the pipeline for which you want to list action execution
   history.
 
 # Optional Parameters
@@ -773,9 +793,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filter"`: Input information used to filter action execution history.
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value. Action execution
-  history is retained for up to 12 months, based on action execution start times. Default
-  value is 100.
+  remaining results, make another call with the returned nextToken value. Action
+  execution history is retained for up to 12 months, based on action execution start
+  times. Default value is 100.
 - `"nextToken"`: The token that was returned from the previous `ListActionExecutions` call,
   which can be used to return the next set of action executions in the list.
 """
@@ -789,6 +809,7 @@ function list_action_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_action_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -825,6 +846,7 @@ function list_action_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListActionTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_action_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -841,8 +863,8 @@ Gets a summary of the most recent executions for a pipeline.
 
 !!! note
     When applying the filter for pipeline executions that have succeeded in the stage, the
-operation returns all executions in the current pipeline version beginning on February 1,
-2024.
+    operation returns all executions in the current pipeline version beginning on February
+    1, 2024.
 
 # Arguments
 
@@ -855,9 +877,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filter"`: The pipeline execution to filter on.
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value. Pipeline history
-  is limited to the most recent 12 months, based on pipeline execution start times. Default
-  value is 100.
+  remaining results, make another call with the returned nextToken value. Pipeline
+  history is limited to the most recent 12 months, based on pipeline execution start
+  times. Default value is 100.
 - `"nextToken"`: The token that was returned from the previous `ListPipelineExecutions`
   call, which can be used to return the next set of pipeline executions in the list.
 """
@@ -871,6 +893,7 @@ function list_pipeline_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipeline_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -897,8 +920,8 @@ Gets a summary of all of the pipelines associated with your account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of pipelines to return in a single call. To retrieve
-  the remaining pipelines, make another call with the returned nextToken value. The minimum
-  value you can specify is 1. The maximum accepted value is 1000.
+  the remaining pipelines, make another call with the returned nextToken value. The
+  minimum value you can specify is 1. The maximum accepted value is 1000.
 - `"nextToken"`: An identifier that was returned from the previous list pipelines call. It
   can be used to return the next set of pipelines in the list.
 """
@@ -907,6 +930,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -933,9 +957,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filter"`: Input information used to filter rule execution history.
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value. Pipeline history
-  is limited to the most recent 12 months, based on pipeline execution start times. Default
-  value is 100.
+  remaining results, make another call with the returned nextToken value. Pipeline
+  history is limited to the most recent 12 months, based on pipeline execution start
+  times. Default value is 100.
 - `"nextToken"`: The token that was returned from the previous `ListRuleExecutions` call,
   which can be used to return the next set of rule executions in the list.
 """
@@ -949,6 +973,7 @@ function list_rule_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -982,6 +1007,7 @@ function list_rule_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRuleTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rule_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1019,6 +1045,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1059,6 +1086,7 @@ function list_webhooks(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListWebhooks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_webhooks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1100,6 +1128,7 @@ function override_stage_condition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function override_stage_condition(
     conditionType,
     pipelineExecutionId,
@@ -1137,9 +1166,9 @@ for action types with "Custom" in the owner field. If the action type contains `
 
 !!! important
     When this API is called, CodePipeline returns temporary credentials for the S3 bucket
-used to store artifacts for the pipeline, if the action requires access to that S3 bucket
-for input or output artifacts. This API also returns any secret values defined for the
-action.
+    used to store artifacts for the pipeline, if the action requires access to that S3
+    bucket for input or output artifacts. This API also returns any secret values defined
+    for the action.
 
 # Arguments
 
@@ -1151,9 +1180,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxBatchSize"`: The maximum number of jobs to return in a poll for jobs call.
 - `"queryParam"`: A map of property names and values. For an action type with no queryable
-  properties, this value must be null or an empty map. For an action type with a queryable
-  property, you must supply that property as a key in the map. Only jobs whose action
-  configuration matches the mapped value are returned.
+  properties, this value must be null or an empty map. For an action type with a
+  queryable property, you must supply that property as a key in the map. Only jobs whose
+  action configuration matches the mapped value are returned.
 """
 function poll_for_jobs(actionTypeId; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
@@ -1163,6 +1192,7 @@ function poll_for_jobs(actionTypeId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_jobs(
     actionTypeId,
     params::AbstractDict{String};
@@ -1187,8 +1217,8 @@ partner actions only.
 
 !!! important
     When this API is called, CodePipeline returns temporary credentials for the S3 bucket
-used to store artifacts for the pipeline, if the action requires access to that S3 bucket
-for input or output artifacts.
+    used to store artifacts for the pipeline, if the action requires access to that S3
+    bucket for input or output artifacts.
 
 # Arguments
 
@@ -1210,6 +1240,7 @@ function poll_for_third_party_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_third_party_jobs(
     actionTypeId,
     params::AbstractDict{String};
@@ -1258,6 +1289,7 @@ function put_action_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_action_revision(
     actionName,
     actionRevision,
@@ -1324,6 +1356,7 @@ function put_approval_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_approval_result(
     actionName,
     pipelineName,
@@ -1376,6 +1409,7 @@ function put_job_failure_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_job_failure_result(
     failureDetails,
     jobId,
@@ -1414,9 +1448,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"continuationToken"`: A token generated by a job worker, such as a CodeDeploy deployment
   ID, that a successful job provides to identify a custom action in progress. Future jobs
-  use this token to identify the running instance of the action. It can be reused to return
-  more information about the progress of the custom action. When the action is complete, no
-  continuation token should be supplied.
+  use this token to identify the running instance of the action. It can be reused to
+  return more information about the progress of the custom action. When the action is
+  complete, no continuation token should be supplied.
 - `"currentRevision"`: The ID of the current revision of the artifact successfully worked
   on by the job.
 - `"executionDetails"`: The execution details of the successful job, such as the actions
@@ -1433,6 +1467,7 @@ function put_job_success_result(jobId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_job_success_result(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1473,6 +1508,7 @@ function put_third_party_job_failure_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_third_party_job_failure_result(
     clientToken,
     failureDetails,
@@ -1517,10 +1553,10 @@ Used for partner actions only.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"continuationToken"`: A token generated by a job worker, such as a CodeDeploy deployment
-  ID, that a successful job provides to identify a partner action in progress. Future jobs
-  use this token to identify the running instance of the action. It can be reused to return
-  more information about the progress of the partner action. When the action is complete,
-  no continuation token should be supplied.
+  ID, that a successful job provides to identify a partner action in progress. Future
+  jobs use this token to identify the running instance of the action. It can be reused to
+  return more information about the progress of the partner action. When the action is
+  complete, no continuation token should be supplied.
 - `"currentRevision"`: Represents information about a current revision.
 - `"executionDetails"`: The details of the actions taken and results produced on an
   artifact as it passes through stages in the pipeline.
@@ -1535,6 +1571,7 @@ function put_third_party_job_success_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_third_party_job_success_result(
     clientToken,
     jobId,
@@ -1569,12 +1606,12 @@ parties to call the generated webhook URL.
 
 !!! important
     When creating CodePipeline webhooks, do not use your own credentials or reuse the same
-secret token across multiple webhooks. For optimal security, generate a unique secret token
-for each webhook you create. The secret token is an arbitrary string that you provide,
-which GitHub uses to compute and sign the webhook payloads sent to CodePipeline, for
-protecting the integrity and authenticity of the webhook payloads. Using your own
-credentials or reusing the same token across multiple webhooks can lead to security
-vulnerabilities.
+    secret token across multiple webhooks. For optimal security, generate a unique secret
+    token for each webhook you create. The secret token is an arbitrary string that you
+    provide, which GitHub uses to compute and sign the webhook payloads sent to
+    CodePipeline, for protecting the integrity and authenticity of the webhook payloads.
+    Using your own credentials or reusing the same token across multiple webhooks can lead
+    to security vulnerabilities.
 
 !!! note
     If a secret token was provided, it will be redacted in the response.
@@ -1582,8 +1619,8 @@ vulnerabilities.
 # Arguments
 
 - `webhook`: The detail provided in an input file to create the webhook, such as the
-  webhook name, the pipeline name, and the action name. Give the webhook a unique name that
-  helps you identify it. You might name the webhook after the pipeline and action it
+  webhook name, the pipeline name, and the action name. Give the webhook a unique name
+  that helps you identify it. You might name the webhook after the pipeline and action it
   targets so that you can easily recognize what it's used for later.
 
 # Optional Parameters
@@ -1600,6 +1637,7 @@ function put_webhook(webhook; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_webhook(
     webhook,
     params::AbstractDict{String};
@@ -1636,6 +1674,7 @@ function register_webhook_with_third_party(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_webhook_with_third_party(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1687,6 +1726,7 @@ function retry_stage_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retry_stage_execution(
     pipelineExecutionId,
     pipelineName,
@@ -1744,6 +1784,7 @@ function rollback_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_stage(
     pipelineName,
     stageName,
@@ -1787,8 +1828,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientRequestToken"`: The system-generated unique ID used to identify a unique
   execution request.
 - `"sourceRevisions"`: A list that allows you to specify, or override, the source revision
-  for a pipeline execution that's being started. A source revision is the version with all
-  the changes to your application code, or source artifact, for the pipeline execution.
+  for a pipeline execution that's being started. A source revision is the version with
+  all the changes to your application code, or source artifact, for the pipeline
+  execution.
 - `"variables"`: A list that overrides pipeline variables for a pipeline execution that's
   being started. Variable names must match `[A-Za-z0-9@\\-_]+`, and the values can be anything except an empty string.
 """
@@ -1800,6 +1842,7 @@ function start_pipeline_execution(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipeline_execution(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1840,8 +1883,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"abandon"`: Use this option to stop the pipeline execution by abandoning, rather than
   finishing, in-progress actions.
 
-!!! note
-    This option can lead to failed or out-of-sequence tasks.
+  !!! note
+      This option can lead to failed or out-of-sequence tasks.
+
 - `"reason"`: Use this option to enter comments, such as the reason the pipeline was
   stopped.
 """
@@ -1857,6 +1901,7 @@ function stop_pipeline_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pipeline_execution(
     pipelineExecutionId,
     pipelineName,
@@ -1900,6 +1945,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1928,7 +1974,7 @@ Removes tags from an Amazon Web Services resource.
 
 # Arguments
 
-- `resource_arn`:  The Amazon Resource Name (ARN) of the resource to remove tags from.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove tags from.
 - `tag_keys`: The list of keys for the tags to be removed from the resource.
 """
 function untag_resource(
@@ -1941,6 +1987,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1981,6 +2028,7 @@ function update_action_type(actionType; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_action_type(
     actionType,
     params::AbstractDict{String};
@@ -2016,6 +2064,7 @@ function update_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     pipeline,
     params::AbstractDict{String};

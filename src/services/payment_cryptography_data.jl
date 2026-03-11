@@ -33,12 +33,14 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>EncryptData</a>
- - [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
- - [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+**Related operations:**
+
+- [`encrypt_data`](@ref)
+- [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
+- [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
 
 # Arguments
 
@@ -47,8 +49,8 @@ accounts.
 - `key_identifier`: The `keyARN` of the encryption key that Amazon Web Services Payment
   Cryptography uses for ciphertext decryption.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
-  key. Otherwise, it is the key identifier used to perform the operation.
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key
+  wrapping key. Otherwise, it is the key identifier used to perform the operation.
 
 # Optional Parameters
 
@@ -73,6 +75,7 @@ function decrypt_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decrypt_data(
     CipherText,
     DecryptionAttributes,
@@ -114,7 +117,6 @@ encryption, plaintext is encrypted using public component. You can import the pu
 component of an asymmetric key pair created outside Amazon Web Services Payment
 Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
 
-
 For symmetric and DUKPT encryption, Amazon Web Services Payment Cryptography supports
 `TDES` and `AES` algorithms. For EMV encryption, Amazon Web Services Payment Cryptography
 supports `TDES` algorithms.For asymmetric encryption, Amazon Web Services Payment
@@ -134,13 +136,15 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>DecryptData</a>
- - [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
- - [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
- - <a>ReEncryptData</a>
+**Related operations:**
+
+- [`decrypt_data`](@ref)
+- [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
+- [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+- [`re_encrypt_data`](@ref)
 
 # Arguments
 
@@ -148,15 +152,15 @@ accounts.
 - `key_identifier`: The `keyARN` of the encryption key that Amazon Web Services Payment
   Cryptography uses for plaintext encryption.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
-  key. Otherwise, it is the key identifier used to perform the operation.
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key
+  wrapping key. Otherwise, it is the key identifier used to perform the operation.
 - `plain_text`: The plaintext to be encrypted.
 
   !!! note
       For encryption using asymmetric keys, plaintext data length is constrained by
-  encryption key strength that you define in `KeyAlgorithm` and padding type that you
-  define in `AsymmetricEncryptionAttributes`. For more information, see [Encrypt data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/encrypt-data.html)
-  in the *Amazon Web Services Payment Cryptography User Guide*.
+      encryption key strength that you define in `KeyAlgorithm` and padding type that you
+      define in `AsymmetricEncryptionAttributes`. For more information, see [Encrypt data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/encrypt-data.html)
+      in the *Amazon Web Services Payment Cryptography User Guide*.
 
 # Optional Parameters
 
@@ -181,6 +185,7 @@ function encrypt_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function encrypt_data(
     EncryptionAttributes,
     KeyIdentifier,
@@ -226,11 +231,13 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
- - <a>VerifyCardValidationData</a>
+**Related operations:**
+
+- [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+- [`verify_card_validation_data`](@ref)
 
 # Arguments
 
@@ -266,6 +273,7 @@ function generate_card_validation_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_card_validation_data(
     GenerationAttributes,
     KeyIdentifier,
@@ -314,10 +322,12 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>VerifyMac</a>
+**Related operations:**
+
+- [`verify_mac`](@ref)
 
 # Arguments
 
@@ -351,6 +361,7 @@ function generate_mac(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_mac(
     GenerationAttributes,
     KeyIdentifier,
@@ -395,12 +406,14 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>GenerateCardValidationData</a>
- - <a>TranslatePinData</a>
- - <a>VerifyPinData</a>
+**Related operations:**
+
+- [`generate_card_validation_data`](@ref)
+- [`translate_pin_data`](@ref)
+- [`verify_pin_data`](@ref)
 
 # Arguments
 
@@ -414,9 +427,9 @@ accounts.
   9564. Amazon Web Services Payment Cryptography supports `ISO_Format_0` and
   `ISO_Format_3`.
 
-  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN
-  block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12
-  digits in length.
+  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1
+  PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4
+  to 12 digits in length.
 
   The `ISO_Format_3` PIN block format is the same as `ISO_Format_0` except that the fill
   digits are random values from 10 to 15.
@@ -451,6 +464,7 @@ function generate_pin_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_pin_data(
     EncryptionKeyIdentifier,
     GenerationAttributes,
@@ -502,13 +516,15 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>DecryptData</a>
- - <a>EncryptData</a>
- - [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
- - [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+**Related operations:**
+
+- [`decrypt_data`](@ref)
+- [`encrypt_data`](@ref)
+- [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
+- [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
 
 # Arguments
 
@@ -518,8 +534,8 @@ accounts.
 - `incoming_key_identifier`: The `keyARN` of the encryption key of incoming ciphertext
   data.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
-  key. Otherwise, it is the key identifier used to perform the operation.
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key
+  wrapping key. Otherwise, it is the key identifier used to perform the operation.
 - `outgoing_encryption_attributes`: The attributes and values for outgoing ciphertext data
   after encryption by Amazon Web Services Payment Cryptography.
 - `outgoing_key_identifier`: The `keyARN` of the encryption key of outgoing ciphertext data
@@ -555,6 +571,7 @@ function re_encrypt_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function re_encrypt_data(
     CipherText,
     IncomingEncryptionAttributes,
@@ -607,16 +624,20 @@ a PAN for generation.
 
 For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
-in the *Amazon Web Services Payment Cryptography User Guide*.</p>
+in the *Amazon Web Services Payment Cryptography User Guide*.
 
 !!! note
     Amazon Web Services Payment Cryptography currently supports ISO PIN block 4 translation
-for PIN block built using legacy PAN length. That is, PAN is the right most 12 digits
-excluding the check digits. **Cross-account use**: This operation can't be used across
-different Amazon Web Services accounts.
+    for PIN block built using legacy PAN length. That is, PAN is the right most 12 digits
+    excluding the check digits.
 
- <p> **Related operations:**  - <a>GeneratePinData</a>
- - <a>VerifyPinData</a>
+**Cross-account use**: This operation can't be used across different Amazon Web Services
+accounts.
+
+**Related operations:**
+
+- [`generate_pin_data`](@ref)
+- [`verify_pin_data`](@ref)
 
 # Arguments
 
@@ -625,8 +646,9 @@ different Amazon Web Services accounts.
 - `incoming_key_identifier`: The `keyARN` of the encryption key under which incoming PIN
   block data is encrypted. This key type can be PEK or BDK.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
-  key for PIN block. Otherwise, it is the key identifier used to perform the operation.
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key
+  wrapping key for PIN block. Otherwise, it is the key identifier used to perform the
+  operation.
 - `incoming_translation_attributes`: The format of the incoming PIN block data for
   translation within Amazon Web Services Payment Cryptography.
 - `outgoing_key_identifier`: The `keyARN` of the encryption key for encrypting outgoing PIN
@@ -669,6 +691,7 @@ function translate_pin_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function translate_pin_data(
     EncryptedPinBlock,
     IncomingKeyIdentifier,
@@ -722,11 +745,13 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>VerifyCardValidationData</a>
- - <a>VerifyPinData</a>
+**Related operations:**
+
+- [`verify_card_validation_data`](@ref)
+- [`verify_pin_data`](@ref)
 
 # Arguments
 
@@ -777,6 +802,7 @@ function verify_auth_request_cryptogram(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_auth_request_cryptogram(
     AuthRequestCryptogram,
     KeyIdentifier,
@@ -822,18 +848,20 @@ inbound transaction to an issuer or supporting platform partner. Amazon Web Serv
 Payment Cryptography uses CVV or CSC, PAN (Primary Account Number) and expiration date of
 the card to check its validity during transaction processing. In this operation, the CVK
 (Card Verification Key) encryption key for use with card data verification is same as the
-one in used for <a>GenerateCardValidationData</a>.
+one in used for [`generate_card_validation_data`](@ref).
 
 For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>GenerateCardValidationData</a>
- - <a>VerifyAuthRequestCryptogram</a>
- - <a>VerifyPinData</a>
+**Related operations:**
+
+- [`generate_card_validation_data`](@ref)
+- [`verify_auth_request_cryptogram`](@ref)
+- [`verify_pin_data`](@ref)
 
 # Arguments
 
@@ -866,6 +894,7 @@ function verify_card_validation_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_card_validation_data(
     KeyIdentifier,
     PrimaryAccountNumber,
@@ -909,10 +938,12 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>GenerateMac</a>
+**Related operations:**
+
+- [`generate_mac`](@ref)
 
 # Arguments
 
@@ -950,6 +981,7 @@ function verify_mac(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_mac(
     KeyIdentifier,
     Mac,
@@ -996,11 +1028,13 @@ For information about valid keys for this operation, see [Understanding key attr
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - <a>GeneratePinData</a>
- - <a>TranslatePinData</a>
+**Related operations:**
+
+- [`generate_pin_data`](@ref)
+- [`translate_pin_data`](@ref)
 
 # Arguments
 
@@ -1012,9 +1046,9 @@ accounts.
   9564. Amazon Web Services Payment Cryptography supports `ISO_Format_0` and
   `ISO_Format_3`.
 
-  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN
-  block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12
-  digits in length.
+  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1
+  PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4
+  to 12 digits in length.
 
   The `ISO_Format_3` PIN block format is the same as `ISO_Format_0` except that the fill
   digits are random values from 10 to 15.
@@ -1054,6 +1088,7 @@ function verify_pin_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_pin_data(
     EncryptedPinBlock,
     EncryptionKeyIdentifier,

@@ -12,8 +12,8 @@ Associate your own domain name with the App Runner subdomain URL of your App Run
 service.
 
 After you call `AssociateCustomDomain` and receive a successful response, use the
-information in the <a>CustomDomain</a> record that's returned to add CNAME records to your
-Domain Name System (DNS). For each mapped domain name, add a mapping to the target App
+information in the [`custom_domain`](@ref) record that's returned to add CNAME records to
+your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App
 Runner subdomain and one or more certificate validation records. App Runner then performs
 DNS validation to verify that you own or control the domain name that you associated. App
 Runner tracks domain validity in a certificate stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide).
@@ -30,10 +30,10 @@ Runner tracks domain validity in a certificate stored in [AWS Certificate Manage
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EnableWWWSubdomain"`: Set to `true` to associate the subdomain `www.*DomainName* ` with
+- `"EnableWWWSubdomain"`: Set to `true` to associate the subdomain `www.*DomainName*` with
   the App Runner service in addition to the base domain.
 
-Default: `true`
+  Default: `true`
 """
 function associate_custom_domain(
     DomainName, ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -45,6 +45,7 @@ function associate_custom_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_custom_domain(
     DomainName,
     ServiceArn,
@@ -92,47 +93,49 @@ during peak demand.
 - `auto_scaling_configuration_name`: A name for the auto scaling configuration. When you
   use it for the first time in an Amazon Web Services Region, App Runner creates revision
   number `1` of this name. When you use the same name in subsequent calls, App Runner
-  creates incremental revisions of the configuration.</p>
+  creates incremental revisions of the configuration.
 
   !!! note
       Prior to the release of [Auto scale configuration enhancements](https://docs.aws.amazon.com/apprunner/latest/relnotes/release-2023-09-22-auto-scale-config.html),
-  the name `DefaultConfiguration` was reserved.
+      the name `DefaultConfiguration` was reserved.
 
-   <p>This restriction is no longer in place. You can now manage `DefaultConfiguration` the
-  same way you manage your custom auto scaling configurations. This means you can do the
-  following with the `DefaultConfiguration` that App Runner provides: - Create new
-  revisions of the `DefaultConfiguration`.
-   - Delete the revisions of the `DefaultConfiguration`.
-   - Delete the auto scaling configuration for which the App Runner `DefaultConfiguration`
-  was created.
-   - If you delete the auto scaling configuration you can create another custom auto
-  scaling configuration with the same `DefaultConfiguration` name. The original
-  `DefaultConfiguration` resource provided by App Runner remains in your account unless you
-  make changes to it.
+      This restriction is no longer in place. You can now manage `DefaultConfiguration`
+      the same way you manage your custom auto scaling configurations. This means you can
+      do the following with the `DefaultConfiguration` that App Runner provides:
+
+      - Create new revisions of the `DefaultConfiguration`.
+      - Delete the revisions of the `DefaultConfiguration`.
+      - Delete the auto scaling configuration for which the App Runner
+        `DefaultConfiguration` was created.
+      - If you delete the auto scaling configuration you can create another custom auto
+        scaling configuration with the same `DefaultConfiguration` name. The original
+        `DefaultConfiguration` resource provided by App Runner remains in your account
+        unless you make changes to it.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxConcurrency"`: The maximum number of concurrent requests that you want an instance
-  to process. If the number of concurrent requests exceeds this limit, App Runner scales up
-  your service.
+  to process. If the number of concurrent requests exceeds this limit, App Runner scales
+  up your service.
 
-Default: `100`
+  Default: `100`
 - `"MaxSize"`: The maximum number of instances that your service scales up to. At most
   `MaxSize` instances actively serve traffic for your service.
 
-Default: `25`
+  Default: `25`
 - `"MinSize"`: The minimum number of instances that App Runner provisions for your service.
   The service always has at least `MinSize` provisioned instances. Some of them actively
-  serve traffic. The rest of them (provisioned and inactive instances) are a cost-effective
-  compute capacity reserve and are ready to be quickly activated. You pay for memory usage
-  of all the provisioned instances. You pay for CPU usage of only the active subset.
+  serve traffic. The rest of them (provisioned and inactive instances) are a cost-
+  effective compute capacity reserve and are ready to be quickly activated. You pay for
+  memory usage of all the provisioned instances. You pay for CPU usage of only the active
+  subset.
 
-  App Runner temporarily doubles the number of provisioned instances during deployments, to
-  maintain the same capacity for both old and new code.
+  App Runner temporarily doubles the number of provisioned instances during deployments,
+  to maintain the same capacity for both old and new code.
 
-Default: `1`
+  Default: `1`
 - `"Tags"`: A list of metadata items that you can associate with your auto scaling
   configuration resource. A tag is a key-value pair.
 """
@@ -146,6 +149,7 @@ function create_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_auto_scaling_configuration(
     AutoScalingConfigurationName,
     params::AbstractDict{String};
@@ -204,6 +208,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectionName,
     ProviderType,
@@ -252,15 +257,15 @@ don't specify a feature parameter, App Runner doesn't enable the feature.
 - `observability_configuration_name`: A name for the observability configuration. When you
   use it for the first time in an Amazon Web Services Region, App Runner creates revision
   number `1` of this name. When you use the same name in subsequent calls, App Runner
-  creates incremental revisions of the configuration.</p>
+  creates incremental revisions of the configuration.
 
   !!! note
       The name `DefaultConfiguration` is reserved. You can't use it to create a new
-  observability configuration, and you can't create a revision of it.
+      observability configuration, and you can't create a revision of it.
 
-   <p>When you want to use your own observability configuration for your App Runner
-  service, *create a configuration with a different name*, and then provide it when you
-  create or update your service.
+      When you want to use your own observability configuration for your App Runner
+      service, *create a configuration with a different name*, and then provide it when
+      you create or update your service.
 
 # Optional Parameters
 
@@ -283,6 +288,7 @@ function create_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_observability_configuration(
     ObservabilityConfigurationName,
     params::AbstractDict{String};
@@ -328,11 +334,12 @@ call to track the operation's progress.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AutoScalingConfigurationArn"`: The Amazon Resource Name (ARN) of an App Runner
-  automatic scaling configuration resource that you want to associate with your service. If
-  not provided, App Runner associates the latest revision of a default auto scaling
+  automatic scaling configuration resource that you want to associate with your service.
+  If not provided, App Runner associates the latest revision of a default auto scaling
   configuration.
 
-  Specify an ARN with a name and a revision number to associate that revision. For example:
+  Specify an ARN with a name and a revision number to associate that revision. For
+  example:
   `arn:aws:apprunner:us-east-1:123456789012:autoscalingconfiguration/high-availability/3`
 
   Specify just the name to associate the latest revision. For example:
@@ -362,6 +369,7 @@ function create_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     ServiceName,
     SourceConfiguration,
@@ -399,8 +407,9 @@ VPC).
   service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App
   Runner determines the Amazon VPC from the subnets you specify.
 
-!!! note
-    App Runner currently only provides support for IPv4.
+  !!! note
+      App Runner currently only provides support for IPv4.
+
 - `vpc_connector_name`: A name for the VPC connector.
 
 # Optional Parameters
@@ -409,8 +418,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SecurityGroups"`: A list of IDs of security groups that App Runner should use for
   access to Amazon Web Services resources under the specified subnets. If not specified,
-  App Runner uses the default security group of the Amazon VPC. The default security group
-  allows all outbound traffic.
+  App Runner uses the default security group of the Amazon VPC. The default security
+  group allows all outbound traffic.
 - `"Tags"`: A list of metadata items that you can associate with your VPC connector
   resource. A tag is a key-value pair.
 """
@@ -424,6 +433,7 @@ function create_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_connector(
     Subnets,
     VpcConnectorName,
@@ -461,8 +471,8 @@ when you want to associate your App Runner service with an Amazon VPC endpoint.
 - `service_arn`: The Amazon Resource Name (ARN) for this App Runner service that is used to
   create the VPC Ingress Connection resource.
 - `vpc_ingress_connection_name`: A name for the VPC Ingress Connection resource. It must be
-  unique across all the active VPC Ingress Connections in your Amazon Web Services account
-  in the Amazon Web Services Region.
+  unique across all the active VPC Ingress Connections in your Amazon Web Services
+  account in the Amazon Web Services Region.
 
 # Optional Parameters
 
@@ -488,6 +498,7 @@ function create_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_ingress_connection(
     IngressVpcConfiguration,
     ServiceArn,
@@ -527,9 +538,9 @@ configuration that's used by one or more App Runner services.
 - `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
   scaling configuration that you want to delete.
 
-  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either
-  `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the latest
-  active revision is deleted.
+  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with
+  either `.../*name*` or `.../*name*/*revision*`. If a revision isn't specified, the
+  latest active revision is deleted.
 
 # Optional Parameters
 
@@ -538,8 +549,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteAllRevisions"`: Set to `true` to delete all of the revisions associated with the
   `AutoScalingConfigurationArn` parameter value.
 
-  When `DeleteAllRevisions` is set to `true`, the only valid value for the Amazon Resource
-  Name (ARN) is a partial ARN ending with: `.../name`.
+  When `DeleteAllRevisions` is set to `true`, the only valid value for the Amazon
+  Resource Name (ARN) is a partial ARN ending with: `.../name`.
 """
 function delete_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -551,6 +562,7 @@ function delete_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -594,6 +606,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -623,7 +636,7 @@ or more App Runner services.
   observability configuration that you want to delete.
 
   The ARN can be a full observability configuration ARN, or a partial ARN ending with
-  either `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the
+  either `.../*name*` or `.../*name*/*revision*`. If a revision isn't specified, the
   latest active revision is deleted.
 """
 function delete_observability_configuration(
@@ -636,6 +649,7 @@ function delete_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_observability_configuration(
     ObservabilityConfigurationArn,
     params::AbstractDict{String};
@@ -664,11 +678,11 @@ end
 Delete an App Runner service.
 
 This is an asynchronous operation. On a successful call, you can use the returned
-`OperationId` and the <a>ListOperations</a> call to track the operation's progress.
+`OperationId` and the [`list_operations`](@ref) call to track the operation's progress.
 
 !!! note
     Make sure that you don't have any active VPCIngressConnections associated with the
-service you want to delete.
+    service you want to delete.
 
 # Arguments
 
@@ -683,6 +697,7 @@ function delete_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -710,7 +725,7 @@ one or more App Runner services.
 - `vpc_connector_arn`: The Amazon Resource Name (ARN) of the App Runner VPC connector that
   you want to delete.
 
-The ARN must be a full VPC connector ARN.
+  The ARN must be a full VPC connector ARN.
 """
 function delete_vpc_connector(
     VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -722,6 +737,7 @@ function delete_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_connector(
     VpcConnectorArn,
     params::AbstractDict{String};
@@ -744,11 +760,12 @@ end
     delete_vpc_ingress_connection(vpc_ingress_connection_arn, params::Dict{String,<:Any})
 
 Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner
-service. The VPC Ingress Connection must be in one of the following states to be deleted:  -
- `AVAILABLE`
- - `FAILED_CREATION`
- - `FAILED_UPDATE`
- - `FAILED_DELETION`
+service. The VPC Ingress Connection must be in one of the following states to be deleted:
+
+- `AVAILABLE`
+- `FAILED_CREATION`
+- `FAILED_UPDATE`
+- `FAILED_DELETION`
 
 # Arguments
 
@@ -765,6 +782,7 @@ function delete_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_ingress_connection(
     VpcIngressConnectionArn,
     params::AbstractDict{String};
@@ -795,9 +813,9 @@ Return a full description of an App Runner automatic scaling configuration resou
 - `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
   scaling configuration that you want a description for.
 
-  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either
-  `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the latest
-  active revision is described.
+  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with
+  either `.../*name*` or `.../*name*/*revision*`. If a revision isn't specified, the
+  latest active revision is described.
 """
 function describe_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -809,6 +827,7 @@ function describe_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -851,10 +870,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify `MaxResults`, the request retrieves all available results in a
   single response.
 - `"NextToken"`: A token from a previous result page. It's used for a paginated request.
-  The request retrieves the next result page. All other parameter values must be identical
-  to the ones that are specified in the initial request.
+  The request retrieves the next result page. All other parameter values must be
+  identical to the ones that are specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function describe_custom_domains(
     ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -866,6 +885,7 @@ function describe_custom_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_domains(
     ServiceArn,
     params::AbstractDict{String};
@@ -893,7 +913,7 @@ Return a full description of an App Runner observability configuration resource.
   observability configuration that you want a description for.
 
   The ARN can be a full observability configuration ARN, or a partial ARN ending with
-  either `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the
+  either `.../*name*` or `.../*name*/*revision*`. If a revision isn't specified, the
   latest active revision is described.
 """
 function describe_observability_configuration(
@@ -906,6 +926,7 @@ function describe_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_observability_configuration(
     ObservabilityConfigurationArn,
     params::AbstractDict{String};
@@ -946,6 +967,7 @@ function describe_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -972,7 +994,7 @@ Return a description of an App Runner VPC connector resource.
 - `vpc_connector_arn`: The Amazon Resource Name (ARN) of the App Runner VPC connector that
   you want a description for.
 
-The ARN must be a full VPC connector ARN.
+  The ARN must be a full VPC connector ARN.
 """
 function describe_vpc_connector(
     VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -984,6 +1006,7 @@ function describe_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_connector(
     VpcConnectorArn,
     params::AbstractDict{String};
@@ -1022,6 +1045,7 @@ function describe_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_ingress_connection(
     VpcIngressConnectionArn,
     params::AbstractDict{String};
@@ -1068,6 +1092,7 @@ function disassociate_custom_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_custom_domain(
     DomainName,
     ServiceArn,
@@ -1105,24 +1130,24 @@ of the ARNs returned by `ListAutoScalingConfigurations`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AutoScalingConfigurationName"`: The name of the App Runner auto scaling configuration
-  that you want to list. If specified, App Runner lists revisions that share this name. If
-  not specified, App Runner returns revisions of all active configurations.
+  that you want to list. If specified, App Runner lists revisions that share this name.
+  If not specified, App Runner returns revisions of all active configurations.
 - `"LatestOnly"`: Set to `true` to list only the latest revision for each requested
   configuration name.
 
   Set to `false` to list all revisions for each requested configuration name.
 
-Default: `true`
+  Default: `true`
 - `"MaxResults"`: The maximum number of results to include in each response (result page).
   It's used for a paginated request.
 
   If you don't specify `MaxResults`, the request retrieves all available results in a
   single response.
 - `"NextToken"`: A token from a previous result page. It's used for a paginated request.
-  The request retrieves the next result page. All other parameter values must be identical
-  to the ones that are specified in the initial request.
+  The request retrieves the next result page. All other parameter values must be
+  identical to the ones that are specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function list_auto_scaling_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1133,6 +1158,7 @@ function list_auto_scaling_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_auto_scaling_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1166,13 +1192,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request retrieves the next result page. All other parameter values must be identical to
   the ones specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1202,20 +1229,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Set to `false` to list all revisions for each requested configuration name.
 
-Default: `true`
+  Default: `true`
 - `"MaxResults"`: The maximum number of results to include in each response (result page).
   It's used for a paginated request.
 
   If you don't specify `MaxResults`, the request retrieves all available results in a
   single response.
 - `"NextToken"`: A token from a previous result page. It's used for a paginated request.
-  The request retrieves the next result page. All other parameter values must be identical
-  to the ones that are specified in the initial request.
+  The request retrieves the next result page. All other parameter values must be
+  identical to the ones that are specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 - `"ObservabilityConfigurationName"`: The name of the App Runner observability
-  configuration that you want to list. If specified, App Runner lists revisions that share
-  this name. If not specified, App Runner returns revisions of all active configurations.
+  configuration that you want to list. If specified, App Runner lists revisions that
+  share this name. If not specified, App Runner returns revisions of all active
+  configurations.
 """
 function list_observability_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1226,6 +1254,7 @@ function list_observability_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_observability_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1243,8 +1272,8 @@ end
 
 Return a list of operations that occurred on an App Runner service.
 
-The resulting list of <a>OperationSummary</a> objects is sorted in reverse chronological
-order. The first object on the list represents the last started operation.
+The resulting list of [`operation_summary`](@ref) objects is sorted in reverse
+chronological order. The first object on the list represents the last started operation.
 
 # Arguments
 
@@ -1261,10 +1290,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify `MaxResults`, the request retrieves all available results in a
   single response.
 - `"NextToken"`: A token from a previous result page. It's used for a paginated request.
-  The request retrieves the next result page. All other parameter values must be identical
-  to the ones specified in the initial request.
+  The request retrieves the next result page. All other parameter values must be
+  identical to the ones specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
@@ -1274,6 +1303,7 @@ function list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_operations(
     ServiceArn,
     params::AbstractDict{String};
@@ -1308,11 +1338,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request retrieves the next result page. All other parameter values must be identical to
   the ones specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1332,9 +1363,9 @@ Returns a list of the associated App Runner services using an auto scaling confi
 - `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
   scaling configuration that you want to list the services for.
 
-  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either
-  `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the latest
-  active revision is used.
+  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with
+  either `.../*name*` or `.../*name*/*revision*`. If a revision isn't specified, the
+  latest active revision is used.
 
 # Optional Parameters
 
@@ -1346,10 +1377,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify `MaxResults`, the request retrieves all available results in a
   single response.
 - `"NextToken"`: A token from a previous result page. It's used for a paginated request.
-  The request retrieves the next result page. All other parameter values must be identical
-  to the ones specified in the initial request.
+  The request retrieves the next result page. All other parameter values must be
+  identical to the ones specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function list_services_for_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1361,6 +1392,7 @@ function list_services_for_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_services_for_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -1394,7 +1426,7 @@ of tag key-value pairs.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that a tag list is
   requested for.
 
-It must be the ARN of an App Runner resource.
+  It must be the ARN of an App Runner resource.
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1406,6 +1438,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1437,16 +1470,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify `MaxResults`, the request retrieves all available results in a
   single response.
 - `"NextToken"`: A token from a previous result page. It's used for a paginated request.
-  The request retrieves the next result page. All other parameter values must be identical
-  to the ones that are specified in the initial request.
+  The request retrieves the next result page. All other parameter values must be
+  identical to the ones that are specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function list_vpc_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ListVpcConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1473,16 +1507,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify `MaxResults`, the request retrieves all available results in a
   single response.
 - `"NextToken"`: A token from a previous result page. It's used for a paginated request.
-  The request retrieves the next result page. All other parameter values must be identical
-  to the ones that are specified in the initial request.
+  The request retrieves the next result page. All other parameter values must be
+  identical to the ones that are specified in the initial request.
 
-If you don't specify `NextToken`, the request retrieves the first result page.
+  If you don't specify `NextToken`, the request retrieves the first result page.
 """
 function list_vpc_ingress_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ListVpcIngressConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_ingress_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1502,7 +1537,7 @@ Pause an active App Runner service. App Runner reduces compute capacity for the 
 zero and loses state (for example, ephemeral storage is removed).
 
 This is an asynchronous operation. On a successful call, you can use the returned
-`OperationId` and the <a>ListOperations</a> call to track the operation's progress.
+`OperationId` and the [`list_operations`](@ref) call to track the operation's progress.
 
 # Arguments
 
@@ -1517,6 +1552,7 @@ function pause_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function pause_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1540,7 +1576,7 @@ Resume an active App Runner service. App Runner provisions compute capacity for 
 service.
 
 This is an asynchronous operation. On a successful call, you can use the returned
-`OperationId` and the <a>ListOperations</a> call to track the operation's progress.
+`OperationId` and the [`list_operations`](@ref) call to track the operation's progress.
 
 # Arguments
 
@@ -1555,6 +1591,7 @@ function resume_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1582,7 +1619,7 @@ For a source image repository, App Runner retrieves the latest Docker image. In 
 App Runner then deploys the new image to your service and starts a new container instance.
 
 This is an asynchronous operation. On a successful call, you can use the returned
-`OperationId` and the <a>ListOperations</a> call to track the operation's progress.
+`OperationId` and the [`list_operations`](@ref) call to track the operation's progress.
 
 # Arguments
 
@@ -1597,6 +1634,7 @@ function start_deployment(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_deployment(
     ServiceArn,
     params::AbstractDict{String};
@@ -1623,7 +1661,7 @@ Add tags to, or update the tag values of, an App Runner resource. A tag is a key
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to update
   tags for.
 
-It must be the ARN of an App Runner resource.
+  It must be the ARN of an App Runner resource.
 - `tags`: A list of tag key-value pairs to add or update. If a key is new to the resource,
   the tag is added with the provided value. If a key is already associated with the
   resource, the value of the tag is updated.
@@ -1636,6 +1674,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1667,7 +1706,7 @@ Remove tags from an App Runner resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
   tags from.
 
-It must be the ARN of an App Runner resource.
+  It must be the ARN of an App Runner resource.
 - `tag_keys`: A list of tag keys that you want to remove.
 """
 function untag_resource(
@@ -1680,6 +1719,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1712,9 +1752,9 @@ configuration will be set to non-default automatically.
 - `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
   scaling configuration that you want to set as the default.
 
-  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either
-  `.../*name* ` or `.../*name*/*revision* `. If a revision isn't specified, the latest
-  active revision is set as the default.
+  The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with
+  either `.../*name*` or `.../*name*/*revision*`. If a revision isn't specified, the
+  latest active revision is set as the default.
 """
 function update_default_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1726,6 +1766,7 @@ function update_default_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_default_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -1756,11 +1797,11 @@ configuration of the service. You can also update the ARN of the auto scaling co
 resource that's associated with the service. However, you can't change the name or the
 encryption configuration of the service. These can be set only when you create the service.
 
-To update the tags applied to your service, use the separate actions <a>TagResource</a> and
-<a>UntagResource</a>.
+To update the tags applied to your service, use the separate actions [`tag_resource`](@ref)
+and [`untag_resource`](@ref).
 
 This is an asynchronous operation. On a successful call, you can use the returned
-`OperationId` and the <a>ListOperations</a> call to track the operation's progress.
+`OperationId` and the [`list_operations`](@ref) call to track the operation's progress.
 
 # Arguments
 
@@ -1784,11 +1825,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceConfiguration"`: The source configuration to apply to the App Runner service.
 
   You can change the configuration of the code or image repository that the service uses.
-  However, you can't switch from code to image or the other way around. This means that you
-  must provide the same structure member of `SourceConfiguration` that you originally
+  However, you can't switch from code to image or the other way around. This means that
+  you must provide the same structure member of `SourceConfiguration` that you originally
   included when you created the service. Specifically, you can include either
-  `CodeRepository` or `ImageRepository`. To update the source configuration, set the values
-  to members of the structure that you include.
+  `CodeRepository` or `ImageRepository`. To update the source configuration, set the
+  values to members of the structure that you include.
 """
 function update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
@@ -1798,6 +1839,7 @@ function update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1818,9 +1860,11 @@ end
     update_vpc_ingress_connection(ingress_vpc_configuration, vpc_ingress_connection_arn, params::Dict{String,<:Any})
 
 Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection
-must be in one of the following states to be updated: - AVAILABLE
- - FAILED_CREATION
- - FAILED_UPDATE
+must be in one of the following states to be updated:
+
+- AVAILABLE
+- FAILED_CREATION
+- FAILED_UPDATE
 
 # Arguments
 
@@ -1845,6 +1889,7 @@ function update_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_ingress_connection(
     IngressVpcConfiguration,
     VpcIngressConnectionArn,

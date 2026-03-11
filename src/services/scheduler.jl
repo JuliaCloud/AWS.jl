@@ -15,24 +15,27 @@ Creates the specified schedule.
 - `flexible_time_window`: Allows you to configure a time window during which EventBridge
   Scheduler invokes the schedule.
 - `name`: The name of the schedule that you are creating.
-- `schedule_expression`:  The expression that defines when the schedule runs. The following
-  formats are supported. </p> - `at` expression - `at(yyyy-mm-ddThh:mm:ss)`
-   - `rate` expression - `rate(value unit)`
-   - `cron` expression - `cron(fields)`
-   You can use `at` expressions to create one-time schedules that invoke a target once, at
+- `schedule_expression`: The expression that defines when the schedule runs. The following
+  formats are supported.
+
+  - `at` expression - `at(yyyy-mm-ddThh:mm:ss)`
+  - `rate` expression - `rate(value unit)`
+  - `cron` expression - `cron(fields)`
+
+  You can use `at` expressions to create one-time schedules that invoke a target once, at
   the time and in the time zone, that you specify. You can use `rate` and `cron`
-  expressions to create recurring schedules. Rate-based schedules are useful when you want
-  to invoke a target at regular intervals, such as every 15 minutes or every five days.
-  Cron-based schedules are useful when you want to invoke a target periodically at a
-  specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
+  expressions to create recurring schedules. Rate-based schedules are useful when you
+  want to invoke a target at regular intervals, such as every 15 minutes or every five
+  days. Cron-based schedules are useful when you want to invoke a target periodically at
+  a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
 
-   A `cron` expression consists of six fields separated by white spaces: `(minutes hours
-  day_of_month month day_of_week year)`.
+  A `cron` expression consists of six fields separated by white spaces:
+  `(minutes hours day_of_month month day_of_week year)`.
 
-   A `rate` expression consists of a *value* as a positive integer, and a *unit* with the
+  A `rate` expression consists of a *value* as a positive integer, and a *unit* with the
   following options: `minute` | `minutes` | `hour` | `hours` | `day` | `days`
 
-   <p> For more information and examples, see [Schedule types on EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)
+  For more information and examples, see [Schedule types on EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)
   in the *EventBridge Scheduler User Guide*.
 - `target`: The schedule's target.
 
@@ -42,7 +45,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ActionAfterCompletion"`: Specifies the action that EventBridge Scheduler applies to the
   schedule after the schedule completes invoking the target.
-- `"ClientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
+- `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, EventBridge Scheduler uses a
   randomly generated token for the request to ensure idempotency.
 - `"Description"`: The description you specify for the schedule.
@@ -56,9 +59,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduleExpressionTimezone"`: The timezone in which the scheduling expression is
   evaluated.
 - `"StartDate"`: The date, in UTC, after which the schedule can begin invoking its target.
-  Depending on the schedule's recurrence expression, invocations might occur on, or after,
-  the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-time
-  schedules.
+  Depending on the schedule's recurrence expression, invocations might occur on, or
+  after, the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-
+  time schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
 function create_schedule(
@@ -81,6 +84,7 @@ function create_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schedule(
     FlexibleTimeWindow,
     Name,
@@ -123,7 +127,7 @@ Creates the specified schedule group.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
+- `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, EventBridge Scheduler uses a
   randomly generated token for the request to ensure idempotency.
 - `"Tags"`: The list of tags to associate with the schedule group.
@@ -137,6 +141,7 @@ function create_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -165,7 +170,7 @@ Deletes the specified schedule.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
+- `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, EventBridge Scheduler uses a
   randomly generated token for the request to ensure idempotency.
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
@@ -180,6 +185,7 @@ function delete_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schedule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,7 +222,7 @@ associated schedules are deleted.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
+- `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, EventBridge Scheduler uses a
   randomly generated token for the request to ensure idempotency.
 """
@@ -229,6 +235,7 @@ function delete_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -266,6 +273,7 @@ function get_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_schedule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,6 +304,7 @@ function get_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -330,6 +339,7 @@ function list_schedule_groups(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schedule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,6 +377,7 @@ function list_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -396,6 +407,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -432,6 +444,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -470,6 +483,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -489,12 +503,12 @@ end
     update_schedule(flexible_time_window, name, schedule_expression, target)
     update_schedule(flexible_time_window, name, schedule_expression, target, params::Dict{String,<:Any})
 
- Updates the specified schedule. When you call `UpdateSchedule`, EventBridge Scheduler uses
+Updates the specified schedule. When you call `UpdateSchedule`, EventBridge Scheduler uses
 all values, including empty values, specified in the request and overrides the existing
 schedule. This is by design. This means that if you do not set an optional field in your
 request, that field will be set to its system-default value after the update.
 
- Before calling this operation, we recommend that you call the `GetSchedule` API operation
+Before calling this operation, we recommend that you call the `GetSchedule` API operation
 and make a note of all optional parameters for your `UpdateSchedule` call.
 
 # Arguments
@@ -502,24 +516,27 @@ and make a note of all optional parameters for your `UpdateSchedule` call.
 - `flexible_time_window`: Allows you to configure a time window during which EventBridge
   Scheduler invokes the schedule.
 - `name`: The name of the schedule that you are updating.
-- `schedule_expression`:  The expression that defines when the schedule runs. The following
-  formats are supported. </p> - `at` expression - `at(yyyy-mm-ddThh:mm:ss)`
-   - `rate` expression - `rate(value unit)`
-   - `cron` expression - `cron(fields)`
-   You can use `at` expressions to create one-time schedules that invoke a target once, at
+- `schedule_expression`: The expression that defines when the schedule runs. The following
+  formats are supported.
+
+  - `at` expression - `at(yyyy-mm-ddThh:mm:ss)`
+  - `rate` expression - `rate(value unit)`
+  - `cron` expression - `cron(fields)`
+
+  You can use `at` expressions to create one-time schedules that invoke a target once, at
   the time and in the time zone, that you specify. You can use `rate` and `cron`
-  expressions to create recurring schedules. Rate-based schedules are useful when you want
-  to invoke a target at regular intervals, such as every 15 minutes or every five days.
-  Cron-based schedules are useful when you want to invoke a target periodically at a
-  specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
+  expressions to create recurring schedules. Rate-based schedules are useful when you
+  want to invoke a target at regular intervals, such as every 15 minutes or every five
+  days. Cron-based schedules are useful when you want to invoke a target periodically at
+  a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
 
-   A `cron` expression consists of six fields separated by white spaces: `(minutes hours
-  day_of_month month day_of_week year)`.
+  A `cron` expression consists of six fields separated by white spaces:
+  `(minutes hours day_of_month month day_of_week year)`.
 
-   A `rate` expression consists of a *value* as a positive integer, and a *unit* with the
+  A `rate` expression consists of a *value* as a positive integer, and a *unit* with the
   following options: `minute` | `minutes` | `hour` | `hours` | `day` | `days`
 
-   <p> For more information and examples, see [Schedule types on EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)
+  For more information and examples, see [Schedule types on EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)
   in the *EventBridge Scheduler User Guide*.
 - `target`: The schedule target. You can use this operation to change the target that your
   schedule invokes.
@@ -530,7 +547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ActionAfterCompletion"`: Specifies the action that EventBridge Scheduler applies to the
   schedule after the schedule completes invoking the target.
-- `"ClientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
+- `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, EventBridge Scheduler uses a
   randomly generated token for the request to ensure idempotency.
 - `"Description"`: The description you specify for the schedule.
@@ -538,17 +555,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on the schedule's recurrence expression, invocations might stop on, or before, the
   `EndDate` you specify. EventBridge Scheduler ignores `EndDate` for one-time schedules.
 - `"GroupName"`: The name of the schedule group with which the schedule is associated. You
-  must provide this value in order for EventBridge Scheduler to find the schedule you want
-  to update. If you omit this value, EventBridge Scheduler assumes the group is associated
-  to the default group.
+  must provide this value in order for EventBridge Scheduler to find the schedule you
+  want to update. If you omit this value, EventBridge Scheduler assumes the group is
+  associated to the default group.
 - `"KmsKeyArn"`: The ARN for the customer managed KMS key that that you want EventBridge
   Scheduler to use to encrypt and decrypt your data.
 - `"ScheduleExpressionTimezone"`: The timezone in which the scheduling expression is
   evaluated.
 - `"StartDate"`: The date, in UTC, after which the schedule can begin invoking its target.
-  Depending on the schedule's recurrence expression, invocations might occur on, or after,
-  the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-time
-  schedules.
+  Depending on the schedule's recurrence expression, invocations might occur on, or
+  after, the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-
+  time schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
 function update_schedule(
@@ -571,6 +588,7 @@ function update_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schedule(
     FlexibleTimeWindow,
     Name,

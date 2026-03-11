@@ -25,6 +25,7 @@ function cancel_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job_run(
     applicationId,
     jobRunId,
@@ -63,7 +64,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
 - `"imageConfiguration"`: The image configuration for all worker types. You can either set
-  this parameter or `imageConfiguration` for each worker type in `workerTypeSpecifications`.
+  this parameter or `imageConfiguration` for each worker type in
+  `workerTypeSpecifications`.
 - `"initialCapacity"`: The capacity to initialize when the application is created.
 - `"interactiveConfiguration"`: The interactive configuration object that enables the
   interactive use cases to use when running an application.
@@ -80,11 +82,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   submitted under the application.
 - `"tags"`: The tags assigned to the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
-  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for a
-  Spark or Hive application. Valid worker types include `Driver` and `Executor` for Spark
-  applications and `HiveDriver` and `TezTask` for Hive applications. You can either set
-  image details in this parameter for each worker type, or in `imageConfiguration` for all
-  worker types.
+  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for
+  a Spark or Hive application. Valid worker types include `Driver` and `Executor` for
+  Spark applications and `HiveDriver` and `TezTask` for Hive applications. You can either
+  set image details in this parameter for each worker type, or in `imageConfiguration`
+  for all worker types.
 """
 function create_application(
     clientToken, releaseLabel, type; aws_config::AbstractAWSConfig=current_aws_config()
@@ -99,6 +101,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     clientToken,
     releaseLabel,
@@ -146,6 +149,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -178,6 +182,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -204,7 +209,7 @@ interface such as the Spark History Server or persistent Tez UI.
 
 !!! note
     The URL is valid for one hour after you generate it. To access the application UI after
-that hour elapses, you must invoke the API again to generate a new URL.
+    that hour elapses, you must invoke the API again to generate a new URL.
 
 # Arguments
 
@@ -228,6 +233,7 @@ function get_dashboard_for_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dashboard_for_job_run(
     applicationId,
     jobRunId,
@@ -271,6 +277,7 @@ function get_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_run(
     applicationId,
     jobRunId,
@@ -306,6 +313,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -346,6 +354,7 @@ function list_job_run_attempts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_run_attempts(
     applicationId,
     jobRunId,
@@ -391,6 +400,7 @@ function list_job_runs(applicationId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_runs(
     applicationId,
     params::AbstractDict{String};
@@ -427,6 +437,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -461,6 +472,7 @@ function start_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application(
     applicationId,
     params::AbstractDict{String};
@@ -517,6 +529,7 @@ function start_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_job_run(
     applicationId,
     clientToken,
@@ -560,6 +573,7 @@ function stop_application(applicationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_application(
     applicationId,
     params::AbstractDict{String};
@@ -600,6 +614,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -639,6 +654,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -695,11 +711,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   classification and properties. This configuration is applied across all the job runs
   submitted under the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
-  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for a
-  Spark or Hive application. Valid worker types include `Driver` and `Executor` for Spark
-  applications and `HiveDriver` and `TezTask` for Hive applications. You can either set
-  image details in this parameter for each worker type, or in `imageConfiguration` for all
-  worker types.
+  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for
+  a Spark or Hive application. Valid worker types include `Driver` and `Executor` for
+  Spark applications and `HiveDriver` and `TezTask` for Hive applications. You can either
+  set image details in this parameter for each worker type, or in `imageConfiguration`
+  for all worker types.
 """
 function update_application(
     applicationId, clientToken; aws_config::AbstractAWSConfig=current_aws_config()
@@ -712,6 +728,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     clientToken,

@@ -22,6 +22,7 @@ function delete_connection(connectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     connectionId,
     params::AbstractDict{String};
@@ -54,6 +55,7 @@ function get_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection(
     connectionId,
     params::AbstractDict{String};
@@ -90,6 +92,7 @@ function post_to_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_to_connection(
     Data,
     connectionId,

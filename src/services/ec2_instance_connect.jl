@@ -26,7 +26,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SerialPort"`: The serial port of the EC2 instance. Currently only port 0 is supported.
 
-Default: 0
+  Default: 0
 """
 function send_serial_console_sshpublic_key(
     InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=current_aws_config()
@@ -38,6 +38,7 @@ function send_serial_console_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_serial_console_sshpublic_key(
     InstanceId,
     SSHPublicKey,
@@ -99,6 +100,7 @@ function send_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_sshpublic_key(
     InstanceId,
     InstanceOSUser,

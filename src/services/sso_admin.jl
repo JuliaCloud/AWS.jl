@@ -8,7 +8,7 @@ using AWS.UUIDs
     attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
     attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Attaches the specified customer managed policy to the specified <a>PermissionSet</a>.
+Attaches the specified customer managed policy to the specified [`permission_set`](@ref).
 
 # Arguments
 
@@ -36,6 +36,7 @@ function attach_customer_managed_policy_reference_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_customer_managed_policy_reference_to_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -69,9 +70,9 @@ Attaches an Amazon Web Services managed policy ARN to a permission set.
 
 !!! note
     If the permission set is already referenced by one or more account assignments, you
-will need to call ` <a>ProvisionPermissionSet</a> ` after this operation. Calling
-`ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned
-accounts.
+    will need to call `[`provision_permission_set`](@ref)` after this operation. Calling
+    `ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned
+    accounts.
 
 # Arguments
 
@@ -80,8 +81,8 @@ accounts.
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be attached to a
   permission set.
-- `permission_set_arn`: The ARN of the <a>PermissionSet</a> that the managed policy should
-  be attached to.
+- `permission_set_arn`: The ARN of the [`permission_set`](@ref) that the managed policy
+  should be attached to.
 """
 function attach_managed_policy_to_permission_set(
     InstanceArn,
@@ -100,6 +101,7 @@ function attach_managed_policy_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_managed_policy_to_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -134,19 +136,19 @@ permission set.
 
 !!! note
     The term *principal* here refers to a user or group that is defined in IAM Identity
-Center.
+    Center.
 
 !!! note
     As part of a successful `CreateAccountAssignment` call, the specified permission set
-will automatically be provisioned to the account in the form of an IAM policy. That policy
-is attached to the IAM role created in IAM Identity Center. If the permission set is
-subsequently updated, the corresponding IAM policies attached to roles in your accounts
-will not be updated automatically. In this case, you must call `
-<a>ProvisionPermissionSet</a> ` to make these updates.
+    will automatically be provisioned to the account in the form of an IAM policy. That
+    policy is attached to the IAM role created in IAM Identity Center. If the permission
+    set is subsequently updated, the corresponding IAM policies attached to roles in your
+    accounts will not be updated automatically. In this case, you must call `[`provision_permission_set`](@ref)`
+    to make these updates.
 
 !!! note
     After a successful response, call `DescribeAccountAssignmentCreationStatus` to describe
-the status of an assignment creation request.
+    the status of an assignment creation request.
 
 # Arguments
 
@@ -186,6 +188,7 @@ function create_account_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -238,11 +241,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -270,6 +274,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     ApplicationProviderArn,
     InstanceArn,
@@ -327,6 +332,7 @@ function create_application_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -361,9 +367,10 @@ that is not managed by Organizations or a member Amazon Web Services account in 
 organization. You can create only one instance per account and across all Amazon Web
 Services Regions.
 
-The CreateInstance request is rejected if the following apply:  - The instance is created
-within the organization management account.
- - An instance already exists in the same account.
+The CreateInstance request is rejected if the following apply:
+
+- The instance is created within the organization management account.
+- An instance already exists in the same account.
 
 # Optional Parameters
 
@@ -371,11 +378,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -390,6 +398,7 @@ function create_instance(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -414,7 +423,7 @@ in the *IAM Identity Center User Guide*.
 
 !!! note
     After a successful response, call `DescribeInstanceAccessControlAttributeConfiguration`
-to validate that `InstanceAccessControlAttributeConfiguration` was created.
+    to validate that `InstanceAccessControlAttributeConfiguration` was created.
 
 # Arguments
 
@@ -444,6 +453,7 @@ function create_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
@@ -475,26 +485,25 @@ end
 Creates a permission set within a specified IAM Identity Center instance.
 
 !!! note
-    To grant users and groups access to Amazon Web Services account resources, use `
-<a>CreateAccountAssignment</a> `.
+    To grant users and groups access to Amazon Web Services account resources, use `[`create_account_assignment`](@ref)`.
 
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `name`: The name of the <a>PermissionSet</a>.
+- `name`: The name of the [`permission_set`](@ref).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Description"`: The description of the <a>PermissionSet</a>.
+- `"Description"`: The description of the [`permission_set`](@ref).
 - `"RelayState"`: Used to redirect users within the application during the federation
   authentication process.
 - `"SessionDuration"`: The length of time that the application user sessions are valid in
   the ISO-8601 standard.
-- `"Tags"`: The tags to attach to the new <a>PermissionSet</a>.
+- `"Tags"`: The tags to attach to the new [`permission_set`](@ref).
 """
 function create_permission_set(
     InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -506,6 +515,7 @@ function create_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_permission_set(
     InstanceArn,
     Name,
@@ -554,11 +564,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -584,6 +595,7 @@ function create_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trusted_token_issuer(
     InstanceArn,
     Name,
@@ -621,7 +633,7 @@ permission set.
 
 !!! note
     After a successful response, call `DescribeAccountAssignmentDeletionStatus` to describe
-the status of an assignment deletion request.
+    the status of an assignment deletion request.
 
 # Arguments
 
@@ -660,6 +672,7 @@ function delete_account_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -713,6 +726,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationArn,
     params::AbstractDict{String};
@@ -749,6 +763,7 @@ function delete_application_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_access_scope(
     ApplicationArn,
     Scope,
@@ -801,6 +816,7 @@ function delete_application_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -854,6 +870,7 @@ function delete_application_authentication_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType,
@@ -898,6 +915,7 @@ function delete_application_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_grant(
     ApplicationArn,
     GrantType,
@@ -945,6 +963,7 @@ function delete_inline_policy_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inline_policy_from_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -988,6 +1007,7 @@ function delete_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance(
     InstanceArn,
     params::AbstractDict{String};
@@ -1028,6 +1048,7 @@ function delete_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
@@ -1068,6 +1089,7 @@ function delete_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1094,7 +1116,7 @@ end
     delete_permissions_boundary_from_permission_set(instance_arn, permission_set_arn)
     delete_permissions_boundary_from_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Deletes the permissions boundary from a specified <a>PermissionSet</a>.
+Deletes the permissions boundary from a specified [`permission_set`](@ref).
 
 # Arguments
 
@@ -1114,6 +1136,7 @@ function delete_permissions_boundary_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permissions_boundary_from_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1144,7 +1167,7 @@ Deletes a trusted token issuer configuration from an instance of IAM Identity Ce
 
 !!! note
     Deleting this trusted token issuer configuration will cause users to lose access to any
-applications that are configured to use the trusted token issuer.
+    applications that are configured to use the trusted token issuer.
 
 # Arguments
 
@@ -1161,6 +1184,7 @@ function delete_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};
@@ -1209,6 +1233,7 @@ function describe_account_assignment_creation_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn,
@@ -1262,6 +1287,7 @@ function describe_account_assignment_deletion_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn,
@@ -1308,6 +1334,7 @@ function describe_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application(
     ApplicationArn,
     params::AbstractDict{String};
@@ -1330,7 +1357,7 @@ end
 Retrieves a direct assignment of a user or group to an application. If the user doesn’t
 have a direct assignment to the application, the user may still have access to the
 application through a group. Therefore, don’t use this API to test access to an application
-for a user. Instead use <a>ListApplicationAssignmentsForPrincipal</a>.
+for a user. Instead use [`list_application_assignments_for_principal`](@ref).
 
 # Arguments
 
@@ -1359,6 +1386,7 @@ function describe_application_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -1406,6 +1434,7 @@ function describe_application_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_provider(
     ApplicationProviderArn,
     params::AbstractDict{String};
@@ -1430,13 +1459,15 @@ end
     describe_instance(instance_arn, params::Dict{String,<:Any})
 
 Returns the details of an instance of IAM Identity Center. The status can be one of the
-following: - `CREATE_IN_PROGRESS` - The instance is in the process of being created. When
-the instance is ready for use, DescribeInstance returns the status of `ACTIVE`. While the
-instance is in the `CREATE_IN_PROGRESS` state, you can call only DescribeInstance and
-DeleteInstance operations.
- - `DELETE_IN_PROGRESS` - The instance is being deleted. Returns `AccessDeniedException`
-after the delete operation completes.
- - `ACTIVE` - The instance is active.
+following:
+
+- `CREATE_IN_PROGRESS` - The instance is in the process of being created. When the instance
+  is ready for use, DescribeInstance returns the status of `ACTIVE`. While the instance is
+  in the `CREATE_IN_PROGRESS` state, you can call only DescribeInstance and DeleteInstance
+  operations.
+- `DELETE_IN_PROGRESS` - The instance is being deleted. Returns `AccessDeniedException`
+  after the delete operation completes.
+- `ACTIVE` - The instance is active.
 
 # Arguments
 
@@ -1451,6 +1482,7 @@ function describe_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance(
     InstanceArn,
     params::AbstractDict{String};
@@ -1491,6 +1523,7 @@ function describe_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
@@ -1531,6 +1564,7 @@ function describe_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1564,9 +1598,8 @@ Describes the status for the given permission set provisioning request.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `provision_permission_set_request_id`: The identifier that is provided by the
-  <a>ProvisionPermissionSet</a> call to retrieve the current status of the provisioning
-  workflow.
+- `provision_permission_set_request_id`: The identifier that is provided by the [`provision_permission_set`](@ref)
+  call to retrieve the current status of the provisioning workflow.
 """
 function describe_permission_set_provisioning_status(
     InstanceArn,
@@ -1583,6 +1616,7 @@ function describe_permission_set_provisioning_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId,
@@ -1630,6 +1664,7 @@ function describe_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};
@@ -1653,7 +1688,7 @@ end
     detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
     detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Detaches the specified customer managed policy from the specified <a>PermissionSet</a>.
+Detaches the specified customer managed policy from the specified [`permission_set`](@ref).
 
 # Arguments
 
@@ -1681,6 +1716,7 @@ function detach_customer_managed_policy_reference_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_customer_managed_policy_reference_from_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -1720,8 +1756,8 @@ set.
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be detached from a
   permission set.
-- `permission_set_arn`: The ARN of the <a>PermissionSet</a> from which the policy should be
-  detached.
+- `permission_set_arn`: The ARN of the [`permission_set`](@ref) from which the policy
+  should be detached.
 """
 function detach_managed_policy_from_permission_set(
     InstanceArn,
@@ -1740,6 +1776,7 @@ function detach_managed_policy_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_managed_policy_from_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -1787,6 +1824,7 @@ function get_application_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_access_scope(
     ApplicationArn,
     Scope,
@@ -1811,7 +1849,7 @@ end
     get_application_assignment_configuration(application_arn)
     get_application_assignment_configuration(application_arn, params::Dict{String,<:Any})
 
-Retrieves the configuration of <a>PutApplicationAssignmentConfiguration</a>.
+Retrieves the configuration of [`put_application_assignment_configuration`](@ref).
 
 # Arguments
 
@@ -1829,6 +1867,7 @@ function get_application_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_assignment_configuration(
     ApplicationArn,
     params::AbstractDict{String};
@@ -1871,6 +1910,7 @@ function get_application_authentication_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType,
@@ -1915,6 +1955,7 @@ function get_application_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_grant(
     ApplicationArn,
     GrantType,
@@ -1962,6 +2003,7 @@ function get_inline_policy_for_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_inline_policy_for_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1988,7 +2030,7 @@ end
     get_permissions_boundary_for_permission_set(instance_arn, permission_set_arn)
     get_permissions_boundary_for_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Obtains the permissions boundary for a specified <a>PermissionSet</a>.
+Obtains the permissions boundary for a specified [`permission_set`](@ref).
 
 # Arguments
 
@@ -2008,6 +2050,7 @@ function get_permissions_boundary_for_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_permissions_boundary_for_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2062,6 +2105,7 @@ function list_account_assignment_creation_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignment_creation_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -2109,6 +2153,7 @@ function list_account_assignment_deletion_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignment_deletion_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -2165,6 +2210,7 @@ function list_account_assignments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignments(
     AccountId,
     InstanceArn,
@@ -2213,11 +2259,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only those that match this ID number.
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -2240,6 +2286,7 @@ function list_account_assignments_for_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignments_for_principal(
     InstanceArn,
     PrincipalId,
@@ -2277,14 +2324,14 @@ provisioned.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `permission_set_arn`: The ARN of the <a>PermissionSet</a> from which the associated
+- `permission_set_arn`: The ARN of the [`permission_set`](@ref) from which the associated
   Amazon Web Services accounts will be listed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to display for the <a>PermissionSet</a>.
+- `"MaxResults"`: The maximum number of results to display for the [`permission_set`](@ref).
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 - `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
@@ -2302,6 +2349,7 @@ function list_accounts_for_provisioned_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_accounts_for_provisioned_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2340,11 +2388,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -2360,6 +2408,7 @@ function list_application_access_scopes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_access_scopes(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2391,11 +2440,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -2411,6 +2460,7 @@ function list_application_assignments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_assignments(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2449,11 +2499,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application that has the specified ARN.
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -2476,6 +2526,7 @@ function list_application_assignments_for_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_assignments_for_principal(
     InstanceArn,
     PrincipalId,
@@ -2531,6 +2582,7 @@ function list_application_authentication_methods(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_authentication_methods(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2575,6 +2627,7 @@ function list_application_grants(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_grants(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2602,11 +2655,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -2617,6 +2670,7 @@ function list_application_providers(; aws_config::AbstractAWSConfig=current_aws_
         "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_application_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2650,11 +2704,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: Filters response results.
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -2668,6 +2722,7 @@ function list_applications(InstanceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_applications(
     InstanceArn,
     params::AbstractDict{String};
@@ -2687,7 +2742,7 @@ end
     list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn)
     list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists all customer managed policies attached to a specified <a>PermissionSet</a>.
+Lists all customer managed policies attached to a specified [`permission_set`](@ref).
 
 # Arguments
 
@@ -2715,6 +2770,7 @@ function list_customer_managed_policy_references_in_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_customer_managed_policy_references_in_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2757,6 +2813,7 @@ function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2776,14 +2833,14 @@ Lists the Amazon Web Services managed policy that is attached to a specified per
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `permission_set_arn`: The ARN of the <a>PermissionSet</a> whose managed policies will be
-  listed.
+- `permission_set_arn`: The ARN of the [`permission_set`](@ref) whose managed policies will
+  be listed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to display for the <a>PermissionSet</a>.
+- `"MaxResults"`: The maximum number of results to display for the [`permission_set`](@ref).
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
@@ -2799,6 +2856,7 @@ function list_managed_policies_in_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_policies_in_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2853,6 +2911,7 @@ function list_permission_set_provisioning_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_set_provisioning_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -2872,7 +2931,7 @@ end
     list_permission_sets(instance_arn)
     list_permission_sets(instance_arn, params::Dict{String,<:Any})
 
-Lists the <a>PermissionSet</a>s in an IAM Identity Center instance.
+Lists the [`permission_set`](@ref)s in an IAM Identity Center instance.
 
 # Arguments
 
@@ -2898,6 +2957,7 @@ function list_permission_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_sets(
     InstanceArn,
     params::AbstractDict{String};
@@ -2947,6 +3007,7 @@ function list_permission_sets_provisioned_to_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_sets_provisioned_to_account(
     AccountId,
     InstanceArn,
@@ -2997,6 +3058,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -3029,11 +3091,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -3049,6 +3111,7 @@ function list_trusted_token_issuers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_trusted_token_issuers(
     InstanceArn,
     params::AbstractDict{String};
@@ -3102,6 +3165,7 @@ function provision_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3158,6 +3222,7 @@ function put_application_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_access_scope(
     ApplicationArn,
     Scope,
@@ -3209,6 +3274,7 @@ function put_application_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_assignment_configuration(
     ApplicationArn,
     AssignmentRequired,
@@ -3265,6 +3331,7 @@ function put_application_authentication_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_authentication_method(
     ApplicationArn,
     AuthenticationMethod,
@@ -3314,6 +3381,7 @@ function put_application_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_grant(
     ApplicationArn,
     Grant,
@@ -3347,12 +3415,12 @@ Attaches an inline policy to a permission set.
 
 !!! note
     If the permission set is already referenced by one or more account assignments, you
-will need to call ` <a>ProvisionPermissionSet</a> ` after this action to apply the
-corresponding IAM policy updates to all assigned accounts.
+    will need to call `[`provision_permission_set`](@ref)` after this action to apply the
+    corresponding IAM policy updates to all assigned accounts.
 
 # Arguments
 
-- `inline_policy`: The inline policy to attach to a <a>PermissionSet</a>.
+- `inline_policy`: The inline policy to attach to a [`permission_set`](@ref).
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -3375,6 +3443,7 @@ function put_inline_policy_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_inline_policy_to_permission_set(
     InlinePolicy,
     InstanceArn,
@@ -3404,8 +3473,8 @@ end
     put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary)
     put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary, params::Dict{String,<:Any})
 
-Attaches an Amazon Web Services managed or customer managed policy to the specified
-<a>PermissionSet</a> as a permissions boundary.
+Attaches an Amazon Web Services managed or customer managed policy to the specified [`permission_set`](@ref)
+as a permissions boundary.
 
 # Arguments
 
@@ -3432,6 +3501,7 @@ function put_permissions_boundary_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_permissions_boundary_to_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3484,6 +3554,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3533,6 +3604,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3585,6 +3657,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationArn,
     params::AbstractDict{String};
@@ -3624,6 +3697,7 @@ function update_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance(
     InstanceArn,
     Name,
@@ -3680,6 +3754,7 @@ function update_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
@@ -3721,7 +3796,7 @@ Updates an existing permission set.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Description"`: The description of the <a>PermissionSet</a>.
+- `"Description"`: The description of the [`permission_set`](@ref).
 - `"RelayState"`: Used to redirect users within the application during the federation
   authentication process.
 - `"SessionDuration"`: The length of time that the application user sessions are valid for
@@ -3739,6 +3814,7 @@ function update_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3770,7 +3846,7 @@ destination attribute for a trusted token issuer configuration.
 
 !!! note
     Updating this trusted token issuer configuration might cause users to lose access to
-any applications that are configured to use the trusted token issuer.
+    any applications that are configured to use the trusted token issuer.
 
 # Arguments
 
@@ -3797,6 +3873,7 @@ function update_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};

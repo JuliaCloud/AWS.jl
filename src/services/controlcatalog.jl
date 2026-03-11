@@ -23,18 +23,18 @@ in the example.
 - `control_arn`: The Amazon Resource Name (ARN) of the control. It has one of the following
   formats:
 
-   *Global format*
+  *Global format*
 
-   `arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}`
+  `arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}`
 
-   *Or Regional format*
+  *Or Regional format*
 
-   `arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}`
+  `arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}`
 
-  Here is a more general pattern that covers Amazon Web Services Control Tower and Control
-  Catalog ARNs:
+  Here is a more general pattern that covers Amazon Web Services Control Tower and
+  Control Catalog ARNs:
 
-   `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\\\-]+\$`
+  `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\\\-]+\$`
 """
 function get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
@@ -45,6 +45,7 @@ function get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_control(
     ControlArn,
     params::AbstractDict{String};
@@ -87,6 +88,7 @@ function list_common_controls(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_common_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -120,6 +122,7 @@ function list_controls(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +153,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -173,8 +177,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ObjectiveFilter"`: An optional filter that narrows the results to a specific domain.
 
-  This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the
-  `ObjectiveFilter` isn’t currently supported.
+  This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in
+  the `ObjectiveFilter` isn’t currently supported.
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
@@ -183,6 +187,7 @@ function list_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_objectives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

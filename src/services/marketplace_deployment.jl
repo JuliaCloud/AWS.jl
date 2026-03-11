@@ -25,6 +25,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -63,8 +64,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expirationDate"`: The date when deployment parameters expire and are scheduled for
   deletion.
 - `"tags"`: A map of key-value pairs, where each pair represents a tag saved to the
-  resource. Tags will only be applied for create operations, and they'll be ignored if the
-  resource already exists.
+  resource. Tags will only be applied for create operations, and they'll be ignored if
+  the resource already exists.
 """
 function put_deployment_parameter(
     agreementId,
@@ -85,6 +86,7 @@ function put_deployment_parameter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_deployment_parameter(
     agreementId,
     catalog,
@@ -138,6 +140,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -175,6 +178,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

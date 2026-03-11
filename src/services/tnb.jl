@@ -27,6 +27,7 @@ function cancel_sol_network_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_sol_network_operation(
     nsLcmOpOccId,
     params::AbstractDict{String};
@@ -73,6 +74,7 @@ function create_sol_function_package(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sol_function_package(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -124,6 +126,7 @@ function create_sol_network_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sol_network_instance(
     nsName,
     nsdInfoId,
@@ -180,6 +183,7 @@ function create_sol_network_package(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sol_network_package(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -220,6 +224,7 @@ function delete_sol_function_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sol_function_package(
     vnfPkgId,
     params::AbstractDict{String};
@@ -261,6 +266,7 @@ function delete_sol_network_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -302,6 +308,7 @@ function delete_sol_network_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sol_network_package(
     nsdInfoId,
     params::AbstractDict{String};
@@ -339,6 +346,7 @@ function get_sol_function_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_function_instance(
     vnfInstanceId,
     params::AbstractDict{String};
@@ -379,6 +387,7 @@ function get_sol_function_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_function_package(
     vnfPkgId,
     params::AbstractDict{String};
@@ -420,6 +429,7 @@ function get_sol_function_package_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_function_package_content(
     Accept,
     vnfPkgId,
@@ -473,6 +483,7 @@ function get_sol_function_package_descriptor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_function_package_descriptor(
     Accept,
     vnfPkgId,
@@ -518,6 +529,7 @@ function get_sol_network_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -556,6 +568,7 @@ function get_sol_network_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_network_operation(
     nsLcmOpOccId,
     params::AbstractDict{String};
@@ -594,6 +607,7 @@ function get_sol_network_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_network_package(
     nsdInfoId,
     params::AbstractDict{String};
@@ -634,6 +648,7 @@ function get_sol_network_package_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_network_package_content(
     Accept,
     nsdInfoId,
@@ -679,6 +694,7 @@ function get_sol_network_package_descriptor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sol_network_package_descriptor(
     nsdInfoId,
     params::AbstractDict{String};
@@ -720,10 +736,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only applied
-  to the network operation that is created. These tags are not applied to the network
-  instance. Use tags to search and filter your resources or track your Amazon Web Services
-  costs.
+  consists of a key and an optional value. When you use this API, the tags are only
+  applied to the network operation that is created. These tags are not applied to the
+  network instance. Use tags to search and filter your resources or track your Amazon Web
+  Services costs.
 """
 function instantiate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -735,6 +751,7 @@ function instantiate_sol_network_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function instantiate_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -772,6 +789,7 @@ function list_sol_function_instances(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sol_function_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -810,6 +828,7 @@ function list_sol_function_packages(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sol_function_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -847,6 +866,7 @@ function list_sol_network_instances(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sol_network_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -886,6 +906,7 @@ function list_sol_network_operations(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sol_network_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -923,6 +944,7 @@ function list_sol_network_packages(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sol_network_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -955,6 +977,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1002,6 +1025,7 @@ function put_sol_function_package_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_sol_function_package_content(
     file,
     vnfPkgId,
@@ -1049,6 +1073,7 @@ function put_sol_network_package_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_sol_network_package_content(
     file,
     nsdInfoId,
@@ -1090,6 +1115,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1126,10 +1152,10 @@ You must terminate a network instance before you can delete it.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only applied
-  to the network operation that is created. These tags are not applied to the network
-  instance. Use tags to search and filter your resources or track your Amazon Web Services
-  costs.
+  consists of a key and an optional value. When you use this API, the tags are only
+  applied to the network operation that is created. These tags are not applied to the
+  network instance. Use tags to search and filter your resources or track your Amazon Web
+  Services costs.
 """
 function terminate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1141,6 +1167,7 @@ function terminate_sol_network_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -1181,6 +1208,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1223,6 +1251,7 @@ function update_sol_function_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sol_function_package(
     operationalState,
     vnfPkgId,
@@ -1257,10 +1286,12 @@ Choose the *updateType* parameter to target the necessary update of the network 
 # Arguments
 
 - `ns_instance_id`: ID of the network instance.
-- `update_type`: The type of update. - Use the `MODIFY_VNF_INFORMATION` update type, to
-  update a specific network function configuration, in the network instance.
-   - Use the `UPDATE_NS` update type, to update the network instance to a new network
-  service descriptor.
+- `update_type`: The type of update.
+
+  - Use the `MODIFY_VNF_INFORMATION` update type, to update a specific network function
+    configuration, in the network instance.
+  - Use the `UPDATE_NS` update type, to update the network instance to a new network
+    service descriptor.
 
 # Optional Parameters
 
@@ -1269,16 +1300,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modifyVnfInfoData"`: Identifies the network function information parameters and/or the
   configurable properties of the network function to be modified.
 
-Include this property only if the update type is `MODIFY_VNF_INFORMATION`.
+  Include this property only if the update type is `MODIFY_VNF_INFORMATION`.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only applied
-  to the network operation that is created. These tags are not applied to the network
-  instance. Use tags to search and filter your resources or track your Amazon Web Services
-  costs.
+  consists of a key and an optional value. When you use this API, the tags are only
+  applied to the network operation that is created. These tags are not applied to the
+  network instance. Use tags to search and filter your resources or track your Amazon Web
+  Services costs.
 - `"updateNs"`: Identifies the network service descriptor and the configurable properties
   of the descriptor, to be used for the update.
 
-Include this property only if the update type is `UPDATE_NS`.
+  Include this property only if the update type is `UPDATE_NS`.
 """
 function update_sol_network_instance(
     nsInstanceId, updateType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1291,6 +1322,7 @@ function update_sol_network_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sol_network_instance(
     nsInstanceId,
     updateType,
@@ -1339,6 +1371,7 @@ function update_sol_network_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sol_network_package(
     nsdInfoId,
     nsdOperationalState,
@@ -1394,6 +1427,7 @@ function validate_sol_function_package_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_sol_function_package_content(
     file,
     vnfPkgId,
@@ -1442,6 +1476,7 @@ function validate_sol_network_package_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_sol_network_package_content(
     file,
     nsdInfoId,

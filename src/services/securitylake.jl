@@ -31,6 +31,7 @@ function create_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_aws_log_source(
     sources,
     params::AbstractDict{String};
@@ -69,35 +70,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"eventClasses"`: The Open Cybersecurity Schema Framework (OCSF) event classes which
   describes the type of data that the custom source will send to Security Lake. The
-  supported event classes are: - `ACCESS_ACTIVITY`
-   - `FILE_ACTIVITY`
-   - `KERNEL_ACTIVITY`
-   - `KERNEL_EXTENSION`
-   - `MEMORY_ACTIVITY`
-   - `MODULE_ACTIVITY`
-   - `PROCESS_ACTIVITY`
-   - `REGISTRY_KEY_ACTIVITY`
-   - `REGISTRY_VALUE_ACTIVITY`
-   - `RESOURCE_ACTIVITY`
-   - `SCHEDULED_JOB_ACTIVITY`
-   - `SECURITY_FINDING`
-   - `ACCOUNT_CHANGE`
-   - `AUTHENTICATION`
-   - `AUTHORIZATION`
-   - `ENTITY_MANAGEMENT_AUDIT`
-   - `DHCP_ACTIVITY`
-   - `NETWORK_ACTIVITY`
-   - `DNS_ACTIVITY`
-   - `FTP_ACTIVITY`
-   - `HTTP_ACTIVITY`
-   - `RDP_ACTIVITY`
-   - `SMB_ACTIVITY`
-   - `SSH_ACTIVITY`
-   - `CONFIG_STATE`
-   - `INVENTORY_INFO`
- - `EMAIL_ACTIVITY`
- - `API_ACTIVITY`
- - `CLOUD_API`
+  supported event classes are:
+
+  - `ACCESS_ACTIVITY`
+  - `FILE_ACTIVITY`
+  - `KERNEL_ACTIVITY`
+  - `KERNEL_EXTENSION`
+  - `MEMORY_ACTIVITY`
+  - `MODULE_ACTIVITY`
+  - `PROCESS_ACTIVITY`
+  - `REGISTRY_KEY_ACTIVITY`
+  - `REGISTRY_VALUE_ACTIVITY`
+  - `RESOURCE_ACTIVITY`
+  - `SCHEDULED_JOB_ACTIVITY`
+  - `SECURITY_FINDING`
+  - `ACCOUNT_CHANGE`
+  - `AUTHENTICATION`
+  - `AUTHORIZATION`
+  - `ENTITY_MANAGEMENT_AUDIT`
+  - `DHCP_ACTIVITY`
+  - `NETWORK_ACTIVITY`
+  - `DNS_ACTIVITY`
+  - `FTP_ACTIVITY`
+  - `HTTP_ACTIVITY`
+  - `RDP_ACTIVITY`
+  - `SMB_ACTIVITY`
+  - `SSH_ACTIVITY`
+  - `CONFIG_STATE`
+  - `INVENTORY_INFO`
+  - `EMAIL_ACTIVITY`
+  - `API_ACTIVITY`
+  - `CLOUD_API`
+
 - `"sourceVersion"`: Specify the source version for the third-party custom source, to limit
   log collection to a specific version of custom data source.
 """
@@ -112,6 +116,7 @@ function create_custom_log_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_log_source(
     configuration,
     sourceName,
@@ -168,8 +173,8 @@ see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-l
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: An array of objects, one for each tag to associate with the data lake
-  configuration. For each tag, you must specify both a tag key and a tag value. A tag value
-  cannot be null, but it can be an empty string.
+  configuration. For each tag, you must specify both a tag key and a tag value. A tag
+  value cannot be null, but it can be an empty string.
 """
 function create_data_lake(
     configurations,
@@ -187,6 +192,7 @@ function create_data_lake(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_lake(
     configurations,
     metaStoreManagerRoleArn,
@@ -247,6 +253,7 @@ function create_data_lake_exception_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol,
@@ -296,6 +303,7 @@ function create_data_lake_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_lake_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -352,6 +360,7 @@ function create_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscriber(
     sources,
     subscriberIdentity,
@@ -403,6 +412,7 @@ function create_subscriber_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscriber_notification(
     configuration,
     subscriberId,
@@ -447,6 +457,7 @@ function delete_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_aws_log_source(
     sources,
     params::AbstractDict{String};
@@ -489,6 +500,7 @@ function delete_custom_log_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_log_source(
     sourceName,
     params::AbstractDict{String};
@@ -513,8 +525,9 @@ automatically takes steps to remove the account from Security Lake. However, Sec
 retains all of your existing settings and the resources that it created in your Amazon Web
 Services account in the current Amazon Web Services Region.
 
-The `DeleteDataLake` operation does not delete the data that is stored in your Amazon S3
-bucket, which is owned by your Amazon Web Services account. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/disable-security-lake.html).
+The [`delete_data_lake`](@ref) operation does not delete the data that is stored in your
+Amazon S3 bucket, which is owned by your Amazon Web Services account. For more information,
+see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/disable-security-lake.html).
 
 # Arguments
 
@@ -529,6 +542,7 @@ function delete_data_lake(regions; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_lake(
     regions,
     params::AbstractDict{String};
@@ -560,6 +574,7 @@ function delete_data_lake_exception_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_lake_exception_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -599,6 +614,7 @@ function delete_data_lake_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_lake_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -634,6 +650,7 @@ function delete_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscriber(
     subscriberId,
     params::AbstractDict{String};
@@ -669,6 +686,7 @@ function delete_subscriber_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscriber_notification(
     subscriberId,
     params::AbstractDict{String};
@@ -701,6 +719,7 @@ function deregister_data_lake_delegated_administrator(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_data_lake_delegated_administrator(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -729,6 +748,7 @@ function get_data_lake_exception_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_exception_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -759,6 +779,7 @@ function get_data_lake_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,6 +823,7 @@ function get_data_lake_sources(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -834,6 +856,7 @@ function get_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscriber(
     subscriberId,
     params::AbstractDict{String};
@@ -876,6 +899,7 @@ function list_data_lake_exceptions(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_lake_exceptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -907,6 +931,7 @@ function list_data_lakes(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_lakes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -945,6 +970,7 @@ function list_log_sources(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_log_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -978,6 +1004,7 @@ function list_subscribers(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/subscribers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_subscribers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1013,6 +1040,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1051,6 +1079,7 @@ function register_data_lake_delegated_administrator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_data_lake_delegated_administrator(
     accountId,
     params::AbstractDict{String};
@@ -1098,6 +1127,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1139,6 +1169,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1185,6 +1216,7 @@ function update_data_lake(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_lake(
     configurations,
     params::AbstractDict{String};
@@ -1236,6 +1268,7 @@ function update_data_lake_exception_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol,
@@ -1290,6 +1323,7 @@ function update_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscriber(
     subscriberId,
     params::AbstractDict{String};
@@ -1327,6 +1361,7 @@ function update_subscriber_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscriber_notification(
     configuration,
     subscriberId,

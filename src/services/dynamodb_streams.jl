@@ -12,12 +12,13 @@ Returns information about a stream, including the current status of the stream, 
 Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table.
 
 !!! note
-    You can call `DescribeStream` at a maximum rate of 10 times per second.Each shard in
-the stream has a `SequenceNumberRange` associated with it. If the `SequenceNumberRange` has
-a `StartingSequenceNumber` but no `EndingSequenceNumber`, then the shard is still open
-(able to receive more stream records). If both `StartingSequenceNumber` and
-`EndingSequenceNumber` are present, then that shard is closed and can no longer receive
-more data.
+    You can call `DescribeStream` at a maximum rate of 10 times per second.
+
+Each shard in the stream has a `SequenceNumberRange` associated with it. If the
+`SequenceNumberRange` has a `StartingSequenceNumber` but no `EndingSequenceNumber`, then
+the shard is still open (able to receive more stream records). If both
+`StartingSequenceNumber` and `EndingSequenceNumber` are present, then that shard is closed
+and can no longer receive more data.
 
 # Arguments
 
@@ -40,6 +41,7 @@ function describe_stream(StreamArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stream(
     StreamArn,
     params::AbstractDict{String};
@@ -69,7 +71,7 @@ get to a portion of the shard that contains stream records.
 
 !!! note
     `GetRecords` can retrieve a maximum of 1 MB of data or 1000 stream records, whichever
-comes first.
+    comes first.
 
 # Arguments
 
@@ -91,6 +93,7 @@ function get_records(ShardIterator; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_records(
     ShardIterator,
     params::AbstractDict{String};
@@ -121,16 +124,19 @@ request to read the stream records from the shard.
 
 - `shard_id`: The identifier of the shard. The iterator will be returned for this shard ID.
 - `shard_iterator_type`: Determines how the shard iterator is used to start reading stream
-  records from the shard: - `AT_SEQUENCE_NUMBER` - Start reading exactly from the position
-  denoted by a specific sequence number.
-   - `AFTER_SEQUENCE_NUMBER` - Start reading right after the position denoted by a specific
-  sequence number.
-   - `TRIM_HORIZON` - Start reading at the last (untrimmed) stream record, which is the
-  oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data
-  retention. Stream records whose age exceeds this limit are subject to removal (trimming)
-  from the stream.
-   - `LATEST` - Start reading just after the most recent stream record in the shard, so
-  that you always read the most recent data in the shard.
+  records from the shard:
+
+  - `AT_SEQUENCE_NUMBER` - Start reading exactly from the position denoted by a specific
+    sequence number.
+  - `AFTER_SEQUENCE_NUMBER` - Start reading right after the position denoted by a
+    specific sequence number.
+  - `TRIM_HORIZON` - Start reading at the last (untrimmed) stream record, which is the
+    oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data
+    retention. Stream records whose age exceeds this limit are subject to removal
+    (trimming) from the stream.
+  - `LATEST` - Start reading just after the most recent stream record in the shard, so
+    that you always read the most recent data in the shard.
+
 - `stream_arn`: The Amazon Resource Name (ARN) for the stream.
 
 # Optional Parameters
@@ -157,6 +163,7 @@ function get_shard_iterator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_shard_iterator(
     ShardId,
     ShardIteratorType,
@@ -198,8 +205,8 @@ that table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ExclusiveStartStreamArn"`: The ARN (Amazon Resource Name) of the first item that this
-  operation will evaluate. Use the value that was returned for `LastEvaluatedStreamArn` in
-  the previous operation.
+  operation will evaluate. Use the value that was returned for `LastEvaluatedStreamArn`
+  in the previous operation.
 - `"Limit"`: The maximum number of streams to return. The upper limit is 100.
 - `"TableName"`: If this parameter is provided, then only the streams associated with this
   table name are returned.
@@ -209,6 +216,7 @@ function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -19,8 +19,8 @@ Creates a cell in an account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"cells"`: A list of cell Amazon Resource Names (ARNs) contained within this cell, for
-  use in nested cells. For example, Availability Zones within specific Amazon Web Services
-  Regions.
+  use in nested cells. For example, Availability Zones within specific Amazon Web
+  Services Regions.
 - `"tags"`:
 """
 function create_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
@@ -32,6 +32,7 @@ function create_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cell(
     cellName,
     params::AbstractDict{String};
@@ -71,6 +72,7 @@ function create_cross_account_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cross_account_authorization(
     crossAccountAuthorization,
     params::AbstractDict{String};
@@ -124,6 +126,7 @@ function create_readiness_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_readiness_check(
     readinessCheckName,
     resourceSetName,
@@ -177,6 +180,7 @@ function create_recovery_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recovery_group(
     recoveryGroupName,
     params::AbstractDict{String};
@@ -242,6 +246,7 @@ function create_resource_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_set(
     resourceSetName,
     resourceSetType,
@@ -286,6 +291,7 @@ function delete_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cell(
     cellName,
     params::AbstractDict{String};
@@ -320,6 +326,7 @@ function delete_cross_account_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cross_account_authorization(
     crossAccountAuthorization,
     params::AbstractDict{String};
@@ -354,6 +361,7 @@ function delete_readiness_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_readiness_check(
     readinessCheckName,
     params::AbstractDict{String};
@@ -388,6 +396,7 @@ function delete_recovery_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recovery_group(
     recoveryGroupName,
     params::AbstractDict{String};
@@ -422,6 +431,7 @@ function delete_resource_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_set(
     resourceSetName,
     params::AbstractDict{String};
@@ -464,6 +474,7 @@ function get_architecture_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_architecture_recommendations(
     recoveryGroupName,
     params::AbstractDict{String};
@@ -495,6 +506,7 @@ function get_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/cells/$(cellName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_cell(
     cellName,
     params::AbstractDict{String};
@@ -537,6 +549,7 @@ function get_cell_readiness_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cell_readiness_summary(
     cellName,
     params::AbstractDict{String};
@@ -571,6 +584,7 @@ function get_readiness_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_readiness_check(
     readinessCheckName,
     params::AbstractDict{String};
@@ -619,6 +633,7 @@ function get_readiness_check_resource_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_readiness_check_resource_status(
     readinessCheckName,
     resourceIdentifier,
@@ -663,6 +678,7 @@ function get_readiness_check_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_readiness_check_status(
     readinessCheckName,
     params::AbstractDict{String};
@@ -697,6 +713,7 @@ function get_recovery_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recovery_group(
     recoveryGroupName,
     params::AbstractDict{String};
@@ -739,6 +756,7 @@ function get_recovery_group_readiness_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recovery_group_readiness_summary(
     recoveryGroupName,
     params::AbstractDict{String};
@@ -773,6 +791,7 @@ function get_resource_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_set(
     resourceSetName,
     params::AbstractDict{String};
@@ -805,6 +824,7 @@ function list_cells(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/cells"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cells(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -836,6 +856,7 @@ function list_cross_account_authorizations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cross_account_authorizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -866,6 +887,7 @@ function list_readiness_checks(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/readinesschecks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_readiness_checks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -896,6 +918,7 @@ function list_recovery_groups(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/recoverygroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recovery_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -926,6 +949,7 @@ function list_resource_sets(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/resourcesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resource_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -957,6 +981,7 @@ function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -985,6 +1010,7 @@ function list_tags_for_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resources(
     resource_arn,
     params::AbstractDict{String};
@@ -1021,6 +1047,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -1058,6 +1085,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -1094,6 +1122,7 @@ function update_cell(cellName, cells; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cell(
     cellName,
     cells,
@@ -1131,6 +1160,7 @@ function update_readiness_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_readiness_check(
     readinessCheckName,
     resourceSetName,
@@ -1173,6 +1203,7 @@ function update_recovery_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recovery_group(
     cells,
     recoveryGroupName,
@@ -1223,6 +1254,7 @@ function update_resource_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_set(
     resourceSetName,
     resourceSetType,

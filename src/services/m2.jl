@@ -25,6 +25,7 @@ function cancel_batch_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_batch_job_execution(
     applicationId,
     executionId,
@@ -66,8 +67,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the application.
 - `"kmsKeyId"`: The identifier of a customer managed key.
 - `"roleArn"`: The Amazon Resource Name (ARN) that identifies a role that the application
-  uses to access Amazon Web Services resources that are not part of the application or are
-  in a different Amazon Web Services account.
+  uses to access Amazon Web Services resources that are not part of the application or
+  are in a different Amazon Web Services account.
 - `"tags"`: A list of tags to apply to the application.
 """
 function create_application(
@@ -86,6 +87,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     definition,
     engineType,
@@ -129,7 +131,7 @@ Starts a data set import task for a specific application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
+- `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request to create a data set import. The service generates the clientToken when
   the API call is triggered. The token expires after one hour, so if you retry the API
   within this timeframe with the same clientToken, you will get the same response. The
@@ -146,6 +148,7 @@ function create_data_set_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_set_import_task(
     applicationId,
     importConfig,
@@ -187,10 +190,10 @@ Creates and starts a deployment to deploy an application into a runtime environm
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
-  of the request to create a deployment. The service generates the clientToken when the API
-  call is triggered. The token expires after one hour, so if you retry the API within this
-  timeframe with the same clientToken, you will get the same response. The service also
-  handles deleting the clientToken after it expires.
+  of the request to create a deployment. The service generates the clientToken when the
+  API call is triggered. The token expires after one hour, so if you retry the API within
+  this timeframe with the same clientToken, you will get the same response. The service
+  also handles deleting the clientToken after it expires.
 """
 function create_deployment(
     applicationId,
@@ -210,6 +213,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     applicationId,
     applicationVersion,
@@ -263,11 +267,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   runtime environment.
 - `"kmsKeyId"`: The identifier of a customer managed key.
 - `"preferredMaintenanceWindow"`: Configures the maintenance window that you want for the
-  runtime environment. The maintenance window must have the format `ddd:hh24:mi-
-  ddd:hh24:mi` and must be less than 24 hours. The following two examples are valid
-  maintenance windows: `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
+  runtime environment. The maintenance window must have the format
+  `ddd:hh24:mi-ddd:hh24:mi` and must be less than 24 hours. The following two examples
+  are valid maintenance windows: `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
 
-If you do not provide a value, a random system-generated value will be assigned.
+  If you do not provide a value, a random system-generated value will be assigned.
 - `"publiclyAccessible"`: Specifies whether the runtime environment is publicly accessible.
 - `"securityGroupIds"`: The list of security groups for the VPC associated with this
   runtime environment.
@@ -292,6 +296,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     engineType,
     instanceType,
@@ -339,6 +344,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -378,6 +384,7 @@ function delete_application_from_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_from_environment(
     applicationId,
     environmentId,
@@ -415,6 +422,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     environmentId,
     params::AbstractDict{String};
@@ -447,6 +455,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -482,6 +491,7 @@ function get_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_version(
     applicationId,
     applicationVersion,
@@ -518,6 +528,7 @@ function get_batch_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_batch_job_execution(
     applicationId,
     executionId,
@@ -555,6 +566,7 @@ function get_data_set_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_set_details(
     applicationId,
     dataSetName,
@@ -574,13 +586,14 @@ end
     get_data_set_import_task(application_id, task_id)
     get_data_set_import_task(application_id, task_id, params::Dict{String,<:Any})
 
-Gets the status of a data set import task initiated with the <a>CreateDataSetImportTask</a>
+Gets the status of a data set import task initiated with the [`create_data_set_import_task`](@ref)
 operation.
 
 # Arguments
 
 - `application_id`: The application identifier.
-- `task_id`: The task identifier returned by the <a>CreateDataSetImportTask</a> operation.
+- `task_id`: The task identifier returned by the [`create_data_set_import_task`](@ref)
+  operation.
 """
 function get_data_set_import_task(
     applicationId, taskId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -592,6 +605,7 @@ function get_data_set_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_set_import_task(
     applicationId,
     taskId,
@@ -628,6 +642,7 @@ function get_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     applicationId,
     deploymentId,
@@ -661,6 +676,7 @@ function get_environment(environmentId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     environmentId,
     params::AbstractDict{String};
@@ -686,6 +702,7 @@ function get_signed_bluinsights_url(; aws_config::AbstractAWSConfig=current_aws_
         "GET", "/signed-bi-url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_signed_bluinsights_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -727,6 +744,7 @@ function list_application_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_versions(
     applicationId,
     params::AbstractDict{String};
@@ -765,6 +783,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -810,6 +829,7 @@ function list_batch_job_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_batch_job_definitions(
     applicationId,
     params::AbstractDict{String};
@@ -857,6 +877,7 @@ function list_batch_job_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_batch_job_executions(
     applicationId,
     params::AbstractDict{String};
@@ -893,6 +914,7 @@ function list_batch_job_restart_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_batch_job_restart_points(
     applicationId,
     executionId,
@@ -937,6 +959,7 @@ function list_data_set_import_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_set_import_history(
     applicationId,
     params::AbstractDict{String};
@@ -986,6 +1009,7 @@ function list_data_sets(applicationId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sets(
     applicationId,
     params::AbstractDict{String};
@@ -1029,6 +1053,7 @@ function list_deployments(applicationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployments(
     applicationId,
     params::AbstractDict{String};
@@ -1064,6 +1089,7 @@ function list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/engine-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1097,6 +1123,7 @@ function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1129,6 +1156,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1163,6 +1191,7 @@ function start_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application(
     applicationId,
     params::AbstractDict{String};
@@ -1207,6 +1236,7 @@ function start_batch_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_batch_job(
     applicationId,
     batchJobIdentifier,
@@ -1241,8 +1271,9 @@ Stops a running application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"forceStop"`: Stopping an application process can take a long time. Setting this
-  parameter to true lets you force stop the application so you don't need to wait until the
-  process finishes to apply another action on the application. The default value is false.
+  parameter to true lets you force stop the application so you don't need to wait until
+  the process finishes to apply another action on the application. The default value is
+  false.
 """
 function stop_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return m2(
@@ -1252,6 +1283,7 @@ function stop_application(applicationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_application(
     applicationId,
     params::AbstractDict{String};
@@ -1286,6 +1318,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1323,6 +1356,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1370,6 +1404,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     currentApplicationVersion,
@@ -1410,8 +1445,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   during the maintenance window. The default is false. Currently, Amazon Web Services
   Mainframe Modernization accepts the `engineVersion` parameter only if
   `applyDuringMaintenanceWindow` is true. If any parameter other than `engineVersion` is
-  provided in `UpdateEnvironmentRequest`, it will fail if `applyDuringMaintenanceWindow` is
-  set to true.
+  provided in `UpdateEnvironmentRequest`, it will fail if `applyDuringMaintenanceWindow`
+  is set to true.
 - `"desiredCapacity"`: The desired capacity for the runtime environment to update. The
   minimum possible value is 0 and the maximum is 100.
 - `"engineVersion"`: The version of the runtime engine for the runtime environment.
@@ -1423,14 +1458,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applications, and that you might need to perform repair and recovery procedures for the
   applications.
 
-This option is not needed if the attribute being updated is `preferredMaintenanceWindow`.
+  This option is not needed if the attribute being updated is
+  `preferredMaintenanceWindow`.
 - `"instanceType"`: The instance type for the runtime environment to update.
 - `"preferredMaintenanceWindow"`: Configures the maintenance window that you want for the
-  runtime environment. The maintenance window must have the format `ddd:hh24:mi-
-  ddd:hh24:mi` and must be less than 24 hours. The following two examples are valid
-  maintenance windows: `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
+  runtime environment. The maintenance window must have the format
+  `ddd:hh24:mi-ddd:hh24:mi` and must be less than 24 hours. The following two examples
+  are valid maintenance windows: `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
 
-If you do not provide a value, a random system-generated value will be assigned.
+  If you do not provide a value, a random system-generated value will be assigned.
 """
 function update_environment(
     environmentId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1442,6 +1478,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     environmentId,
     params::AbstractDict{String};

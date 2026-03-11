@@ -26,6 +26,7 @@ function cancel_capacity_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_capacity_task(
     CapacityTaskId,
     OutpostId,
@@ -49,7 +50,7 @@ Cancels the specified order for an Outpost.
 
 # Arguments
 
-- `order_id`:  The ID of the order.
+- `order_id`: The ID of the order.
 """
 function cancel_order(OrderId; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
@@ -59,6 +60,7 @@ function cancel_order(OrderId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_order(
     OrderId,
     params::AbstractDict{String};
@@ -82,7 +84,7 @@ Creates an order for an Outpost.
 # Arguments
 
 - `line_items`: The line items that make up the order.
-- `outpost_identifier`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_identifier`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 - `payment_option`: The payment option.
 
 # Optional Parameters
@@ -109,6 +111,7 @@ function create_order(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_order(
     LineItems,
     OutpostIdentifier,
@@ -146,7 +149,7 @@ You can specify either an Availability one or an AZ ID.
 # Arguments
 
 - `name`:
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
 
@@ -155,7 +158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AvailabilityZone"`:
 - `"AvailabilityZoneId"`:
 - `"Description"`:
-- `"SupportedHardwareType"`:  The type of hardware for this Outpost.
+- `"SupportedHardwareType"`: The type of hardware for this Outpost.
 - `"Tags"`: The tags to apply to the Outpost.
 """
 function create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -167,6 +170,7 @@ function create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_outpost(
     Name,
     SiteId,
@@ -188,7 +192,7 @@ end
     create_site(name)
     create_site(name, params::Dict{String,<:Any})
 
- Creates a site for an Outpost.
+Creates a site for an Outpost.
 
 # Arguments
 
@@ -202,14 +206,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Notes"`: Additional information that you provide about site access requirements,
   electrician scheduling, personal protective equipment, or regulation of equipment
   materials that could affect your installation process.
-- `"OperatingAddress"`:  The location to install and power on the hardware. This address
+- `"OperatingAddress"`: The location to install and power on the hardware. This address
   might be different from the shipping address.
-- `"RackPhysicalProperties"`:  Information about the physical and logistical details for
-  the rack at this site. For more information about hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist)
+- `"RackPhysicalProperties"`: Information about the physical and logistical details for the
+  rack at this site. For more information about hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist)
   in the Amazon Web Services Outposts User Guide.
-- `"ShippingAddress"`:  The location to ship the hardware. This address might be different
+- `"ShippingAddress"`: The location to ship the hardware. This address might be different
   from the operating address.
-- `"Tags"`:  The tags to apply to a site.
+- `"Tags"`: The tags to apply to a site.
 """
 function create_site(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
@@ -220,6 +224,7 @@ function create_site(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_site(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -240,7 +245,7 @@ Deletes the specified Outpost.
 
 # Arguments
 
-- `outpost_id`:  The ID or ARN of the Outpost.
+- `outpost_id`: The ID or ARN of the Outpost.
 """
 function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
@@ -250,6 +255,7 @@ function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_outpost(
     OutpostId,
     params::AbstractDict{String};
@@ -272,13 +278,14 @@ Deletes the specified site.
 
 # Arguments
 
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function delete_site(SiteId; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
         "DELETE", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_site(
     SiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -312,6 +319,7 @@ function get_capacity_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_capacity_task(
     CapacityTaskId,
     OutpostId,
@@ -345,6 +353,7 @@ function get_catalog_item(CatalogItemId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_catalog_item(
     CatalogItemId,
     params::AbstractDict{String};
@@ -366,17 +375,18 @@ end
 
 
 !!! note
-    Amazon Web Services uses this action to install Outpost servers.</p> Gets information
-about the specified connection.
+    Amazon Web Services uses this action to install Outpost servers.
 
- <p> Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon
-Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html)
-and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html)
+Gets information about the specified connection.
+
+Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web
+Services Outposts to secure it. For more information, see [Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html)
+and [Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html)
 in the *Amazon Web Services Outposts User Guide*.
 
 # Arguments
 
-- `connection_id`:  The ID of the connection.
+- `connection_id`: The ID of the connection.
 """
 function get_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
@@ -386,6 +396,7 @@ function get_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -415,6 +426,7 @@ function get_order(OrderId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/orders/$(OrderId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_order(
     OrderId,
     params::AbstractDict{String};
@@ -437,7 +449,7 @@ Gets information about the specified Outpost.
 
 # Arguments
 
-- `outpost_id`:  The ID or ARN of the Outpost.
+- `outpost_id`: The ID or ARN of the Outpost.
 """
 function get_outpost(OutpostId; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
@@ -447,6 +459,7 @@ function get_outpost(OutpostId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_outpost(
     OutpostId,
     params::AbstractDict{String};
@@ -469,7 +482,7 @@ Gets the instance types for the specified Outpost.
 
 # Arguments
 
-- `outpost_id`:  The ID or ARN of the Outpost.
+- `outpost_id`: The ID or ARN of the Outpost.
 
 # Optional Parameters
 
@@ -488,6 +501,7 @@ function get_outpost_instance_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_outpost_instance_types(
     OutpostId,
     params::AbstractDict{String};
@@ -533,6 +547,7 @@ function get_outpost_supported_instance_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_outpost_supported_instance_types(
     OrderId,
     OutpostId,
@@ -556,13 +571,14 @@ Gets information about the specified Outpost site.
 
 # Arguments
 
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function get_site(SiteId; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
         "GET", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_site(
     SiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -579,12 +595,12 @@ end
     get_site_address(address_type, site_id)
     get_site_address(address_type, site_id, params::Dict{String,<:Any})
 
- Gets the site address of the specified site.
+Gets the site address of the specified site.
 
 # Arguments
 
 - `address_type`: The type of the address you request.
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function get_site_address(
     AddressType, SiteId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -597,6 +613,7 @@ function get_site_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_site_address(
     AddressType,
     SiteId,
@@ -627,7 +644,7 @@ you specify for the filter.
 
 # Arguments
 
-- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_id`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 
 # Optional Parameters
 
@@ -646,6 +663,7 @@ function list_assets(OutpostId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assets(
     OutpostId,
     params::AbstractDict{String};
@@ -686,6 +704,7 @@ function list_capacity_tasks(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/capacity/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_capacity_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -724,6 +743,7 @@ function list_catalog_items(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/catalog/items"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_catalog_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -748,13 +768,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`:
 - `"NextToken"`:
-- `"OutpostIdentifierFilter"`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `"OutpostIdentifierFilter"`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 """
 function list_orders(; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
         "GET", "/list-orders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_orders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -782,8 +803,8 @@ you specify for the filter.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AvailabilityZoneFilter"`: Filters the results by Availability Zone (for example, `us-
-  east-1a`).
+- `"AvailabilityZoneFilter"`: Filters the results by Availability Zone (for example,
+  `us-east-1a`).
 - `"AvailabilityZoneIdFilter"`: Filters the results by AZ ID (for example, `use1-az1`).
 - `"LifeCycleStatusFilter"`: Filters the results by the lifecycle status.
 - `"MaxResults"`:
@@ -794,6 +815,7 @@ function list_outposts(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/outposts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_outposts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -827,6 +849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_sites(; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts("GET", "/sites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_sites(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -855,6 +878,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -887,8 +911,8 @@ Starts the specified capacity task. You can have one active capacity task for an
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DryRun"`: You can request a dry run to determine if the instance type and instance size
-  changes is above or below available instance capacity. Requesting a dry run does not make
-  any changes to your plan.
+  changes is above or below available instance capacity. Requesting a dry run does not
+  make any changes to your plan.
 """
 function start_capacity_task(
     InstancePools, OrderId, OutpostId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -901,6 +925,7 @@ function start_capacity_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_capacity_task(
     InstancePools,
     OrderId,
@@ -930,26 +955,27 @@ end
 
 
 !!! note
-    Amazon Web Services uses this action to install Outpost servers.</p> Starts the
-connection required for Outpost server installation.
+    Amazon Web Services uses this action to install Outpost servers.
 
- <p> Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon
-Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html)
-and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html)
+Starts the connection required for Outpost server installation.
+
+Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web
+Services Outposts to secure it. For more information, see [Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html)
+and [Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html)
 in the *Amazon Web Services Outposts User Guide*.
 
 # Arguments
 
-- `asset_id`:  The ID of the Outpost server.
-- `client_public_key`:  The public key of the client.
-- `network_interface_device_index`:  The device index of the network interface on the
+- `asset_id`: The ID of the Outpost server.
+- `client_public_key`: The public key of the client.
+- `network_interface_device_index`: The device index of the network interface on the
   Outpost server.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DeviceSerialNumber"`:  The serial number of the dongle.
+- `"DeviceSerialNumber"`: The serial number of the dongle.
 """
 function start_connection(
     AssetId,
@@ -969,6 +995,7 @@ function start_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_connection(
     AssetId,
     ClientPublicKey,
@@ -1015,6 +1042,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1052,6 +1080,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1071,11 +1100,11 @@ end
     update_outpost(outpost_id)
     update_outpost(outpost_id, params::Dict{String,<:Any})
 
- Updates an Outpost.
+Updates an Outpost.
 
 # Arguments
 
-- `outpost_id`:  The ID or ARN of the Outpost.
+- `outpost_id`: The ID or ARN of the Outpost.
 
 # Optional Parameters
 
@@ -1083,7 +1112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`:
 - `"Name"`:
-- `"SupportedHardwareType"`:  The type of hardware for this Outpost.
+- `"SupportedHardwareType"`: The type of hardware for this Outpost.
 """
 function update_outpost(OutpostId; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
@@ -1093,6 +1122,7 @@ function update_outpost(OutpostId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_outpost(
     OutpostId,
     params::AbstractDict{String};
@@ -1115,7 +1145,7 @@ Updates the specified site.
 
 # Arguments
 
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
 
@@ -1130,6 +1160,7 @@ function update_site(SiteId; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_site(
     SiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1156,9 +1187,9 @@ Outposts that belong to the site have been deactivated.
 
 # Arguments
 
-- `address`:  The address for the site.
-- `address_type`:  The type of the address.
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `address`: The address for the site.
+- `address_type`: The type of the address.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function update_site_address(
     Address, AddressType, SiteId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1171,6 +1202,7 @@ function update_site_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_site_address(
     Address,
     AddressType,
@@ -1206,7 +1238,7 @@ complete or cancel the order.
 
 # Arguments
 
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
 
@@ -1217,44 +1249,52 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaximumSupportedWeightLbs"`: The maximum rack weight that this site can support.
   `NO_LIMIT` is over 2000lbs.
 - `"OpticalStandard"`: The type of optical standard that you will use to attach the Outpost
-  to your network. This field is dependent on uplink speed, fiber type, and distance to the
-  upstream device. For more information about networking requirements for racks, see [Network](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#facility-networking)
-  in the Amazon Web Services Outposts User Guide.  - `OPTIC_10GBASE_SR`: 10GBASE-SR
-   - `OPTIC_10GBASE_IR`: 10GBASE-IR
-   - `OPTIC_10GBASE_LR`: 10GBASE-LR
-   - `OPTIC_40GBASE_SR`: 40GBASE-SR
-   - `OPTIC_40GBASE_ESR`: 40GBASE-ESR
-   - `OPTIC_40GBASE_IR4_LR4L`: 40GBASE-IR (LR4L)
-   - `OPTIC_40GBASE_LR4`: 40GBASE-LR4
-   - `OPTIC_100GBASE_SR4`: 100GBASE-SR4
-   - `OPTIC_100GBASE_CWDM4`: 100GBASE-CWDM4
-   - `OPTIC_100GBASE_LR4`: 100GBASE-LR4
-   - `OPTIC_100G_PSM4_MSA`: 100G PSM4 MSA
-   - `OPTIC_1000BASE_LX`: 1000Base-LX
- - `OPTIC_1000BASE_SX` : 1000Base-SX
+  to your network. This field is dependent on uplink speed, fiber type, and distance to
+  the upstream device. For more information about networking requirements for racks, see [Network](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#facility-networking)
+  in the Amazon Web Services Outposts User Guide.
+
+  - `OPTIC_10GBASE_SR`: 10GBASE-SR
+  - `OPTIC_10GBASE_IR`: 10GBASE-IR
+  - `OPTIC_10GBASE_LR`: 10GBASE-LR
+  - `OPTIC_40GBASE_SR`: 40GBASE-SR
+  - `OPTIC_40GBASE_ESR`: 40GBASE-ESR
+  - `OPTIC_40GBASE_IR4_LR4L`: 40GBASE-IR (LR4L)
+  - `OPTIC_40GBASE_LR4`: 40GBASE-LR4
+  - `OPTIC_100GBASE_SR4`: 100GBASE-SR4
+  - `OPTIC_100GBASE_CWDM4`: 100GBASE-CWDM4
+  - `OPTIC_100GBASE_LR4`: 100GBASE-LR4
+  - `OPTIC_100G_PSM4_MSA`: 100G PSM4 MSA
+  - `OPTIC_1000BASE_LX`: 1000Base-LX
+  - `OPTIC_1000BASE_SX` : 1000Base-SX
+
 - `"PowerConnector"`: The power connector that Amazon Web Services should plan to provide
   for connections to the hardware. Note the correlation between `PowerPhase` and
-  `PowerConnector`.  - Single-phase AC feed <ul> <li> **L6-30P** – (common in US); 30A;
-  single phase
-   - **IEC309 (blue)** – P+N+E, 6hr; 32 A; single phase
-   </li> <li>Three-phase AC feed - **AH530P7W (red)** – 3P+N+E, 7hr; 30A; three phase
-   - **AH532P6W (red)** – 3P+N+E, 6hr; 32A; three phase
- </li> </ul>
+  `PowerConnector`.
+
+  - Single-phase AC feed   - **L6-30P** – (common in US); 30A; single phase
+    - **IEC309 (blue)** – P+N+E, 6hr; 32 A; single phase
+  - Three-phase AC feed   - **AH530P7W (red)** – 3P+N+E, 7hr; 30A; three phase
+    - **AH532P6W (red)** – 3P+N+E, 6hr; 32A; three phase
+
 - `"PowerDrawKva"`: The power draw, in kVA, available at the hardware placement position
   for the rack.
 - `"PowerFeedDrop"`: Indicates whether the power feed comes above or below the rack.
-- `"PowerPhase"`: The power option that you can provide for hardware.  - Single-phase AC
-  feed: 200 V to 277 V, 50 Hz or 60 Hz
-   - Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
+- `"PowerPhase"`: The power option that you can provide for hardware.
+
+  - Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz
+  - Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
+
 - `"UplinkCount"`: Racks come with two Outpost network devices. Depending on the supported
   uplink speed at the site, the Outpost network devices provide a variable number of
-  uplinks. Specify the number of uplinks for each Outpost network device that you intend to
-  use to connect the rack to your network. Note the correlation between `UplinkGbps` and
-  `UplinkCount`.  - 1Gbps - Uplinks available: 1, 2, 4, 6, 8
-   - 10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16
-   - 40 and 100 Gbps- Uplinks available: 1, 2, 4
-- `"UplinkGbps"`: The uplink speed the rack should support for the connection to the
-  Region.
+  uplinks. Specify the number of uplinks for each Outpost network device that you intend
+  to use to connect the rack to your network. Note the correlation between `UplinkGbps`
+  and `UplinkCount`.
+
+  - 1Gbps - Uplinks available: 1, 2, 4, 6, 8
+  - 10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16
+  - 40 and 100 Gbps- Uplinks available: 1, 2, 4
+
+- `"UplinkGbps"`: The uplink speed the rack should support for the connection to the Region.
 """
 function update_site_rack_physical_properties(
     SiteId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1266,6 +1306,7 @@ function update_site_rack_physical_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_site_rack_physical_properties(
     SiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

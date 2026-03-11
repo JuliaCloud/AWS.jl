@@ -31,6 +31,7 @@ function assume_role_for_pod_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_role_for_pod_identity(
     clusterName,
     token,

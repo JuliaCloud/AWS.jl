@@ -32,6 +32,7 @@ function batch_get_incident_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_incident_findings(
     findingIds,
     incidentRecordArn,
@@ -84,6 +85,7 @@ function create_replication_set(regions; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_set(
     regions,
     params::AbstractDict{String};
@@ -147,6 +149,7 @@ function create_response_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_response_plan(
     incidentTemplate,
     name,
@@ -228,6 +231,7 @@ function create_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_timeline_event(
     eventData,
     eventTime,
@@ -276,6 +280,7 @@ function delete_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -308,6 +313,7 @@ function delete_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_set(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -344,6 +350,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     policyId,
     resourceArn,
@@ -385,6 +392,7 @@ function delete_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -421,6 +429,7 @@ function delete_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_timeline_event(
     eventId,
     incidentRecordArn,
@@ -463,6 +472,7 @@ function get_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -494,6 +504,7 @@ function get_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_replication_set(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,6 +548,7 @@ function get_resource_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policies(
     resourceArn,
     params::AbstractDict{String};
@@ -572,6 +584,7 @@ function get_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -608,6 +621,7 @@ function get_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_timeline_event(
     eventId,
     incidentRecordArn,
@@ -664,6 +678,7 @@ function list_incident_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_incident_findings(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -694,16 +709,21 @@ Resource Name (ARN) of the incident record you want to update.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: Filters the list of incident records you want to search through. You can
-  filter on the following keys: - `creationTime`
-   - `impact`
-   - `status`
-   - `createdBy`
-  Note the following when when you use Filters: - If you don't specify a Filter, the
-  response includes all incident records.
-   - If you specify more than one filter in a single request, the response returns incident
-  records that match all filters.
-   - If you specify a filter with more than one value, the response returns incident
-  records that match any of the values provided.
+  filter on the following keys:
+
+  - `creationTime`
+  - `impact`
+  - `status`
+  - `createdBy`
+
+  Note the following when when you use Filters:
+
+  - If you don't specify a Filter, the response includes all incident records.
+  - If you specify more than one filter in a single request, the response returns
+    incident records that match all filters.
+  - If you specify a filter with more than one value, the response returns incident
+    records that match any of the values provided.
+
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -716,6 +736,7 @@ function list_incident_records(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_incident_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -758,6 +779,7 @@ function list_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_related_items(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -798,6 +820,7 @@ function list_replication_sets(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_replication_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -829,6 +852,7 @@ function list_response_plans(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/listResponsePlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_response_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -861,6 +885,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -891,15 +916,20 @@ Lists timeline events for the specified incident record.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: Filters the timeline events based on the provided conditional values. You
-  can filter timeline events with the following keys: - `eventReference`
-   - `eventTime`
-   - `eventType`
-  Note the following when deciding how to use Filters: - If you don't specify a Filter, the
-  response includes all timeline events.
-   - If you specify more than one filter in a single request, the response returns timeline
-  events that match all filters.
-   - If you specify a filter with more than one value, the response returns timeline events
-  that match any of the values provided.
+  can filter timeline events with the following keys:
+
+  - `eventReference`
+  - `eventTime`
+  - `eventType`
+
+  Note the following when deciding how to use Filters:
+
+  - If you don't specify a Filter, the response includes all timeline events.
+  - If you specify more than one filter in a single request, the response returns
+    timeline events that match all filters.
+  - If you specify a filter with more than one value, the response returns timeline
+    events that match any of the values provided.
+
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -918,6 +948,7 @@ function list_timeline_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_timeline_events(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -961,6 +992,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     policy,
     resourceArn,
@@ -1004,11 +1036,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   ## Supported impact codes
 
-- `1` - Critical
- - `2` - High
- - `3` - Medium
- - `4` - Low
- - `5` - No Impact
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"relatedItems"`: Add related items to the incident for other responders to use. Related
   items are Amazon Web Services resources, external links, or files uploaded to an Amazon
   S3 bucket.
@@ -1027,6 +1060,7 @@ function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_incident(
     responsePlanArn,
     params::AbstractDict{String};
@@ -1070,6 +1104,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1108,6 +1143,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1158,6 +1194,7 @@ function update_deletion_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deletion_protection(
     arn,
     deletionProtected,
@@ -1208,11 +1245,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   ## Supported impact codes
 
-- `1` - Critical
- - `2` - High
- - `3` - Medium
- - `4` - Low
- - `5` - No Impact
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"notificationTargets"`: The Amazon SNS targets that Incident Manager notifies when a
   client updates an incident.
 
@@ -1231,6 +1269,7 @@ function update_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1286,6 +1325,7 @@ function update_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_related_items(
     incidentRecordArn,
     relatedItemsUpdate,
@@ -1342,6 +1382,7 @@ function update_replication_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_set(
     actions,
     arn,
@@ -1382,7 +1423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"actions"`: The actions that this response plan takes at the beginning of an incident.
 - `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident.
 
-Use the empty structure to remove the chat channel from the response plan.
+  Use the empty structure to remove the chat channel from the response plan.
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"displayName"`: The long format name of the response plan. The display name can't
@@ -1396,11 +1437,12 @@ Use the empty structure to remove the chat channel from the response plan.
 
   ## Supported impact codes
 
-- `1` - Critical
- - `2` - High
- - `3` - Medium
- - `4` - Low
- - `5` - No Impact
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"incidentTemplateNotificationTargets"`: The Amazon SNS targets that are notified when
   updates are made to an incident.
 - `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
@@ -1423,6 +1465,7 @@ function update_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1470,8 +1513,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       This update action overrides all existing references. If you want to keep existing
-  references, you must specify them in the call. If you don't, this action removes any
-  existing references and enters only new references.
+      references, you must specify them in the call. If you don't, this action removes
+      any existing references and enters only new references.
+
 - `"eventTime"`: The timestamp for when the event occurred.
 - `"eventType"`: The type of event. You can update events of type `Custom Event` and `Note`.
 """
@@ -1490,6 +1534,7 @@ function update_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_timeline_event(
     eventId,
     incidentRecordArn,

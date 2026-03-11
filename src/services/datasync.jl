@@ -28,7 +28,7 @@ DataSync Discovery to collect information about.
 
   !!! note
       DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS) and All
-  Flash FAS (AFF) systems running ONTAP 9.7 or later.
+      Flash FAS (AFF) systems running ONTAP 9.7 or later.
 
 # Optional Parameters
 
@@ -62,6 +62,7 @@ function add_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_storage_system(
     AgentArns,
     ClientToken,
@@ -118,6 +119,7 @@ function cancel_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_task_execution(
     TaskExecutionArn,
     params::AbstractDict{String};
@@ -142,13 +144,14 @@ end
 Activates an DataSync agent that you've deployed in your storage environment. The
 activation process associates the agent with your Amazon Web Services account.
 
-If you haven't deployed an agent yet, see the following topics to learn more: - [Agent requirements](https://docs.aws.amazon.com/datasync/latest/userguide/agent-requirements.html)
- - [Create an agent](https://docs.aws.amazon.com/datasync/latest/userguide/configure-agent.html)
+If you haven't deployed an agent yet, see the following topics to learn more:
 
+- [Agent requirements](https://docs.aws.amazon.com/datasync/latest/userguide/agent-requirements.html)
+- [Create an agent](https://docs.aws.amazon.com/datasync/latest/userguide/configure-agent.html)
 
 !!! note
     If you're transferring between Amazon Web Services storage services, you don't need a
-DataSync agent.
+    DataSync agent.
 
 # Arguments
 
@@ -175,7 +178,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       The VPC endpoint you use must include the DataSync service name (for example,
-  `com.amazonaws.us-east-2.datasync`).
+      `com.amazonaws.us-east-2.datasync`).
+
 """
 function create_agent(ActivationKey; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
@@ -185,6 +189,7 @@ function create_agent(ActivationKey; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent(
     ActivationKey,
     params::AbstractDict{String};
@@ -233,8 +238,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   into. This only applies when using the location as a transfer destination. For more
   information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
 - `"BlobType"`: Specifies the type of blob that you want your objects or files to be when
-  transferring them into Azure Blob Storage. Currently, DataSync only supports moving data
-  into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
+  transferring them into Azure Blob Storage. Currently, DataSync only supports moving
+  data into Azure Blob Storage as block blobs. For more information on blob types, see
+  the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
 - `"SasConfiguration"`: Specifies the SAS configuration that allows DataSync to access your
   Azure Blob Storage.
 - `"Subdirectory"`: Specifies path segments if you want to limit your transfer to a virtual
@@ -260,6 +266,7 @@ function create_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_azure_blob(
     AgentArns,
     AuthenticationType,
@@ -309,16 +316,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FileSystemAccessRoleArn"`: Specifies an Identity and Access Management (IAM) role that
   DataSync assumes when mounting the Amazon EFS file system.
 - `"InTransitEncryption"`: Specifies whether you want DataSync to use Transport Layer
-  Security (TLS) 1.2 encryption when it copies data to or from the Amazon EFS file system.
+  Security (TLS) 1.2 encryption when it copies data to or from the Amazon EFS file
+  system.
 
   If you specify an access point using `AccessPointArn` or an IAM role using
   `FileSystemAccessRoleArn`, you must set this parameter to `TLS1_2`.
 - `"Subdirectory"`: Specifies a mount path for your Amazon EFS file system. This is where
-  DataSync reads or writes data (depending on if this is a source or destination location).
-  By default, DataSync uses the root directory, but you can also include subdirectories.
+  DataSync reads or writes data (depending on if this is a source or destination
+  location). By default, DataSync uses the root directory, but you can also include
+  subdirectories.
 
   !!! note
       You must specify a value with forward slashes (for example, `/path/to/folder`).
+
 - `"Tags"`: Specifies the key-value pair that represents a tag that you want to add to the
   resource. The value can be an empty string. This value helps you manage, filter, and
   search for your resources. We recommend that you create a name tag for your location.
@@ -333,6 +343,7 @@ function create_location_efs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_efs(
     Ec2Config,
     EfsFilesystemArn,
@@ -375,8 +386,8 @@ Before you begin, make sure that you understand how DataSync [accesses FSx for L
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Subdirectory"`: A subdirectory in the location's path. This subdirectory in the FSx for
-  Lustre file system is used to read data from the FSx for Lustre source location or write
-  data to the FSx for Lustre destination.
+  Lustre file system is used to read data from the FSx for Lustre source location or
+  write data to the FSx for Lustre destination.
 - `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
   The value can be an empty string. This value helps you manage, filter, and search for
   your resources. We recommend that you create a name tag for your location.
@@ -393,6 +404,7 @@ function create_location_fsx_lustre(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_lustre(
     FsxFilesystemArn,
     SecurityGroupArns,
@@ -431,9 +443,12 @@ Before you begin, make sure that you understand how DataSync [accesses FSx for O
 - `security_group_arns`: Specifies the Amazon EC2 security groups that provide access to
   your file system's preferred subnet.
 
-  The security groups must allow outbound traffic on the following ports (depending on the
-  protocol you use): - **Network File System (NFS)**: TCP ports 111, 635, and 2049
-   - **Server Message Block (SMB)**: TCP port 445
+  The security groups must allow outbound traffic on the following ports (depending on
+  the protocol you use):
+
+  - **Network File System (NFS)**: TCP ports 111, 635, and 2049
+  - **Server Message Block (SMB)**: TCP port 445
+
   Your file system's security groups must also allow inbound traffic on the same ports.
 - `storage_virtual_machine_arn`: Specifies the ARN of the storage virtual machine (SVM) in
   your file system where you want to copy data to or from.
@@ -451,7 +466,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Don't specify a junction path in the SVM's root volume. For more information, see [Managing FSx for ONTAP storage virtual machines](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html)
-  in the *Amazon FSx for NetApp ONTAP User Guide*.
+      in the *Amazon FSx for NetApp ONTAP User Guide*.
+
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your location.
 """
@@ -472,6 +488,7 @@ function create_location_fsx_ontap(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_ontap(
     Protocol,
     SecurityGroupArns,
@@ -507,8 +524,8 @@ this location as a source or destination for transferring data.
 Before you begin, make sure that you understand how DataSync [accesses FSx for OpenZFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html#create-openzfs-access).
 
 !!! note
-    Request parameters related to `SMB` aren't supported with the
-`CreateLocationFsxOpenZfs` operation.
+    Request parameters related to `SMB` aren't supported with the [`create_location_fsx_open_zfs`](@ref)
+    operation.
 
 # Arguments
 
@@ -545,6 +562,7 @@ function create_location_fsx_open_zfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_open_zfs(
     FsxFilesystemArn,
     Protocol,
@@ -589,11 +607,13 @@ Before you begin, make sure that you understand how DataSync [accesses FSx for W
   your file system's preferred subnet.
 
   !!! note
-      If you choose a security group that doesn't allow connections from within itself, do
-  one of the following: - Configure the security group to allow it to communicate within
-  itself.
-   - Choose a different security group that can communicate with the mount target's
-  security group.
+      If you choose a security group that doesn't allow connections from within itself,
+      do one of the following:
+
+      - Configure the security group to allow it to communicate within itself.
+      - Choose a different security group that can communicate with the mount target's
+        security group.
+
 - `user`: Specifies the user with the permissions to mount and access the files, folders,
   and file metadata in your FSx for Windows File Server file system.
 
@@ -635,6 +655,7 @@ function create_location_fsx_windows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_windows(
     FsxFilesystemArn,
     Password,
@@ -689,24 +710,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BlockSize"`: The size of data blocks to write into the HDFS cluster. The block size
   must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
 - `"KerberosKeytab"`: The Kerberos key table (keytab) that contains mappings between the
-  defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
-  providing the file's address. If you're using the CLI, it performs base64 encoding for
-  you. Otherwise, provide the base64-encoded text.
+  defined Kerberos principal and the encrypted keys. You can load the keytab from a file
+  by providing the file's address. If you're using the CLI, it performs base64 encoding
+  for you. Otherwise, provide the base64-encoded text.
 
   !!! note
       If `KERBEROS` is specified for `AuthenticationType`, this parameter is required.
+
 - `"KerberosKrb5Conf"`: The `krb5.conf` file that contains the Kerberos configuration
-  information. You can load the `krb5.conf` file by providing the file's address. If you're
-  using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-
-  encoded text.
+  information. You can load the `krb5.conf` file by providing the file's address. If
+  you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the
+  base64-encoded text.
 
   !!! note
       If `KERBEROS` is specified for `AuthenticationType`, this parameter is required.
+
 - `"KerberosPrincipal"`: The Kerberos principal with access to the files and folders on the
   HDFS cluster.
 
   !!! note
       If `KERBEROS` is specified for `AuthenticationType`, this parameter is required.
+
 - `"KmsKeyProviderUri"`: The URI of the HDFS cluster's Key Management Server (KMS).
 - `"QopConfiguration"`: The Quality of Protection (QOP) configuration specifies the Remote
   Procedure Call (RPC) and data transfer protection settings configured on the Hadoop
@@ -719,9 +743,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If `SIMPLE` is specified for `AuthenticationType`, this parameter is required.
+
 - `"Subdirectory"`: A subdirectory in the HDFS cluster. This subdirectory is used to read
-  data from or write data to the HDFS cluster. If the subdirectory isn't specified, it will
-  default to `/`.
+  data from or write data to the HDFS cluster. If the subdirectory isn't specified, it
+  will default to `/`.
 - `"Tags"`: The key-value pair that represents the tag that you want to add to the
   location. The value can be an empty string. We recommend using tags to name your
   resources.
@@ -743,6 +768,7 @@ function create_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_hdfs(
     AgentArns,
     AuthenticationType,
@@ -779,7 +805,7 @@ Before you begin, make sure that you understand how DataSync [accesses NFS file 
 
 !!! note
     If you're copying data to or from an Snowcone device, you can also use
-`CreateLocationNfs` to create your transfer location. For more information, see [Configuring transfers with Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html).
+    `CreateLocationNfs` to create your transfer location. For more information, see [Configuring transfers with Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html).
 
 # Arguments
 
@@ -821,6 +847,7 @@ function create_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_nfs(
     OnPremConfig,
     ServerHostname,
@@ -874,20 +901,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required to authenticate with the object storage server.
 - `"ServerCertificate"`: Specifies a certificate chain for DataSync to authenticate with
   your object storage system if the system uses a private or self-signed certificate
-  authority (CA). You must specify a single `.pem` file with a full certificate chain (for
-  example, `file:///home/user/.ssh/object_storage_certificates.pem`).
+  authority (CA). You must specify a single `.pem` file with a full certificate chain
+  (for example, `file:///home/user/.ssh/object_storage_certificates.pem`).
 
-  The certificate chain might include:</p> - The object storage system's certificate
-   - All intermediate certificates (if there are any)
-   - The root certificate of the signing CA
-  You can concatenate your certificates into a `.pem` file (which can be up to 32768 bytes
-  before base64 encoding). The following example `cat` command creates an
+  The certificate chain might include:
+
+  - The object storage system's certificate
+  - All intermediate certificates (if there are any)
+  - The root certificate of the signing CA
+
+  You can concatenate your certificates into a `.pem` file (which can be up to 32768
+  bytes before base64 encoding). The following example `cat` command creates an
   `object_storage_certificates.pem` file that includes three certificates:
 
-   `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem
-  &gt; object_storage_certificates.pem`
+  `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem &gt; object_storage_certificates.pem`
 
- <p>To use this parameter, configure `ServerProtocol` to `HTTPS`.
+  To use this parameter, configure `ServerProtocol` to `HTTPS`.
 - `"ServerPort"`: Specifies the port that your object storage server accepts inbound
   network traffic on (for example, port 443).
 - `"ServerProtocol"`: Specifies the protocol that your object storage server uses to
@@ -916,6 +945,7 @@ function create_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_object_storage(
     AgentArns,
     BucketName,
@@ -949,15 +979,18 @@ Creates a transfer *location* for an Amazon S3 bucket. DataSync can use this loc
 source or destination for transferring data.
 
 !!! important
-    Before you begin, make sure that you read the following topics: - [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes)
- - [Evaluating S3 request costs when using DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
- For more information, see [Configuring transfers with Amazon S3](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html).
+    Before you begin, make sure that you read the following topics:
+
+    - [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes)
+    - [Evaluating S3 request costs when using DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
+
+For more information, see [Configuring transfers with Amazon S3](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html).
 
 # Arguments
 
 - `s3_bucket_arn`: Specifies the ARN of the S3 bucket that you want to use as a location.
-  (When creating your DataSync task later, you specify whether this location is a transfer
-  source or destination.)
+  (When creating your DataSync task later, you specify whether this location is a
+  transfer source or destination.)
 
   If your S3 bucket is located on an Outposts resource, you must specify an Amazon S3
   access point. For more information, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html)
@@ -975,8 +1008,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3StorageClass"`: Specifies the storage class that you want your objects to use when
   Amazon S3 is a transfer destination.
 
-  For buckets in Amazon Web Services Regions, the storage class defaults to `STANDARD`. For
-  buckets on Outposts, the storage class defaults to `OUTPOSTS`.
+  For buckets in Amazon Web Services Regions, the storage class defaults to `STANDARD`.
+  For buckets on Outposts, the storage class defaults to `OUTPOSTS`.
 
   For more information, see [Storage class considerations with Amazon S3 transfers](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
 - `"Subdirectory"`: Specifies a prefix in the S3 bucket that DataSync reads from or writes
@@ -984,10 +1017,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       DataSync can't transfer objects with a prefix that begins with a slash (`/`) or
-  includes `//`, `/./`, or `/../` patterns. For example: - `/photos`
-   - `photos//2006/January`
- - `photos/./2006/February`
- - `photos/../2006/March`
+      includes `//`, `/./`, or `/../` patterns. For example:
+
+      - `/photos`
+      - `photos//2006/January`
+      - `photos/./2006/February`
+      - `photos/../2006/March`
+
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your transfer
   location.
@@ -1002,6 +1038,7 @@ function create_location_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_s3(
     S3BucketArn,
     S3Config,
@@ -1043,8 +1080,9 @@ Before you begin, make sure that you understand how DataSync [accesses SMB file 
 - `server_hostname`: Specifies the Domain Name Service (DNS) name or IP address of the SMB
   file server that your DataSync agent will mount.
 
-!!! note
-    You can't specify an IP version 6 (IPv6) address.
+  !!! note
+      You can't specify an IP version 6 (IPv6) address.
+
 - `subdirectory`: Specifies the name of the share exported by your SMB file server where
   DataSync will read or write data. You can include a subdirectory in the share path (for
   example, `/path/to/subdirectory`). Make sure that other SMB clients in your network can
@@ -1095,6 +1133,7 @@ function create_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_smb(
     AgentArns,
     Password,
@@ -1135,7 +1174,8 @@ bandwidth limits, scheduling, and more).
 
 !!! important
     If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
-and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
+    and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you
+    begin.
 
 # Arguments
 
@@ -1167,7 +1207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Scheduling your task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
 - `"Tags"`: Specifies the tags that you want to apply to your task.
 
-   *Tags* are key-value pairs that help you manage, filter, and search for your DataSync
+  *Tags* are key-value pairs that help you manage, filter, and search for your DataSync
   resources.
 - `"TaskReportConfig"`: Specifies how you want to configure a task report, which provides
   detailed information about your DataSync transfer. For more information, see [Monitoring your DataSync transfers with task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
@@ -1191,6 +1231,7 @@ function create_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_task(
     DestinationLocationArn,
     SourceLocationArn,
@@ -1226,7 +1267,7 @@ delete the VM or instance from your storage environment or reuse it to [activate
 
 # Arguments
 
-- `agent_arn`: The Amazon Resource Name (ARN) of the agent to delete. Use the `ListAgents`
+- `agent_arn`: The Amazon Resource Name (ARN) of the agent to delete. Use the [`list_agents`](@ref)
   operation to return a list of agents for your account and Amazon Web Services Region.
 """
 function delete_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1237,6 +1278,7 @@ function delete_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -1270,6 +1312,7 @@ function delete_location(LocationArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_location(
     LocationArn,
     params::AbstractDict{String};
@@ -1303,6 +1346,7 @@ function delete_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_task(
     TaskArn,
     params::AbstractDict{String};
@@ -1336,6 +1380,7 @@ function describe_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -1372,6 +1417,7 @@ function describe_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_discovery_job(
     DiscoveryJobArn,
     params::AbstractDict{String};
@@ -1411,6 +1457,7 @@ function describe_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_azure_blob(
     LocationArn,
     params::AbstractDict{String};
@@ -1448,6 +1495,7 @@ function describe_location_efs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_efs(
     LocationArn,
     params::AbstractDict{String};
@@ -1472,8 +1520,7 @@ system is configured.
 
 # Arguments
 
-- `location_arn`: The Amazon Resource Name (ARN) of the FSx for Lustre location to
-  describe.
+- `location_arn`: The Amazon Resource Name (ARN) of the FSx for Lustre location to describe.
 """
 function describe_location_fsx_lustre(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1485,6 +1532,7 @@ function describe_location_fsx_lustre(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_lustre(
     LocationArn,
     params::AbstractDict{String};
@@ -1508,8 +1556,8 @@ Provides details about how an DataSync transfer location for an Amazon FSx for N
 file system is configured.
 
 !!! note
-    If your location uses SMB, the `DescribeLocationFsxOntap` operation doesn't actually
-return a `Password`.
+    If your location uses SMB, the [`describe_location_fsx_ontap`](@ref) operation doesn't
+    actually return a `Password`.
 
 # Arguments
 
@@ -1526,6 +1574,7 @@ function describe_location_fsx_ontap(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_ontap(
     LocationArn,
     params::AbstractDict{String};
@@ -1549,8 +1598,8 @@ Provides details about how an DataSync transfer location for an Amazon FSx for O
 system is configured.
 
 !!! note
-    Response elements related to `SMB` aren't supported with the
-`DescribeLocationFsxOpenZfs` operation.
+    Response elements related to `SMB` aren't supported with the [`describe_location_fsx_open_zfs`](@ref)
+    operation.
 
 # Arguments
 
@@ -1567,6 +1616,7 @@ function describe_location_fsx_open_zfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_open_zfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1604,6 +1654,7 @@ function describe_location_fsx_windows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_windows(
     LocationArn,
     params::AbstractDict{String};
@@ -1640,6 +1691,7 @@ function describe_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_hdfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1677,6 +1729,7 @@ function describe_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_nfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1714,6 +1767,7 @@ function describe_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_object_storage(
     LocationArn,
     params::AbstractDict{String};
@@ -1749,6 +1803,7 @@ function describe_location_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_s3(
     LocationArn,
     params::AbstractDict{String};
@@ -1786,6 +1841,7 @@ function describe_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_smb(
     LocationArn,
     params::AbstractDict{String};
@@ -1823,6 +1879,7 @@ function describe_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -1861,7 +1918,8 @@ Discovery collects about a specific resource in your-premises storage system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EndTime"`: Specifies a time within the total duration that the discovery job ran. To
-  see information gathered during a certain time frame, use this parameter with `StartTime`.
+  see information gathered during a certain time frame, use this parameter with
+  `StartTime`.
 - `"MaxResults"`: Specifies how many results that you want in the response.
 - `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
   list of results in the response.
@@ -1885,6 +1943,7 @@ function describe_storage_system_resource_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system_resource_metrics(
     DiscoveryJobArn,
     ResourceId,
@@ -1950,6 +2009,7 @@ function describe_storage_system_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system_resources(
     DiscoveryJobArn,
     ResourceType,
@@ -1992,6 +2052,7 @@ function describe_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task(
     TaskArn,
     params::AbstractDict{String};
@@ -2027,6 +2088,7 @@ function describe_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task_execution(
     TaskExecutionArn,
     params::AbstractDict{String};
@@ -2081,6 +2143,7 @@ function generate_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_recommendations(
     DiscoveryJobArn,
     ResourceIds,
@@ -2117,9 +2180,9 @@ With pagination, you can reduce the number of agents returned in a response. If 
 truncated list of agents in a response, the response contains a marker that you can specify
 in your next request to fetch the next page of agents.
 
- `ListAgents` is eventually consistent. This means the result of running the operation
-might not reflect that you just created or deleted an agent. For example, if you create an
-agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html)
+`ListAgents` is eventually consistent. This means the result of running the operation might
+not reflect that you just created or deleted an agent. For example, if you create an agent
+with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html)
 and then immediately run `ListAgents`, that agent might not show up in the list right away.
 In situations like this, you can always confirm whether an agent has been created (or
 deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
@@ -2136,6 +2199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2167,6 +2231,7 @@ function list_discovery_jobs(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListDiscoveryJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_discovery_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2199,6 +2264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_locations(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2226,6 +2292,7 @@ function list_storage_systems(; aws_config::AbstractAWSConfig=current_aws_config
         "ListStorageSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_storage_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2263,6 +2330,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2299,6 +2367,7 @@ function list_task_executions(; aws_config::AbstractAWSConfig=current_aws_config
         "ListTaskExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_task_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2319,8 +2388,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: You can use API filters to narrow down the list of resources returned by
   `ListTasks`. For example, to retrieve all tasks on a specific source location, you can
-  use `ListTasks` with filter name `LocationId` and `Operator Equals` with the ARN for the
-  location.
+  use `ListTasks` with filter name `LocationId` and `Operator Equals` with the ARN for
+  the location.
 - `"MaxResults"`: The maximum number of tasks to return.
 - `"NextToken"`: An opaque string that indicates the position at which to begin the next
   list of tasks.
@@ -2328,6 +2397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2358,6 +2428,7 @@ function remove_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -2393,8 +2464,9 @@ operation.
 
   !!! note
       For more accurate recommendations, we recommend a duration of at least 14 days.
-  Longer durations allow time to collect a sufficient number of data points and provide a
-  realistic representation of storage performance and utilization.
+      Longer durations allow time to collect a sufficient number of data points and
+      provide a realistic representation of storage performance and utilization.
+
 - `storage_system_arn`: Specifies the Amazon Resource Name (ARN) of the on-premises storage
   system that you want to run the discovery job on.
 
@@ -2422,6 +2494,7 @@ function start_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_discovery_job(
     ClientToken,
     CollectionDurationMinutes,
@@ -2458,7 +2531,8 @@ There are several phases to a task execution. For more information, see [Task ex
 
 !!! important
     If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
-and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
+    and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you
+    begin.
 
 # Arguments
 
@@ -2483,12 +2557,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with) must have the `iam:PassRole` permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
   policy includes this permission.
 
-To remove a manifest configuration, specify this parameter with an empty value.
+  To remove a manifest configuration, specify this parameter with an empty value.
 - `"OverrideOptions"`:
 - `"Tags"`: Specifies the tags that you want to apply to the Amazon Resource Name (ARN)
   representing the task execution.
 
-   *Tags* are key-value pairs that help you manage, filter, and search for your DataSync
+  *Tags* are key-value pairs that help you manage, filter, and search for your DataSync
   resources.
 - `"TaskReportConfig"`: Specifies how you want to configure a task report, which provides
   detailed information about your DataSync transfer. For more information, see [Monitoring your DataSync transfers with task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
@@ -2497,7 +2571,7 @@ To remove a manifest configuration, specify this parameter with an empty value.
   with) must have the `iam:PassRole` permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
   policy includes this permission.
 
-To remove a task report configuration, specify this parameter as empty.
+  To remove a task report configuration, specify this parameter as empty.
 """
 function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
@@ -2507,6 +2581,7 @@ function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_task_execution(
     TaskArn,
     params::AbstractDict{String};
@@ -2546,6 +2621,7 @@ function stop_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_discovery_job(
     DiscoveryJobArn,
     params::AbstractDict{String};
@@ -2586,6 +2662,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2628,6 +2705,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     Keys,
     ResourceArn,
@@ -2672,6 +2750,7 @@ function update_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -2696,8 +2775,8 @@ Edits a DataSync discovery job configuration.
 # Arguments
 
 - `collection_duration_minutes`: Specifies in minutes how long that you want the discovery
-  job to run. (You can't set this parameter to less than the number of minutes that the job
-  has already run for.)
+  job to run. (You can't set this parameter to less than the number of minutes that the
+  job has already run for.)
 - `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
   you want to update.
 """
@@ -2716,6 +2795,7 @@ function update_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_discovery_job(
     CollectionDurationMinutes,
     DiscoveryJobArn,
@@ -2766,8 +2846,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Azure Blob Storage. DataSync can access blob storage using a shared access signature
   (SAS).
 - `"BlobType"`: Specifies the type of blob that you want your objects or files to be when
-  transferring them into Azure Blob Storage. Currently, DataSync only supports moving data
-  into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
+  transferring them into Azure Blob Storage. Currently, DataSync only supports moving
+  data into Azure Blob Storage as block blobs. For more information on blob types, see
+  the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
 - `"SasConfiguration"`: Specifies the SAS configuration that allows DataSync to access your
   Azure Blob Storage.
 - `"Subdirectory"`: Specifies path segments if you want to limit your transfer to a virtual
@@ -2783,6 +2864,7 @@ function update_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_azure_blob(
     LocationArn,
     params::AbstractDict{String};
@@ -2818,13 +2900,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user.
 - `"BlockSize"`: The size of the data blocks to write into the HDFS cluster.
 - `"KerberosKeytab"`: The Kerberos key table (keytab) that contains mappings between the
-  defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
-  providing the file's address. If you use the CLI, it performs base64 encoding for you.
-  Otherwise, provide the base64-encoded text.
+  defined Kerberos principal and the encrypted keys. You can load the keytab from a file
+  by providing the file's address. If you use the CLI, it performs base64 encoding for
+  you. Otherwise, provide the base64-encoded text.
 - `"KerberosKrb5Conf"`: The `krb5.conf` file that contains the Kerberos configuration
-  information. You can load the `krb5.conf` file by providing the file's address. If you're
-  using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-
-  encoded text.
+  information. You can load the `krb5.conf` file by providing the file's address. If
+  you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the
+  base64-encoded text.
 - `"KerberosPrincipal"`: The Kerberos principal with access to the files and folders on the
   HDFS cluster.
 - `"KmsKeyProviderUri"`: The URI of the HDFS cluster's Key Management Server (KMS).
@@ -2851,6 +2933,7 @@ function update_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_hdfs(
     LocationArn,
     params::AbstractDict{String};
@@ -2902,6 +2985,7 @@ function update_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_nfs(
     LocationArn,
     params::AbstractDict{String};
@@ -2940,22 +3024,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required to authenticate with the object storage server.
 - `"ServerCertificate"`: Specifies a certificate chain for DataSync to authenticate with
   your object storage system if the system uses a private or self-signed certificate
-  authority (CA). You must specify a single `.pem` file with a full certificate chain (for
-  example, `file:///home/user/.ssh/object_storage_certificates.pem`).
+  authority (CA). You must specify a single `.pem` file with a full certificate chain
+  (for example, `file:///home/user/.ssh/object_storage_certificates.pem`).
 
-  The certificate chain might include:</p> - The object storage system's certificate
-   - All intermediate certificates (if there are any)
-   - The root certificate of the signing CA
-  You can concatenate your certificates into a `.pem` file (which can be up to 32768 bytes
-  before base64 encoding). The following example `cat` command creates an
+  The certificate chain might include:
+
+  - The object storage system's certificate
+  - All intermediate certificates (if there are any)
+  - The root certificate of the signing CA
+
+  You can concatenate your certificates into a `.pem` file (which can be up to 32768
+  bytes before base64 encoding). The following example `cat` command creates an
   `object_storage_certificates.pem` file that includes three certificates:
 
-   `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem
-  &gt; object_storage_certificates.pem`
+  `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem &gt; object_storage_certificates.pem`
 
   To use this parameter, configure `ServerProtocol` to `HTTPS`.
 
- <p>Updating this parameter doesn't interfere with tasks that you have in progress.
+  Updating this parameter doesn't interfere with tasks that you have in progress.
 - `"ServerPort"`: Specifies the port that your object storage server accepts inbound
   network traffic on (for example, port 443).
 - `"ServerProtocol"`: Specifies the protocol that your object storage server uses to
@@ -2974,6 +3060,7 @@ function update_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_object_storage(
     LocationArn,
     params::AbstractDict{String};
@@ -3044,6 +3131,7 @@ function update_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_smb(
     LocationArn,
     params::AbstractDict{String};
@@ -3095,6 +3183,7 @@ function update_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -3138,11 +3227,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ManifestConfig"`: Configures a manifest, which is a list of files or objects that you
   want DataSync to transfer. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
 
-  When using this parameter, your caller identity (the IAM role that you're using DataSync
-  with) must have the `iam:PassRole` permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
+  When using this parameter, your caller identity (the IAM role that you're using
+  DataSync with) must have the `iam:PassRole` permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
   policy includes this permission.
 
-To remove a manifest configuration, specify this parameter as empty.
+  To remove a manifest configuration, specify this parameter as empty.
 - `"Name"`: Specifies the name of your task.
 - `"Options"`:
 - `"Schedule"`: Specifies a schedule for when you want your task to run. For more
@@ -3150,11 +3239,11 @@ To remove a manifest configuration, specify this parameter as empty.
 - `"TaskReportConfig"`: Specifies how you want to configure a task report, which provides
   detailed information about your DataSync transfer. For more information, see [Monitoring your DataSync transfers with task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
 
-  When using this parameter, your caller identity (the IAM role that you're using DataSync
-  with) must have the `iam:PassRole` permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
+  When using this parameter, your caller identity (the IAM role that you're using
+  DataSync with) must have the `iam:PassRole` permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
   policy includes this permission.
 
-To remove a task report configuration, specify this parameter as empty.
+  To remove a task report configuration, specify this parameter as empty.
 """
 function update_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
@@ -3164,6 +3253,7 @@ function update_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task(
     TaskArn,
     params::AbstractDict{String};
@@ -3184,8 +3274,8 @@ end
 Updates the configuration of a running DataSync task execution.
 
 !!! note
-    Currently, the only `Option` that you can modify with `UpdateTaskExecution` is ` [BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond)
-`, which throttles bandwidth for a running or queued task execution.
+    Currently, the only `Option` that you can modify with `UpdateTaskExecution` is `[BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond)`,
+    which throttles bandwidth for a running or queued task execution.
 
 # Arguments
 
@@ -3203,6 +3293,7 @@ function update_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task_execution(
     Options,
     TaskExecutionArn,

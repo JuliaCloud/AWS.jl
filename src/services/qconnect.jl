@@ -26,14 +26,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverSideEncryptionConfiguration"`: The configuration information for the customer
   managed key used for encryption.
 
-  The customer managed key must have a policy that allows `kms:CreateGrant`, `
-  kms:DescribeKey`, `kms:Decrypt`, and `kms:GenerateDataKey*` permissions to the IAM
+  The customer managed key must have a policy that allows `kms:CreateGrant`,
+  `kms:DescribeKey`, `kms:Decrypt`, and `kms:GenerateDataKey*` permissions to the IAM
   identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with
   chat, the key policy must also allow `kms:Decrypt`, `kms:GenerateDataKey*`, and
   `kms:DescribeKey` permissions to the `connect.amazonaws.com` service principal.
 
-  For more information about setting up a customer managed key for Amazon Q in Connect, see
-  [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+  For more information about setting up a customer managed key for Amazon Q in Connect,
+  see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_config())
@@ -45,6 +45,7 @@ function create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assistant(
     name,
     type,
@@ -110,6 +111,7 @@ function create_assistant_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assistant_association(
     assistantId,
     association,
@@ -146,8 +148,8 @@ to upload an asset.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
-  the ARN.
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot
+  contain the ARN.
 - `name`: The name of the content. Each piece of content in a knowledge base must have a
   unique name. You can retrieve a piece of content using only its knowledge base and its
   name with the [SearchContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_SearchContent.html)
@@ -163,8 +165,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
-  Amazon Q in Connect, you can store an external version identifier as metadata to utilize
-  for determining drift.
+  Amazon Q in Connect, you can store an external version identifier as metadata to
+  utilize for determining drift.
 - `"overrideLinkOutUri"`: The URI you want to use for the article. If the knowledge base
   has a templateUri, setting this argument overrides it for this piece of content.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
@@ -183,6 +185,7 @@ function create_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_content(
     knowledgeBaseId,
     name,
@@ -219,9 +222,12 @@ After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a
 recommendation to an agent based on the intent that it's detected, it also provides them
 with the option to start the step-by-step guide that you have associated with the content.
 
-Note the following limitations: - You can create only one content association for each
-content resource in a knowledge base.
- - You can associate a step-by-step guide with multiple content resources.
+Note the following limitations:
+
+- You can create only one content association for each content resource in a knowledge
+  base.
+- You can associate a step-by-step guide with multiple content resources.
+
 For more information, see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
 in the *Amazon Connect Administrator Guide*.
 
@@ -260,6 +266,7 @@ function create_content_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_content_association(
     association,
     associationType,
@@ -291,20 +298,22 @@ end
     create_knowledge_base(knowledge_base_type, name)
     create_knowledge_base(knowledge_base_type, name, params::Dict{String,<:Any})
 
-Creates a knowledge base.</p>
+Creates a knowledge base.
 
 !!! note
     When using this API, you cannot reuse [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html)
-DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you
-do, you'll get an `InvalidRequestException` error.
+    DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If
+    you do, you'll get an `InvalidRequestException` error.
 
- <p>For example, you're programmatically managing your external knowledge base, and you
-want to add or remove one of the fields that is being ingested from Salesforce. Do the
-following: 1. Call [DeleteKnowledgeBase](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_DeleteKnowledgeBase.html).
- 2. Call [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html).
- 3. Call [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-to recreate the DataIntegration or a create different one.
- 4. Call CreateKnowledgeBase.
+    For example, you're programmatically managing your external knowledge base, and you
+    want to add or remove one of the fields that is being ingested from Salesforce. Do the
+    following:
+
+    1. Call [DeleteKnowledgeBase](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_DeleteKnowledgeBase.html).2.
+       Call [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html).3.
+       Call [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+       to recreate the DataIntegration or a create different one.4. Call
+       CreateKnowledgeBase.
 
 # Arguments
 
@@ -329,8 +338,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `kms:Decrypt`, and `kms:GenerateDataKey*` permissions to the IAM identity using the key
   to invoke Amazon Q in Connect.
 
-  For more information about setting up a customer managed key for Amazon Q in Connect, see
-  [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+  For more information about setting up a customer managed key for Amazon Q in Connect,
+  see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
 - `"sourceConfiguration"`: The source of the knowledge base content. Only set this argument
   for EXTERNAL knowledge bases.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
@@ -350,6 +359,7 @@ function create_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_knowledge_base(
     knowledgeBaseType,
     name,
@@ -396,10 +406,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-- `"contentType"`: The media type of the quick response content. - Use
-  `application/x.quickresponse;format=plain` for a quick response written in plain text.
-   - Use `application/x.quickresponse;format=markdown` for a quick response written in
-  richtext.
+- `"contentType"`: The media type of the quick response content.
+
+  - Use `application/x.quickresponse;format=plain` for a quick response written in plain
+    text.
+  - Use `application/x.quickresponse;format=markdown` for a quick response written in
+    richtext.
+
 - `"description"`: The description of the quick response.
 - `"groupingConfiguration"`: The configuration information of the user groups that the
   quick response is accessible to.
@@ -424,6 +437,7 @@ function create_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_quick_response(
     content,
     knowledgeBaseId,
@@ -484,6 +498,7 @@ function create_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_session(
     assistantId,
     name,
@@ -524,6 +539,7 @@ function delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assistant(
     assistantId,
     params::AbstractDict{String};
@@ -561,6 +577,7 @@ function delete_assistant_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assistant_association(
     assistantAssociationId,
     assistantId,
@@ -599,6 +616,7 @@ function delete_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_content(
     contentId,
     knowledgeBaseId,
@@ -643,6 +661,7 @@ function delete_content_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_content_association(
     contentAssociationId,
     contentId,
@@ -680,6 +699,7 @@ function delete_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_import_job(
     importJobId,
     knowledgeBaseId,
@@ -703,11 +723,12 @@ Deletes the knowledge base.
 
 !!! note
     When you use this API to delete an external knowledge base such as Salesforce or
-ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html)
-DataIntegration. This is because you can't reuse the DataIntegration after it's been
-associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html)
-and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-in the *Amazon AppIntegrations API Reference*.
+    ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html)
+    DataIntegration. This is because you can't reuse the DataIntegration after it's been
+    associated with an external knowledge base. However, you can delete and recreate it.
+    See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html)
+    and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    in the *Amazon AppIntegrations API Reference*.
 
 # Arguments
 
@@ -724,6 +745,7 @@ function delete_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -760,6 +782,7 @@ function delete_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -794,6 +817,7 @@ function get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assistant(
     assistantId,
     params::AbstractDict{String};
@@ -831,6 +855,7 @@ function get_assistant_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assistant_association(
     assistantAssociationId,
     assistantId,
@@ -857,8 +882,8 @@ Retrieves content, including a pre-signed URL to download the content.
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
-  the ARN.
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot
+  contain the ARN.
 """
 function get_content(
     contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -870,6 +895,7 @@ function get_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_content(
     contentId,
     knowledgeBaseId,
@@ -914,6 +940,7 @@ function get_content_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_content_association(
     contentAssociationId,
     contentId,
@@ -953,6 +980,7 @@ function get_content_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_content_summary(
     contentId,
     knowledgeBaseId,
@@ -989,6 +1017,7 @@ function get_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_job(
     importJobId,
     knowledgeBaseId,
@@ -1025,6 +1054,7 @@ function get_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1061,6 +1091,7 @@ function get_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -1084,10 +1115,12 @@ end
 
 !!! important
     This API will be discontinued starting June 1, 2024. To receive generative responses
-after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console
-and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your
-applications.Retrieves recommendations for the specified session. To avoid retrieving the
-same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html).
+    after March 1, 2024, you will need to create a new Assistant in the Amazon Connect
+    console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs)
+    into your applications.
+
+Retrieves recommendations for the specified session. To avoid retrieving the same
+recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html).
 This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is
 the default behavior and only returns recommendations already available. To perform a
 manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
@@ -1106,8 +1139,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return per page.
 - `"waitTimeSeconds"`: The duration (in seconds) for which the call waits for a
   recommendation to be made available before returning. If a recommendation is available,
-  the call returns sooner than `WaitTimeSeconds`. If no messages are available and the wait
-  time expires, the call returns successfully with an empty list.
+  the call returns sooner than `WaitTimeSeconds`. If no messages are available and the
+  wait time expires, the call returns successfully with an empty list.
 """
 function get_recommendations(
     assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1119,6 +1152,7 @@ function get_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendations(
     assistantId,
     sessionId,
@@ -1157,6 +1191,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     assistantId,
     sessionId,
@@ -1201,6 +1236,7 @@ function list_assistant_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assistant_associations(
     assistantId,
     params::AbstractDict{String};
@@ -1234,6 +1270,7 @@ function list_assistants(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assistants(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1274,6 +1311,7 @@ function list_content_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_content_associations(
     contentId,
     knowledgeBaseId,
@@ -1298,8 +1336,8 @@ Lists the content.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
-  the ARN.
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot
+  contain the ARN.
 
 # Optional Parameters
 
@@ -1317,6 +1355,7 @@ function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_contents(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1360,6 +1399,7 @@ function list_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_import_jobs(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1393,6 +1433,7 @@ function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_knowledge_bases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1434,6 +1475,7 @@ function list_quick_responses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_quick_responses(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1468,6 +1510,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1513,6 +1556,7 @@ function notify_recommendations_received(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_recommendations_received(
     assistantId,
     recommendationIds,
@@ -1566,6 +1610,7 @@ function put_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_feedback(
     assistantId,
     contentFeedback,
@@ -1601,10 +1646,12 @@ end
 
 !!! important
     This API will be discontinued starting June 1, 2024. To receive generative responses
-after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console
-and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your
-applications.Performs a manual search against the specified assistant. To retrieve
-recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
+    after March 1, 2024, you will need to create a new Assistant in the Amazon Connect
+    console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs)
+    into your applications.
+
+Performs a manual search against the specified assistant. To retrieve recommendations for
+an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
 
 # Arguments
 
@@ -1634,6 +1681,7 @@ function query_assistant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query_assistant(
     assistantId,
     queryText,
@@ -1672,6 +1720,7 @@ function remove_knowledge_base_template_uri(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_knowledge_base_template_uri(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1696,8 +1745,8 @@ resource by its name.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
-  the ARN.
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot
+  contain the ARN.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
@@ -1719,6 +1768,7 @@ function search_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_content(
     knowledgeBaseId,
     searchExpression,
@@ -1748,8 +1798,8 @@ base.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should be a
-  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
-  the ARN.
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot
+  contain the ARN.
 - `search_expression`: The search expression for querying the quick response.
 
 # Optional Parameters
@@ -1773,6 +1823,7 @@ function search_quick_responses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_quick_responses(
     knowledgeBaseId,
     searchExpression,
@@ -1823,6 +1874,7 @@ function search_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_sessions(
     assistantId,
     searchExpression,
@@ -1877,6 +1929,7 @@ function start_content_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_content_upload(
     contentType,
     knowledgeBaseId,
@@ -1900,17 +1953,24 @@ end
 
 Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source
 file. Before calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html)
-to upload an asset that contains the resource data. - For importing Amazon Q in Connect
-quick responses, you need to upload a csv file including the quick responses. For
-information about how to format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
+to upload an asset that contains the resource data.
+
+- For importing Amazon Q in Connect quick responses, you need to upload a csv file
+  including the quick responses. For information about how to format the csv file for
+  importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
 
 # Arguments
 
-- `import_job_type`: The type of the import job. - For importing quick response resource,
-  set the value to `QUICK_RESPONSES`.
+- `import_job_type`: The type of the import job.
+
+  - For importing quick response resource, set the value to `QUICK_RESPONSES`.
+
 - `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN. - For importing Amazon Q in Connect quick responses,
-  this should be a `QUICK_RESPONSES` type knowledge base.
+  ARN. URLs cannot contain the ARN.
+
+  - For importing Amazon Q in Connect quick responses, this should be a `QUICK_RESPONSES`
+    type knowledge base.
+
 - `upload_id`: A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
 
 # Optional Parameters
@@ -1940,6 +2000,7 @@ function start_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import_job(
     importJobType,
     knowledgeBaseId,
@@ -1986,6 +2047,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2023,6 +2085,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2057,8 +2120,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
-  Amazon Q in Connect, you can store an external version identifier as metadata to utilize
-  for determining drift.
+  Amazon Q in Connect, you can store an external version identifier as metadata to
+  utilize for determining drift.
 - `"overrideLinkOutUri"`: The URI for the article. If the knowledge base has a templateUri,
   setting this argument overrides it for this piece of content. To remove an existing
   `overrideLinkOurUri`, exclude this argument and set `removeOverrideLinkOutUri` to true.
@@ -2081,6 +2144,7 @@ function update_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_content(
     contentId,
     knowledgeBaseId,
@@ -2109,8 +2173,8 @@ article, it has an `Id` value, and you can set the template URI to
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
-  the ARN.
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot
+  contain the ARN.
 - `template_uri`: The template URI to update.
 """
 function update_knowledge_base_template_uri(
@@ -2124,6 +2188,7 @@ function update_knowledge_base_template_uri(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_knowledge_base_template_uri(
     knowledgeBaseId,
     templateUri,
@@ -2160,10 +2225,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channels"`: The Amazon Connect contact channels this quick response applies to. The
   supported contact channel types include `Chat`.
 - `"content"`: The updated content of the quick response.
-- `"contentType"`: The media type of the quick response content. - Use
-  `application/x.quickresponse;format=plain` for quick response written in plain text.
-   - Use `application/x.quickresponse;format=markdown` for quick response written in
-  richtext.
+- `"contentType"`: The media type of the quick response content.
+
+  - Use `application/x.quickresponse;format=plain` for quick response written in plain
+    text.
+  - Use `application/x.quickresponse;format=markdown` for quick response written in
+    richtext.
+
 - `"description"`: The updated description of the quick response.
 - `"groupingConfiguration"`: The updated grouping configuration of the quick response.
 - `"isActive"`: Whether the quick response is active.
@@ -2188,6 +2256,7 @@ function update_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -2235,6 +2304,7 @@ function update_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_session(
     assistantId,
     sessionId,

@@ -8,11 +8,13 @@ using AWS.UUIDs
     assign_instance(instance_id, layer_ids)
     assign_instance(instance_id, layer_ids, params::Dict{String,<:Any})
 
-Assign a registered instance to a layer. - You can assign registered on-premises instances
-to any layer type.
- - You can assign registered Amazon EC2 instances only to custom layers.
- - You cannot use this action with instances that were created with OpsWorks Stacks.
- **Required Permissions**: To use this action, an Identity and Access Management (IAM) user
+Assign a registered instance to a layer.
+
+- You can assign registered on-premises instances to any layer type.
+- You can assign registered Amazon EC2 instances only to custom layers.
+- You cannot use this action with instances that were created with OpsWorks Stacks.
+
+**Required Permissions**: To use this action, an Identity and Access Management (IAM) user
 must have a Manage permissions level for the stack or an attached policy that explicitly
 grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -32,6 +34,7 @@ function assign_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_instance(
     InstanceId,
     LayerIds,
@@ -57,11 +60,11 @@ end
     assign_volume(volume_id, params::Dict{String,<:Any})
 
 Assigns one of the stack's registered Amazon EBS volumes to a specified instance. The
-volume must first be registered with the stack by calling <a>RegisterVolume</a>. After you
-register the volume, you must call <a>UpdateVolume</a> to specify a mount point before
-calling `AssignVolume`. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
+volume must first be registered with the stack by calling [`register_volume`](@ref). After
+you register the volume, you must call [`update_volume`](@ref) to specify a mount point
+before calling `AssignVolume`. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -83,6 +86,7 @@ function assign_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -103,10 +107,10 @@ end
     associate_elastic_ip(elastic_ip, params::Dict{String,<:Any})
 
 Associates one of the stack's registered Elastic IP addresses with a specified instance.
-The address must first be registered with the stack by calling <a>RegisterElasticIp</a>.
+The address must first be registered with the stack by calling [`register_elastic_ip`](@ref).
 For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -128,6 +132,7 @@ function associate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -153,7 +158,8 @@ Stacks. For more information, see [Elastic Load Balancing](https://docs.aws.amaz
 
 !!! note
     You must create the Elastic Load Balancing instance separately, by using the Elastic
-Load Balancing console, API, or CLI. For more information, see the [Elastic Load Balancing Developer Guide](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/Welcome.html).
+    Load Balancing console, API, or CLI. For more information, see the [Elastic Load Balancing Developer Guide](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/Welcome.html).
+
 **Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
@@ -176,6 +182,7 @@ function attach_elastic_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_elastic_load_balancer(
     ElasticLoadBalancerName,
     LayerId,
@@ -206,22 +213,23 @@ end
 Creates a clone of a specified stack. For more information, see [Clone a Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-cloning.html).
 By default, all parameters are set to the values used by the parent stack.
 
- **Required Permissions**: To use this action, an IAM user must have an attached policy
-that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have an attached policy that
+explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
 - `service_role_arn`: The stack Identity and Access Management (IAM) role, which allows
   OpsWorks Stacks to work with Amazon Web Services resources on your behalf. You must set
-  this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create
-  a stack by using the OpsWorkss Stacks console, it creates the role for you. You can
-  obtain an existing stack's IAM ARN programmatically by calling
-  <a>DescribePermissions</a>. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
+  this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you
+  create a stack by using the OpsWorkss Stacks console, it creates the role for you. You
+  can obtain an existing stack's IAM ARN programmatically by calling [`describe_permissions`](@ref).
+  For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
 
   !!! note
       You must set this parameter to a valid service role ARN or the action will fail;
-  there is no default value. You can specify the source stack's service role ARN, if you
-  prefer, but you must do so explicitly.
+      there is no default value. You can specify the source stack's service role ARN, if
+      you prefer, but you must do so explicitly.
+
 - `source_stack_id`: The source stack ID.
 
 # Optional Parameters
@@ -229,19 +237,23 @@ that explicitly grants permissions. For more information about user permissions,
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AgentVersion"`: The default OpsWorks Stacks agent version. You have the following
-  options: - Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks automatically
-  installs new agent versions on the stack's instances as soon as they are available.
-   - Fixed version - Set this parameter to your preferred agent version. To update the
-  agent version, you must edit the stack configuration and specify a new version. OpsWorks
-  Stacks automatically installs that version on the stack's instances.
+  options:
+
+  - Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks automatically installs
+    new agent versions on the stack's instances as soon as they are available.
+  - Fixed version - Set this parameter to your preferred agent version. To update the
+    agent version, you must edit the stack configuration and specify a new version.
+    OpsWorks Stacks automatically installs that version on the stack's instances.
+
   The default setting is `LATEST`. To specify an agent version, you must use the complete
-  version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call <a>DescribeAgentVersions</a>. AgentVersion cannot be set to
-  Chef 12.2.
+  version number, not the abbreviated number shown on the console. For a list of
+  available agent version numbers, call [`describe_agent_versions`](@ref). AgentVersion
+  cannot be set to Chef 12.2.
 
   !!! note
       You can also specify an agent version when you create or update an instance, which
-  overrides the stack's default setting.
+      overrides the stack's default setting.
+
 - `"Attributes"`: A list of stack attributes and values as key/value pairs to be added to
   the cloned stack.
 - `"ChefConfiguration"`: A `ChefConfiguration` object that specifies whether to enable
@@ -259,7 +271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the corresponding default stack configuration JSON values. The string should be in the
   following format:
 
-   `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
+  `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
 
   For more information about custom JSON, see [Use Custom JSON to Modify the Stack Configuration Attributes](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html)
 - `"DefaultAvailabilityZone"`: The cloned stack's default Availability Zone, which must be
@@ -267,38 +279,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you also specify a value for `DefaultSubnetId`, the subnet must be in the same zone.
   For more information, see the `VpcId` parameter description.
 - `"DefaultInstanceProfileArn"`: The Amazon Resource Name (ARN) of an IAM profile that is
-  the default profile for all of the stack's EC2 instances. For more information about IAM
-  ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
-- `"DefaultOs"`: The stack's operating system, which must be set to one of the following. -
-  A supported Linux operating system: An Amazon Linux version, such as `Amazon Linux 2`,
-  `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux 2017.03`, `Amazon Linux
-  2016.09`, `Amazon Linux 2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
-   - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
-  `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
-   - `CentOS Linux 7`
-   - `Red Hat Enterprise Linux 7`
-   - `Microsoft Windows Server 2012 R2 Base`, `Microsoft Windows Server 2012 R2 with SQL
-  Server Express`, `Microsoft Windows Server 2012 R2 with SQL Server Standard`, or
-  `Microsoft Windows Server 2012 R2 with SQL Server Web`.
-   - A custom AMI: `Custom`. You specify the custom AMI you want to use when you create
-  instances. For more information about how to use custom AMIs with OpsWorks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
-  The default option is the parent stack's operating system. Not all operating systems are
-  supported with all versions of Chef. For more information about supported operating
+  the default profile for all of the stack's EC2 instances. For more information about
+  IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
+- `"DefaultOs"`: The stack's operating system, which must be set to one of the following.
+
+  - A supported Linux operating system: An Amazon Linux version, such as
+    `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`,
+    `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
+  - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
+    `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+  - `CentOS Linux 7`
+  - `Red Hat Enterprise Linux 7`
+  - `Microsoft Windows Server 2012 R2 Base`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Express`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Standard`, or
+    `Microsoft Windows Server 2012 R2 with SQL Server Web`.
+  - A custom AMI: `Custom`. You specify the custom AMI you want to use when you create
+    instances. For more information about how to use custom AMIs with OpsWorks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
+
+  The default option is the parent stack's operating system. Not all operating systems
+  are supported with all versions of Chef. For more information about supported operating
   systems, see [OpsWorks Stacks Operating Systems](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
 
   !!! note
       You can specify a different Linux operating system for the cloned stack, but you
-  cannot change from Linux to Windows or Windows to Linux.
+      cannot change from Linux to Windows or Windows to Linux.
+
 - `"DefaultRootDeviceType"`: The default root device type. This value is used by default
   for all instances in the cloned stack, but you can override it when you create an
   instance. For more information, see [Storage for the Root Device](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device).
 - `"DefaultSshKeyName"`: A default Amazon EC2 key pair name. The default value is none. If
-  you specify a key pair name, OpsWorks installs the public key on the instance and you can
-  use the private key with an SSH client to log in to the instance. For more information,
-  see [ Using SSH to Communicate with an Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html)
-  and [ Managing SSH Access](https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html).
+  you specify a key pair name, OpsWorks installs the public key on the instance and you
+  can use the private key with an SSH client to log in to the instance. For more
+  information, see [Using SSH to Communicate with an Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html)
+  and [Managing SSH Access](https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html).
   You can override this setting by specifying a different key pair, or no key pair, when
-  you [ create an instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html).
+  you [create an instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html).
 - `"DefaultSubnetId"`: The stack's default VPC subnet ID. This parameter is required if you
   specify a value for the `VpcId` parameter. All instances are launched into this subnet
   unless you specify otherwise when you create the instance. If you also specify a value
@@ -308,19 +325,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HostnameTheme"`: The stack's host name theme, with spaces are replaced by underscores.
   The theme is used to generate host names for the stack's instances. By default,
   `HostnameTheme` is set to `Layer_Dependent`, which creates host names by appending
-  integers to the layer's short name. The other themes are: - `Baked_Goods`
-   - `Clouds`
-   - `Europe_Cities`
-   - `Fruits`
-   - `Greek_Deities_and_Titans`
-   - `Legendary_creatures_from_Japan`
-   - `Planets_and_Moons`
-   - `Roman_Deities`
-   - `Scottish_Islands`
-   - `US_Cities`
-   - `Wild_Cats`
-  To obtain a generated host name, call `GetHostNameSuggestion`, which returns a host name
-  based on the current theme.
+  integers to the layer's short name. The other themes are:
+
+  - `Baked_Goods`
+  - `Clouds`
+  - `Europe_Cities`
+  - `Fruits`
+  - `Greek_Deities_and_Titans`
+  - `Legendary_creatures_from_Japan`
+  - `Planets_and_Moons`
+  - `Roman_Deities`
+  - `Scottish_Islands`
+  - `US_Cities`
+  - `Wild_Cats`
+
+  To obtain a generated host name, call `GetHostNameSuggestion`, which returns a host
+  name based on the current theme.
 - `"Name"`: The cloned stack name. Stack names can be a maximum of 64 characters.
 - `"Region"`: The cloned stack Amazon Web Services Region, such as `ap-northeast-2`. For
   more information about Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
@@ -328,33 +348,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UseOpsworksSecurityGroups"`: Whether to associate the OpsWorks Stacks built-in security
   groups with the stack's layers.
 
-  OpsWorks Stacks provides a standard set of security groups, one for each layer, which are
-  associated with layers by default. With `UseOpsworksSecurityGroups` you can instead
+  OpsWorks Stacks provides a standard set of security groups, one for each layer, which
+  are associated with layers by default. With `UseOpsworksSecurityGroups` you can instead
   provide your own custom security groups. `UseOpsworksSecurityGroups` has the following
-  settings:  - True - OpsWorks Stacks automatically associates the appropriate built-in
-  security group with each layer (default setting). You can associate additional security
-  groups with a layer after you create it but you cannot delete the built-in security
-  group.
-   - False - OpsWorks Stacks does not associate built-in security groups with layers. You
-  must create appropriate Amazon EC2 security groups and associate a security group with
-  each layer that you create. However, you can still manually associate a built-in security
-  group with a layer on creation; custom security groups are required only for those layers
-  that need custom settings.
+  settings:
+
+  - True - OpsWorks Stacks automatically associates the appropriate built-in security
+    group with each layer (default setting). You can associate additional security groups
+    with a layer after you create it but you cannot delete the built-in security group.
+  - False - OpsWorks Stacks does not associate built-in security groups with layers. You
+    must create appropriate Amazon EC2 security groups and associate a security group
+    with each layer that you create. However, you can still manually associate a built-in
+    security group with a layer on creation; custom security groups are required only for
+    those layers that need custom settings.
+
   For more information, see [Create a New Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html).
 - `"VpcId"`: The ID of the VPC that the cloned stack is to be launched into. It must be in
-  the specified region. All instances are launched into this VPC, and you cannot change the
-  ID later.</p> - If your account supports EC2 Classic, the default value is no VPC.
-   - If your account does not support EC2 Classic, the default value is the default VPC for
-  the specified region.
-  If the VPC ID corresponds to a default VPC and you have specified either the
-  `DefaultAvailabilityZone` or the `DefaultSubnetId` parameter only, OpsWorks Stacks infers
-  the value of the other parameter. If you specify neither parameter, OpsWorks Stacks sets
-  these parameters to the first valid Availability Zone for the specified region and the
-  corresponding default VPC subnet ID, respectively.
+  the specified region. All instances are launched into this VPC, and you cannot change
+  the ID later.
 
-   <p>If you specify a nondefault VPC ID, note the following: - It must belong to a VPC in
-  your account that is in the specified region.
-   - You must specify a value for `DefaultSubnetId`.
+  - If your account supports EC2 Classic, the default value is no VPC.
+  - If your account does not support EC2 Classic, the default value is the default VPC
+    for the specified region.
+
+  If the VPC ID corresponds to a default VPC and you have specified either the
+  `DefaultAvailabilityZone` or the `DefaultSubnetId` parameter only, OpsWorks Stacks
+  infers the value of the other parameter. If you specify neither parameter, OpsWorks
+  Stacks sets these parameters to the first valid Availability Zone for the specified
+  region and the corresponding default VPC subnet ID, respectively.
+
+  If you specify a nondefault VPC ID, note the following:
+
+  - It must belong to a VPC in your account that is in the specified region.
+  - You must specify a value for `DefaultSubnetId`.
+
   For more information about how to use OpsWorks Stacks with a VPC, see [Running a Stack in a VPC](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-vpc.html).
   For more information about default VPC and EC2 Classic, see [Supported Platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html).
 """
@@ -370,6 +397,7 @@ function clone_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function clone_stack(
     ServiceRoleArn,
     SourceStackId,
@@ -398,7 +426,7 @@ end
 
 Creates an app for a specified stack. For more information, see [Creating Apps](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -426,7 +454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableSsl"`: Whether to enable SSL for the app.
 - `"Environment"`: An array of `EnvironmentVariable` objects that specify environment
   variables to be associated with the app. After you deploy the app, these variables are
-  defined on the associated app server instance. For more information, see [ Environment Variables](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html#workingapps-creating-environment).
+  defined on the associated app server instance. For more information, see [Environment Variables](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html#workingapps-creating-environment).
 
   There is no specific limit on the number of environment variables. However, the size of
   the associated data structure - which includes the variables' names, values, and
@@ -436,7 +464,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you have specified one or more environment variables, you cannot modify the
-  stack's Chef version.
+      stack's Chef version.
+
 - `"Shortname"`: The app's short name.
 - `"SslConfiguration"`: An `SslConfiguration` object with the SSL configuration.
 """
@@ -448,6 +477,7 @@ function create_app(Name, StackId, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app(
     Name,
     StackId,
@@ -476,7 +506,7 @@ end
 Runs deployment or stack commands. For more information, see [Deploying Apps](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-deploying.html)
 and [Run Stack Commands](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-commands.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Deploy or Manage
+**Required Permissions**: To use this action, an IAM user must have a Deploy or Manage
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -497,7 +527,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to override some corresponding default stack configuration JSON values. The
   string should be in the following format:
 
-   `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
+  `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
 
   For more information about custom JSON, see [Use Custom JSON to Modify the Stack Configuration Attributes](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html)
   and [Overriding Attributes With Custom JSON](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html).
@@ -514,6 +544,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     Command,
     StackId,
@@ -538,7 +569,7 @@ end
 
 Creates an instance in a specified stack. For more information, see [Adding an Instance to a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -557,22 +588,26 @@ information on user permissions, see [Managing User Permissions](https://docs.aw
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AgentVersion"`: The default OpsWorks Stacks agent version. You have the following
-  options: - `INHERIT` - Use the stack's default agent version setting.
-   - *version_number* - Use the specified agent version. This value overrides the stack's
-  default setting. To update the agent version, edit the instance configuration and specify
-  a new version. OpsWorks Stacks installs that version on the instance.
-  The default setting is `INHERIT`. To specify an agent version, you must use the complete
-  version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call <a>DescribeAgentVersions</a>. AgentVersion cannot be set to
-  Chef 12.2.
+  options:
+
+  - `INHERIT` - Use the stack's default agent version setting.
+  - *version_number* - Use the specified agent version. This value overrides the stack's
+    default setting. To update the agent version, edit the instance configuration and
+    specify a new version. OpsWorks Stacks installs that version on the instance.
+
+  The default setting is `INHERIT`. To specify an agent version, you must use the
+  complete version number, not the abbreviated number shown on the console. For a list of
+  available agent version numbers, call [`describe_agent_versions`](@ref). AgentVersion
+  cannot be set to Chef 12.2.
 - `"AmiId"`: A custom AMI ID to be used to create the instance. The AMI should be based on
   one of the supported operating systems. For more information, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
 
-!!! note
-    If you specify a custom AMI, you must set `Os` to `Custom`.
+  !!! note
+      If you specify a custom AMI, you must set `Os` to `Custom`.
+
 - `"Architecture"`: The instance architecture. The default option is `x86_64`. Instance
-  types do not necessarily support both architectures. For a list of the architectures that
-  are supported by the different instance types, see [Instance Families and Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html).
+  types do not necessarily support both architectures. For a list of the architectures
+  that are supported by the different instance types, see [Instance Families and Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html).
 - `"AutoScalingType"`: For load-based or time-based instances, the type. Windows stacks can
   use only time-based instances.
 - `"AvailabilityZone"`: The instance Availability Zone. For more information, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
@@ -581,37 +616,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note that block device mappings are not supported for custom AMIs.
 - `"EbsOptimized"`: Whether to create an Amazon EBS-optimized instance.
 - `"Hostname"`: The instance host name. The following are character limits for instance
-  host names. - Linux-based instances: 63 characters
-   - Windows-based instances: 15 characters
+  host names.
+
+  - Linux-based instances: 63 characters
+  - Windows-based instances: 15 characters
+
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
   the instance boots. The default value is `true`. To control when updates are installed,
-  set this value to `false`. You must then update your instances manually by using
-  <a>CreateDeployment</a> to run the `update_dependencies` stack command or by manually
-  running `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
+  set this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
+  to run the `update_dependencies` stack command or by manually running `yum` (Amazon
+  Linux) or `apt-get` (Ubuntu) on the instances.
 
   !!! note
-      We strongly recommend using the default value of `true` to ensure that your instances
-  have the latest security updates.
-- `"Os"`: The instance's operating system, which must be set to one of the following.</p> -
-  A supported Linux operating system: An Amazon Linux version, such as `Amazon Linux 2`,
-  `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux 2017.03`, `Amazon Linux
-  2016.09`, `Amazon Linux 2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
-   - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
-  `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
-   - `CentOS Linux 7`
-   - `Red Hat Enterprise Linux 7`
-   - A supported Windows operating system, such as `Microsoft Windows Server 2012 R2 Base`,
-  `Microsoft Windows Server 2012 R2 with SQL Server Express`, `Microsoft Windows Server
-  2012 R2 with SQL Server Standard`, or `Microsoft Windows Server 2012 R2 with SQL Server
-  Web`.
-   - A custom AMI: `Custom`.
+      We strongly recommend using the default value of `true` to ensure that your
+      instances have the latest security updates.
+
+- `"Os"`: The instance's operating system, which must be set to one of the following.
+
+  - A supported Linux operating system: An Amazon Linux version, such as
+    `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`,
+    `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
+  - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
+    `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+  - `CentOS Linux 7`
+  - `Red Hat Enterprise Linux 7`
+  - A supported Windows operating system, such as
+    `Microsoft Windows Server 2012 R2 Base`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Express`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Standard`, or
+    `Microsoft Windows Server 2012 R2 with SQL Server Web`.
+  - A custom AMI: `Custom`.
+
   Not all operating systems are supported with all versions of Chef. For more information
   about the supported operating systems, see [OpsWorks Stacks Operating Systems](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
 
-   <p>The default option is the current Amazon Linux version. If you set this parameter to
-  `Custom`, you must use the [`create_instance`](@ref) action's AmiId parameter to specify
-  the custom AMI that you want to use. Block device mappings are not supported if the value
-  is `Custom`. For more information about how to use custom AMIs with OpsWorks Stacks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
+  The default option is the current Amazon Linux version. If you set this parameter to
+  `Custom`, you must use the [`create_instance`](@ref) action's AmiId parameter to
+  specify the custom AMI that you want to use. Block device mappings are not supported if
+  the value is `Custom`. For more information about how to use custom AMIs with OpsWorks
+  Stacks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
 - `"RootDeviceType"`: The instance root device type. For more information, see [Storage for the Root Device](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device).
 - `"SshKeyName"`: The instance's Amazon EC2 key-pair name.
 - `"SubnetId"`: The ID of the instance's subnet. If the stack is running in a VPC, you can
@@ -620,10 +664,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tenancy"`: The instance's tenancy option. The default option is no tenancy, or if the
   instance is running in a VPC, inherit tenancy settings from the VPC. The following are
   valid values for this parameter: `dedicated`, `default`, or `host`. Because there are
-  costs associated with changes in tenancy options, we recommend that you research tenancy
-  options before choosing them for your instances. For more information about dedicated
-  hosts, see [Dedicated Hosts Overview](http://aws.amazon.com/ec2/dedicated-hosts/) and [Amazon EC2 Dedicated Hosts](http://aws.amazon.com/ec2/dedicated-hosts/).
-  For more information about dedicated instances, see [Dedicated Instances](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html)
+  costs associated with changes in tenancy options, we recommend that you research
+  tenancy options before choosing them for your instances. For more information about
+  dedicated hosts, see [Dedicated Hosts Overview](http://aws.amazon.com/ec2/dedicated-hosts/)
+  and [Amazon EC2 Dedicated Hosts](http://aws.amazon.com/ec2/dedicated-hosts/). For more
+  information about dedicated instances, see [Dedicated Instances](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html)
   and [Amazon EC2 Dedicated Instances](http://aws.amazon.com/ec2/purchasing-options/dedicated-instances/).
 - `"VirtualizationType"`: The instance's virtualization type, `paravirtual` or `hvm`.
 """
@@ -639,6 +684,7 @@ function create_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance(
     InstanceType,
     LayerIds,
@@ -672,29 +718,31 @@ Creates a layer. For more information, see [How to Create a Layer](https://docs.
 
 !!! note
     You should use **CreateLayer** for noncustom layer types such as PHP App Server only if
-the stack does not have an existing layer of that type. A stack can have at most one
-instance of each noncustom layer; if you attempt to create a second instance,
-**CreateLayer** fails. A stack can have an arbitrary number of custom layers, so you can
-call **CreateLayer** as many times as you like for that layer type. **Required
-Permissions**: To use this action, an IAM user must have a Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information on
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    the stack does not have an existing layer of that type. A stack can have at most one
+    instance of each noncustom layer; if you attempt to create a second instance,
+    **CreateLayer** fails. A stack can have an arbitrary number of custom layers, so you
+    can call **CreateLayer** as many times as you like for that layer type.
+
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
+level for the stack, or an attached policy that explicitly grants permissions. For more
+information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
 - `name`: The layer name, which is used by the console. Layer names can be a maximum of 32
   characters.
 - `shortname`: For custom layers only, use this parameter to specify the layer's short
-  name, which is used internally by OpsWorks Stacks and by Chef recipes. The short name is
-  also used as the name for the directory where your app files are installed. It can have a
-  maximum of 32 characters, which are limited to the alphanumeric characters, '-', '_', and
-  '.'.
+  name, which is used internally by OpsWorks Stacks and by Chef recipes. The short name
+  is also used as the name for the directory where your app files are installed. It can
+  have a maximum of 32 characters, which are limited to the alphanumeric characters, '-',
+  '_', and '.'.
 
-  Built-in layer short names are defined by OpsWorks Stacks. For more information, see the [Layer Reference](https://docs.aws.amazon.com/opsworks/latest/userguide/layers.html).
+  Built-in layer short names are defined by OpsWorks Stacks. For more information, see
+  the [Layer Reference](https://docs.aws.amazon.com/opsworks/latest/userguide/layers.html).
 - `stack_id`: The layer stack ID.
 - `type`: The layer type. A stack cannot have more than one built-in layer of the same
-  type. It can have any number of custom layers. Built-in layers are not available in Chef
-  12 stacks.
+  type. It can have any number of custom layers. Built-in layers are not available in
+  Chef 12 stacks.
 
 # Optional Parameters
 
@@ -703,31 +751,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Attributes"`: One or more user-defined key-value pairs to be added to the stack
   attributes.
 
-To create a cluster layer, set the `EcsClusterArn` attribute to the cluster's ARN.
+  To create a cluster layer, set the `EcsClusterArn` attribute to the cluster's ARN.
 - `"AutoAssignElasticIps"`: Whether to automatically assign an [Elastic IP address](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)
   to the layer's instances. For more information, see [How to Edit a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html).
 - `"AutoAssignPublicIps"`: For stacks that are running in a VPC, whether to automatically
   assign a public IP address to the layer's instances. For more information, see [How to Edit a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html).
 - `"CloudWatchLogsConfiguration"`: Specifies CloudWatch Logs configuration options for the
-  layer. For more information, see <a>CloudWatchLogsLogStream</a>.
+  layer. For more information, see [`cloud_watch_logs_log_stream`](@ref).
 - `"CustomInstanceProfileArn"`: The ARN of an IAM profile to be used for the layer's EC2
   instances. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
 - `"CustomJson"`: A JSON-formatted string containing custom stack configuration and
-  deployment attributes to be installed on the layer's instances. For more information, see
-  [ Using Custom JSON](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html).
+  deployment attributes to be installed on the layer's instances. For more information,
+  see [Using Custom JSON](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html).
   This feature is supported as of version 1.7.42 of the CLI.
 - `"CustomRecipes"`: A `LayerCustomRecipes` object that specifies the layer custom recipes.
 - `"CustomSecurityGroupIds"`: An array containing the layer custom security group IDs.
 - `"EnableAutoHealing"`: Whether to disable auto healing for the layer.
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
   the instance boots. The default value is `true`. To control when updates are installed,
-  set this value to `false`. You must then update your instances manually by using
-  <a>CreateDeployment</a> to run the `update_dependencies` stack command or by manually
-  running `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
+  set this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
+  to run the `update_dependencies` stack command or by manually running `yum` (Amazon
+  Linux) or `apt-get` (Ubuntu) on the instances.
 
   !!! note
-      To ensure that your instances have the latest security updates, we strongly recommend
-  using the default value of `true`.
+      To ensure that your instances have the latest security updates, we strongly
+      recommend using the default value of `true`.
+
 - `"LifecycleEventConfiguration"`: A `LifeCycleEventConfiguration` object that you can use
   to configure the Shutdown event to specify an execution timeout and enable or disable
   Elastic Load Balancer connection draining.
@@ -748,6 +797,7 @@ function create_layer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_layer(
     Name,
     Shortname,
@@ -781,32 +831,34 @@ end
 
 Creates a new stack. For more information, see [Create a New Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-edit.html).
 
- **Required Permissions**: To use this action, an IAM user must have an attached policy
-that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have an attached policy that
+explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
 - `default_instance_profile_arn`: The Amazon Resource Name (ARN) of an IAM profile that is
-  the default profile for all of the stack's EC2 instances. For more information about IAM
-  ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
+  the default profile for all of the stack's EC2 instances. For more information about
+  IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
 - `name`: The stack name. Stack names can be a maximum of 64 characters.
 - `region`: The stack's Amazon Web Services Region, such as `ap-south-1`. For more
   information about Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
 
   !!! note
-      In the CLI, this API maps to the `--stack-region` parameter. If the `--stack-region`
-  parameter and the CLI common parameter `--region` are set to the same value, the stack
-  uses a *regional* endpoint. If the `--stack-region` parameter is not set, but the CLI `--
-  region` parameter is, this also results in a stack with a *regional* endpoint. However,
-  if the `--region` parameter is set to `us-east-1`, and the `--stack-region` parameter is
-  set to one of the following, then the stack uses a legacy or *classic* region: `us-west-
-  1, us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1, ap-
-  southeast-2`. In this case, the actual API endpoint of the stack is in `us-east-1`. Only
-  the preceding regions are supported as classic regions in the `us-east-1` API endpoint.
-  Because it is a best practice to choose the regional endpoint that is closest to where
-  you manage Amazon Web Services, we recommend that you use regional endpoints for new
-  stacks. The CLI common `--region` parameter always specifies a regional API endpoint; it
-  cannot be used to specify a classic OpsWorks Stacks region.
+      In the CLI, this API maps to the `--stack-region` parameter. If the
+      `--stack-region` parameter and the CLI common parameter `--region` are set to the
+      same value, the stack uses a *regional* endpoint. If the `--stack-region` parameter
+      is not set, but the CLI `--region` parameter is, this also results in a stack with
+      a *regional* endpoint. However, if the `--region` parameter is set to `us-east-1`,
+      and the `--stack-region` parameter is set to one of the following, then the stack
+      uses a legacy or *classic* region:
+      `us-west-1, us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1, ap-southeast-2`.
+      In this case, the actual API endpoint of the stack is in `us-east-1`. Only the
+      preceding regions are supported as classic regions in the `us-east-1` API endpoint.
+      Because it is a best practice to choose the regional endpoint that is closest to
+      where you manage Amazon Web Services, we recommend that you use regional endpoints
+      for new stacks. The CLI common `--region` parameter always specifies a regional API
+      endpoint; it cannot be used to specify a classic OpsWorks Stacks region.
+
 - `service_role_arn`: The stack's IAM role, which allows OpsWorks Stacks to work with
   Amazon Web Services resources on your behalf. You must set this parameter to the Amazon
   Resource Name (ARN) for an existing IAM role. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
@@ -816,19 +868,23 @@ that explicitly grants permissions. For more information about user permissions,
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AgentVersion"`: The default OpsWorks Stacks agent version. You have the following
-  options: - Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks automatically
-  installs new agent versions on the stack's instances as soon as they are available.
-   - Fixed version - Set this parameter to your preferred agent version. To update the
-  agent version, you must edit the stack configuration and specify a new version. OpsWorks
-  Stacks installs that version on the stack's instances.
-  The default setting is the most recent release of the agent. To specify an agent version,
-  you must use the complete version number, not the abbreviated number shown on the
-  console. For a list of available agent version numbers, call
-  <a>DescribeAgentVersions</a>. AgentVersion cannot be set to Chef 12.2.
+  options:
+
+  - Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks automatically installs
+    new agent versions on the stack's instances as soon as they are available.
+  - Fixed version - Set this parameter to your preferred agent version. To update the
+    agent version, you must edit the stack configuration and specify a new version.
+    OpsWorks Stacks installs that version on the stack's instances.
+
+  The default setting is the most recent release of the agent. To specify an agent
+  version, you must use the complete version number, not the abbreviated number shown on
+  the console. For a list of available agent version numbers, call [`describe_agent_versions`](@ref).
+  AgentVersion cannot be set to Chef 12.2.
 
   !!! note
       You can also specify an agent version when you create or update an instance, which
-  overrides the stack's default setting.
+      overrides the stack's default setting.
+
 - `"Attributes"`: One or more user-defined key-value pairs to be added to the stack
   attributes.
 - `"ChefConfiguration"`: A `ChefConfiguration` object that specifies whether to enable
@@ -844,7 +900,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   override the corresponding default stack configuration attribute values or to pass data
   to recipes. The string should be in the following format:
 
-   `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
+  `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
 
   For more information about custom JSON, see [Use Custom JSON to Modify the Stack Configuration Attributes](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html).
 - `"DefaultAvailabilityZone"`: The stack's default Availability Zone, which must be in the
@@ -853,20 +909,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see the `VpcId` parameter description.
 - `"DefaultOs"`: The stack's default operating system, which is installed on every instance
   unless you specify a different operating system when you create the instance. You can
-  specify one of the following. - A supported Linux operating system: An Amazon Linux
-  version, such as `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
-  `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`, `Amazon Linux
-  2015.09`, or `Amazon Linux 2015.03`.
-   - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
-  `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
-   - `CentOS Linux 7`
-   - `Red Hat Enterprise Linux 7`
-   - A supported Windows operating system, such as `Microsoft Windows Server 2012 R2 Base`,
-  `Microsoft Windows Server 2012 R2 with SQL Server Express`, `Microsoft Windows Server
-  2012 R2 with SQL Server Standard`, or `Microsoft Windows Server 2012 R2 with SQL Server
-  Web`.
-   - A custom AMI: `Custom`. You specify the custom AMI you want to use when you create
-  instances. For more information, see [ Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
+  specify one of the following.
+
+  - A supported Linux operating system: An Amazon Linux version, such as
+    `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`,
+    `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
+  - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
+    `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+  - `CentOS Linux 7`
+  - `Red Hat Enterprise Linux 7`
+  - A supported Windows operating system, such as
+    `Microsoft Windows Server 2012 R2 Base`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Express`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Standard`, or
+    `Microsoft Windows Server 2012 R2 with SQL Server Web`.
+  - A custom AMI: `Custom`. You specify the custom AMI you want to use when you create
+    instances. For more information, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
+
   The default option is the current Amazon Linux version. Not all operating systems are
   supported with all versions of Chef. For more information about supported operating
   systems, see [OpsWorks Stacks Operating Systems](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
@@ -874,12 +934,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all instances in the stack, but you can override it when you create an instance. The
   default option is `instance-store`. For more information, see [Storage for the Root Device](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device).
 - `"DefaultSshKeyName"`: A default Amazon EC2 key pair name. The default value is none. If
-  you specify a key pair name, OpsWorks installs the public key on the instance and you can
-  use the private key with an SSH client to log in to the instance. For more information,
-  see [ Using SSH to Communicate with an Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html)
-  and [ Managing SSH Access](https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html).
+  you specify a key pair name, OpsWorks installs the public key on the instance and you
+  can use the private key with an SSH client to log in to the instance. For more
+  information, see [Using SSH to Communicate with an Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html)
+  and [Managing SSH Access](https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html).
   You can override this setting by specifying a different key pair, or no key pair, when
-  you [ create an instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html).
+  you [create an instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html).
 - `"DefaultSubnetId"`: The stack's default VPC subnet ID. This parameter is required if you
   specify a value for the `VpcId` parameter. All instances are launched into this subnet
   unless you specify otherwise when you create the instance. If you also specify a value
@@ -889,50 +949,60 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HostnameTheme"`: The stack's host name theme, with spaces replaced by underscores. The
   theme is used to generate host names for the stack's instances. By default,
   `HostnameTheme` is set to `Layer_Dependent`, which creates host names by appending
-  integers to the layer's short name. The other themes are: - `Baked_Goods`
-   - `Clouds`
-   - `Europe_Cities`
-   - `Fruits`
-   - `Greek_Deities_and_Titans`
-   - `Legendary_creatures_from_Japan`
-   - `Planets_and_Moons`
-   - `Roman_Deities`
-   - `Scottish_Islands`
-   - `US_Cities`
-   - `Wild_Cats`
-  To obtain a generated host name, call `GetHostNameSuggestion`, which returns a host name
-  based on the current theme.
+  integers to the layer's short name. The other themes are:
+
+  - `Baked_Goods`
+  - `Clouds`
+  - `Europe_Cities`
+  - `Fruits`
+  - `Greek_Deities_and_Titans`
+  - `Legendary_creatures_from_Japan`
+  - `Planets_and_Moons`
+  - `Roman_Deities`
+  - `Scottish_Islands`
+  - `US_Cities`
+  - `Wild_Cats`
+
+  To obtain a generated host name, call `GetHostNameSuggestion`, which returns a host
+  name based on the current theme.
 - `"UseCustomCookbooks"`: Whether the stack uses custom cookbooks.
 - `"UseOpsworksSecurityGroups"`: Whether to associate the OpsWorks Stacks built-in security
   groups with the stack's layers.
 
-  OpsWorks Stacks provides a standard set of built-in security groups, one for each layer,
-  which are associated with layers by default. With `UseOpsworksSecurityGroups` you can
-  instead provide your own custom security groups. `UseOpsworksSecurityGroups` has the
-  following settings:  - True - OpsWorks Stacks automatically associates the appropriate
-  built-in security group with each layer (default setting). You can associate additional
-  security groups with a layer after you create it, but you cannot delete the built-in
-  security group.
-   - False - OpsWorks Stacks does not associate built-in security groups with layers. You
-  must create appropriate EC2 security groups and associate a security group with each
-  layer that you create. However, you can still manually associate a built-in security
-  group with a layer on creation; custom security groups are required only for those layers
-  that need custom settings.
+  OpsWorks Stacks provides a standard set of built-in security groups, one for each
+  layer, which are associated with layers by default. With `UseOpsworksSecurityGroups`
+  you can instead provide your own custom security groups. `UseOpsworksSecurityGroups`
+  has the following settings:
+
+  - True - OpsWorks Stacks automatically associates the appropriate built-in security
+    group with each layer (default setting). You can associate additional security groups
+    with a layer after you create it, but you cannot delete the built-in security group.
+  - False - OpsWorks Stacks does not associate built-in security groups with layers. You
+    must create appropriate EC2 security groups and associate a security group with each
+    layer that you create. However, you can still manually associate a built-in security
+    group with a layer on creation; custom security groups are required only for those
+    layers that need custom settings.
+
   For more information, see [Create a New Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html).
 - `"VpcId"`: The ID of the VPC that the stack is to be launched into. The VPC must be in
   the stack's region. All instances are launched into this VPC. You cannot change the ID
-  later.</p> - If your account supports EC2-Classic, the default value is `no VPC`.
-   - If your account does not support EC2-Classic, the default value is the default VPC for
-  the specified region.
-  If the VPC ID corresponds to a default VPC and you have specified either the
-  `DefaultAvailabilityZone` or the `DefaultSubnetId` parameter only, OpsWorks Stacks infers
-  the value of the other parameter. If you specify neither parameter, OpsWorks Stacks sets
-  these parameters to the first valid Availability Zone for the specified region and the
-  corresponding default VPC subnet ID, respectively.
+  later.
 
-   <p>If you specify a nondefault VPC ID, note the following: - It must belong to a VPC in
-  your account that is in the specified region.
-   - You must specify a value for `DefaultSubnetId`.
+  - If your account supports EC2-Classic, the default value is `no VPC`.
+  - If your account does not support EC2-Classic, the default value is the default VPC
+    for the specified region.
+
+  If the VPC ID corresponds to a default VPC and you have specified either the
+  `DefaultAvailabilityZone` or the `DefaultSubnetId` parameter only, OpsWorks Stacks
+  infers the value of the other parameter. If you specify neither parameter, OpsWorks
+  Stacks sets these parameters to the first valid Availability Zone for the specified
+  region and the corresponding default VPC subnet ID, respectively.
+
+  If you specify a nondefault VPC ID, note the following:
+
+  - It must belong to a VPC in your account that is in the specified region.
+  - You must specify a value for `DefaultSubnetId`.
+
   For more information about how to use OpsWorks Stacks with a VPC, see [Running a Stack in a VPC](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-vpc.html).
   For more information about default VPC and EC2-Classic, see [Supported Platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html).
 """
@@ -955,6 +1025,7 @@ function create_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stack(
     DefaultInstanceProfileArn,
     Name,
@@ -988,8 +1059,8 @@ end
 
 Creates a new user profile.
 
- **Required Permissions**: To use this action, an IAM user must have an attached policy
-that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have an attached policy that
+explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
@@ -1012,6 +1083,7 @@ function create_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_profile(
     IamUserArn,
     params::AbstractDict{String};
@@ -1033,7 +1105,7 @@ end
 
 Deletes a specified app.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1049,6 +1121,7 @@ function delete_app(AppId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     AppId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1069,7 +1142,7 @@ stop an instance before you can delete it.
 
 For more information, see [Deleting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-delete.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1092,6 +1165,7 @@ function delete_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -1114,7 +1188,7 @@ end
 Deletes a specified layer. You must first stop and then delete all associated instances or
 unassign registered instances. For more information, see [How to Delete a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-delete.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1130,6 +1204,7 @@ function delete_layer(LayerId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_layer(
     LayerId,
     params::AbstractDict{String};
@@ -1150,7 +1225,7 @@ end
 Deletes a specified stack. You must first delete all instances, layers, and apps or
 deregister registered instances. For more information, see [Shut Down a Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-shutting.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1166,6 +1241,7 @@ function delete_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stack(
     StackId,
     params::AbstractDict{String};
@@ -1185,8 +1261,8 @@ end
 
 Deletes a user profile.
 
- **Required Permissions**: To use this action, an IAM user must have an attached policy
-that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have an attached policy that
+explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
@@ -1200,6 +1276,7 @@ function delete_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_profile(
     IamUserArn,
     params::AbstractDict{String};
@@ -1219,9 +1296,9 @@ end
     deregister_ecs_cluster(ecs_cluster_arn)
     deregister_ecs_cluster(ecs_cluster_arn, params::Dict{String,<:Any})
 
-Deregisters a specified Amazon ECS cluster from a stack. For more information, see [ Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html#workinglayers-ecscluster-delete).
+Deregisters a specified Amazon ECS cluster from a stack. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html#workinglayers-ecscluster-delete).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1239,6 +1316,7 @@ function deregister_ecs_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_ecs_cluster(
     EcsClusterArn,
     params::AbstractDict{String};
@@ -1261,7 +1339,7 @@ end
 Deregisters a specified Elastic IP address. The address can be registered by another stack
 after it is deregistered. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1279,6 +1357,7 @@ function deregister_elastic_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -1302,7 +1381,7 @@ Deregister an instance from OpsWorks Stacks. The instance can be a registered in
 (Amazon EC2 or on-premises) or an instance created with OpsWorks. This action removes the
 instance from the stack and returns it to your control.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1318,6 +1397,7 @@ function deregister_instance(InstanceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -1339,7 +1419,7 @@ end
 
 Deregisters an Amazon RDS instance.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1357,6 +1437,7 @@ function deregister_rds_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_rds_db_instance(
     RdsDbInstanceArn,
     params::AbstractDict{String};
@@ -1381,7 +1462,7 @@ end
 Deregisters an Amazon EBS volume. The volume can then be registered by another stack. For
 more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1399,6 +1480,7 @@ function deregister_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -1434,6 +1516,7 @@ function describe_agent_versions(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAgentVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_agent_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1452,10 +1535,11 @@ end
 Requests a description of a specified set of apps.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -1470,6 +1554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_apps(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks("DescribeApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1485,18 +1570,19 @@ end
 Describes the results of specified commands.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CommandIds"`: An array of command IDs. If you include this parameter,
-  `DescribeCommands` returns a description of the specified commands. Otherwise, it returns
-  a description of every command.
+  `DescribeCommands` returns a description of the specified commands. Otherwise, it
+  returns a description of every command.
 - `"DeploymentId"`: The deployment ID. If you include this parameter, `DescribeCommands`
   returns a description of the commands associated with the specified deployment.
 - `"InstanceId"`: The instance ID. If you include this parameter, `DescribeCommands`
@@ -1507,6 +1593,7 @@ function describe_commands(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeCommands"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_commands(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1522,10 +1609,11 @@ end
 Requests a description of a specified set of deployments.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -1534,8 +1622,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AppId"`: The app ID. If you include this parameter, the command returns a description
   of the commands associated with the specified app.
 - `"DeploymentIds"`: An array of deployment IDs to be described. If you include this
-  parameter, the command returns a description of the specified deployments. Otherwise, it
-  returns a description of every deployment.
+  parameter, the command returns a description of the specified deployments. Otherwise,
+  it returns a description of every deployment.
 - `"StackId"`: The stack ID. If you include this parameter, the command returns a
   description of the commands associated with the specified stack.
 """
@@ -1544,6 +1632,7 @@ function describe_deployments(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1564,7 +1653,7 @@ ID, you can use the `MaxResults` and `NextToken` parameters to paginate the resp
 However, OpsWorks Stacks currently supports only one cluster per layer, so the result set
 has a maximum of one element.
 
- **Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
 Manage permissions level for the stack or an attached policy that explicitly grants
 permission. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1578,12 +1667,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: To receive a paginated response, use this parameter to specify the
   maximum number of results to be returned with a single call. If the number of available
   results exceeds this maximum, the response includes a `NextToken` value that you can
-  assign to the `NextToken` request parameter to get the next set of results.
+  assign to the `next_token` request parameter to get the next set of results.
 - `"NextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's`NextToken` parameter value is set to a token. To retrieve
-  the next set of results, call `DescribeEcsClusters` again and assign that token to the
-  request object's `NextToken` parameter. If there are no remaining results, the previous
-  response object's `NextToken` parameter is set to `null`.
+  results, the response object's`NextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `DescribeEcsClusters` again and assign that
+  token to the request object's `NextToken` parameter. If there are no remaining results,
+  the previous response object's `NextToken` parameter is set to `null`.
 - `"StackId"`: A stack ID. `DescribeEcsClusters` returns a description of the cluster that
   is registered with the stack.
 """
@@ -1592,6 +1681,7 @@ function describe_ecs_clusters(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeEcsClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_ecs_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1610,17 +1700,19 @@ end
 Describes [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html).
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"InstanceId"`: The instance ID. If you include this parameter, `DescribeElasticIps`
-  returns a description of the Elastic IP addresses associated with the specified instance.
+  returns a description of the Elastic IP addresses associated with the specified
+  instance.
 - `"Ips"`: An array of Elastic IP addresses to be described. If you include this parameter,
   `DescribeElasticIps` returns a description of the specified Elastic IP addresses.
   Otherwise, it returns a description of every Elastic IP address.
@@ -1632,6 +1724,7 @@ function describe_elastic_ips(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeElasticIps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_elastic_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1647,10 +1740,11 @@ end
 Describes a stack's Elastic Load Balancing instances.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -1670,6 +1764,7 @@ function describe_elastic_load_balancers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_elastic_load_balancers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1688,10 +1783,11 @@ end
 Requests a description of a set of instances.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -1710,6 +1806,7 @@ function describe_instances(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1725,10 +1822,11 @@ end
 Requests a description of one or more layers in a specified stack.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -1744,6 +1842,7 @@ function describe_layers(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeLayers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_layers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1759,10 +1858,11 @@ end
 Describes load-based auto scaling configurations for specified layers.
 
 !!! note
-    You must specify at least one of the parameters. **Required Permissions**: To use this
-action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or
-an attached policy that explicitly grants permissions. For more information about user
-permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    You must specify at least one of the parameters.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
@@ -1778,6 +1878,7 @@ function describe_load_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_based_auto_scaling(
     LayerIds,
     params::AbstractDict{String};
@@ -1799,15 +1900,16 @@ end
 
 Describes a user's SSH information.
 
- **Required Permissions**: To use this action, an IAM user must have self-management
-enabled or an attached policy that explicitly grants permissions. For more information
-about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have self-management enabled
+or an attached policy that explicitly grants permissions. For more information about user
+permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 """
 function describe_my_user_profile(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeMyUserProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_my_user_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1830,6 +1932,7 @@ function describe_operating_systems(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeOperatingSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_operating_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1847,7 +1950,7 @@ end
 
 Describes the permissions for a specified stack.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1864,6 +1967,7 @@ function describe_permissions(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribePermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1882,10 +1986,11 @@ end
 Describe an instance's RAID arrays.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -1894,8 +1999,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceId"`: The instance ID. If you use this parameter, `DescribeRaidArrays` returns
   descriptions of the RAID arrays associated with the specified instance.
 - `"RaidArrayIds"`: An array of RAID array IDs. If you use this parameter,
-  `DescribeRaidArrays` returns descriptions of the specified arrays. Otherwise, it returns
-  a description of every array.
+  `DescribeRaidArrays` returns descriptions of the specified arrays. Otherwise, it
+  returns a description of every array.
 - `"StackId"`: The stack ID.
 """
 function describe_raid_arrays(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1903,6 +2008,7 @@ function describe_raid_arrays(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeRaidArrays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_raid_arrays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1917,7 +2023,7 @@ end
 
 Describes Amazon RDS instances.
 
- **Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
 Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1944,6 +2050,7 @@ function describe_rds_db_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rds_db_instances(
     StackId,
     params::AbstractDict{String};
@@ -1963,7 +2070,7 @@ end
 
 Describes OpsWorks Stacks service errors.
 
- **Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
 Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -1986,6 +2093,7 @@ function describe_service_errors(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeServiceErrors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_service_errors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2003,7 +2111,7 @@ end
 
 Requests a description of a stack's provisioning parameters.
 
- **Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
 Manage permissions level for the stack or an attached policy that explicitly grants
 permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2021,6 +2129,7 @@ function describe_stack_provisioning_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_provisioning_parameters(
     StackId,
     params::AbstractDict{String};
@@ -2041,7 +2150,7 @@ end
 Describes the number of layers and apps in a specified stack, and the number of instances
 in each state, such as `running_setup` or `online`.
 
- **Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
 Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2057,6 +2166,7 @@ function describe_stack_summary(StackId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_summary(
     StackId,
     params::AbstractDict{String};
@@ -2076,7 +2186,7 @@ end
 
 Requests a description of one or more stacks.
 
- **Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
 Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2086,16 +2196,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"StackIds"`: An array of stack IDs that specify the stacks to be described. If you omit
   this parameter, and have permissions to get information about all stacks,
-  `DescribeStacks` returns a description of every stack. If the IAM policy that is attached
-  to an IAM user limits the `DescribeStacks` action to specific stack ARNs, this parameter
-  is required, and the user must specify a stack ARN that is allowed by the policy.
-  Otherwise, `DescribeStacks` returns an `AccessDenied` error.
+  `DescribeStacks` returns a description of every stack. If the IAM policy that is
+  attached to an IAM user limits the `DescribeStacks` action to specific stack ARNs, this
+  parameter is required, and the user must specify a stack ARN that is allowed by the
+  policy. Otherwise, `DescribeStacks` returns an `AccessDenied` error.
 """
 function describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2111,10 +2222,11 @@ end
 Describes time-based auto scaling configurations for specified instances.
 
 !!! note
-    You must specify at least one of the parameters. **Required Permissions**: To use this
-action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or
-an attached policy that explicitly grants permissions. For more information about user
-permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    You must specify at least one of the parameters.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
@@ -2130,6 +2242,7 @@ function describe_time_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_time_based_auto_scaling(
     InstanceIds,
     params::AbstractDict{String};
@@ -2151,8 +2264,8 @@ end
 
 Describe specified users.
 
- **Required Permissions**: To use this action, an IAM user must have an attached policy
-that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have an attached policy that
+explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -2166,6 +2279,7 @@ function describe_user_profiles(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_user_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2184,10 +2298,11 @@ end
 Describes an instance's Amazon EBS volumes.
 
 !!! note
-    This call accepts only one resource-identifying parameter. **Required Permissions**: To
-use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
-stack, or an attached policy that explicitly grants permissions. For more information about
-user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+    This call accepts only one resource-identifying parameter.
+
+**Required Permissions**: To use this action, an IAM user must have a Show, Deploy, or
+Manage permissions level for the stack, or an attached policy that explicitly grants
+permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -2207,6 +2322,7 @@ function describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_volumes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2221,7 +2337,7 @@ end
 
 Detaches a specified Elastic Load Balancing instance from its layer.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2242,6 +2358,7 @@ function detach_elastic_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_elastic_load_balancer(
     ElasticLoadBalancerName,
     LayerId,
@@ -2272,7 +2389,7 @@ end
 Disassociates an Elastic IP address from its instance. The address remains registered with
 the stack. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2290,6 +2407,7 @@ function disassociate_elastic_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -2311,7 +2429,7 @@ end
 
 Gets a generated host name for the specified layer, based on the current host name theme.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2329,6 +2447,7 @@ function get_hostname_suggestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hostname_suggestion(
     LayerId,
     params::AbstractDict{String};
@@ -2349,8 +2468,9 @@ end
 
 
 !!! note
-    This action can be used only with Windows stacks.Grants RDP access to a Windows
-instance for a specified time period.
+    This action can be used only with Windows stacks.
+
+Grants RDP access to a Windows instance for a specified time period.
 
 # Arguments
 
@@ -2372,6 +2492,7 @@ function grant_access(InstanceId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function grant_access(
     InstanceId,
     params::AbstractDict{String};
@@ -2414,6 +2535,7 @@ function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceArn,
     params::AbstractDict{String};
@@ -2435,7 +2557,7 @@ end
 
 Reboots a specified instance. For more information, see [Starting, Stopping, and Rebooting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-starting.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2451,6 +2573,7 @@ function reboot_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -2471,11 +2594,11 @@ end
     register_ecs_cluster(ecs_cluster_arn, stack_id, params::Dict{String,<:Any})
 
 Registers a specified Amazon ECS cluster with a stack. You can register only one cluster
-with a stack. A cluster can be registered with only one stack. For more information, see [ Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html).
+with a stack. A cluster can be registered with only one stack. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack or an attached policy that explicitly grants permissions. For more
-information on user permissions, see [ Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
@@ -2492,6 +2615,7 @@ function register_ecs_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_ecs_cluster(
     EcsClusterArn,
     StackId,
@@ -2518,9 +2642,9 @@ end
 
 Registers an Elastic IP address with a specified stack. An address can be registered with
 only one stack at a time. If the address is already registered, you must first deregister
-it by calling <a>DeregisterElasticIp</a>. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
+it by calling [`deregister_elastic_ip`](@ref). For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2539,6 +2663,7 @@ function register_elastic_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_elastic_ip(
     ElasticIp,
     StackId,
@@ -2563,23 +2688,23 @@ end
     register_instance(stack_id)
     register_instance(stack_id, params::Dict{String,<:Any})
 
-Registers instances that were created outside of OpsWorks Stacks with a specified
-stack.</p>
+Registers instances that were created outside of OpsWorks Stacks with a specified stack.
 
 !!! note
     We do not recommend using this action to register instances. The complete registration
-operation includes two tasks: installing the OpsWorks Stacks agent on the instance, and
-registering the instance with the stack. `RegisterInstance` handles only the second step.
-You should instead use the CLI `register` command, which performs the entire registration
-operation. For more information, see [ Registering an Instance with an OpsWorks Stacks Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/registered-instances-register.html).Registered
-instances have the same requirements as instances that are created by using the
-<a>CreateInstance</a> API. For example, registered instances must be running a supported
-Linux-based operating system, and they must have a supported instance type. For more
-information about requirements for instances that you want to register, see [ Preparing the Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/registered-instances-register-registering-preparer.html).
+    operation includes two tasks: installing the OpsWorks Stacks agent on the instance, and
+    registering the instance with the stack. `RegisterInstance` handles only the second
+    step. You should instead use the CLI `register` command, which performs the entire
+    registration operation. For more information, see [Registering an Instance with an OpsWorks Stacks Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/registered-instances-register.html).
 
- <p> **Required Permissions**: To use this action, an IAM user must have a Manage
-permissions level for the stack or an attached policy that explicitly grants permissions.
-For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+Registered instances have the same requirements as instances that are created by using the [`create_instance`](@ref)
+API. For example, registered instances must be running a supported Linux-based operating
+system, and they must have a supported instance type. For more information about
+requirements for instances that you want to register, see [Preparing the Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/registered-instances-register-registering-preparer.html).
+
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
+level for the stack or an attached policy that explicitly grants permissions. For more
+information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
@@ -2590,8 +2715,11 @@ For more information on user permissions, see [Managing User Permissions](https:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Hostname"`: The instance's host name. The following are character limits for instance
-  host names. - Linux-based instances: 63 characters
-   - Windows-based instances: 15 characters
+  host names.
+
+  - Linux-based instances: 63 characters
+  - Windows-based instances: 15 characters
+
 - `"InstanceIdentity"`: An InstanceIdentity object that contains the instance's identity.
 - `"PrivateIp"`: The instance's private IP address.
 - `"PublicIp"`: The instance's public IP address.
@@ -2607,6 +2735,7 @@ function register_instance(StackId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_instance(
     StackId,
     params::AbstractDict{String};
@@ -2626,7 +2755,7 @@ end
 
 Registers an Amazon RDS instance with a stack.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2656,6 +2785,7 @@ function register_rds_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_rds_db_instance(
     DbPassword,
     DbUser,
@@ -2689,9 +2819,9 @@ end
 
 Registers an Amazon EBS volume with a specified stack. A volume can be registered with only
 one stack at a time. If the volume is already registered, you must first deregister it by
-calling <a>DeregisterVolume</a>. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
+calling [`deregister_volume`](@ref). For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2713,6 +2843,7 @@ function register_volume(StackId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_volume(
     StackId,
     params::AbstractDict{String};
@@ -2735,8 +2866,10 @@ information, see [Managing Load with Time-based and Load-based Instances](https:
 
 !!! note
     To use load-based auto scaling, you must create a set of load-based auto scaling
-instances. Load-based auto scaling operates only on the instances from that set, so you
-must ensure that you have created enough instances to handle the maximum anticipated load.
+    instances. Load-based auto scaling operates only on the instances from that set, so you
+    must ensure that you have created enough instances to handle the maximum anticipated
+    load.
+
 **Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
@@ -2767,6 +2900,7 @@ function set_load_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_based_auto_scaling(
     LayerId,
     params::AbstractDict{String};
@@ -2786,7 +2920,7 @@ end
 
 Specifies a user's permissions. For more information, see [Security and Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/workingsecurity.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2802,11 +2936,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowSsh"`: The user is allowed to use SSH to communicate with the instance.
 - `"AllowSudo"`: The user is allowed to use **sudo** to elevate privileges.
 - `"Level"`: The user's permission level, which must be set to one of the following
-  strings. You cannot set your own permissions level. - `deny`
-   - `show`
-   - `deploy`
-   - `manage`
-   - `iam_only`
+  strings. You cannot set your own permissions level.
+
+  - `deny`
+  - `show`
+  - `deploy`
+  - `manage`
+  - `iam_only`
+
   For more information about the permissions associated with these levels, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 """
 function set_permission(
@@ -2819,6 +2956,7 @@ function set_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_permission(
     IamUserArn,
     StackId,
@@ -2846,7 +2984,7 @@ end
 Specify the time-based auto scaling configuration for a specified instance. For more
 information, see [Managing Load with Time-based and Load-based Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-autoscaling.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2870,6 +3008,7 @@ function set_time_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_time_based_auto_scaling(
     InstanceId,
     params::AbstractDict{String};
@@ -2891,7 +3030,7 @@ end
 
 Starts a specified instance. For more information, see [Starting, Stopping, and Rebooting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-starting.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2907,6 +3046,7 @@ function start_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -2928,7 +3068,7 @@ end
 
 Starts a stack's instances.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2944,6 +3084,7 @@ function start_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_stack(
     StackId,
     params::AbstractDict{String};
@@ -2965,7 +3106,7 @@ Stops a specified instance. When you stop a standard instance, the data disappea
 be reinstalled when you restart the instance. You can stop an Amazon EBS-backed instance
 without losing data. For more information, see [Starting, Stopping, and Rebooting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-starting.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -2991,6 +3132,7 @@ function stop_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -3012,7 +3154,7 @@ end
 
 Stops a specified stack.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3028,6 +3170,7 @@ function stop_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_stack(
     StackId,
     params::AbstractDict{String};
@@ -3053,13 +3196,16 @@ in the OpsWorks User Guide.
 
 - `resource_arn`: The stack or layer's Amazon Resource Number (ARN).
 - `tags`: A map that contains tag keys and tag values that are attached to a stack or
-  layer. - The key cannot be empty.
-   - The key can be a maximum of 127 characters, and can contain only Unicode letters,
-  numbers, or separators, or the following special characters: `+ - = . _ : /`
-   - The value can be a maximum 255 characters, and contain only Unicode letters, numbers,
-  or separators, or the following special characters: `+ - = . _ : /`
-   - Leading and trailing white spaces are trimmed from both the key and value.
-   - A maximum of 40 tags is allowed for any resource.
+  layer.
+
+  - The key cannot be empty.
+  - The key can be a maximum of 127 characters, and can contain only Unicode letters,
+    numbers, or separators, or the following special characters: `+ - = . _ : /`
+  - The value can be a maximum 255 characters, and contain only Unicode letters, numbers,
+    or separators, or the following special characters: `+ - = . _ : /`
+  - Leading and trailing white spaces are trimmed from both the key and value.
+  - A maximum of 40 tags is allowed for any resource.
+
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
@@ -3069,6 +3215,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3097,7 +3244,7 @@ Unassigns a registered instance from all layers that are using the instance. The
 remains in the stack as an unassigned instance, and can be assigned to another layer as
 needed. You cannot use this action with instances that were created with OpsWorks Stacks.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack or an attached policy that explicitly grants permissions. For more
 information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3113,6 +3260,7 @@ function unassign_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unassign_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -3135,7 +3283,7 @@ end
 Unassigns an assigned Amazon EBS volume. The volume remains registered with the stack. For
 more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3151,6 +3299,7 @@ function unassign_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unassign_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -3187,6 +3336,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3213,7 +3363,7 @@ end
 
 Updates a specified app.
 
- **Required Permissions**: To use this action, an IAM user must have a Deploy or Manage
+**Required Permissions**: To use this action, an IAM user must have a Deploy or Manage
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3235,7 +3385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableSsl"`: Whether SSL is enabled for the app.
 - `"Environment"`: An array of `EnvironmentVariable` objects that specify environment
   variables to be associated with the app. After you deploy the app, these variables are
-  defined on the associated app server instances.For more information, see [ Environment Variables](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html#workingapps-creating-environment).
+  defined on the associated app server instances.For more information, see [Environment Variables](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html#workingapps-creating-environment).
 
   There is no specific limit on the number of environment variables. However, the size of
   the associated data structure - which includes the variables' names, values, and
@@ -3245,7 +3395,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you have specified one or more environment variables, you cannot modify the
-  stack's Chef version.
+      stack's Chef version.
+
 - `"Name"`: The app name.
 - `"SslConfiguration"`: An `SslConfiguration` object with the SSL configuration.
 - `"Type"`: The app type.
@@ -3258,6 +3409,7 @@ function update_app(AppId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app(
     AppId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3275,7 +3427,7 @@ end
 
 Updates a registered Elastic IP address's name. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3297,6 +3449,7 @@ function update_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -3318,7 +3471,7 @@ end
 
 Updates a specified instance.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3331,18 +3484,22 @@ information on user permissions, see [Managing User Permissions](https://docs.aw
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AgentVersion"`: The default OpsWorks Stacks agent version. You have the following
-  options:</p> - `INHERIT` - Use the stack's default agent version setting.
-   - *version_number* - Use the specified agent version. This value overrides the stack's
-  default setting. To update the agent version, you must edit the instance configuration
-  and specify a new version. OpsWorks Stacks installs that version on the instance.
-  The default setting is `INHERIT`. To specify an agent version, you must use the complete
-  version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call <a>DescribeAgentVersions</a>.
+  options:
 
- <p>AgentVersion cannot be set to Chef 12.2.
+  - `INHERIT` - Use the stack's default agent version setting.
+  - *version_number* - Use the specified agent version. This value overrides the stack's
+    default setting. To update the agent version, you must edit the instance
+    configuration and specify a new version. OpsWorks Stacks installs that version on the
+    instance.
+
+  The default setting is `INHERIT`. To specify an agent version, you must use the
+  complete version number, not the abbreviated number shown on the console. For a list of
+  available agent version numbers, call [`describe_agent_versions`](@ref).
+
+  AgentVersion cannot be set to Chef 12.2.
 - `"AmiId"`: The ID of the AMI that was used to create the instance. The value of this
-  parameter must be the same AMI ID that the instance is already using. You cannot apply a
-  new AMI to an instance by running UpdateInstance. UpdateInstance does not work on
+  parameter must be the same AMI ID that the instance is already using. You cannot apply
+  a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on
   instances that are using custom AMIs.
 - `"Architecture"`: The instance architecture. Instance types do not necessarily support
   both architectures. For a list of the architectures that are supported by the different
@@ -3351,17 +3508,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use only time-based instances.
 - `"EbsOptimized"`: This property cannot be updated.
 - `"Hostname"`: The instance host name. The following are character limits for instance
-  host names. - Linux-based instances: 63 characters
-   - Windows-based instances: 15 characters
+  host names.
+
+  - Linux-based instances: 63 characters
+  - Windows-based instances: 15 characters
+
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
   the instance boots. The default value is `true`. To control when updates are installed,
-  set this value to `false`. You must then update your instances manually by using
-  <a>CreateDeployment</a> to run the `update_dependencies` stack command or by manually
-  running `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
+  set this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
+  to run the `update_dependencies` stack command or by manually running `yum` (Amazon
+  Linux) or `apt-get` (Ubuntu) on the instances.
 
   !!! note
       We strongly recommend using the default value of `true`, to ensure that your
-  instances have the latest security updates.
+      instances have the latest security updates.
+
 - `"InstanceType"`: The instance type, such as `t2.micro`. For a list of supported instance
   types, open the stack in the console, choose **Instances**, and choose **+ Instance**.
   The **Size** list contains the currently supported types. For more information, see [Instance Families and Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html).
@@ -3369,28 +3530,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   column of the **Available Instance Types** table.
 - `"LayerIds"`: The instance's layer IDs.
 - `"Os"`: The instance's operating system, which must be set to one of the following. You
-  cannot update an instance that is using a custom AMI.</p> - A supported Linux operating
-  system: An Amazon Linux version, such as `Amazon Linux 2`, `Amazon Linux 2018.03`,
-  `Amazon Linux 2017.09`, `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux
-  2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
-   - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
-  `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
-   - `CentOS Linux 7`
-   - `Red Hat Enterprise Linux 7`
-   - A supported Windows operating system, such as `Microsoft Windows Server 2012 R2 Base`,
-  `Microsoft Windows Server 2012 R2 with SQL Server Express`, `Microsoft Windows Server
-  2012 R2 with SQL Server Standard`, or `Microsoft Windows Server 2012 R2 with SQL Server
-  Web`.
+  cannot update an instance that is using a custom AMI.
+
+  - A supported Linux operating system: An Amazon Linux version, such as
+    `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`,
+    `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
+  - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
+    `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+  - `CentOS Linux 7`
+  - `Red Hat Enterprise Linux 7`
+  - A supported Windows operating system, such as
+    `Microsoft Windows Server 2012 R2 Base`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Express`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Standard`, or
+    `Microsoft Windows Server 2012 R2 with SQL Server Web`.
+
   Not all operating systems are supported with all versions of Chef. For more information
   about supported operating systems, see [OpsWorks Stacks Operating Systems](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
 
-   <p>The default option is the current Amazon Linux version. If you set this parameter to
+  The default option is the current Amazon Linux version. If you set this parameter to
   `Custom`, you must use the AmiId parameter to specify the custom AMI that you want to
   use. For more information about how to use custom AMIs with OpsWorks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
 
   !!! note
       You can specify a different Linux operating system for the updated stack, but you
-  cannot change from Linux to Windows or Windows to Linux.
+      cannot change from Linux to Windows or Windows to Linux.
+
 - `"SshKeyName"`: The instance's Amazon EC2 key name.
 """
 function update_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -3401,6 +3567,7 @@ function update_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -3422,7 +3589,7 @@ end
 
 Updates a specified layer.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3441,26 +3608,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoAssignPublicIps"`: For stacks that are running in a VPC, whether to automatically
   assign a public IP address to the layer's instances. For more information, see [How to Edit a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html).
 - `"CloudWatchLogsConfiguration"`: Specifies CloudWatch Logs configuration options for the
-  layer. For more information, see <a>CloudWatchLogsLogStream</a>.
+  layer. For more information, see [`cloud_watch_logs_log_stream`](@ref).
 - `"CustomInstanceProfileArn"`: The ARN of an IAM profile to be used for all of the layer's
   EC2 instances. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
 - `"CustomJson"`: A JSON-formatted string containing custom stack configuration and
-  deployment attributes to be installed on the layer's instances. For more information, see
-  [ Using Custom JSON](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html).
+  deployment attributes to be installed on the layer's instances. For more information,
+  see [Using Custom JSON](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html).
 - `"CustomRecipes"`: A `LayerCustomRecipes` object that specifies the layer's custom
   recipes.
 - `"CustomSecurityGroupIds"`: An array containing the layer's custom security group IDs.
 - `"EnableAutoHealing"`: Whether to disable auto healing for the layer.
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
   the instance boots. The default value is `true`. To control when updates are installed,
-  set this value to `false`. You must then update your instances manually by using
-  <a>CreateDeployment</a> to run the `update_dependencies` stack command or manually
-  running `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
+  set this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
+  to run the `update_dependencies` stack command or manually running `yum` (Amazon Linux)
+  or `apt-get` (Ubuntu) on the instances.
 
   !!! note
       We strongly recommend using the default value of `true`, to ensure that your
-  instances have the latest security updates.
-- `"LifecycleEventConfiguration"`: <p/>
+      instances have the latest security updates.
+
+- `"LifecycleEventConfiguration"`:
 - `"Name"`: The layer name, which is used by the console. Layer names can be a maximum of
   32 characters.
 - `"Packages"`: An array of `Package` objects that describe the layer's packages.
@@ -3482,6 +3650,7 @@ function update_layer(LayerId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_layer(
     LayerId,
     params::AbstractDict{String};
@@ -3501,9 +3670,9 @@ end
 
 Updates a user's SSH public key.
 
- **Required Permissions**: To use this action, an IAM user must have self-management
-enabled or an attached policy that explicitly grants permissions. For more information
-about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have self-management enabled
+or an attached policy that explicitly grants permissions. For more information about user
+permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Optional Parameters
 
@@ -3516,6 +3685,7 @@ function update_my_user_profile(; aws_config::AbstractAWSConfig=current_aws_conf
         "UpdateMyUserProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_my_user_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3533,7 +3703,7 @@ end
 
 Updates an Amazon RDS instance.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3558,6 +3728,7 @@ function update_rds_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rds_db_instance(
     RdsDbInstanceArn,
     params::AbstractDict{String};
@@ -3581,7 +3752,7 @@ end
 
 Updates a specified stack.
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3594,27 +3765,31 @@ information on user permissions, see [Managing User Permissions](https://docs.aw
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AgentVersion"`: The default OpsWorks Stacks agent version. You have the following
-  options: - Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks automatically
-  installs new agent versions on the stack's instances as soon as they are available.
-   - Fixed version - Set this parameter to your preferred agent version. To update the
-  agent version, you must edit the stack configuration and specify a new version. OpsWorks
-  Stacks installs that version on the stack's instances.
+  options:
+
+  - Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks automatically installs
+    new agent versions on the stack's instances as soon as they are available.
+  - Fixed version - Set this parameter to your preferred agent version. To update the
+    agent version, you must edit the stack configuration and specify a new version.
+    OpsWorks Stacks installs that version on the stack's instances.
+
   The default setting is `LATEST`. To specify an agent version, you must use the complete
-  version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call <a>DescribeAgentVersions</a>. AgentVersion cannot be set to
-  Chef 12.2.
+  version number, not the abbreviated number shown on the console. For a list of
+  available agent version numbers, call [`describe_agent_versions`](@ref). AgentVersion
+  cannot be set to Chef 12.2.
 
   !!! note
       You can also specify an agent version when you create or update an instance, which
-  overrides the stack's default setting.
+      overrides the stack's default setting.
+
 - `"Attributes"`: One or more user-defined key-value pairs to be added to the stack
   attributes.
 - `"ChefConfiguration"`: A `ChefConfiguration` object that specifies whether to enable
   Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see [Create a New Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html).
 - `"ConfigurationManager"`: The configuration manager. When you update a stack, we
-  recommend that you use the configuration manager to specify the Chef version: 12, 11.10,
-  or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks
-  is currently 12.
+  recommend that you use the configuration manager to specify the Chef version: 12,
+  11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for
+  Linux stacks is currently 12.
 - `"CustomCookbooksSource"`: Contains the information required to retrieve an app or
   cookbook from a repository. For more information, see [Adding Apps](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html)
   or [Cookbooks and Recipes](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html).
@@ -3622,42 +3797,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   override the corresponding default stack configuration JSON values or to pass data to
   recipes. The string should be in the following format:
 
-   `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
+  `"{\\"key1\\": \\"value1\\", \\"key2\\": \\"value2\\",...}"`
 
   For more information about custom JSON, see [Use Custom JSON to Modify the Stack Configuration Attributes](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html).
 - `"DefaultAvailabilityZone"`: The stack's default Availability Zone, which must be in the
   stack's region. For more information, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
   If you also specify a value for `DefaultSubnetId`, the subnet must be in the same zone.
-  For more information, see <a>CreateStack</a>.
+  For more information, see [`create_stack`](@ref).
 - `"DefaultInstanceProfileArn"`: The ARN of an IAM profile that is the default profile for
   all of the stack's EC2 instances. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
-- `"DefaultOs"`: The stack's operating system, which must be set to one of the following: -
-  A supported Linux operating system: An Amazon Linux version, such as `Amazon Linux 2`,
-  `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux 2017.03`, `Amazon Linux
-  2016.09`, `Amazon Linux 2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
-   - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
-  `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
-   - `CentOS Linux 7`
-   - `Red Hat Enterprise Linux 7`
-   - A supported Windows operating system, such as `Microsoft Windows Server 2012 R2 Base`,
-  `Microsoft Windows Server 2012 R2 with SQL Server Express`, `Microsoft Windows Server
-  2012 R2 with SQL Server Standard`, or `Microsoft Windows Server 2012 R2 with SQL Server
-  Web`.
-   - A custom AMI: `Custom`. You specify the custom AMI you want to use when you create
-  instances. For more information about how to use custom AMIs with OpsWorks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
-  The default option is the stack's current operating system. Not all operating systems are
-  supported with all versions of Chef. For more information about supported operating
+- `"DefaultOs"`: The stack's operating system, which must be set to one of the following:
+
+  - A supported Linux operating system: An Amazon Linux version, such as
+    `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`,
+    `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
+  - A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`, `Ubuntu 16.04 LTS`,
+    `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+  - `CentOS Linux 7`
+  - `Red Hat Enterprise Linux 7`
+  - A supported Windows operating system, such as
+    `Microsoft Windows Server 2012 R2 Base`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Express`,
+    `Microsoft Windows Server 2012 R2 with SQL Server Standard`, or
+    `Microsoft Windows Server 2012 R2 with SQL Server Web`.
+  - A custom AMI: `Custom`. You specify the custom AMI you want to use when you create
+    instances. For more information about how to use custom AMIs with OpsWorks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
+
+  The default option is the stack's current operating system. Not all operating systems
+  are supported with all versions of Chef. For more information about supported operating
   systems, see [OpsWorks Stacks Operating Systems](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
 - `"DefaultRootDeviceType"`: The default root device type. This value is used by default
-  for all instances in the stack, but you can override it when you create an instance. For
-  more information, see [Storage for the Root Device](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device).
+  for all instances in the stack, but you can override it when you create an instance.
+  For more information, see [Storage for the Root Device](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device).
 - `"DefaultSshKeyName"`: A default Amazon EC2 key-pair name. The default value is `none`.
   If you specify a key-pair name, OpsWorks Stacks installs the public key on the instance
   and you can use the private key with an SSH client to log in to the instance. For more
-  information, see [ Using SSH to Communicate with an Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html)
-  and [ Managing SSH Access](https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html).
+  information, see [Using SSH to Communicate with an Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html)
+  and [Managing SSH Access](https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html).
   You can override this setting by specifying a different key pair, or no key pair, when
-  you [ create an instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html).
+  you [create an instance](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html).
 - `"DefaultSubnetId"`: The stack's default VPC subnet ID. This parameter is required if you
   specify a value for the `VpcId` parameter. All instances are launched into this subnet
   unless you specify otherwise when you create the instance. If you also specify a value
@@ -3667,37 +3846,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HostnameTheme"`: The stack's new host name theme, with spaces replaced by underscores.
   The theme is used to generate host names for the stack's instances. By default,
   `HostnameTheme` is set to `Layer_Dependent`, which creates host names by appending
-  integers to the layer's short name. The other themes are: - `Baked_Goods`
-   - `Clouds`
-   - `Europe_Cities`
-   - `Fruits`
-   - `Greek_Deities_and_Titans`
-   - `Legendary_creatures_from_Japan`
-   - `Planets_and_Moons`
-   - `Roman_Deities`
-   - `Scottish_Islands`
-   - `US_Cities`
-   - `Wild_Cats`
-  To obtain a generated host name, call `GetHostNameSuggestion`, which returns a host name
-  based on the current theme.
+  integers to the layer's short name. The other themes are:
+
+  - `Baked_Goods`
+  - `Clouds`
+  - `Europe_Cities`
+  - `Fruits`
+  - `Greek_Deities_and_Titans`
+  - `Legendary_creatures_from_Japan`
+  - `Planets_and_Moons`
+  - `Roman_Deities`
+  - `Scottish_Islands`
+  - `US_Cities`
+  - `Wild_Cats`
+
+  To obtain a generated host name, call `GetHostNameSuggestion`, which returns a host
+  name based on the current theme.
 - `"Name"`: The stack's new name. Stack names can be a maximum of 64 characters.
 - `"ServiceRoleArn"`: Do not use this parameter. You cannot update a stack's service role.
 - `"UseCustomCookbooks"`: Whether the stack uses custom cookbooks.
 - `"UseOpsworksSecurityGroups"`: Whether to associate the OpsWorks Stacks built-in security
   groups with the stack's layers.
 
-  OpsWorks Stacks provides a standard set of built-in security groups, one for each layer,
-  which are associated with layers by default. `UseOpsworksSecurityGroups` allows you to
-  provide your own custom security groups instead of using the built-in groups.
-  `UseOpsworksSecurityGroups` has the following settings:  - True - OpsWorks Stacks
-  automatically associates the appropriate built-in security group with each layer (default
-  setting). You can associate additional security groups with a layer after you create it,
-  but you cannot delete the built-in security group.
-   - False - OpsWorks Stacks does not associate built-in security groups with layers. You
-  must create appropriate EC2 security groups and associate a security group with each
-  layer that you create. However, you can still manually associate a built-in security
-  group with a layer on. Custom security groups are required only for those layers that
-  need custom settings.
+  OpsWorks Stacks provides a standard set of built-in security groups, one for each
+  layer, which are associated with layers by default. `UseOpsworksSecurityGroups` allows
+  you to provide your own custom security groups instead of using the built-in groups.
+  `UseOpsworksSecurityGroups` has the following settings:
+
+  - True - OpsWorks Stacks automatically associates the appropriate built-in security
+    group with each layer (default setting). You can associate additional security groups
+    with a layer after you create it, but you cannot delete the built-in security group.
+  - False - OpsWorks Stacks does not associate built-in security groups with layers. You
+    must create appropriate EC2 security groups and associate a security group with each
+    layer that you create. However, you can still manually associate a built-in security
+    group with a layer on. Custom security groups are required only for those layers that
+    need custom settings.
+
   For more information, see [Create a New Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html).
 """
 function update_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -3708,6 +3892,7 @@ function update_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stack(
     StackId,
     params::AbstractDict{String};
@@ -3727,8 +3912,8 @@ end
 
 Updates a specified user profile.
 
- **Required Permissions**: To use this action, an IAM user must have an attached policy
-that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
+**Required Permissions**: To use this action, an IAM user must have an attached policy that
+explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
 # Arguments
 
@@ -3751,6 +3936,7 @@ function update_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_profile(
     IamUserArn,
     params::AbstractDict{String};
@@ -3772,7 +3958,7 @@ end
 
 Updates an Amazon EBS volume's name or mount point. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html).
 
- **Required Permissions**: To use this action, an IAM user must have a Manage permissions
+**Required Permissions**: To use this action, an IAM user must have a Manage permissions
 level for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
 
@@ -3795,6 +3981,7 @@ function update_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_volume(
     VolumeId,
     params::AbstractDict{String};

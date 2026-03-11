@@ -14,9 +14,11 @@ Associates one or more Scram Secrets with an Amazon MSK cluster.
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster to be updated.
+  The Amazon Resource Name (ARN) of the cluster to be updated.
+
 - `secret_arn_list`:
-List of AWS Secrets Manager secret ARNs.
+  List of AWS Secrets Manager secret ARNs.
+
 """
 function batch_associate_scram_secret(
     clusterArn, secretArnList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -29,6 +31,7 @@ function batch_associate_scram_secret(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_scram_secret(
     clusterArn,
     secretArnList,
@@ -56,9 +59,11 @@ Disassociates one or more Scram Secrets from an Amazon MSK cluster.
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster to be updated.
+  The Amazon Resource Name (ARN) of the cluster to be updated.
+
 - `secret_arn_list`:
-List of AWS Secrets Manager secret ARNs.
+  List of AWS Secrets Manager secret ARNs.
+
 """
 function batch_disassociate_scram_secret(
     clusterArn, secretArnList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -71,6 +76,7 @@ function batch_disassociate_scram_secret(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_scram_secret(
     clusterArn,
     secretArnList,
@@ -98,13 +104,16 @@ Creates a new MSK cluster.
 # Arguments
 
 - `broker_node_group_info`:
-Information about the broker nodes in the cluster.
+  Information about the broker nodes in the cluster.
+
 - `cluster_name`:
-The name of the cluster.
+  The name of the cluster.
+
 - `kafka_version`:
-The version of Apache Kafka.
+  The version of Apache Kafka.
+
 - `number_of_broker_nodes`:
-The number of broker nodes in the cluster.
+  The number of broker nodes in the cluster.
 
 # Optional Parameters
 
@@ -112,21 +121,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientAuthentication"`:
   Includes all client authentication related information.
+
 - `"configurationInfo"`:
   Represents the configuration that you want MSK to use for the brokers in a cluster.
 
 - `"encryptionInfo"`:
-Includes all encryption-related information.
+  Includes all encryption-related information.
+
 - `"enhancedMonitoring"`:
   Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT,
   PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
+
 - `"loggingInfo"`:
 - `"openMonitoring"`:
-The settings for open monitoring.
+  The settings for open monitoring.
+
 - `"storageMode"`:
-This controls storage mode for supported storage tiers.
+  This controls storage mode for supported storage tiers.
+
 - `"tags"`:
-Create tags when creating the cluster.
+  Create tags when creating the cluster.
+
 """
 function create_cluster(
     brokerNodeGroupInfo,
@@ -148,6 +163,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     brokerNodeGroupInfo,
     clusterName,
@@ -186,18 +202,21 @@ Creates a new MSK cluster.
 # Arguments
 
 - `cluster_name`:
-The name of the cluster.
+  The name of the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"provisioned"`:
-Information about the provisioned cluster.
+  Information about the provisioned cluster.
+
 - `"serverless"`:
-Information about the serverless cluster.
+  Information about the serverless cluster.
+
 - `"tags"`:
-A map of tags that you want the cluster to have.
+  A map of tags that you want the cluster to have.
+
 """
 function create_cluster_v2(clusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -208,6 +227,7 @@ function create_cluster_v2(clusterName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_v2(
     clusterName,
     params::AbstractDict{String};
@@ -234,21 +254,24 @@ Creates a new MSK configuration.
 # Arguments
 
 - `name`:
-The name of the configuration.
+  The name of the configuration.
+
 - `server_properties`:
-  Contents of the <filename>server.properties</filename> file. When using the API, you must
-  ensure that the contents of the file are base64 encoded.
+  Contents of the <filename>server.properties</filename> file. When using the API, you
+  must ensure that the contents of the file are base64 encoded.
                  When using the AWS Management Console, the SDK, or the AWS CLI, the
-  contents of <filename>server.properties</filename> can be in plaintext.
+                 contents of <filename>server.properties</filename> can be in plaintext.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`:
-The description of the configuration.
+  The description of the configuration.
+
 - `"kafkaVersions"`:
   The versions of Apache Kafka with which you can use this MSK configuration.
+
 """
 function create_configuration(
     name, serverProperties; aws_config::AbstractAWSConfig=current_aws_config()
@@ -261,6 +284,7 @@ function create_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration(
     name,
     serverProperties,
@@ -325,6 +349,7 @@ function create_replicator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replicator(
     kafkaClusters,
     replicationInfoList,
@@ -363,22 +388,27 @@ Creates a new MSK VPC connection.
 # Arguments
 
 - `authentication`:
-The authentication type of VPC connection.
+  The authentication type of VPC connection.
+
 - `client_subnets`:
-The list of client subnets.
+  The list of client subnets.
+
 - `security_groups`:
-The list of security groups.
+  The list of security groups.
+
 - `target_cluster_arn`:
   The cluster Amazon Resource Name (ARN) for the VPC connection.
+
 - `vpc_id`:
-The VPC ID of VPC connection.
+  The VPC ID of VPC connection.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`:
-A map of tags for the VPC connection.
+  A map of tags for the VPC connection.
+
 """
 function create_vpc_connection(
     authentication,
@@ -402,6 +432,7 @@ function create_vpc_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_connection(
     authentication,
     clientSubnets,
@@ -439,7 +470,6 @@ end
 
 Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
 
-
 # Arguments
 
 - `cluster_arn`:
@@ -450,7 +480,8 @@ Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the reque
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"currentVersion"`:
-The current version of the MSK cluster.
+  The current version of the MSK cluster.
+
 """
 function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -460,6 +491,7 @@ function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -481,11 +513,11 @@ end
 
 Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
 
-
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster.
+  The Amazon Resource Name (ARN) of the cluster.
+
 """
 function delete_cluster_policy(
     clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -497,6 +529,7 @@ function delete_cluster_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_policy(
     clusterArn,
     params::AbstractDict{String};
@@ -522,6 +555,7 @@ Deletes an MSK Configuration.
 
 - `arn`:
   The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration.
+
 """
 function delete_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -531,6 +565,7 @@ function delete_configuration(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -569,6 +604,7 @@ function delete_replicator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replicator(
     replicatorArn,
     params::AbstractDict{String};
@@ -594,6 +630,7 @@ Deletes a MSK VPC connection.
 
 - `arn`:
   The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
+
 """
 function delete_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -603,6 +640,7 @@ function delete_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_connection(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +665,7 @@ the request.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 """
 function describe_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -636,6 +675,7 @@ function describe_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -673,6 +713,7 @@ function describe_cluster_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_operation(
     clusterOperationArn,
     params::AbstractDict{String};
@@ -708,6 +749,7 @@ function describe_cluster_operation_v2(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_operation_v2(
     clusterOperationArn,
     params::AbstractDict{String};
@@ -734,6 +776,7 @@ the request.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 """
 function describe_cluster_v2(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -743,6 +786,7 @@ function describe_cluster_v2(clusterArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_v2(
     clusterArn,
     params::AbstractDict{String};
@@ -769,6 +813,7 @@ Returns a description of this MSK configuration.
 - `arn`:
   The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of
   its revisions.
+
 """
 function describe_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -778,6 +823,7 @@ function describe_configuration(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,8 +848,10 @@ Returns a description of this revision of the configuration.
 - `arn`:
   The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of
   its revisions.
+
 - `revision`:
   A string that uniquely identifies a revision of an MSK configuration.
+
 """
 function describe_configuration_revision(
     arn, revision; aws_config::AbstractAWSConfig=current_aws_config()
@@ -815,6 +863,7 @@ function describe_configuration_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_revision(
     arn,
     revision,
@@ -850,6 +899,7 @@ function describe_replicator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replicator(
     replicatorArn,
     params::AbstractDict{String};
@@ -874,7 +924,8 @@ Returns a description of this MSK VPC connection.
 # Arguments
 
 - `arn`:
-The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
+  The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
+
 """
 function describe_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -884,6 +935,7 @@ function describe_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_connection(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -907,6 +959,7 @@ A list of brokers that a client application can use to bootstrap.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 """
 function get_bootstrap_brokers(
     clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -918,6 +971,7 @@ function get_bootstrap_brokers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bootstrap_brokers(
     clusterArn,
     params::AbstractDict{String};
@@ -939,11 +993,11 @@ end
 
 Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
 
-
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster.
+  The Amazon Resource Name (ARN) of the cluster.
+
 """
 function get_cluster_policy(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -953,6 +1007,7 @@ function get_cluster_policy(clusterArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster_policy(
     clusterArn,
     params::AbstractDict{String};
@@ -979,7 +1034,8 @@ Gets the Apache Kafka versions to which you can update the MSK cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clusterArn"`:
-The Amazon Resource Name (ARN) of the cluster check.
+  The Amazon Resource Name (ARN) of the cluster check.
+
 """
 function get_compatible_kafka_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -989,6 +1045,7 @@ function get_compatible_kafka_versions(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compatible_kafka_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1011,7 +1068,7 @@ Returns a list of all the VPC connections in this Region.
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster.
+  The Amazon Resource Name (ARN) of the cluster.
 
 # Optional Parameters
 
@@ -1020,10 +1077,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_client_vpc_connections(
     clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1035,6 +1094,7 @@ function list_client_vpc_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_client_vpc_connections(
     clusterArn,
     params::AbstractDict{String};
@@ -1056,7 +1116,6 @@ end
 
 Returns a list of all the operations that have been performed on the specified MSK cluster.
 
-
 # Arguments
 
 - `cluster_arn`:
@@ -1069,10 +1128,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_cluster_operations(
     clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1084,6 +1145,7 @@ function list_cluster_operations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cluster_operations(
     clusterArn,
     params::AbstractDict{String};
@@ -1104,7 +1166,6 @@ end
 
 
 Returns a list of all the operations that have been performed on the specified MSK cluster.
-
 
 # Arguments
 
@@ -1127,6 +1188,7 @@ function list_cluster_operations_v2(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cluster_operations_v2(
     clusterArn,
     params::AbstractDict{String};
@@ -1153,21 +1215,25 @@ Returns a list of all the MSK clusters in the current Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clusterNameFilter"`:
-  Specify a prefix of the name of the clusters that you want to list. The service lists all
-  the clusters whose names start with this prefix.
+  Specify a prefix of the name of the clusters that you want to list. The service lists
+  all the clusters whose names start with this prefix.
+
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET", "/v1/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1194,21 +1260,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clusterNameFilter"`:
   Specify a prefix of the names of the clusters that you want to list. The service lists
   all the clusters whose names start with this prefix.
+
 - `"clusterTypeFilter"`:
-Specify either PROVISIONED or SERVERLESS.
+  Specify either PROVISIONED or SERVERLESS.
+
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_clusters_v2(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET", "/api/v2/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_clusters_v2(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1241,10 +1312,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_configuration_revisions(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1256,6 +1329,7 @@ function list_configuration_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_revisions(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1282,16 +1356,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET", "/v1/configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1320,14 +1397,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken parameter.
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response. To get the next batch, provide this token in your next
-  request.
+  returns NextToken in the response. To get the next batch, provide this token in your
+  next request.
 """
 function list_kafka_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET", "/v1/kafka-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_kafka_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1359,10 +1437,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_nodes(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -1372,6 +1452,7 @@ function list_nodes(clusterArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_nodes(
     clusterArn,
     params::AbstractDict{String};
@@ -1399,7 +1480,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response. If there are
   more results, the response includes a NextToken parameter.
 - `"nextToken"`: If the response of ListReplicators is truncated, it returns a NextToken in
-  the response. This NextToken should be sent in the subsequent request to ListReplicators.
+  the response. This NextToken should be sent in the subsequent request to
+  ListReplicators.
 - `"replicatorNameFilter"`: Returns replicators starting with given name.
 """
 function list_replicators(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1410,6 +1492,7 @@ function list_replicators(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_replicators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1432,16 +1515,18 @@ Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
 # Arguments
 
 - `cluster_arn`:
-The arn of the cluster.
+  The arn of the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`:
-The maxResults of the query.
+  The maxResults of the query.
+
 - `"nextToken"`:
-The nextToken of the query.
+  The nextToken of the query.
+
 """
 function list_scram_secrets(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -1451,6 +1536,7 @@ function list_scram_secrets(clusterArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scram_secrets(
     clusterArn,
     params::AbstractDict{String};
@@ -1477,6 +1563,7 @@ Returns a list of the tags associated with the specified resource.
 - `resource_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated
   with the tags.
+
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1488,6 +1575,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1516,16 +1604,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
   The maximum number of results to return in the response. If there are more results, the
   response includes a NextToken parameter.
+
 - `"nextToken"`:
   The paginated results marker. When the result of the operation is truncated, the call
   returns NextToken in the response.
               To get the next batch, provide this token in your next request.
+
 """
 function list_vpc_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET", "/v1/vpc-connections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1549,16 +1640,18 @@ Creates or updates the MSK cluster policy specified by the cluster Amazon Resour
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster.
+  The Amazon Resource Name (ARN) of the cluster.
+
 - `policy`:
-The policy.
+  The policy.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"currentVersion"`:
-The policy version.
+  The policy version.
+
 """
 function put_cluster_policy(
     clusterArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1571,6 +1664,7 @@ function put_cluster_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_cluster_policy(
     clusterArn,
     policy,
@@ -1595,10 +1689,12 @@ Reboots brokers.
 # Arguments
 
 - `broker_ids`:
-  The list of broker IDs to be rebooted. The reboot-broker operation supports rebooting one
-  broker at a time.
+  The list of broker IDs to be rebooted. The reboot-broker operation supports rebooting
+  one broker at a time.
+
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster to be updated.
+  The Amazon Resource Name (ARN) of the cluster to be updated.
+
 """
 function reboot_broker(
     brokerIds, clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1611,6 +1707,7 @@ function reboot_broker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_broker(
     brokerIds,
     clusterArn,
@@ -1638,9 +1735,11 @@ Returns empty response.
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster.
+  The Amazon Resource Name (ARN) of the cluster.
+
 - `vpc_connection_arn`:
-The VPC connection ARN.
+  The VPC connection ARN.
+
 """
 function reject_client_vpc_connection(
     clusterArn, vpcConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1653,6 +1752,7 @@ function reject_client_vpc_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_client_vpc_connection(
     clusterArn,
     vpcConnectionArn,
@@ -1684,8 +1784,10 @@ Adds tags to the specified MSK resource.
 - `resource_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated
   with the tags.
+
 - `tags`:
-The key-value pair for the resource tag.
+  The key-value pair for the resource tag.
+
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
@@ -1696,6 +1798,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1723,24 +1826,26 @@ Removes the tags associated with the keys that are provided in the query.
 - `resource_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated
   with the tags.
+
 - `tag_keys`:
   Tag keys must be unique for a given cluster. In addition, the following restrictions
   apply:
-              - Each tag key must be unique. If you add a tag with a key that's already in
+
+  - Each tag key must be unique. If you add a tag with a key that's already in
                     use, your new tag overwrites the existing key-value pair.
 
-                 - You can't start a tag key with aws: because this prefix is reserved for
-  use
-                    by  AWS.  AWS creates tags that begin with this prefix on your behalf,
-  but
+  - You can't start a tag key with aws: because this prefix is reserved for use
+                    by  AWS.  AWS creates tags that begin with this prefix on your
+                    behalf, but
                     you can't edit or delete them.
 
-                 - Tag keys must be between 1 and 128 Unicode characters in length.
+  - Tag keys must be between 1 and 128 Unicode characters in length.
 
-                 - Tag keys must consist of the following characters: Unicode letters,
-  digits,
+  - Tag keys must consist of the following characters: Unicode letters, digits,
                     white space, and the following special characters: _ . / = + -
                        @.
+
+
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1753,6 +1858,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1779,12 +1885,15 @@ Updates the number of broker nodes in the cluster.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 - `current_version`:
   The version of cluster to update from. A successful operation will then generate a new
   version.
+
 - `target_number_of_broker_nodes`:
   The number of broker nodes that you want the cluster to have after this operation
   completes successfully.
+
 """
 function update_broker_count(
     clusterArn,
@@ -1803,6 +1912,7 @@ function update_broker_count(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_broker_count(
     clusterArn,
     currentVersion,
@@ -1839,9 +1949,11 @@ Updates the EBS storage associated with MSK brokers.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 - `current_version`:
   The version of cluster to update from. A successful operation will then generate a new
   version.
+
 - `target_broker_ebsvolume_info`:
   Describes the target volume size and the ID of the broker to apply the update to.
 
@@ -1863,6 +1975,7 @@ function update_broker_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_broker_storage(
     clusterArn,
     currentVersion,
@@ -1899,9 +2012,11 @@ Updates EC2 instance type.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 - `current_version`:
-  The cluster version that you want to change. After this operation completes successfully,
-  the cluster will have a new version.
+  The cluster version that you want to change. After this operation completes
+  successfully, the cluster will have a new version.
+
 - `target_instance_type`:
   The Amazon MSK broker type that you want all of the brokers in this cluster to be.
 
@@ -1922,6 +2037,7 @@ function update_broker_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_broker_type(
     clusterArn,
     currentVersion,
@@ -1958,11 +2074,13 @@ Updates the cluster with the configuration that is specified in the request body
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 - `configuration_info`:
   Represents the configuration that you want MSK to use for the brokers in a cluster.
 
 - `current_version`:
-The version of the cluster that needs to be updated.
+  The version of the cluster that needs to be updated.
+
 """
 function update_cluster_configuration(
     clusterArn,
@@ -1980,6 +2098,7 @@ function update_cluster_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_configuration(
     clusterArn,
     configurationInfo,
@@ -2015,11 +2134,13 @@ Updates the Apache Kafka version for the cluster.
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster to be updated.
+  The Amazon Resource Name (ARN) of the cluster to be updated.
+
 - `current_version`:
-Current cluster version.
+  Current cluster version.
+
 - `target_kafka_version`:
-Target Kafka version.
+  Target Kafka version.
 
 # Optional Parameters
 
@@ -2045,6 +2166,7 @@ function update_cluster_kafka_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_kafka_version(
     clusterArn,
     currentVersion,
@@ -2080,19 +2202,21 @@ Updates an MSK configuration.
 # Arguments
 
 - `arn`:
-The Amazon Resource Name (ARN) of the configuration.
+  The Amazon Resource Name (ARN) of the configuration.
+
 - `server_properties`:
-  Contents of the <filename>server.properties</filename> file. When using the API, you must
-  ensure that the contents of the file are base64 encoded.
+  Contents of the <filename>server.properties</filename> file. When using the API, you
+  must ensure that the contents of the file are base64 encoded.
                  When using the AWS Management Console, the SDK, or the AWS CLI, the
-  contents of <filename>server.properties</filename> can be in plaintext.
+                 contents of <filename>server.properties</filename> can be in plaintext.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`:
-The description of the configuration revision.
+  The description of the configuration revision.
+
 """
 function update_configuration(
     arn, serverProperties; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2105,6 +2229,7 @@ function update_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration(
     arn,
     serverProperties,
@@ -2134,13 +2259,16 @@ Updates the cluster's connectivity configuration.
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the configuration.
+  The Amazon Resource Name (ARN) of the configuration.
+
 - `connectivity_info`:
-Information about the broker access configuration.
+  Information about the broker access configuration.
+
 - `current_version`:
-  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can
-  describe an MSK cluster to find its version. When this update operation is successful, it
-  generates a new cluster version.
+  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You
+  can describe an MSK cluster to find its version. When this update operation is
+  successful, it generates a new cluster version.
+
 """
 function update_connectivity(
     clusterArn,
@@ -2158,6 +2286,7 @@ function update_connectivity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connectivity(
     clusterArn,
     connectivityInfo,
@@ -2196,10 +2325,11 @@ specify settings for open monitoring with Prometheus.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 - `current_version`:
-  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can
-  describe an MSK cluster to find its version. When this update operation is successful, it
-  generates a new cluster version.
+  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You
+  can describe an MSK cluster to find its version. When this update operation is
+  successful, it generates a new cluster version.
 
 # Optional Parameters
 
@@ -2208,9 +2338,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedMonitoring"`:
   Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch
   for this cluster.
+
 - `"loggingInfo"`:
 - `"openMonitoring"`:
-The settings for open monitoring.
+  The settings for open monitoring.
+
 """
 function update_monitoring(
     clusterArn, currentVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2223,6 +2355,7 @@ function update_monitoring(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_monitoring(
     clusterArn,
     currentVersion,
@@ -2279,6 +2412,7 @@ function update_replication_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_info(
     currentVersion,
     replicatorArn,
@@ -2318,10 +2452,11 @@ encryption and authentication on existing clusters.
 
 - `cluster_arn`:
   The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
 - `current_version`:
-  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can
-  describe an MSK cluster to find its version. When this update operation is successful, it
-  generates a new cluster version.
+  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You
+  can describe an MSK cluster to find its version. When this update operation is
+  successful, it generates a new cluster version.
 
 # Optional Parameters
 
@@ -2329,8 +2464,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientAuthentication"`:
   Includes all client authentication related information.
+
 - `"encryptionInfo"`:
-Includes all encryption-related information.
+  Includes all encryption-related information.
+
 """
 function update_security(
     clusterArn, currentVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2343,6 +2480,7 @@ function update_security(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security(
     clusterArn,
     currentVersion,
@@ -2369,7 +2507,8 @@ Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
 # Arguments
 
 - `cluster_arn`:
-The Amazon Resource Name (ARN) of the cluster to be updated.
+  The Amazon Resource Name (ARN) of the cluster to be updated.
+
 - `current_version`:
   The version of cluster to update from. A successful operation will then generate a new
   version.
@@ -2379,11 +2518,14 @@ The Amazon Resource Name (ARN) of the cluster to be updated.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"provisionedThroughput"`:
-EBS volume provisioned throughput information.
+  EBS volume provisioned throughput information.
+
 - `"storageMode"`:
-Controls storage mode for supported storage tiers.
+  Controls storage mode for supported storage tiers.
+
 - `"volumeSizeGB"`:
-size of the EBS volume to update.
+  size of the EBS volume to update.
+
 """
 function update_storage(
     clusterArn, currentVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2396,6 +2538,7 @@ function update_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_storage(
     clusterArn,
     currentVersion,

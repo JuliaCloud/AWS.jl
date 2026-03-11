@@ -33,6 +33,7 @@ function accept_invitation(invitationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_invitation(
     invitationId,
     params::AbstractDict{String};
@@ -72,6 +73,7 @@ function batch_get_custom_data_identifiers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_custom_data_identifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -108,6 +110,7 @@ function batch_update_automated_discovery_accounts(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_automated_discovery_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +164,7 @@ function create_allow_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_allow_list(
     clientToken,
     criteria,
@@ -195,11 +199,14 @@ Creates and defines the settings for a classification job.
 
 - `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
   of the request.
-- `job_type`: The schedule for running the job. Valid values are: - ONE_TIME - Run the job
-  only once. If you specify this value, don't specify a value for the scheduleFrequency
-  property.
-   - SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this
-  value, use the scheduleFrequency property to specify the recurrence pattern for the job.
+- `job_type`: The schedule for running the job. Valid values are:
+
+  - ONE_TIME - Run the job only once. If you specify this value, don't specify a value
+    for the scheduleFrequency property.
+  - SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this
+    value, use the scheduleFrequency property to specify the recurrence pattern for the
+    job.
+
 - `name`: A custom name for the job. The name can contain as many as 500 characters.
 - `s3_job_definition`: The S3 buckets that contain the objects to analyze, and the scope of
   that analysis.
@@ -212,61 +219,65 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use when it analyzes data.
 - `"customDataIdentifierIds"`: An array of unique identifiers, one for each custom data
   identifier for the job to use when it analyzes data. To use only managed data
-  identifiers, don't specify a value for this property and specify a value other than NONE
-  for the managedDataIdentifierSelector property.
+  identifiers, don't specify a value for this property and specify a value other than
+  NONE for the managedDataIdentifierSelector property.
 - `"description"`: A custom description of the job. The description can contain as many as
   200 characters.
 - `"initialRun"`: For a recurring job, specifies whether to analyze all existing, eligible
   objects immediately after the job is created (true). To analyze only those objects that
-  are created or changed after you create the job and before the job's first scheduled run,
-  set this value to false.
+  are created or changed after you create the job and before the job's first scheduled
+  run, set this value to false.
 
-If you configure the job to run only once, don't specify a value for this property.
+  If you configure the job to run only once, don't specify a value for this property.
 - `"managedDataIdentifierIds"`: An array of unique identifiers, one for each managed data
   identifier for the job to include (use) or exclude (not use) when it analyzes data.
   Inclusion or exclusion depends on the managed data identifier selection type that you
   specify for the job (managedDataIdentifierSelector).
 
-  To retrieve a list of valid values for this property, use the ListManagedDataIdentifiers
-  operation.
+  To retrieve a list of valid values for this property, use the
+  ListManagedDataIdentifiers operation.
 - `"managedDataIdentifierSelector"`: The selection type to apply when determining which
-  managed data identifiers the job uses to analyze data. Valid values are:</p> - ALL - Use
-  all managed data identifiers. If you specify this value, don't specify any values for the
-  managedDataIdentifierIds property.
-   - EXCLUDE - Use all managed data identifiers except the ones specified by the
-  managedDataIdentifierIds property.
-   - INCLUDE - Use only the managed data identifiers specified by the
-  managedDataIdentifierIds property.
-   - NONE - Don't use any managed data identifiers. If you specify this value, specify at
-  least one value for the customDataIdentifierIds property and don't specify any values for
-  the managedDataIdentifierIds property.
-   - RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you
-  specify this value, don't specify any values for the managedDataIdentifierIds property.
+  managed data identifiers the job uses to analyze data. Valid values are:
+
+  - ALL - Use all managed data identifiers. If you specify this value, don't specify any
+    values for the managedDataIdentifierIds property.
+  - EXCLUDE - Use all managed data identifiers except the ones specified by the
+    managedDataIdentifierIds property.
+  - INCLUDE - Use only the managed data identifiers specified by the
+    managedDataIdentifierIds property.
+  - NONE - Don't use any managed data identifiers. If you specify this value, specify at
+    least one value for the customDataIdentifierIds property and don't specify any values
+    for the managedDataIdentifierIds property.
+  - RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you
+    specify this value, don't specify any values for the managedDataIdentifierIds
+    property.
+
   If you don't specify a value for this property, the job uses the recommended set of
   managed data identifiers.
 
-  If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically
-  uses new managed data identifiers that are released. If you don't specify a value for
-  this property or you specify RECOMMENDED for a recurring job, each job run automatically
-  uses all the managed data identifiers that are in the recommended set when the run
-  starts.
+  If the job is a recurring job and you specify ALL or EXCLUDE, each job run
+  automatically uses new managed data identifiers that are released. If you don't specify
+  a value for this property or you specify RECOMMENDED for a recurring job, each job run
+  automatically uses all the managed data identifiers that are in the recommended set
+  when the run starts.
 
-   <p>To learn about individual managed data identifiers or determine which ones are in the
+  To learn about individual managed data identifiers or determine which ones are in the
   recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html)
   or [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html)
   in the *Amazon Macie User Guide*.
 - `"samplingPercentage"`: The sampling depth, as a percentage, for the job to apply when
-  processing objects. This value determines the percentage of eligible objects that the job
-  analyzes. If this value is less than 100, Amazon Macie selects the objects to analyze at
-  random, up to the specified percentage, and analyzes all the data in those objects.
+  processing objects. This value determines the percentage of eligible objects that the
+  job analyzes. If this value is less than 100, Amazon Macie selects the objects to
+  analyze at random, up to the specified percentage, and analyzes all the data in those
+  objects.
 - `"scheduleFrequency"`: The recurrence pattern for running the job. To run the job only
-  once, don't specify a value for this property and set the value for the jobType property
-  to ONE_TIME.
+  once, don't specify a value for this property and set the value for the jobType
+  property to ONE_TIME.
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the job.
 
-  A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag
-  value. The maximum length of a tag key is 128 characters. The maximum length of a tag
-  value is 256 characters.
+  A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated
+  tag value. The maximum length of a tag key is 128 characters. The maximum length of a
+  tag value is 256 characters.
 """
 function create_classification_job(
     clientToken,
@@ -288,6 +299,7 @@ function create_classification_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_classification_job(
     clientToken,
     jobType,
@@ -327,9 +339,9 @@ Creates and defines the criteria and other settings for a custom data identifier
 - `name`: A custom name for the custom data identifier. The name can contain as many as 128
   characters.
 
-  We strongly recommend that you avoid including any sensitive data in the name of a custom
-  data identifier. Other users of your account might be able to see this name, depending on
-  the actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the name of a
+  custom data identifier. Other users of your account might be able to see this name,
+  depending on the actions that they're allowed to perform in Amazon Macie.
 - `regex`: The regular expression (*regex*) that defines the pattern to match. The
   expression can contain as many as 512 characters.
 
@@ -342,18 +354,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A custom description of the custom data identifier. The description can
   contain as many as 512 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the description of a
-  custom data identifier. Other users of your account might be able to see this
+  We strongly recommend that you avoid including any sensitive data in the description of
+  a custom data identifier. Other users of your account might be able to see this
   description, depending on the actions that they're allowed to perform in Amazon Macie.
 - `"ignoreWords"`: An array that lists specific character sequences (*ignore words*) to
   exclude from the results. If the text matched by the regular expression contains any
-  string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
+  string in this array, Amazon Macie ignores it. The array can contain as many as 10
+  ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
   sensitive.
 - `"keywords"`: An array that lists specific character sequences (*keywords*), one of which
-  must precede and be within proximity (maximumMatchDistance) of the regular expression to
-  match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8
-  characters. Keywords aren't case sensitive.
+  must precede and be within proximity (maximumMatchDistance) of the regular expression
+  to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90
+  UTF-8 characters. Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between the end
   of at least one complete character sequence specified by the keywords array and the end
   of the text that matches the regex pattern. If a complete keyword precedes all the text
@@ -362,11 +374,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"severityLevels"`: The severity to assign to findings that the custom data identifier
   produces, based on the number of occurrences of text that match the custom data
   identifier's detection criteria. You can specify as many as three SeverityLevel objects
-  in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one,
-  the occurrences thresholds must be in ascending order by severity, moving from LOW to
-  HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains
-  fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a
-  finding.
+  in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than
+  one, the occurrences thresholds must be in ascending order by severity, moving from LOW
+  to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object
+  contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't
+  create a finding.
 
   If you don't specify any values for this array, Macie creates findings for S3 objects
   that contain at least one occurrence of text that matches the detection criteria, and
@@ -391,6 +403,7 @@ function create_custom_data_identifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_data_identifier(
     name,
     regex,
@@ -442,12 +455,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A custom description of the filter. The description can contain as many
   as 512 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the description of a
-  filter. Other users of your account might be able to see this description, depending on
-  the actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the description of
+  a filter. Other users of your account might be able to see this description, depending
+  on the actions that they're allowed to perform in Amazon Macie.
 - `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
-  console. This value also determines the order in which the filter is applied to findings,
-  relative to other filters that are also applied to the findings.
+  console. This value also determines the order in which the filter is applied to
+  findings, relative to other filters that are also applied to the findings.
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the filter.
 
   A findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an
@@ -470,6 +483,7 @@ function create_findings_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_findings_filter(
     action,
     findingCriteria,
@@ -513,9 +527,9 @@ Sends an Amazon Macie membership invitation to one or more accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"disableEmailNotification"`: Specifies whether to send the invitation as an email
-  message. If this value is false, Amazon Macie sends the invitation (as an email message)
-  to the email address that you specified for the recipient's account when you associated
-  the account with your account. The default value is false.
+  message. If this value is false, Amazon Macie sends the invitation (as an email
+  message) to the email address that you specified for the recipient's account when you
+  associated the account with your account. The default value is false.
 - `"message"`: Custom text to include in the email message that contains the invitation.
   The text can contain as many as 80 alphanumeric characters.
 """
@@ -528,6 +542,7 @@ function create_invitations(accountIds; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -574,6 +589,7 @@ function create_member(account; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_member(
     account,
     params::AbstractDict{String};
@@ -607,6 +623,7 @@ function create_sample_findings(; aws_config::AbstractAWSConfig=current_aws_conf
         "POST", "/findings/sample"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_sample_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -639,6 +656,7 @@ function decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decline_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -674,9 +692,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   When you try to delete an allow list, Amazon Macie checks for classification jobs that
   use the list and have a status other than COMPLETE or CANCELLED. By default, Macie
-  rejects your request if any jobs meet these criteria. To skip these checks and delete the
-  list, set this value to true. To delete the list only if no active jobs are configured to
-  use it, set this value to false.
+  rejects your request if any jobs meet these criteria. To skip these checks and delete
+  the list, set this value to true. To delete the list only if no active jobs are
+  configured to use it, set this value to false.
 """
 function delete_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
@@ -686,6 +704,7 @@ function delete_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_allow_list(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -718,6 +737,7 @@ function delete_custom_data_identifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_data_identifier(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -748,6 +768,7 @@ function delete_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_findings_filter(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -780,6 +801,7 @@ function delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -811,6 +833,7 @@ function delete_member(id; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -846,6 +869,7 @@ function describe_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/datasources/s3"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -875,6 +899,7 @@ function describe_classification_job(
         "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_classification_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +928,7 @@ function describe_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -926,6 +952,7 @@ function disable_macie(; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disable_macie(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -957,6 +984,7 @@ function disable_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -989,6 +1017,7 @@ function disassociate_from_administrator_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_from_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1049,7 @@ function disassociate_from_master_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_from_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1050,6 +1080,7 @@ function disassociate_member(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1075,8 +1106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 - `"findingPublishingFrequency"`: Specifies how often to publish updates to policy findings
-  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
-  (formerly Amazon CloudWatch Events).
+  for the account. This includes publishing updates to Security Hub and Amazon
+  EventBridge (formerly Amazon CloudWatch Events).
 - `"status"`: Specifies the new status for the account. To enable Amazon Macie and start
   all Macie activities for the account, set this value to ENABLED.
 """
@@ -1089,6 +1120,7 @@ function enable_macie(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_macie(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1167,7 @@ function enable_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -1168,6 +1201,7 @@ function get_administrator_account(; aws_config::AbstractAWSConfig=current_aws_c
         "GET", "/administrator"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1195,6 +1229,7 @@ function get_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/allow-lists/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_allow_list(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1224,6 +1259,7 @@ function get_automated_discovery_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_automated_discovery_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1257,6 +1293,7 @@ function get_bucket_statistics(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1285,6 +1322,7 @@ function get_classification_export_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_classification_export_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1315,6 +1353,7 @@ function get_classification_scope(id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_classification_scope(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1345,6 +1384,7 @@ function get_custom_data_identifier(id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_custom_data_identifier(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1365,14 +1405,15 @@ Retrieves (queries) aggregated statistical data about findings.
 
 # Arguments
 
-- `group_by`: The finding property to use to group the query results. Valid values are: -
-  classificationDetails.jobId - The unique identifier for the classification job that
-  produced the finding.
-   - resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies
-  to.
-   - severity.description - The severity level of the finding, such as High or Medium.
-   - type - The type of finding, such as Policy:IAMUser/S3BucketPublic and
-  SensitiveData:S3Object/Personal.
+- `group_by`: The finding property to use to group the query results. Valid values are:
+
+  - classificationDetails.jobId - The unique identifier for the classification job that
+    produced the finding.
+  - resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies
+    to.
+  - severity.description - The severity level of the finding, such as High or Medium.
+  - type - The type of finding, such as Policy:IAMUser/S3BucketPublic and
+    SensitiveData:S3Object/Personal.
 
 # Optional Parameters
 
@@ -1391,6 +1432,7 @@ function get_finding_statistics(groupBy; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_finding_statistics(
     groupBy,
     params::AbstractDict{String};
@@ -1431,6 +1473,7 @@ function get_findings(findingIds; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings(
     findingIds,
     params::AbstractDict{String};
@@ -1465,6 +1508,7 @@ function get_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings_filter(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1493,6 +1537,7 @@ function get_findings_publication_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings_publication_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1516,6 +1561,7 @@ function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/invitations/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1537,6 +1583,7 @@ Retrieves the status and configuration settings for an Amazon Macie account.
 function get_macie_session(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2("GET", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_macie_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1556,6 +1603,7 @@ linkend="GetAdministratorAccount">GetAdministratorAccount</link> operation.
 function get_master_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2("GET", "/master"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1580,6 +1628,7 @@ function get_member(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1615,6 +1664,7 @@ function get_resource_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_profile(
     resourceArn,
     params::AbstractDict{String};
@@ -1646,6 +1696,7 @@ function get_reveal_configuration(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reveal_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1678,6 +1729,7 @@ function get_sensitive_data_occurrences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sensitive_data_occurrences(
     findingId,
     params::AbstractDict{String};
@@ -1712,6 +1764,7 @@ function get_sensitive_data_occurrences_availability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sensitive_data_occurrences_availability(
     findingId,
     params::AbstractDict{String};
@@ -1746,6 +1799,7 @@ function get_sensitivity_inspection_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sensitivity_inspection_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1777,14 +1831,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The criteria to use to sort the query results.
 - `"timeRange"`: The inclusive time period to query usage data for. Valid values are:
   MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the
-  preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for the
-  preceding 30 days.
+  preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for
+  the preceding 30 days.
 """
 function get_usage_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
         "POST", "/usage/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_usage_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1809,12 +1864,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"timeRange"`: The inclusive time period to retrieve the data for. Valid values are:
   MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the
-  preceding 30 days. If you don't specify a value for this parameter, Amazon Macie provides
-  aggregated usage data for the preceding 30 days.
+  preceding 30 days. If you don't specify a value for this parameter, Amazon Macie
+  provides aggregated usage data for the preceding 30 days.
 """
 function get_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2("GET", "/usage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_usage_totals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1843,6 +1899,7 @@ function list_allow_lists(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/allow-lists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_allow_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1867,8 +1924,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountIds"`: The Amazon Web Services account ID for each account, for as many as 50
   accounts. To retrieve the status for multiple accounts, append the accountIds parameter
-  and argument for each account, separated by an ampersand (&amp;). To retrieve the status
-  for all the accounts in an organization, omit this parameter.
+  and argument for each account, separated by an ampersand (&amp;). To retrieve the
+  status for all the accounts in an organization, omit this parameter.
 - `"maxResults"`: The maximum number of items to include in each page of a paginated
   response.
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
@@ -1884,6 +1941,7 @@ function list_automated_discovery_accounts(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_automated_discovery_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1917,6 +1975,7 @@ function list_classification_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "POST", "/jobs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_classification_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1947,6 +2006,7 @@ function list_classification_scopes(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_classification_scopes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1981,6 +2041,7 @@ function list_custom_data_identifiers(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_data_identifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2014,6 +2075,7 @@ function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2042,6 +2104,7 @@ function list_findings_filters(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/findingsfilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_findings_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2075,6 +2138,7 @@ function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2109,6 +2173,7 @@ function list_managed_data_identifiers(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_data_identifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2144,6 +2209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2("GET", "/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2173,6 +2239,7 @@ function list_organization_admin_accounts(;
 )
     return macie2("GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2211,6 +2278,7 @@ function list_resource_profile_artifacts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_profile_artifacts(
     resourceArn,
     params::AbstractDict{String};
@@ -2259,6 +2327,7 @@ function list_resource_profile_detections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_profile_detections(
     resourceArn,
     params::AbstractDict{String};
@@ -2300,6 +2369,7 @@ function list_sensitivity_inspection_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sensitivity_inspection_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2332,6 +2402,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2368,6 +2439,7 @@ function put_classification_export_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_classification_export_configuration(
     configuration,
     params::AbstractDict{String};
@@ -2410,6 +2482,7 @@ function put_findings_publication_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_findings_publication_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2451,6 +2524,7 @@ function search_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2488,6 +2562,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2522,13 +2597,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ignoreWords"`: An array that lists specific character sequences (*ignore words*) to
   exclude from the results. If the text matched by the regular expression contains any
-  string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
+  string in this array, Amazon Macie ignores it. The array can contain as many as 10
+  ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
   sensitive.
 - `"keywords"`: An array that lists specific character sequences (*keywords*), one of which
-  must precede and be within proximity (maximumMatchDistance) of the regular expression to
-  match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8
-  characters. Keywords aren't case sensitive.
+  must precede and be within proximity (maximumMatchDistance) of the regular expression
+  to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90
+  UTF-8 characters. Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between the end
   of at least one complete character sequence specified by the keywords array and the end
   of the text that matches the regex pattern. If a complete keyword precedes all the text
@@ -2546,6 +2621,7 @@ function test_custom_data_identifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_custom_data_identifier(
     regex,
     sampleText,
@@ -2591,6 +2667,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2642,6 +2719,7 @@ function update_allow_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_allow_list(
     criteria,
     id,
@@ -2704,6 +2782,7 @@ function update_automated_discovery_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_automated_discovery_configuration(
     status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2725,29 +2804,31 @@ Changes the status of a classification job.
 # Arguments
 
 - `job_id`: The unique identifier for the classification job.
-- `job_status`: The new status for the job. Valid values are:</p> - CANCELLED - Stops the
-  job permanently and cancels it. This value is valid only if the job's current status is
-  IDLE, PAUSED, RUNNING, or USER_PAUSED.
+- `job_status`: The new status for the job. Valid values are:
+
+  - CANCELLED - Stops the job permanently and cancels it. This value is valid only if the
+    job's current status is IDLE, PAUSED, RUNNING, or USER_PAUSED.
 
   If you specify this value and the job's current status is RUNNING, Amazon Macie
-  immediately begins to stop all processing tasks for the job. You can't resume or restart
-  a job after you cancel it.
-   - RUNNING - Resumes the job. This value is valid only if the job's current status is
-  USER_PAUSED.
+  immediately begins to stop all processing tasks for the job. You can't resume or
+  restart a job after you cancel it.
+  - RUNNING - Resumes the job. This value is valid only if the job's current status is
+    USER_PAUSED.
 
-  If you paused the job while it was actively running and you specify this value less than
-  30 days after you paused the job, Macie immediately resumes processing from the point
-  where you paused the job. Otherwise, Macie resumes the job according to the schedule and
-  other settings for the job.
-   - USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's
-  current status is IDLE, PAUSED, or RUNNING. If you specify this value and the job's
-  current status is RUNNING, Macie immediately begins to pause all processing tasks for the
-  job.
+  If you paused the job while it was actively running and you specify this value less
+  than 30 days after you paused the job, Macie immediately resumes processing from the
+  point where you paused the job. Otherwise, Macie resumes the job according to the
+  schedule and other settings for the job.
+  - USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's
+    current status is IDLE, PAUSED, or RUNNING. If you specify this value and the job's
+    current status is RUNNING, Macie immediately begins to pause all processing tasks for
+    the job.
 
-   <p>If you pause a one-time job and you don't resume it within 30 days, the job expires
-  and Macie cancels the job. If you pause a recurring job when its status is RUNNING and
-  you don't resume it within 30 days, the job run expires and Macie cancels the run. To
-  check the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
+  If you pause a one-time job and you don't resume it within 30 days, the job expires and
+  Macie cancels the job. If you pause a recurring job when its status is RUNNING and you
+  don't resume it within 30 days, the job run expires and Macie cancels the run. To check
+  the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
+
 """
 function update_classification_job(
     jobId, jobStatus; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2760,6 +2841,7 @@ function update_classification_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_classification_job(
     jobId,
     jobStatus,
@@ -2802,6 +2884,7 @@ function update_classification_scope(id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_classification_scope(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2836,9 +2919,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A custom description of the filter. The description can contain as many
   as 512 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the description of a
-  filter. Other users of your account might be able to see this description, depending on
-  the actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the description of
+  a filter. Other users of your account might be able to see this description, depending
+  on the actions that they're allowed to perform in Amazon Macie.
 - `"findingCriteria"`: The criteria to use to filter findings.
 - `"name"`: A custom name for the filter. The name must contain at least 3 characters and
   can contain as many as 64 characters.
@@ -2847,8 +2930,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter. Other users of your account might be able to see this name, depending on the
   actions that they're allowed to perform in Amazon Macie.
 - `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
-  console. This value also determines the order in which the filter is applied to findings,
-  relative to other filters that are also applied to the findings.
+  console. This value also determines the order in which the filter is applied to
+  findings, relative to other filters that are also applied to the findings.
 """
 function update_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
@@ -2859,6 +2942,7 @@ function update_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_findings_filter(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2885,8 +2969,8 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"findingPublishingFrequency"`: Specifies how often to publish updates to policy findings
-  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
-  (formerly Amazon CloudWatch Events).
+  for the account. This includes publishing updates to Security Hub and Amazon
+  EventBridge (formerly Amazon CloudWatch Events).
 - `"status"`: Specifies a new status for the account. Valid values are: ENABLED, resume all
   Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for
   the account.
@@ -2894,6 +2978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_macie_session(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2("PATCH", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function update_macie_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2926,6 +3011,7 @@ function update_member_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_member_session(
     id,
     status,
@@ -2963,6 +3049,7 @@ function update_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_configuration(
     autoEnable,
     params::AbstractDict{String};
@@ -3010,6 +3097,7 @@ function update_resource_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_profile(
     resourceArn,
     params::AbstractDict{String};
@@ -3057,6 +3145,7 @@ function update_resource_profile_detections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_profile_detections(
     resourceArn,
     params::AbstractDict{String};
@@ -3103,6 +3192,7 @@ function update_reveal_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_reveal_configuration(
     configuration,
     params::AbstractDict{String};
@@ -3155,6 +3245,7 @@ function update_sensitivity_inspection_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sensitivity_inspection_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

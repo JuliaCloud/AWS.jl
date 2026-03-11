@@ -18,22 +18,25 @@ As a prerequisite to using GetCLip API, you must obtain an endpoint using
 `GetDataEndpoint`, specifying GET_CLIP for<code/> the `APIName` parameter.
 
 An Amazon Kinesis video stream has the following requirements for providing data through
-MP4: - The media must contain h.264 or h.265 encoded video and, optionally, AAC or G.711
-encoded audio. Specifically, the codec ID of track 1 should be `V_MPEG/ISO/AVC` (for h.264)
-or V_MPEGH/ISO/HEVC (for H.265). Optionally, the codec ID of track 2 should be `A_AAC` (for
-AAC) or A_MS/ACM (for G.711).
- - Data retention must be greater than 0.
- - The video track of each fragment must contain codec private data in the Advanced Video
-Coding (AVC) for H.264 format and HEVC for H.265 format. For more information, see [MPEG-4 specification ISO/IEC 14496-15](https://www.iso.org/standard/55980.html).
-For information about adapting stream data to a given format, see [NAL Adaptation Flags](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-reference-nal.html).
- - The audio track (if present) of each fragment must contain codec private data in the AAC
-format ([AAC specification ISO/IEC 13818-7](https://www.iso.org/standard/43345.html)) or
-the [MS Wave format](http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html).
+MP4:
+
+- The media must contain h.264 or h.265 encoded video and, optionally, AAC or G.711 encoded
+  audio. Specifically, the codec ID of track 1 should be `V_MPEG/ISO/AVC` (for h.264) or
+  V_MPEGH/ISO/HEVC (for H.265). Optionally, the codec ID of track 2 should be `A_AAC` (for
+  AAC) or A_MS/ACM (for G.711).
+- Data retention must be greater than 0.
+- The video track of each fragment must contain codec private data in the Advanced Video
+  Coding (AVC) for H.264 format and HEVC for H.265 format. For more information, see [MPEG-4 specification ISO/IEC 14496-15](https://www.iso.org/standard/55980.html).
+  For information about adapting stream data to a given format, see [NAL Adaptation Flags](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-reference-nal.html).
+- The audio track (if present) of each fragment must contain codec private data in the AAC
+  format ([AAC specification ISO/IEC 13818-7](https://www.iso.org/standard/43345.html)) or
+  the [MS Wave format](http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html).
+
 You can monitor the amount of outgoing data by monitoring the `GetClip.OutgoingBytes`
 Amazon CloudWatch metric. For information about using CloudWatch to monitor Kinesis Video
 Streams, see [Monitoring Kinesis Video Streams](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/monitoring.html).
 For pricing information, see [Amazon Kinesis Video Streams Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/)
-and [ Amazon Web Services Pricing](https://aws.amazon.com/pricing/). Charges for outgoing
+and [Amazon Web Services Pricing](https://aws.amazon.com/pricing/). Charges for outgoing
 Amazon Web Services data apply.
 
 # Arguments
@@ -48,10 +51,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the
   media clip.
 
-You must specify either the StreamName or the StreamARN.
+  You must specify either the StreamName or the StreamARN.
 - `"StreamName"`: The name of the stream for which to retrieve the media clip.
 
-You must specify either the StreamName or the StreamARN.
+  You must specify either the StreamName or the StreamARN.
 """
 function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video_archived_media(
@@ -62,6 +65,7 @@ function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_clip(
     ClipFragmentSelector,
     params::AbstractDict{String};
@@ -93,68 +97,74 @@ Both the `StreamName` and the `StreamARN` parameters are optional, but you must 
 either the `StreamName` or the `StreamARN` when invoking this API operation.
 
 An Amazon Kinesis video stream has the following requirements for providing data through
-MPEG-DASH:</p> - The media must contain h.264 or h.265 encoded video and, optionally, AAC
-or G.711 encoded audio. Specifically, the codec ID of track 1 should be `V_MPEG/ISO/AVC`
-(for h.264) or V_MPEGH/ISO/HEVC (for H.265). Optionally, the codec ID of track 2 should be
-`A_AAC` (for AAC) or A_MS/ACM (for G.711).
- - Data retention must be greater than 0.
- - The video track of each fragment must contain codec private data in the Advanced Video
-Coding (AVC) for H.264 format and HEVC for H.265 format. For more information, see [MPEG-4 specification ISO/IEC 14496-15](https://www.iso.org/standard/55980.html).
-For information about adapting stream data to a given format, see [NAL Adaptation Flags](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-reference-nal.html).
- - The audio track (if present) of each fragment must contain codec private data in the AAC
-format ([AAC specification ISO/IEC 13818-7](https://www.iso.org/standard/43345.html)) or
-the [MS Wave format](http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html).
-The following procedure shows how to use MPEG-DASH with Kinesis Video Streams: 1. Get an
-endpoint using [GetDataEndpoint](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_GetDataEndpoint.html),
-specifying `GET_DASH_STREAMING_SESSION_URL` for the `APIName` parameter.
- 2. Retrieve the MPEG-DASH URL using `GetDASHStreamingSessionURL`. Kinesis Video Streams
-creates an MPEG-DASH streaming session to be used for accessing content in a stream using
-the MPEG-DASH protocol. `GetDASHStreamingSessionURL` returns an authenticated URL (that
-includes an encrypted session token) for the session's MPEG-DASH *manifest* (the root
-resource needed for streaming with MPEG-DASH).
+MPEG-DASH:
+
+- The media must contain h.264 or h.265 encoded video and, optionally, AAC or G.711 encoded
+  audio. Specifically, the codec ID of track 1 should be `V_MPEG/ISO/AVC` (for h.264) or
+  V_MPEGH/ISO/HEVC (for H.265). Optionally, the codec ID of track 2 should be `A_AAC` (for
+  AAC) or A_MS/ACM (for G.711).
+- Data retention must be greater than 0.
+- The video track of each fragment must contain codec private data in the Advanced Video
+  Coding (AVC) for H.264 format and HEVC for H.265 format. For more information, see [MPEG-4 specification ISO/IEC 14496-15](https://www.iso.org/standard/55980.html).
+  For information about adapting stream data to a given format, see [NAL Adaptation Flags](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-reference-nal.html).
+- The audio track (if present) of each fragment must contain codec private data in the AAC
+  format ([AAC specification ISO/IEC 13818-7](https://www.iso.org/standard/43345.html)) or
+  the [MS Wave format](http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html).
+
+The following procedure shows how to use MPEG-DASH with Kinesis Video Streams:
+
+1. Get an endpoint using [GetDataEndpoint](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_GetDataEndpoint.html),
+   specifying `GET_DASH_STREAMING_SESSION_URL` for the `APIName` parameter.2. Retrieve the
+   MPEG-DASH URL using `GetDASHStreamingSessionURL`. Kinesis Video Streams creates an MPEG-
+   DASH streaming session to be used for accessing content in a stream using the MPEG-DASH
+   protocol. `GetDASHStreamingSessionURL` returns an authenticated URL (that includes an
+   encrypted session token) for the session's MPEG-DASH *manifest* (the root resource
+   needed for streaming with MPEG-DASH).
 
 !!! note
     Don't share or store this token where an unauthorized entity can access it. The token
-provides access to the content of the stream. Safeguard the token with the same measures
-that you use with your Amazon Web Services credentials.The media that is made available
-through the manifest consists only of the requested stream, time range, and format. No
-other media data (such as frames outside the requested window or alternate bitrates) is
-made available.
- 3. Provide the URL (containing the encrypted session token) for the MPEG-DASH manifest to
-a media player that supports the MPEG-DASH protocol. Kinesis Video Streams makes the
-initialization fragment and media fragments available through the manifest URL. The
-initialization fragment contains the codec private data for the stream, and other data
-needed to set up the video or audio decoder and renderer. The media fragments contain
-encoded video frames or encoded audio samples.
- 4. The media player receives the authenticated URL and requests stream metadata and media
-data normally. When the media player requests data, it calls the following actions: -
-**GetDASHManifest:** Retrieves an MPEG DASH manifest, which contains the metadata for the
-media that you want to playback.
- - **GetMP4InitFragment:** Retrieves the MP4 initialization fragment. The media player
-typically loads the initialization fragment before loading any media fragments. This
-fragment contains the "`fytp`" and "`moov`" MP4 atoms, and the child atoms that are needed
-to initialize the media player decoder.
+    provides access to the content of the stream. Safeguard the token with the same
+    measures that you use with your Amazon Web Services credentials.
+
+The media that is made available through the manifest consists only of the requested
+stream, time range, and format. No other media data (such as frames outside the requested
+window or alternate bitrates) is made available.3. Provide the URL (containing the
+encrypted session token) for the MPEG-DASH manifest to a media player that supports the
+MPEG-DASH protocol. Kinesis Video Streams makes the initialization fragment and media
+fragments available through the manifest URL. The initialization fragment contains the
+codec private data for the stream, and other data needed to set up the video or audio
+decoder and renderer. The media fragments contain encoded video frames or encoded audio
+samples.4. The media player receives the authenticated URL and requests stream metadata and
+media data normally. When the media player requests data, it calls the following actions:
+
+- **GetDASHManifest:** Retrieves an MPEG DASH manifest, which contains the metadata for the
+  media that you want to playback.
+- **GetMP4InitFragment:** Retrieves the MP4 initialization fragment. The media player
+  typically loads the initialization fragment before loading any media fragments. This
+  fragment contains the "`fytp`" and "`moov`" MP4 atoms, and the child atoms that are
+  needed to initialize the media player decoder.
 
 The initialization fragment does not correspond to a fragment in a Kinesis video stream. It
 contains only the codec private data for the stream and respective track, which the media
 player needs to decode the media frames.
- - **GetMP4MediaFragment:** Retrieves MP4 media fragments. These fragments contain the
-"`moof`" and "`mdat`" MP4 atoms and their child atoms, containing the encoded fragment's
-media frames and their timestamps.
+- **GetMP4MediaFragment:** Retrieves MP4 media fragments. These fragments contain the
+  "`moof`" and "`mdat`" MP4 atoms and their child atoms, containing the encoded fragment's
+  media frames and their timestamps.
 
 !!! note
     After the first media fragment is made available in a streaming session, any fragments
-that don't contain the same codec private data cause an error to be returned when those
-different media fragments are loaded. Therefore, the codec private data should not change
-between fragments in a session. This also means that the session fails if the fragments in
-a stream change from having only video to having both audio and video.Data retrieved with
-this action is billable. See [Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/)
+    that don't contain the same codec private data cause an error to be returned when those
+    different media fragments are loaded. Therefore, the codec private data should not
+    change between fragments in a session. This also means that the session fails if the
+    fragments in a stream change from having only video to having both audio and video.
+
+Data retrieved with this action is billable. See [Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/)
 for details.
 
-
 !!! note
-    For restrictions that apply to MPEG-DASH sessions, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).You
-can monitor the amount of data that the media player consumes by monitoring the
+    For restrictions that apply to MPEG-DASH sessions, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
+
+You can monitor the amount of data that the media player consumes by monitoring the
 `GetMP4MediaFragment.OutgoingBytes` Amazon CloudWatch metric. For information about using
 CloudWatch to monitor Kinesis Video Streams, see [Monitoring Kinesis Video Streams](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/monitoring.html).
 For pricing information, see [Amazon Kinesis Video Streams Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/)
@@ -166,18 +176,21 @@ on the [Apple Developer site](https://developer.apple.com).
 
 !!! important
     If an error is thrown after invoking a Kinesis Video Streams archived media API, in
-addition to the HTTP status code and the response body, it includes the following pieces of
-information:  - `x-amz-ErrorType` HTTP header – contains a more specific error type in
-addition to what the HTTP status code provides.
- - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web Services
-the support team can better diagnose the problem if given the Request Id.
-Both the HTTP status code and the ErrorType header can be utilized to make programmatic
-decisions about whether errors are retry-able and under what conditions, as well as provide
-information on what actions the client programmer might need to take in order to
-successfully try again.
+    addition to the HTTP status code and the response body, it includes the following
+    pieces of information:
 
- <p>For more information, see the **Errors** section at the bottom of this topic, as well
-as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
+    - `x-amz-ErrorType` HTTP header – contains a more specific error type in addition to
+      what the HTTP status code provides.
+    - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web Services
+      the support team can better diagnose the problem if given the Request Id.
+
+    Both the HTTP status code and the ErrorType header can be utilized to make programmatic
+    decisions about whether errors are retry-able and under what conditions, as well as
+    provide information on what actions the client programmer might need to take in order
+    to successfully try again.
+
+    For more information, see the **Errors** section at the bottom of this topic, as well
+    as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
 
 # Optional Parameters
 
@@ -187,39 +200,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timestamps.
 
   This parameter is required if `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`. This
-  parameter is optional if PlaybackMode is<code/> `LIVE`. If `PlaybackMode` is `LIVE`, the
-  `FragmentSelectorType` can be set, but the `TimestampRange` should not be set. If
+  parameter is optional if PlaybackMode is<code/> `LIVE`. If `PlaybackMode` is `LIVE`,
+  the `FragmentSelectorType` can be set, but the `TimestampRange` should not be set. If
   `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`, both `FragmentSelectorType` and
   `TimestampRange` must be set.
 - `"DisplayFragmentNumber"`: Fragments are identified in the manifest file based on their
-  sequence number in the session. If DisplayFragmentNumber is set to `ALWAYS`, the Kinesis
-  Video Streams fragment number is added to each S element in the manifest file with the
-  attribute name “kvs:fn”. These fragment numbers can be used for logging or for use with
-  other APIs (e.g. `GetMedia` and `GetMediaForFragmentList`). A custom MPEG-DASH media
-  player is necessary to leverage these this custom attribute.
+  sequence number in the session. If DisplayFragmentNumber is set to `ALWAYS`, the
+  Kinesis Video Streams fragment number is added to each S element in the manifest file
+  with the attribute name “kvs:fn”. These fragment numbers can be used for logging or for
+  use with other APIs (e.g. `GetMedia` and `GetMediaForFragmentList`). A custom MPEG-DASH
+  media player is necessary to leverage these this custom attribute.
 
-The default value is `NEVER`.
+  The default value is `NEVER`.
 - `"DisplayFragmentTimestamp"`: Per the MPEG-DASH specification, the wall-clock time of
   fragments in the manifest file can be derived using attributes in the manifest itself.
-  However, typically, MPEG-DASH compatible media players do not properly handle gaps in the
-  media timeline. Kinesis Video Streams adjusts the media timeline in the manifest file to
-  enable playback of media with discontinuities. Therefore, the wall-clock time derived
-  from the manifest file may be inaccurate. If DisplayFragmentTimestamp is set to `ALWAYS`,
-  the accurate fragment timestamp is added to each S element in the manifest file with the
-  attribute name “kvs:ts”. A custom MPEG-DASH media player is necessary to leverage this
-  custom attribute.
+  However, typically, MPEG-DASH compatible media players do not properly handle gaps in
+  the media timeline. Kinesis Video Streams adjusts the media timeline in the manifest
+  file to enable playback of media with discontinuities. Therefore, the wall-clock time
+  derived from the manifest file may be inaccurate. If DisplayFragmentTimestamp is set to
+  `ALWAYS`, the accurate fragment timestamp is added to each S element in the manifest
+  file with the attribute name “kvs:ts”. A custom MPEG-DASH media player is necessary to
+  leverage this custom attribute.
 
-  The default value is `NEVER`. When <a>DASHFragmentSelector</a> is `SERVER_TIMESTAMP`, the
-  timestamps will be the server start timestamps. Similarly, when
-  <a>DASHFragmentSelector</a> is `PRODUCER_TIMESTAMP`, the timestamps will be the producer
-  start timestamps.
+  The default value is `NEVER`. When [`dashfragment_selector`](@ref) is
+  `SERVER_TIMESTAMP`, the timestamps will be the server start timestamps. Similarly, when
+  [`dashfragment_selector`](@ref) is `PRODUCER_TIMESTAMP`, the timestamps will be the
+  producer start timestamps.
 - `"Expires"`: The time in seconds until the requested session expires. This value can be
   between 300 (5 minutes) and 43200 (12 hours).
 
   When a session expires, no new calls to `GetDashManifest`, `GetMP4InitFragment`, or
   `GetMP4MediaFragment` can be made for that session.
 
-The default is 300 (5 minutes).
+  The default is 300 (5 minutes).
 - `"MaxManifestFragmentResults"`: The maximum number of fragments that are returned in the
   MPEG-DASH manifest.
 
@@ -227,8 +240,8 @@ The default is 300 (5 minutes).
   value. When the `PlaybackMode` is `ON_DEMAND`, the oldest fragments are returned, up to
   this maximum number.
 
-  When there are a higher number of fragments available in a live MPEG-DASH manifest, video
-  players often buffer content before starting playback. Increasing the buffer size
+  When there are a higher number of fragments available in a live MPEG-DASH manifest,
+  video players often buffer content before starting playback. Increasing the buffer size
   increases the playback latency, but it decreases the likelihood that rebuffering will
   occur during playback. We recommend that a live MPEG-DASH manifest have a minimum of 3
   fragments and a maximum of 10 fragments.
@@ -241,50 +254,56 @@ The default is 300 (5 minutes).
   second fragments.
 - `"PlaybackMode"`: Whether to retrieve live, live replay, or archived, on-demand data.
 
-  Features of the three types of sessions include the following:</p> - ** `LIVE` **: For
-  sessions of this type, the MPEG-DASH manifest is continually updated with the latest
-  fragments as they become available. We recommend that the media player retrieve a new
-  manifest on a one-second interval. When this type of session is played in a media player,
-  the user interface typically displays a "live" notification, with no scrubber control for
-  choosing the position in the playback window to display.
+  Features of the three types of sessions include the following:
+
+  - **`LIVE`**: For sessions of this type, the MPEG-DASH manifest is continually updated
+    with the latest fragments as they become available. We recommend that the media
+    player retrieve a new manifest on a one-second interval. When this type of session is
+    played in a media player, the user interface typically displays a "live"
+    notification, with no scrubber control for choosing the position in the playback
+    window to display.
 
   !!! note
-      In `LIVE` mode, the newest available fragments are included in an MPEG-DASH manifest,
-  even if there is a gap between fragments (that is, if a fragment is missing). A gap like
-  this might cause a media player to halt or cause a jump in playback. In this mode,
-  fragments are not added to the MPEG-DASH manifest if they are older than the newest
-  fragment in the playlist. If the missing fragment becomes available after a subsequent
-  fragment is added to the manifest, the older fragment is not added, and the gap is not
-  filled.
-   - ** `LIVE_REPLAY` **: For sessions of this type, the MPEG-DASH manifest is updated
-  similarly to how it is updated for `LIVE` mode except that it starts by including
-  fragments from a given start time. Instead of fragments being added as they are ingested,
-  fragments are added as the duration of the next fragment elapses. For example, if the
-  fragments in the session are two seconds long, then a new fragment is added to the
-  manifest every two seconds. This mode is useful to be able to start playback from when an
-  event is detected and continue live streaming media that has not yet been ingested as of
-  the time of the session creation. This mode is also useful to stream previously archived
-  media without being limited by the 1,000 fragment limit in the `ON_DEMAND` mode.
-   - ** `ON_DEMAND` **: For sessions of this type, the MPEG-DASH manifest contains all the
-  fragments for the session, up to the number that is specified in
-  `MaxManifestFragmentResults`. The manifest must be retrieved only once for each session.
-  When this type of session is played in a media player, the user interface typically
-  displays a scrubber control for choosing the position in the playback window to display.
+      In `LIVE` mode, the newest available fragments are included in an MPEG-DASH
+      manifest, even if there is a gap between fragments (that is, if a fragment is
+      missing). A gap like this might cause a media player to halt or cause a jump in
+      playback. In this mode, fragments are not added to the MPEG-DASH manifest if they
+      are older than the newest fragment in the playlist. If the missing fragment becomes
+      available after a subsequent fragment is added to the manifest, the older fragment
+      is not added, and the gap is not filled.
+
+  - **`LIVE_REPLAY`**: For sessions of this type, the MPEG-DASH manifest is updated
+    similarly to how it is updated for `LIVE` mode except that it starts by including
+    fragments from a given start time. Instead of fragments being added as they are
+    ingested, fragments are added as the duration of the next fragment elapses. For
+    example, if the fragments in the session are two seconds long, then a new fragment is
+    added to the manifest every two seconds. This mode is useful to be able to start
+    playback from when an event is detected and continue live streaming media that has
+    not yet been ingested as of the time of the session creation. This mode is also
+    useful to stream previously archived media without being limited by the 1,000
+    fragment limit in the `ON_DEMAND` mode.
+  - **`ON_DEMAND`**: For sessions of this type, the MPEG-DASH manifest contains all the
+    fragments for the session, up to the number that is specified in
+    `MaxManifestFragmentResults`. The manifest must be retrieved only once for each
+    session. When this type of session is played in a media player, the user interface
+    typically displays a scrubber control for choosing the position in the playback
+    window to display.
+
   In all playback modes, if `FragmentSelectorType` is `PRODUCER_TIMESTAMP`, and if there
   are multiple fragments with the same start timestamp, the fragment that has the larger
-  fragment number (that is, the newer fragment) is included in the MPEG-DASH manifest. The
-  other fragments are not included. Fragments that have different timestamps but have
+  fragment number (that is, the newer fragment) is included in the MPEG-DASH manifest.
+  The other fragments are not included. Fragments that have different timestamps but have
   overlapping durations are still included in the MPEG-DASH manifest. This can lead to
   unexpected behavior in the media player.
 
- <p>The default is `LIVE`.
+  The default is `LIVE`.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the
   MPEG-DASH manifest URL.
 
-You must specify either the `StreamName` or the `StreamARN`.
+  You must specify either the `StreamName` or the `StreamARN`.
 - `"StreamName"`: The name of the stream for which to retrieve the MPEG-DASH manifest URL.
 
-You must specify either the `StreamName` or the `StreamARN`.
+  You must specify either the `StreamName` or the `StreamARN`.
 """
 function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video_archived_media(
@@ -294,6 +313,7 @@ function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dashstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,87 +337,95 @@ Both the `StreamName` and the `StreamARN` parameters are optional, but you must 
 either the `StreamName` or the `StreamARN` when invoking this API operation.
 
 An Amazon Kinesis video stream has the following requirements for providing data through
-HLS:</p> - For streaming video, the media must contain H.264 or H.265 encoded video and,
-optionally, AAC encoded audio. Specifically, the codec ID of track 1 should be
-`V_MPEG/ISO/AVC` (for H.264) or `V_MPEG/ISO/HEVC` (for H.265). Optionally, the codec ID of
-track 2 should be `A_AAC`. For audio only streaming, the codec ID of track 1 should be
-`A_AAC`.
- - Data retention must be greater than 0.
- - The video track of each fragment must contain codec private data in the Advanced Video
-Coding (AVC) for H.264 format or HEVC for H.265 format ([MPEG-4 specification ISO/IEC 14496-15](https://www.iso.org/standard/55980.html)).
-For information about adapting stream data to a given format, see [NAL Adaptation Flags](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-reference-nal.html).
- - The audio track (if present) of each fragment must contain codec private data in the AAC
-format ([AAC specification ISO/IEC 13818-7](https://www.iso.org/standard/43345.html)).
+HLS:
+
+- For streaming video, the media must contain H.264 or H.265 encoded video and, optionally,
+  AAC encoded audio. Specifically, the codec ID of track 1 should be `V_MPEG/ISO/AVC` (for
+  H.264) or `V_MPEG/ISO/HEVC` (for H.265). Optionally, the codec ID of track 2 should be
+  `A_AAC`. For audio only streaming, the codec ID of track 1 should be `A_AAC`.
+- Data retention must be greater than 0.
+- The video track of each fragment must contain codec private data in the Advanced Video
+  Coding (AVC) for H.264 format or HEVC for H.265 format ([MPEG-4 specification ISO/IEC 14496-15](https://www.iso.org/standard/55980.html)).
+  For information about adapting stream data to a given format, see [NAL Adaptation Flags](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-reference-nal.html).
+- The audio track (if present) of each fragment must contain codec private data in the AAC
+  format ([AAC specification ISO/IEC 13818-7](https://www.iso.org/standard/43345.html)).
+
 Kinesis Video Streams HLS sessions contain fragments in the fragmented MPEG-4 form (also
 called fMP4 or CMAF) or the MPEG-2 form (also called TS chunks, which the HLS specification
 also supports). For more information about HLS fragment types, see the [HLS specification](https://tools.ietf.org/html/draft-pantos-http-live-streaming-23).
 
-The following procedure shows how to use HLS with Kinesis Video Streams: 1. Get an endpoint
-using [GetDataEndpoint](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_GetDataEndpoint.html),
-specifying `GET_HLS_STREAMING_SESSION_URL` for the `APIName` parameter.
- 2. Retrieve the HLS URL using `GetHLSStreamingSessionURL`. Kinesis Video Streams creates
-an HLS streaming session to be used for accessing content in a stream using the HLS
-protocol. `GetHLSStreamingSessionURL` returns an authenticated URL (that includes an
-encrypted session token) for the session's HLS *master playlist* (the root resource needed
-for streaming with HLS).
+The following procedure shows how to use HLS with Kinesis Video Streams:
+
+1. Get an endpoint using [GetDataEndpoint](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_GetDataEndpoint.html),
+   specifying `GET_HLS_STREAMING_SESSION_URL` for the `APIName` parameter.2. Retrieve the
+   HLS URL using `GetHLSStreamingSessionURL`. Kinesis Video Streams creates an HLS
+   streaming session to be used for accessing content in a stream using the HLS protocol.
+   `GetHLSStreamingSessionURL` returns an authenticated URL (that includes an encrypted
+   session token) for the session's HLS *master playlist* (the root resource needed for
+   streaming with HLS).
 
 !!! note
     Don't share or store this token where an unauthorized entity could access it. The token
-provides access to the content of the stream. Safeguard the token with the same measures
-that you would use with your Amazon Web Services credentials.The media that is made
-available through the playlist consists only of the requested stream, time range, and
-format. No other media data (such as frames outside the requested window or alternate
-bitrates) is made available.
- 3. Provide the URL (containing the encrypted session token) for the HLS master playlist to
-a media player that supports the HLS protocol. Kinesis Video Streams makes the HLS media
-playlist, initialization fragment, and media fragments available through the master
-playlist URL. The initialization fragment contains the codec private data for the stream,
-and other data needed to set up the video or audio decoder and renderer. The media
-fragments contain H.264-encoded video frames or AAC-encoded audio samples.
- 4. The media player receives the authenticated URL and requests stream metadata and media
-data normally. When the media player requests data, it calls the following actions: -
-**GetHLSMasterPlaylist:** Retrieves an HLS master playlist, which contains a URL for the
-`GetHLSMediaPlaylist` action for each track, and additional metadata for the media player,
-including estimated bitrate and resolution.
- - **GetHLSMediaPlaylist:** Retrieves an HLS media playlist, which contains a URL to access
-the MP4 initialization fragment with the `GetMP4InitFragment` action, and URLs to access
-the MP4 media fragments with the `GetMP4MediaFragment` actions. The HLS media playlist also
-contains metadata about the stream that the player needs to play it, such as whether the
-`PlaybackMode` is `LIVE` or `ON_DEMAND`. The HLS media playlist is typically static for
-sessions with a `PlaybackType` of `ON_DEMAND`. The HLS media playlist is continually
-updated with new fragments for sessions with a `PlaybackType` of `LIVE`. There is a
-distinct HLS media playlist for the video track and the audio track (if applicable) that
-contains MP4 media URLs for the specific track.
- - **GetMP4InitFragment:** Retrieves the MP4 initialization fragment. The media player
-typically loads the initialization fragment before loading any media fragments. This
-fragment contains the "`fytp`" and "`moov`" MP4 atoms, and the child atoms that are needed
-to initialize the media player decoder.
+    provides access to the content of the stream. Safeguard the token with the same
+    measures that you would use with your Amazon Web Services credentials.
+
+The media that is made available through the playlist consists only of the requested
+stream, time range, and format. No other media data (such as frames outside the requested
+window or alternate bitrates) is made available.3. Provide the URL (containing the
+encrypted session token) for the HLS master playlist to a media player that supports the
+HLS protocol. Kinesis Video Streams makes the HLS media playlist, initialization fragment,
+and media fragments available through the master playlist URL. The initialization fragment
+contains the codec private data for the stream, and other data needed to set up the video
+or audio decoder and renderer. The media fragments contain H.264-encoded video frames or
+AAC-encoded audio samples.4. The media player receives the authenticated URL and requests
+stream metadata and media data normally. When the media player requests data, it calls the
+following actions:
+
+- **GetHLSMasterPlaylist:** Retrieves an HLS master playlist, which contains a URL for the
+  `GetHLSMediaPlaylist` action for each track, and additional metadata for the media
+  player, including estimated bitrate and resolution.
+- **GetHLSMediaPlaylist:** Retrieves an HLS media playlist, which contains a URL to access
+  the MP4 initialization fragment with the `GetMP4InitFragment` action, and URLs to access
+  the MP4 media fragments with the `GetMP4MediaFragment` actions. The HLS media playlist
+  also contains metadata about the stream that the player needs to play it, such as whether
+  the `PlaybackMode` is `LIVE` or `ON_DEMAND`. The HLS media playlist is typically static
+  for sessions with a `PlaybackType` of `ON_DEMAND`. The HLS media playlist is continually
+  updated with new fragments for sessions with a `PlaybackType` of `LIVE`. There is a
+  distinct HLS media playlist for the video track and the audio track (if applicable) that
+  contains MP4 media URLs for the specific track.
+- **GetMP4InitFragment:** Retrieves the MP4 initialization fragment. The media player
+  typically loads the initialization fragment before loading any media fragments. This
+  fragment contains the "`fytp`" and "`moov`" MP4 atoms, and the child atoms that are
+  needed to initialize the media player decoder.
 
 The initialization fragment does not correspond to a fragment in a Kinesis video stream. It
 contains only the codec private data for the stream and respective track, which the media
 player needs to decode the media frames.
- - **GetMP4MediaFragment:** Retrieves MP4 media fragments. These fragments contain the
-"`moof`" and "`mdat`" MP4 atoms and their child atoms, containing the encoded fragment's
-media frames and their timestamps.
+- **GetMP4MediaFragment:** Retrieves MP4 media fragments. These fragments contain the
+  "`moof`" and "`mdat`" MP4 atoms and their child atoms, containing the encoded fragment's
+  media frames and their timestamps.
 
 !!! note
     For the HLS streaming session, in-track codec private data (CPD) changes are supported.
-After the first media fragment is made available in a streaming session, fragments can
-contain CPD changes for each track. Therefore, the fragments in a session can have a
-different resolution, bit rate, or other information in the CPD without interrupting
-playback. However, any change made in the track number or track codec format can return an
-error when those different media fragments are loaded. For example, streaming will fail if
-the fragments in the stream change from having only video to having both audio and video,
-or if an AAC audio track is changed to an ALAW audio track. For each streaming session,
-only 500 CPD changes are allowed.Data retrieved with this action is billable. For
-information, see [Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/).
- - **GetTSFragment:** Retrieves MPEG TS fragments containing both initialization and media
-data for all tracks in the stream.
+    After the first media fragment is made available in a streaming session, fragments can
+    contain CPD changes for each track. Therefore, the fragments in a session can have a
+    different resolution, bit rate, or other information in the CPD without interrupting
+    playback. However, any change made in the track number or track codec format can return
+    an error when those different media fragments are loaded. For example, streaming will
+    fail if the fragments in the stream change from having only video to having both audio
+    and video, or if an AAC audio track is changed to an ALAW audio track. For each
+    streaming session, only 500 CPD changes are allowed.
+
+Data retrieved with this action is billable. For information, see [Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/).
+- **GetTSFragment:** Retrieves MPEG TS fragments containing both initialization and media
+  data for all tracks in the stream.
 
 !!! note
     If the `ContainerFormat` is `MPEG_TS`, this API is used instead of `GetMP4InitFragment`
-and `GetMP4MediaFragment` to retrieve stream media.Data retrieved with this action is
-billable. For more information, see [Kinesis Video Streams pricing](https://aws.amazon.com/kinesis/video-streams/pricing/).
+    and `GetMP4MediaFragment` to retrieve stream media.
+
+Data retrieved with this action is billable. For more information, see [Kinesis Video Streams pricing](https://aws.amazon.com/kinesis/video-streams/pricing/).
+
 A streaming session URL must not be shared between players. The service might throttle a
 session if multiple media players are sharing it. For connection limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
 
@@ -413,18 +441,21 @@ on the [Apple Developer site](https://developer.apple.com).
 
 !!! important
     If an error is thrown after invoking a Kinesis Video Streams archived media API, in
-addition to the HTTP status code and the response body, it includes the following pieces of
-information:  - `x-amz-ErrorType` HTTP header – contains a more specific error type in
-addition to what the HTTP status code provides.
- - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web Services,
-the support team can better diagnose the problem if given the Request Id.
-Both the HTTP status code and the ErrorType header can be utilized to make programmatic
-decisions about whether errors are retry-able and under what conditions, as well as provide
-information on what actions the client programmer might need to take in order to
-successfully try again.
+    addition to the HTTP status code and the response body, it includes the following
+    pieces of information:
 
- <p>For more information, see the **Errors** section at the bottom of this topic, as well
-as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
+    - `x-amz-ErrorType` HTTP header – contains a more specific error type in addition to
+      what the HTTP status code provides.
+    - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web
+      Services, the support team can better diagnose the problem if given the Request Id.
+
+    Both the HTTP status code and the ErrorType header can be utilized to make programmatic
+    decisions about whether errors are retry-able and under what conditions, as well as
+    provide information on what actions the client programmer might need to take in order
+    to successfully try again.
+
+    For more information, see the **Errors** section at the bottom of this topic, as well
+    as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
 
 # Optional Parameters
 
@@ -438,44 +469,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   players. MPEG TS typically has a 5-25 percent packaging overhead. This means MPEG TS
   typically requires 5-25 percent more bandwidth and cost than fMP4.
 
-The default is `FRAGMENTED_MP4`.
+  The default is `FRAGMENTED_MP4`.
 - `"DiscontinuityMode"`: Specifies when flags marking discontinuities between fragments are
   added to the media playlists.
 
   Media players typically build a timeline of media content to play, based on the
   timestamps of each fragment. This means that if there is any overlap or gap between
-  fragments (as is typical if <a>HLSFragmentSelector</a> is set to `SERVER_TIMESTAMP`), the
-  media player timeline will also have small gaps between fragments in some places, and
-  will overwrite frames in other places. Gaps in the media player timeline can cause
-  playback to stall and overlaps can cause playback to be jittery. When there are
-  discontinuity flags between fragments, the media player is expected to reset the
-  timeline, resulting in the next fragment being played immediately after the previous
-  fragment.
+  fragments (as is typical if [`hlsfragment_selector`](@ref) is set to
+  `SERVER_TIMESTAMP`), the media player timeline will also have small gaps between
+  fragments in some places, and will overwrite frames in other places. Gaps in the media
+  player timeline can cause playback to stall and overlaps can cause playback to be
+  jittery. When there are discontinuity flags between fragments, the media player is
+  expected to reset the timeline, resulting in the next fragment being played immediately
+  after the previous fragment.
 
-  The following modes are supported: - `ALWAYS`: a discontinuity marker is placed between
-  every fragment in the HLS media playlist. It is recommended to use a value of `ALWAYS` if
-  the fragment timestamps are not accurate.
-   - `NEVER`: no discontinuity markers are placed anywhere. It is recommended to use a
-  value of `NEVER` to ensure the media player timeline most accurately maps to the producer
-  timestamps.
-   - `ON_DISCONTINUITY`: a discontinuity marker is placed between fragments that have a gap
-  or overlap of more than 50 milliseconds. For most playback scenarios, it is recommended
-  to use a value of `ON_DISCONTINUITY` so that the media player timeline is only reset when
-  there is a significant issue with the media timeline (e.g. a missing fragment).
-  The default is `ALWAYS` when <a>HLSFragmentSelector</a> is set to `SERVER_TIMESTAMP`, and
-  `NEVER` when it is set to `PRODUCER_TIMESTAMP`.
+  The following modes are supported:
+
+  - `ALWAYS`: a discontinuity marker is placed between every fragment in the HLS media
+    playlist. It is recommended to use a value of `ALWAYS` if the fragment timestamps are
+    not accurate.
+  - `NEVER`: no discontinuity markers are placed anywhere. It is recommended to use a
+    value of `NEVER` to ensure the media player timeline most accurately maps to the
+    producer timestamps.
+  - `ON_DISCONTINUITY`: a discontinuity marker is placed between fragments that have a
+    gap or overlap of more than 50 milliseconds. For most playback scenarios, it is
+    recommended to use a value of `ON_DISCONTINUITY` so that the media player timeline is
+    only reset when there is a significant issue with the media timeline (e.g. a missing
+    fragment).
+
+  The default is `ALWAYS` when [`hlsfragment_selector`](@ref) is set to
+  `SERVER_TIMESTAMP`, and `NEVER` when it is set to `PRODUCER_TIMESTAMP`.
 - `"DisplayFragmentTimestamp"`: Specifies when the fragment start timestamps should be
-  included in the HLS media playlist. Typically, media players report the playhead position
-  as a time relative to the start of the first fragment in the playback session. However,
-  when the start timestamps are included in the HLS media playlist, some media players
-  might report the current playhead as an absolute time based on the fragment timestamps.
-  This can be useful for creating a playback experience that shows viewers the wall-clock
-  time of the media.
+  included in the HLS media playlist. Typically, media players report the playhead
+  position as a time relative to the start of the first fragment in the playback session.
+  However, when the start timestamps are included in the HLS media playlist, some media
+  players might report the current playhead as an absolute time based on the fragment
+  timestamps. This can be useful for creating a playback experience that shows viewers
+  the wall-clock time of the media.
 
-  The default is `NEVER`. When <a>HLSFragmentSelector</a> is `SERVER_TIMESTAMP`, the
-  timestamps will be the server start timestamps. Similarly, when
-  <a>HLSFragmentSelector</a> is `PRODUCER_TIMESTAMP`, the timestamps will be the producer
-  start timestamps.
+  The default is `NEVER`. When [`hlsfragment_selector`](@ref) is `SERVER_TIMESTAMP`, the
+  timestamps will be the server start timestamps. Similarly, when [`hlsfragment_selector`](@ref)
+  is `PRODUCER_TIMESTAMP`, the timestamps will be the producer start timestamps.
 - `"Expires"`: The time in seconds until the requested session expires. This value can be
   between 300 (5 minutes) and 43200 (12 hours).
 
@@ -483,13 +517,13 @@ The default is `FRAGMENTED_MP4`.
   `GetMP4InitFragment`, `GetMP4MediaFragment`, or `GetTSFragment` can be made for that
   session.
 
-The default is 300 (5 minutes).
+  The default is 300 (5 minutes).
 - `"HLSFragmentSelector"`: The time range of the requested fragment and the source of the
   timestamps.
 
   This parameter is required if `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`. This
-  parameter is optional if PlaybackMode is<code/> `LIVE`. If `PlaybackMode` is `LIVE`, the
-  `FragmentSelectorType` can be set, but the `TimestampRange` should not be set. If
+  parameter is optional if PlaybackMode is<code/> `LIVE`. If `PlaybackMode` is `LIVE`,
+  the `FragmentSelectorType` can be set, but the `TimestampRange` should not be set. If
   `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`, both `FragmentSelectorType` and
   `TimestampRange` must be set.
 - `"MaxMediaPlaylistFragmentResults"`: The maximum number of fragments that are returned in
@@ -499,8 +533,8 @@ The default is 300 (5 minutes).
   value. When the `PlaybackMode` is `ON_DEMAND`, the oldest fragments are returned, up to
   this maximum number.
 
-  When there are a higher number of fragments available in a live HLS media playlist, video
-  players often buffer content before starting playback. Increasing the buffer size
+  When there are a higher number of fragments available in a live HLS media playlist,
+  video players often buffer content before starting playback. Increasing the buffer size
   increases the playback latency, but it decreases the likelihood that rebuffering will
   occur during playback. We recommend that a live HLS media playlist have a minimum of 3
   fragments and a maximum of 10 fragments.
@@ -513,51 +547,56 @@ The default is 300 (5 minutes).
   second fragments.
 - `"PlaybackMode"`: Whether to retrieve live, live replay, or archived, on-demand data.
 
-  Features of the three types of sessions include the following:</p> - ** `LIVE` **: For
-  sessions of this type, the HLS media playlist is continually updated with the latest
-  fragments as they become available. We recommend that the media player retrieve a new
-  playlist on a one-second interval. When this type of session is played in a media player,
-  the user interface typically displays a "live" notification, with no scrubber control for
-  choosing the position in the playback window to display.
+  Features of the three types of sessions include the following:
+
+  - **`LIVE`**: For sessions of this type, the HLS media playlist is continually updated
+    with the latest fragments as they become available. We recommend that the media
+    player retrieve a new playlist on a one-second interval. When this type of session is
+    played in a media player, the user interface typically displays a "live"
+    notification, with no scrubber control for choosing the position in the playback
+    window to display.
 
   !!! note
-      In `LIVE` mode, the newest available fragments are included in an HLS media playlist,
-  even if there is a gap between fragments (that is, if a fragment is missing). A gap like
-  this might cause a media player to halt or cause a jump in playback. In this mode,
-  fragments are not added to the HLS media playlist if they are older than the newest
-  fragment in the playlist. If the missing fragment becomes available after a subsequent
-  fragment is added to the playlist, the older fragment is not added, and the gap is not
-  filled.
-   - ** `LIVE_REPLAY` **: For sessions of this type, the HLS media playlist is updated
-  similarly to how it is updated for `LIVE` mode except that it starts by including
-  fragments from a given start time. Instead of fragments being added as they are ingested,
-  fragments are added as the duration of the next fragment elapses. For example, if the
-  fragments in the session are two seconds long, then a new fragment is added to the media
-  playlist every two seconds. This mode is useful to be able to start playback from when an
-  event is detected and continue live streaming media that has not yet been ingested as of
-  the time of the session creation. This mode is also useful to stream previously archived
-  media without being limited by the 1,000 fragment limit in the `ON_DEMAND` mode.
-   - ** `ON_DEMAND` **: For sessions of this type, the HLS media playlist contains all the
-  fragments for the session, up to the number that is specified in
-  `MaxMediaPlaylistFragmentResults`. The playlist must be retrieved only once for each
-  session. When this type of session is played in a media player, the user interface
-  typically displays a scrubber control for choosing the position in the playback window to
-  display.
+      In `LIVE` mode, the newest available fragments are included in an HLS media
+      playlist, even if there is a gap between fragments (that is, if a fragment is
+      missing). A gap like this might cause a media player to halt or cause a jump in
+      playback. In this mode, fragments are not added to the HLS media playlist if they
+      are older than the newest fragment in the playlist. If the missing fragment becomes
+      available after a subsequent fragment is added to the playlist, the older fragment
+      is not added, and the gap is not filled.
+
+  - **`LIVE_REPLAY`**: For sessions of this type, the HLS media playlist is updated
+    similarly to how it is updated for `LIVE` mode except that it starts by including
+    fragments from a given start time. Instead of fragments being added as they are
+    ingested, fragments are added as the duration of the next fragment elapses. For
+    example, if the fragments in the session are two seconds long, then a new fragment is
+    added to the media playlist every two seconds. This mode is useful to be able to
+    start playback from when an event is detected and continue live streaming media that
+    has not yet been ingested as of the time of the session creation. This mode is also
+    useful to stream previously archived media without being limited by the 1,000
+    fragment limit in the `ON_DEMAND` mode.
+  - **`ON_DEMAND`**: For sessions of this type, the HLS media playlist contains all the
+    fragments for the session, up to the number that is specified in
+    `MaxMediaPlaylistFragmentResults`. The playlist must be retrieved only once for each
+    session. When this type of session is played in a media player, the user interface
+    typically displays a scrubber control for choosing the position in the playback
+    window to display.
+
   In all playback modes, if `FragmentSelectorType` is `PRODUCER_TIMESTAMP`, and if there
   are multiple fragments with the same start timestamp, the fragment that has the largest
-  fragment number (that is, the newest fragment) is included in the HLS media playlist. The
-  other fragments are not included. Fragments that have different timestamps but have
+  fragment number (that is, the newest fragment) is included in the HLS media playlist.
+  The other fragments are not included. Fragments that have different timestamps but have
   overlapping durations are still included in the HLS media playlist. This can lead to
   unexpected behavior in the media player.
 
- <p>The default is `LIVE`.
+  The default is `LIVE`.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the HLS
   master playlist URL.
 
-You must specify either the `StreamName` or the `StreamARN`.
+  You must specify either the `StreamName` or the `StreamARN`.
 - `"StreamName"`: The name of the stream for which to retrieve the HLS master playlist URL.
 
-You must specify either the `StreamName` or the `StreamARN`.
+  You must specify either the `StreamName` or the `StreamARN`.
 """
 function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video_archived_media(
@@ -567,6 +606,7 @@ function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hlsstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -604,29 +644,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FormatConfig"`: The list of a key-value pair structure that contains extra parameters
   that can be applied when the image is generated. The `FormatConfig` key is the
-  `JPEGQuality`, which indicates the JPEG quality key to be used to generate the image. The
-  `FormatConfig` value accepts ints from 1 to 100. If the value is 1, the image will be
-  generated with less quality and the best compression. If the value is 100, the image will
-  be generated with the best quality and less compression. If no value is provided, the
-  default value of the `JPEGQuality` key will be set to 80.
+  `JPEGQuality`, which indicates the JPEG quality key to be used to generate the image.
+  The `FormatConfig` value accepts ints from 1 to 100. If the value is 1, the image will
+  be generated with less quality and the best compression. If the value is 100, the image
+  will be generated with the best quality and less compression. If no value is provided,
+  the default value of the `JPEGQuality` key will be set to 80.
 - `"HeightPixels"`: The height of the output image that is used in conjunction with the
   `WidthPixels` parameter. When both `HeightPixels` and `WidthPixels` parameters are
   provided, the image will be stretched to fit the specified aspect ratio. If only the
-  `HeightPixels` parameter is provided, its original aspect ratio will be used to calculate
-  the `WidthPixels` ratio. If neither parameter is provided, the original image size will
-  be returned.
+  `HeightPixels` parameter is provided, its original aspect ratio will be used to
+  calculate the `WidthPixels` ratio. If neither parameter is provided, the original image
+  size will be returned.
 - `"MaxResults"`: The maximum number of images to be returned by the API.
 
   !!! note
       The default limit is 25 images per API response. Providing a `MaxResults` greater
-  than this value will result in a page size of 25. Any additional results will be
-  paginated.
+      than this value will result in a page size of 25. Any additional results will be
+      paginated.
+
 - `"NextToken"`: A token that specifies where to start paginating the next set of Images.
   This is the `GetImages:NextToken` from a previously truncated response.
 - `"SamplingInterval"`: The time interval in milliseconds (ms) at which the images need to
-  be generated from the stream. The minimum value that can be provided is 200 ms (5 images
-  per second). If the timestamp range is less than the sampling interval, the image from
-  the `startTimestamp` will be returned if available.
+  be generated from the stream. The minimum value that can be provided is 200 ms (5
+  images per second). If the timestamp range is less than the sampling interval, the
+  image from the `startTimestamp` will be returned if available.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream from which to retrieve the
   images. You must specify either the `StreamName` or the `StreamARN`.
 - `"StreamName"`: The name of the stream from which to retrieve the images. You must
@@ -658,6 +699,7 @@ function get_images(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_images(
     EndTimestamp,
     Format,
@@ -691,32 +733,36 @@ end
     get_media_for_fragment_list(fragments, params::Dict{String,<:Any})
 
 Gets media for a list of fragments (specified by fragment number) from the archived data in
-an Amazon Kinesis video stream.</p>
+an Amazon Kinesis video stream.
 
 !!! note
     You must first call the `GetDataEndpoint` API to get an endpoint. Then send the
-`GetMediaForFragmentList` requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/).For
-limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
+    `GetMediaForFragmentList` requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/).
+
+For limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
 
 !!! important
     If an error is thrown after invoking a Kinesis Video Streams archived media API, in
-addition to the HTTP status code and the response body, it includes the following pieces of
-information:  - `x-amz-ErrorType` HTTP header – contains a more specific error type in
-addition to what the HTTP status code provides.
- - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web Services,
-the support team can better diagnose the problem if given the Request Id.
-Both the HTTP status code and the ErrorType header can be utilized to make programmatic
-decisions about whether errors are retry-able and under what conditions, as well as provide
-information on what actions the client programmer might need to take in order to
-successfully try again.
+    addition to the HTTP status code and the response body, it includes the following
+    pieces of information:
 
- <p>For more information, see the **Errors** section at the bottom of this topic, as well
-as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
+    - `x-amz-ErrorType` HTTP header – contains a more specific error type in addition to
+      what the HTTP status code provides.
+    - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web
+      Services, the support team can better diagnose the problem if given the Request Id.
+
+    Both the HTTP status code and the ErrorType header can be utilized to make programmatic
+    decisions about whether errors are retry-able and under what conditions, as well as
+    provide information on what actions the client programmer might need to take in order
+    to successfully try again.
+
+    For more information, see the **Errors** section at the bottom of this topic, as well
+    as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
 
 # Arguments
 
 - `fragments`: A list of the numbers of fragments for which to retrieve media. You retrieve
-  these values with <a>ListFragments</a>.
+  these values with [`list_fragments`](@ref).
 
 # Optional Parameters
 
@@ -738,6 +784,7 @@ function get_media_for_fragment_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_for_fragment_list(
     Fragments,
     params::AbstractDict{String};
@@ -758,32 +805,35 @@ end
     list_fragments()
     list_fragments(params::Dict{String,<:Any})
 
-Returns a list of <a>Fragment</a> objects from the specified stream and timestamp range
+Returns a list of [`fragment`](@ref) objects from the specified stream and timestamp range
 within the archived data.
 
 Listing fragments is eventually consistent. This means that even if the producer receives
 an acknowledgment that a fragment is persisted, the result might not be returned
 immediately from a request to `ListFragments`. However, results are typically available in
-less than one second.</p>
+less than one second.
 
 !!! note
     You must first call the `GetDataEndpoint` API to get an endpoint. Then send the
-`ListFragments` requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/).
+    `ListFragments` requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/).
 
 !!! important
     If an error is thrown after invoking a Kinesis Video Streams archived media API, in
-addition to the HTTP status code and the response body, it includes the following pieces of
-information:  - `x-amz-ErrorType` HTTP header – contains a more specific error type in
-addition to what the HTTP status code provides.
- - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web Services,
-the support team can better diagnose the problem if given the Request Id.
-Both the HTTP status code and the ErrorType header can be utilized to make programmatic
-decisions about whether errors are retry-able and under what conditions, as well as provide
-information on what actions the client programmer might need to take in order to
-successfully try again.
+    addition to the HTTP status code and the response body, it includes the following
+    pieces of information:
 
- <p>For more information, see the **Errors** section at the bottom of this topic, as well
-as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
+    - `x-amz-ErrorType` HTTP header – contains a more specific error type in addition to
+      what the HTTP status code provides.
+    - `x-amz-RequestId` HTTP header – if you want to report an issue to Amazon Web
+      Services, the support team can better diagnose the problem if given the Request Id.
+
+    Both the HTTP status code and the ErrorType header can be utilized to make programmatic
+    decisions about whether errors are retry-able and under what conditions, as well as
+    provide information on what actions the client programmer might need to take in order
+    to successfully try again.
+
+    For more information, see the **Errors** section at the bottom of this topic, as well
+    as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
 
 # Optional Parameters
 
@@ -792,14 +842,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FragmentSelector"`: Describes the timestamp range and timestamp origin for the range of
   fragments to return.
 
-!!! note
-    This is only required when the `NextToken` isn't passed in the API.
+  !!! note
+      This is only required when the `NextToken` isn't passed in the API.
+
 - `"MaxResults"`: The total number of fragments to return. If the total number of fragments
-  available is more than the value specified in `max-results`, then a
-  <a>ListFragmentsOutput\$NextToken</a> is provided in the output that you can use to
-  resume pagination.
-- `"NextToken"`: A token to specify where to start paginating. This is the
-  <a>ListFragmentsOutput\$NextToken</a> from a previously truncated response.
+  available is more than the value specified in `max-results`, then a [`list_fragments_output\$_next_token`](@ref)
+  is provided in the output that you can use to resume pagination.
+- `"NextToken"`: A token to specify where to start paginating. This is the [`list_fragments_output\$_next_token`](@ref)
+  from a previously truncated response.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream from which to retrieve a
   fragment list. Specify either this parameter or the `StreamName` parameter.
 - `"StreamName"`: The name of the stream from which to retrieve a fragment list. Specify
@@ -810,6 +860,7 @@ function list_fragments(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fragments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

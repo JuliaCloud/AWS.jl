@@ -34,6 +34,7 @@ function describe_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_execution(
     jobId,
     thingName,
@@ -69,6 +70,7 @@ function get_pending_job_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pending_job_executions(
     thingName,
     params::AbstractDict{String};
@@ -100,12 +102,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusDetails"`: A collection of name/value pairs that describe the status of the job
   execution. If not specified, the statusDetails are unchanged.
 - `"stepTimeoutInMinutes"`: Specifies the amount of time this device has to finish
-  execution of this job. If the job execution status is not set to a terminal state before
-  this timer expires, or before the timer is reset (by calling `UpdateJobExecution`,
-  setting the status to `IN_PROGRESS` and specifying a new timeout value in field
-  `stepTimeoutInMinutes`) the job execution status will be automatically set to
-  `TIMED_OUT`. Note that setting this timeout has no effect on that job execution timeout
-  which may have been specified when the job was created (`CreateJob` using field
+  execution of this job. If the job execution status is not set to a terminal state
+  before this timer expires, or before the timer is reset (by calling
+  `UpdateJobExecution`, setting the status to `IN_PROGRESS` and specifying a new timeout
+  value in field `stepTimeoutInMinutes`) the job execution status will be automatically
+  set to `TIMED_OUT`. Note that setting this timeout has no effect on that job execution
+  timeout which may have been specified when the job was created (`CreateJob` using field
   `timeoutConfig`).
 """
 function start_next_pending_job_execution(
@@ -118,6 +120,7 @@ function start_next_pending_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_next_pending_job_execution(
     thingName,
     params::AbstractDict{String};
@@ -152,24 +155,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"executionNumber"`: Optional. A number that identifies a particular job execution on a
   particular device.
 - `"expectedVersion"`: Optional. The expected current version of the job execution. Each
-  time you update the job execution, its version is incremented. If the version of the job
-  execution stored in Jobs does not match, the update is rejected with a VersionMismatch
-  error, and an ErrorResponse that contains the current job execution status data is
-  returned. (This makes it unnecessary to perform a separate DescribeJobExecution request
-  in order to obtain the job execution status data.)
+  time you update the job execution, its version is incremented. If the version of the
+  job execution stored in Jobs does not match, the update is rejected with a
+  VersionMismatch error, and an ErrorResponse that contains the current job execution
+  status data is returned. (This makes it unnecessary to perform a separate
+  DescribeJobExecution request in order to obtain the job execution status data.)
 - `"includeJobDocument"`: Optional. When set to true, the response contains the job
   document. The default is false.
 - `"includeJobExecutionState"`: Optional. When included and set to true, the response
   contains the JobExecutionState data. The default is false.
-- `"statusDetails"`:  Optional. A collection of name/value pairs that describe the status
-  of the job execution. If not specified, the statusDetails are unchanged.
+- `"statusDetails"`: Optional. A collection of name/value pairs that describe the status of
+  the job execution. If not specified, the statusDetails are unchanged.
 - `"stepTimeoutInMinutes"`: Specifies the amount of time this device has to finish
-  execution of this job. If the job execution status is not set to a terminal state before
-  this timer expires, or before the timer is reset (by again calling `UpdateJobExecution`,
-  setting the status to `IN_PROGRESS` and specifying a new timeout value in this field) the
-  job execution status will be automatically set to `TIMED_OUT`. Note that setting or
-  resetting this timeout has no effect on that job execution timeout which may have been
-  specified when the job was created (`CreateJob` using field `timeoutConfig`).
+  execution of this job. If the job execution status is not set to a terminal state
+  before this timer expires, or before the timer is reset (by again calling
+  `UpdateJobExecution`, setting the status to `IN_PROGRESS` and specifying a new timeout
+  value in this field) the job execution status will be automatically set to `TIMED_OUT`.
+  Note that setting or resetting this timeout has no effect on that job execution timeout
+  which may have been specified when the job was created (`CreateJob` using field
+  `timeoutConfig`).
 """
 function update_job_execution(
     jobId, status, thingName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -182,6 +186,7 @@ function update_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job_execution(
     jobId,
     status,

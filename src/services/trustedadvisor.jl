@@ -28,6 +28,7 @@ function batch_update_recommendation_resource_exclusion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_recommendation_resource_exclusion(
     recommendationResourceExclusions,
     params::AbstractDict{String};
@@ -71,6 +72,7 @@ function get_organization_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organization_recommendation(
     organizationRecommendationIdentifier,
     params::AbstractDict{String};
@@ -105,6 +107,7 @@ function get_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendation(
     recommendationIdentifier,
     params::AbstractDict{String};
@@ -142,6 +145,7 @@ function list_checks(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/checks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_checks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +184,7 @@ function list_organization_recommendation_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_recommendation_accounts(
     organizationRecommendationIdentifier,
     params::AbstractDict{String};
@@ -228,6 +233,7 @@ function list_organization_recommendation_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_recommendation_resources(
     organizationRecommendationIdentifier,
     params::AbstractDict{String};
@@ -275,6 +281,7 @@ function list_organization_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -318,6 +325,7 @@ function list_recommendation_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendation_resources(
     recommendationIdentifier,
     params::AbstractDict{String};
@@ -359,6 +367,7 @@ function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/v1/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -404,6 +413,7 @@ function update_organization_recommendation_lifecycle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_recommendation_lifecycle(
     lifecycleStage,
     organizationRecommendationIdentifier,
@@ -453,6 +463,7 @@ function update_recommendation_lifecycle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recommendation_lifecycle(
     lifecycleStage,
     recommendationIdentifier,

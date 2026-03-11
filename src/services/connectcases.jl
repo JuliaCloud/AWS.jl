@@ -26,6 +26,7 @@ function batch_get_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_field(
     domainId,
     fields,
@@ -64,6 +65,7 @@ function batch_put_field_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_field_options(
     domainId,
     fieldId,
@@ -88,15 +90,9 @@ end
 
 !!! note
     If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
-permission on the User ARN resource that you provide <pre>` &lt;p&gt;Creates a case in the
-specified Cases domain. Case system and custom fields are taken as an array id/value pairs
-with a declared data types.&lt;/p&gt; &lt;p&gt;The following fields are required when
-creating a case:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-&lt;code&gt;customer_id&lt;/code&gt; - You must provide the full customer profile ARN in
-this format: &lt;code&gt;arn:aws:profile:your_AWS_Region:your_AWS_account
-ID:domains/your_profiles_domain_name/profiles/profile_ID&lt;/code&gt; &lt;/p&gt;
-&lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-&lt;/ul&gt; `</pre>
+    permission on the User ARN resource that you provide
+
+ <pre>`&lt;p&gt;Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.&lt;/p&gt; &lt;p&gt;The following fields are required when creating a case:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;customer_id&lt;/code&gt; - You must provide the full customer profile ARN in this format: &lt;code&gt;arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
 
 # Arguments
 
@@ -127,6 +123,7 @@ function create_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_case(
     domainId,
     fields,
@@ -163,7 +160,7 @@ and layouts. Each Amazon Connect instance can be associated with only one Cases 
 Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html)
 API. You need specific IAM permissions to successfully associate the Cases domain. For more
 information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
-<pre>` &lt;/important&gt; `</pre>
+<pre>`&lt;/important&gt;`</pre>
 
 # Arguments
 
@@ -179,6 +176,7 @@ function create_domain(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -221,6 +219,7 @@ function create_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_field(
     domainId,
     name,
@@ -244,9 +243,10 @@ end
     create_layout(content, domain_id, name, params::Dict{String,<:Any})
 
 Creates a layout in the Cases domain. Layouts define the following configuration in the top
-section and More Info tab of the Cases user interface: - Fields to display to the users
- - Field ordering
+section and More Info tab of the Cases user interface:
 
+- Fields to display to the users
+- Field ordering
 
 !!! note
     Title and Status fields cannot be part of layouts since they are not configurable.
@@ -269,6 +269,7 @@ function create_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_layout(
     content,
     domainId,
@@ -294,13 +295,16 @@ end
     create_related_item(case_id, content, domain_id, type, params::Dict{String,<:Any})
 
 Creates a related item (comments, tasks, and contacts) and associates it with a case.
-<note> - A Related Item is a resource that is associated with a case. It may or may not
-have an external identifier linking it to an external resource (for example, a
-`contactArn`). All Related Items have their own internal identifier, the `relatedItemArn`.
-Examples of related items include `comments` and `contacts`.
- - If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
-permission on the ARN of the user that you provide.
- <pre>` &lt;/note&gt; `</pre>
+<note>
+
+- A Related Item is a resource that is associated with a case. It may or may not have an
+  external identifier linking it to an external resource (for example, a `contactArn`). All
+  Related Items have their own internal identifier, the `relatedItemArn`. Examples of
+  related items include `comments` and `contacts`.
+- If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
+  permission on the ARN of the user that you provide.
+
+ <pre>`&lt;/note&gt;`</pre>
 
 # Arguments
 
@@ -326,6 +330,7 @@ function create_related_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_related_item(
     caseId,
     content,
@@ -382,6 +387,7 @@ function create_template(domainId, name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template(
     domainId,
     name,
@@ -401,11 +407,8 @@ end
     delete_domain(domain_id)
     delete_domain(domain_id, params::Dict{String,<:Any})
 
-Deletes a Cases domain. <pre>` &lt;note&gt; &lt;p&gt;After deleting your domain you must
-disassociate the deleted domain from your Amazon Connect instance with another API call
-before being able to use Cases again with this Amazon Connect instance. See &lt;a
-href=&quot;https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt;
-&lt;/note&gt; `</pre>
+Deletes a Cases domain.
+<pre>`&lt;note&gt; &lt;p&gt;After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See &lt;a href=&quot;https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt; &lt;/note&gt;`</pre>
 
 # Arguments
 
@@ -419,6 +422,7 @@ function delete_domain(domainId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     domainId,
     params::AbstractDict{String};
@@ -439,25 +443,27 @@ end
 
 Deletes a field from a cases template. You can delete up to 100 fields per domain.
 
-After a field is deleted: - You can still retrieve the field by calling `BatchGetField`.
- - You cannot update a deleted field by calling `UpdateField`; it throws a
-`ValidationException`.
- - Deleted fields are not included in the `ListFields` response.
- - Calling `CreateCase` with a deleted field throws a `ValidationException` denoting which
-field IDs in the request have been deleted.
- - Calling `GetCase` with a deleted field ID returns the deleted field's value if one
-exists.
- - Calling `UpdateCase` with a deleted field ID throws a `ValidationException` if the case
-does not already contain a value for the deleted field. Otherwise it succeeds, allowing you
-to update or remove (using `emptyValue: {}`) the field's value from the case.
- - `GetTemplate` does not return field IDs for deleted fields.
- - `GetLayout` does not return field IDs for deleted fields.
- - Calling `SearchCases` with the deleted field ID as a filter returns any cases that have
-a value for the deleted field that matches the filter criteria.
- - Calling `SearchCases` with a `searchTerm` value that matches a deleted field's value on
-a case returns the case in the response.
- - Calling `BatchPutFieldOptions` with a deleted field ID throw a `ValidationException`.
- - Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
+After a field is deleted:
+
+- You can still retrieve the field by calling `BatchGetField`.
+- You cannot update a deleted field by calling `UpdateField`; it throws a
+  `ValidationException`.
+- Deleted fields are not included in the `ListFields` response.
+- Calling `CreateCase` with a deleted field throws a `ValidationException` denoting which
+  field IDs in the request have been deleted.
+- Calling `GetCase` with a deleted field ID returns the deleted field's value if one
+  exists.
+- Calling `UpdateCase` with a deleted field ID throws a `ValidationException` if the case
+  does not already contain a value for the deleted field. Otherwise it succeeds, allowing
+  you to update or remove (using `emptyValue: {}`) the field's value from the case.
+- `GetTemplate` does not return field IDs for deleted fields.
+- `GetLayout` does not return field IDs for deleted fields.
+- Calling `SearchCases` with the deleted field ID as a filter returns any cases that have a
+  value for the deleted field that matches the filter criteria.
+- Calling `SearchCases` with a `searchTerm` value that matches a deleted field's value on a
+  case returns the case in the response.
+- Calling `BatchPutFieldOptions` with a deleted field ID throw a `ValidationException`.
+- Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
 
 # Arguments
 
@@ -472,6 +478,7 @@ function delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_field(
     domainId,
     fieldId,
@@ -491,14 +498,8 @@ end
     delete_layout(domain_id, layout_id)
     delete_layout(domain_id, layout_id, params::Dict{String,<:Any})
 
-Deletes a layout from a cases template. You can delete up to 100 layouts per domain. <pre>`
-&lt;p&gt;After a layout is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still
-retrieve the layout by calling &lt;code&gt;GetLayout&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt;
-&lt;li&gt; &lt;p&gt;You cannot update a deleted layout by calling
-&lt;code&gt;UpdateLayout&lt;/code&gt;; it throws a
-&lt;code&gt;ValidationException&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-&lt;p&gt;Deleted layouts are not included in the &lt;code&gt;ListLayouts&lt;/code&gt;
-response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; `</pre>
+Deletes a layout from a cases template. You can delete up to 100 layouts per domain.
+<pre>`&lt;p&gt;After a layout is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still retrieve the layout by calling &lt;code&gt;GetLayout&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot update a deleted layout by calling &lt;code&gt;UpdateLayout&lt;/code&gt;; it throws a &lt;code&gt;ValidationException&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Deleted layouts are not included in the &lt;code&gt;ListLayouts&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
 
 # Arguments
 
@@ -515,6 +516,7 @@ function delete_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_layout(
     domainId,
     layoutId,
@@ -534,13 +536,8 @@ end
     delete_template(domain_id, template_id)
     delete_template(domain_id, template_id, params::Dict{String,<:Any})
 
-Deletes a cases template. You can delete up to 100 templates per domain. <pre>`
-&lt;p&gt;After a cases template is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You
-can still retrieve the template by calling &lt;code&gt;GetTemplate&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot update the template. &lt;/p&gt; &lt;/li&gt;
-&lt;li&gt; &lt;p&gt;You cannot create a case by using the deleted template.&lt;/p&gt;
-&lt;/li&gt; &lt;li&gt; &lt;p&gt;Deleted templates are not included in the
-&lt;code&gt;ListTemplates&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; `</pre>
+Deletes a cases template. You can delete up to 100 templates per domain.
+<pre>`&lt;p&gt;After a cases template is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still retrieve the template by calling &lt;code&gt;GetTemplate&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot update the template. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot create a case by using the deleted template.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Deleted templates are not included in the &lt;code&gt;ListTemplates&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
 
 # Arguments
 
@@ -557,6 +554,7 @@ function delete_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template(
     domainId,
     templateId,
@@ -602,6 +600,7 @@ function get_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case(
     caseId,
     domainId,
@@ -648,6 +647,7 @@ function get_case_audit_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case_audit_events(
     caseId,
     domainId,
@@ -683,6 +683,7 @@ function get_case_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case_event_configuration(
     domainId,
     params::AbstractDict{String};
@@ -715,6 +716,7 @@ function get_domain(domainId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain(
     domainId,
     params::AbstractDict{String};
@@ -748,6 +750,7 @@ function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_layout(
     domainId,
     layoutId,
@@ -784,6 +787,7 @@ function get_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template(
     domainId,
     templateId,
@@ -829,6 +833,7 @@ function list_cases_for_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cases_for_contact(
     contactArn,
     domainId,
@@ -866,6 +871,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -908,6 +914,7 @@ function list_field_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_field_options(
     domainId,
     fieldId,
@@ -949,6 +956,7 @@ function list_fields(domainId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fields(
     domainId,
     params::AbstractDict{String};
@@ -990,6 +998,7 @@ function list_layouts(domainId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_layouts(
     domainId,
     params::AbstractDict{String};
@@ -1019,6 +1028,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1069,7 @@ function list_templates(domainId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_templates(
     domainId,
     params::AbstractDict{String};
@@ -1098,6 +1109,7 @@ function put_case_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_case_event_configuration(
     domainId,
     eventBridge,
@@ -1123,9 +1135,8 @@ Searches for cases within their associated Cases domain. Search results are retu
 paginated list of abridged case documents.
 
 !!! note
-    For `customer_id` you must provide the full customer profile ARN in this format: `
-arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain
-name/profiles/profile ID`.
+    For `customer_id` you must provide the full customer profile ARN in this format:
+    `arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID`.
 
 # Arguments
 
@@ -1153,6 +1164,7 @@ function search_cases(domainId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_cases(
     domainId,
     params::AbstractDict{String};
@@ -1200,6 +1212,7 @@ function search_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_related_items(
     caseId,
     domainId,
@@ -1236,6 +1249,7 @@ function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     arn,
     tags,
@@ -1271,6 +1285,7 @@ function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     arn,
     tagKeys,
@@ -1294,11 +1309,9 @@ end
 
 !!! note
     If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
-permission on the User ARN resource that you provide <pre>` &lt;p&gt;Updates the values of
-fields on a case. Fields to be updated are received as an array of id/value pairs identical
-to the &lt;code&gt;CreateCase&lt;/code&gt; input .&lt;/p&gt; &lt;p&gt;If the action is
-successful, the service sends back an HTTP 200 response with an empty HTTP body.&lt;/p&gt;
-`</pre>
+    permission on the User ARN resource that you provide
+
+ <pre>`&lt;p&gt;Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the &lt;code&gt;CreateCase&lt;/code&gt; input .&lt;/p&gt; &lt;p&gt;If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.&lt;/p&gt;`</pre>
 
 # Arguments
 
@@ -1324,6 +1337,7 @@ function update_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_case(
     caseId,
     domainId,
@@ -1366,6 +1380,7 @@ function update_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_field(
     domainId,
     fieldId,
@@ -1418,6 +1433,7 @@ function update_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_layout(
     domainId,
     layoutId,
@@ -1468,6 +1484,7 @@ function update_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template(
     domainId,
     templateId,

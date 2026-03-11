@@ -13,8 +13,8 @@ get the status of a detection job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
-  `StartEntitiesDetectionV2Job` operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The [`start_entities_detection_v2_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_entities_detection_v2_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -26,6 +26,7 @@ function describe_entities_detection_v2_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entities_detection_v2_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -46,8 +47,8 @@ status of an inference job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. `The
-  StartICD10CMInferenceJob` operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. [`the _start_icd10_cminference_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_icd10_cminference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -59,6 +60,7 @@ function describe_icd10_cminference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_icd10_cminference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -79,8 +81,8 @@ this operation to get the status of a detection job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
-  `StartPHIDetectionJob` operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The [`start_phidetection_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_phidetection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -92,6 +94,7 @@ function describe_phidetection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_phidetection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -125,6 +128,7 @@ function describe_rx_norm_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rx_norm_inference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -140,12 +144,12 @@ end
     describe_snomedctinference_job(job_id)
     describe_snomedctinference_job(job_id, params::Dict{String,<:Any})
 
- Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the
+Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the
 status of an inference job.
 
 # Arguments
 
-- `job_id`:  The identifier that Amazon Comprehend Medical generated for the job. The
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
   StartSNOMEDCTInferenceJob operation returns this identifier in its response.
 """
 function describe_snomedctinference_job(
@@ -158,6 +162,7 @@ function describe_snomedctinference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_snomedctinference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -173,7 +178,7 @@ end
     detect_entities(text)
     detect_entities(text, params::Dict{String,<:Any})
 
-The `DetectEntities` operation is deprecated. You should use the <a>DetectEntitiesV2</a>
+The [`detect_entities`](@ref) operation is deprecated. You should use the [`detect_entities_v2`](@ref)
 operation instead.
 
 Inspects the clinical text for a variety of medical entities and returns specific
@@ -182,7 +187,7 @@ information.
 
 # Arguments
 
-- `text`:  A UTF-8 text string containing the clinical content being examined for entities.
+- `text`: A UTF-8 text string containing the clinical content being examined for entities.
 """
 function detect_entities(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
@@ -192,6 +197,7 @@ function detect_entities(Text; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_entities(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -212,12 +218,12 @@ information about them such as entity category, location, and confidence score o
 information. Amazon Comprehend Medical only detects medical entities in English language
 texts.
 
-The `DetectEntitiesV2` operation replaces the <a>DetectEntities</a> operation. This new
-action uses a different model for determining the entities in your medical text and changes
-the way that some entities are returned in the output. You should use the
-`DetectEntitiesV2` operation in all new applications.
+The [`detect_entities_v2`](@ref) operation replaces the [`detect_entities`](@ref)
+operation. This new action uses a different model for determining the entities in your
+medical text and changes the way that some entities are returned in the output. You should
+use the [`detect_entities_v2`](@ref) operation in all new applications.
 
-The `DetectEntitiesV2` operation returns the `Acuity` and `Direction` entities as
+The [`detect_entities_v2`](@ref) operation returns the `Acuity` and `Direction` entities as
 attributes instead of types.
 
 # Arguments
@@ -232,6 +238,7 @@ function detect_entities_v2(Text; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_entities_v2(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +271,7 @@ function detect_phi(Text; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_phi(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,6 +304,7 @@ function infer_icd10_cm(Text; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function infer_icd10_cm(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -313,8 +322,7 @@ end
 
 InferRxNorm detects medications as entities listed in a patient record and links to the
 normalized concept identifiers in the RxNorm database from the National Library of
-Medicine. Amazon Comprehend Medical only detects medical entities in English language
-texts.
+Medicine. Amazon Comprehend Medical only detects medical entities in English language texts.
 
 # Arguments
 
@@ -328,6 +336,7 @@ function infer_rx_norm(Text; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function infer_rx_norm(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -343,7 +352,7 @@ end
     infer_snomedct(text)
     infer_snomedct(text, params::Dict{String,<:Any})
 
- InferSNOMEDCT detects possible medical concepts as entities and links them to codes from
+InferSNOMEDCT detects possible medical concepts as entities and links them to codes from
 the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
 
 # Arguments
@@ -358,6 +367,7 @@ function infer_snomedct(Text; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function infer_snomedct(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -394,6 +404,7 @@ function list_entities_detection_v2_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entities_detection_v2_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -426,6 +437,7 @@ function list_icd10_cminference_jobs(; aws_config::AbstractAWSConfig=current_aws
         "ListICD10CMInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_icd10_cminference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -458,6 +470,7 @@ function list_phidetection_jobs(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListPHIDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_phidetection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -490,6 +503,7 @@ function list_rx_norm_inference_jobs(; aws_config::AbstractAWSConfig=current_aws
         "ListRxNormInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rx_norm_inference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,22 +519,22 @@ end
     list_snomedctinference_jobs()
     list_snomedctinference_jobs(params::Dict{String,<:Any})
 
- Gets a list of InferSNOMEDCT jobs a user has submitted.
+Gets a list of InferSNOMEDCT jobs a user has submitted.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filter"`:
-- `"MaxResults"`:  The maximum number of results to return in each page. The default is
-  100.
-- `"NextToken"`:  Identifies the next page of InferSNOMEDCT results to return.
+- `"MaxResults"`: The maximum number of results to return in each page. The default is 100.
+- `"NextToken"`: Identifies the next page of InferSNOMEDCT results to return.
 """
 function list_snomedctinference_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "ListSNOMEDCTInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_snomedctinference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -536,8 +550,8 @@ end
     start_entities_detection_v2_job(data_access_role_arn, input_data_config, language_code, output_data_config)
     start_entities_detection_v2_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
-Starts an asynchronous medical entity detection job for a collection of documents. Use the
-`DescribeEntitiesDetectionV2Job` operation to track the status of a job.
+Starts an asynchronous medical entity detection job for a collection of documents. Use the [`describe_entities_detection_v2_job`](@ref)
+operation to track the status of a job.
 
 # Arguments
 
@@ -581,6 +595,7 @@ function start_entities_detection_v2_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_entities_detection_v2_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -614,13 +629,14 @@ end
     start_icd10_cminference_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM
-ontology. Use the `DescribeICD10CMInferenceJob` operation to track the status of a job.
+ontology. Use the [`describe_icd10_cminference_job`](@ref) operation to track the status of
+a job.
 
 # Arguments
 
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
   Management (IAM) role that grants Amazon Comprehend Medical read access to your input
-  data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
+  data. For more information, see [Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
@@ -656,6 +672,7 @@ function start_icd10_cminference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_icd10_cminference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -688,14 +705,14 @@ end
     start_phidetection_job(data_access_role_arn, input_data_config, language_code, output_data_config)
     start_phidetection_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
-Starts an asynchronous job to detect protected health information (PHI). Use the
-`DescribePHIDetectionJob` operation to track the status of a job.
+Starts an asynchronous job to detect protected health information (PHI). Use the [`describe_phidetection_job`](@ref)
+operation to track the status of a job.
 
 # Arguments
 
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
   Management (IAM) role that grants Amazon Comprehend Medical read access to your input
-  data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
+  data. For more information, see [Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
@@ -731,6 +748,7 @@ function start_phidetection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_phidetection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -764,13 +782,14 @@ end
     start_rx_norm_inference_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous job to detect medication entities and link them to the RxNorm
-ontology. Use the `DescribeRxNormInferenceJob` operation to track the status of a job.
+ontology. Use the [`describe_rx_norm_inference_job`](@ref) operation to track the status of
+a job.
 
 # Arguments
 
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
   Management (IAM) role that grants Amazon Comprehend Medical read access to your input
-  data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
+  data. For more information, see [Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
@@ -806,6 +825,7 @@ function start_rx_norm_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_rx_norm_inference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -838,16 +858,16 @@ end
     start_snomedctinference_job(data_access_role_arn, input_data_config, language_code, output_data_config)
     start_snomedctinference_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
- Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT
+Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT
 ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
 
 # Arguments
 
-- `data_access_role_arn`:  The Amazon Resource Name (ARN) of the AWS Identity and Access
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
   Management (IAM) role that grants Amazon Comprehend Medical read access to your input
   data.
 - `input_data_config`:
-- `language_code`:  The language of the input documents. All documents must be in the same
+- `language_code`: The language of the input documents. All documents must be in the same
   language.
 - `output_data_config`:
 
@@ -855,10 +875,10 @@ ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of 
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientRequestToken"`:  A unique identifier for the request. If you don't set the client
+- `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend Medical generates one.
-- `"JobName"`:  The user generated name the asynchronous InferSNOMEDCT job.
-- `"KMSKey"`:  An AWS Key Management Service key used to encrypt your output files. If you
+- `"JobName"`: The user generated name the asynchronous InferSNOMEDCT job.
+- `"KMSKey"`: An AWS Key Management Service key used to encrypt your output files. If you
   do not specify a key, the files are written in plain text.
 """
 function start_snomedctinference_job(
@@ -881,6 +901,7 @@ function start_snomedctinference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_snomedctinference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -929,6 +950,7 @@ function stop_entities_detection_v2_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_entities_detection_v2_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -960,6 +982,7 @@ function stop_icd10_cminference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_icd10_cminference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -989,6 +1012,7 @@ function stop_phidetection_job(JobId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_phidetection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1044,7 @@ function stop_rx_norm_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_rx_norm_inference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1035,11 +1060,11 @@ end
     stop_snomedctinference_job(job_id)
     stop_snomedctinference_job(job_id, params::Dict{String,<:Any})
 
- Stops an InferSNOMEDCT inference job in progress.
+Stops an InferSNOMEDCT inference job in progress.
 
 # Arguments
 
-- `job_id`:  The job id of the asynchronous InferSNOMEDCT job to be stopped.
+- `job_id`: The job id of the asynchronous InferSNOMEDCT job to be stopped.
 """
 function stop_snomedctinference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1051,6 +1076,7 @@ function stop_snomedctinference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_snomedctinference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

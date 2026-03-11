@@ -31,6 +31,7 @@ function batch_update_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_cluster(
     ClusterNames,
     params::AbstractDict{String};
@@ -56,8 +57,8 @@ Makes a copy of an existing snapshot.
 
 - `source_snapshot_name`: The name of an existing snapshot from which to make a copy.
 - `target_snapshot_name`: A name for the snapshot copy. MemoryDB does not permit
-  overwriting a snapshot, therefore this name must be unique within its context - MemoryDB
-  or an Amazon S3 bucket if exporting.
+  overwriting a snapshot, therefore this name must be unique within its context -
+  MemoryDB or an Amazon S3 bucket if exporting.
 
 # Optional Parameters
 
@@ -67,9 +68,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 - `"TargetBucket"`: The Amazon S3 bucket to which the snapshot is exported. This parameter
-  is used only when exporting a snapshot for external access. When using this parameter to
-  export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket. For
-  more information, see [Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/MemoryDB/latest/devguide/snapshots-exporting.html).
+  is used only when exporting a snapshot for external access. When using this parameter
+  to export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket.
+  For more information, see [Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/MemoryDB/latest/devguide/snapshots-exporting.html).
 """
 function copy_snapshot(
     SourceSnapshotName,
@@ -86,6 +87,7 @@ function copy_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_snapshot(
     SourceSnapshotName,
     TargetSnapshotName,
@@ -135,6 +137,7 @@ function create_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_acl(
     ACLName,
     params::AbstractDict{String};
@@ -177,14 +180,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
   (24H Clock UTC). The minimum maintenance window is a 60 minute period.
 
-  Valid values for `ddd` are: - `sun`
-   - `mon`
- - `tue`
- - `wed`
- - `thu`
- - `fri`
- - `sat`
-Example: `sun:23:00-mon:01:30`
+  Valid values for `ddd` are:
+
+  - `sun`
+  - `mon`
+  - `tue`
+  - `wed`
+  - `thu`
+  - `fri`
+  - `sat`
+
+  Example: `sun:23:00-mon:01:30`
 - `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The default value
   is 1. The maximum is 5.
 - `"NumShards"`: The number of shards the cluster will contain. The default value is 1.
@@ -202,10 +208,10 @@ Example: `sun:23:00-mon:01:30`
 - `"SnapshotWindow"`: The daily time range (in UTC) during which MemoryDB begins taking a
   daily snapshot of your shard.
 
-   Example: 05:00-09:00
+  Example: 05:00-09:00
 
-   If you do not specify this parameter, MemoryDB automatically chooses an appropriate time
-  range.
+  If you do not specify this parameter, MemoryDB automatically chooses an appropriate
+  time range.
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   (SNS) topic to which notifications are sent.
 - `"SubnetGroupName"`: The name of the subnet group to be used for the cluster.
@@ -226,6 +232,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     ACLName,
     ClusterName,
@@ -283,6 +290,7 @@ function create_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_parameter_group(
     Family,
     ParameterGroupName,
@@ -334,6 +342,7 @@ function create_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     ClusterName,
     SnapshotName,
@@ -389,6 +398,7 @@ function create_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subnet_group(
     SubnetGroupName,
     SubnetIds,
@@ -449,6 +459,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     AccessString,
     AuthenticationMode,
@@ -493,6 +504,7 @@ function delete_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_acl(
     ACLName,
     params::AbstractDict{String};
@@ -514,7 +526,7 @@ Deletes a cluster. It also deletes all associated nodes and node endpoints
 
 !!! note
     `CreateSnapshot` permission is required to create a final snapshot. Without this
-permission, the API call will fail with an `Access Denied` exception.
+    permission, the API call will fail with an `Access Denied` exception.
 
 # Arguments
 
@@ -525,8 +537,8 @@ permission, the API call will fail with an `Access Denied` exception.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FinalSnapshotName"`: The user-supplied name of a final cluster snapshot. This is the
-  unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes
-  the cluster immediately afterward.
+  unique name that identifies the snapshot. MemoryDB creates the snapshot, and then
+  deletes the cluster immediately afterward.
 """
 function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
@@ -536,6 +548,7 @@ function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -573,6 +586,7 @@ function delete_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -610,6 +624,7 @@ function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot(
     SnapshotName,
     params::AbstractDict{String};
@@ -646,6 +661,7 @@ function delete_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
@@ -682,6 +698,7 @@ function delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     UserName,
     params::AbstractDict{String};
@@ -712,13 +729,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_acls(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb("DescribeACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_acls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -743,9 +761,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ShowShardDetails"`: An optional flag that can be included in the request to retrieve
   information about the individual shard(s).
 """
@@ -754,6 +772,7 @@ function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -779,9 +798,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ParameterGroupFamily"`: The name of a specific parameter group family to return details
   for.
 """
@@ -790,6 +809,7 @@ function describe_engine_versions(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -821,9 +841,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"SourceName"`: The identifier of the event source for which events are returned. If not
   specified, all sources are included in the response.
 - `"SourceType"`: The event source to retrieve events for. If no value is specified, all
@@ -836,6 +856,7 @@ function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -859,9 +880,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ParameterGroupName"`: The name of a specific parameter group to return details for.
 """
 function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -869,6 +890,7 @@ function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -898,9 +920,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_parameters(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -912,6 +934,7 @@ function describe_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_parameters(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -963,6 +986,7 @@ function describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_reserved_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1008,6 +1032,7 @@ function describe_reserved_nodes_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_nodes_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1034,9 +1059,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ServiceUpdateName"`: The unique ID of the service update to describe.
 - `"Status"`: The status(es) of the service updates to filter on
 """
@@ -1045,6 +1070,7 @@ function describe_service_updates(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_service_updates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1074,9 +1100,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ShowDetail"`: A Boolean value which if true, the shard configuration is included in the
   snapshot description.
 - `"SnapshotName"`: A user-supplied name of the snapshot. If this parameter is specified,
@@ -1090,6 +1116,7 @@ function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1113,9 +1140,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"SubnetGroupName"`: The name of the subnet group to return details for.
 """
 function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1123,6 +1150,7 @@ function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1149,14 +1177,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"UserName"`: The name of the user
 """
 function describe_users(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb("DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1189,6 +1218,7 @@ function failover_shard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function failover_shard(
     ClusterName,
     ShardName,
@@ -1233,6 +1263,7 @@ function list_allowed_node_type_updates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_allowed_node_type_updates(
     ClusterName,
     params::AbstractDict{String};
@@ -1269,6 +1300,7 @@ function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceArn,
     params::AbstractDict{String};
@@ -1314,6 +1346,7 @@ function purchase_reserved_nodes_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_nodes_offering(
     ReservedNodesOfferingId,
     params::AbstractDict{String};
@@ -1350,8 +1383,8 @@ parameter group, specify the AllParameters and ParameterGroupName parameters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllParameters"`: If true, all parameters in the parameter group are reset to their
-  default values. If false, only the parameters listed by ParameterNames are reset to their
-  default values.
+  default values. If false, only the parameters listed by ParameterNames are reset to
+  their default values.
 - `"ParameterNames"`: An array of parameter names to reset to their default values. If
   AllParameters is true, do not use ParameterNames. If AllParameters is false, you must
   specify the name of at least one parameter to reset.
@@ -1366,6 +1399,7 @@ function reset_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -1412,6 +1446,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1454,6 +1489,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1499,6 +1535,7 @@ function update_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_acl(
     ACLName,
     params::AbstractDict{String};
@@ -1530,29 +1567,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ACLName"`: The Access Control List that is associated with the cluster
 - `"Description"`: The description of the cluster to update
 - `"EngineVersion"`: The upgraded version of the engine to be run on the nodes. You can
-  upgrade to a newer engine version, but you cannot downgrade to an earlier engine version.
-  If you want to use an earlier engine version, you must delete the existing cluster and
-  create it anew with the earlier engine version.
+  upgrade to a newer engine version, but you cannot downgrade to an earlier engine
+  version. If you want to use an earlier engine version, you must delete the existing
+  cluster and create it anew with the earlier engine version.
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
   (24H Clock UTC). The minimum maintenance window is a 60 minute period.
 
-  Valid values for `ddd` are: - `sun`
-   - `mon`
- - `tue`
- - `wed`
- - `thu`
- - `fri`
- - `sat`
-Example: `sun:23:00-mon:01:30`
+  Valid values for `ddd` are:
+
+  - `sun`
+  - `mon`
+  - `tue`
+  - `wed`
+  - `thu`
+  - `fri`
+  - `sat`
+
+  Example: `sun:23:00-mon:01:30`
 - `"NodeType"`: A valid node type that you want to scale this cluster up or down to.
 - `"ParameterGroupName"`: The name of the parameter group to update
 - `"ReplicaConfiguration"`: The number of replicas that will reside in each shard
 - `"SecurityGroupIds"`: The SecurityGroupIds to update
 - `"ShardConfiguration"`: The number of shards in the cluster
 - `"SnapshotRetentionLimit"`: The number of days for which MemoryDB retains automatic
-  cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to
-  5, a snapshot that was taken today is retained for 5 days before being deleted.
+  cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit
+  to 5, a snapshot that was taken today is retained for 5 days before being deleted.
 - `"SnapshotWindow"`: The daily time range (in UTC) during which MemoryDB begins taking a
   daily snapshot of your cluster.
 - `"SnsTopicArn"`: The SNS topic ARN to update
@@ -1567,6 +1607,7 @@ function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -1593,8 +1634,8 @@ request by submitting a list parameter name and value pairs.
 
 - `parameter_group_name`: The name of the parameter group to update.
 - `parameter_name_values`: An array of parameter names and values for the parameter update.
-  You must supply at least one parameter name and value; subsequent arguments are optional.
-  A maximum of 20 parameters may be updated per request.
+  You must supply at least one parameter name and value; subsequent arguments are
+  optional. A maximum of 20 parameters may be updated per request.
 """
 function update_parameter_group(
     ParameterGroupName,
@@ -1611,6 +1652,7 @@ function update_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues,
@@ -1661,6 +1703,7 @@ function update_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
@@ -1704,6 +1747,7 @@ function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     UserName,
     params::AbstractDict{String};

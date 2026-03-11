@@ -15,9 +15,9 @@ Gateway, API Gateway VPC link, and Network Load Balancer for the application pro
 your account.
 
 In environments created with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType)
-of `NONE` you need to configure [ VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html)
+of `NONE` you need to configure [VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html)
 between your service VPC and the application proxy VPC to route traffic through the
-application proxy to a service with a private URL endpoint. For more information, see [ Create an application](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-application.html)
+application proxy to a service with a private URL endpoint. For more information, see [Create an application](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-application.html)
 in the *Refactor Spaces User Guide*.
 
 # Arguments
@@ -58,6 +58,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     EnvironmentIdentifier,
     Name,
@@ -132,6 +133,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     Name,
     NetworkFabricType,
@@ -172,7 +174,9 @@ after creation, but only when all other routes are also inactive. Conversely, no
 be active without the default route also being active.
 
 When you create a route, Refactor Spaces configures the Amazon API Gateway to send traffic
-to the target service as follows:</p> - **URL Endpoints**
+to the target service as follows:
+
+- **URL Endpoints**
 
 If the service has a URL endpoint, and the endpoint resolves to a private IP address,
 Refactor Spaces routes traffic using the API Gateway VPC link. If a service endpoint
@@ -182,10 +186,10 @@ are supported. Private Certificate Authorities (CAs) are permitted only if the C
 is also publicly resolvable.
 
 Refactor Spaces automatically resolves the public Domain Name System (DNS) names that are
-set in `CreateService:UrlEndpoint `when you create a service. The DNS names resolve when
-the DNS time-to-live (TTL) expires, or every 60 seconds for TTLs less than 60 seconds. This
-periodic DNS resolution ensures that the route configuration remains up-to-date.  <p/>
-**One-time health check**
+set in `CreateService:UrlEndpoint`when you create a service. The DNS names resolve when the
+DNS time-to-live (TTL) expires, or every 60 seconds for TTLs less than 60 seconds. This
+periodic DNS resolution ensures that the route configuration remains up-to-date. **One-time
+health check**
 
 A one-time health check is performed on the service when either the route is updated from
 inactive to active, or when it is created with an active state. If the health check fails,
@@ -199,8 +203,8 @@ a different protocol, port, and/or path using the [CreateService:UrlEndpoint](ht
 parameter. All other health check settings for the load balancer use the default values
 described in the [Health checks for your target groups](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html)
 in the *Elastic Load Balancing guide*. The health check is considered successful if at
-least one target within the target group transitions to a healthy state. <p/>
- - **Lambda function endpoints**
+least one target within the target group transitions to a healthy state.
+- **Lambda function endpoints**
 
 If the service has an Lambda function endpoint, then Refactor Spaces configures the Lambda
 function's resource policy to allow the application's API Gateway to invoke the function.
@@ -213,14 +217,15 @@ in the *Lambda Developer Guide*.
 A check is performed to determine that a Lambda function with the specified ARN exists. If
 it does not exist, the health check fails. For public URLs, a connection is opened to the
 public endpoint. If the URL is not reachable, the health check fails.
- **Environments without a network bridge**
 
- <p>When you create environments without a network bridge ([CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType)
+**Environments without a network bridge**
+
+When you create environments without a network bridge ([CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType)
 is `NONE)` and you use your own networking infrastructure, you need to configure [VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html)
 between your network and the application proxy VPC. Route creation from the application
 proxy to service endpoints will fail if your network is not configured to connect to the
-application proxy VPC. For more information, see [ Create a route](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-role.html)
-in the *Refactor Spaces User Guide*. <p/>
+application proxy VPC. For more information, see [Create a route](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-role.html)
+in the *Refactor Spaces User Guide*.
 
 # Arguments
 
@@ -240,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"DefaultRoute"`:  Configuration for the default route type.
+- `"DefaultRoute"`: Configuration for the default route type.
 - `"Tags"`: The tags to assign to the route. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key-value pair..
 - `"UriPathRoute"`: The configuration for the URI path route type.
@@ -264,6 +269,7 @@ function create_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -302,9 +308,9 @@ or a Lambda function endpoint.
 
 !!! important
     If an Amazon Web Services resource is launched in a service VPC, and you want it to be
-accessible to all of an environment’s services with VPCs and routes, apply the
-`RefactorSpacesSecurityGroup` to the resource. Alternatively, to add more cross-account
-constraints, apply your own security group.
+    accessible to all of an environment’s services with VPCs and routes, apply the
+    `RefactorSpacesSecurityGroup` to the resource. Alternatively, to add more cross-account
+    constraints, apply your own security group.
 
 # Arguments
 
@@ -347,6 +353,7 @@ function create_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     ApplicationIdentifier,
     EndpointType,
@@ -398,6 +405,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -435,6 +443,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -469,6 +478,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     Identifier,
     params::AbstractDict{String};
@@ -508,6 +518,7 @@ function delete_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -535,9 +546,10 @@ Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
 - `application_identifier`: Deletes a Refactor Spaces service.
 
   !!! note
-      The `RefactorSpacesSecurityGroup` security group must be removed from all Amazon Web
-  Services resources in the virtual private cloud (VPC) prior to deleting a service with a
-  URL endpoint in a VPC.
+      The `RefactorSpacesSecurityGroup` security group must be removed from all Amazon
+      Web Services resources in the virtual private cloud (VPC) prior to deleting a
+      service with a URL endpoint in a VPC.
+
 - `environment_identifier`: The ID of the environment that the service is in.
 - `service_identifier`: The ID of the service to delete.
 """
@@ -554,6 +566,7 @@ function delete_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -593,6 +606,7 @@ function get_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -628,6 +642,7 @@ function get_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -660,6 +675,7 @@ function get_resource_policy(Identifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     Identifier,
     params::AbstractDict{String};
@@ -699,6 +715,7 @@ function get_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -740,6 +757,7 @@ function get_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -785,6 +803,7 @@ function list_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_applications(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -828,6 +847,7 @@ function list_environment_vpcs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_vpcs(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -862,6 +882,7 @@ function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -906,6 +927,7 @@ function list_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_routes(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -953,6 +975,7 @@ function list_services(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_services(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -989,6 +1012,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1030,6 +1054,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -1061,7 +1086,7 @@ resource. To tag a resource, the caller account must be the same as the resource
 
 !!! note
     Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to
-orchestrated resources, such as an environment’s transit gateway.
+    orchestrated resources, such as an environment’s transit gateway.
 
 # Arguments
 
@@ -1077,6 +1102,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1116,6 +1142,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1135,16 +1162,16 @@ end
     update_route(activation_state, application_identifier, environment_identifier, route_identifier)
     update_route(activation_state, application_identifier, environment_identifier, route_identifier, params::Dict{String,<:Any})
 
- Updates an Amazon Web Services Migration Hub Refactor Spaces route.
+Updates an Amazon Web Services Migration Hub Refactor Spaces route.
 
 # Arguments
 
-- `activation_state`:  If set to `ACTIVE`, traffic is forwarded to this route’s service
+- `activation_state`: If set to `ACTIVE`, traffic is forwarded to this route’s service
   after the route is updated.
-- `application_identifier`:  The ID of the application within which the route is being
+- `application_identifier`: The ID of the application within which the route is being
   updated.
-- `environment_identifier`:  The ID of the environment in which the route is being updated.
-- `route_identifier`:  The unique identifier of the route to update.
+- `environment_identifier`: The ID of the environment in which the route is being updated.
+- `route_identifier`: The unique identifier of the route to update.
 """
 function update_route(
     ActivationState,
@@ -1161,6 +1188,7 @@ function update_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_route(
     ActivationState,
     ApplicationIdentifier,

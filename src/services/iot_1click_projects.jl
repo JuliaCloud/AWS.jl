@@ -35,6 +35,7 @@ function associate_device_with_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_device_with_placement(
     deviceId,
     deviceTemplateName,
@@ -83,6 +84,7 @@ function create_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_placement(
     placementName,
     projectName,
@@ -132,6 +134,7 @@ function create_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     projectName,
     params::AbstractDict{String};
@@ -173,6 +176,7 @@ function delete_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_placement(
     placementName,
     projectName,
@@ -209,6 +213,7 @@ function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     projectName,
     params::AbstractDict{String};
@@ -244,6 +249,7 @@ function describe_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_placement(
     placementName,
     projectName,
@@ -277,6 +283,7 @@ function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_project(
     projectName,
     params::AbstractDict{String};
@@ -316,6 +323,7 @@ function disassociate_device_from_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_device_from_placement(
     deviceTemplateName,
     placementName,
@@ -353,6 +361,7 @@ function get_devices_in_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_devices_in_placement(
     placementName,
     projectName,
@@ -394,6 +403,7 @@ function list_placements(projectName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_placements(
     projectName,
     params::AbstractDict{String};
@@ -427,6 +437,7 @@ function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -455,6 +466,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -491,6 +503,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -528,6 +541,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -572,6 +586,7 @@ function update_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_placement(
     placementName,
     projectName,
@@ -618,6 +633,7 @@ function update_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     projectName,
     params::AbstractDict{String};

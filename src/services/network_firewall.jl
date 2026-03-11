@@ -8,7 +8,7 @@ using AWS.UUIDs
     associate_firewall_policy(firewall_policy_arn)
     associate_firewall_policy(firewall_policy_arn, params::Dict{String,<:Any})
 
-Associates a <a>FirewallPolicy</a> to a <a>Firewall</a>.
+Associates a [`firewall_policy`](@ref) to a [`firewall`](@ref).
 
 A firewall policy defines how to monitor and manage your VPC network traffic, using a
 collection of inspection rule groups and other settings. Each firewall requires one
@@ -25,11 +25,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.
@@ -39,10 +39,11 @@ You must specify the ARN or the name, and you can specify both.
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function associate_firewall_policy(
     FirewallPolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -54,6 +55,7 @@ function associate_firewall_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_firewall_policy(
     FirewallPolicyArn,
     params::AbstractDict{String};
@@ -93,11 +95,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.
@@ -107,10 +109,11 @@ You must specify the ARN or the name, and you can specify both.
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function associate_subnets(
     SubnetMappings; aws_config::AbstractAWSConfig=current_aws_config()
@@ -122,6 +125,7 @@ function associate_subnets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_subnets(
     SubnetMappings,
     params::AbstractDict{String};
@@ -141,8 +145,8 @@ end
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id)
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id, params::Dict{String,<:Any})
 
-Creates an Network Firewall <a>Firewall</a> and accompanying <a>FirewallStatus</a> for a
-VPC.
+Creates an Network Firewall [`firewall`](@ref) and accompanying [`firewall_status`](@ref)
+for a VPC.
 
 The firewall defines the configuration settings for an Network Firewall firewall. The
 settings that you can define at creation include the firewall policy, the subnets in your
@@ -153,28 +157,27 @@ After you create a firewall, you can provide additional settings, like the loggi
 configuration.
 
 To update the settings for a firewall, you use the operations that apply to the settings
-themselves, for example <a>UpdateLoggingConfiguration</a>, <a>AssociateSubnets</a>, and
-<a>UpdateFirewallDeleteProtection</a>.
+themselves, for example [`update_logging_configuration`](@ref), [`associate_subnets`](@ref),
+and [`update_firewall_delete_protection`](@ref).
 
 To manage a firewall's tags, use the standard Amazon Web Services resource tagging
-operations, <a>ListTagsForResource</a>, <a>TagResource</a>, and <a>UntagResource</a>.
+operations, [`list_tags_for_resource`](@ref), [`tag_resource`](@ref), and [`untag_resource`](@ref).
 
-To retrieve information about firewalls, use <a>ListFirewalls</a> and
-<a>DescribeFirewall</a>.
+To retrieve information about firewalls, use [`list_firewalls`](@ref) and [`describe_firewall`](@ref).
 
 # Arguments
 
 - `firewall_name`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
-- `firewall_policy_arn`: The Amazon Resource Name (ARN) of the <a>FirewallPolicy</a> that
-  you want to use for the firewall.
+- `firewall_policy_arn`: The Amazon Resource Name (ARN) of the [`firewall_policy`](@ref)
+  that you want to use for the firewall.
 - `subnet_mappings`: The public subnets to use for your Network Firewall firewalls. Each
-  subnet must belong to a different Availability Zone in the VPC. Network Firewall creates
-  a firewall endpoint in each subnet.
+  subnet must belong to a different Availability Zone in the VPC. Network Firewall
+  creates a firewall endpoint in each subnet.
 - `vpc_id`: The unique identifier of the VPC where Network Firewall should create the
   firewall.
 
-You can't change this setting after you create the firewall.
+  You can't change this setting after you create the firewall.
 
 # Optional Parameters
 
@@ -189,8 +192,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall resources.
 - `"FirewallPolicyChangeProtection"`: A setting indicating whether the firewall is
   protected against a change to the firewall policy association. Use this setting to
-  protect against accidentally modifying the firewall policy for a firewall that is in use.
-  When you create a firewall, the operation initializes this setting to `TRUE`.
+  protect against accidentally modifying the firewall policy for a firewall that is in
+  use. When you create a firewall, the operation initializes this setting to `TRUE`.
 - `"SubnetChangeProtection"`: A setting indicating whether the firewall is protected
   against changes to the subnet associations. Use this setting to protect against
   accidentally modifying the subnet associations for a firewall that is in use. When you
@@ -216,6 +219,7 @@ function create_firewall(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_firewall(
     FirewallName,
     FirewallPolicyArn,
@@ -268,12 +272,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request, rather than run the request.
 
   If set to `TRUE`, Network Firewall checks whether the request can run successfully, but
-  doesn't actually make the requested changes. The call returns the value that the request
-  would return if you ran it with dry run set to `FALSE`, but doesn't make additions or
-  changes to your resources. This option allows you to make sure that you have the required
-  permissions to run the request and that your request parameters are valid.
+  doesn't actually make the requested changes. The call returns the value that the
+  request would return if you ran it with dry run set to `FALSE`, but doesn't make
+  additions or changes to your resources. This option allows you to make sure that you
+  have the required permissions to run the request and that your request parameters are
+  valid.
 
-If set to `FALSE`, Network Firewall makes the requested changes to your resources.
+  If set to `FALSE`, Network Firewall makes the requested changes to your resources.
 - `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
   firewall policy resources.
 - `"Tags"`: The key:value pairs to associate with the resource.
@@ -290,6 +295,7 @@ function create_firewall_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_firewall_policy(
     FirewallPolicy,
     FirewallPolicyName,
@@ -331,26 +337,30 @@ You provide your rule group specification in your request using either `RuleGrou
   reserves this capacity for the rule group.
 
   You can retrieve the capacity that would be required for a rule group before you create
-  the rule group by calling <a>CreateRuleGroup</a> with `DryRun` set to `TRUE`. </p>
+  the rule group by calling [`create_rule_group`](@ref) with `DryRun` set to `TRUE`.
 
   !!! note
       You can't change or exceed this capacity when you update the rule group, so leave
-  room for your rule group to grow. **Capacity for a stateless rule group**
+      room for your rule group to grow.
 
-  For a stateless rule group, the capacity required is the sum of the capacity requirements
-  of the individual rules that you expect to have in the rule group.
+  **Capacity for a stateless rule group**
 
-  To calculate the capacity requirement of a single rule, multiply the capacity requirement
-  values of each of the rule's match settings: - A match setting with no criteria specified
-  has a value of 1.
-   - A match setting with `Any` specified has a value of 1.
-   - All other match settings have a value equal to the number of elements provided in the
-  setting. For example, a protocol setting ["UDP"] and a source setting ["10.0.0.0/24"] each have a value of 1. A protocol setting ["UDP","TCP"] has a value of 2. A source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"] has a value of 3.
+  For a stateless rule group, the capacity required is the sum of the capacity
+  requirements of the individual rules that you expect to have in the rule group.
+
+  To calculate the capacity requirement of a single rule, multiply the capacity
+  requirement values of each of the rule's match settings:
+
+  - A match setting with no criteria specified has a value of 1.
+  - A match setting with `Any` specified has a value of 1.
+  - All other match settings have a value equal to the number of elements provided in the
+    setting. For example, a protocol setting ["UDP"] and a source setting ["10.0.0.0/24"] each have a value of 1. A protocol setting ["UDP","TCP"] has a value of 2. A source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"] has a value of 3.
+ 
 A rule with no criteria specified in any of its match settings has a capacity requirement of 1. A rule with protocol setting ["UDP","TCP"], source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"], and a single specification or no specification for each of the other match settings has a capacity requirement of 6.
 
- **Capacity for a stateful rule group**
+**Capacity for a stateful rule group**
 
- <p>For a stateful rule group, the minimum capacity required is the number of individual rules that you expect to have in the rule group.
+For a stateful rule group, the minimum capacity required is the number of individual rules that you expect to have in the rule group.
 - `rule_group_name`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it.
 - `type`: Indicates whether the rule group is stateless or stateful. If the rule group is
@@ -361,39 +371,43 @@ A rule with no criteria specified in any of its match settings has a capacity re
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AnalyzeRuleGroup"`: Indicates whether you want Network Firewall to analyze the
-  stateless rules in the rule group for rule behavior such as asymmetric routing. If set to
-  `TRUE`, Network Firewall runs the analysis and then creates the rule group for you. To
-  run the stateless rule group analyzer without creating the rule group, set `DryRun` to
-  `TRUE`.
+  stateless rules in the rule group for rule behavior such as asymmetric routing. If set
+  to `TRUE`, Network Firewall runs the analysis and then creates the rule group for you.
+  To run the stateless rule group analyzer without creating the rule group, set `DryRun`
+  to `TRUE`.
 - `"Description"`: A description of the rule group.
 - `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.
 
   If set to `TRUE`, Network Firewall checks whether the request can run successfully, but
-  doesn't actually make the requested changes. The call returns the value that the request
-  would return if you ran it with dry run set to `FALSE`, but doesn't make additions or
-  changes to your resources. This option allows you to make sure that you have the required
-  permissions to run the request and that your request parameters are valid.
+  doesn't actually make the requested changes. The call returns the value that the
+  request would return if you ran it with dry run set to `FALSE`, but doesn't make
+  additions or changes to your resources. This option allows you to make sure that you
+  have the required permissions to run the request and that your request parameters are
+  valid.
 
-If set to `FALSE`, Network Firewall makes the requested changes to your resources.
+  If set to `FALSE`, Network Firewall makes the requested changes to your resources.
 - `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
   rule group resources.
 - `"RuleGroup"`: An object that defines the rule group rules.
 
   !!! note
       You must provide either this rule group setting or a `Rules` setting, but not both.
+
 - `"Rules"`: A string containing stateful rule group rules specifications in Suricata flat
-  format, with one rule per line. Use this to import your existing Suricata compatible rule
-  groups.
+  format, with one rule per line. Use this to import your existing Suricata compatible
+  rule groups.
 
   !!! note
       You must provide either this rules setting or a populated `RuleGroup` setting, but
-  not both.You can provide your rule group specification in Suricata flat format through
-  this setting when you create or update your rule group. The call response returns a
-  <a>RuleGroup</a> object that Network Firewall has populated from your string.
+      not both.
+
+  You can provide your rule group specification in Suricata flat format through this
+  setting when you create or update your rule group. The call response returns a [`rule_group`](@ref)
+  object that Network Firewall has populated from your string.
 - `"SourceMetadata"`: A complex type that contains metadata about the rule group that your
-  own rule group is copied from. You can use the metadata to keep track of updates made to
-  the originating rule group.
+  own rule group is copied from. You can use the metadata to keep track of updates made
+  to the originating rule group.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
 function create_rule_group(
@@ -408,6 +422,7 @@ function create_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule_group(
     Capacity,
     RuleGroupName,
@@ -444,35 +459,33 @@ inspection with your firewall, you must first import or provision certificates u
 create a TLS inspection configuration, add that configuration to a new firewall policy, and
 then associate that policy with your firewall.
 
-To update the settings for a TLS inspection configuration, use
-<a>UpdateTLSInspectionConfiguration</a>.
+To update the settings for a TLS inspection configuration, use [`update_tlsinspection_configuration`](@ref).
 
 To manage a TLS inspection configuration's tags, use the standard Amazon Web Services
-resource tagging operations, <a>ListTagsForResource</a>, <a>TagResource</a>, and
-<a>UntagResource</a>.
+resource tagging operations, [`list_tags_for_resource`](@ref), [`tag_resource`](@ref), and [`untag_resource`](@ref).
 
-To retrieve information about TLS inspection configurations, use
-<a>ListTLSInspectionConfigurations</a> and <a>DescribeTLSInspectionConfiguration</a>.
+To retrieve information about TLS inspection configurations, use [`list_tlsinspection_configurations`](@ref)
+and [`describe_tlsinspection_configuration`](@ref).
 
- For more information about TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html)
+For more information about TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html)
 in the *Network Firewall Developer Guide*.
 
 # Arguments
 
 - `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
-  This, along with <a>TLSInspectionConfigurationResponse</a>, define the TLS inspection
-  configuration. You can retrieve all objects for a TLS inspection configuration by calling
-  <a>DescribeTLSInspectionConfiguration</a>.
+  This, along with [`tlsinspection_configuration_response`](@ref), define the TLS
+  inspection configuration. You can retrieve all objects for a TLS inspection
+  configuration by calling [`describe_tlsinspection_configuration`](@ref).
 
-  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall
-  re-encrypts the traffic before sending it to its destination.
+  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network
+  Firewall re-encrypts the traffic before sending it to its destination.
 
   To use a TLS inspection configuration, you add it to a new Network Firewall firewall
   policy, then you apply the firewall policy to a firewall. Network Firewall acts as a
   proxy service to decrypt and inspect the traffic traveling through your firewalls. You
-  can reference a TLS inspection configuration from more than one firewall policy, and you
-  can use a firewall policy in more than one firewall. For more information about using TLS
-  inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html)
+  can reference a TLS inspection configuration from more than one firewall policy, and
+  you can use a firewall policy in more than one firewall. For more information about
+  using TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html)
   in the *Network Firewall Developer Guide*.
 - `tlsinspection_configuration_name`: The descriptive name of the TLS inspection
   configuration. You can't change the name of a TLS inspection configuration after you
@@ -501,6 +514,7 @@ function create_tlsinspection_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tlsinspection_configuration(
     TLSInspectionConfiguration,
     TLSInspectionConfigurationName,
@@ -528,19 +542,19 @@ end
     delete_firewall()
     delete_firewall(params::Dict{String,<:Any})
 
-Deletes the specified <a>Firewall</a> and its <a>FirewallStatus</a>. This operation
+Deletes the specified [`firewall`](@ref) and its [`firewall_status`](@ref). This operation
 requires the firewall's `DeleteProtection` flag to be `FALSE`. You can't revert this
 operation.
 
 You can check whether a firewall is in use by reviewing the route tables for the
 Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by
-calling <a>DescribeFirewall</a>. You define and update the route tables through Amazon VPC.
-As needed, update the route tables for the zones to remove the firewall endpoints. When the
-route tables no longer use the firewall endpoints, you can remove the firewall safely.
+calling [`describe_firewall`](@ref). You define and update the route tables through Amazon
+VPC. As needed, update the route tables for the zones to remove the firewall endpoints.
+When the route tables no longer use the firewall endpoints, you can remove the firewall
+safely.
 
-To delete a firewall, remove the delete protection if you need to using
-<a>UpdateFirewallDeleteProtection</a>, then delete the firewall by calling
-<a>DeleteFirewall</a>.
+To delete a firewall, remove the delete protection if you need to using [`update_firewall_delete_protection`](@ref),
+then delete the firewall by calling [`delete_firewall`](@ref).
 
 # Optional Parameters
 
@@ -548,17 +562,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function delete_firewall(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "DeleteFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -571,7 +586,7 @@ end
     delete_firewall_policy()
     delete_firewall_policy(params::Dict{String,<:Any})
 
-Deletes the specified <a>FirewallPolicy</a>.
+Deletes the specified [`firewall_policy`](@ref).
 
 # Optional Parameters
 
@@ -579,17 +594,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallPolicyArn"`: The Amazon Resource Name (ARN) of the firewall policy.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallPolicyName"`: The descriptive name of the firewall policy. You can't change the
   name of a firewall policy after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function delete_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "DeleteFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -605,7 +621,7 @@ end
     delete_resource_policy(resource_arn)
     delete_resource_policy(resource_arn, params::Dict{String,<:Any})
 
-Deletes a resource policy that you created in a <a>PutResourcePolicy</a> request.
+Deletes a resource policy that you created in a [`put_resource_policy`](@ref) request.
 
 # Arguments
 
@@ -622,6 +638,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -641,7 +658,7 @@ end
     delete_rule_group()
     delete_rule_group(params::Dict{String,<:Any})
 
-Deletes the specified <a>RuleGroup</a>.
+Deletes the specified [`rule_group`](@ref).
 
 # Optional Parameters
 
@@ -649,22 +666,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 
   !!! note
-    This setting is required for requests that do not include the `RuleGroupARN`.
+      This setting is required for requests that do not include the `RuleGroupARN`.
+
 """
 function delete_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "DeleteRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -677,7 +696,7 @@ end
     delete_tlsinspection_configuration()
     delete_tlsinspection_configuration(params::Dict{String,<:Any})
 
-Deletes the specified <a>TLSInspectionConfiguration</a>.
+Deletes the specified [`tlsinspection_configuration`](@ref).
 
 # Optional Parameters
 
@@ -686,12 +705,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TLSInspectionConfigurationArn"`: The Amazon Resource Name (ARN) of the TLS inspection
   configuration.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"TLSInspectionConfigurationName"`: The descriptive name of the TLS inspection
   configuration. You can't change the name of a TLS inspection configuration after you
   create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function delete_tlsinspection_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -702,6 +721,7 @@ function delete_tlsinspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tlsinspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -725,17 +745,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function describe_firewall(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "DescribeFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,17 +777,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallPolicyArn"`: The Amazon Resource Name (ARN) of the firewall policy.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallPolicyName"`: The descriptive name of the firewall policy. You can't change the
   name of a firewall policy after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function describe_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "DescribeFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -790,11 +812,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function describe_logging_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -805,6 +827,7 @@ function describe_logging_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,7 +843,7 @@ end
     describe_resource_policy(resource_arn)
     describe_resource_policy(resource_arn, params::Dict{String,<:Any})
 
-Retrieves a resource policy that you created in a <a>PutResourcePolicy</a> request.
+Retrieves a resource policy that you created in a [`put_resource_policy`](@ref) request.
 
 # Arguments
 
@@ -837,6 +860,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -863,26 +887,28 @@ Returns the data objects for the specified rule group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AnalyzeRuleGroup"`: Indicates whether you want Network Firewall to analyze the
-  stateless rules in the rule group for rule behavior such as asymmetric routing. If set to
-  `TRUE`, Network Firewall runs the analysis.
+  stateless rules in the rule group for rule behavior such as asymmetric routing. If set
+  to `TRUE`, Network Firewall runs the analysis.
 - `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 
   !!! note
-    This setting is required for requests that do not include the `RuleGroupARN`.
+      This setting is required for requests that do not include the `RuleGroupARN`.
+
 """
 function describe_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "DescribeRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,7 +923,7 @@ end
 
 High-level information about a rule group, returned by operations like create and describe.
 You can use the information provided in the metadata to retrieve and manage a rule group.
-You can retrieve all objects for a rule group by calling <a>DescribeRuleGroup</a>.
+You can retrieve all objects for a rule group by calling [`describe_rule_group`](@ref).
 
 # Optional Parameters
 
@@ -906,22 +932,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleGroupArn"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 
   !!! note
-    This setting is required for requests that do not include the `RuleGroupARN`.
+      This setting is required for requests that do not include the `RuleGroupARN`.
+
 """
 function describe_rule_group_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "DescribeRuleGroupMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_rule_group_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -946,12 +974,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TLSInspectionConfigurationArn"`: The Amazon Resource Name (ARN) of the TLS inspection
   configuration.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"TLSInspectionConfigurationName"`: The descriptive name of the TLS inspection
   configuration. You can't change the name of a TLS inspection configuration after you
   create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function describe_tlsinspection_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -962,6 +990,7 @@ function describe_tlsinspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tlsinspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -991,11 +1020,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.
@@ -1005,10 +1034,11 @@ You must specify the ARN or the name, and you can specify both.
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
@@ -1018,6 +1048,7 @@ function disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_subnets(
     SubnetIds,
     params::AbstractDict{String};
@@ -1047,18 +1078,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
   for this request. If more objects are available, in the response, Network Firewall
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
-  next batch of objects, use the token returned from the prior request in your next request.
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve
+  the next batch of objects, use the token returned from the prior request in your next
+  request.
 """
 function list_firewall_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "ListFirewallPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_firewall_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1086,12 +1119,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
   for this request. If more objects are available, in the response, Network Firewall
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
-  next batch of objects, use the token returned from the prior request in your next request.
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve
+  the next batch of objects, use the token returned from the prior request in your next
+  request.
 - `"VpcIds"`: The unique identifiers of the VPCs that you want Network Firewall to retrieve
   the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
 """
@@ -1100,6 +1134,7 @@ function list_firewalls(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListFirewalls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_firewalls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1113,8 +1148,7 @@ end
     list_rule_groups(params::Dict{String,<:Any})
 
 Retrieves the metadata for the rule groups that you have defined. Depending on your setting
-for max results and the number of rule groups, a single call might not return the full
-list.
+for max results and the number of rule groups, a single call might not return the full list.
 
 # Optional Parameters
 
@@ -1124,15 +1158,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 - `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
   for this request. If more objects are available, in the response, Network Firewall
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
-  next batch of objects, use the token returned from the prior request in your next request.
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve
+  the next batch of objects, use the token returned from the prior request in your next
+  request.
 - `"Scope"`: The scope of the request. The default setting of `ACCOUNT` or a setting of
-  `NULL` returns all of the rule groups in your account. A setting of `MANAGED` returns all
-  available managed rule groups.
+  `NULL` returns all of the rule groups in your account. A setting of `MANAGED` returns
+  all available managed rule groups.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 """
@@ -1141,6 +1176,7 @@ function list_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1172,12 +1208,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
   for this request. If more objects are available, in the response, Network Firewall
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
-  next batch of objects, use the token returned from the prior request in your next request.
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve
+  the next batch of objects, use the token returned from the prior request in your next
+  request.
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1189,6 +1226,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1218,12 +1256,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
   for this request. If more objects are available, in the response, Network Firewall
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
-  next batch of objects, use the token returned from the prior request in your next request.
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve
+  the next batch of objects, use the token returned from the prior request in your next
+  request.
 """
 function list_tlsinspection_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1234,6 +1273,7 @@ function list_tlsinspection_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tlsinspection_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1259,10 +1299,13 @@ policy. In the policy, you specify the accounts that you want to share the resou
 and the operations that you want the accounts to be able to perform.
 
 When you add an account in the resource policy, you then run the following Resource Access
-Manager (RAM) operations to access and accept the shared rule group or firewall policy.  - [GetResourceShareInvitations](https://docs.aws.amazon.com/ram/latest/APIReference/API_GetResourceShareInvitations.html)
-- Returns the Amazon Resource Names (ARNs) of the resource share invitations.
- - [AcceptResourceShareInvitation](https://docs.aws.amazon.com/ram/latest/APIReference/API_AcceptResourceShareInvitation.html)
-- Accepts the share invitation for a specified resource share.
+Manager (RAM) operations to access and accept the shared rule group or firewall policy.
+
+- [GetResourceShareInvitations](https://docs.aws.amazon.com/ram/latest/APIReference/API_GetResourceShareInvitations.html)
+  - Returns the Amazon Resource Names (ARNs) of the resource share invitations.
+- [AcceptResourceShareInvitation](https://docs.aws.amazon.com/ram/latest/APIReference/API_AcceptResourceShareInvitation.html)
+  - Accepts the share invitation for a specified resource share.
+
 For additional information about resource sharing using RAM, see [Resource Access Manager User Guide](https://docs.aws.amazon.com/ram/latest/userguide/what-is.html).
 
 # Arguments
@@ -1272,12 +1315,18 @@ For additional information about resource sharing using RAM, see [Resource Acces
   able to perform.
 
   For a rule group resource, you can specify the following operations in the Actions
-  section of the statement: - network-firewall:CreateFirewallPolicy
-   - network-firewall:UpdateFirewallPolicy
-   - network-firewall:ListRuleGroups
+  section of the statement:
+
+  - network-firewall:CreateFirewallPolicy
+  - network-firewall:UpdateFirewallPolicy
+  - network-firewall:ListRuleGroups
+
   For a firewall policy resource, you can specify the following operations in the Actions
-  section of the statement: - network-firewall:AssociateFirewallPolicy
-   - network-firewall:ListFirewallPolicies
+  section of the statement:
+
+  - network-firewall:AssociateFirewallPolicy
+  - network-firewall:ListFirewallPolicies
+
   In the Resource section of the statement, you specify the ARNs for the rule groups and
   firewall policies that you want to share with the account that you specified in `Arn`.
 - `resource_arn`: The Amazon Resource Name (ARN) of the account that you want to share rule
@@ -1293,6 +1342,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -1329,7 +1379,7 @@ firewalls, firewall policies, and rule groups.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-- `tags`: <p/>
+- `tags`:
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
@@ -1339,6 +1389,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1375,7 +1426,7 @@ Firewall: firewalls, firewall policies, and rule groups.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-- `tag_keys`: <p/>
+- `tag_keys`:
 """
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1387,6 +1438,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1428,11 +1480,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.
@@ -1442,10 +1494,11 @@ You must specify the ARN or the name, and you can specify both.
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function update_firewall_delete_protection(
     DeleteProtection; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1457,6 +1510,7 @@ function update_firewall_delete_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_delete_protection(
     DeleteProtection,
     params::AbstractDict{String};
@@ -1489,11 +1543,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall removes the description for the firewall.
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.
@@ -1503,16 +1557,18 @@ You must specify the ARN or the name, and you can specify both.
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function update_firewall_description(; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
         "UpdateFirewallDescription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_firewall_description(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1547,10 +1603,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function update_firewall_encryption_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1561,6 +1618,7 @@ function update_firewall_encryption_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_encryption_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1581,8 +1639,8 @@ Updates the properties of the specified firewall policy.
 # Arguments
 
 - `firewall_policy`: The updated firewall policy to use for the firewall. You can't add or
-  remove a <a>TLSInspectionConfiguration</a> after you create a firewall policy. However,
-  you can replace an existing TLS inspection configuration with another
+  remove a [`tlsinspection_configuration`](@ref) after you create a firewall policy.
+  However, you can replace an existing TLS inspection configuration with another
   `TLSInspectionConfiguration`.
 - `update_token`: A token used for optimistic locking. Network Firewall returns a token to
   your requests that access the firewall policy. The token marks the state of the policy
@@ -1603,21 +1661,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request, rather than run the request.
 
   If set to `TRUE`, Network Firewall checks whether the request can run successfully, but
-  doesn't actually make the requested changes. The call returns the value that the request
-  would return if you ran it with dry run set to `FALSE`, but doesn't make additions or
-  changes to your resources. This option allows you to make sure that you have the required
-  permissions to run the request and that your request parameters are valid.
+  doesn't actually make the requested changes. The call returns the value that the
+  request would return if you ran it with dry run set to `FALSE`, but doesn't make
+  additions or changes to your resources. This option allows you to make sure that you
+  have the required permissions to run the request and that your request parameters are
+  valid.
 
-If set to `FALSE`, Network Firewall makes the requested changes to your resources.
+  If set to `FALSE`, Network Firewall makes the requested changes to your resources.
 - `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
   firewall policy resources.
 - `"FirewallPolicyArn"`: The Amazon Resource Name (ARN) of the firewall policy.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallPolicyName"`: The descriptive name of the firewall policy. You can't change the
   name of a firewall policy after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 """
 function update_firewall_policy(
     FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1629,6 +1688,7 @@ function update_firewall_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_policy(
     FirewallPolicy,
     UpdateToken,
@@ -1663,8 +1723,8 @@ setting helps protect against accidentally changing a firewall that's in use.
 
 - `firewall_policy_change_protection`: A setting indicating whether the firewall is
   protected against a change to the firewall policy association. Use this setting to
-  protect against accidentally modifying the firewall policy for a firewall that is in use.
-  When you create a firewall, the operation initializes this setting to `TRUE`.
+  protect against accidentally modifying the firewall policy for a firewall that is in
+  use. When you create a firewall, the operation initializes this setting to `TRUE`.
 
 # Optional Parameters
 
@@ -1672,11 +1732,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.
@@ -1686,10 +1746,11 @@ You must specify the ARN or the name, and you can specify both.
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function update_firewall_policy_change_protection(
     FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1703,6 +1764,7 @@ function update_firewall_policy_change_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_policy_change_protection(
     FirewallPolicyChangeProtection,
     params::AbstractDict{String};
@@ -1730,17 +1792,20 @@ end
 
 Sets the logging configuration for the specified firewall.
 
-To change the logging configuration, retrieve the <a>LoggingConfiguration</a> by calling
-<a>DescribeLoggingConfiguration</a>, then change it and provide the modified object to this
-update call. You must change the logging configuration one <a>LogDestinationConfig</a> at a
-time inside the retrieved <a>LoggingConfiguration</a> object.
+To change the logging configuration, retrieve the [`logging_configuration`](@ref) by
+calling [`describe_logging_configuration`](@ref), then change it and provide the modified
+object to this update call. You must change the logging configuration one [`log_destination_config`](@ref)
+at a time inside the retrieved [`logging_configuration`](@ref) object.
 
 You can perform only one of the following actions in any call to
-`UpdateLoggingConfiguration`:  - Create a new log destination object by adding a single
-`LogDestinationConfig` array element to `LogDestinationConfigs`.
- - Delete a log destination object by removing a single `LogDestinationConfig` array
-element from `LogDestinationConfigs`.
- - Change the `LogDestination` setting in a single `LogDestinationConfig` array element.
+`UpdateLoggingConfiguration`:
+
+- Create a new log destination object by adding a single `LogDestinationConfig` array
+  element to `LogDestinationConfigs`.
+- Delete a log destination object by removing a single `LogDestinationConfig` array element
+  from `LogDestinationConfigs`.
+- Change the `LogDestination` setting in a single `LogDestinationConfig` array element.
+
 You can't change the `LogDestinationType` or `LogType` in a `LogDestinationConfig`. To
 change these settings, delete the existing `LogDestinationConfig` object and create a new
 one, using two separate calls to this update operation.
@@ -1751,11 +1816,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"LoggingConfiguration"`: Defines how Network Firewall performs logging for a firewall.
   If you omit this setting, Network Firewall disables logging for the firewall.
 """
@@ -1764,6 +1829,7 @@ function update_logging_configuration(; aws_config::AbstractAWSConfig=current_aw
         "UpdateLoggingConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1783,9 +1849,8 @@ Updates the rule settings for the specified rule group. You use a rule group by 
 in one or more firewall policies. When you modify a rule group, you modify all firewall
 policies that use the rule group.
 
-To update a rule group, first call <a>DescribeRuleGroup</a> to retrieve the current
-<a>RuleGroup</a> object, update the object as needed, and then provide the updated object
-to this call.
+To update a rule group, first call [`describe_rule_group`](@ref) to retrieve the current [`rule_group`](@ref)
+object, update the object as needed, and then provide the updated object to this call.
 
 # Arguments
 
@@ -1795,60 +1860,66 @@ to this call.
 
   To make changes to the rule group, you provide the token in your request. Network
   Firewall uses the token to ensure that the rule group hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the rule group again to get a current copy of it with a current
-  token. Reapply your changes as needed, then try the operation again using the new token.
+  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`.
+  If this happens, retrieve the rule group again to get a current copy of it with a
+  current token. Reapply your changes as needed, then try the operation again using the
+  new token.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AnalyzeRuleGroup"`: Indicates whether you want Network Firewall to analyze the
-  stateless rules in the rule group for rule behavior such as asymmetric routing. If set to
-  `TRUE`, Network Firewall runs the analysis and then updates the rule group for you. To
-  run the stateless rule group analyzer without updating the rule group, set `DryRun` to
-  `TRUE`.
+  stateless rules in the rule group for rule behavior such as asymmetric routing. If set
+  to `TRUE`, Network Firewall runs the analysis and then updates the rule group for you.
+  To run the stateless rule group analyzer without updating the rule group, set `DryRun`
+  to `TRUE`.
 - `"Description"`: A description of the rule group.
 - `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.
 
   If set to `TRUE`, Network Firewall checks whether the request can run successfully, but
-  doesn't actually make the requested changes. The call returns the value that the request
-  would return if you ran it with dry run set to `FALSE`, but doesn't make additions or
-  changes to your resources. This option allows you to make sure that you have the required
-  permissions to run the request and that your request parameters are valid.
+  doesn't actually make the requested changes. The call returns the value that the
+  request would return if you ran it with dry run set to `FALSE`, but doesn't make
+  additions or changes to your resources. This option allows you to make sure that you
+  have the required permissions to run the request and that your request parameters are
+  valid.
 
-If set to `FALSE`, Network Firewall makes the requested changes to your resources.
+  If set to `FALSE`, Network Firewall makes the requested changes to your resources.
 - `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
   rule group resources.
 - `"RuleGroup"`: An object that defines the rule group rules.
 
   !!! note
       You must provide either this rule group setting or a `Rules` setting, but not both.
+
 - `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"Rules"`: A string containing stateful rule group rules specifications in Suricata flat
-  format, with one rule per line. Use this to import your existing Suricata compatible rule
-  groups.
+  format, with one rule per line. Use this to import your existing Suricata compatible
+  rule groups.
 
   !!! note
       You must provide either this rules setting or a populated `RuleGroup` setting, but
-  not both.You can provide your rule group specification in Suricata flat format through
-  this setting when you create or update your rule group. The call response returns a
-  <a>RuleGroup</a> object that Network Firewall has populated from your string.
+      not both.
+
+  You can provide your rule group specification in Suricata flat format through this
+  setting when you create or update your rule group. The call response returns a [`rule_group`](@ref)
+  object that Network Firewall has populated from your string.
 - `"SourceMetadata"`: A complex type that contains metadata about the rule group that your
-  own rule group is copied from. You can use the metadata to keep track of updates made to
-  the originating rule group.
+  own rule group is copied from. You can use the metadata to keep track of updates made
+  to the originating rule group.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 
   !!! note
-    This setting is required for requests that do not include the `RuleGroupARN`.
+      This setting is required for requests that do not include the `RuleGroupARN`.
+
 """
 function update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=current_aws_config())
     return network_firewall(
@@ -1858,6 +1929,7 @@ function update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_group(
     UpdateToken,
     params::AbstractDict{String};
@@ -1877,7 +1949,6 @@ end
     update_subnet_change_protection(subnet_change_protection)
     update_subnet_change_protection(subnet_change_protection, params::Dict{String,<:Any})
 
-<p/>
 
 # Arguments
 
@@ -1892,11 +1963,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-You must specify the ARN or the name, and you can specify both.
+  You must specify the ARN or the name, and you can specify both.
 - `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.
@@ -1906,10 +1977,11 @@ You must specify the ARN or the name, and you can specify both.
   firewall has changed since you last retrieved it.
 
   To make a conditional change to the firewall, provide the token in your update request.
-  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
-  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
-  this happens, retrieve the firewall again to get a current copy of it with a new token.
-  Reapply your changes as needed, then try the operation again using the new token.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an
+  `InvalidTokenException`. If this happens, retrieve the firewall again to get a current
+  copy of it with a new token. Reapply your changes as needed, then try the operation
+  again using the new token.
 """
 function update_subnet_change_protection(
     SubnetChangeProtection; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1921,6 +1993,7 @@ function update_subnet_change_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subnet_change_protection(
     SubnetChangeProtection,
     params::AbstractDict{String};
@@ -1949,38 +2022,37 @@ configuration. You use a TLS inspection configuration by referencing it in one o
 firewall policies. When you modify a TLS inspection configuration, you modify all firewall
 policies that use the TLS inspection configuration.
 
-To update a TLS inspection configuration, first call
-<a>DescribeTLSInspectionConfiguration</a> to retrieve the current
-<a>TLSInspectionConfiguration</a> object, update the object as needed, and then provide the
-updated object to this call.
+To update a TLS inspection configuration, first call [`describe_tlsinspection_configuration`](@ref)
+to retrieve the current [`tlsinspection_configuration`](@ref) object, update the object as
+needed, and then provide the updated object to this call.
 
 # Arguments
 
 - `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
-  This, along with <a>TLSInspectionConfigurationResponse</a>, define the TLS inspection
-  configuration. You can retrieve all objects for a TLS inspection configuration by calling
-  <a>DescribeTLSInspectionConfiguration</a>.
+  This, along with [`tlsinspection_configuration_response`](@ref), define the TLS
+  inspection configuration. You can retrieve all objects for a TLS inspection
+  configuration by calling [`describe_tlsinspection_configuration`](@ref).
 
-  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall
-  re-encrypts the traffic before sending it to its destination.
+  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network
+  Firewall re-encrypts the traffic before sending it to its destination.
 
   To use a TLS inspection configuration, you add it to a new Network Firewall firewall
   policy, then you apply the firewall policy to a firewall. Network Firewall acts as a
   proxy service to decrypt and inspect the traffic traveling through your firewalls. You
-  can reference a TLS inspection configuration from more than one firewall policy, and you
-  can use a firewall policy in more than one firewall. For more information about using TLS
-  inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html)
+  can reference a TLS inspection configuration from more than one firewall policy, and
+  you can use a firewall policy in more than one firewall. For more information about
+  using TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html)
   in the *Network Firewall Developer Guide*.
 - `update_token`: A token used for optimistic locking. Network Firewall returns a token to
-  your requests that access the TLS inspection configuration. The token marks the state of
-  the TLS inspection configuration resource at the time of the request.
+  your requests that access the TLS inspection configuration. The token marks the state
+  of the TLS inspection configuration resource at the time of the request.
 
   To make changes to the TLS inspection configuration, you provide the token in your
-  request. Network Firewall uses the token to ensure that the TLS inspection configuration
-  hasn't changed since you last retrieved it. If it has changed, the operation fails with
-  an `InvalidTokenException`. If this happens, retrieve the TLS inspection configuration
-  again to get a current copy of it with a current token. Reapply your changes as needed,
-  then try the operation again using the new token.
+  request. Network Firewall uses the token to ensure that the TLS inspection
+  configuration hasn't changed since you last retrieved it. If it has changed, the
+  operation fails with an `InvalidTokenException`. If this happens, retrieve the TLS
+  inspection configuration again to get a current copy of it with a current token.
+  Reapply your changes as needed, then try the operation again using the new token.
 
 # Optional Parameters
 
@@ -2010,6 +2082,7 @@ function update_tlsinspection_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_tlsinspection_configuration(
     TLSInspectionConfiguration,
     UpdateToken,

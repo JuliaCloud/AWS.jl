@@ -11,14 +11,14 @@ using AWS.UUIDs
 Associate a lens to a workload.
 
 Up to 10 lenses can be associated with a workload in a single API operation. A maximum of
-20 lenses can be associated with a workload.</p>
+20 lenses can be associated with a workload.
 
 !!! note
     **Disclaimer**
 
- <p>By accessing and/or applying custom lenses created by another Amazon Web Services user
-or account, you acknowledge that custom lenses created by other users and shared with you
-are Third Party Content as defined in the Amazon Web Services Customer Agreement.
+    By accessing and/or applying custom lenses created by another Amazon Web Services user
+    or account, you acknowledge that custom lenses created by other users and shared with
+    you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
 
 # Arguments
 
@@ -36,6 +36,7 @@ function associate_lenses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_lenses(
     LensAliases,
     WorkloadId,
@@ -75,6 +76,7 @@ function associate_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_profiles(
     ProfileArns,
     WorkloadId,
@@ -102,22 +104,22 @@ The owner of a lens can share it with other Amazon Web Services accounts, users,
 organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses
 provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.
 
- Shared access to a lens is not removed until the lens invitation is deleted.
+Shared access to a lens is not removed until the lens invitation is deleted.
 
 If you share a lens with an organization or OU, all accounts in the organization or OU are
 granted access to the lens.
 
 For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html)
-in the *Well-Architected Tool User Guide*.</p>
+in the *Well-Architected Tool User Guide*.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
-that Amazon Web Services will make your custom lenses available to those other accounts.
-Those other accounts may continue to access and use your shared custom lenses even if you
-delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
-Web Services account.
+    By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+    that Amazon Web Services will make your custom lenses available to those other
+    accounts. Those other accounts may continue to access and use your shared custom lenses
+    even if you delete the custom lenses from your own Amazon Web Services account or
+    terminate your Amazon Web Services account.
 
 # Arguments
 
@@ -141,6 +143,7 @@ function create_lens_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lens_share(
     ClientRequestToken,
     LensAlias,
@@ -206,6 +209,7 @@ function create_lens_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lens_version(
     ClientRequestToken,
     LensAlias,
@@ -258,6 +262,7 @@ function create_milestone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_milestone(
     ClientRequestToken,
     MilestoneName,
@@ -322,6 +327,7 @@ function create_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile(
     ClientRequestToken,
     ProfileDescription,
@@ -378,6 +384,7 @@ function create_profile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile_share(
     ClientRequestToken,
     ProfileArn,
@@ -406,16 +413,17 @@ end
     create_review_template(client_request_token, description, lenses, template_name)
     create_review_template(client_request_token, description, lenses, template_name, params::Dict{String,<:Any})
 
-Create a review template.</p>
+Create a review template.
 
 !!! note
     **Disclaimer**
 
- <p>Do not include or gather personal identifiable information (PII) of end users or other
-identifiable individuals in or via your review templates. If your review template or those
-shared with you and used in your account do include or collect PII you are responsible for:
-ensuring that the included PII is processed in accordance with applicable law, providing
-adequate privacy notices, and obtaining necessary consents for processing such data.
+    Do not include or gather personal identifiable information (PII) of end users or other
+    identifiable individuals in or via your review templates. If your review template or
+    those shared with you and used in your account do include or collect PII you are
+    responsible for: ensuring that the included PII is processed in accordance with
+    applicable law, providing adequate privacy notices, and obtaining necessary consents
+    for processing such data.
 
 # Arguments
 
@@ -451,6 +459,7 @@ function create_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_review_template(
     ClientRequestToken,
     Description,
@@ -488,18 +497,18 @@ Create a review template share.
 The owner of a review template can share it with other Amazon Web Services accounts, users,
 an organization, and organizational units (OUs) in the same Amazon Web Services Region.
 
- Shared access to a review template is not removed until the review template share
+Shared access to a review template is not removed until the review template share
 invitation is deleted.
 
 If you share a review template with an organization or OU, all accounts in the organization
-or OU are granted access to the review template.</p>
+or OU are granted access to the review template.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your review template with other Amazon Web Services accounts, you
-acknowledge that Amazon Web Services will make your review template available to those
-other accounts.
+    By sharing your review template with other Amazon Web Services accounts, you
+    acknowledge that Amazon Web Services will make your review template available to those
+    other accounts.
 
 # Arguments
 
@@ -523,6 +532,7 @@ function create_template_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template_share(
     ClientRequestToken,
     SharedWith,
@@ -558,18 +568,22 @@ users, an organization, and organizational units (OUs) in the same Amazon Web Se
 Region. Only the owner of a workload can delete it.
 
 For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html)
-in the *Well-Architected Tool User Guide*.</p>
+in the *Well-Architected Tool User Guide*.
 
 !!! important
     Either `AwsRegions`, `NonAwsRegions`, or both must be specified when creating a
-workload.
+    workload.
 
- <p>You also must specify `ReviewOwner`, even though the parameter is listed as not being
-required in the following section.When creating a workload using a review template, you
-must have the following IAM permissions: - `wellarchitected:GetReviewTemplate`
- - `wellarchitected:GetReviewTemplateAnswer`
- - `wellarchitected:ListReviewTemplateAnswers`
- - `wellarchitected:GetReviewTemplateLensReview`
+    You also must specify `ReviewOwner`, even though the parameter is listed as not being
+    required in the following section.
+
+When creating a workload using a review template, you must have the following IAM
+permissions:
+
+- `wellarchitected:GetReviewTemplate`
+- `wellarchitected:GetReviewTemplateAnswer`
+- `wellarchitected:ListReviewTemplateAnswers`
+- `wellarchitected:GetReviewTemplateLensReview`
 
 # Arguments
 
@@ -622,6 +636,7 @@ function create_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workload(
     ClientRequestToken,
     Description,
@@ -694,6 +709,7 @@ function create_workload_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workload_share(
     ClientRequestToken,
     PermissionType,
@@ -729,16 +745,16 @@ Delete an existing lens.
 
 Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services
 accounts and users that you shared the lens with can continue to use it, but they will no
-longer be able to apply it to new workloads. </p>
+longer be able to apply it to new workloads.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
-that Amazon Web Services will make your custom lenses available to those other accounts.
-Those other accounts may continue to access and use your shared custom lenses even if you
-delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
-Web Services account.
+    By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+    that Amazon Web Services will make your custom lenses available to those other
+    accounts. Those other accounts may continue to access and use your shared custom lenses
+    even if you delete the custom lenses from your own Amazon Web Services account or
+    terminate your Amazon Web Services account.
 
 # Arguments
 
@@ -762,6 +778,7 @@ function delete_lens(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lens(
     ClientRequestToken,
     LensAlias,
@@ -794,16 +811,16 @@ Delete a lens share.
 
 After the lens share is deleted, Amazon Web Services accounts, users, organizations, and
 organizational units (OUs) that you shared the lens with can continue to use it, but they
-will no longer be able to apply it to new workloads.</p>
+will no longer be able to apply it to new workloads.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
-that Amazon Web Services will make your custom lenses available to those other accounts.
-Those other accounts may continue to access and use your shared custom lenses even if you
-delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
-Web Services account.
+    By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+    that Amazon Web Services will make your custom lenses available to those other
+    accounts. Those other accounts may continue to access and use your shared custom lenses
+    even if you delete the custom lenses from your own Amazon Web Services account or
+    terminate your Amazon Web Services account.
 
 # Arguments
 
@@ -825,6 +842,7 @@ function delete_lens_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lens_share(
     ClientRequestToken,
     LensAlias,
@@ -849,15 +867,16 @@ end
     delete_profile(client_request_token, profile_arn)
     delete_profile(client_request_token, profile_arn, params::Dict{String,<:Any})
 
-Delete a profile.</p>
+Delete a profile.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your profile with other Amazon Web Services accounts, you acknowledge that
-Amazon Web Services will make your profile available to those other accounts. Those other
-accounts may continue to access and use your shared profile even if you delete the profile
-from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    By sharing your profile with other Amazon Web Services accounts, you acknowledge that
+    Amazon Web Services will make your profile available to those other accounts. Those
+    other accounts may continue to access and use your shared profile even if you delete
+    the profile from your own Amazon Web Services account or terminate your Amazon Web
+    Services account.
 
 # Arguments
 
@@ -875,6 +894,7 @@ function delete_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile(
     ClientRequestToken,
     ProfileArn,
@@ -920,6 +940,7 @@ function delete_profile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile_share(
     ClientRequestToken,
     ProfileArn,
@@ -968,6 +989,7 @@ function delete_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_review_template(
     ClientRequestToken,
     TemplateArn,
@@ -1017,6 +1039,7 @@ function delete_template_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template_share(
     ClientRequestToken,
     ShareId,
@@ -1059,6 +1082,7 @@ function delete_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workload(
     ClientRequestToken,
     WorkloadId,
@@ -1104,6 +1128,7 @@ function delete_workload_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workload_share(
     ClientRequestToken,
     ShareId,
@@ -1134,7 +1159,7 @@ Up to 10 lenses can be disassociated from a workload in a single API operation.
 
 !!! note
     The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be
-removed from a workload.
+    removed from a workload.
 
 # Arguments
 
@@ -1152,6 +1177,7 @@ function disassociate_lenses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_lenses(
     LensAliases,
     WorkloadId,
@@ -1191,6 +1217,7 @@ function disassociate_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_profiles(
     ProfileArns,
     WorkloadId,
@@ -1218,16 +1245,17 @@ Only the owner of a lens can export it. Lenses provided by Amazon Web Services (
 Services Official Content) cannot be exported.
 
 Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
-in the *Well-Architected Tool User Guide*.</p>
+in the *Well-Architected Tool User Guide*.
 
 !!! note
     **Disclaimer**
 
- <p>Do not include or gather personal identifiable information (PII) of end users or other
-identifiable individuals in or via your custom lenses. If your custom lens or those shared
-with you and used in your account do include or collect PII you are responsible for:
-ensuring that the included PII is processed in accordance with applicable law, providing
-adequate privacy notices, and obtaining necessary consents for processing such data.
+    Do not include or gather personal identifiable information (PII) of end users or other
+    identifiable individuals in or via your custom lenses. If your custom lens or those
+    shared with you and used in your account do include or collect PII you are responsible
+    for: ensuring that the included PII is processed in accordance with applicable law,
+    providing adequate privacy notices, and obtaining necessary consents for processing
+    such data.
 
 # Arguments
 
@@ -1247,6 +1275,7 @@ function export_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_lens(
     LensAlias,
     params::AbstractDict{String};
@@ -1289,6 +1318,7 @@ function get_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_answer(
     LensAlias,
     QuestionId,
@@ -1317,7 +1347,7 @@ You can optionally choose to include workloads that have been shared with you.
 
 - `format`: The format of the consolidated report.
 
-For `PDF`, `Base64String` is returned. For `JSON`, `Metrics` is returned.
+  For `PDF`, `Base64String` is returned. For `JSON`, `Metrics` is returned.
 
 # Optional Parameters
 
@@ -1336,6 +1366,7 @@ function get_consolidated_report(Format; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_consolidated_report(
     Format, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1359,6 +1390,7 @@ function get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1395,6 +1427,7 @@ function get_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens(
     LensAlias,
     params::AbstractDict{String};
@@ -1436,6 +1469,7 @@ function get_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens_review(
     LensAlias,
     WorkloadId,
@@ -1478,6 +1512,7 @@ function get_lens_review_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens_review_report(
     LensAlias,
     WorkloadId,
@@ -1520,6 +1555,7 @@ function get_lens_version_difference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens_version_difference(
     LensAlias,
     params::AbstractDict{String};
@@ -1555,6 +1591,7 @@ function get_milestone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_milestone(
     MilestoneNumber,
     WorkloadId,
@@ -1594,6 +1631,7 @@ function get_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile(
     ProfileArn,
     params::AbstractDict{String};
@@ -1619,6 +1657,7 @@ function get_profile_template(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_profile_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1651,6 +1690,7 @@ function get_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_review_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -1687,6 +1727,7 @@ function get_review_template_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_review_template_answer(
     LensAlias,
     QuestionId,
@@ -1724,6 +1765,7 @@ function get_review_template_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_review_template_lens_review(
     LensAlias,
     TemplateArn,
@@ -1757,6 +1799,7 @@ function get_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workload(
     WorkloadId,
     params::AbstractDict{String};
@@ -1781,22 +1824,22 @@ To update an existing custom lens, specify its ARN as the `LensAlias`. If no ARN
 specified, a new custom lens is created.
 
 The new or updated lens will have a status of `DRAFT`. The lens cannot be applied to
-workloads or shared with other Amazon Web Services accounts until it's published with
-<a>CreateLensVersion</a>.
+workloads or shared with other Amazon Web Services accounts until it's published with [`create_lens_version`](@ref).
 
 Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
 in the *Well-Architected Tool User Guide*.
 
-A custom lens cannot exceed 500 KB in size.</p>
+A custom lens cannot exceed 500 KB in size.
 
 !!! note
     **Disclaimer**
 
- <p>Do not include or gather personal identifiable information (PII) of end users or other
-identifiable individuals in or via your custom lenses. If your custom lens or those shared
-with you and used in your account do include or collect PII you are responsible for:
-ensuring that the included PII is processed in accordance with applicable law, providing
-adequate privacy notices, and obtaining necessary consents for processing such data.
+    Do not include or gather personal identifiable information (PII) of end users or other
+    identifiable individuals in or via your custom lenses. If your custom lens or those
+    shared with you and used in your account do include or collect PII you are responsible
+    for: ensuring that the included PII is processed in accordance with applicable law,
+    providing adequate privacy notices, and obtaining necessary consents for processing
+    such data.
 
 # Arguments
 
@@ -1823,6 +1866,7 @@ function import_lens(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_lens(
     ClientRequestToken,
     JSONString,
@@ -1877,6 +1921,7 @@ function list_answers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_answers(
     LensAlias,
     WorkloadId,
@@ -1934,6 +1979,7 @@ function list_check_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_check_details(
     ChoiceId,
     LensArn,
@@ -2005,6 +2051,7 @@ function list_check_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_check_summaries(
     ChoiceId,
     LensArn,
@@ -2065,6 +2112,7 @@ function list_lens_review_improvements(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lens_review_improvements(
     LensAlias,
     WorkloadId,
@@ -2106,6 +2154,7 @@ function list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lens_reviews(
     WorkloadId,
     params::AbstractDict{String};
@@ -2148,6 +2197,7 @@ function list_lens_shares(LensAlias; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lens_shares(
     LensAlias,
     params::AbstractDict{String};
@@ -2183,6 +2233,7 @@ function list_lenses(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_lenses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2216,6 +2267,7 @@ function list_milestones(WorkloadId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_milestones(
     WorkloadId,
     params::AbstractDict{String};
@@ -2244,8 +2296,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"ResourceArn"`: The ARN for the related resource for the notification.
 
-!!! note
-    Only one of `WorkloadID` or `ResourceARN` should be specified.
+  !!! note
+      Only one of `WorkloadID` or `ResourceARN` should be specified.
+
 - `"WorkloadId"`:
 """
 function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2253,6 +2306,7 @@ function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2287,6 +2341,7 @@ function list_profile_notifications(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2327,6 +2382,7 @@ function list_profile_shares(ProfileArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_shares(
     ProfileArn,
     params::AbstractDict{String};
@@ -2362,6 +2418,7 @@ function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2403,6 +2460,7 @@ function list_review_template_answers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_review_template_answers(
     LensAlias,
     TemplateArn,
@@ -2436,6 +2494,7 @@ function list_review_templates(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_review_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2454,7 +2513,7 @@ end
 
 List the share invitations.
 
- `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are
+`WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are
 mutually exclusive. Use the parameter that matches your `ShareResourceType`.
 
 # Optional Parameters
@@ -2477,6 +2536,7 @@ function list_share_invitations(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_share_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2497,7 +2557,7 @@ List the tags for a resource.
 
 !!! note
     The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
-review template ARN.
+    review template ARN.
 
 # Arguments
 
@@ -2513,6 +2573,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     WorkloadArn,
     params::AbstractDict{String};
@@ -2557,6 +2618,7 @@ function list_template_shares(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_shares(
     TemplateArn,
     params::AbstractDict{String};
@@ -2601,6 +2663,7 @@ function list_workload_shares(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workload_shares(
     WorkloadId,
     params::AbstractDict{String};
@@ -2637,6 +2700,7 @@ function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workloads(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2657,7 +2721,7 @@ Adds one or more tags to the specified resource.
 
 !!! note
     The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
-review template ARN.
+    review template ARN.
 
 # Arguments
 
@@ -2673,6 +2737,7 @@ function tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     WorkloadArn,
@@ -2692,14 +2757,15 @@ end
     untag_resource(workload_arn, tag_keys)
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.</p>
+Deletes specified tags from a resource.
 
 !!! note
     The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
-review template ARN.To specify multiple tags, use separate **tagKeys** parameters, for
-example:
+    review template ARN.
 
- <p> `DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2`
+To specify multiple tags, use separate **tagKeys** parameters, for example:
+
+`DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2`
 
 # Arguments
 
@@ -2718,6 +2784,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     WorkloadArn,
     tagKeys,
@@ -2766,6 +2833,7 @@ function update_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_answer(
     LensAlias,
     QuestionId,
@@ -2802,6 +2870,7 @@ function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_conf
         "PATCH", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2843,6 +2912,7 @@ function update_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_integration(
     ClientRequestToken,
     IntegratingService,
@@ -2897,6 +2967,7 @@ function update_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lens_review(
     LensAlias,
     WorkloadId,
@@ -2937,6 +3008,7 @@ function update_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile(
     ProfileArn,
     params::AbstractDict{String};
@@ -2982,6 +3054,7 @@ function update_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_review_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -3028,6 +3101,7 @@ function update_review_template_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_review_template_answer(
     LensAlias,
     QuestionId,
@@ -3072,6 +3146,7 @@ function update_review_template_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_review_template_lens_review(
     LensAlias,
     TemplateArn,
@@ -3095,7 +3170,7 @@ Update a workload or custom lens share invitation.
 
 !!! note
     This API operation can be called independently of any resource. Previous documentation
-implied that a workload ARN must be specified.
+    implied that a workload ARN must be specified.
 
 # Arguments
 
@@ -3115,6 +3190,7 @@ function update_share_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_share_invitation(
     ShareInvitationAction,
     ShareInvitationId,
@@ -3181,6 +3257,7 @@ function update_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workload(
     WorkloadId,
     params::AbstractDict{String};
@@ -3218,6 +3295,7 @@ function update_workload_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workload_share(
     PermissionType,
     ShareId,
@@ -3265,6 +3343,7 @@ function upgrade_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_lens_review(
     LensAlias,
     MilestoneName,
@@ -3312,6 +3391,7 @@ function upgrade_profile_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_profile_version(
     ProfileArn,
     WorkloadId,
@@ -3358,6 +3438,7 @@ function upgrade_review_template_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_review_template_lens_review(
     LensAlias,
     TemplateArn,

@@ -21,10 +21,10 @@ Used to acknowledge an engagement to a contact channel during an incident.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AcceptCodeValidation"`: An optional field that Incident Manager uses to `ENFORCE`
-  `AcceptCode` validation when acknowledging an page. Acknowledgement can occur by replying
-  to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode
-  validation causes Incident Manager to verify that the code entered by the user matches
-  the code sent by Incident Manager with the page.
+  `AcceptCode` validation when acknowledging an page. Acknowledgement can occur by
+  replying to a page, or when entering the AcceptCode in the console. Enforcing
+  AcceptCode validation causes Incident Manager to verify that the code entered by the
+  user matches the code sent by Incident Manager with the page.
 
   Incident Manager can also `IGNORE` `AcceptCode` validation. Ignoring `AcceptCode`
   validation causes Incident Manager to accept any value entered for the `AcceptCode`.
@@ -43,6 +43,7 @@ function accept_page(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_page(
     AcceptCode,
     AcceptType,
@@ -93,6 +94,7 @@ function activate_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_contact_channel(
     ActivationCode,
     ContactChannelId,
@@ -157,6 +159,7 @@ function create_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_contact(
     Alias,
     Plan,
@@ -195,22 +198,26 @@ A contact channel is the method that Incident Manager uses to engage your contac
   channel to.
 - `delivery_address`: The details that Incident Manager uses when trying to engage the
   contact channel. The format is dependent on the type of the contact channel. The
-  following are the expected formats: - SMS - '+' followed by the country code and phone
-  number
-   - VOICE - '+' followed by the country code and phone number
-   - EMAIL - any standard email format
+  following are the expected formats:
+
+  - SMS - '+' followed by the country code and phone number
+  - VOICE - '+' followed by the country code and phone number
+  - EMAIL - any standard email format
+
 - `name`: The name of the contact channel.
-- `type`: Incident Manager supports three types of contact channels: - `SMS`
-   - `VOICE`
- - `EMAIL`
+- `type`: Incident Manager supports three types of contact channels:
+
+  - `SMS`
+  - `VOICE`
+  - `EMAIL`
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeferActivation"`: If you want to activate the channel at a later time, you can choose
-  to defer activation. Incident Manager can't engage your contact channel until it has been
-  activated.
+  to defer activation. Incident Manager can't engage your contact channel until it has
+  been activated.
 - `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
 """
@@ -234,6 +241,7 @@ function create_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_contact_channel(
     ContactId,
     DeliveryAddress,
@@ -272,8 +280,9 @@ Creates a rotation in an on-call schedule.
 
 - `contact_ids`: The Amazon Resource Names (ARNs) of the contacts to add to the rotation.
 
-  The order that you list the contacts in is their shift order in the rotation schedule. To
-  change the order of the contact's shifts, use the <a>UpdateRotation</a> operation.
+  The order that you list the contacts in is their shift order in the rotation schedule.
+  To change the order of the contact's shifts, use the [`update_rotation`](@ref)
+  operation.
 - `name`: The name of the rotation.
 - `recurrence`: Information about the rule that specifies when a shift's team members
   rotate.
@@ -284,7 +293,7 @@ Creates a rotation in an on-call schedule.
 
   !!! note
       Designators for time zones that don’t support Daylight Savings Time rules, such as
-  Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+      Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
 
 # Optional Parameters
 
@@ -317,6 +326,7 @@ function create_rotation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rotation(
     ContactIds,
     Name,
@@ -387,6 +397,7 @@ function create_rotation_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rotation_override(
     EndTime,
     NewContactIds,
@@ -436,6 +447,7 @@ function deactivate_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -474,6 +486,7 @@ function delete_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_contact(
     ContactId,
     params::AbstractDict{String};
@@ -512,6 +525,7 @@ function delete_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -548,6 +562,7 @@ function delete_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rotation(
     RotationId,
     params::AbstractDict{String};
@@ -587,6 +602,7 @@ function delete_rotation_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rotation_override(
     RotationId,
     RotationOverrideId,
@@ -630,6 +646,7 @@ function describe_engagement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_engagement(
     EngagementId,
     params::AbstractDict{String};
@@ -663,6 +680,7 @@ function describe_page(PageId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_page(
     PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -692,6 +710,7 @@ function get_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact(
     ContactId,
     params::AbstractDict{String};
@@ -728,6 +747,7 @@ function get_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -763,6 +783,7 @@ function get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact_policy(
     ContactArn,
     params::AbstractDict{String};
@@ -797,6 +818,7 @@ function get_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rotation(
     RotationId,
     params::AbstractDict{String};
@@ -837,6 +859,7 @@ function get_rotation_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rotation_override(
     RotationId,
     RotationOverrideId,
@@ -886,6 +909,7 @@ function list_contact_channels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_contact_channels(
     ContactId,
     params::AbstractDict{String};
@@ -922,6 +946,7 @@ function list_contacts(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_contacts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -951,6 +976,7 @@ function list_engagements(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_engagements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -984,6 +1010,7 @@ function list_page_receipts(PageId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_page_receipts(
     PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1022,6 +1049,7 @@ function list_page_resolutions(PageId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_page_resolutions(
     PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1062,6 +1090,7 @@ function list_pages_by_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pages_by_contact(
     ContactId,
     params::AbstractDict{String};
@@ -1105,6 +1134,7 @@ function list_pages_by_engagement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pages_by_engagement(
     EngagementId,
     params::AbstractDict{String};
@@ -1128,7 +1158,7 @@ Returns a list of shifts based on rotation configuration parameters.
 
 !!! note
     The Incident Manager primarily uses this operation to populate the **Preview**
-calendar. It is not typically run by end users.
+    calendar. It is not typically run by end users.
 
 # Arguments
 
@@ -1145,7 +1175,8 @@ calendar. It is not typically run by end users.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that can be specified in a subsequent call to get the next set of results.
+  returns a token that can be specified in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. This token is used to get the next set of
   results.
 - `"Overrides"`: Information about changes that would be made in a rotation override.
@@ -1173,6 +1204,7 @@ function list_preview_rotation_shifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_preview_rotation_shifts(
     EndTime,
     Members,
@@ -1218,7 +1250,8 @@ Retrieves a list of overrides currently specified for an on-call rotation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_rotation_overrides(
@@ -1233,6 +1266,7 @@ function list_rotation_overrides(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rotation_overrides(
     EndTime,
     RotationId,
@@ -1275,7 +1309,8 @@ Returns a list of shifts generated by an existing rotation in the system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"StartTime"`: The date and time for the beginning of the time range to list shifts for.
 """
@@ -1289,6 +1324,7 @@ function list_rotation_shifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rotation_shifts(
     EndTime,
     RotationId,
@@ -1320,17 +1356,19 @@ Retrieves a list of on-call rotations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"RotationNamePrefix"`: A filter to include rotations in list results based on their
-  common prefix. For example, entering prod returns a list of all rotation names that begin
-  with `prod`, such as `production` and `prod-1`.
+  common prefix. For example, entering prod returns a list of all rotation names that
+  begin with `prod`, such as `production` and `prod-1`.
 """
 function list_rotations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rotations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1359,6 +1397,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1397,6 +1436,7 @@ function put_contact_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_contact_policy(
     ContactArn,
     Policy,
@@ -1422,8 +1462,8 @@ end
     send_activation_code(contact_channel_id, params::Dict{String,<:Any})
 
 Sends an activation code to a contact channel. The contact can use this code to activate
-the contact channel in the console or with the `ActivateChannel` operation. Incident
-Manager can't engage a contact channel until it has been activated.
+the contact channel in the console or with the [`activate_channel`](@ref) operation.
+Incident Manager can't engage a contact channel until it has been activated.
 
 # Arguments
 
@@ -1439,6 +1479,7 @@ function send_activation_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_activation_code(
     ContactChannelId,
     params::AbstractDict{String};
@@ -1500,6 +1541,7 @@ function start_engagement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_engagement(
     ContactId,
     Content,
@@ -1553,6 +1595,7 @@ function stop_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_engagement(
     EngagementId,
     params::AbstractDict{String};
@@ -1588,6 +1631,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1629,6 +1673,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1676,6 +1721,7 @@ function update_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_contact(
     ContactId,
     params::AbstractDict{String};
@@ -1720,6 +1766,7 @@ function update_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -1756,7 +1803,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContactIds"`: The Amazon Resource Names (ARNs) of the contacts to include in the
   updated rotation.
 
-The order in which you list the contacts is their shift order in the rotation schedule.
+  The order in which you list the contacts is their shift order in the rotation schedule.
 - `"StartTime"`: The date and time the rotation goes into effect.
 - `"TimeZoneId"`: The time zone to base the updated rotation’s activity on, in Internet
   Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or
@@ -1765,7 +1812,8 @@ The order in which you list the contacts is their shift order in the rotation sc
 
   !!! note
       Designators for time zones that don’t support Daylight Savings Time Rules, such as
-  Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+      Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+
 """
 function update_rotation(
     Recurrence, RotationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1777,6 +1825,7 @@ function update_rotation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rotation(
     Recurrence,
     RotationId,

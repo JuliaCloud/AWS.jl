@@ -36,6 +36,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectionName,
     params::AbstractDict{String};
@@ -62,7 +63,7 @@ that provider.
 
 !!! note
     A host created through the CLI or the SDK is in `PENDING` status by default. You can
-make its status `AVAILABLE` by setting up the host in the console.
+    make its status `AVAILABLE` by setting up the host in the console.
 
 # Arguments
 
@@ -79,8 +80,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: Tags for the host to be created.
 - `"VpcConfiguration"`: The VPC configuration to be provisioned for the host. A VPC must be
-  configured and the infrastructure to be represented by the host must already be connected
-  to the VPC.
+  configured and the infrastructure to be represented by the host must already be
+  connected to the VPC.
 """
 function create_host(
     Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -96,6 +97,7 @@ function create_host(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_host(
     Name,
     ProviderEndpoint,
@@ -161,6 +163,7 @@ function create_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository_link(
     ConnectionArn,
     OwnerId,
@@ -240,6 +243,7 @@ function create_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sync_configuration(
     Branch,
     ConfigFile,
@@ -281,8 +285,9 @@ The connection to be deleted.
 
 - `connection_arn`: The Amazon Resource Name (ARN) of the connection to be deleted.
 
-!!! note
-    The ARN is never reused if the connection is deleted.
+  !!! note
+      The ARN is never reused if the connection is deleted.
+
 """
 function delete_connection(
     ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -294,6 +299,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -318,7 +324,7 @@ must be deleted.
 
 !!! note
     A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING
-state.
+    state.
 
 # Arguments
 
@@ -332,6 +338,7 @@ function delete_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_host(
     HostArn,
     params::AbstractDict{String};
@@ -365,6 +372,7 @@ function delete_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -404,6 +412,7 @@ function delete_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sync_configuration(
     ResourceName,
     SyncType,
@@ -442,6 +451,7 @@ function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -476,6 +486,7 @@ function get_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_host(
     HostArn,
     params::AbstractDict{String};
@@ -510,6 +521,7 @@ function get_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -554,6 +566,7 @@ function get_repository_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_sync_status(
     Branch,
     RepositoryLinkId,
@@ -602,6 +615,7 @@ function get_resource_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_sync_status(
     ResourceName,
     SyncType,
@@ -644,6 +658,7 @@ function get_sync_blocker_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sync_blocker_summary(
     ResourceName,
     SyncType,
@@ -689,6 +704,7 @@ function get_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sync_configuration(
     ResourceName,
     SyncType,
@@ -733,6 +749,7 @@ function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -761,6 +778,7 @@ function list_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -779,9 +797,9 @@ Lists the repository links created for connections in your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  A non-zero, non-negative integer used to limit the number of returned
+- `"MaxResults"`: A non-zero, non-negative integer used to limit the number of returned
   results.
-- `"NextToken"`:  An enumeration token that, when provided in a request, returns the next
+- `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -789,6 +807,7 @@ function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListRepositoryLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_repository_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -823,6 +842,7 @@ function list_repository_sync_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_repository_sync_definitions(
     RepositoryLinkId,
     SyncType,
@@ -876,6 +896,7 @@ function list_sync_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sync_configurations(
     RepositoryLinkId,
     SyncType,
@@ -919,6 +940,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -955,6 +977,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -996,6 +1019,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1032,8 +1056,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ProviderEndpoint"`: The URL or endpoint of the host to be updated.
 - `"VpcConfiguration"`: The VPC configuration of the host to be updated. A VPC must be
-  configured and the infrastructure to be represented by the host must already be connected
-  to the VPC.
+  configured and the infrastructure to be represented by the host must already be
+  connected to the VPC.
 """
 function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
@@ -1043,6 +1067,7 @@ function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_host(
     HostArn,
     params::AbstractDict{String};
@@ -1088,6 +1113,7 @@ function update_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -1138,6 +1164,7 @@ function update_sync_blocker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sync_blocker(
     Id,
     ResolvedReason,
@@ -1200,6 +1227,7 @@ function update_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sync_configuration(
     ResourceName,
     SyncType,

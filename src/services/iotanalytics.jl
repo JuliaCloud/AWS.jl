@@ -16,14 +16,19 @@ Sends messages to a channel.
 - `messages`: The list of messages to be sent. Each message has the format: { "messageId":
   "string", "payload": "string"}.
 
-  The field names of message payloads (data) that you send to IoT Analytics: - Must contain
-  only alphanumeric characters and undescores (_). No other special characters are allowed.
-   - Must begin with an alphabetic character or single underscore (_).
-   - Cannot contain hyphens (-).
-   - In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)\$".
- - Cannot be more than 255 characters.
- - Are case insensitive. (Fields named foo and FOO in the same payload are considered duplicates.)
-For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
+  The field names of message payloads (data) that you send to IoT Analytics:
+
+  - Must contain only alphanumeric characters and undescores (_). No other special
+    characters are allowed.
+  - Must begin with an alphabetic character or single underscore (_).
+  - Cannot contain hyphens (-).
+  - In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)\$".
+  - Cannot be more than 255 characters.
+  - Are case insensitive. (Fields named foo and FOO in the same payload are considered
+    duplicates.)
+
+  For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29},
+  {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
 """
 function batch_put_message(
     channelName, messages; aws_config::AbstractAWSConfig=current_aws_config()
@@ -36,6 +41,7 @@ function batch_put_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_message(
     channelName,
     messages,
@@ -79,6 +85,7 @@ function cancel_pipeline_reprocessing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_pipeline_reprocessing(
     pipelineName,
     reprocessingId,
@@ -125,6 +132,7 @@ function create_channel(channelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     channelName,
     params::AbstractDict{String};
@@ -167,7 +175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retentionPeriod"`: Optional. How long, in days, versions of dataset contents are kept
   for the dataset. If not specified or set to `null`, versions of dataset contents are
   retained for at most 90 days. The number of versions of dataset contents retained is
-  determined by the `versioningConfiguration` parameter. For more information, see [ Keeping Multiple Versions of IoT Analytics datasets](https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  determined by the `versioningConfiguration` parameter. For more information, see [Keeping Multiple Versions of IoT Analytics datasets](https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
   in the *IoT Analytics User Guide*.
 - `"tags"`: Metadata which can be used to manage the dataset.
 - `"triggers"`: A list of triggers. A trigger causes dataset contents to be populated at a
@@ -190,6 +198,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     actions,
     datasetName,
@@ -240,6 +249,7 @@ function create_dataset_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset_content(
     datasetName,
     params::AbstractDict{String};
@@ -268,7 +278,7 @@ Creates a data store, which is a repository for messages.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"datastorePartitions"`:  Contains information about the partition dimensions in a data
+- `"datastorePartitions"`: Contains information about the partition dimensions in a data
   store.
 - `"datastoreStorage"`: Where data in a data store is stored.. You can choose
   `serviceManagedS3` storage, `customerManagedS3` storage, or
@@ -279,7 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default file format is JSON. You can specify only one format.
 
-You can't change the file format after you create the data store.
+  You can't change the file format after you create the data store.
 - `"retentionPeriod"`: How long, in days, message data is kept for the data store. When
   `customerManagedS3` storage is selected, this parameter is ignored.
 - `"tags"`: Metadata which can be used to manage the data store.
@@ -293,6 +303,7 @@ function create_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -327,9 +338,10 @@ the messages before storing them in a data store. You must specify both a `chann
   normalize device data.
 
   The list can be 2-25 `PipelineActivity` objects and must contain both a `channel` and a
-  `datastore` activity. Each entry in the list must contain only one activity. For example:
+  `datastore` activity. Each entry in the list must contain only one activity. For
+  example:
 
- `pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]`
+  `pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]`
 - `pipeline_name`: The name of the pipeline.
 
 # Optional Parameters
@@ -351,6 +363,7 @@ function create_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     pipelineActivities,
     pipelineName,
@@ -393,6 +406,7 @@ function delete_channel(channelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     channelName,
     params::AbstractDict{String};
@@ -427,6 +441,7 @@ function delete_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     datasetName,
     params::AbstractDict{String};
@@ -469,6 +484,7 @@ function delete_dataset_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset_content(
     datasetName,
     params::AbstractDict{String};
@@ -501,6 +517,7 @@ function delete_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -533,6 +550,7 @@ function delete_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     pipelineName,
     params::AbstractDict{String};
@@ -573,6 +591,7 @@ function describe_channel(channelName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel(
     channelName,
     params::AbstractDict{String};
@@ -605,6 +624,7 @@ function describe_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     datasetName,
     params::AbstractDict{String};
@@ -647,6 +667,7 @@ function describe_datastore(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -672,6 +693,7 @@ function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -698,6 +720,7 @@ function describe_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pipeline(
     pipelineName,
     params::AbstractDict{String};
@@ -727,8 +750,8 @@ Retrieves the contents of a dataset as presigned URIs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"versionId"`: The version of the dataset whose contents are retrieved. You can also use
-  the strings "\$LATEST" or "\$LATEST_SUCCEEDED" to retrieve the contents of the latest or
-  latest successfully completed dataset. If not specified, "\$LATEST_SUCCEEDED" is the
+  the strings "\$LATEST" or "\$LATEST_SUCCEEDED" to retrieve the contents of the latest
+  or latest successfully completed dataset. If not specified, "\$LATEST_SUCCEEDED" is the
   default.
 """
 function get_dataset_content(
@@ -741,6 +764,7 @@ function get_dataset_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dataset_content(
     datasetName,
     params::AbstractDict{String};
@@ -767,7 +791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in this request.
 
-The default value is 100.
+  The default value is 100.
 - `"nextToken"`: The token for the next set of results.
 """
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -775,6 +799,7 @@ function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -816,6 +841,7 @@ function list_dataset_contents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dataset_contents(
     datasetName,
     params::AbstractDict{String};
@@ -842,7 +868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in this request.
 
-The default value is 100.
+  The default value is 100.
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -850,6 +876,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -870,7 +897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in this request.
 
-The default value is 100.
+  The default value is 100.
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -878,6 +905,7 @@ function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -898,7 +926,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in this request.
 
-The default value is 100.
+  The default value is 100.
 - `"nextToken"`: The token for the next set of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -906,6 +934,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -935,6 +964,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -977,6 +1007,7 @@ function put_logging_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_logging_options(
     loggingOptions,
     params::AbstractDict{String};
@@ -1003,10 +1034,10 @@ Simulates the results of running a pipeline activity on a message payload.
 
 - `payloads`: The sample message payloads on which the pipeline activity is run.
 - `pipeline_activity`: The pipeline activity that is run. This must not be a channel
-  activity or a data store activity because these activities are used in a pipeline only to
-  load the original message and to store the (possibly) transformed message. If a Lambda
-  activity is specified, only short-running Lambda functions (those with a timeout of less
-  than 30 seconds or less) can be used.
+  activity or a data store activity because these activities are used in a pipeline only
+  to load the original message and to store the (possibly) transformed message. If a
+  Lambda activity is specified, only short-running Lambda functions (those with a timeout
+  of less than 30 seconds or less) can be used.
 """
 function run_pipeline_activity(
     payloads, pipelineActivity; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1019,6 +1050,7 @@ function run_pipeline_activity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function run_pipeline_activity(
     payloads,
     pipelineActivity,
@@ -1072,6 +1104,7 @@ function sample_channel_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sample_channel_data(
     channelName,
     params::AbstractDict{String};
@@ -1103,8 +1136,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channelMessages"`: Specifies one or more sets of channel messages that you want to
   reprocess.
 
-  If you use the `channelMessages` object, you must not specify a value for `startTime` and
-  `endTime`.
+  If you use the `channelMessages` object, you must not specify a value for `startTime`
+  and `endTime`.
 - `"endTime"`: The end time (exclusive) of raw message data that is reprocessed.
 
   If you specify a value for the `endTime` parameter, you must not use the
@@ -1124,6 +1157,7 @@ function start_pipeline_reprocessing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipeline_reprocessing(
     pipelineName,
     params::AbstractDict{String};
@@ -1159,6 +1193,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1202,6 +1237,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1241,7 +1277,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `serviceManagedS3` or `customerManagedS3` storage. If not specified, the default is
   `serviceManagedS3`. You can't change this storage option after the channel is created.
 - `"retentionPeriod"`: How long, in days, message data is kept for the channel. The
-  retention period can't be updated if the channel's Amazon S3 storage is customer-managed.
+  retention period can't be updated if the channel's Amazon S3 storage is customer-
+  managed.
 """
 function update_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
@@ -1251,6 +1288,7 @@ function update_channel(channelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     channelName,
     params::AbstractDict{String};
@@ -1305,6 +1343,7 @@ function update_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset(
     actions,
     datasetName,
@@ -1343,7 +1382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default file format is JSON. You can specify only one format.
 
-You can't change the file format after you create the data store.
+  You can't change the file format after you create the data store.
 - `"retentionPeriod"`: How long, in days, message data is kept for the data store. The
   retention period can't be updated if the data store's Amazon S3 storage is customer-
   managed.
@@ -1356,6 +1395,7 @@ function update_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -1382,14 +1422,15 @@ array.
 
 - `pipeline_activities`: A list of `PipelineActivity` objects. Activities perform
   transformations on your messages, such as removing, renaming or adding message
-  attributes; filtering messages based on attribute values; invoking your Lambda functions
-  on messages for advanced processing; or performing mathematical transformations to
-  normalize device data.
+  attributes; filtering messages based on attribute values; invoking your Lambda
+  functions on messages for advanced processing; or performing mathematical
+  transformations to normalize device data.
 
   The list can be 2-25 `PipelineActivity` objects and must contain both a `channel` and a
-  `datastore` activity. Each entry in the list must contain only one activity. For example:
+  `datastore` activity. Each entry in the list must contain only one activity. For
+  example:
 
- `pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]`
+  `pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]`
 - `pipeline_name`: The name of the pipeline to update.
 """
 function update_pipeline(
@@ -1403,6 +1444,7 @@ function update_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     pipelineActivities,
     pipelineName,

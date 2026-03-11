@@ -38,6 +38,7 @@ function accept_predictions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_predictions(
     domainIdentifier,
     identifier,
@@ -85,6 +86,7 @@ function accept_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_subscription_request(
     domainIdentifier,
     identifier,
@@ -135,6 +137,7 @@ function add_entity_owner(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_entity_owner(
     domainIdentifier,
     entityIdentifier,
@@ -204,6 +207,7 @@ function add_policy_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_policy_grant(
     detail,
     domainIdentifier,
@@ -260,6 +264,7 @@ function associate_environment_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_environment_role(
     domainIdentifier,
     environmentIdentifier,
@@ -298,6 +303,7 @@ function cancel_metadata_generation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_metadata_generation_run(
     domainIdentifier,
     identifier,
@@ -335,6 +341,7 @@ function cancel_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_subscription(
     domainIdentifier,
     identifier,
@@ -397,6 +404,7 @@ function create_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset(
     domainIdentifier,
     name,
@@ -465,6 +473,7 @@ function create_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_filter(
     assetIdentifier,
     configuration,
@@ -529,6 +538,7 @@ function create_asset_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_revision(
     domainIdentifier,
     identifier,
@@ -591,6 +601,7 @@ function create_asset_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_type(
     domainIdentifier,
     formsInput,
@@ -659,6 +670,7 @@ function create_data_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_product(
     domainIdentifier,
     name,
@@ -719,6 +731,7 @@ function create_data_product_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_product_revision(
     domainIdentifier,
     identifier,
@@ -798,6 +811,7 @@ function create_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source(
     domainIdentifier,
     environmentIdentifier,
@@ -869,6 +883,7 @@ function create_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     domainExecutionRole,
     name,
@@ -932,6 +947,7 @@ function create_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain_unit(
     domainIdentifier,
     name,
@@ -1008,6 +1024,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     domainIdentifier,
     environmentProfileIdentifier,
@@ -1073,6 +1090,7 @@ function create_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -1140,6 +1158,7 @@ function create_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment_profile(
     domainIdentifier,
     environmentBlueprintIdentifier,
@@ -1208,6 +1227,7 @@ function create_form_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_form_type(
     domainIdentifier,
     model,
@@ -1275,6 +1295,7 @@ function create_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_glossary(
     domainIdentifier,
     name,
@@ -1343,6 +1364,7 @@ function create_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_glossary_term(
     domainIdentifier,
     glossaryIdentifier,
@@ -1385,7 +1407,7 @@ Creates a group profile in Amazon DataZone.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`:  A unique, case-sensitive identifier that is provided to ensure the
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
 function create_group_profile(
@@ -1401,6 +1423,7 @@ function create_group_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_profile(
     domainIdentifier,
     groupIdentifier,
@@ -1466,6 +1489,7 @@ function create_listing_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_listing_change_set(
     action,
     domainIdentifier,
@@ -1526,6 +1550,7 @@ function create_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     domainIdentifier,
     name,
@@ -1570,6 +1595,7 @@ function create_project_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project_membership(
     designation,
     domainIdentifier,
@@ -1637,6 +1663,7 @@ function create_subscription_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_grant(
     domainIdentifier,
     environmentIdentifier,
@@ -1708,6 +1735,7 @@ function create_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_request(
     domainIdentifier,
     requestReason,
@@ -1791,6 +1819,7 @@ function create_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_target(
     applicableAssetTypes,
     authorizedPrincipals,
@@ -1859,6 +1888,7 @@ function create_user_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_profile(
     domainIdentifier,
     userIdentifier,
@@ -1903,6 +1933,7 @@ function delete_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset(
     domainIdentifier,
     identifier,
@@ -1943,6 +1974,7 @@ function delete_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -1981,6 +2013,7 @@ function delete_asset_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset_type(
     domainIdentifier,
     identifier,
@@ -2018,6 +2051,7 @@ function delete_data_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_product(
     domainIdentifier,
     identifier,
@@ -2065,6 +2099,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     domainIdentifier,
     identifier,
@@ -2110,6 +2145,7 @@ function delete_domain(identifier; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     identifier,
     params::AbstractDict{String};
@@ -2147,6 +2183,7 @@ function delete_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain_unit(
     domainIdentifier,
     identifier,
@@ -2184,6 +2221,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     domainIdentifier,
     identifier,
@@ -2227,6 +2265,7 @@ function delete_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -2268,6 +2307,7 @@ function delete_environment_blueprint_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier,
@@ -2305,6 +2345,7 @@ function delete_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_profile(
     domainIdentifier,
     identifier,
@@ -2342,6 +2383,7 @@ function delete_form_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_form_type(
     domainIdentifier,
     formTypeIdentifier,
@@ -2379,6 +2421,7 @@ function delete_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_glossary(
     domainIdentifier,
     identifier,
@@ -2416,6 +2459,7 @@ function delete_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_glossary_term(
     domainIdentifier,
     identifier,
@@ -2452,6 +2496,7 @@ function delete_listing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_listing(
     domainIdentifier,
     identifier,
@@ -2495,6 +2540,7 @@ function delete_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     domainIdentifier,
     identifier,
@@ -2538,6 +2584,7 @@ function delete_project_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project_membership(
     domainIdentifier,
     member,
@@ -2576,6 +2623,7 @@ function delete_subscription_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_grant(
     domainIdentifier,
     identifier,
@@ -2613,6 +2661,7 @@ function delete_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_request(
     domainIdentifier,
     identifier,
@@ -2655,6 +2704,7 @@ function delete_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -2707,6 +2757,7 @@ function delete_time_series_data_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -2756,6 +2807,7 @@ function disassociate_environment_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_environment_role(
     domainIdentifier,
     environmentIdentifier,
@@ -2799,6 +2851,7 @@ function get_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset(
     domainIdentifier,
     identifier,
@@ -2839,6 +2892,7 @@ function get_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -2882,6 +2936,7 @@ function get_asset_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset_type(
     domainIdentifier,
     identifier,
@@ -2924,6 +2979,7 @@ function get_data_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_product(
     domainIdentifier,
     identifier,
@@ -2960,6 +3016,7 @@ function get_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     domainIdentifier,
     identifier,
@@ -2996,6 +3053,7 @@ function get_data_source_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source_run(
     domainIdentifier,
     identifier,
@@ -3029,6 +3087,7 @@ function get_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain(
     identifier,
     params::AbstractDict{String};
@@ -3064,6 +3123,7 @@ function get_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_unit(
     domainIdentifier,
     identifier,
@@ -3100,6 +3160,7 @@ function get_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     domainIdentifier,
     identifier,
@@ -3141,6 +3202,7 @@ function get_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -3178,6 +3240,7 @@ function get_environment_blueprint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_blueprint(
     domainIdentifier,
     identifier,
@@ -3216,6 +3279,7 @@ function get_environment_blueprint_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier,
@@ -3255,6 +3319,7 @@ function get_environment_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_credentials(
     domainIdentifier,
     environmentIdentifier,
@@ -3292,6 +3357,7 @@ function get_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_profile(
     domainIdentifier,
     identifier,
@@ -3335,6 +3401,7 @@ function get_form_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_form_type(
     domainIdentifier,
     formTypeIdentifier,
@@ -3372,6 +3439,7 @@ function get_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_glossary(
     domainIdentifier,
     identifier,
@@ -3409,6 +3477,7 @@ function get_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_glossary_term(
     domainIdentifier,
     identifier,
@@ -3446,6 +3515,7 @@ function get_group_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_profile(
     domainIdentifier,
     groupIdentifier,
@@ -3482,6 +3552,7 @@ function get_iam_portal_login_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_iam_portal_login_url(
     domainIdentifier,
     params::AbstractDict{String};
@@ -3507,9 +3578,10 @@ Gets the data lineage node.
 - `domain_identifier`: The ID of the domain in which you want to get the data lineage node.
 - `identifier`: The ID of the data lineage node that you want to get.
 
-  Both, a lineage node identifier generated by Amazon DataZone and a `sourceIdentifier` of
-  the lineage node are supported. If `sourceIdentifier` is greater than 1800 characters,
-  you can use lineage node identifier generated by Amazon DataZone to get the node details.
+  Both, a lineage node identifier generated by Amazon DataZone and a `sourceIdentifier`
+  of the lineage node are supported. If `sourceIdentifier` is greater than 1800
+  characters, you can use lineage node identifier generated by Amazon DataZone to get the
+  node details.
 
 # Optional Parameters
 
@@ -3527,6 +3599,7 @@ function get_lineage_node(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lineage_node(
     domainIdentifier,
     identifier,
@@ -3570,6 +3643,7 @@ function get_listing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_listing(
     domainIdentifier,
     identifier,
@@ -3607,6 +3681,7 @@ function get_metadata_generation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metadata_generation_run(
     domainIdentifier,
     identifier,
@@ -3643,6 +3718,7 @@ function get_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_project(
     domainIdentifier,
     identifier,
@@ -3680,6 +3756,7 @@ function get_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription(
     domainIdentifier,
     identifier,
@@ -3717,6 +3794,7 @@ function get_subscription_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_grant(
     domainIdentifier,
     identifier,
@@ -3754,6 +3832,7 @@ function get_subscription_request_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_request_details(
     domainIdentifier,
     identifier,
@@ -3796,6 +3875,7 @@ function get_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -3844,6 +3924,7 @@ function get_time_series_data_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_time_series_data_point(
     domainIdentifier,
     entityIdentifier,
@@ -3892,6 +3973,7 @@ function get_user_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_profile(
     domainIdentifier,
     userIdentifier,
@@ -3943,6 +4025,7 @@ function list_asset_filters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_filters(
     assetIdentifier,
     domainIdentifier,
@@ -3974,8 +4057,8 @@ Lists the revisions for the asset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of revisions to return in a single call to
-  `ListAssetRevisions`. When the number of revisions to be listed is greater than the value
-  of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  `ListAssetRevisions`. When the number of revisions to be listed is greater than the
+  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListAssetRevisions` to list the next set of revisions.
 - `"nextToken"`: When the number of revisions is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
@@ -3993,6 +4076,7 @@ function list_asset_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_revisions(
     domainIdentifier,
     identifier,
@@ -4032,8 +4116,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: When the number of data product revisions is greater than the default
   value for the `MaxResults` parameter, or if you explicitly specify a value for
   `MaxResults` that is less than the number of data product revisions, the response
-  includes a pagination token named `NextToken`. You can specify this `NextToken` value in
-  a subsequent call to `ListDataProductRevisions` to list the next set of data product
+  includes a pagination token named `NextToken`. You can specify this `NextToken` value
+  in a subsequent call to `ListDataProductRevisions` to list the next set of data product
   revisions.
 """
 function list_data_product_revisions(
@@ -4046,6 +4130,7 @@ function list_data_product_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_product_revisions(
     domainIdentifier,
     identifier,
@@ -4078,9 +4163,10 @@ Lists data source run activities.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of activities to return in a single call to
-  `ListDataSourceRunActivities`. When the number of activities to be listed is greater than
-  the value of `MaxResults`, the response contains a `NextToken` value that you can use in
-  a subsequent call to `ListDataSourceRunActivities` to list the next set of activities.
+  `ListDataSourceRunActivities`. When the number of activities to be listed is greater
+  than the value of `MaxResults`, the response contains a `NextToken` value that you can
+  use in a subsequent call to `ListDataSourceRunActivities` to list the next set of
+  activities.
 - `"nextToken"`: When the number of activities is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
   less than the number of activities, the response includes a pagination token named
@@ -4098,6 +4184,7 @@ function list_data_source_run_activities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_source_run_activities(
     domainIdentifier,
     identifier,
@@ -4131,13 +4218,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of runs to return in a single call to
   `ListDataSourceRuns`. When the number of runs to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
-  call to `ListDataSourceRuns` to list the next set of runs.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListDataSourceRuns` to list the next set of runs.
 - `"nextToken"`: When the number of runs is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of runs, the response includes a pagination token named `NextToken`.
-  You can specify this `NextToken` value in a subsequent call to `ListDataSourceRuns` to
-  list the next set of runs.
+  less than the number of runs, the response includes a pagination token named
+  `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListDataSourceRuns` to list the next set of runs.
 - `"status"`: The status of the data source.
 """
 function list_data_source_runs(
@@ -4152,6 +4239,7 @@ function list_data_source_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_source_runs(
     dataSourceIdentifier,
     domainIdentifier,
@@ -4186,8 +4274,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"environmentIdentifier"`: The identifier of the environment in which to list the data
   sources.
 - `"maxResults"`: The maximum number of data sources to return in a single call to
-  `ListDataSources`. When the number of data sources to be listed is greater than the value
-  of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  `ListDataSources`. When the number of data sources to be listed is greater than the
+  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListDataSources` to list the next set of data sources.
 - `"name"`: The name of the data source.
 - `"nextToken"`: When the number of data sources is greater than the default value for the
@@ -4209,6 +4297,7 @@ function list_data_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     domainIdentifier,
     projectIdentifier,
@@ -4267,6 +4356,7 @@ function list_domain_units_for_parent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_units_for_parent(
     domainIdentifier,
     parentDomainUnitIdentifier,
@@ -4302,13 +4392,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of domains to return in a single call to
   `ListDomains`. When the number of domains to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
-  call to `ListDomains` to list the next set of domains.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListDomains` to list the next set of domains.
 - `"nextToken"`: When the number of domains is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
   less than the number of domains, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to `ListDomains`
-  to list the next set of domains.
+  `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListDomains` to list the next set of domains.
 - `"status"`: The status of the data source.
 """
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -4316,6 +4406,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v2/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4341,9 +4432,9 @@ Lists the entity (domain units) owners.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of entities to return in a single call to
-  `ListEntityOwners`. When the number of entities to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
-  call to `ListEntityOwners` to list the next set of entities.
+  `ListEntityOwners`. When the number of entities to be listed is greater than the value
+  of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListEntityOwners` to list the next set of entities.
 - `"nextToken"`: When the number of entities is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
   less than the number of entities, the response includes a pagination token named
@@ -4363,6 +4454,7 @@ function list_entity_owners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entity_owners(
     domainIdentifier,
     entityIdentifier,
@@ -4396,10 +4488,10 @@ Lists existing environment actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of environment actions to return in a single call to
-  `ListEnvironmentActions`. When the number of environment actions to be listed is greater
-  than the value of `MaxResults`, the response contains a `NextToken` value that you can
-  use in a subsequent call to `ListEnvironmentActions` to list the next set of environment
-  actions.
+  `ListEnvironmentActions`. When the number of environment actions to be listed is
+  greater than the value of `MaxResults`, the response contains a `NextToken` value that
+  you can use in a subsequent call to `ListEnvironmentActions` to list the next set of
+  environment actions.
 - `"nextToken"`: When the number of environment actions is greater than the default value
   for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
   that is less than the number of environment actions, the response includes a pagination
@@ -4418,6 +4510,7 @@ function list_environment_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_actions(
     domainIdentifier,
     environmentIdentifier,
@@ -4469,6 +4562,7 @@ function list_environment_blueprint_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_blueprint_configurations(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4500,14 +4594,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"managed"`: Specifies whether the environment blueprint is managed by Amazon DataZone.
 - `"maxResults"`: The maximum number of blueprints to return in a single call to
   `ListEnvironmentBlueprints`. When the number of blueprints to be listed is greater than
-  the value of `MaxResults`, the response contains a `NextToken` value that you can use in
-  a subsequent call to `ListEnvironmentBlueprints` to list the next set of blueprints.
+  the value of `MaxResults`, the response contains a `NextToken` value that you can use
+  in a subsequent call to `ListEnvironmentBlueprints` to list the next set of blueprints.
 - `"name"`: The name of the Amazon DataZone environment.
 - `"nextToken"`: When the number of blueprints in the environment is greater than the
   default value for the `MaxResults` parameter, or if you explicitly specify a value for
-  `MaxResults` that is less than the number of blueprints in the environment, the response
-  includes a pagination token named `NextToken`. You can specify this `NextToken` value in
-  a subsequent call to `ListEnvironmentBlueprints`to list the next set of blueprints.
+  `MaxResults` that is less than the number of blueprints in the environment, the
+  response includes a pagination token named `NextToken`. You can specify this
+  `NextToken` value in a subsequent call to `ListEnvironmentBlueprints`to list the next
+  set of blueprints.
 """
 function list_environment_blueprints(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4519,6 +4614,7 @@ function list_environment_blueprints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_blueprints(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4558,12 +4654,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   greater than the value of `MaxResults`, the response contains a `NextToken` value that
   you can use in a subsequent call to `ListEnvironmentProfiles` to list the next set of
   environment profiles.
-- `"name"`: <p/>
+- `"name"`:
 - `"nextToken"`: When the number of environment profiles is greater than the default value
   for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of environment profiles, the response includes a pagination
-  token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListEnvironmentProfiles` to list the next set of environment profiles.
+  that is less than the number of environment profiles, the response includes a
+  pagination token named `NextToken`. You can specify this `NextToken` value in a
+  subsequent call to `ListEnvironmentProfiles` to list the next set of environment
+  profiles.
 - `"projectIdentifier"`: The identifier of the Amazon DataZone project.
 """
 function list_environment_profiles(
@@ -4576,6 +4673,7 @@ function list_environment_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_profiles(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4634,6 +4732,7 @@ function list_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environments(
     domainIdentifier,
     projectIdentifier,
@@ -4698,6 +4797,7 @@ function list_lineage_node_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lineage_node_history(
     domainIdentifier,
     identifier,
@@ -4730,8 +4830,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of metadata generation runs to return in a single call
   to ListMetadataGenerationRuns. When the number of metadata generation runs to be listed
-  is greater than the value of MaxResults, the response contains a NextToken value that you
-  can use in a subsequent call to ListMetadataGenerationRuns to list the next set of
+  is greater than the value of MaxResults, the response contains a NextToken value that
+  you can use in a subsequent call to ListMetadataGenerationRuns to list the next set of
   revisions.
 - `"nextToken"`: When the number of metadata generation runs is greater than the default
   value for the MaxResults parameter, or if you explicitly specify a value for MaxResults
@@ -4751,6 +4851,7 @@ function list_metadata_generation_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metadata_generation_runs(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4805,6 +4906,7 @@ function list_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notifications(
     domainIdentifier,
     type,
@@ -4839,8 +4941,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of grants to return in a single call to
   `ListPolicyGrants`. When the number of grants to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
-  call to `ListPolicyGrants` to list the next set of grants.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListPolicyGrants` to list the next set of grants.
 - `"nextToken"`: When the number of grants is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
   less than the number of grants, the response includes a pagination token named
@@ -4862,6 +4964,7 @@ function list_policy_grants(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_grants(
     domainIdentifier,
     entityIdentifier,
@@ -4898,9 +5001,9 @@ Lists all members of the specified project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of memberships to return in a single call to
-  `ListProjectMemberships`. When the number of memberships to be listed is greater than the
-  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `ListProjectMemberships` to list the next set of memberships.
+  `ListProjectMemberships`. When the number of memberships to be listed is greater than
+  the value of `MaxResults`, the response contains a `NextToken` value that you can use
+  in a subsequent call to `ListProjectMemberships` to list the next set of memberships.
 - `"nextToken"`: When the number of memberships is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
   less than the number of memberships, the response includes a pagination token named
@@ -4919,6 +5022,7 @@ function list_project_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_project_memberships(
     domainIdentifier,
     projectIdentifier,
@@ -4951,8 +5055,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupIdentifier"`: The identifier of a group.
 - `"maxResults"`: The maximum number of projects to return in a single call to
   `ListProjects`. When the number of projects to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
-  call to `ListProjects` to list the next set of projects.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListProjects` to list the next set of projects.
 - `"name"`: The name of the project.
 - `"nextToken"`: When the number of projects is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
@@ -4969,6 +5073,7 @@ function list_projects(domainIdentifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_projects(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4999,10 +5104,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"environmentId"`: The identifier of the Amazon DataZone environment.
 - `"maxResults"`: The maximum number of subscription grants to return in a single call to
-  `ListSubscriptionGrants`. When the number of subscription grants to be listed is greater
-  than the value of `MaxResults`, the response contains a `NextToken` value that you can
-  use in a subsequent call to `ListSubscriptionGrants` to list the next set of subscription
-  grants.
+  `ListSubscriptionGrants`. When the number of subscription grants to be listed is
+  greater than the value of `MaxResults`, the response contains a `NextToken` value that
+  you can use in a subsequent call to `ListSubscriptionGrants` to list the next set of
+  subscription grants.
 - `"nextToken"`: When the number of subscription grants is greater than the default value
   for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
   that is less than the number of subscription grants, the response includes a pagination
@@ -5025,6 +5130,7 @@ function list_subscription_grants(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_grants(
     domainIdentifier,
     params::AbstractDict{String};
@@ -5061,9 +5167,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscription requests.
 - `"nextToken"`: When the number of subscription requests is greater than the default value
   for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of subscription requests, the response includes a pagination
-  token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListSubscriptionRequests` to list the next set of subscription requests.
+  that is less than the number of subscription requests, the response includes a
+  pagination token named `NextToken`. You can specify this `NextToken` value in a
+  subsequent call to `ListSubscriptionRequests` to list the next set of subscription
+  requests.
 - `"owningProjectId"`: The identifier of the project for the subscription requests.
 - `"sortBy"`: Specifies the way to sort the results of this action.
 - `"sortOrder"`: Specifies the sort order for the results of this action.
@@ -5071,7 +5178,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This is not a required parameter, but if not specified, by default, Amazon DataZone
-  returns only `PENDING` subscription requests.
+      returns only `PENDING` subscription requests.
+
 - `"subscribedListingId"`: The identifier of the subscribed listing.
 """
 function list_subscription_requests(
@@ -5084,6 +5192,7 @@ function list_subscription_requests(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_requests(
     domainIdentifier,
     params::AbstractDict{String};
@@ -5122,9 +5231,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscription targets.
 - `"nextToken"`: When the number of subscription targets is greater than the default value
   for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of subscription targets, the response includes a pagination
-  token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListSubscriptionTargets` to list the next set of subscription targets.
+  that is less than the number of subscription targets, the response includes a
+  pagination token named `NextToken`. You can specify this `NextToken` value in a
+  subsequent call to `ListSubscriptionTargets` to list the next set of subscription
+  targets.
 - `"sortBy"`: Specifies the way in which the results of this action are to be sorted.
 - `"sortOrder"`: Specifies the sort order for the results of this action.
 """
@@ -5140,6 +5250,7 @@ function list_subscription_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_targets(
     domainIdentifier,
     environmentIdentifier,
@@ -5186,7 +5297,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This is not a required parameter, but if not provided, by default, Amazon DataZone
-  returns only `APPROVED` subscriptions.
+      returns only `APPROVED` subscriptions.
+
 - `"subscribedListingId"`: The identifier of the subscribed listing for the subscriptions
   that you want to list.
 - `"subscriptionRequestIdentifier"`: The identifier of the subscription request for the
@@ -5202,6 +5314,7 @@ function list_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscriptions(
     domainIdentifier,
     params::AbstractDict{String};
@@ -5236,6 +5349,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -5270,14 +5384,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"endedAt"`: The timestamp at which the data points that you wanted to list ended.
 - `"maxResults"`: The maximum number of data points to return in a single call to
-  ListTimeSeriesDataPoints. When the number of data points to be listed is greater than the
-  value of MaxResults, the response contains a NextToken value that you can use in a
+  ListTimeSeriesDataPoints. When the number of data points to be listed is greater than
+  the value of MaxResults, the response contains a NextToken value that you can use in a
   subsequent call to ListTimeSeriesDataPoints to list the next set of data points.
 - `"nextToken"`: When the number of data points is greater than the default value for the
   MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
-  than the number of data points, the response includes a pagination token named NextToken.
-  You can specify this NextToken value in a subsequent call to ListTimeSeriesDataPoints to
-  list the next set of data points.
+  than the number of data points, the response includes a pagination token named
+  NextToken. You can specify this NextToken value in a subsequent call to
+  ListTimeSeriesDataPoints to list the next set of data points.
 - `"startedAt"`: The timestamp at which the data points that you want to list started.
 """
 function list_time_series_data_points(
@@ -5295,6 +5409,7 @@ function list_time_series_data_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -5344,6 +5459,7 @@ function post_lineage_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_lineage_event(
     domainIdentifier,
     event,
@@ -5402,6 +5518,7 @@ function post_time_series_data_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -5460,6 +5577,7 @@ function put_environment_blueprint_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_environment_blueprint_configuration(
     domainIdentifier,
     enabledRegions,
@@ -5512,6 +5630,7 @@ function reject_predictions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_predictions(
     domainIdentifier,
     identifier,
@@ -5557,6 +5676,7 @@ function reject_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_subscription_request(
     domainIdentifier,
     identifier,
@@ -5608,6 +5728,7 @@ function remove_entity_owner(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_entity_owner(
     domainIdentifier,
     entityIdentifier,
@@ -5672,6 +5793,7 @@ function remove_policy_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_policy_grant(
     domainIdentifier,
     entityIdentifier,
@@ -5729,6 +5851,7 @@ function revoke_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_subscription(
     domainIdentifier,
     identifier,
@@ -5787,6 +5910,7 @@ function search(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search(
     domainIdentifier,
     searchScope,
@@ -5821,8 +5945,8 @@ Searches group profiles in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return in a single call to
-  `SearchGroupProfiles`. When the number of results to be listed is greater than the value
-  of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  `SearchGroupProfiles`. When the number of results to be listed is greater than the
+  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `SearchGroupProfiles` to list the next set of results.
 - `"nextToken"`: When the number of results is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
@@ -5842,6 +5966,7 @@ function search_group_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_group_profiles(
     domainIdentifier,
     groupType,
@@ -5877,8 +6002,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Specifies the filters for the search of listings.
 - `"maxResults"`: The maximum number of results to return in a single call to
   `SearchListings`. When the number of results to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
-  call to `SearchListings` to list the next set of results.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `SearchListings` to list the next set of results.
 - `"nextToken"`: When the number of results is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
   less than the number of results, the response includes a pagination token named
@@ -5898,6 +6023,7 @@ function search_listings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_listings(
     domainIdentifier,
     params::AbstractDict{String};
@@ -5932,13 +6058,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: The filters for the `SearchTypes` action.
 - `"maxResults"`: The maximum number of results to return in a single call to
   `SearchTypes`. When the number of results to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
-  call to `SearchTypes` to list the next set of results.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `SearchTypes` to list the next set of results.
 - `"nextToken"`: When the number of results is greater than the default value for the
   `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
   less than the number of results, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to `SearchTypes`
-  to list the next set of results.
+  `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `SearchTypes` to list the next set of results.
 - `"searchIn"`: The details of the search.
 - `"searchText"`: Specifies the text for which to search.
 - `"sort"`: The specifies the way to sort the `SearchTypes` results.
@@ -5957,6 +6083,7 @@ function search_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_types(
     domainIdentifier,
     managed,
@@ -6017,6 +6144,7 @@ function search_user_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_user_profiles(
     domainIdentifier,
     userType,
@@ -6066,6 +6194,7 @@ function start_data_source_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_source_run(
     dataSourceIdentifier,
     domainIdentifier,
@@ -6125,6 +6254,7 @@ function start_metadata_generation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metadata_generation_run(
     domainIdentifier,
     owningProjectIdentifier,
@@ -6173,6 +6303,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -6210,6 +6341,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -6258,6 +6390,7 @@ function update_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -6315,6 +6448,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     domainIdentifier,
     identifier,
@@ -6362,6 +6496,7 @@ function update_domain(identifier; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain(
     identifier,
     params::AbstractDict{String};
@@ -6406,6 +6541,7 @@ function update_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_unit(
     domainIdentifier,
     identifier,
@@ -6452,6 +6588,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     domainIdentifier,
     identifier,
@@ -6500,6 +6637,7 @@ function update_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -6552,6 +6690,7 @@ function update_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment_profile(
     domainIdentifier,
     identifier,
@@ -6600,6 +6739,7 @@ function update_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_glossary(
     domainIdentifier,
     identifier,
@@ -6654,6 +6794,7 @@ function update_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_glossary_term(
     domainIdentifier,
     identifier,
@@ -6696,6 +6837,7 @@ function update_group_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group_profile(
     domainIdentifier,
     groupIdentifier,
@@ -6742,6 +6884,7 @@ function update_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     domainIdentifier,
     identifier,
@@ -6797,6 +6940,7 @@ function update_subscription_grant_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_grant_status(
     assetIdentifier,
     domainIdentifier,
@@ -6841,6 +6985,7 @@ function update_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_request(
     domainIdentifier,
     identifier,
@@ -6901,6 +7046,7 @@ function update_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -6950,6 +7096,7 @@ function update_user_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_profile(
     domainIdentifier,
     status,

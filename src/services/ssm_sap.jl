@@ -32,6 +32,7 @@ function delete_resource_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_permission(
     ResourceArn,
     params::AbstractDict{String};
@@ -70,6 +71,7 @@ function deregister_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -106,6 +108,7 @@ function get_application(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -140,6 +143,7 @@ function get_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component(
     ApplicationId,
     ComponentId,
@@ -183,6 +187,7 @@ function get_database(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_database(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -214,6 +219,7 @@ function get_operation(OperationId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_operation(
     OperationId,
     params::AbstractDict{String};
@@ -244,7 +250,7 @@ Gets permissions associated with the target database.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ActionType"`: <p/>
+- `"ActionType"`:
 """
 function get_resource_permission(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -257,6 +263,7 @@ function get_resource_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_permission(
     ResourceArn,
     params::AbstractDict{String};
@@ -293,6 +300,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -328,6 +336,7 @@ function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -353,8 +362,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplicationId"`: The ID of the application.
 - `"ComponentId"`: The ID of the component.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do not
-  specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value. If you do
+  not specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
 function list_databases(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -362,6 +371,7 @@ function list_databases(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -393,13 +403,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Optionally specify filters to narrow the returned operation event items.
 
-  Valid filter names include `status`, `resourceID`, and `resourceType`. The valid operator
-  for all three filters is `Equals`.
+  Valid filter names include `status`, `resourceID`, and `resourceType`. The valid
+  operator for all three filters is `Equals`.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 
-  If you do not specify a value for `MaxResults`, the request returns 50 items per page by
-  default.
+  If you do not specify a value for `MaxResults`, the request returns 50 items per page
+  by default.
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
   when there are no more results to return.
 """
@@ -414,6 +424,7 @@ function list_operation_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_operation_events(
     OperationId,
     params::AbstractDict{String};
@@ -446,8 +457,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: The filters of an operation.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do not
-  specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value. If you do
+  not specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
 function list_operations(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -459,6 +470,7 @@ function list_operations(ApplicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_operations(
     ApplicationId,
     params::AbstractDict{String};
@@ -496,6 +508,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -518,9 +531,9 @@ Adds permissions to the target database.
 
 # Arguments
 
-- `action_type`: <p/>
-- `resource_arn`: <p/>
-- `source_resource_arn`: <p/>
+- `action_type`:
+- `resource_arn`:
+- `source_resource_arn`:
 """
 function put_resource_permission(
     ActionType,
@@ -540,6 +553,7 @@ function put_resource_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_permission(
     ActionType,
     ResourceArn,
@@ -616,6 +630,7 @@ function register_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_application(
     ApplicationId,
     ApplicationType,
@@ -665,6 +680,7 @@ function start_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -702,6 +718,7 @@ function start_application_refresh(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application_refresh(
     ApplicationId,
     params::AbstractDict{String};
@@ -752,6 +769,7 @@ function stop_application(ApplicationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -788,6 +806,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -826,6 +845,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -872,6 +892,7 @@ function update_application_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_settings(
     ApplicationId,
     params::AbstractDict{String};

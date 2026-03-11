@@ -34,6 +34,7 @@ function add_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_workload(
     ComponentName,
     ResourceGroupName,
@@ -71,31 +72,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AttachMissingPermission"`: If set to true, the managed policies for SSM and CW will be
   attached to the instance roles if they are missing.
-- `"AutoConfigEnabled"`:  Indicates whether Application Insights automatically configures
+- `"AutoConfigEnabled"`: Indicates whether Application Insights automatically configures
   unmonitored resources in the resource group.
-- `"AutoCreate"`:  Configures all of the resources in the resource group by applying the
+- `"AutoCreate"`: Configures all of the resources in the resource group by applying the
   recommended configurations.
-- `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
-  events for the application resources, such as `instance terminated`, `failed deployment`,
-  and others.
+- `"CWEMonitorEnabled"`: Indicates whether Application Insights can listen to CloudWatch
+  events for the application resources, such as `instance terminated`,
+  `failed deployment`, and others.
 - `"GroupingType"`: Application Insights can create applications based on a resource group
   or on an account. To create an account-based application using all of the resources in
   the account, set this parameter to `ACCOUNT_BASED`.
-- `"OpsCenterEnabled"`:  When set to `true`, creates opsItems for any problems detected on
+- `"OpsCenterEnabled"`: When set to `true`, creates opsItems for any problems detected on
   an application.
-- `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
-  associated to the created opsItem. Allows you to receive notifications for updates to the
-  opsItem.
+- `"OpsItemSNSTopicArn"`: The SNS topic provided to Application Insights that is associated
+  to the created opsItem. Allows you to receive notifications for updates to the opsItem.
 - `"ResourceGroupName"`: The name of the resource group.
 - `"Tags"`: List of tags to add to the application. tag key (`Key`) and an associated tag
-  value (`Value`). The maximum length of a tag key is 128 characters. The maximum length of
-  a tag value is 256 characters.
+  value (`Value`). The maximum length of a tag key is 128 characters. The maximum length
+  of a tag value is 256 characters.
 """
 function create_application(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -133,6 +134,7 @@ function create_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_component(
     ComponentName,
     ResourceGroupName,
@@ -171,13 +173,13 @@ Adds an log pattern to a `LogPatternSet`.
 - `pattern_name`: The name of the log pattern.
 - `pattern_set_name`: The name of the log pattern set.
 - `rank`: Rank of the log pattern. Must be a value between `1` and `1,000,000`. The
-  patterns are sorted by rank, so we recommend that you set your highest priority patterns
-  with the lowest rank. A pattern of rank `1` will be the first to get matched to a log
-  line. A pattern of rank `1,000,000` will be last to get matched. When you configure
-  custom log patterns from the console, a `Low` severity pattern translates to a `750,000`
-  rank. A `Medium` severity pattern translates to a `500,000` rank. And a `High` severity
-  pattern translates to a `250,000` rank. Rank values less than `1` or greater than
-  `1,000,000` are reserved for AWS-provided patterns.
+  patterns are sorted by rank, so we recommend that you set your highest priority
+  patterns with the lowest rank. A pattern of rank `1` will be the first to get matched
+  to a log line. A pattern of rank `1,000,000` will be last to get matched. When you
+  configure custom log patterns from the console, a `Low` severity pattern translates to
+  a `750,000` rank. A `Medium` severity pattern translates to a `500,000` rank. And a
+  `High` severity pattern translates to a `250,000` rank. Rank values less than `1` or
+  greater than `1,000,000` are reserved for AWS-provided patterns.
 - `resource_group_name`: The name of the resource group.
 """
 function create_log_pattern(
@@ -201,6 +203,7 @@ function create_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_log_pattern(
     Pattern,
     PatternName,
@@ -250,6 +253,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -292,6 +296,7 @@ function delete_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_component(
     ComponentName,
     ResourceGroupName,
@@ -344,6 +349,7 @@ function delete_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_log_pattern(
     PatternName,
     PatternSetName,
@@ -395,6 +401,7 @@ function describe_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -441,6 +448,7 @@ function describe_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_component(
     ComponentName,
     ResourceGroupName,
@@ -493,6 +501,7 @@ function describe_component_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_component_configuration(
     ComponentName,
     ResourceGroupName,
@@ -552,6 +561,7 @@ function describe_component_configuration_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_component_configuration_recommendation(
     ComponentName,
     ResourceGroupName,
@@ -612,6 +622,7 @@ function describe_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_log_pattern(
     PatternName,
     PatternSetName,
@@ -663,6 +674,7 @@ function describe_observation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_observation(
     ObservationId,
     params::AbstractDict{String};
@@ -703,6 +715,7 @@ function describe_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_problem(
     ProblemId,
     params::AbstractDict{String};
@@ -744,6 +757,7 @@ function describe_problem_observations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_problem_observations(
     ProblemId,
     params::AbstractDict{String};
@@ -794,6 +808,7 @@ function describe_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workload(
     ComponentName,
     ResourceGroupName,
@@ -839,6 +854,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -876,6 +892,7 @@ function list_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_components(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -897,11 +914,12 @@ end
     list_configuration_history()
     list_configuration_history(params::Dict{String,<:Any})
 
- Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
-Application Insights. Examples of events represented are:  - INFO: creating a new alarm or
-updating an alarm threshold.
- - WARN: alarm not created due to insufficient data points used to predict thresholds.
- - ERROR: alarm not created due to permission errors or exceeding quotas.
+Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
+Application Insights. Examples of events represented are:
+
+- INFO: creating a new alarm or updating an alarm threshold.
+- WARN: alarm not created due to insufficient data points used to predict thresholds.
+- ERROR: alarm not created due to permission errors or exceeding quotas.
 
 # Optional Parameters
 
@@ -911,17 +929,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EndTime"`: The end time of the event.
 - `"EventStatus"`: The status of the configuration update event. Possible values include
   INFO, WARN, and ERROR.
-- `"MaxResults"`:  The maximum number of results returned by `ListConfigurationHistory` in
+- `"MaxResults"`: The maximum number of results returned by `ListConfigurationHistory` in
   paginated output. When this parameter is used, `ListConfigurationHistory` returns only
   `MaxResults` in a single page along with a `NextToken` response element. The remaining
-  results of the initial request can be seen by sending another `ListConfigurationHistory`
-  request with the returned `NextToken` value. If this parameter is not used, then
-  `ListConfigurationHistory` returns all results.
+  results of the initial request can be seen by sending another
+  `ListConfigurationHistory` request with the returned `NextToken` value. If this
+  parameter is not used, then `ListConfigurationHistory` returns all results.
 - `"NextToken"`: The `NextToken` value returned from a previous paginated
   `ListConfigurationHistory` request where `MaxResults` was used and the results exceeded
   the value of that parameter. Pagination continues from the end of the previous results
-  that returned the `NextToken` value. This value is `null` when there are no more results
-  to return.
+  that returned the `NextToken` value. This value is `null` when there are no more
+  results to return.
 - `"ResourceGroupName"`: Resource group to which the application belongs.
 - `"StartTime"`: The start time of the event.
 """
@@ -930,6 +948,7 @@ function list_configuration_history(; aws_config::AbstractAWSConfig=current_aws_
         "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configuration_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -970,6 +989,7 @@ function list_log_pattern_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_log_pattern_sets(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -1017,6 +1037,7 @@ function list_log_patterns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_log_patterns(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -1045,7 +1066,7 @@ Lists the problems with your application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountId"`: The AWS account ID for the resource group owner.
-- `"ComponentName"`:  The name of the component.
+- `"ComponentName"`: The name of the component.
 - `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified,
   problems within the past seven days are returned.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
@@ -1062,6 +1083,7 @@ function list_problems(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_problems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1095,6 +1117,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1142,6 +1165,7 @@ function list_workloads(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workloads(
     ComponentName,
     ResourceGroupName,
@@ -1194,6 +1218,7 @@ function remove_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_workload(
     ComponentName,
     ResourceGroupName,
@@ -1237,8 +1262,8 @@ A tag value acts as a descriptor within a tag key.
 - `resource_arn`: The Amazon Resource Name (ARN) of the application that you want to add
   one or more tags to.
 - `tags`: A list of tags that to add to the application. A tag consists of a required tag
-  key (`Key`) and an associated tag value (`Value`). The maximum length of a tag key is 128
-  characters. The maximum length of a tag value is 256 characters.
+  key (`Key`) and an associated tag value (`Value`). The maximum length of a tag key is
+  128 characters. The maximum length of a tag value is 256 characters.
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
@@ -1248,6 +1273,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1294,6 +1320,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1330,16 +1357,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AttachMissingPermission"`: If set to true, the managed policies for SSM and CW will be
   attached to the instance roles if they are missing.
-- `"AutoConfigEnabled"`:  Turns auto-configuration on or off.
-- `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
-  events for the application resources, such as `instance terminated`, `failed deployment`,
-  and others.
-- `"OpsCenterEnabled"`:  When set to `true`, creates opsItems for any problems detected on
+- `"AutoConfigEnabled"`: Turns auto-configuration on or off.
+- `"CWEMonitorEnabled"`: Indicates whether Application Insights can listen to CloudWatch
+  events for the application resources, such as `instance terminated`,
+  `failed deployment`, and others.
+- `"OpsCenterEnabled"`: When set to `true`, creates opsItems for any problems detected on
   an application.
-- `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
-  associated to the created opsItem. Allows you to receive notifications for updates to the
-  opsItem.
-- `"RemoveSNSTopic"`:  Disassociates the SNS topic from the opsItem created for detected
+- `"OpsItemSNSTopicArn"`: The SNS topic provided to Application Insights that is associated
+  to the created opsItem. Allows you to receive notifications for updates to the opsItem.
+- `"RemoveSNSTopic"`: Disassociates the SNS topic from the opsItem created for detected
   problems.
 """
 function update_application(
@@ -1352,6 +1378,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -1399,6 +1426,7 @@ function update_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_component(
     ComponentName,
     ResourceGroupName,
@@ -1439,8 +1467,8 @@ is an escaped JSON of the configuration and should match the schema of what is r
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AutoConfigEnabled"`:  Automatically configures the component by applying the
-  recommended configurations.
+- `"AutoConfigEnabled"`: Automatically configures the component by applying the recommended
+  configurations.
 - `"ComponentConfiguration"`: The configuration settings of the component. The value is the
   escaped JSON of the configuration. For more information about the JSON format, see [Working with JSON](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/working-with-json.html).
   You can send a request to `DescribeComponentConfigurationRecommendation` to see the
@@ -1461,6 +1489,7 @@ function update_component_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_component_configuration(
     ComponentName,
     ResourceGroupName,
@@ -1503,13 +1532,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Pattern"`: The log pattern. The pattern must be DFA compatible. Patterns that utilize
   forward lookahead or backreference constructions are not supported.
 - `"Rank"`: Rank of the log pattern. Must be a value between `1` and `1,000,000`. The
-  patterns are sorted by rank, so we recommend that you set your highest priority patterns
-  with the lowest rank. A pattern of rank `1` will be the first to get matched to a log
-  line. A pattern of rank `1,000,000` will be last to get matched. When you configure
-  custom log patterns from the console, a `Low` severity pattern translates to a `750,000`
-  rank. A `Medium` severity pattern translates to a `500,000` rank. And a `High` severity
-  pattern translates to a `250,000` rank. Rank values less than `1` or greater than
-  `1,000,000` are reserved for AWS-provided patterns.
+  patterns are sorted by rank, so we recommend that you set your highest priority
+  patterns with the lowest rank. A pattern of rank `1` will be the first to get matched
+  to a log line. A pattern of rank `1,000,000` will be last to get matched. When you
+  configure custom log patterns from the console, a `Low` severity pattern translates to
+  a `750,000` rank. A `Medium` severity pattern translates to a `500,000` rank. And a
+  `High` severity pattern translates to a `250,000` rank. Rank values less than `1` or
+  greater than `1,000,000` are reserved for AWS-provided patterns.
 """
 function update_log_pattern(
     PatternName,
@@ -1528,6 +1557,7 @@ function update_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_log_pattern(
     PatternName,
     PatternSetName,
@@ -1581,6 +1611,7 @@ function update_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_problem(
     ProblemId,
     params::AbstractDict{String};
@@ -1604,7 +1635,7 @@ Adds a workload to a component. Each component can have at most five workloads.
 
 # Arguments
 
-- `component_name`:  The name of the component.
+- `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 - `workload_configuration`: The configuration settings of the workload. The value is the
   escaped JSON of the configuration.
@@ -1632,6 +1663,7 @@ function update_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workload(
     ComponentName,
     ResourceGroupName,

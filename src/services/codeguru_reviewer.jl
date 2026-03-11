@@ -25,9 +25,9 @@ in the *Amazon CodeGuru Reviewer User Guide.*
 
 !!! note
     You cannot use the CodeGuru Reviewer SDK or the Amazon Web Services CLI to associate a
-GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use the
-console. For more information, see [Getting started with CodeGuru Reviewer](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-with-guru.html)
-in the *CodeGuru Reviewer User Guide.*
+    GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use
+    the console. For more information, see [Getting started with CodeGuru Reviewer](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-with-guru.html)
+    in the *CodeGuru Reviewer User Guide.*
 
 # Arguments
 
@@ -40,17 +40,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: Amazon CodeGuru Reviewer uses this value to prevent the
   accidental creation of duplicate repository associations if there are failures and
   retries.
-- `"KMSKeyDetails"`: A `KMSKeyDetails` object that contains: - The encryption option for
-  this repository association. It is either owned by Amazon Web Services Key Management
-  Service (KMS) (`AWS_OWNED_CMK`) or customer managed (`CUSTOMER_MANAGED_CMK`).
-   - The ID of the Amazon Web Services KMS key that is associated with this repository
-  association.
+- `"KMSKeyDetails"`: A `KMSKeyDetails` object that contains:
+
+  - The encryption option for this repository association. It is either owned by Amazon
+    Web Services Key Management Service (KMS) (`AWS_OWNED_CMK`) or customer managed
+    (`CUSTOMER_MANAGED_CMK`).
+  - The ID of the Amazon Web Services KMS key that is associated with this repository
+    association.
+
 - `"Tags"`: An array of key-value pairs used to tag an associated repository. A tag is a
-  custom attribute label with two parts: - A *tag key* (for example, `CostCenter`,
-  `Environment`, `Project`, or `Secret`). Tag keys are case sensitive.
-   - An optional field known as a *tag value* (for example, `111122223333`, `Production`,
-  or a team name). Omitting the tag value is the same as using an empty string. Like tag
-  keys, tag values are case sensitive.
+  custom attribute label with two parts:
+
+  - A *tag key* (for example, `CostCenter`, `Environment`, `Project`, or `Secret`). Tag
+    keys are case sensitive.
+  - An optional field known as a *tag value* (for example, `111122223333`, `Production`,
+    or a team name). Omitting the tag value is the same as using an empty string. Like
+    tag keys, tag values are case sensitive.
+
 """
 function associate_repository(
     Repository; aws_config::AbstractAWSConfig=current_aws_config()
@@ -65,6 +71,7 @@ function associate_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_repository(
     Repository,
     params::AbstractDict{String};
@@ -131,6 +138,7 @@ function create_code_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_code_review(
     Name,
     RepositoryAssociationArn,
@@ -179,6 +187,7 @@ function describe_code_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_code_review(
     CodeReviewArn,
     params::AbstractDict{String};
@@ -213,8 +222,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserId"`: Optional parameter to describe the feedback for a given user. If this is not
   supplied, it defaults to the user making the request.
 
-   The `UserId` is an IAM principal that can be specified as an Amazon Web Services account
-  ID or an Amazon Resource Name (ARN). For more information, see [ Specifying a Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
+  The `UserId` is an IAM principal that can be specified as an Amazon Web Services
+  account ID or an Amazon Resource Name (ARN). For more information, see [Specifying a Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
   in the *Amazon Web Services Identity and Access Management User Guide*.
 """
 function describe_recommendation_feedback(
@@ -228,6 +237,7 @@ function describe_recommendation_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recommendation_feedback(
     CodeReviewArn,
     RecommendationId,
@@ -269,6 +279,7 @@ function describe_repository_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_repository_association(
     AssociationArn,
     params::AbstractDict{String};
@@ -304,6 +315,7 @@ function disassociate_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_repository(
     AssociationArn,
     params::AbstractDict{String};
@@ -344,10 +356,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"States"`: List of states for filtering that needs to be applied before displaying the
   result. For example, `states=[Pending]` lists code reviews in the Pending state.
 
-The valid code review states are: - `Completed`: The code review is complete.
- - `Pending`: The code review started and has not completed or failed.
- - `Failed`: The code review failed.
- - `Deleting`: The code review is being deleted.
+  The valid code review states are:
+
+  - `Completed`: The code review is complete.
+  - `Pending`: The code review started and has not completed or failed.
+  - `Failed`: The code review failed.
+  - `Deleting`: The code review is being deleted.
+
 """
 function list_code_reviews(Type; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_reviewer(
@@ -358,6 +373,7 @@ function list_code_reviews(Type; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_code_reviews(
     Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -396,8 +412,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserIds"`: An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use
   this ID to query the recommendation feedback for a code review from that user.
 
-   The `UserId` is an IAM principal that can be specified as an Amazon Web Services account
-  ID or an Amazon Resource Name (ARN). For more information, see [ Specifying a Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
+  The `UserId` is an IAM principal that can be specified as an Amazon Web Services
+  account ID or an Amazon Resource Name (ARN). For more information, see [Specifying a Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
   in the *Amazon Web Services Identity and Access Management User Guide*.
 """
 function list_recommendation_feedback(
@@ -410,6 +426,7 @@ function list_recommendation_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendation_feedback(
     CodeReviewArn,
     params::AbstractDict{String};
@@ -453,6 +470,7 @@ function list_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendations(
     CodeReviewArn,
     params::AbstractDict{String};
@@ -485,53 +503,58 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of repository association results returned by
   `ListRepositoryAssociations` in paginated output. When this parameter is used,
   `ListRepositoryAssociations` only returns `maxResults` results in a single page with a
-  `nextToken` response element. The remaining results of the initial request can be seen by
-  sending another `ListRepositoryAssociations` request with the returned `nextToken` value.
-  This value can be between 1 and 100. If this parameter is not used,
+  `nextToken` response element. The remaining results of the initial request can be seen
+  by sending another `ListRepositoryAssociations` request with the returned `nextToken`
+  value. This value can be between 1 and 100. If this parameter is not used,
   `ListRepositoryAssociations` returns up to 100 results and a `nextToken` value if
   applicable.
 - `"Name"`: List of repository names to use as a filter.
 - `"NextToken"`: The `nextToken` value returned from a previous paginated
-  `ListRepositoryAssociations` request where `maxResults` was used and the results exceeded
-  the value of that parameter. Pagination continues from the end of the previous results
-  that returned the `nextToken` value.
+  `ListRepositoryAssociations` request where `maxResults` was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the `nextToken` value.
 
   !!! note
-      Treat this token as an opaque identifier that is only used to retrieve the next items
-  in a list and not for other programmatic purposes.
+      Treat this token as an opaque identifier that is only used to retrieve the next
+      items in a list and not for other programmatic purposes.
+
 - `"Owner"`: List of owners to use as a filter. For Amazon Web Services CodeCommit, it is
   the name of the CodeCommit account that was used to associate the repository. For other
-  repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name
-  of the account that was used to associate the repository.
+  repository source providers, such as Bitbucket and GitHub Enterprise Server, this is
+  name of the account that was used to associate the repository.
 - `"ProviderType"`: List of provider types to use as a filter.
 - `"State"`: List of repository association states to use as a filter.
 
-  The valid repository association states are: - **Associated**: The repository association
-  is complete.
-   - **Associating**: CodeGuru Reviewer is: <ul> <li>Setting up pull request notifications.
-  This is required for pull requests to trigger a CodeGuru Reviewer review.
+  The valid repository association states are:
+
+  - **Associated**: The repository association is complete.
+  - **Associating**: CodeGuru Reviewer is:   - Setting up pull request notifications.
+    This is required for pull requests to trigger a CodeGuru Reviewer review.
 
   !!! note
       If your repository `ProviderType` is `GitHub`, `GitHub Enterprise Server`, or
-  `Bitbucket`, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru
-  Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot
-  be triggered.
-   - Setting up source code access. This is required for CodeGuru Reviewer to securely
-  clone code in your repository.
-   </li> <li> **Failed**: The repository failed to associate or disassociate. </li> <li>
-  **Disassociating**: CodeGuru Reviewer is removing the repository's pull request
-  notifications and source code access. </li> <li> **Disassociated**: CodeGuru Reviewer
-  successfully disassociated the repository. You can create a new association with this
-  repository if you want to review source code in it later. You can control access to code
-  reviews created in anassociated repository with tags after it has been disassociated. For
-  more information, see [Using tags to control access to associated repositories](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/auth-and-access-control-using-tags.html)
-  in the *Amazon CodeGuru Reviewer User Guide*. </li> </ul>
+      `Bitbucket`, CodeGuru Reviewer creates webhooks in your repository to trigger
+      CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your
+      repository cannot be triggered.
+
+    - Setting up source code access. This is required for CodeGuru Reviewer to securely
+      clone code in your repository.
+  - **Failed**: The repository failed to associate or disassociate.
+  - **Disassociating**: CodeGuru Reviewer is removing the repository's pull request
+    notifications and source code access.
+  - **Disassociated**: CodeGuru Reviewer successfully disassociated the repository. You
+    can create a new association with this repository if you want to review source code
+    in it later. You can control access to code reviews created in anassociated
+    repository with tags after it has been disassociated. For more information, see [Using tags to control access to associated repositories](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/auth-and-access-control-using-tags.html)
+    in the *Amazon CodeGuru Reviewer User Guide*.
+
 """
 function list_repository_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_reviewer(
         "GET", "/associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_repository_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -565,6 +588,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -613,6 +637,7 @@ function put_recommendation_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_recommendation_feedback(
     CodeReviewArn,
     Reactions,
@@ -648,11 +673,14 @@ Adds one or more tags to an associated repository.
 # Arguments
 
 - `tags`: An array of key-value pairs used to tag an associated repository. A tag is a
-  custom attribute label with two parts: - A *tag key* (for example, `CostCenter`,
-  `Environment`, `Project`, or `Secret`). Tag keys are case sensitive.
-   - An optional field known as a *tag value* (for example, `111122223333`, `Production`,
-  or a team name). Omitting the tag value is the same as using an empty string. Like tag
-  keys, tag values are case sensitive.
+  custom attribute label with two parts:
+
+  - A *tag key* (for example, `CostCenter`, `Environment`, `Project`, or `Secret`). Tag
+    keys are case sensitive.
+  - An optional field known as a *tag value* (for example, `111122223333`, `Production`,
+    or a team name). Omitting the tag value is the same as using an empty string. Like
+    tag keys, tag values are case sensitive.
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
   object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 """
@@ -665,6 +693,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -704,6 +733,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

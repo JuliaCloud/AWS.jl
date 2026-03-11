@@ -12,7 +12,8 @@ Creates a Slack channel configuration for your Amazon Web Services account.
 
 !!! note
     - You can add up to 5 Slack workspaces for your account.
- - You can add up to 20 Slack channels for your account.
+    - You can add up to 20 Slack channels for your account.
+
 A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100
 accounts can add the same Slack channel to the Amazon Web Services Support App. We
 recommend that you only add the accounts that you need to manage support cases for your
@@ -21,9 +22,9 @@ Slack channel.
 
 !!! note
     We recommend that you choose a private Slack channel so that only members in that
-channel have read and write access to your support cases. Anyone in your Slack channel can
-create, update, or resolve support cases for your account. Users require an invitation to
-join private channels.
+    channel have read and write access to your support cases. Anyone in your Slack channel
+    can create, update, or resolve support cases for your account. Users require an
+    invitation to join private channels.
 
 # Arguments
 
@@ -35,18 +36,22 @@ join private channels.
 - `notify_on_case_severity`: The case severity for a support case that you want to receive
   notifications.
 
-  If you specify `high` or `all`, you must specify `true` for at least one of the following
-  parameters: - `notifyOnAddCorrespondenceToCase`
-   - `notifyOnCreateOrReopenCase`
-   - `notifyOnResolveCase`
-  If you specify `none`, the following parameters must be null or `false`: -
-  `notifyOnAddCorrespondenceToCase`
-   - `notifyOnCreateOrReopenCase`
-   - `notifyOnResolveCase`
+  If you specify `high` or `all`, you must specify `true` for at least one of the
+  following parameters:
 
+  - `notifyOnAddCorrespondenceToCase`
+  - `notifyOnCreateOrReopenCase`
+  - `notifyOnResolveCase`
+
+  If you specify `none`, the following parameters must be null or `false`:
+
+  - `notifyOnAddCorrespondenceToCase`
+  - `notifyOnCreateOrReopenCase`
+  - `notifyOnResolveCase`
 
   !!! note
       If you don't specify these parameters in your request, they default to `false`.
+
 - `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
   `T012ABCDEFG`.
 
@@ -82,6 +87,7 @@ function create_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_slack_channel_configuration(
     channelId,
     channelRoleArn,
@@ -126,6 +132,7 @@ function delete_account_alias(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_alias(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -163,6 +170,7 @@ function delete_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slack_channel_configuration(
     channelId,
     teamId,
@@ -207,6 +215,7 @@ function delete_slack_workspace_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slack_workspace_configuration(
     teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -235,6 +244,7 @@ function get_account_alias(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_alias(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,10 +268,10 @@ Lists the Slack channel configurations for an Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"nextToken"`: If the results of a search are large, the API only returns a portion of
-  the results and includes a `nextToken` pagination token in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  the API returns the last set of results, the response doesn't include a pagination token
-  value.
+  the results and includes a `nextToken` pagination token in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When the API returns the last set of results, the response doesn't include a pagination
+  token value.
 """
 function list_slack_channel_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -273,6 +283,7 @@ function list_slack_channel_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_slack_channel_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,10 +307,10 @@ Lists the Slack workspace configurations for an Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"nextToken"`: If the results of a search are large, the API only returns a portion of
-  the results and includes a `nextToken` pagination token in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  the API returns the last set of results, the response doesn't include a pagination token
-  value.
+  the results and includes a `nextToken` pagination token in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When the API returns the last set of results, the response doesn't include a pagination
+  token value.
 """
 function list_slack_workspace_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -311,6 +322,7 @@ function list_slack_workspace_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_slack_workspace_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -344,6 +356,7 @@ function put_account_alias(accountAlias; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_alias(
     accountAlias,
     params::AbstractDict{String};
@@ -368,20 +381,26 @@ Registers a Slack workspace for your Amazon Web Services account. To call this A
 account must be part of an organization in Organizations.
 
 If you're the *management account* and you want to register Slack workspaces for your
-organization, you must complete the following tasks:</p> 1. Sign in to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/app)
-and authorize the Slack workspaces where you want your organization to have access to. See [Authorize a Slack workspace](https://docs.aws.amazon.com/awssupport/latest/user/authorize-slack-workspace.html)
-in the *Amazon Web Services Support User Guide*.
- 2. Call the `RegisterSlackWorkspaceForOrganization` API to authorize each Slack workspace
-for the organization.
+organization, you must complete the following tasks:
+
+1. Sign in to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/app)
+   and authorize the Slack workspaces where you want your organization to have access to.
+   See [Authorize a Slack workspace](https://docs.aws.amazon.com/awssupport/latest/user/authorize-slack-workspace.html)
+   in the *Amazon Web Services Support User Guide*.2. Call the
+   `RegisterSlackWorkspaceForOrganization` API to authorize each Slack workspace for the
+   organization.
+
 After the management account authorizes the Slack workspace, member accounts can call this
 API to authorize the same Slack workspace for their individual accounts. Member accounts
 don't need to authorize the Slack workspace manually through the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/app).
 
- <p>To use the Amazon Web Services Support App, each account must then complete the
-following tasks: - Create an Identity and Access Management (IAM) role with the required
-permission. For more information, see [Managing access to the Amazon Web Services Support App](https://docs.aws.amazon.com/awssupport/latest/user/support-app-permissions.html).
- - Configure a Slack channel to use the Amazon Web Services Support App for support cases
-for that account. For more information, see [Configuring a Slack channel](https://docs.aws.amazon.com/awssupport/latest/user/add-your-slack-channel.html).
+To use the Amazon Web Services Support App, each account must then complete the following
+tasks:
+
+- Create an Identity and Access Management (IAM) role with the required permission. For
+  more information, see [Managing access to the Amazon Web Services Support App](https://docs.aws.amazon.com/awssupport/latest/user/support-app-permissions.html).
+- Configure a Slack channel to use the Amazon Web Services Support App for support cases
+  for that account. For more information, see [Configuring a Slack channel](https://docs.aws.amazon.com/awssupport/latest/user/add-your-slack-channel.html).
 
 # Arguments
 
@@ -399,6 +418,7 @@ function register_slack_workspace_for_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_slack_workspace_for_organization(
     teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -437,19 +457,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"notifyOnCaseSeverity"`: The case severity for a support case that you want to receive
   notifications.
 
-  If you specify `high` or `all`, at least one of the following parameters must be `true`: -
-   `notifyOnAddCorrespondenceToCase`
-   - `notifyOnCreateOrReopenCase`
-   - `notifyOnResolveCase`
-  If you specify `none`, any of the following parameters that you specify in your request
-  must be `false`: - `notifyOnAddCorrespondenceToCase`
-   - `notifyOnCreateOrReopenCase`
-   - `notifyOnResolveCase`
+  If you specify `high` or `all`, at least one of the following parameters must be
+  `true`:
 
+  - `notifyOnAddCorrespondenceToCase`
+  - `notifyOnCreateOrReopenCase`
+  - `notifyOnResolveCase`
+
+  If you specify `none`, any of the following parameters that you specify in your request
+  must be `false`:
+
+  - `notifyOnAddCorrespondenceToCase`
+  - `notifyOnCreateOrReopenCase`
+  - `notifyOnResolveCase`
 
   !!! note
       If you don't specify these parameters in your request, the Amazon Web Services
-  Support App uses the current values by default.
+      Support App uses the current values by default.
+
 - `"notifyOnCreateOrReopenCase"`: Whether you want to get notified when a support case is
   created or reopened.
 - `"notifyOnResolveCase"`: Whether you want to get notified when a support case is resolved.
@@ -465,6 +490,7 @@ function update_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_slack_channel_configuration(
     channelId,
     teamId,

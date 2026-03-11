@@ -23,8 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
 """
@@ -39,6 +39,7 @@ function associate_aws_account_with_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_aws_account_with_partner_account(
     Sidewalk,
     params::AbstractDict{String};
@@ -83,6 +84,7 @@ function associate_multicast_group_with_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_multicast_group_with_fuota_task(
     Id,
     MulticastGroupId,
@@ -124,6 +126,7 @@ function associate_wireless_device_with_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_device_with_fuota_task(
     Id,
     WirelessDeviceId,
@@ -165,6 +168,7 @@ function associate_wireless_device_with_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_device_with_multicast_group(
     Id,
     WirelessDeviceId,
@@ -206,6 +210,7 @@ function associate_wireless_device_with_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_device_with_thing(
     Id,
     ThingArn,
@@ -245,6 +250,7 @@ function associate_wireless_gateway_with_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_gateway_with_certificate(
     Id,
     IotCertificateId,
@@ -286,6 +292,7 @@ function associate_wireless_gateway_with_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_gateway_with_thing(
     Id,
     ThingArn,
@@ -323,6 +330,7 @@ function cancel_multicast_group_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_multicast_group_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -357,8 +365,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"Tags"`: The tags to attach to the new destination. Tags are metadata that you can use
   to manage a resource.
@@ -384,6 +392,7 @@ function create_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_destination(
     Expression,
     ExpressionType,
@@ -428,8 +437,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"LoRaWAN"`: The device profile information to use to create the device profile.
 - `"Name"`: The name of the new resource.
 - `"Sidewalk"`: The Sidewalk-related information for creating the Sidewalk device profile.
@@ -445,6 +454,7 @@ function create_device_profile(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -502,6 +512,7 @@ function create_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fuota_task(
     FirmwareUpdateImage,
     FirmwareUpdateRole,
@@ -546,8 +557,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the multicast group.
 - `"Name"`:
 - `"Tags"`:
@@ -561,6 +572,7 @@ function create_multicast_group(LoRaWAN; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multicast_group(
     LoRaWAN,
     params::AbstractDict{String};
@@ -606,7 +618,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WirelessDevices"`: Wireless device resources to add to the network analyzer
   configuration. Provide the `WirelessDeviceId` of the resource to add in the input array.
 - `"WirelessGateways"`: Wireless gateway resources to add to the network analyzer
-  configuration. Provide the `WirelessGatewayId` of the resource to add in the input array.
+  configuration. Provide the `WirelessGatewayId` of the resource to add in the input
+  array.
 """
 function create_network_analyzer_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -619,6 +632,7 @@ function create_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_analyzer_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -652,8 +666,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"LoRaWAN"`: The service profile information to use to create the service profile.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new service profile. Tags are metadata that you can
@@ -668,6 +682,7 @@ function create_service_profile(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,8 +719,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"LoRaWAN"`: The device configuration information to use to create the wireless device.
 - `"Name"`: The name of the new resource.
@@ -730,6 +745,7 @@ function create_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_device(
     DestinationName,
     Type,
@@ -763,10 +779,14 @@ Provisions a wireless gateway.
 
 !!! note
     When provisioning a wireless gateway, you might run into duplication errors for the
-following reasons. - If you specify a `GatewayEui` value that already exists.
- - If you used a `ClientRequestToken` with the same parameters within the last 10 minutes.
-To avoid this error, make sure that you use unique identifiers and parameters for each
-request within the specified time period.
+    following reasons.
+
+    - If you specify a `GatewayEui` value that already exists.
+    - If you used a `ClientRequestToken` with the same parameters within the last 10
+      minutes.
+
+    To avoid this error, make sure that you use unique identifiers and parameters for each
+    request within the specified time period.
 
 # Arguments
 
@@ -781,8 +801,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new wireless gateway. Tags are metadata that you can
@@ -799,6 +819,7 @@ function create_wireless_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_gateway(
     LoRaWAN,
     params::AbstractDict{String};
@@ -845,6 +866,7 @@ function create_wireless_gateway_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_gateway_task(
     Id,
     WirelessGatewayTaskDefinitionId,
@@ -877,8 +899,8 @@ Creates a gateway task definition.
 # Arguments
 
 - `auto_create_tasks`: Whether to automatically create tasks using this task definition for
-  all gateways with the specified current version. If `false`, the task must me created by
-  calling `CreateWirelessGatewayTask`.
+  all gateways with the specified current version. If `false`, the task must me created
+  by calling `CreateWirelessGatewayTask`.
 
 # Optional Parameters
 
@@ -889,8 +911,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
@@ -909,6 +931,7 @@ function create_wireless_gateway_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_gateway_task_definition(
     AutoCreateTasks,
     params::AbstractDict{String};
@@ -950,6 +973,7 @@ function delete_destination(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -980,6 +1004,7 @@ function delete_device_profile(Id; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1010,6 +1035,7 @@ function delete_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1040,6 +1066,7 @@ function delete_multicast_group(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1072,6 +1099,7 @@ function delete_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_analyzer_configuration(
     ConfigurationName,
     params::AbstractDict{String};
@@ -1116,6 +1144,7 @@ function delete_queued_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queued_messages(
     Id,
     messageId,
@@ -1151,6 +1180,7 @@ function delete_service_profile(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1181,6 +1211,7 @@ function delete_wireless_device(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1213,6 +1244,7 @@ function delete_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_device_import_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1233,10 +1265,14 @@ Deletes a wireless gateway.
 
 !!! note
     When deleting a wireless gateway, you might run into duplication errors for the
-following reasons. - If you specify a `GatewayEui` value that already exists.
- - If you used a `ClientRequestToken` with the same parameters within the last 10 minutes.
-To avoid this error, make sure that you use unique identifiers and parameters for each
-request within the specified time period.
+    following reasons.
+
+    - If you specify a `GatewayEui` value that already exists.
+    - If you used a `ClientRequestToken` with the same parameters within the last 10
+      minutes.
+
+    To avoid this error, make sure that you use unique identifiers and parameters for each
+    request within the specified time period.
 
 # Arguments
 
@@ -1250,6 +1286,7 @@ function delete_wireless_gateway(Id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_gateway(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1282,6 +1319,7 @@ function delete_wireless_gateway_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_gateway_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1315,6 +1353,7 @@ function delete_wireless_gateway_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_gateway_task_definition(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1354,6 +1393,7 @@ function deregister_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_wireless_device(
     Identifier,
     params::AbstractDict{String};
@@ -1391,6 +1431,7 @@ function disassociate_aws_account_from_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_aws_account_from_partner_account(
     PartnerAccountId,
     partnerType,
@@ -1429,6 +1470,7 @@ function disassociate_multicast_group_from_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_multicast_group_from_fuota_task(
     Id,
     MulticastGroupId,
@@ -1465,6 +1507,7 @@ function disassociate_wireless_device_from_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_device_from_fuota_task(
     Id,
     WirelessDeviceId,
@@ -1501,6 +1544,7 @@ function disassociate_wireless_device_from_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_device_from_multicast_group(
     Id,
     WirelessDeviceId,
@@ -1536,6 +1580,7 @@ function disassociate_wireless_device_from_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_device_from_thing(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1568,6 +1613,7 @@ function disassociate_wireless_gateway_from_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_gateway_from_certificate(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1600,6 +1646,7 @@ function disassociate_wireless_gateway_from_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_gateway_from_thing(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1630,6 +1677,7 @@ function get_destination(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1660,6 +1708,7 @@ function get_device_profile(Id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1688,6 +1737,7 @@ function get_event_configuration_by_resource_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_configuration_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1715,6 +1765,7 @@ function get_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/fuota-tasks/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1741,6 +1792,7 @@ function get_log_levels_by_resource_types(;
         "GET", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_log_levels_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1763,6 +1815,7 @@ function get_metric_configuration(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1792,6 +1845,7 @@ function get_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1818,6 +1872,7 @@ function get_multicast_group(Id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1848,6 +1903,7 @@ function get_multicast_group_session(Id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_multicast_group_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1880,6 +1936,7 @@ function get_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_analyzer_configuration(
     ConfigurationName,
     params::AbstractDict{String};
@@ -1917,6 +1974,7 @@ function get_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_partner_account(
     PartnerAccountId,
     partnerType,
@@ -1942,8 +2000,8 @@ Get the position information for a given resource.
 
 !!! important
     This action is no longer supported. Calls to retrieve the position information should
-use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
-API operation instead.
+    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -1962,6 +2020,7 @@ function get_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_position(
     ResourceIdentifier,
     resourceType,
@@ -1987,8 +2046,8 @@ Get position configuration for a given resource.
 
 !!! important
     This action is no longer supported. Calls to retrieve the position configuration should
-use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
-API operation instead.
+    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -2007,6 +2066,7 @@ function get_position_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_position_configuration(
     ResourceIdentifier,
     resourceType,
@@ -2038,13 +2098,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CellTowers"`: Retrieves an estimated device position by resolving measurement data from
   cellular radio towers. The position is resolved using HERE's cellular-based solver.
 - `"Gnss"`: Retrieves an estimated device position by resolving the global navigation
-  satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered
-  by LoRa Cloud.
+  satellite system (GNSS) scan data. The position is resolved using the GNSS solver
+  powered by LoRa Cloud.
 - `"Ip"`: Retrieves an estimated device position by resolving the IP address information
   from the device. The position is resolved using MaxMind's IP-based solver.
 - `"Timestamp"`: Optional information that specifies the time when the position information
-  will be resolved. It uses the Unix timestamp format. If not specified, the time at which
-  the request was received will be used.
+  will be resolved. It uses the Unix timestamp format. If not specified, the time at
+  which the request was received will be used.
 - `"WiFiAccessPoints"`: Retrieves an estimated device position by resolving WLAN
   measurement data. The position is resolved using HERE's Wi-Fi based solver.
 """
@@ -2053,6 +2113,7 @@ function get_position_estimate(; aws_config::AbstractAWSConfig=current_aws_confi
         "POST", "/position-estimate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_position_estimate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2095,6 +2156,7 @@ function get_resource_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_event_configuration(
     Identifier,
     identifierType,
@@ -2136,6 +2198,7 @@ function get_resource_log_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_log_level(
     ResourceIdentifier,
     resourceType,
@@ -2158,13 +2221,13 @@ end
     get_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Get the position information for a given wireless device or a wireless gateway resource.
-The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+The position information uses the [World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
 
 # Arguments
 
 - `resource_identifier`: The identifier of the resource for which position information is
-  retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the
-  resource type.
+  retrieved. It can be the wireless device ID or the wireless gateway ID, depending on
+  the resource type.
 - `resource_type`: The type of resource for which position information is retrieved, which
   can be a wireless device or a wireless gateway.
 """
@@ -2179,6 +2242,7 @@ function get_resource_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_position(
     ResourceIdentifier,
     resourceType,
@@ -2208,14 +2272,15 @@ LoRaWAN Network Server (LNS) connections.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"serviceType"`: The service type for which to get endpoint information about. Can be
-  `CUPS` for the Configuration and Update Server endpoint, or `LNS` for the LoRaWAN Network
-  Server endpoint or `CLAIM` for the global endpoint.
+  `CUPS` for the Configuration and Update Server endpoint, or `LNS` for the LoRaWAN
+  Network Server endpoint or `CLAIM` for the global endpoint.
 """
 function get_service_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_wireless(
         "GET", "/service-endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_service_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2246,6 +2311,7 @@ function get_service_profile(Id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2280,6 +2346,7 @@ function get_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_device(
     Identifier,
     identifierType,
@@ -2318,6 +2385,7 @@ function get_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_device_import_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2350,6 +2418,7 @@ function get_wireless_device_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_device_statistics(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2384,6 +2453,7 @@ function get_wireless_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway(
     Identifier,
     identifierType,
@@ -2421,6 +2491,7 @@ function get_wireless_gateway_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_certificate(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2453,6 +2524,7 @@ function get_wireless_gateway_firmware_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_firmware_information(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2485,6 +2557,7 @@ function get_wireless_gateway_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_statistics(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2515,6 +2588,7 @@ function get_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2547,6 +2621,7 @@ function get_wireless_gateway_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_task_definition(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2578,6 +2653,7 @@ function list_destinations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/destinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2611,6 +2687,7 @@ function list_device_profiles(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/device-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_device_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2653,6 +2730,7 @@ function list_devices_for_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_devices_for_wireless_device_import_task(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2694,6 +2772,7 @@ function list_event_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_configurations(
     resourceType,
     params::AbstractDict{String};
@@ -2729,6 +2808,7 @@ function list_fuota_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/fuota-tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fuota_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2760,6 +2840,7 @@ function list_multicast_groups(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/multicast-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_multicast_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2800,6 +2881,7 @@ function list_multicast_groups_by_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_multicast_groups_by_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2836,6 +2918,7 @@ function list_network_analyzer_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_network_analyzer_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2867,6 +2950,7 @@ function list_partner_accounts(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/partner-accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_partner_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2887,8 +2971,8 @@ List position configurations for a given resource, such as positioning solvers.
 
 !!! important
     This action is no longer supported. Calls to retrieve position information should use
-the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
-API operation instead.
+    the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    API operation instead.
 
 # Optional Parameters
 
@@ -2907,6 +2991,7 @@ function list_position_configurations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_position_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2946,6 +3031,7 @@ function list_queued_messages(Id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queued_messages(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2977,6 +3063,7 @@ function list_service_profiles(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/service-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_service_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3010,6 +3097,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -3050,6 +3138,7 @@ function list_wireless_device_import_tasks(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_wireless_device_import_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3090,6 +3179,7 @@ function list_wireless_devices(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/wireless-devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_wireless_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3128,6 +3218,7 @@ function list_wireless_gateway_task_definitions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_wireless_gateway_task_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3159,6 +3250,7 @@ function list_wireless_gateways(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/wireless-gateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_wireless_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3179,8 +3271,8 @@ Put position configuration for a given resource.
 
 !!! important
     This action is no longer supported. Calls to update the position configuration should
-use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
-API operation instead.
+    use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -3208,6 +3300,7 @@ function put_position_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_position_configuration(
     ResourceIdentifier,
     resourceType,
@@ -3254,6 +3347,7 @@ function put_resource_log_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_log_level(
     LogLevel,
     ResourceIdentifier,
@@ -3288,6 +3382,7 @@ function reset_all_resource_log_levels(; aws_config::AbstractAWSConfig=current_a
         "DELETE", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function reset_all_resource_log_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3324,6 +3419,7 @@ function reset_resource_log_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_resource_log_level(
     ResourceIdentifier,
     resourceType,
@@ -3366,6 +3462,7 @@ function send_data_to_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_to_multicast_group(
     Id,
     PayloadData,
@@ -3420,6 +3517,7 @@ function send_data_to_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_to_wireless_device(
     Id,
     PayloadData,
@@ -3471,6 +3569,7 @@ function start_bulk_associate_wireless_device_with_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bulk_associate_wireless_device_with_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3510,6 +3609,7 @@ function start_bulk_disassociate_wireless_device_from_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bulk_disassociate_wireless_device_from_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3543,6 +3643,7 @@ function start_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config()
         "PUT", "/fuota-tasks/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3577,6 +3678,7 @@ function start_multicast_group_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_multicast_group_session(
     Id,
     LoRaWAN,
@@ -3628,6 +3730,7 @@ function start_single_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_single_wireless_device_import_task(
     DestinationName,
     Sidewalk,
@@ -3662,7 +3765,8 @@ Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file
 # Arguments
 
 - `destination_name`: The name of the Sidewalk destination that describes the IoT rule to
-  route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
+  route messages from the devices in the import task that are onboarded to AWS IoT
+  Wireless.
 - `sidewalk`: The Sidewalk-related parameters for importing wireless devices that need to
   be provisioned in bulk.
 
@@ -3688,6 +3792,7 @@ function start_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_wireless_device_import_task(
     DestinationName,
     Sidewalk,
@@ -3734,6 +3839,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -3773,6 +3879,7 @@ function test_wireless_device(Id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3807,6 +3914,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3855,6 +3963,7 @@ function update_destination(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3898,6 +4007,7 @@ function update_event_configuration_by_resource_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_configuration_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3941,6 +4051,7 @@ function update_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3976,6 +4087,7 @@ function update_log_levels_by_resource_types(;
         "POST", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_log_levels_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4008,6 +4120,7 @@ function update_metric_configuration(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_metric_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4046,6 +4159,7 @@ function update_multicast_group(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4076,19 +4190,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MulticastGroupsToAdd"`: Multicast group resources to add to the network analyzer
   configuration. Provide the `MulticastGroupId` of the resource to add in the input array.
 - `"MulticastGroupsToRemove"`: Multicast group resources to remove from the network
-  analyzer configuration. Provide the `MulticastGroupId` of the resources to remove in the
-  input array.
+  analyzer configuration. Provide the `MulticastGroupId` of the resources to remove in
+  the input array.
 - `"TraceContent"`:
 - `"WirelessDevicesToAdd"`: Wireless device resources to add to the network analyzer
   configuration. Provide the `WirelessDeviceId` of the resource to add in the input array.
 - `"WirelessDevicesToRemove"`: Wireless device resources to remove from the network
-  analyzer configuration. Provide the `WirelessDeviceId` of the resources to remove in the
-  input array.
+  analyzer configuration. Provide the `WirelessDeviceId` of the resources to remove in
+  the input array.
 - `"WirelessGatewaysToAdd"`: Wireless gateway resources to add to the network analyzer
-  configuration. Provide the `WirelessGatewayId` of the resource to add in the input array.
+  configuration. Provide the `WirelessGatewayId` of the resource to add in the input
+  array.
 - `"WirelessGatewaysToRemove"`: Wireless gateway resources to remove from the network
-  analyzer configuration. Provide the `WirelessGatewayId` of the resources to remove in the
-  input array.
+  analyzer configuration. Provide the `WirelessGatewayId` of the resources to remove in
+  the input array.
 """
 function update_network_analyzer_configuration(
     ConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4100,6 +4215,7 @@ function update_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_analyzer_configuration(
     ConfigurationName,
     params::AbstractDict{String};
@@ -4140,6 +4256,7 @@ function update_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_partner_account(
     PartnerAccountId,
     Sidewalk,
@@ -4170,8 +4287,8 @@ Update the position information of a resource.
 
 !!! important
     This action is no longer supported. Calls to update the position information should use
-the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
-API operation instead.
+    the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -4193,6 +4310,7 @@ function update_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_position(
     Position,
     ResourceIdentifier,
@@ -4236,8 +4354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Join"`: Event configuration for the join event.
 - `"MessageDeliveryStatus"`: Event configuration for the message delivery status event.
 - `"Proximity"`: Event configuration for the proximity event.
-- `"partnerType"`: Partner type of the resource if the identifier type is
-  `PartnerAccountId`
+- `"partnerType"`: Partner type of the resource if the identifier type is `PartnerAccountId`
 """
 function update_resource_event_configuration(
     Identifier, identifierType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -4250,6 +4367,7 @@ function update_resource_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_event_configuration(
     Identifier,
     identifierType,
@@ -4272,7 +4390,7 @@ end
     update_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Update the position information of a given wireless device or a wireless gateway resource.
-The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+The position coordinates are based on the [World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
 
 # Arguments
 
@@ -4301,6 +4419,7 @@ function update_resource_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_position(
     ResourceIdentifier,
     resourceType,
@@ -4347,6 +4466,7 @@ function update_wireless_device(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4381,6 +4501,7 @@ function update_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_wireless_device_import_task(
     Id,
     Sidewalk,
@@ -4426,6 +4547,7 @@ function update_wireless_gateway(Id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_wireless_gateway(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

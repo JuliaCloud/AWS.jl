@@ -23,6 +23,7 @@ function activate_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -52,6 +53,7 @@ function cancel_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -114,6 +116,7 @@ function create_api_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_api_destination(
     ConnectionArn,
     HttpMethod,
@@ -153,16 +156,19 @@ are not sent to an archive.
 
 !!! note
     Archives and schema discovery are not supported for event buses encrypted using a
-customer managed key. EventBridge returns an error if: - You call ` [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)
-` on an event bus set to use a customer managed key for encryption.
- - You call ` [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)
-` on an event bus set to use a customer managed key for encryption.
- - You call ` [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)
-` to set a customer managed key on an event bus with an archives or schema discovery
-enabled.
-To enable archives or schema discovery on an event bus, choose to use an Amazon Web
-Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
-in the *Amazon EventBridge User Guide*.
+    customer managed key. EventBridge returns an error if:
+
+    - You call `[CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)`
+      on an event bus set to use a customer managed key for encryption.
+    - You call `[CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)`
+      on an event bus set to use a customer managed key for encryption.
+    - You call `[UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)`
+      to set a customer managed key on an event bus with an archives or schema discovery
+      enabled.
+
+    To enable archives or schema discovery on an event bus, choose to use an Amazon Web
+    Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
+    in the *Amazon EventBridge User Guide*.
 
 # Arguments
 
@@ -188,6 +194,7 @@ function create_archive(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_archive(
     ArchiveName,
     EventSourceArn,
@@ -223,8 +230,9 @@ for authorization with an API destination HTTP endpoint.
   authorization parameters to use to authorize with the endpoint.
 - `authorization_type`: The type of authorization to use for the connection.
 
-!!! note
-    OAUTH tokens are refreshed when a 401 or 407 response is returned.
+  !!! note
+      OAUTH tokens are refreshed when a 401 or 407 response is returned.
+
 - `name`: The name for the connection to create.
 
 # Optional Parameters
@@ -250,6 +258,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     AuthParameters,
     AuthorizationType,
@@ -290,10 +299,11 @@ reports a "healthy" state.
 
 - `event_buses`: Define the event buses used.
 
-!!! important
-    The names of the event buses must be identical in each Region.
-- `name`: The name of the global endpoint. For example, `"Name":"us-east-2-custom_bus_A-
-  endpoint"`.
+  !!! important
+      The names of the event buses must be identical in each Region.
+
+- `name`: The name of the global endpoint. For example,
+  `"Name":"us-east-2-custom_bus_A-endpoint"`.
 - `routing_config`: Configure the routing policy, including the health check and secondary
   Region..
 
@@ -319,6 +329,7 @@ function create_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint(
     EventBuses,
     Name,
@@ -356,12 +367,13 @@ event bus which can be matched to a partner event source.
 
 - `name`: The name of the new event bus.
 
-  Custom event bus names can't contain the `/` character, but you can use the `/` character
-  in partner event bus names. In addition, for partner event buses, the name must exactly
-  match the name of the partner event source that this event bus is matched to.
+  Custom event bus names can't contain the `/` character, but you can use the `/`
+  character in partner event bus names. In addition, for partner event buses, the name
+  must exactly match the name of the partner event source that this event bus is matched
+  to.
 
-  You can't use the name `default` for a custom event bus, as this name is already used for
-  your account's default event bus.
+  You can't use the name `default` for a custom event bus, as this name is already used
+  for your account's default event bus.
 
 # Optional Parameters
 
@@ -372,8 +384,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventSourceName"`: If you are creating a partner event bus, this specifies the partner
   event source that the new event bus will be matched with.
 - `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
-  use, if you choose to use a customer managed key to encrypt events on this event bus. The
-  identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+  use, if you choose to use a customer managed key to encrypt events on this event bus.
+  The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key
+  alias ARN.
 
   If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
   Services owned key to encrypt events on the event bus.
@@ -383,16 +396,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Archives and schema discovery are not supported for event buses encrypted using a
-  customer managed key. EventBridge returns an error if: - You call ` [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)
-  ` on an event bus set to use a customer managed key for encryption.
-   - You call ` [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)
-  ` on an event bus set to use a customer managed key for encryption.
-   - You call ` [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)
-  ` to set a customer managed key on an event bus with an archives or schema discovery
-  enabled.
-  To enable archives or schema discovery on an event bus, choose to use an Amazon Web
-  Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
-  in the *Amazon EventBridge User Guide*.
+      customer managed key. EventBridge returns an error if:
+
+      - You call `[CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)`
+        on an event bus set to use a customer managed key for encryption.
+      - You call `[CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)`
+        on an event bus set to use a customer managed key for encryption.
+      - You call `[UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)`
+        to set a customer managed key on an event bus with an archives or schema
+        discovery enabled.
+
+      To enable archives or schema discovery on an event bus, choose to use an Amazon Web
+      Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
+      in the *Amazon EventBridge User Guide*.
+
 - `"Tags"`: Tags to associate with the event bus.
 """
 function create_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -403,6 +420,7 @@ function create_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -435,16 +453,19 @@ them using Amazon Web Services Events rules and targets.
 
 Partner event source names follow this format:
 
- ` *partner_name*/*event_namespace*/*event_name* ` </p> - *partner_name* is determined
-during partner registration, and identifies the partner to Amazon Web Services customers.
- - *event_namespace* is determined by the partner, and is a way for the partner to
-categorize their events.
- - *event_name* is determined by the partner, and should uniquely identify an event-
-generating resource within the partner system.
+`*partner_name*/*event_namespace*/*event_name*`
 
- <p>The *event_name* must be unique across all Amazon Web Services customers. This is
-because the event source is a shared resource between the partner and customer accounts,
-and each partner event source unique in the partner account.
+- *partner_name* is determined during partner registration, and identifies the partner to
+  Amazon Web Services customers.
+- *event_namespace* is determined by the partner, and is a way for the partner to
+  categorize their events.
+- *event_name* is determined by the partner, and should uniquely identify an event-
+  generating resource within the partner system.
+
+The *event_name* must be unique across all Amazon Web Services customers. This is because
+the event source is a shared resource between the partner and customer accounts, and each
+partner event source unique in the partner account.
+
 The combination of *event_namespace* and *event_name* should help Amazon Web Services
 customers decide whether to create an event bus to receive these events.
 
@@ -453,7 +474,7 @@ customers decide whether to create an event bus to receive these events.
 - `account`: The Amazon Web Services account ID that is permitted to create a matching
   partner event bus for this partner event source.
 - `name`: The name of the partner event source. This name must be unique and must be in the
-  format ` *partner_name*/*event_namespace*/*event_name* `. The Amazon Web Services account
+  format `*partner_name*/*event_namespace*/*event_name*`. The Amazon Web Services account
   that wants to use this partner event source must create a partner event bus with a name
   that matches the name of the partner event source.
 """
@@ -467,6 +488,7 @@ function create_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partner_event_source(
     Account,
     Name,
@@ -509,6 +531,7 @@ function deactivate_event_source(Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -539,6 +562,7 @@ function deauthorize_connection(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deauthorize_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -568,6 +592,7 @@ function delete_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -597,6 +622,7 @@ function delete_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -630,6 +656,7 @@ function delete_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -646,12 +673,12 @@ end
     delete_endpoint(name, params::Dict{String,<:Any})
 
 Delete an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html)
-in the * <i>Amazon EventBridge User Guide* </i>.
+in the *<i>Amazon EventBridge User Guide* </i>.
 
 # Arguments
 
-- `name`: The name of the endpoint you want to delete. For example, `"Name":"us-east-2-
-  custom_bus_A-endpoint"`..
+- `name`: The name of the endpoint you want to delete. For example,
+  `"Name":"us-east-2-custom_bus_A-endpoint"`..
 """
 function delete_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
@@ -661,6 +688,7 @@ function delete_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -691,6 +719,7 @@ function delete_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,7 +739,7 @@ This operation is used by SaaS partners to delete a partner event source. This o
 not used by Amazon Web Services customers.
 
 When you delete an event source, the status of the corresponding partner event bus in the
-Amazon Web Services customer account becomes DELETED. <p/>
+Amazon Web Services customer account becomes DELETED.
 
 # Arguments
 
@@ -728,6 +757,7 @@ function delete_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_partner_event_source(
     Account,
     Name,
@@ -777,9 +807,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 - `"Force"`: If this is a managed rule, created by an Amazon Web Services service on your
-  behalf, you must specify `Force` as `True` to delete the rule. This parameter is ignored
-  for rules that are not managed rules. You can check whether a rule is a managed rule by
-  using `DescribeRule` or `ListRules` and checking the `ManagedBy` field of the response.
+  behalf, you must specify `Force` as `True` to delete the rule. This parameter is
+  ignored for rules that are not managed rules. You can check whether a rule is a managed
+  rule by using `DescribeRule` or `ListRules` and checking the `ManagedBy` field of the
+  response.
 """
 function delete_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
@@ -789,6 +820,7 @@ function delete_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -818,6 +850,7 @@ function describe_api_destination(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -847,6 +880,7 @@ function describe_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -880,6 +914,7 @@ function describe_connection(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,7 +932,7 @@ end
 
 Get the information about an existing global endpoint. For more information about global
 endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html)
-in the * <i>Amazon EventBridge User Guide* </i>.
+in the *<i>Amazon EventBridge User Guide* </i>.
 
 # Arguments
 
@@ -919,6 +954,7 @@ function describe_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_endpoint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -939,8 +975,7 @@ Web Services accounts that are permitted to write events to your default event b
 associated policy. For custom event buses and partner event buses, it displays the name,
 ARN, policy, state, and creation time.
 
- To enable your account to receive events from other accounts on its default event bus, use
-[PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html).
+To enable your account to receive events from other accounts on its default event bus, use [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html).
 
 For more information about partner event buses, see [CreateEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateEventBus.html).
 
@@ -956,6 +991,7 @@ function describe_event_bus(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_bus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -982,6 +1018,7 @@ function describe_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1016,6 +1053,7 @@ function describe_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_partner_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1052,6 +1090,7 @@ function describe_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -1095,6 +1134,7 @@ function describe_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1175,7 @@ function disable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1174,6 +1215,7 @@ function enable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1206,6 +1248,7 @@ function list_api_destinations(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListApiDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_api_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1240,6 +1283,7 @@ function list_archives(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1269,6 +1313,7 @@ function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1283,7 +1328,7 @@ end
 
 List the global endpoints associated with this account. For more information about global
 endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html)
-in the * <i>Amazon EventBridge User Guide* </i>.
+in the *<i>Amazon EventBridge User Guide* </i>.
 
 # Optional Parameters
 
@@ -1298,14 +1343,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an HTTP 400 InvalidToken error.
 """
 function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1337,6 +1383,7 @@ function list_event_buses(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEventBuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_buses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1368,6 +1415,7 @@ function list_event_sources(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListEventSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1409,6 +1457,7 @@ function list_partner_event_source_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_partner_event_source_accounts(
     EventSourceName,
     params::AbstractDict{String};
@@ -1458,6 +1507,7 @@ function list_partner_event_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_partner_event_sources(
     NamePrefix,
     params::AbstractDict{String};
@@ -1496,6 +1546,7 @@ function list_replays(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListReplays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_replays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1536,6 +1587,7 @@ function list_rule_names_by_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_names_by_target(
     TargetArn,
     params::AbstractDict{String};
@@ -1576,6 +1628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1605,6 +1658,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1649,6 +1703,7 @@ function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_by_rule(
     Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1669,7 +1724,7 @@ Sends custom events to Amazon EventBridge so that they can be matched to rules.
 The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including
 the event and any necessary characters and keys of the JSON representation of the event. To
 learn more, see [Calculating PutEvents event entry size](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html)
-in the * <i>Amazon EventBridge User Guide* </i>
+in the *<i>Amazon EventBridge User Guide* </i>
 
 PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the
 constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of
@@ -1691,8 +1746,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EndpointId"`: The URL subdomain of the endpoint. For example, if the URL for Endpoint
   is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is `abcde.veo`.
 
-!!! important
-    When using Java, you must include `auth-crt` on the class path.
+  !!! important
+      When using Java, you must include `auth-crt` on the class path.
+
 """
 function put_events(Entries; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
@@ -1702,6 +1758,7 @@ function put_events(Entries; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     Entries,
     params::AbstractDict{String};
@@ -1737,6 +1794,7 @@ function put_partner_events(Entries; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_partner_events(
     Entries,
     params::AbstractDict{String};
@@ -1789,15 +1847,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as the value for `Principal`, you grant permission to all the accounts in the named
   organization.
 
-The `Condition` is a JSON string which must contain `Type`, `Key`, and `Value` fields.
+  The `Condition` is a JSON string which must contain `Type`, `Key`, and `Value` fields.
 - `"EventBusName"`: The name of the event bus associated with the rule. If you omit this,
   the default event bus is used.
 - `"Policy"`: A JSON string that describes the permission policy statement. You can include
   a `Policy` parameter in the request instead of using the `StatementId`, `Action`,
   `Principal`, or `Condition` parameters.
 - `"Principal"`: The 12-digit Amazon Web Services account ID that you are permitting to put
-  events to your default event bus. Specify "*" to permit any account to put events to your
-  default event bus.
+  events to your default event bus. Specify "*" to permit any account to put events to
+  your default event bus.
 
   If you specify "*" without specifying `Condition`, avoid creating rules that may match
   undesirable events. To create more secure rules, make sure that the event pattern for
@@ -1807,14 +1865,16 @@ The `Condition` is a JSON string which must contain `Type`, `Key`, and `Value` f
   permissions to. If you later want to revoke the permission for this external account,
   specify this `StatementId` when you run [RemovePermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_RemovePermission.html).
 
-!!! note
-    Each `StatementId` must be unique.
+  !!! note
+      Each `StatementId` must be unique.
+
 """
 function put_permission(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "PutPermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1852,11 +1912,11 @@ as well as on a schedule.
 When you initially create a rule, you can optionally assign one or more tags to the rule.
 Tags can help you organize and categorize your resources. You can also use them to scope
 user permissions, by granting a user permission to access or change only rules with certain
-tag values. To use the `PutRule` operation and assign tags, you must have both the
+tag values. To use the [`put_rule`](@ref) operation and assign tags, you must have both the
 `events:PutRule` and `events:TagResource` permissions.
 
-If you are updating an existing rule, any tags you specify in the `PutRule` operation are
-ignored. To update the tags of an existing rule, use [TagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_TagResource.html)
+If you are updating an existing rule, any tags you specify in the [`put_rule`](@ref)
+operation are ignored. To update the tags of an existing rule, use [TagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_TagResource.html)
 and [UntagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UntagResource.html).
 
 Most services in Amazon Web Services treat : or / as the same character in Amazon Resource
@@ -1890,33 +1950,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus to associate with this rule. If you
   omit this, the default event bus is used.
 - `"EventPattern"`: The event pattern. For more information, see [Amazon EventBridge event patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html)
-  in the * <i>Amazon EventBridge User Guide* </i>.
+  in the *<i>Amazon EventBridge User Guide* </i>.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role associated with the rule.
 
-  If you're setting an event bus in another account as the target and that account granted
-  permission to your account through an organization instead of directly by the account ID,
-  you must specify a `RoleArn` with proper permissions in the `Target` structure, instead
-  of here in this parameter.
+  If you're setting an event bus in another account as the target and that account
+  granted permission to your account through an organization instead of directly by the
+  account ID, you must specify a `RoleArn` with proper permissions in the `Target`
+  structure, instead of here in this parameter.
 - `"ScheduleExpression"`: The scheduling expression. For example, "cron(0 20 * * ? *)" or
   "rate(5 minutes)".
 - `"State"`: The state of the rule.
 
-  Valid values include:</p> - `DISABLED`: The rule is disabled. EventBridge does not match
-  any events against the rule.
-   - `ENABLED`: The rule is enabled. EventBridge matches events against the rule, *except*
-  for Amazon Web Services management events delivered through CloudTrail.
-   - `ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS`: The rule is enabled for all events,
-  including Amazon Web Services management events delivered through CloudTrail.
+  Valid values include:
+
+  - `DISABLED`: The rule is disabled. EventBridge does not match any events against the
+    rule.
+  - `ENABLED`: The rule is enabled. EventBridge matches events against the rule, *except*
+    for Amazon Web Services management events delivered through CloudTrail.
+  - `ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS`: The rule is enabled for all events,
+    including Amazon Web Services management events delivered through CloudTrail.
 
   Management events provide visibility into management operations that are performed on
   resources in your Amazon Web Services account. These are also known as control plane
   operations. For more information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html#logging-management-events)
   in the *CloudTrail User Guide*, and [Filtering management events from Amazon Web Services services](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-cloudtrail)
-  in the * <i>Amazon EventBridge User Guide* </i>.
+  in the *<i>Amazon EventBridge User Guide* </i>.
 
-   <p>This value is only valid for rules on the [default](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is-how-it-works-concepts.html#eb-bus-concepts-buses)
+  This value is only valid for rules on the [default](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is-how-it-works-concepts.html#eb-bus-concepts-buses)
   event bus or [custom event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-event-bus.html).
   It does not apply to [partner event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-saas.html).
+
 - `"Tags"`: The list of key-value pairs to associate with the rule.
 """
 function put_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1927,6 +1990,7 @@ function put_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1947,31 +2011,37 @@ already associated with the rule.
 
 Targets are the resources that are invoked when a rule is triggered.
 
-The maximum number of entries per request is 10.</p>
+The maximum number of entries per request is 10.
 
 !!! note
-    Each rule can have up to five (5) targets associated with it at one time.For a list of
-services you can configure as targets for events, see [EventBridge targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html)
-in the * <i>Amazon EventBridge User Guide* </i>.
+    Each rule can have up to five (5) targets associated with it at one time.
+
+For a list of services you can configure as targets for events, see [EventBridge targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html)
+in the *<i>Amazon EventBridge User Guide* </i>.
 
 Creating rules with built-in targets is supported only in the Amazon Web Services
-Management Console. The built-in targets are: - `Amazon EBS CreateSnapshot API call`
- - `Amazon EC2 RebootInstances API call`
- - `Amazon EC2 StopInstances API call`
- - `Amazon EC2 TerminateInstances API call`
+Management Console. The built-in targets are:
+
+- `Amazon EBS CreateSnapshot API call`
+- `Amazon EC2 RebootInstances API call`
+- `Amazon EC2 StopInstances API call`
+- `Amazon EC2 TerminateInstances API call`
+
 For some target types, `PutTargets` provides target-specific parameters. If the target is a
 Kinesis data stream, you can optionally specify which shard the event goes to by using the
 `KinesisParameters` argument. To invoke a command on multiple EC2 instances with one rule,
 you can use the `RunCommandParameters` field.
 
 To be able to make API calls against the resources that you own, Amazon EventBridge needs
-the appropriate permissions:  - For Lambda and Amazon SNS resources, EventBridge relies on
-resource-based policies.
- - For EC2 instances, Kinesis Data Streams, Step Functions state machines and API Gateway
-APIs, EventBridge relies on IAM roles that you specify in the `RoleARN` argument in
-`PutTargets`.
+the appropriate permissions:
+
+- For Lambda and Amazon SNS resources, EventBridge relies on resource-based policies.
+- For EC2 instances, Kinesis Data Streams, Step Functions state machines and API Gateway
+  APIs, EventBridge relies on IAM roles that you specify in the `RoleARN` argument in
+  `PutTargets`.
+
 For more information, see [Authentication and Access Control](https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html)
-in the * <i>Amazon EventBridge User Guide* </i>.
+in the *<i>Amazon EventBridge User Guide* </i>.
 
 If another Amazon Web Services account is in the same region and has granted you permission
 (using `PutPermission`), you can send events to that account. Set that account's event bus
@@ -1983,31 +2053,35 @@ is not charged. For more information, see [Amazon EventBridge Pricing](http://aw
 
 !!! note
     `Input`, `InputPath`, and `InputTransformer` are not available with `PutTarget` if the
-target is an event bus of a different Amazon Web Services account.If you are setting the
-event bus of another account as the target, and that account granted permission to your
-account through an organization instead of directly by the account ID, then you must
-specify a `RoleArn` with proper permissions in the `Target` structure. For more
-information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html)
+    target is an event bus of a different Amazon Web Services account.
+
+If you are setting the event bus of another account as the target, and that account granted
+permission to your account through an organization instead of directly by the account ID,
+then you must specify a `RoleArn` with proper permissions in the `Target` structure. For
+more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html)
 in the *Amazon EventBridge User Guide*.
 
 !!! note
     If you have an IAM role on a cross-account event bus target, a `PutTargets` call
-without a role on the same target (same `Id` and `Arn`) will not remove the role.For more
-information about enabling cross-account events, see [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html).
+    without a role on the same target (same `Id` and `Arn`) will not remove the role.
 
- **Input**, **InputPath**, and **InputTransformer** are mutually exclusive and optional
-parameters of a target. When a rule is triggered due to a matched event: - If none of the
-following arguments are specified for a target, then the entire event is passed to the
-target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in
-which case nothing from the event is passed to the target).
- - If **Input** is specified in the form of valid JSON, then the matched event is
-overridden with this constant.
- - If **InputPath** is specified in the form of JSONPath (for example, `\$.detail`), then
-only the part of the event specified in the path is passed to the target (for example, only
-the detail part of the event is passed).
- - If **InputTransformer** is specified, then one or more specified JSONPaths are extracted
-from the event and used as values in a template that you specify as the input to the
-target.
+For more information about enabling cross-account events, see [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html).
+
+**Input**, **InputPath**, and **InputTransformer** are mutually exclusive and optional
+parameters of a target. When a rule is triggered due to a matched event:
+
+- If none of the following arguments are specified for a target, then the entire event is
+  passed to the target in JSON format (unless the target is Amazon EC2 Run Command or
+  Amazon ECS task, in which case nothing from the event is passed to the target).
+- If **Input** is specified in the form of valid JSON, then the matched event is overridden
+  with this constant.
+- If **InputPath** is specified in the form of JSONPath (for example, `\$.detail`), then
+  only the part of the event specified in the path is passed to the target (for example,
+  only the detail part of the event is passed).
+- If **InputTransformer** is specified, then one or more specified JSONPaths are extracted
+  from the event and used as values in a template that you specify as the input to the
+  target.
+
 When you specify `InputPath` or `InputTransformer`, you must use JSON dot notation, not
 bracket notation.
 
@@ -2015,7 +2089,7 @@ When you add targets to a rule and the associated rule triggers soon after, new 
 targets might not be immediately invoked. Allow a short period of time for changes to take
 effect.
 
- <p>This action can partially fail if too many requests are made at the same time. If that
+This action can partially fail if too many requests are made at the same time. If that
 happens, `FailedEntryCount` is non-zero in the response and each entry in `FailedEntries`
 provides the ID of the failed target and the error code.
 
@@ -2039,6 +2113,7 @@ function put_targets(Rule, Targets; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_targets(
     Rule,
     Targets,
@@ -2081,6 +2156,7 @@ function remove_permission(; aws_config::AbstractAWSConfig=current_aws_config())
         "RemovePermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function remove_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2094,19 +2170,20 @@ end
     remove_targets(ids, rule, params::Dict{String,<:Any})
 
 Removes the specified targets from the specified rule. When the rule is triggered, those
-targets are no longer be invoked.</p>
+targets are no longer be invoked.
 
 !!! note
     A successful execution of `RemoveTargets` doesn't guarantee all targets are removed
-from the rule, it means that the target(s) listed in the request are removed.When you
-remove a target, when the associated rule triggers, removed targets might continue to be
-invoked. Allow a short period of time for changes to take effect.
+    from the rule, it means that the target(s) listed in the request are removed.
+
+When you remove a target, when the associated rule triggers, removed targets might continue
+to be invoked. Allow a short period of time for changes to take effect.
 
 This action can partially fail if too many requests are made at the same time. If that
 happens, `FailedEntryCount` is non-zero in the response and each entry in `FailedEntries`
 provides the ID of the failed target and the error code.
 
- <p>The maximum number of entries per request is 10.
+The maximum number of entries per request is 10.
 
 # Arguments
 
@@ -2132,6 +2209,7 @@ function remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_targets(
     Ids,
     Rule,
@@ -2199,6 +2277,7 @@ function start_replay(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replay(
     Destination,
     EventEndTime,
@@ -2260,6 +2339,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2295,15 +2375,18 @@ syntax in the event you want to match.
 
 - `event`: The event, in JSON format, to test against the event pattern. The JSON must
   follow the format specified in [Amazon Web Services Events](https://docs.aws.amazon.com/eventbridge/latest/userguide/aws-events.html),
-  and the following fields are mandatory: - `id`
-   - `account`
- - `source`
- - `time`
- - `region`
- - `resources`
- - `detail-type`
+  and the following fields are mandatory:
+
+  - `id`
+  - `account`
+  - `source`
+  - `time`
+  - `region`
+  - `resources`
+  - `detail-type`
+
 - `event_pattern`: The event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html)
-  in the * <i>Amazon EventBridge User Guide* </i>.
+  in the *<i>Amazon EventBridge User Guide* </i>.
 """
 function test_event_pattern(
     Event, EventPattern; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2315,6 +2398,7 @@ function test_event_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_event_pattern(
     Event,
     EventPattern,
@@ -2357,6 +2441,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2406,6 +2491,7 @@ function update_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2443,6 +2529,7 @@ function update_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -2484,6 +2571,7 @@ function update_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2500,7 +2588,7 @@ end
     update_endpoint(name, params::Dict{String,<:Any})
 
 Update an existing endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html)
-in the * <i>Amazon EventBridge User Guide* </i>.
+in the *<i>Amazon EventBridge User Guide* </i>.
 
 # Arguments
 
@@ -2525,6 +2613,7 @@ function update_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2549,8 +2638,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeadLetterConfig"`:
 - `"Description"`: The event bus description.
 - `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
-  use, if you choose to use a customer managed key to encrypt events on this event bus. The
-  identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+  use, if you choose to use a customer managed key to encrypt events on this event bus.
+  The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key
+  alias ARN.
 
   If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
   Services owned key to encrypt events on the event bus.
@@ -2560,16 +2650,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Archives and schema discovery are not supported for event buses encrypted using a
-  customer managed key. EventBridge returns an error if: - You call ` [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)
-  ` on an event bus set to use a customer managed key for encryption.
-   - You call ` [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)
-  ` on an event bus set to use a customer managed key for encryption.
-   - You call ` [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)
-  ` to set a customer managed key on an event bus with an archives or schema discovery
-  enabled.
-  To enable archives or schema discovery on an event bus, choose to use an Amazon Web
-  Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
-  in the *Amazon EventBridge User Guide*.
+      customer managed key. EventBridge returns an error if:
+
+      - You call `[CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)`
+        on an event bus set to use a customer managed key for encryption.
+      - You call `[CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)`
+        on an event bus set to use a customer managed key for encryption.
+      - You call `[UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)`
+        to set a customer managed key on an event bus with an archives or schema
+        discovery enabled.
+
+      To enable archives or schema discovery on an event bus, choose to use an Amazon Web
+      Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
+      in the *Amazon EventBridge User Guide*.
+
 - `"Name"`: The name of the event bus.
 """
 function update_event_bus(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2577,6 +2671,7 @@ function update_event_bus(; aws_config::AbstractAWSConfig=current_aws_config())
         "UpdateEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_event_bus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

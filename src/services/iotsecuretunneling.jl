@@ -33,6 +33,7 @@ function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function close_tunnel(
     tunnelId,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tunnel(
     tunnelId,
     params::AbstractDict{String};
@@ -104,6 +106,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -143,6 +146,7 @@ function list_tunnels(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListTunnels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tunnels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -175,6 +179,7 @@ function open_tunnel(; aws_config::AbstractAWSConfig=current_aws_config())
         "OpenTunnel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function open_tunnel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -195,8 +200,9 @@ action.
 
 !!! note
     Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel
-duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the
-access tokens, the new tokens that are generated can only be used for the remaining 8 hours.
+    duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate
+    the access tokens, the new tokens that are generated can only be used for the remaining
+    8 hours.
 
 # Arguments
 
@@ -220,6 +226,7 @@ function rotate_tunnel_access_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rotate_tunnel_access_token(
     clientMode,
     tunnelId,
@@ -259,6 +266,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -300,6 +308,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

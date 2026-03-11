@@ -31,6 +31,7 @@ function batch_get_collaboration_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier,
@@ -75,6 +76,7 @@ function batch_get_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_schema(
     collaborationIdentifier,
     names,
@@ -116,6 +118,7 @@ function batch_get_schema_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests,
@@ -179,6 +182,7 @@ function create_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_analysis_template(
     format,
     membershipIdentifier,
@@ -258,6 +262,7 @@ function create_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_collaboration(
     creatorDisplayName,
     creatorMemberAbilities,
@@ -308,14 +313,14 @@ Provides the details necessary to create a configured audience model association
   configured audience model resource owner will manage permissions related to the given
   collaboration.
 
-  Setting this to `TRUE` requires you to have permissions to create, update, and delete the
-  resource policy for the `cleanrooms-ml` resource when you call the
-  <a>DeleteConfiguredAudienceModelAssociation</a> resource. In addition, if you are the
-  collaboration creator and specify `TRUE`, you must have the same permissions when you
-  call the <a>DeleteMember</a> and <a>DeleteCollaboration</a> APIs.
+  Setting this to `TRUE` requires you to have permissions to create, update, and delete
+  the resource policy for the `cleanrooms-ml` resource when you call the [`delete_configured_audience_model_association`](@ref)
+  resource. In addition, if you are the collaboration creator and specify `TRUE`, you
+  must have the same permissions when you call the [`delete_member`](@ref) and [`delete_collaboration`](@ref)
+  APIs.
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The configured audience model is associated to the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The configured audience model is associated to the collaboration that
+  this membership belongs to. Accepts a membership ID.
 
 # Optional Parameters
 
@@ -347,6 +352,7 @@ function create_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_audience_model_association(
     configuredAudienceModelArn,
     configuredAudienceModelAssociationName,
@@ -420,6 +426,7 @@ function create_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table(
     allowedColumns,
     analysisMethod,
@@ -480,6 +487,7 @@ function create_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -553,6 +561,7 @@ function create_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_association(
     configuredTableIdentifier,
     membershipIdentifier,
@@ -584,17 +593,17 @@ end
     create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
     create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
 
- Creates a new analysis rule for an associated configured table.
+Creates a new analysis rule for an associated configured table.
 
 # Arguments
 
 - `analysis_rule_policy`: The analysis rule policy that was created for the configured
   table association.
-- `analysis_rule_type`:  The type of analysis rule.
-- `configured_table_association_identifier`:  The unique ID for the configured table
+- `analysis_rule_type`: The type of analysis rule.
+- `configured_table_association_identifier`: The unique ID for the configured table
   association. Currently accepts the configured table association ID.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function create_configured_table_association_analysis_rule(
     analysisRulePolicy,
@@ -614,6 +623,7 @@ function create_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_association_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -680,6 +690,7 @@ function create_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_mapping_table(
     inputReferenceConfig,
     membershipIdentifier,
@@ -743,6 +754,7 @@ function create_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_namespace_association(
     inputReferenceConfig,
     membershipIdentifier,
@@ -813,6 +825,7 @@ function create_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_membership(
     collaborationIdentifier,
     queryLogStatus,
@@ -843,7 +856,7 @@ end
 
 Creates a privacy budget template for a specified membership. Each membership can have only
 one privacy budget template, but it can be deleted and recreated. If you need to change the
-privacy budget template for a membership, use the <a>UpdatePrivacyBudgetTemplate</a>
+privacy budget template for a membership, use the [`update_privacy_budget_template`](@ref)
 operation.
 
 # Arguments
@@ -852,10 +865,12 @@ operation.
 
   !!! important
       If you plan to regularly bring new data into the collaboration, you can use
-  `CALENDAR_MONTH` to automatically get a new privacy budget for the collaboration every
-  calendar month. Choosing this option allows arbitrary amounts of information to be
-  revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing
-  this if the same rows will be repeatedly queried between privacy budget refreshes.
+      `CALENDAR_MONTH` to automatically get a new privacy budget for the collaboration
+      every calendar month. Choosing this option allows arbitrary amounts of information
+      to be revealed about rows of the data when repeatedly queries across refreshes.
+      Avoid choosing this if the same rows will be repeatedly queried between privacy
+      budget refreshes.
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The privacy budget template is created in the collaboration that this
   membership belongs to. Accepts a membership ID.
@@ -890,6 +905,7 @@ function create_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_privacy_budget_template(
     autoRefresh,
     membershipIdentifier,
@@ -940,6 +956,7 @@ function delete_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -975,6 +992,7 @@ function delete_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1014,6 +1032,7 @@ function delete_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -1049,6 +1068,7 @@ function delete_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -1072,7 +1092,8 @@ Deletes a configured table analysis rule.
 # Arguments
 
 - `analysis_rule_type`: The analysis rule type to be deleted. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule type.
+  rules are uniquely identified by their configured table identifier and analysis rule
+  type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
 """
@@ -1088,6 +1109,7 @@ function delete_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -1128,6 +1150,7 @@ function delete_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -1154,8 +1177,8 @@ Deletes an analysis rule for a configured table association.
 - `analysis_rule_type`: The type of the analysis rule that you want to delete.
 - `configured_table_association_identifier`: The identiﬁer for the conﬁgured table
   association that's related to the analysis rule that you want to delete.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function delete_configured_table_association_analysis_rule(
     analysisRuleType,
@@ -1170,6 +1193,7 @@ function delete_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_association_analysis_rule(
     analysisRuleType,
     configuredTableAssociationIdentifier,
@@ -1211,6 +1235,7 @@ function delete_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -1251,6 +1276,7 @@ function delete_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier,
@@ -1289,6 +1315,7 @@ function delete_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_member(
     accountId,
     collaborationIdentifier,
@@ -1324,6 +1351,7 @@ function delete_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1364,6 +1392,7 @@ function delete_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1402,6 +1431,7 @@ function get_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -1437,6 +1467,7 @@ function get_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1476,6 +1507,7 @@ function get_collaboration_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier,
@@ -1516,6 +1548,7 @@ function get_collaboration_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier,
@@ -1556,6 +1589,7 @@ function get_collaboration_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_id_namespace_association(
     collaborationIdentifier,
     idNamespaceAssociationIdentifier,
@@ -1595,6 +1629,7 @@ function get_collaboration_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1635,6 +1670,7 @@ function get_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -1670,6 +1706,7 @@ function get_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -1709,6 +1746,7 @@ function get_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -1749,6 +1787,7 @@ function get_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -1768,15 +1807,15 @@ end
     get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier)
     get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
 
- Retrieves the analysis rule for a configured table association.
+Retrieves the analysis rule for a configured table association.
 
 # Arguments
 
-- `analysis_rule_type`:  The type of analysis rule that you want to retrieve.
-- `configured_table_association_identifier`:  The identiﬁer for the conﬁgured table
+- `analysis_rule_type`: The type of analysis rule that you want to retrieve.
+- `configured_table_association_identifier`: The identiﬁer for the conﬁgured table
   association that's related to the analysis rule.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function get_configured_table_association_analysis_rule(
     analysisRuleType,
@@ -1791,6 +1830,7 @@ function get_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_association_analysis_rule(
     analysisRuleType,
     configuredTableAssociationIdentifier,
@@ -1832,6 +1872,7 @@ function get_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -1872,6 +1913,7 @@ function get_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier,
@@ -1907,6 +1949,7 @@ function get_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1930,8 +1973,8 @@ Returns details for a specified privacy budget template.
 # Arguments
 
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget template is retrieved from the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The privacy budget template is retrieved from the collaboration that
+  this membership belongs to. Accepts a membership ID.
 - `privacy_budget_template_identifier`: A unique identifier for your privacy budget
   template.
 """
@@ -1947,6 +1990,7 @@ function get_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1985,6 +2029,7 @@ function get_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
@@ -2022,6 +2067,7 @@ function get_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema(
     collaborationIdentifier,
     name,
@@ -2062,6 +2108,7 @@ function get_schema_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_analysis_rule(
     collaborationIdentifier,
     name,
@@ -2106,6 +2153,7 @@ function list_analysis_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_analysis_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2149,6 +2197,7 @@ function list_collaboration_analysis_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_analysis_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2192,6 +2241,7 @@ function list_collaboration_configured_audience_model_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_configured_audience_model_associations(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2236,6 +2286,7 @@ function list_collaboration_id_namespace_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_id_namespace_associations(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2280,6 +2331,7 @@ function list_collaboration_privacy_budget_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_privacy_budget_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2330,6 +2382,7 @@ function list_collaboration_privacy_budgets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType,
@@ -2371,6 +2424,7 @@ function list_collaborations(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_collaborations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2414,6 +2468,7 @@ function list_configured_audience_model_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configured_audience_model_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2457,6 +2512,7 @@ function list_configured_table_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configured_table_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2490,6 +2546,7 @@ function list_configured_tables(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configured_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2532,6 +2589,7 @@ function list_id_mapping_tables(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_id_mapping_tables(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2576,6 +2634,7 @@ function list_id_namespace_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_id_namespace_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2619,6 +2678,7 @@ function list_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_members(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2653,6 +2713,7 @@ function list_memberships(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_memberships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2697,6 +2758,7 @@ function list_privacy_budget_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_privacy_budget_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2747,6 +2809,7 @@ function list_privacy_budgets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType,
@@ -2797,6 +2860,7 @@ function list_protected_queries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_protected_queries(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2842,6 +2906,7 @@ function list_schemas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schemas(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2877,6 +2942,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2916,6 +2982,7 @@ function populate_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function populate_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -2955,6 +3022,7 @@ function preview_privacy_impact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function preview_privacy_impact(
     membershipIdentifier,
     parameters,
@@ -3005,6 +3073,7 @@ function start_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_protected_query(
     membershipIdentifier,
     sqlParameters,
@@ -3048,6 +3117,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -3086,6 +3156,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3130,6 +3201,7 @@ function update_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -3173,6 +3245,7 @@ function update_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -3219,6 +3292,7 @@ function update_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -3262,6 +3336,7 @@ function update_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -3287,7 +3362,8 @@ Updates a configured table analysis rule.
 - `analysis_rule_policy`: The new analysis rule policy for the configured table analysis
   rule.
 - `analysis_rule_type`: The analysis rule type to be updated. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule type.
+  rules are uniquely identified by their configured table identifier and analysis rule
+  type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
 """
@@ -3305,6 +3381,7 @@ function update_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -3358,6 +3435,7 @@ function update_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -3377,17 +3455,17 @@ end
     update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
     update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
 
- Updates the analysis rule for a configured table association.
+Updates the analysis rule for a configured table association.
 
 # Arguments
 
-- `analysis_rule_policy`:  The updated analysis rule policy for the conﬁgured table
+- `analysis_rule_policy`: The updated analysis rule policy for the conﬁgured table
   association.
-- `analysis_rule_type`:  The analysis rule type that you want to update.
-- `configured_table_association_identifier`:  The identifier for the configured table
+- `analysis_rule_type`: The analysis rule type that you want to update.
+- `configured_table_association_identifier`: The identifier for the configured table
   association to update.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function update_configured_table_association_analysis_rule(
     analysisRulePolicy,
@@ -3404,6 +3482,7 @@ function update_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_association_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -3457,6 +3536,7 @@ function update_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -3505,6 +3585,7 @@ function update_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier,
@@ -3549,6 +3630,7 @@ function update_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -3599,6 +3681,7 @@ function update_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -3646,6 +3729,7 @@ function update_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,

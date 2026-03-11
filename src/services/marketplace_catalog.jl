@@ -26,6 +26,7 @@ function batch_describe_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_describe_entities(
     EntityRequestList,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function cancel_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_change_set(
     catalog,
     changeSetId,
@@ -112,6 +114,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -151,6 +154,7 @@ function describe_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_change_set(
     catalog,
     changeSetId,
@@ -194,6 +198,7 @@ function describe_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity(
     catalog,
     entityId,
@@ -237,6 +242,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -274,8 +280,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FilterList"`: An array of filter objects.
 - `"MaxResults"`: The maximum number of results returned by a single call. This value must
-  be provided in the next call to retrieve the next set of results. By default, this value
-  is 20.
+  be provided in the next call to retrieve the next set of results. By default, this
+  value is 20.
 - `"NextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 - `"Sort"`: An object that contains two attributes, `SortBy` and `SortOrder`.
@@ -289,6 +295,7 @@ function list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_change_sets(
     Catalog,
     params::AbstractDict{String};
@@ -321,8 +328,8 @@ Provides the list of entities of a given type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EntityTypeFilters"`: A Union object containing filter shapes for all `EntityType`s.
-  Each `EntityTypeFilter` shape will have filters applicable for that `EntityType` that can
-  be used to search or filter entities.
+  Each `EntityTypeFilter` shape will have filters applicable for that `EntityType` that
+  can be used to search or filter entities.
 - `"EntityTypeSort"`: A Union object containing `Sort` shapes for all `EntityType`s. Each
   `EntityTypeSort` shape will have `SortBy` and `SortOrder` applicable for fields on that
   `EntityType`. This can be used to sort the results of the filter query.
@@ -334,8 +341,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"OwnershipType"`: Filters the returned set of entities based on their owner. The default
   is `SELF`. To list entities shared with you through AWS Resource Access Manager (AWS
-  RAM), set to `SHARED`. Entities shared through the AWS Marketplace Catalog API
-  `PutResourcePolicy` operation can't be discovered through the `SHARED` parameter.
+  RAM), set to `SHARED`. Entities shared through the AWS Marketplace Catalog API [`put_resource_policy`](@ref)
+  operation can't be discovered through the `SHARED` parameter.
 - `"Sort"`: An object that contains two attributes, `SortBy` and `SortOrder`.
 """
 function list_entities(
@@ -349,6 +356,7 @@ function list_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entities(
     Catalog,
     EntityType,
@@ -393,6 +401,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -433,6 +442,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -469,7 +479,7 @@ For example, you can't start the `ChangeSet` described in the [example](https://
 later in this topic because it contains two changes to run the same change type
 (`AddRevisions`) against the same entity (`entity-id@1`).
 
-For more information about working with change sets, see [ Working with change sets](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets).
+For more information about working with change sets, see [Working with change sets](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets).
 For information about change types for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products).
 Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
 
@@ -489,8 +499,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique token to identify the request to ensure idempotency.
 - `"Intent"`: The intent related to the request. The default is `APPLY`. To test your
   request before applying changes to your entities, use `VALIDATE`. This feature is
-  currently available for adding versions to single-AMI products. For more information, see
-  [Add a new version](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version).
+  currently available for adding versions to single-AMI products. For more information,
+  see [Add a new version](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version).
 """
 function start_change_set(
     Catalog, ChangeSet; aws_config::AbstractAWSConfig=current_aws_config()
@@ -507,6 +517,7 @@ function start_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_change_set(
     Catalog,
     ChangeSet,
@@ -555,6 +566,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -601,6 +613,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,

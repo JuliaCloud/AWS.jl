@@ -14,9 +14,12 @@ Creates a DAX cluster. All nodes in the cluster run the same DAX caching softwar
 
 - `cluster_name`: The cluster identifier. This parameter is stored as a lowercase string.
 
-   **Constraints:**  - A name must contain from 1 to 20 alphanumeric characters or hyphens.
-   - The first character must be a letter.
-   - A name cannot end with a hyphen or contain two consecutive hyphens.
+  **Constraints:**
+
+  - A name must contain from 1 to 20 alphanumeric characters or hyphens.
+  - The first character must be a letter.
+  - A name cannot end with a hyphen or contain two consecutive hyphens.
+
 - `iam_role_arn`: A valid Amazon Resource Name (ARN) that identifies an IAM role. At
   runtime, DAX will assume this role and use the role's permissions to access DynamoDB on
   your behalf.
@@ -28,8 +31,8 @@ Creates a DAX cluster. All nodes in the cluster run the same DAX caching softwar
   and 10 (one primary and nine read replicas). `If the AvailabilityZones` parameter is
   provided, its length must equal the `ReplicationFactor`.
 
-!!! note
-    AWS recommends that you have at least two read replicas per cluster.
+  !!! note
+      AWS recommends that you have at least two read replicas per cluster.
 
 # Optional Parameters
 
@@ -40,31 +43,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list must equal the `ReplicationFactor` parameter. If you omit this parameter, DAX will
   spread the nodes across Availability Zones for the highest availability.
 - `"ClusterEndpointEncryptionType"`: The type of encryption the cluster's endpoint should
-  support. Values are: - `NONE` for no encryption
- - `TLS` for Transport Layer Security
+  support. Values are:
+
+  - `NONE` for no encryption
+  - `TLS` for Transport Layer Security
+
 - `"Description"`: A description of the cluster.
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
   notifications will be sent.
 
-!!! note
-    The Amazon SNS topic owner must be same as the DAX cluster owner.
+  !!! note
+      The Amazon SNS topic owner must be same as the DAX cluster owner.
+
 - `"ParameterGroupName"`: The parameter group to be associated with the DAX cluster.
 - `"PreferredMaintenanceWindow"`: Specifies the weekly time range during which maintenance
   on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-
-  ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid
-  values for `ddd` are: - `sun`
-   - `mon`
-   - `tue`
-   - `wed`
-   - `thu`
-   - `fri`
-   - `sat`
+  ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
+  Valid values for `ddd` are:
+
+  - `sun`
+  - `mon`
+  - `tue`
+  - `wed`
+  - `thu`
+  - `fri`
+  - `sat`
+
   Example: `sun:05:00-sun:09:00`
 
   !!! note
-      If you don't specify a preferred maintenance window when you create or modify a cache
-  cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the
-  week.
+      If you don't specify a preferred maintenance window when you create or modify a
+      cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected
+      day of the week.
+
 - `"SSESpecification"`: Represents the settings used to enable server-side encryption on
   the cluster.
 - `"SecurityGroupIds"`: A list of security group IDs to be assigned to each node in the DAX
@@ -76,7 +87,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       DAX clusters can only run in an Amazon VPC environment. All of the subnets that you
-  specify in a subnet group must exist in the same VPC.
+      specify in a subnet group must exist in the same VPC.
+
 - `"Tags"`: A set of tags to associate with the DAX cluster.
 """
 function create_cluster(
@@ -98,6 +110,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     ClusterName,
     IamRoleArn,
@@ -153,6 +166,7 @@ function create_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -198,6 +212,7 @@ function create_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subnet_group(
     SubnetGroupName,
     SubnetIds,
@@ -228,7 +243,7 @@ Removes one or more nodes from a DAX cluster.
 
 !!! note
     You cannot use `DecreaseReplicationFactor` to remove the last node in a DAX cluster. If
-you need to do this, use `DeleteCluster` instead.
+    you need to do this, use `DeleteCluster` instead.
 
 # Arguments
 
@@ -254,6 +269,7 @@ function decrease_replication_factor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decrease_replication_factor(
     ClusterName,
     NewReplicationFactor,
@@ -298,6 +314,7 @@ function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -334,6 +351,7 @@ function delete_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -374,6 +392,7 @@ function delete_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
@@ -416,10 +435,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClusterNames"`: The names of the DAX clusters being described.
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so that
-  the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 
-The value for `MaxResults` must be between 20 and 100.
+  The value for `MaxResults` must be between 20 and 100.
 - `"NextToken"`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by `MaxResults`.
@@ -427,6 +446,7 @@ The value for `MaxResults` must be between 20 and 100.
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -446,10 +466,10 @@ Returns the default system parameter information for the DAX caching software.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so that
-  the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 
-The value for `MaxResults` must be between 20 and 100.
+  The value for `MaxResults` must be between 20 and 100.
 - `"NextToken"`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by `MaxResults`.
@@ -459,6 +479,7 @@ function describe_default_parameters(; aws_config::AbstractAWSConfig=current_aws
         "DescribeDefaultParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_default_parameters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -488,10 +509,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EndTime"`: The end of the time interval for which to retrieve events, specified in ISO
   8601 format.
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so that
-  the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 
-The value for `MaxResults` must be between 20 and 100.
+  The value for `MaxResults` must be between 20 and 100.
 - `"NextToken"`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by `MaxResults`.
@@ -505,6 +526,7 @@ The value for `MaxResults` must be between 20 and 100.
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -525,10 +547,10 @@ list will contain only the descriptions for that group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so that
-  the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 
-The value for `MaxResults` must be between 20 and 100.
+  The value for `MaxResults` must be between 20 and 100.
 - `"NextToken"`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by `MaxResults`.
@@ -539,6 +561,7 @@ function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -565,10 +588,10 @@ Returns the detailed parameter list for a particular parameter group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so that
-  the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 
-The value for `MaxResults` must be between 20 and 100.
+  The value for `MaxResults` must be between 20 and 100.
 - `"NextToken"`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by `MaxResults`.
@@ -585,6 +608,7 @@ function describe_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_parameters(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -614,10 +638,10 @@ will contain only the description of that group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so that
-  the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 
-The value for `MaxResults` must be between 20 and 100.
+  The value for `MaxResults` must be between 20 and 100.
 - `"NextToken"`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by `MaxResults`.
@@ -628,6 +652,7 @@ function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -670,6 +695,7 @@ function increase_replication_factor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function increase_replication_factor(
     ClusterName,
     NewReplicationFactor,
@@ -720,6 +746,7 @@ function list_tags(ResourceName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceName,
     params::AbstractDict{String};
@@ -744,7 +771,7 @@ During the reboot, the node status is set to REBOOTING.
 
 !!! note
     `RebootNode` restarts the DAX engine process and does not remove the contents of the
-cache.
+    cache.
 
 # Arguments
 
@@ -761,6 +788,7 @@ function reboot_node(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_node(
     ClusterName,
     NodeId,
@@ -803,6 +831,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceName,
     Tags,
@@ -846,6 +875,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceName,
     TagKeys,
@@ -888,11 +918,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notifications will not be sent to the topic.
 - `"ParameterGroupName"`: The name of a parameter group for this cluster.
 - `"PreferredMaintenanceWindow"`: A range of time when maintenance of DAX cluster software
-  will be performed. For example: `sun:01:00-sun:09:00`. Cluster maintenance normally takes
-  less than 30 minutes, and is performed automatically within the maintenance window.
+  will be performed. For example: `sun:01:00-sun:09:00`. Cluster maintenance normally
+  takes less than 30 minutes, and is performed automatically within the maintenance
+  window.
 - `"SecurityGroupIds"`: A list of user-specified security group IDs to be assigned to each
-  node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC
-  security group to each node.
+  node in the DAX cluster. If this parameter is not specified, DAX assigns the default
+  VPC security group to each node.
 """
 function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
@@ -902,6 +933,7 @@ function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -932,7 +964,8 @@ single request by submitting a list parameter name and value pairs.
 
   !!! note
       `record-ttl-millis` and `query-ttl-millis` are the only supported parameter names.
-  For more details, see [Configuring TTL Settings](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.cluster-management.html#DAX.cluster-management.custom-settings.ttl).
+      For more details, see [Configuring TTL Settings](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.cluster-management.html#DAX.cluster-management.custom-settings.ttl).
+
 """
 function update_parameter_group(
     ParameterGroupName,
@@ -949,6 +982,7 @@ function update_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues,
@@ -999,6 +1033,7 @@ function update_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};

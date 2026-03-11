@@ -21,8 +21,8 @@ channel groups.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
-  You can't change the name after you create the channel.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group. You can't change the name after you create the channel.
 
 # Optional Parameters
 
@@ -30,18 +30,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: Enter any descriptive text that helps you to identify the channel.
 - `"InputType"`: The input type will be an immutable field which will be used to define
-  whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default
-  to HLS to preserve current behavior.
+  whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will
+  default to HLS to preserve current behavior.
 
-  The allowed values are: - `HLS` - The HLS streaming specification (which defines M3U8
-  manifests and TS segments).
-   - `CMAF` - The DASH-IF CMAF Ingest specification (which defines CMAF segments with
-  optional DASH manifests).
+  The allowed values are:
+
+  - `HLS` - The HLS streaming specification (which defines M3U8 manifests and TS
+    segments).
+  - `CMAF` - The DASH-IF CMAF Ingest specification (which defines CMAF segments with
+    optional DASH manifests).
+
 - `"tags"`: A comma-separated list of tag key:value pairs that you define. For example:
 
- `"Key1": "Value1",`
+  `"Key1": "Value1",`
 
- `"Key2": "Value2"`
+  `"Key2": "Value2"`
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
@@ -58,6 +61,7 @@ function create_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     ChannelGroupName,
     ChannelName,
@@ -94,9 +98,9 @@ channel group with each request.
 # Arguments
 
 - `channel_group_name`: The name that describes the channel group. The name is the primary
-  identifier for the channel group, and must be unique for your account in the AWS Region.
-  You can't use spaces in the name. You can't change the name after you create the channel
-  group.
+  identifier for the channel group, and must be unique for your account in the AWS
+  Region. You can't use spaces in the name. You can't change the name after you create
+  the channel group.
 
 # Optional Parameters
 
@@ -105,9 +109,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Enter any descriptive text that helps you to identify the channel group.
 - `"tags"`: A comma-separated list of tag key:value pairs that you define. For example:
 
- `"Key1": "Value1",`
+  `"Key1": "Value1",`
 
- `"Key2": "Value2"`
+  `"Key2": "Value2"`
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
@@ -124,6 +128,7 @@ function create_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -162,15 +167,16 @@ with each request.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `container_type`: The type of container to attach to this origin endpoint. A container
   type is a file format that encapsulates one or more media streams, such as audio and
   video, into a single file. You can't change the container type after you create the
   endpoint.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and must be unique for your account in the
-  AWS Region and channel. You can't use spaces in the name. You can't change the name after
-  you create the endpoint.
+  AWS Region and channel. You can't use spaces in the name. You can't change the name
+  after you create the endpoint.
 
 # Optional Parameters
 
@@ -185,14 +191,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Segment"`: The segment configuration, including the segment name, duration, and other
   configuration values.
 - `"StartoverWindowSeconds"`: The size of the window (in seconds) to create a window of the
-  live stream that's available for on-demand viewing. Viewers can start-over or catch-up on
-  content that falls within the window. The maximum startover window is 1,209,600 seconds
-  (14 days).
+  live stream that's available for on-demand viewing. Viewers can start-over or catch-up
+  on content that falls within the window. The maximum startover window is 1,209,600
+  seconds (14 days).
 - `"Tags"`: A comma-separated list of tag key:value pairs that you define. For example:
 
- `"Key1": "Value1",`
+  `"Key1": "Value1",`
 
- `"Key2": "Value2"`
+  `"Key2": "Value2"`
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
@@ -215,6 +221,7 @@ function create_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -254,7 +261,8 @@ must delete the channel's origin endpoints before you can delete the channel.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 """
 function delete_channel(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -266,6 +274,7 @@ function delete_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     ChannelGroupName,
     ChannelName,
@@ -304,6 +313,7 @@ function delete_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -329,7 +339,8 @@ Delete a channel policy.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 """
 function delete_channel_policy(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -341,6 +352,7 @@ function delete_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -369,7 +381,8 @@ you can delete the channel.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in
   the AWS Region and channel.
@@ -387,6 +400,7 @@ function delete_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -414,7 +428,8 @@ Delete an origin endpoint policy.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in
   the AWS Region and channel.
@@ -432,6 +447,7 @@ function delete_origin_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -460,7 +476,8 @@ the origin endpoints that are associated with it.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 """
 function get_channel(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -472,6 +489,7 @@ function get_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel(
     ChannelGroupName,
     ChannelName,
@@ -509,6 +527,7 @@ function get_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -536,7 +555,8 @@ perform on those resources.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 """
 function get_channel_policy(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -548,6 +568,7 @@ function get_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -575,7 +596,8 @@ obtain its playback URL and to view the packaging settings that it's currently u
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in
   the AWS Region and channel.
@@ -593,6 +615,7 @@ function get_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -621,7 +644,8 @@ MediaPackage.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in
   the AWS Region and channel.
@@ -639,6 +663,7 @@ function get_origin_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -675,6 +700,7 @@ function list_channel_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/channelGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channel_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -715,6 +741,7 @@ function list_channels(ChannelGroupName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channels(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -741,7 +768,8 @@ MediaPackage.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 
 # Optional Parameters
 
@@ -761,6 +789,7 @@ function list_origin_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_origin_endpoints(
     ChannelGroupName,
     ChannelName,
@@ -796,6 +825,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -823,7 +853,8 @@ attach only one policy with each request.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `policy`: The policy to attach to the specified channel.
 """
 function put_channel_policy(
@@ -840,6 +871,7 @@ function put_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -868,7 +900,8 @@ with each request.
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in
   the AWS Region and channel.
@@ -889,6 +922,7 @@ function put_origin_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -934,6 +968,7 @@ function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     tags,
@@ -971,6 +1006,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1002,7 +1038,8 @@ Any edits you make that impact the video output may not be reflected for a few m
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 
 # Optional Parameters
 
@@ -1024,6 +1061,7 @@ function update_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     ChannelGroupName,
     ChannelName,
@@ -1074,6 +1112,7 @@ function update_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -1102,7 +1141,8 @@ Any edits you make that impact the video output may not be reflected for a few m
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
-  for the channel, and must be unique for your account in the AWS Region and channel group.
+  for the channel, and must be unique for your account in the AWS Region and channel
+  group.
 - `container_type`: The type of container attached to this origin endpoint. A container
   type is a file format that encapsulates one or more media streams, such as audio and
   video, into a single file.
@@ -1123,9 +1163,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Segment"`: The segment configuration, including the segment name, duration, and other
   configuration values.
 - `"StartoverWindowSeconds"`: The size of the window (in seconds) to create a window of the
-  live stream that's available for on-demand viewing. Viewers can start-over or catch-up on
-  content that falls within the window. The maximum startover window is 1,209,600 seconds
-  (14 days).
+  live stream that's available for on-demand viewing. Viewers can start-over or catch-up
+  on content that falls within the window. The maximum startover window is 1,209,600
+  seconds (14 days).
 - `"x-amzn-update-if-match"`: The expected current Entity Tag (ETag) for the resource. If
   the specified ETag does not match the resource's current entity tag, the update request
   will be rejected.
@@ -1145,6 +1185,7 @@ function update_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_origin_endpoint(
     ChannelGroupName,
     ChannelName,

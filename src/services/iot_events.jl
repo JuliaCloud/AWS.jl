@@ -36,7 +36,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   help you manage the alarm model. For more information, see [Tagging your AWS IoT Events resources](https://docs.aws.amazon.com/iotevents/latest/developerguide/tagging-iotevents.html)
   in the *AWS IoT Events Developer Guide*.
 
-You can create up to 50 tags for one alarm model.
+  You can create up to 50 tags for one alarm model.
 """
 function create_alarm_model(
     alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -53,6 +53,7 @@ function create_alarm_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alarm_model(
     alarmModelName,
     alarmRule,
@@ -124,6 +125,7 @@ function create_detector_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_detector_model(
     detectorModelDefinition,
     detectorModelName,
@@ -179,6 +181,7 @@ function create_input(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_input(
     inputDefinition,
     inputName,
@@ -223,6 +226,7 @@ function delete_alarm_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alarm_model(
     alarmModelName,
     params::AbstractDict{String};
@@ -257,6 +261,7 @@ function delete_detector_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_detector_model(
     detectorModelName,
     params::AbstractDict{String};
@@ -289,6 +294,7 @@ function delete_input(inputName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_input(
     inputName,
     params::AbstractDict{String};
@@ -330,6 +336,7 @@ function describe_alarm_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_alarm_model(
     alarmModelName,
     params::AbstractDict{String};
@@ -371,6 +378,7 @@ function describe_detector_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detector_model(
     detectorModelName,
     params::AbstractDict{String};
@@ -393,7 +401,7 @@ Retrieves runtime information about a detector model analysis.
 
 !!! note
     After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to
-retrieve the analysis results.
+    retrieve the analysis results.
 
 # Arguments
 
@@ -409,6 +417,7 @@ function describe_detector_model_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detector_model_analysis(
     analysisId,
     params::AbstractDict{String};
@@ -441,6 +450,7 @@ function describe_input(inputName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input(
     inputName,
     params::AbstractDict{String};
@@ -466,6 +476,7 @@ function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -482,7 +493,7 @@ Retrieves one or more analysis results of the detector model.
 
 !!! note
     After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to
-retrieve the analysis results.
+    retrieve the analysis results.
 
 # Arguments
 
@@ -505,6 +516,7 @@ function get_detector_model_analysis_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_detector_model_analysis_results(
     analysisId,
     params::AbstractDict{String};
@@ -547,6 +559,7 @@ function list_alarm_model_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_alarm_model_versions(
     alarmModelName,
     params::AbstractDict{String};
@@ -580,6 +593,7 @@ function list_alarm_models(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/alarm-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_alarm_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -620,6 +634,7 @@ function list_detector_model_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_detector_model_versions(
     detectorModelName,
     params::AbstractDict{String};
@@ -653,6 +668,7 @@ function list_detector_models(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/detector-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_detector_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -669,18 +685,18 @@ end
     list_input_routings(input_identifier)
     list_input_routings(input_identifier, params::Dict{String,<:Any})
 
- Lists one or more input routings.
+Lists one or more input routings.
 
 # Arguments
 
-- `input_identifier`:  The identifer of the routed input.
+- `input_identifier`: The identifer of the routed input.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of results to be returned per request.
-- `"nextToken"`:  The token that you can use to return the next set of results.
+- `"maxResults"`: The maximum number of results to be returned per request.
+- `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_input_routings(
     inputIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -693,6 +709,7 @@ function list_input_routings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_input_routings(
     inputIdentifier,
     params::AbstractDict{String};
@@ -729,6 +746,7 @@ function list_inputs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -758,6 +776,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -800,6 +819,7 @@ function put_logging_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_logging_options(
     loggingOptions,
     params::AbstractDict{String};
@@ -838,6 +858,7 @@ function start_detector_model_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_detector_model_analysis(
     detectorModelDefinition,
     params::AbstractDict{String};
@@ -879,6 +900,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -922,6 +944,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -979,6 +1002,7 @@ function update_alarm_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_alarm_model(
     alarmModelName,
     alarmRule,
@@ -1039,6 +1063,7 @@ function update_detector_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector_model(
     detectorModelDefinition,
     detectorModelName,
@@ -1092,6 +1117,7 @@ function update_input(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_input(
     inputDefinition,
     inputName,
