@@ -319,6 +319,7 @@ function _generate_high_level_definition(
     doc_string = _generate_docstring(
         function_name, documentation, required_parameters, optional_parameters
     )
+    generic_function_string = "function $function_name end"
 
     if protocol in ("json", "query", "ec2")
         function_string = _generate_json_query_opeation_definition(
@@ -341,5 +342,10 @@ function _generate_high_level_definition(
         )
     end
 
-    return string(doc_string, '\n', function_string)
+    return """
+        $doc_string
+        $generic_function_string
+
+        $function_string
+        """
 end

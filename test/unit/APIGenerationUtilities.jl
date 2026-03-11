@@ -329,6 +329,8 @@ end
     Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
     - `"OptionalParam"`: Optional param
     \"\"\"
+    function sample_operation end
+
     function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=current_aws_config())
         sample_service("POST", "/", Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
     end
@@ -382,6 +384,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter is optional.
             \"\"\"
+            function function_name end
+
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
                 service_name("GET", "request_uri", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
@@ -424,6 +428,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter is optional.
             \"\"\"
+            function function_name end
+
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
                 service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
@@ -479,6 +485,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter i  s optional.
             \"\"\"
+            function function_name end
+
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
                 service_name("GET", "request_uri", Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
@@ -520,6 +528,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter i  s optional.
             \"\"\"
+            function function_name end
+
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
                 service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam, "OptionalParam" => string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
