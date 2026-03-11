@@ -293,16 +293,6 @@ function _clean_documentation(documentation::AbstractString)
 
     # documentation = replace(documentation, r"\n(?!\n)\s+"s => "")
 
-    # Add extra newline between adjacent paragraphs.
-    documentation = replace(documentation, r"\ *<p>\ *((?:(?!<p>).)*?)\ *</p>(?=\s*<p>)"s => s"\1\n\n")
-
-    # Remove remaining paragraphs
-    documentation = replace(documentation, r"\ *<p>\ *(.*?)\ *</p>"s => s"\1")
-
-
-    documentation = replace(
-        documentation, r"<a href=\"([^\"]*)\">(.*?)</a>"s => s"[\2](\1)"
-    )
     documentation = replace(
         documentation, r"<replaceable>{(.*?)}</replaceable>" => s"\\$(\1)"
     )
@@ -314,37 +304,44 @@ function _clean_documentation(documentation::AbstractString)
     # modified parameters (see `accessanalyzer.check_no_new_access`)
     documentation = _replace(
         documentation,
-        r"\ *<code>\s*(.*?)\s*</code> (request parameter)" => function (m)
-            return "`$(_format_name(m[1]))` $(m[2])"
+        r"<code>\s*((?:(?!<code>).)*?)\s*</code>(?= (?:request parameter|operation))"s => function (m)
+            return "`$(_format_name(m[1]))`"
         end,
     )
-    documentation = replace(documentation, r"<code>\ *(.*?)\ *</code>" => s"`\1`")
+
+    documentation = replace(documentation, r"<code>\s*(.*?)\s*</code>"s => s"`\1`")
+
+    # Add extra newline between adjacent paragraphs.
+    documentation = replace(documentation, r"\ *<p>\ *((?:(?!<p>).)*?)\ *</p>(?=\s*<p>)"s => s"\1\n\n")
+
+    # Remove remaining paragraphs
+    documentation = replace(documentation, r"\ *<p>\ *(.*?)\ *</p>"s => s"\1")
+
+    # contains(documentation, "<dt>Permissions</dt>") && @info documentation
+
+
+    documentation = replace(
+        documentation, r"<a href=\"([^\"]*)\">\s*(.*?)\s*</a>"s => s"[\2](\1)"
+    )
 
     # See: `accessanalyzer.create_archive_rule`
-    documentation = replace(documentation, r"<b>(.*?)</b>" => s"**\1**")
+    # documentation = replace(documentation, r"<b> *(.*?) *</b> - " => s"**\1**: ")
+    documentation = replace(documentation, r"<b> *(.*?) *</b>"s => s"**\1**")
 
     # See: `account.list_regions`
-    documentation = replace(documentation, r"<i>(.*?)</i>"s => s"*\1*")
+    documentation = replace(documentation, r"<i> *(.*?) *</i>"s => s"*\1*")
+
+    # documentation = _replace(
+    #     documentation,
+    #     r"<a>(.*?)</a> action" => (m -> "[`$(_format_name(m[1]))`](@ref) action"),
+    # )
 
     documentation = _replace(
         documentation,
-        r"<a>(.*?)</a> action" => (m -> "[`$(_format_name(m[1]))`](@ref) action"),
+        r"<a>(.*?)</a>" => (m -> "[`$(_format_name(m[1]))`](@ref)"),
     )
 
-    # _replace("<ul> <li> foo </li> <li> bar </li> </ul>", r"<ul>\s*(.*?)\s*</ul>" => (m -> replace(m[1], r"<li>\s*(.*?)\s*</li>" => s"- \1\n")))
-    # documentation = "<ul> <li>
-    #  `(63 octets).(63 octets).(63 octets).(61 octets)` is legal because the total length is 253
-    # octets (63+1+63+1+63+1+61) and no label exceeds 63 octets. </li> <li>  `(64 octets).(63
-    # octets).(63 octets).(61 octets)` is not legal because the total length exceeds 253 octets
-    # (64+1+63+1+63+1+61) and the first label exceeds 63 octets. </li> <li>  `(63 octets).(63
-    # octets).(63 octets).(62 octets)` is not legal because the total length of the DNS name
-    # (63+1+63+1+63+1+62) exceeds 253 octets. </li> </ul>"
-    documentation = _replace(
-        documentation,
-        r"<ul>\s*(.*?)\s*</ul>"s => function (m)
-            return "\n\n" * replace(m[1], r"\s*<li>\s*(.*?)\s*</li>"s => s"- \1\n") * "\n"
-        end,
-    )
+    documentation = html_to_md_unordered_list(documentation)
 
     # <ol> <li> In Amazon Web Services Private CA, call the
     # [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_C
@@ -388,14 +385,41 @@ function _clean_documentation(documentation::AbstractString)
         end,
     )
 
+    documentation = _replace(
+        documentation,
+        r"<dl>\s*(.*?)\s*</dl>"s => function (m)
+            return replace(m[1], r"\s*<dt>\s*(.*?)\s*</dt>\s*<dd>\s*(.*?)\s*</dd>"s => s"\n\n### \1\n\n\2\n")
+        end,
+    )
+
     # Remove extra blank lines
     documentation = replace(documentation, r"\n([ \t]*\n){2,}" => "\n\n")
 
-    if active
-        @info documentation
-    end
+    documentation = replace(documentation, "<p/>" => "")
 
     return documentation
+end
+
+function html_to_md_unordered_list(str::AbstractString, indent=0)
+    _replace(
+        str,
+        r"<ul>((?:(?=<ul>)(?R)|.*?)*)</ul>"s => function (m)
+            # Find the deepest nested `<ul>` list
+            content = occursin("<ul>", m[1]) ? html_to_md_unordered_list(m[1], indent + 2) : m[1]
+            content = _replace(
+                content,
+                r"\ *<li>\s*(.*?)\s*</li>"s => function (m)
+                    string(" "^indent, "- ", m[1], "\n")
+                end
+            )
+
+            if indent == 0
+                content = "\n\n$content\n"
+            end
+
+            return content
+        end
+    )
 end
 
 # Custom `replace` function which allows arbitrary code to be executed in the replacment
