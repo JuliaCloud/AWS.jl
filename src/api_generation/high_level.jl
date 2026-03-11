@@ -288,7 +288,7 @@ function _generate_high_level_definition(
             for (required_key, required_value) in required_parameters
                 key = _format_name(required_key)
                 operation_definition *= _wraplines(
-                    "- `$key`: $(required_value["documentation"])"; delim="\n  "
+                    "- `$key`: $(required_value["documentation"])"; indent=2
                 )
                 operation_definition *= "\n"
             end
@@ -307,7 +307,7 @@ function _generate_high_level_definition(
             for (optional_key, optional_value) in optional_parameters
                 operation_definition *= _wraplines(
                     "- `\"$optional_key\"`: $(optional_value["documentation"])";
-                    delim="\n  ",
+                    indent=2,
                 )
                 operation_definition *= "\n"
             end

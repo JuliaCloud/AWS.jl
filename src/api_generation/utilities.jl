@@ -71,48 +71,56 @@ end
 """
 Return a string with line breaks added such that lines are wrapped at or before the limit.
 """
-function _wraplines(str, limit=92; delim="\n")
+function _wraplines(str; limit=92, indent=0)
     lines = String[]
 
-    # When the deliminter contains non-newline characters then we have to adjust the line
-    # limit.
-    state = :prefix
-    delim_prefix_len = 0
-    delim_suffix_len = 0
-    for c in delim
-        if c == '\n'
-            delim_suffix_len = 0
-            state = :suffix
-        elseif state == :prefix
-            delim_prefix_len += 1
-        elseif state == :suffix
-            delim_suffix_len += 1
-        end
+    active = false
+    if contains(str, "When you request a private PKI certificate signed")
+        active = true
+        @show str
     end
 
+    first_line = true
     while !isempty(str)
-        line_limit = if isempty(lines)
-            limit - delim_prefix_len
-        else
-            # Overly restrictive for last line
-            limit - delim_prefix_len - delim_suffix_len
-        end
+        line_limit = limit - (first_line ? 0 : indent)
 
         line, str = try
-            _splitline(str, line_limit)
+            _splitline(str; limit=line_limit)
         catch e
             @warn "Unable to split line on string:\n$(repr(str))"
             rethrow()
         end
-        push!(lines, rstrip(line))
+
+        # Apply the indentation of the original line to where the line was split to ensure
+        # Markdown indentation is respected.
+        if !endswith(line, '\n') && !isempty(str)
+            line_indent = get_indent(line)
+
+            if line_indent > 0
+                str = " "^line_indent * str
+            end
+        end
+
+        # Remove trailing whitespace from each line (including the delimiter)
+        line = rstrip(line)
+        if !first_line && !isempty(line)
+            line = " "^indent * line
+        end
+
+        push!(lines, line)
+        first_line = false
     end
 
-    result = join(lines, delim)
+    return join(lines, "\n")
+end
 
-    # Remove trailing whitespace from each line (including the delimiter)
-    result = join(rstrip.(split(result, '\n')), '\n')
-
-    return result
+function get_indent(str::AbstractString)
+    count = 0
+    for c in str
+        isspace(c) || break
+        count += 1
+    end
+    return count
 end
 
 """
@@ -120,7 +128,7 @@ Split the string `str` at or before `limit`.
 Prefers splitting the string on whitespace rather than mid-word, when possible.
 `limit` is measured in codeunits, which is an upper-bound on the number of characters.
 """
-function _splitline(str, limit)
+function _splitline(str; limit)
     limit >= 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
 
     ncodeunits(str) <= limit && return (str, "")
@@ -132,7 +140,6 @@ function _splitline(str, limit)
     stop = nothing
 
     link_state = Symbol[]
-    is_stop_newline = false
 
     function peek(state)
         isempty(link_state) && return nothing
@@ -163,7 +170,6 @@ function _splitline(str, limit)
             stop = nothing
         elseif c == '\n'
             stop = i
-            is_stop_newline = true
             break
         elseif isspace(c) || c == '-'
             stop = i
@@ -179,20 +185,6 @@ function _splitline(str, limit)
         line = SubString(str, min_index, stop)
         i = nextind(str, stop)
         rest = i <= max_index ? SubString(str, i, max_index) : ""
-
-        # Keep the original indentation
-        indent = 0
-        for c in str
-            if c == ' '
-                indent += 1
-            else
-                break
-            end
-        end
-
-        # if indent > 0 && i <= max_index && rest[1] != ' '
-        #     rest = " "^indent * rest
-        # end
     else
         line, rest = (str, "")
     end
@@ -371,7 +363,7 @@ function _clean_documentation(documentation::AbstractString)
             # end
             note = replace(m[1], "\n" => "\n    ")
 
-            note = "\n\n!!! note\n    $note\n"
+            note = "\n\n!!! note\n    $note\n\n"
 
             if contains(note, "When you request a private PKI certificate")
                 @info note
@@ -393,6 +385,9 @@ function _clean_documentation(documentation::AbstractString)
         documentation,
         r"\s*<important>\s*(.*?)\s*</important>"s => s"\n\n!!! important\n    \1",
     )
+
+    # Remove extra blank lines
+    documentation = replace(documentation, r"\n([ \t]*\n){2,}" => "\n\n")
 
     return documentation
 end
