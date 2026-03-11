@@ -153,6 +153,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -162,6 +163,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -171,6 +173,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -180,6 +183,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -189,6 +193,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -222,6 +227,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -231,6 +237,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -240,6 +247,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
@@ -249,6 +257,7 @@ function _generate_high_level_definition(
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
+
                 function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$function_name\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
