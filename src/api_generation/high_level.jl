@@ -59,11 +59,7 @@ function _generate_high_level_definitions(
         method = operation["http"]["method"]
         request_uri = operation["http"]["requestUri"]
 
-        documentation = ""
-
-        if haskey(operation, "documentation")
-            documentation = _clean_documentation(operation["documentation"])
-        end
+        documentation = get(operation, "documentation", "")
 
         required_parameters = Dict{String,Any}()
         optional_parameters = Dict{String,Any}()
@@ -279,7 +275,7 @@ function _generate_high_level_definition(
                 $function_name($(args))
                 $function_name($(args)$(maybejoin)params::Dict{String,<:Any})
 
-            $(_wraplines(documentation))
+            $(html_to_markdown(documentation))
             """
 
         # Add in the required parameters if applicable
@@ -290,13 +286,13 @@ function _generate_high_level_definition(
 
             operation_definition *= "# Arguments\n\n"
 
-            for (required_key, required_value) in required_parameters
-                key = _format_name(required_key)
-                operation_definition *= _wraplines(
-                    "- `$key`: $(required_value["documentation"])"; indent=2
-                )
-                operation_definition *= "\n"
+            html_list_items = String[]
+            for (k, v) in required_parameters
+                k = _format_name(k)
+                v = v["documentation"]
+                push!(html_list_items, "<li><code>$k</code>: $v</li>")
             end
+            operation_definition *= html_to_markdown("<ul>$(join(html_list_items))</ul>\n")
         end
 
         # Add in the optional parameters if applicable
@@ -312,13 +308,12 @@ function _generate_high_level_definition(
 
                 """
 
-            for (optional_key, optional_value) in optional_parameters
-                operation_definition *= _wraplines(
-                    "- `\"$optional_key\"`: $(optional_value["documentation"])";
-                    indent=2,
-                )
-                operation_definition *= "\n"
+            html_list_items = String[]
+            for (k, v) in optional_parameters
+                v = v["documentation"]
+                push!(html_list_items, "<li><code>\"$k\"</code>: $v</li>")
             end
+            operation_definition *= html_to_markdown("<ul>$(join(html_list_items))</ul>\n")
         end
 
         return operation_definition *= repeat('"', 3)
